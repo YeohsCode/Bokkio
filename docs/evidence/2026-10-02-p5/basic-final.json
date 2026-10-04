@@ -1,0 +1,619 @@
+{
+  "provider": "openrouter",
+  "execution": false,
+  "completed": 5,
+  "cases": 5,
+  "results": [
+    {
+      "id": "search",
+      "goal": "Set Search to \"Bokkio evaluation\"",
+      "decision": {
+        "action": "set_value",
+        "ref": "c531440f9cef5641e22e",
+        "value": "Bokkio evaluation",
+        "confidence": 1.0,
+        "snapshot_id": "39be456d0ad56aa7cfb0",
+        "direction": null,
+        "amount": null,
+        "window": "4e91c5846bfe4cc580ac"
+      },
+      "matched": true,
+      "usage": {
+        "input_tokens": 1254,
+        "output_tokens": 139,
+        "cost": 5.2668e-05
+      },
+      "elapsed_seconds": 1.562747,
+      "model": "typesafe/jev-1.13-20260917",
+      "source": "openrouter",
+      "calls": [
+        {
+          "model": "typesafe/jev-1.13-20260917",
+          "answers": {
+            "next": {
+              "type": "choice",
+              "choice": "set_value",
+              "probabilities": {
+                "done": 0,
+                "type": 0,
+                "focus": 0,
+                "set_value": 1
+              },
+              "confidence": 1
+            },
+            "goal_satisfied": {
+              "type": "noul",
+              "noul": 0.03
+            },
+            "focus_target": {
+              "type": "choice",
+              "choice": "c2",
+              "probabilities": {
+                "c2": 1
+              },
+              "confidence": 1
+            },
+            "set_value_target": {
+              "type": "choice",
+              "choice": "c3",
+              "probabilities": {
+                "c3": 1
+              },
+              "confidence": 1
+            },
+            "type_target": {
+              "type": "choice",
+              "choice": "c4",
+              "probabilities": {
+                "c4": 1
+              },
+              "confidence": 1
+            }
+          },
+          "usage": {
+            "input_tokens": 1254,
+            "output_tokens": 139,
+            "cost": 5.2668e-05
+          },
+          "id": "gen-dec-1790934836-RlaWaOfOLTctdUyFdUAq",
+          "provider": "TypeSafe",
+          "elapsed_seconds": 1.562747,
+          "source": "openrouter"
+        }
+      ],
+      "answers": {
+        "next": {
+          "type": "choice",
+          "choice": "set_value",
+          "probabilities": {
+            "done": 0,
+            "type": 0,
+            "focus": 0,
+            "set_value": 1
+          },
+          "confidence": 1
+        },
+        "goal_satisfied": {
+          "type": "noul",
+          "noul": 0.03
+        },
+        "focus_target": {
+          "type": "choice",
+          "choice": "c2",
+          "probabilities": {
+            "c2": 1
+          },
+          "confidence": 1
+        },
+        "set_value_target": {
+          "type": "choice",
+          "choice": "c3",
+          "probabilities": {
+            "c3": 1
+          },
+          "confidence": 1
+        },
+        "type_target": {
+          "type": "choice",
+          "choice": "c4",
+          "probabilities": {
+            "c4": 1
+          },
+          "confidence": 1
+        }
+      },
+      "model_calls": 1,
+      "content_controls": null,
+      "question_options": {
+        "next": 4,
+        "goal_satisfied": 2,
+        "focus_target": 1,
+        "set_value_target": 1,
+        "type_target": 1
+      }
+    },
+    {
+      "id": "submit",
+      "goal": "Click Submit",
+      "decision": {
+        "action": "click",
+        "ref": "5900bc9f17c25cb6fa1f",
+        "value": null,
+        "confidence": 1.0,
+        "snapshot_id": "39be456d0ad56aa7cfb0",
+        "direction": null,
+        "amount": null,
+        "window": "4e91c5846bfe4cc580ac"
+      },
+      "matched": true,
+      "usage": {
+        "input_tokens": 1069,
+        "output_tokens": 105,
+        "cost": 4.4898e-05
+      },
+      "elapsed_seconds": 2.365601,
+      "model": "typesafe/jev-1.13-20260917",
+      "source": "openrouter",
+      "calls": [
+        {
+          "model": "typesafe/jev-1.13-20260917",
+          "answers": {
+            "next": {
+              "type": "choice",
+              "choice": "click",
+              "probabilities": {
+                "done": 0,
+                "click": 1,
+                "focus": 0
+              },
+              "confidence": 1
+            },
+            "goal_satisfied": {
+              "type": "noul",
+              "noul": 0.06
+            },
+            "click_target": {
+              "type": "choice",
+              "choice": "c2",
+              "probabilities": {
+                "c2": 1
+              },
+              "confidence": 1
+            },
+            "focus_target": {
+              "type": "choice",
+              "choice": "c3",
+              "probabilities": {
+                "c3": 1
+              },
+              "confidence": 1
+            }
+          },
+          "usage": {
+            "input_tokens": 1069,
+            "output_tokens": 105,
+            "cost": 4.4898e-05
+          },
+          "id": "gen-dec-1790934838-FEICc4WHjvsUUTEpliqi",
+          "provider": "TypeSafe",
+          "elapsed_seconds": 2.365601,
+          "source": "openrouter"
+        }
+      ],
+      "answers": {
+        "next": {
+          "type": "choice",
+          "choice": "click",
+          "probabilities": {
+            "done": 0,
+            "click": 1,
+            "focus": 0
+          },
+          "confidence": 1
+        },
+        "goal_satisfied": {
+          "type": "noul",
+          "noul": 0.06
+        },
+        "click_target": {
+          "type": "choice",
+          "choice": "c2",
+          "probabilities": {
+            "c2": 1
+          },
+          "confidence": 1
+        },
+        "focus_target": {
+          "type": "choice",
+          "choice": "c3",
+          "probabilities": {
+            "c3": 1
+          },
+          "confidence": 1
+        }
+      },
+      "model_calls": 1,
+      "content_controls": null,
+      "question_options": {
+        "next": 3,
+        "goal_satisfied": 2,
+        "click_target": 1,
+        "focus_target": 1
+      }
+    },
+    {
+      "id": "tree",
+      "goal": "Expand Parent in Folders",
+      "decision": {
+        "action": "expand",
+        "ref": "14f0415b56b44f27027d",
+        "value": null,
+        "confidence": 1.0,
+        "snapshot_id": "39be456d0ad56aa7cfb0",
+        "direction": null,
+        "amount": null,
+        "window": "4e91c5846bfe4cc580ac"
+      },
+      "matched": true,
+      "usage": {
+        "input_tokens": 1469,
+        "output_tokens": 175,
+        "cost": 6.1698e-05
+      },
+      "elapsed_seconds": 0.95807,
+      "model": "typesafe/jev-1.13-20260917",
+      "source": "openrouter",
+      "calls": [
+        {
+          "model": "typesafe/jev-1.13-20260917",
+          "answers": {
+            "next": {
+              "type": "choice",
+              "choice": "expand",
+              "probabilities": {
+                "focus": 0,
+                "click": 0,
+                "done": 0,
+                "expand": 1,
+                "select": 0
+              },
+              "confidence": 1
+            },
+            "goal_satisfied": {
+              "type": "noul",
+              "noul": 0.04
+            },
+            "click_target": {
+              "type": "choice",
+              "choice": "c3",
+              "probabilities": {
+                "c3": 1
+              },
+              "confidence": 1
+            },
+            "expand_target": {
+              "type": "choice",
+              "choice": "c4",
+              "probabilities": {
+                "c4": 1
+              },
+              "confidence": 1
+            },
+            "focus_target": {
+              "type": "choice",
+              "choice": "c5",
+              "probabilities": {
+                "c5": 0.95,
+                "c2": 0.05
+              },
+              "confidence": 0.89
+            },
+            "select_target": {
+              "type": "choice",
+              "choice": "c6",
+              "probabilities": {
+                "c6": 1
+              },
+              "confidence": 1
+            }
+          },
+          "usage": {
+            "input_tokens": 1469,
+            "output_tokens": 175,
+            "cost": 6.1698e-05
+          },
+          "id": "gen-dec-1790934839-QseFIea3AnzMwfNHmICg",
+          "provider": "TypeSafe",
+          "elapsed_seconds": 0.95807,
+          "source": "openrouter"
+        }
+      ],
+      "answers": {
+        "next": {
+          "type": "choice",
+          "choice": "expand",
+          "probabilities": {
+            "focus": 0,
+            "click": 0,
+            "done": 0,
+            "expand": 1,
+            "select": 0
+          },
+          "confidence": 1
+        },
+        "goal_satisfied": {
+          "type": "noul",
+          "noul": 0.04
+        },
+        "click_target": {
+          "type": "choice",
+          "choice": "c3",
+          "probabilities": {
+            "c3": 1
+          },
+          "confidence": 1
+        },
+        "expand_target": {
+          "type": "choice",
+          "choice": "c4",
+          "probabilities": {
+            "c4": 1
+          },
+          "confidence": 1
+        },
+        "focus_target": {
+          "type": "choice",
+          "choice": "c5",
+          "probabilities": {
+            "c5": 0.95,
+            "c2": 0.05
+          },
+          "confidence": 0.89
+        },
+        "select_target": {
+          "type": "choice",
+          "choice": "c6",
+          "probabilities": {
+            "c6": 1
+          },
+          "confidence": 1
+        }
+      },
+      "model_calls": 1,
+      "content_controls": null,
+      "question_options": {
+        "next": 5,
+        "goal_satisfied": 2,
+        "click_target": 1,
+        "expand_target": 1,
+        "focus_target": 2,
+        "select_target": 1
+      }
+    },
+    {
+      "id": "dropdown",
+      "goal": "Open the Mode dropdown",
+      "decision": {
+        "action": "expand",
+        "ref": "c0816850343abc91214d",
+        "value": null,
+        "confidence": 1.0,
+        "snapshot_id": "39be456d0ad56aa7cfb0",
+        "direction": null,
+        "amount": null,
+        "window": "4e91c5846bfe4cc580ac"
+      },
+      "matched": true,
+      "usage": {
+        "input_tokens": 1511,
+        "output_tokens": 152,
+        "cost": 6.3462e-05
+      },
+      "elapsed_seconds": 1.623884,
+      "model": "typesafe/jev-1.13-20260917",
+      "source": "openrouter",
+      "calls": [
+        {
+          "model": "typesafe/jev-1.13-20260917",
+          "answers": {
+            "next": {
+              "type": "choice",
+              "choice": "expand",
+              "probabilities": {
+                "click": 0,
+                "focus": 0,
+                "expand": 1,
+                "done": 0
+              },
+              "confidence": 1
+            },
+            "goal_satisfied": {
+              "type": "noul",
+              "noul": 0.05
+            },
+            "click_target": {
+              "type": "choice",
+              "choice": "c2",
+              "probabilities": {
+                "c2": 0.54,
+                "c6": 0.46
+              },
+              "confidence": 0.09
+            },
+            "expand_target": {
+              "type": "choice",
+              "choice": "c3",
+              "probabilities": {
+                "c3": 1
+              },
+              "confidence": 1
+            },
+            "focus_target": {
+              "type": "choice",
+              "choice": "c4",
+              "probabilities": {
+                "c5": 0.01,
+                "c4": 0.99
+              },
+              "confidence": 0.97
+            }
+          },
+          "usage": {
+            "input_tokens": 1511,
+            "output_tokens": 152,
+            "cost": 6.3462e-05
+          },
+          "id": "gen-dec-1790934841-mpvZlZ0Emn8Xgl79tKt5",
+          "provider": "TypeSafe",
+          "elapsed_seconds": 1.623884,
+          "source": "openrouter"
+        }
+      ],
+      "answers": {
+        "next": {
+          "type": "choice",
+          "choice": "expand",
+          "probabilities": {
+            "click": 0,
+            "focus": 0,
+            "expand": 1,
+            "done": 0
+          },
+          "confidence": 1
+        },
+        "goal_satisfied": {
+          "type": "noul",
+          "noul": 0.05
+        },
+        "click_target": {
+          "type": "choice",
+          "choice": "c2",
+          "probabilities": {
+            "c2": 0.54,
+            "c6": 0.46
+          },
+          "confidence": 0.09
+        },
+        "expand_target": {
+          "type": "choice",
+          "choice": "c3",
+          "probabilities": {
+            "c3": 1
+          },
+          "confidence": 1
+        },
+        "focus_target": {
+          "type": "choice",
+          "choice": "c4",
+          "probabilities": {
+            "c5": 0.01,
+            "c4": 0.99
+          },
+          "confidence": 0.97
+        }
+      },
+      "model_calls": 1,
+      "content_controls": null,
+      "question_options": {
+        "next": 4,
+        "goal_satisfied": 2,
+        "click_target": 2,
+        "expand_target": 1,
+        "focus_target": 2
+      }
+    },
+    {
+      "id": "scroll",
+      "goal": "Scroll the Scroll content container to the right",
+      "decision": {
+        "action": "scroll",
+        "ref": "51c05025672d86eff6a4",
+        "value": null,
+        "confidence": 1.0,
+        "snapshot_id": "39be456d0ad56aa7cfb0",
+        "direction": "right",
+        "amount": 0.25,
+        "window": "4e91c5846bfe4cc580ac"
+      },
+      "matched": true,
+      "usage": {
+        "input_tokens": 1138,
+        "output_tokens": 82,
+        "cost": 4.7796e-05
+      },
+      "elapsed_seconds": 1.224071,
+      "model": "typesafe/jev-1.13-20260917",
+      "source": "openrouter",
+      "calls": [
+        {
+          "model": "typesafe/jev-1.13-20260917",
+          "answers": {
+            "next": {
+              "type": "choice",
+              "choice": "scroll",
+              "probabilities": {
+                "scroll": 1,
+                "done": 0
+              },
+              "confidence": 1
+            },
+            "goal_satisfied": {
+              "type": "noul",
+              "noul": 0.07
+            },
+            "scroll_target": {
+              "type": "choice",
+              "choice": "c3",
+              "probabilities": {
+                "c2": 0,
+                "c3": 1
+              },
+              "confidence": 1
+            }
+          },
+          "usage": {
+            "input_tokens": 1138,
+            "output_tokens": 82,
+            "cost": 4.7796e-05
+          },
+          "id": "gen-dec-1790934842-OaugZxjKomN2tg5Mga28",
+          "provider": "TypeSafe",
+          "elapsed_seconds": 1.224071,
+          "source": "openrouter"
+        }
+      ],
+      "answers": {
+        "next": {
+          "type": "choice",
+          "choice": "scroll",
+          "probabilities": {
+            "scroll": 1,
+            "done": 0
+          },
+          "confidence": 1
+        },
+        "goal_satisfied": {
+          "type": "noul",
+          "noul": 0.07
+        },
+        "scroll_target": {
+          "type": "choice",
+          "choice": "c3",
+          "probabilities": {
+            "c2": 0,
+            "c3": 1
+          },
+          "confidence": 1
+        }
+      },
+      "model_calls": 1,
+      "content_controls": null,
+      "question_options": {
+        "next": 2,
+        "goal_satisfied": 2,
+        "scroll_target": 2
+      }
+    }
+  ],
+  "matched": 5
+}

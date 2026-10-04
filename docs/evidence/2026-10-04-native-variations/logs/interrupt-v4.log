@@ -1,0 +1,23 @@
+**********************
+Windows PowerShell transcript start
+Start time: 20261004085627
+Username: BOKKIO-WIN11\Bokkio
+RunAs User: BOKKIO-WIN11\Bokkio
+Configuration Name:
+Machine: BOKKIO-WIN11 (Microsoft Windows NT 10.0.26100.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File C:\BokkioWorkspace\interrupt-v4.ps1
+Process ID: 8860
+PSVersion: 5.1.26100.9457
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9457
+BuildVersion: 10.0.26100.9457
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is C:\BokkioWorkspace\interrupt-v4.log
+**********************
+Windows PowerShell transcript end
+End time: 20261004085629
+**********************

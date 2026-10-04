@@ -1,0 +1,1005 @@
+{
+  "purpose": "native input fixture setup only",
+  "hidden_extensions_verified": true,
+  "actions": [
+    {
+      "action": "expand",
+      "target_ref": "4603b17307be90724c2b",
+      "before": {
+        "ref": "4603b17307be90724c2b",
+        "platform": "windows",
+        "role": "button",
+        "name": "View",
+        "value": null,
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": false,
+          "active": false,
+          "selected": false,
+          "editable": false,
+          "focusable": true,
+          "checked": null,
+          "expanded": false,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": {
+          "x": 638,
+          "y": 185,
+          "width": 87,
+          "height": 46
+        },
+        "parent": "6ad99ad82220d1df27ba",
+        "children": [
+          {
+            "ref": "ec2db8fe8f1c477706db",
+            "platform": "windows",
+            "role": "image",
+            "name": null,
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 650,
+              "y": 201,
+              "width": 16,
+              "height": 16
+            },
+            "parent": "4603b17307be90724c2b",
+            "children": [],
+            "actions": [],
+            "platform_data": {
+              "class_name": "Image",
+              "control_type_id": 50006,
+              "description": null,
+              "actions": [],
+              "native_stable_id": null,
+              "ambiguous_ref_identity": true
+            }
+          },
+          {
+            "ref": "9da769b180b44360e2c6",
+            "platform": "windows",
+            "role": "static_text",
+            "name": "View",
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 674,
+              "y": 201,
+              "width": 26,
+              "height": 16
+            },
+            "parent": "4603b17307be90724c2b",
+            "children": [],
+            "actions": [],
+            "platform_data": {
+              "control_type_id": 50020,
+              "class_name": "TextBlock",
+              "uia_name": "View",
+              "automation_id": "TextLabel",
+              "description": null,
+              "actions": [],
+              "native_stable_id": "TextLabel",
+              "ambiguous_ref_identity": true
+            }
+          },
+          {
+            "ref": "ffdd68cbc0bc24b84987",
+            "platform": "windows",
+            "role": "static_text",
+            "name": "",
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 705,
+              "y": 205,
+              "width": 8,
+              "height": 8
+            },
+            "parent": "4603b17307be90724c2b",
+            "children": [],
+            "actions": [],
+            "platform_data": {
+              "control_type_id": 50020,
+              "class_name": "TextBlock",
+              "uia_name": "",
+              "description": null,
+              "actions": [],
+              "native_stable_id": null,
+              "ambiguous_ref_identity": true
+            }
+          }
+        ],
+        "actions": [
+          "click",
+          "collapse",
+          "expand",
+          "focus"
+        ],
+        "platform_data": {
+          "control_type_id": 50000,
+          "class_name": "AppBarButton",
+          "uia_name": "View",
+          "description": null,
+          "actions": [
+            "press",
+            "expand",
+            "collapse",
+            "focus"
+          ],
+          "native_stable_id": null,
+          "ambiguous_ref_identity": true,
+          "action_runtime_id": [
+            42,
+            20251592,
+            4,
+            103
+          ],
+          "action_scope_hwnd": 8258566,
+          "verified_native_actions": [
+            "click",
+            "collapse",
+            "expand"
+          ]
+        }
+      },
+      "after": {
+        "ref": "4603b17307be90724c2b",
+        "platform": "windows",
+        "role": "button",
+        "name": "View",
+        "value": null,
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": false,
+          "active": false,
+          "selected": false,
+          "editable": false,
+          "focusable": true,
+          "checked": null,
+          "expanded": true,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": {
+          "x": 638,
+          "y": 185,
+          "width": 87,
+          "height": 46
+        },
+        "parent": "6ad99ad82220d1df27ba",
+        "children": [
+          {
+            "ref": "ec2db8fe8f1c477706db",
+            "platform": "windows",
+            "role": "image",
+            "name": null,
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 650,
+              "y": 201,
+              "width": 16,
+              "height": 16
+            },
+            "parent": "4603b17307be90724c2b",
+            "children": [],
+            "actions": [],
+            "platform_data": {
+              "class_name": "Image",
+              "control_type_id": 50006,
+              "description": null,
+              "actions": [],
+              "native_stable_id": null,
+              "ambiguous_ref_identity": true
+            }
+          },
+          {
+            "ref": "9da769b180b44360e2c6",
+            "platform": "windows",
+            "role": "static_text",
+            "name": "View",
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 674,
+              "y": 201,
+              "width": 26,
+              "height": 16
+            },
+            "parent": "4603b17307be90724c2b",
+            "children": [],
+            "actions": [],
+            "platform_data": {
+              "uia_name": "View",
+              "class_name": "TextBlock",
+              "automation_id": "TextLabel",
+              "control_type_id": 50020,
+              "description": null,
+              "actions": [],
+              "native_stable_id": "TextLabel",
+              "ambiguous_ref_identity": true
+            }
+          },
+          {
+            "ref": "ffdd68cbc0bc24b84987",
+            "platform": "windows",
+            "role": "static_text",
+            "name": "",
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 705,
+              "y": 205,
+              "width": 8,
+              "height": 8
+            },
+            "parent": "4603b17307be90724c2b",
+            "children": [],
+            "actions": [],
+            "platform_data": {
+              "class_name": "TextBlock",
+              "control_type_id": 50020,
+              "uia_name": "",
+              "description": null,
+              "actions": [],
+              "native_stable_id": null,
+              "ambiguous_ref_identity": true
+            }
+          }
+        ],
+        "actions": [
+          "click",
+          "collapse",
+          "expand",
+          "focus"
+        ],
+        "platform_data": {
+          "control_type_id": 50000,
+          "class_name": "AppBarButton",
+          "uia_name": "View",
+          "description": null,
+          "actions": [
+            "press",
+            "expand",
+            "collapse",
+            "focus"
+          ],
+          "native_stable_id": null,
+          "ambiguous_ref_identity": true,
+          "action_runtime_id": [
+            42,
+            20251592,
+            4,
+            103
+          ],
+          "action_scope_hwnd": 8258566,
+          "verified_native_actions": [
+            "click",
+            "collapse",
+            "expand"
+          ]
+        }
+      },
+      "verification": "confirmed",
+      "tree_changed": true,
+      "postcondition": {
+        "check": "expanded",
+        "expected": true,
+        "actual": true
+      },
+      "action_source": "UIA.ExpandCollapsePattern"
+    },
+    {
+      "action": "expand",
+      "target_ref": "ed8fda9503708b608a7e",
+      "before": {
+        "ref": "ed8fda9503708b608a7e",
+        "platform": "windows",
+        "role": "menu_item",
+        "name": "Show",
+        "value": null,
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": false,
+          "active": false,
+          "selected": false,
+          "editable": false,
+          "focusable": true,
+          "checked": null,
+          "expanded": false,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": {
+          "x": 726,
+          "y": 516,
+          "width": 179,
+          "height": 28
+        },
+        "parent": "353e1675a0f40f37c3f8",
+        "children": [
+          {
+            "ref": "6c1d0726b5d7e6a59642",
+            "platform": "windows",
+            "role": "static_text",
+            "name": "Show",
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 793,
+              "y": 520,
+              "width": 65,
+              "height": 19
+            },
+            "parent": "ed8fda9503708b608a7e",
+            "children": [],
+            "actions": [],
+            "platform_data": {
+              "automation_id": "TextBlock",
+              "control_type_id": 50020,
+              "class_name": "TextBlock",
+              "uia_name": "Show",
+              "description": null,
+              "actions": [],
+              "native_stable_id": "TextBlock"
+            }
+          },
+          {
+            "ref": "0b0114407505a9be6dbc",
+            "platform": "windows",
+            "role": "static_text",
+            "name": "",
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 882,
+              "y": 524,
+              "width": 12,
+              "height": 12
+            },
+            "parent": "ed8fda9503708b608a7e",
+            "children": [],
+            "actions": [],
+            "platform_data": {
+              "class_name": "TextBlock",
+              "uia_name": "",
+              "control_type_id": 50020,
+              "description": null,
+              "actions": [],
+              "native_stable_id": null
+            }
+          }
+        ],
+        "actions": [
+          "collapse",
+          "expand",
+          "focus"
+        ],
+        "platform_data": {
+          "control_type_id": 50011,
+          "class_name": "MenuFlyoutSubItem",
+          "uia_name": "Show",
+          "description": null,
+          "actions": [
+            "expand",
+            "collapse",
+            "focus"
+          ],
+          "native_stable_id": null
+        }
+      },
+      "after": {
+        "ref": "ed8fda9503708b608a7e",
+        "platform": "windows",
+        "role": "menu_item",
+        "name": "Show",
+        "value": null,
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": false,
+          "active": false,
+          "selected": false,
+          "editable": false,
+          "focusable": true,
+          "checked": null,
+          "expanded": true,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": {
+          "x": 726,
+          "y": 516,
+          "width": 179,
+          "height": 28
+        },
+        "parent": "353e1675a0f40f37c3f8",
+        "children": [
+          {
+            "ref": "6c1d0726b5d7e6a59642",
+            "platform": "windows",
+            "role": "static_text",
+            "name": "Show",
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 793,
+              "y": 520,
+              "width": 65,
+              "height": 19
+            },
+            "parent": "ed8fda9503708b608a7e",
+            "children": [],
+            "actions": [],
+            "platform_data": {
+              "control_type_id": 50020,
+              "class_name": "TextBlock",
+              "automation_id": "TextBlock",
+              "uia_name": "Show",
+              "description": null,
+              "actions": [],
+              "native_stable_id": "TextBlock"
+            }
+          },
+          {
+            "ref": "0b0114407505a9be6dbc",
+            "platform": "windows",
+            "role": "static_text",
+            "name": "",
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 882,
+              "y": 524,
+              "width": 12,
+              "height": 12
+            },
+            "parent": "ed8fda9503708b608a7e",
+            "children": [],
+            "actions": [],
+            "platform_data": {
+              "control_type_id": 50020,
+              "class_name": "TextBlock",
+              "uia_name": "",
+              "description": null,
+              "actions": [],
+              "native_stable_id": null
+            }
+          }
+        ],
+        "actions": [
+          "collapse",
+          "expand",
+          "focus"
+        ],
+        "platform_data": {
+          "class_name": "MenuFlyoutSubItem",
+          "uia_name": "Show",
+          "control_type_id": 50011,
+          "description": null,
+          "actions": [
+            "expand",
+            "collapse",
+            "focus"
+          ],
+          "native_stable_id": null
+        }
+      },
+      "verification": "confirmed",
+      "tree_changed": true,
+      "postcondition": {
+        "check": "expanded",
+        "expected": true,
+        "actual": true
+      }
+    },
+    {
+      "action": "collapse",
+      "target_ref": "4603b17307be90724c2b",
+      "before": {
+        "ref": "4603b17307be90724c2b",
+        "platform": "windows",
+        "role": "button",
+        "name": "View",
+        "value": null,
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": false,
+          "active": false,
+          "selected": false,
+          "editable": false,
+          "focusable": true,
+          "checked": null,
+          "expanded": true,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": {
+          "x": 638,
+          "y": 185,
+          "width": 87,
+          "height": 46
+        },
+        "parent": "6ad99ad82220d1df27ba",
+        "children": [
+          {
+            "ref": "ec2db8fe8f1c477706db",
+            "platform": "windows",
+            "role": "image",
+            "name": null,
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 650,
+              "y": 201,
+              "width": 16,
+              "height": 16
+            },
+            "parent": "4603b17307be90724c2b",
+            "children": [],
+            "actions": [],
+            "platform_data": {
+              "control_type_id": 50006,
+              "class_name": "Image",
+              "description": null,
+              "actions": [],
+              "native_stable_id": null,
+              "ambiguous_ref_identity": true
+            }
+          },
+          {
+            "ref": "9da769b180b44360e2c6",
+            "platform": "windows",
+            "role": "static_text",
+            "name": "View",
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 674,
+              "y": 201,
+              "width": 26,
+              "height": 16
+            },
+            "parent": "4603b17307be90724c2b",
+            "children": [],
+            "actions": [],
+            "platform_data": {
+              "uia_name": "View",
+              "control_type_id": 50020,
+              "automation_id": "TextLabel",
+              "class_name": "TextBlock",
+              "description": null,
+              "actions": [],
+              "native_stable_id": "TextLabel",
+              "ambiguous_ref_identity": true
+            }
+          },
+          {
+            "ref": "ffdd68cbc0bc24b84987",
+            "platform": "windows",
+            "role": "static_text",
+            "name": "",
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 705,
+              "y": 205,
+              "width": 8,
+              "height": 8
+            },
+            "parent": "4603b17307be90724c2b",
+            "children": [],
+            "actions": [],
+            "platform_data": {
+              "control_type_id": 50020,
+              "class_name": "TextBlock",
+              "uia_name": "",
+              "description": null,
+              "actions": [],
+              "native_stable_id": null,
+              "ambiguous_ref_identity": true
+            }
+          }
+        ],
+        "actions": [
+          "click",
+          "collapse",
+          "expand",
+          "focus"
+        ],
+        "platform_data": {
+          "class_name": "AppBarButton",
+          "uia_name": "View",
+          "control_type_id": 50000,
+          "description": null,
+          "actions": [
+            "press",
+            "expand",
+            "collapse",
+            "focus"
+          ],
+          "native_stable_id": null,
+          "ambiguous_ref_identity": true,
+          "action_runtime_id": [
+            42,
+            20251592,
+            4,
+            103
+          ],
+          "action_scope_hwnd": 8258566,
+          "verified_native_actions": [
+            "click",
+            "collapse",
+            "expand"
+          ]
+        }
+      },
+      "after": {
+        "ref": "4603b17307be90724c2b",
+        "platform": "windows",
+        "role": "button",
+        "name": "View",
+        "value": null,
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": true,
+          "active": false,
+          "selected": false,
+          "editable": false,
+          "focusable": true,
+          "checked": null,
+          "expanded": false,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": {
+          "x": 637,
+          "y": 185,
+          "width": 89,
+          "height": 46
+        },
+        "parent": "6ad99ad82220d1df27ba",
+        "children": [
+          {
+            "ref": "ec2db8fe8f1c477706db",
+            "platform": "windows",
+            "role": "image",
+            "name": null,
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 650,
+              "y": 201,
+              "width": 16,
+              "height": 16
+            },
+            "parent": "4603b17307be90724c2b",
+            "children": [],
+            "actions": [],
+            "platform_data": {
+              "class_name": "Image",
+              "control_type_id": 50006,
+              "description": null,
+              "actions": [],
+              "native_stable_id": null,
+              "ambiguous_ref_identity": true
+            }
+          },
+          {
+            "ref": "9da769b180b44360e2c6",
+            "platform": "windows",
+            "role": "static_text",
+            "name": "View",
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 674,
+              "y": 201,
+              "width": 26,
+              "height": 16
+            },
+            "parent": "4603b17307be90724c2b",
+            "children": [],
+            "actions": [],
+            "platform_data": {
+              "control_type_id": 50020,
+              "automation_id": "TextLabel",
+              "uia_name": "View",
+              "class_name": "TextBlock",
+              "description": null,
+              "actions": [],
+              "native_stable_id": "TextLabel",
+              "ambiguous_ref_identity": true
+            }
+          },
+          {
+            "ref": "ffdd68cbc0bc24b84987",
+            "platform": "windows",
+            "role": "static_text",
+            "name": "",
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 705,
+              "y": 205,
+              "width": 8,
+              "height": 8
+            },
+            "parent": "4603b17307be90724c2b",
+            "children": [],
+            "actions": [],
+            "platform_data": {
+              "class_name": "TextBlock",
+              "uia_name": "",
+              "control_type_id": 50020,
+              "description": null,
+              "actions": [],
+              "native_stable_id": null,
+              "ambiguous_ref_identity": true
+            }
+          }
+        ],
+        "actions": [
+          "click",
+          "collapse",
+          "expand",
+          "focus"
+        ],
+        "platform_data": {
+          "class_name": "AppBarButton",
+          "control_type_id": 50000,
+          "uia_name": "View",
+          "description": null,
+          "actions": [
+            "press",
+            "expand",
+            "collapse",
+            "focus"
+          ],
+          "native_stable_id": null,
+          "ambiguous_ref_identity": true,
+          "action_runtime_id": [
+            42,
+            20251592,
+            4,
+            103
+          ],
+          "action_scope_hwnd": 8258566,
+          "verified_native_actions": [
+            "click",
+            "collapse",
+            "expand"
+          ]
+        }
+      },
+      "verification": "confirmed",
+      "tree_changed": true,
+      "postcondition": {
+        "check": "expanded",
+        "expected": false,
+        "actual": false
+      },
+      "action_source": "UIA.ExpandCollapsePattern"
+    }
+  ]
+}

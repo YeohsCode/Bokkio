@@ -1,0 +1,2377 @@
+{
+  "goal": "In Notepad replace the document text with \"P5 cross app three\". Then in Bokkio Jev hard click Refresh and click Fresh 2 in Dynamic items so its status is \"Clicked Fresh 2\".",
+  "apps": [
+    "bokkio-interactions-fixture",
+    "5944",
+    "7152"
+  ],
+  "events": [
+    {
+      "kind": "start",
+      "time": 1790935202.362574,
+      "resumed": false
+    },
+    {
+      "kind": "planner_observations",
+      "time": 1790935207.7300353,
+      "observations": {
+        "bokkio-interactions-fixture": {
+          "app": {
+            "pid": 7536,
+            "name": "bokkio-interactions-fixture",
+            "is_foreground": false,
+            "role": "application"
+          },
+          "windows": [
+            {
+              "name": "Bokkio interactions"
+            },
+            {
+              "name": "Bokkio virtual rows"
+            }
+          ],
+          "nodes": [
+            {
+              "role": "application",
+              "name": "bokkio-interactions-fixture",
+              "value": null,
+              "actions": [],
+              "parent_name": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "window",
+              "name": "Bokkio interactions",
+              "value": null,
+              "actions": [
+                "focus"
+              ],
+              "parent_name": "bokkio-interactions-fixture",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "text_field",
+              "name": "Search",
+              "value": "",
+              "actions": [
+                "focus",
+                "set_value",
+                "type"
+              ],
+              "parent_name": "Bokkio interactions",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": true
+              }
+            },
+            {
+              "role": "text_field",
+              "name": "Read only",
+              "value": "fixed",
+              "actions": [
+                "focus"
+              ],
+              "parent_name": "Bokkio interactions",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "static_text",
+              "name": "Submitted: ",
+              "value": null,
+              "actions": [],
+              "parent_name": "Bokkio interactions",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Submit",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Bokkio interactions",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "combo_box",
+              "name": "Mode",
+              "value": "Second",
+              "actions": [
+                "click",
+                "collapse",
+                "expand",
+                "focus",
+                "set_value"
+              ],
+              "parent_name": "Bokkio interactions",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": true,
+                "expanded": false
+              }
+            },
+            {
+              "role": "static_text",
+              "name": "Mode",
+              "value": null,
+              "actions": [
+                "focus"
+              ],
+              "parent_name": "Mode",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Open",
+              "value": null,
+              "actions": [
+                "click"
+              ],
+              "parent_name": "Mode",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "list",
+              "name": "Folders",
+              "value": null,
+              "actions": [
+                "focus"
+              ],
+              "parent_name": "Bokkio interactions",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "tree_item",
+              "name": "Parent",
+              "value": null,
+              "actions": [
+                "click",
+                "collapse",
+                "expand",
+                "focus",
+                "select"
+              ],
+              "parent_name": "Folders",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": true,
+                "editable": false,
+                "expanded": true
+              }
+            },
+            {
+              "role": "tree_item",
+              "name": "Child",
+              "value": null,
+              "actions": [
+                "click",
+                "focus",
+                "select"
+              ],
+              "parent_name": "Parent",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "group",
+              "name": "Peers",
+              "value": null,
+              "actions": [],
+              "parent_name": "Bokkio interactions",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Duplicate",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Peers",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Duplicate",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Peers",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Reorder",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Bokkio interactions",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Rebuild",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Bokkio interactions",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "group",
+              "name": "Scroll content",
+              "value": null,
+              "actions": [
+                "scroll"
+              ],
+              "parent_name": "Bokkio interactions",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 1",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 2",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 3",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 4",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 5",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 6",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 7",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 8",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 9",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 10",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 11",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 12",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 13",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 14",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 15",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 16",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 17",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 18",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 19",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 20",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 21",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 22",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 23",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 24",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 25",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 26",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 27",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 28",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 29",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Content 30",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "scroll_bar",
+              "name": "Vertical",
+              "value": "0",
+              "actions": [
+                "scroll"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Line up",
+              "value": null,
+              "actions": [
+                "click"
+              ],
+              "parent_name": "Vertical",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "scroll_thumb",
+              "name": "Position",
+              "value": null,
+              "actions": [],
+              "parent_name": "Vertical",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Page down",
+              "value": null,
+              "actions": [
+                "click"
+              ],
+              "parent_name": "Vertical",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Line down",
+              "value": null,
+              "actions": [
+                "click"
+              ],
+              "parent_name": "Vertical",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "scroll_bar",
+              "name": "Horizontal",
+              "value": "25",
+              "actions": [
+                "scroll"
+              ],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Column left",
+              "value": null,
+              "actions": [
+                "click"
+              ],
+              "parent_name": "Horizontal",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Page left",
+              "value": null,
+              "actions": [
+                "click"
+              ],
+              "parent_name": "Horizontal",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "scroll_thumb",
+              "name": "Position",
+              "value": null,
+              "actions": [],
+              "parent_name": "Horizontal",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Page right",
+              "value": null,
+              "actions": [
+                "click"
+              ],
+              "parent_name": "Horizontal",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Column right",
+              "value": null,
+              "actions": [
+                "click"
+              ],
+              "parent_name": "Horizontal",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "scroll_thumb",
+              "name": null,
+              "value": null,
+              "actions": [],
+              "parent_name": "Scroll content",
+              "state": {
+                "enabled": false,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "group",
+              "name": null,
+              "value": "Bokkio interactions",
+              "actions": [
+                "focus",
+                "set_value"
+              ],
+              "parent_name": "Bokkio interactions",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "menu_bar",
+              "name": "System",
+              "value": null,
+              "actions": [
+                "focus"
+              ],
+              "parent_name": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "menu_item",
+              "name": "System",
+              "value": null,
+              "actions": [
+                "collapse",
+                "expand",
+                "focus"
+              ],
+              "parent_name": "System",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false,
+                "expanded": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Minimize",
+              "value": null,
+              "actions": [
+                "click"
+              ],
+              "parent_name": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Maximize",
+              "value": null,
+              "actions": [
+                "click"
+              ],
+              "parent_name": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Close",
+              "value": null,
+              "actions": [
+                "click"
+              ],
+              "parent_name": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "window",
+              "name": "Bokkio virtual rows",
+              "value": null,
+              "actions": [
+                "focus"
+              ],
+              "parent_name": "bokkio-interactions-fixture",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "list",
+              "name": "Virtual rows",
+              "value": null,
+              "actions": [
+                "focus",
+                "scroll"
+              ],
+              "parent_name": "Bokkio virtual rows",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "group",
+              "name": "Header Control",
+              "value": null,
+              "actions": [
+                "focus"
+              ],
+              "parent_name": "Virtual rows",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "table_cell",
+              "name": "Row",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Header Control",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "scroll_bar",
+              "name": "Vertical",
+              "value": "0",
+              "actions": [
+                "scroll"
+              ],
+              "parent_name": "Virtual rows",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Line up",
+              "value": null,
+              "actions": [
+                "click"
+              ],
+              "parent_name": "Vertical",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "scroll_thumb",
+              "name": "Position",
+              "value": null,
+              "actions": [],
+              "parent_name": "Vertical",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Page down",
+              "value": null,
+              "actions": [
+                "click"
+              ],
+              "parent_name": "Vertical",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Line down",
+              "value": null,
+              "actions": [
+                "click"
+              ],
+              "parent_name": "Vertical",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "list_item",
+              "name": "Virtual 1",
+              "value": null,
+              "actions": [
+                "click",
+                "focus",
+                "select"
+              ],
+              "parent_name": "Virtual rows",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "static_text",
+              "name": "Virtual 1",
+              "value": null,
+              "actions": [
+                "focus"
+              ],
+              "parent_name": "Virtual 1",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "list_item",
+              "name": "Virtual 2",
+              "value": null,
+              "actions": [
+                "click",
+                "focus",
+                "select"
+              ],
+              "parent_name": "Virtual rows",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "static_text",
+              "name": "Virtual 2",
+              "value": null,
+              "actions": [
+                "focus"
+              ],
+              "parent_name": "Virtual 2",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "list_item",
+              "name": "Virtual 3",
+              "value": null,
+              "actions": [
+                "click",
+                "focus",
+                "select"
+              ],
+              "parent_name": "Virtual rows",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "static_text",
+              "name": "Virtual 3",
+              "value": null,
+              "actions": [
+                "focus"
+              ],
+              "parent_name": "Virtual 3",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "list_item",
+              "name": "Virtual 4",
+              "value": null,
+              "actions": [
+                "click",
+                "focus",
+                "select"
+              ],
+              "parent_name": "Virtual rows",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "static_text",
+              "name": "Virtual 4",
+              "value": null,
+              "actions": [
+                "focus"
+              ],
+              "parent_name": "Virtual 4",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "list_item",
+              "name": "Virtual 5",
+              "value": null,
+              "actions": [
+                "click",
+                "focus",
+                "select"
+              ],
+              "parent_name": "Virtual rows",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "static_text",
+              "name": "Virtual 5",
+              "value": null,
+              "actions": [
+                "focus"
+              ],
+              "parent_name": "Virtual 5",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "list_item",
+              "name": "Virtual 6",
+              "value": null,
+              "actions": [
+                "click",
+                "focus",
+                "select"
+              ],
+              "parent_name": "Virtual rows",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "static_text",
+              "name": "Virtual 6",
+              "value": null,
+              "actions": [
+                "focus"
+              ],
+              "parent_name": "Virtual 6",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "list_item",
+              "name": "Virtual 7",
+              "value": null,
+              "actions": [
+                "click",
+                "focus",
+                "select"
+              ],
+              "parent_name": "Virtual rows",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "static_text",
+              "name": "Virtual 7",
+              "value": null,
+              "actions": [
+                "focus"
+              ],
+              "parent_name": "Virtual 7",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "list_item",
+              "name": "Virtual 8",
+              "value": null,
+              "actions": [
+                "click",
+                "focus",
+                "select"
+              ],
+              "parent_name": "Virtual rows",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "static_text",
+              "name": "Virtual 8",
+              "value": null,
+              "actions": [
+                "focus"
+              ],
+              "parent_name": "Virtual 8",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "list_item",
+              "name": "Virtual 9",
+              "value": null,
+              "actions": [
+                "click",
+                "focus",
+                "select"
+              ],
+              "parent_name": "Virtual rows",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "static_text",
+              "name": "Virtual 9",
+              "value": null,
+              "actions": [
+                "focus"
+              ],
+              "parent_name": "Virtual 9",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "list_item",
+              "name": "Virtual 10",
+              "value": null,
+              "actions": [
+                "click",
+                "focus",
+                "select"
+              ],
+              "parent_name": "Virtual rows",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "static_text",
+              "name": "Virtual 10",
+              "value": null,
+              "actions": [
+                "focus"
+              ],
+              "parent_name": "Virtual 10",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "list_item",
+              "name": "Virtual 11",
+              "value": null,
+              "actions": [
+                "click",
+                "focus",
+                "select"
+              ],
+              "parent_name": "Virtual rows",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "static_text",
+              "name": "Virtual 11",
+              "value": null,
+              "actions": [
+                "focus"
+              ],
+              "parent_name": "Virtual 11",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "list_item",
+              "name": "Virtual 12",
+              "value": null,
+              "actions": [
+                "click",
+                "focus",
+                "select"
+              ],
+              "parent_name": "Virtual rows",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "static_text",
+              "name": "Virtual 12",
+              "value": null,
+              "actions": [
+                "focus"
+              ],
+              "parent_name": "Virtual 12",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "list_item",
+              "name": "Virtual 13",
+              "value": null,
+              "actions": [
+                "click",
+                "focus",
+                "select"
+              ],
+              "parent_name": "Virtual rows",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            }
+          ],
+          "truncated_nodes": 1981
+        },
+        "5944": {
+          "app": {
+            "pid": 5944,
+            "name": "bokkio-jev-hard-fixture",
+            "is_foreground": false,
+            "role": "application"
+          },
+          "windows": [
+            {
+              "name": "Bokkio Jev hard"
+            }
+          ],
+          "nodes": [
+            {
+              "role": "application",
+              "name": "bokkio-jev-hard-fixture",
+              "value": null,
+              "actions": [],
+              "parent_name": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "window",
+              "name": "Bokkio Jev hard",
+              "value": null,
+              "actions": [
+                "focus"
+              ],
+              "parent_name": "bokkio-jev-hard-fixture",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "static_text",
+              "name": "Ready",
+              "value": null,
+              "actions": [],
+              "parent_name": "Bokkio Jev hard",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "group",
+              "name": "Left pane",
+              "value": null,
+              "actions": [],
+              "parent_name": "Bokkio Jev hard",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Action",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Left pane",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "group",
+              "name": "Right pane",
+              "value": null,
+              "actions": [],
+              "parent_name": "Bokkio Jev hard",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Action",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Right pane",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Refresh",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Bokkio Jev hard",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "group",
+              "name": "Dynamic items",
+              "value": null,
+              "actions": [],
+              "parent_name": "Bokkio Jev hard",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Old 1",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Dynamic items",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Old 2",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Dynamic items",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Old 3",
+              "value": null,
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "parent_name": "Dynamic items",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "list",
+              "name": "Workflow folders",
+              "value": null,
+              "actions": [
+                "focus"
+              ],
+              "parent_name": "Bokkio Jev hard",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "tree_item",
+              "name": "Workflow",
+              "value": null,
+              "actions": [
+                "click",
+                "collapse",
+                "expand",
+                "focus",
+                "select"
+              ],
+              "parent_name": "Workflow folders",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false,
+                "expanded": false
+              }
+            },
+            {
+              "role": "group",
+              "name": null,
+              "value": "Bokkio Jev hard",
+              "actions": [
+                "focus",
+                "set_value"
+              ],
+              "parent_name": "Bokkio Jev hard",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "menu_bar",
+              "name": "System",
+              "value": null,
+              "actions": [
+                "focus"
+              ],
+              "parent_name": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "menu_item",
+              "name": "System",
+              "value": null,
+              "actions": [
+                "collapse",
+                "expand",
+                "focus"
+              ],
+              "parent_name": "System",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false,
+                "expanded": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Minimize",
+              "value": null,
+              "actions": [
+                "click"
+              ],
+              "parent_name": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Maximize",
+              "value": null,
+              "actions": [
+                "click"
+              ],
+              "parent_name": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Close",
+              "value": null,
+              "actions": [
+                "click"
+              ],
+              "parent_name": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            }
+          ],
+          "truncated_nodes": 0
+        },
+        "7152": {
+          "app": {
+            "pid": 7152,
+            "name": "notepad",
+            "is_foreground": false,
+            "role": "application"
+          },
+          "windows": [
+            {
+              "name": "Untitled - Notepad"
+            }
+          ],
+          "nodes": [
+            {
+              "role": "application",
+              "name": "notepad",
+              "value": null,
+              "actions": [],
+              "parent_name": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "window",
+              "name": "Untitled - Notepad",
+              "value": null,
+              "actions": [
+                "focus"
+              ],
+              "parent_name": "notepad",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "text_area",
+              "name": "Text Editor",
+              "value": "P5 cross app two",
+              "actions": [
+                "focus",
+                "set_value",
+                "type"
+              ],
+              "parent_name": "Untitled - Notepad",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": true
+              }
+            },
+            {
+              "role": "scroll_bar",
+              "name": "Vertical",
+              "value": "0",
+              "actions": [],
+              "parent_name": "Text Editor",
+              "state": {
+                "enabled": false,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Line up",
+              "value": null,
+              "actions": [
+                "click"
+              ],
+              "parent_name": "Vertical",
+              "state": {
+                "enabled": false,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Line down",
+              "value": null,
+              "actions": [
+                "click"
+              ],
+              "parent_name": "Vertical",
+              "state": {
+                "enabled": false,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "scroll_bar",
+              "name": "Horizontal",
+              "value": "0",
+              "actions": [],
+              "parent_name": "Text Editor",
+              "state": {
+                "enabled": false,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Column left",
+              "value": null,
+              "actions": [
+                "click"
+              ],
+              "parent_name": "Horizontal",
+              "state": {
+                "enabled": false,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Column right",
+              "value": null,
+              "actions": [
+                "click"
+              ],
+              "parent_name": "Horizontal",
+              "state": {
+                "enabled": false,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "scroll_thumb",
+              "name": null,
+              "value": null,
+              "actions": [],
+              "parent_name": "Text Editor",
+              "state": {
+                "enabled": false,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "status",
+              "name": "Status Bar",
+              "value": null,
+              "actions": [
+                "focus"
+              ],
+              "parent_name": "Untitled - Notepad",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "static_text",
+              "name": null,
+              "value": null,
+              "actions": [],
+              "parent_name": "Status Bar",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "static_text",
+              "name": "  Ln 1, Col 1",
+              "value": null,
+              "actions": [],
+              "parent_name": "Status Bar",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "static_text",
+              "name": " 100%",
+              "value": null,
+              "actions": [],
+              "parent_name": "Status Bar",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "static_text",
+              "name": " Windows (CRLF)",
+              "value": null,
+              "actions": [],
+              "parent_name": "Status Bar",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "static_text",
+              "name": " UTF-8",
+              "value": null,
+              "actions": [],
+              "parent_name": "Status Bar",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "group",
+              "name": null,
+              "value": "Untitled - Notepad",
+              "actions": [
+                "focus",
+                "set_value"
+              ],
+              "parent_name": "Untitled - Notepad",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "menu_bar",
+              "name": "System",
+              "value": null,
+              "actions": [
+                "focus"
+              ],
+              "parent_name": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "menu_item",
+              "name": "System",
+              "value": null,
+              "actions": [
+                "collapse",
+                "expand",
+                "focus"
+              ],
+              "parent_name": "System",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false,
+                "expanded": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Minimize",
+              "value": null,
+              "actions": [
+                "click"
+              ],
+              "parent_name": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Maximize",
+              "value": null,
+              "actions": [
+                "click"
+              ],
+              "parent_name": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "button",
+              "name": "Close",
+              "value": null,
+              "actions": [
+                "click"
+              ],
+              "parent_name": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "menu_bar",
+              "name": "Application",
+              "value": null,
+              "actions": [
+                "focus"
+              ],
+              "parent_name": "Untitled - Notepad",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false
+              }
+            },
+            {
+              "role": "menu_item",
+              "name": "File",
+              "value": null,
+              "actions": [
+                "collapse",
+                "expand",
+                "focus"
+              ],
+              "parent_name": "Application",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false,
+                "expanded": false
+              }
+            },
+            {
+              "role": "menu_item",
+              "name": "Edit",
+              "value": null,
+              "actions": [
+                "collapse",
+                "expand",
+                "focus"
+              ],
+              "parent_name": "Application",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false,
+                "expanded": false
+              }
+            },
+            {
+              "role": "menu_item",
+              "name": "Format",
+              "value": null,
+              "actions": [
+                "collapse",
+                "expand",
+                "focus"
+              ],
+              "parent_name": "Application",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false,
+                "expanded": false
+              }
+            },
+            {
+              "role": "menu_item",
+              "name": "View",
+              "value": null,
+              "actions": [
+                "collapse",
+                "expand",
+                "focus"
+              ],
+              "parent_name": "Application",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false,
+                "expanded": false
+              }
+            },
+            {
+              "role": "menu_item",
+              "name": "Help",
+              "value": null,
+              "actions": [
+                "collapse",
+                "expand",
+                "focus"
+              ],
+              "parent_name": "Application",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "selected": false,
+                "editable": false,
+                "expanded": false
+              }
+            }
+          ],
+          "truncated_nodes": 0
+        }
+      }
+    },
+    {
+      "kind": "status",
+      "time": 1790935276.3310678,
+      "status": "failed",
+      "reason": "Planner response did not finish completely"
+    }
+  ],
+  "completed_steps": [],
+  "actions": 0,
+  "replans": 0,
+  "status": "failed"
+}

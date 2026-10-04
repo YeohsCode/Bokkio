@@ -1,0 +1,54 @@
+{
+    "apps":  [
+                 {
+                     "path":  "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE",
+                     "name":  "WINWORD",
+                     "version":  "16.0.20430.20140",
+                     "installed":  true
+                 },
+                 {
+                     "path":  "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE",
+                     "name":  "EXCEL",
+                     "version":  "16.0.20430.20140",
+                     "installed":  true
+                 },
+                 {
+                     "path":  "C:\\Program Files\\Microsoft Office\\root\\Office16\\POWERPNT.EXE",
+                     "name":  "POWERPNT",
+                     "version":  "16.0.20430.20140",
+                     "installed":  true
+                 },
+                 {
+                     "path":  "C:\\Program Files\\Microsoft Office\\root\\Office16\\OUTLOOK.EXE",
+                     "name":  "OUTLOOK",
+                     "version":  "16.0.20430.20140",
+                     "installed":  true
+                 },
+                 {
+                     "path":  "C:\\Program Files\\Microsoft Office\\root\\Office16\\ONENOTE.EXE",
+                     "name":  "ONENOTE",
+                     "version":  "16.0.20430.20140",
+                     "installed":  true
+                 },
+                 {
+                     "path":  "C:\\Program Files\\Microsoft Office\\root\\Office16\\MSACCESS.EXE",
+                     "name":  "MSACCESS",
+                     "version":  "16.0.20430.20140",
+                     "installed":  true
+                 },
+                 {
+                     "path":  "C:\\Program Files\\Microsoft Office\\root\\Office16\\MSPUB.EXE",
+                     "name":  "MSPUB",
+                     "version":  "16.0.20430.20140",
+                     "installed":  true
+                 }
+             ],
+    "configuration":  {
+                          "platform":  "x64",
+                          "products":  "O365ProPlusRetail",
+                          "version":  "16.0.20430.20140"
+                      },
+    "finished":  "2026-10-03T16:12:58.1995836+08:00",
+    "stage":  "finished",
+    "exit_code":  0
+}

@@ -1,0 +1,10 @@
+<Configuration>
+  <Add OfficeClientEdition="64" Channel="Current">
+    <Product ID="O365ProPlusRetail">
+      <Language ID="en-us" />
+    </Product>
+  </Add>
+  <Display Level="Full" AcceptEULA="TRUE" />
+  <Updates Enabled="TRUE" />
+  <Property Name="AUTOACTIVATE" Value="0" />
+</Configuration>

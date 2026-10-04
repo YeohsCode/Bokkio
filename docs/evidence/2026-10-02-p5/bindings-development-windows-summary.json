@@ -1,0 +1,39 @@
+{
+  "passed": 2,
+  "tasks": 3,
+  "results": [
+    {
+      "id": 1,
+      "status": "completed",
+      "actions": 3,
+      "replans": 0,
+      "independent_checks": [
+        true,
+        true
+      ],
+      "passed": true
+    },
+    {
+      "id": 2,
+      "status": "blocked",
+      "actions": 0,
+      "replans": 1,
+      "independent_checks": [
+        true,
+        false
+      ],
+      "passed": false
+    },
+    {
+      "id": 3,
+      "status": "completed",
+      "actions": 3,
+      "replans": 1,
+      "independent_checks": [
+        true,
+        true
+      ],
+      "passed": true
+    }
+  ]
+}

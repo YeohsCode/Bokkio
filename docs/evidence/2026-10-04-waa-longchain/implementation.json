@@ -1,0 +1,18 @@
+{
+  "base_commit": "035c6a886603b99fca57baeffd1bb76508d90eb7",
+  "sources": {
+    "src/bokkio/planner.py": "b8a6b98811c6eb21bca9e97db948a61da4ade81326bd4843872bb495e23c5d1a",
+    "src/bokkio/agent.py": "8f31f3cb74808591d8880adf49cd05b5a1a8a283df9c8652abed8d6b3649a43b",
+    "src/bokkio/decision.py": "e4476e6c2f0737e0f379bfa9de148b4d579f41465b7dc8d2b4afc76f280bd6fc",
+    "scripts/verify_waa_longchain.py": "98a62a42eb82fb63eed3360ee1dff83a1c1dbfbcc52173bf38a9bf775ff2447b",
+    "scripts/prepare_waa_longchain.py": "aba7246f9cc5f948bd2fbd544b577ee69b719d7eddb7d156eda69a7edce48ee8"
+  },
+  "round_changes": {
+    "first": "baseline; provider default reasoning",
+    "v2": "explicit low reasoning",
+    "v3": "parent_name success checks and dynamic-window/path planner guidance",
+    "v4": "exclude destination paths and dialog subtrees; require Save button; pin metric export hash",
+    "v5": "exclude verification JSON keys from target-name matching"
+  },
+  "note": "Future-run environment/source-hash recording added after v5; no claims of recorded hashes in earlier selections"
+}

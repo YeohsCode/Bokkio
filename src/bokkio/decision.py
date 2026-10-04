@@ -1,0 +1,395 @@
+"""Closed choices for native desktop decisions and guarded execution."""
+from __future__ import annotations
+import json
+from dataclasses import asdict, dataclass
+import math
+import re
+from typing import Any, Protocol
+from .model import BokkioActionError, BokkioError, tree_digest
+from .selector import flatten
+
+
+class DecisionProvider(Protocol):
+    def ask(self, state: dict[str, Any], questions: dict[str, Any]) -> dict[str, Any]: ...
+
+
+@dataclass(frozen=True)
+class Decision:
+    action: str
+    ref: str | None
+    value: str | None
+    confidence: float
+    snapshot_id: str
+    direction: str | None = None
+    amount: float | None = None
+    window: str | None = None
+
+    def as_dict(self):
+        return asdict(self)
+
+
+def _probability(value, label):
+    if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or not 0 <= value <= 1:
+        raise BokkioError(f"Invalid {label}; expected finite probability in [0, 1]")
+    return float(value)
+
+
+def options(snapshot, values):
+    """Text values come from the caller; the provider only chooses a token."""
+    choices = {"done": {"action": "done", "ref": None, "value": None}}
+    value_targets = set()
+    native_targets = set()
+    for node in flatten(snapshot["windows"]):
+        if node["state"].get("enabled") is False or node["state"].get("visible") is False:
+            continue
+        identity = node["platform_data"].get("value_runtime_id")
+        ambiguous = node["platform_data"].get("ambiguous_ref_identity")
+        verified_actions = node['platform_data'].get('verified_native_actions', [])
+        if ambiguous and not identity and not verified_actions:
+            continue
+        for action in node["actions"]:
+            if ambiguous and not (action == "set_value" and identity) and action not in verified_actions: continue
+            if action not in {"click", "focus", "select", "expand", "collapse", "type", "set_value", "scroll"}:
+                continue
+            if action == "expand" and node["state"].get("expanded") is True:
+                continue
+            if action == "collapse" and node["state"].get("expanded") is False:
+                continue
+            if action == "focus" and node["state"].get("focused") is True:
+                continue
+            if action == "select" and node["state"].get("selected") is True:
+                continue
+            variants = [{"value": v} for v in values] if action in {"type", "set_value"} else [{"value": None}]
+            if action == "set_value" and identity:
+                key = (node["platform_data"].get("value_scope_hwnd"), tuple(identity))
+                if key in value_targets: continue
+                value_targets.add(key)
+            if action in verified_actions:
+                key=(node['platform_data'].get('action_scope_hwnd'), tuple(node['platform_data']['action_runtime_id']), action)
+                if key in native_targets: continue
+                native_targets.add(key)
+            if action == "scroll":
+                # Windows bars route to the same ScrollPattern as their container.
+                # Offer the container once so aliases do not divide confidence.
+                if node["platform"] == "windows" and node["role"] == "scroll_bar":
+                    continue
+                variants = []
+                scroll = node["platform_data"].get("scroll")
+                for direction, coordinate in [("up", "y"), ("down", "y"), ("left", "x"), ("right", "x")]:
+                    if scroll and not scroll[coordinate]["scrollable"]:
+                        continue
+                    if scroll and ((direction in {"up", "left"} and scroll[coordinate]["position"] <= 0)
+                                   or (direction in {"down", "right"} and scroll[coordinate]["position"] >= 1)):
+                        continue
+                    if not scroll and node["role"] == "scroll_bar":
+                        from .scroll import axis
+                        if axis(node) != coordinate: continue
+                    variants.append({"value": None, "direction": direction, "amount": 0.25})
+            for params in variants:
+                key = f"c{len(choices)}"
+                choices[key] = {"action": action, "ref": node["ref"], **params}
+    return choices
+
+
+ACTION_DESCRIPTIONS = {
+    "click": "Activate a button or invoke a control. For opening an expandable control prefer expand.",
+    "focus": "Give keyboard focus when the goal explicitly requests focus. Native value replacement does not require a focus step.",
+    "set_value": "Replace the entire field value directly with an allowed literal using native ValuePattern/AX. This works without prior focus. Use this when the goal specifies what a field should contain.",
+    "type": "Insert an allowed literal at the current caret, preserving existing text. Use when the goal specifically requests caret insertion or appending.",
+    "select": "Select an observed list, table, tree or dropdown item.",
+    "expand": "Open an expandable dropdown or reveal a tree item's children.",
+    "collapse": "Close a dropdown or hide a tree item's children.",
+    "scroll": "Move the contents of a native scroll container in an offered direction.",
+    "done": "The observed state already demonstrates the entire goal is satisfied; perform no action.",
+}
+
+
+def _choice(answer, criteria):
+    if answer["type"] != "choice":
+        raise BokkioError("Unexpected choice answer type")
+    if answer["choice"] not in criteria:
+        raise BokkioError("Provider selected a choice outside the current options")
+    confidence = _probability(answer["confidence"], "choice confidence")
+    probabilities = answer["probabilities"]
+    if not isinstance(probabilities, dict) or set(probabilities) != set(criteria):
+        raise BokkioError("Choice distribution does not match current options")
+    distribution = {k: _probability(v, "choice probability") for k, v in probabilities.items()}
+    if abs(sum(distribution.values()) - 1) > 0.02:
+        raise BokkioError("Choice probabilities do not sum to one")
+    if distribution[answer["choice"]] < max(distribution.values()) - 1e-6:
+        raise BokkioError("Selected choice is not a maximum of its distribution")
+    return answer["choice"], confidence
+
+
+def compact_state(goal, app, nodes, labels):
+    kinds, kind_ids, rows = {}, {}, []
+    for ref, node in nodes.items():
+        signature = (node["role"], tuple(node["actions"]))
+        if signature not in kind_ids:
+            kind = f"k{len(kinds)}"
+            kind_ids[signature] = kind
+            kinds[kind] = {"role": node["role"], "actions": node["actions"]}
+        flags = {k: v for k, v in node["state"].items()
+                 if k in {"enabled", "visible", "focused", "selected", "editable", "checked", "expanded"}
+                 and ((k in {"enabled", "visible"} and v is not True) or (k not in {"enabled", "visible"} and v is not None and (v is True or k in {"checked", "expanded"})))}
+        rows.append([labels[ref], labels.get(node["parent"]), kind_ids[signature],
+                     node["name"], node["value"], flags])
+    state = {"goal": goal, "app": app, "state_defaults": {"enabled": True, "visible": True, "focused": False, "selected": False, "editable": False}, "node_fields": ["id", "parent", "kind", "name", "value", "state"],
+             "kinds": kinds, "nodes": rows}
+    if len(rows) >= 500:
+        # Share repeated parent/kind fields without dropping observed targets.
+        groups = {}
+        for element, parent, kind, name, value, flags in rows:
+            members = groups.setdefault((parent, kind), [])
+            member = [element, name]
+            if value is not None or flags:
+                member.append(value)
+            if flags:
+                member.append(flags)
+            members.append(member)
+        state.pop("nodes")
+        state["member_fields"] = ["id", "name", "value (omitted means null)", "state (omitted means defaults)"]
+        state["groups"] = [{"parent": parent, "kind": kind, "members": members}
+                           for (parent, kind), members in groups.items()]
+    state["interaction_semantics"] = "Actions use native accessibility operations. Offered click invokes the control, including an observed off-viewport control; it does not perform pointer hit testing. Scroll when the goal requests scrolling or a target is not yet observed."
+    if len(rows) <= 240:
+        state["geometry"] = {labels[ref]: node["bounds"] for ref, node in nodes.items() if node.get("bounds")}
+        state["scroll"] = {labels[ref]: node["platform_data"]["scroll"] for ref, node in nodes.items() if node["platform_data"].get("scroll")}
+    return state
+
+
+def bounded_observation(goal, snapshot):
+    """Exact observed names bound context; preserve all duplicate candidates."""
+    nodes = {n["ref"]: n for n in flatten(snapshot["windows"])}
+    intent, marker, encoded_checks = goal.partition("\nRequired observable outcome: ")
+    target_text = goal
+    if marker:
+        try:
+            checks = json.loads(encoded_checks)
+            # Schema keys such as "name" are not requested UI targets. Keep
+            # actual condition labels so an outcome can still identify a field.
+            if isinstance(checks, list):
+                labels = [c.get("name") for c in checks if isinstance(c, dict) and isinstance(c.get("name"), str)]
+                target_text = intent + "\n" + "\n".join(labels)
+        except ValueError:
+            pass
+    # A destination path is a value, not a request to select every folder whose
+    # name appears in that path. Keep the original goal in the model context.
+    target_text = re.sub(r'''"[A-Za-z]:\\[^"\n]*"|'[A-Za-z]:\\[^'\n]*'|[A-Za-z]:\\[^\s"'\n]+''', "", target_text)
+    spans = {}
+    for ref, node in nodes.items():
+        if node["role"] in {"application", "window", "dialog"} or not isinstance(node["name"], str): continue
+        label = node["name"].strip().rstrip(":").casefold()
+        if len(label) < 2: continue
+        hits = list(re.finditer(r"(?<![a-z0-9_])" + re.escape(label) + r"(?![a-z0-9_])", target_text.casefold()))
+        if hits: spans[ref] = [hit.span() for hit in hits]
+    # "Name" inside "File name" and "File" inside "File name" do not
+    # request file-row renaming or the File menu. Keep short labels when the
+    # intent also mentions them separately, e.g. "Click Save in Save As".
+    matches = {ref for ref, hits in spans.items() if any(
+        not any(other != ref and start <= a and b <= end and (start, end) != (a, b)
+                for other, others in spans.items() for start, end in others)
+        for a, b in hits)}
+    if not matches or len(matches) > 32:
+        return snapshot
+    keep = set(matches)
+    # An open native popup can contain the submenu needed to reach a requested
+    # setting. A matched toolbar button does not replace this navigation path.
+    navigation = {child['ref'] for node in nodes.values()
+                  if node['role']=='window' and node['name']=='Popup'
+                  for child in flatten(node['children']) if child['role']=='menu_item'}
+    keep.update(navigation)
+    for ref in matches:
+        child_refs = [n["ref"] for n in flatten(nodes[ref]["children"])]
+        if len(child_refs) <= 32:
+            keep.update(child_refs)
+    candidate_refs = set(keep)
+    for ref in list(keep):
+        parent = nodes[ref]["parent"]
+        while parent in nodes and parent not in keep:
+            keep.add(parent)
+            parent = nodes[parent]["parent"]
+    if len(keep) > 240:
+        return snapshot
+    def prune(node):
+        return {**node, "children": [prune(n) for n in node["children"] if n["ref"] in keep]}
+    return {**snapshot, "windows": [prune(n) for n in snapshot["windows"] if n["ref"] in keep],
+            "observation_scope": {"strategy": "exact_observed_names", "original_nodes": len(nodes),
+                                  "retained_nodes": len(keep), "matched_refs": sorted(matches),
+                                  'navigation_refs':sorted(navigation),
+                                  "candidate_refs": sorted(candidate_refs)}}
+
+
+def decide(provider: DecisionProvider, goal: str, snapshot: dict[str, Any], values=(), threshold=0.7, *, narrow=True, allow_done=True):
+    threshold = _probability(threshold, "confidence threshold")
+    if not goal.strip():
+        raise BokkioError("Goal must not be empty")
+    if any(not isinstance(v, str) for v in values):
+        raise BokkioError("Allowed values must be strings")
+    snapshot_id = tree_digest(snapshot["windows"])
+    full_snapshot = snapshot
+    if narrow:
+        snapshot = bounded_observation(goal, snapshot)
+    choices = options(snapshot, values)
+    if not allow_done:
+        choices = {k:c for k,c in choices.items() if c['action']!='done'}
+    if "observation_scope" in snapshot:
+        candidates = set(snapshot["observation_scope"]["candidate_refs"])
+        context_actions = {"expand"}
+        if re.search(r"\bscroll(?:ing)?\b|滚动", goal, re.I): context_actions.add("scroll")
+        if re.search(r"\bcollapse\b|折叠", goal, re.I): context_actions.add("collapse")
+        choices = {k: choice for k, choice in choices.items()
+                   if choice["action"] == "done" or choice["ref"] in candidates
+                   or choice["action"] in context_actions}
+        matched = set(snapshot["observation_scope"]["matched_refs"])
+        if "scroll" not in context_actions and any(c["action"] == "click" and c["ref"] in matched for c in choices.values()):
+            # A named container can describe where a button is, without asking
+            # to scroll it. Native invocation needs no pointer hit testing.
+            choices = {k: c for k, c in choices.items() if c["action"] != "scroll"}
+            # Opening a parent menu is useful until its requested invocable
+            # target appears. Once present, unrelated expanders add ambiguity.
+            navigation=set(snapshot['observation_scope'].get('navigation_refs', []))
+            choices = {k:c for k,c in choices.items() if c['action']!='expand' or c['ref'] in matched | navigation}
+    # Classic Windows dialogs label combo dropdown arrows Open as well.
+    # An explicit Open/Save button intent identifies the direct dialog child.
+    # Narrow only when the observed native structure proves one such target.
+    confirmation=re.search(r'\b(open|save)\s+button\b', goal.split('Required observable outcome:')[0],re.I)
+    if confirmation:
+        name=confirmation.group(1).capitalize()
+        observed={n['ref']:n for n in flatten(snapshot['windows'])}
+        direct=[]
+        for token,choice in choices.items():
+            node=observed.get(choice.get('ref'),{})
+            parent=observed.get(node.get('parent'),{})
+            if (choice['action']=='click' and node.get('role')=='button' and node.get('name')==name
+                    and node.get('platform')=='windows' and parent.get('role')=='dialog'
+                    and parent.get('name')==('Open' if name=='Open' else 'Save As')
+                    and parent['platform_data'].get('class_name')=='#32770'):
+                direct.append(token)
+        if len(direct)==1:
+            choices={k:c for k,c in choices.items() if c['action']!='click'
+                     or observed[c['ref']]['name']!=name or k==direct[0]}
+    if not choices:
+        if narrow:
+            # A short name such as Name can match the requested setting text
+            # while hiding the menu needed to reach its absent child. Retry the
+            # same native scope once, retaining all capability/identity guards.
+            return decide(provider, goal, full_snapshot, values, threshold, narrow=False, allow_done=allow_done)
+        raise BokkioError("No native action candidates for the unverified subtask")
+    nodes = {n["ref"]: n for n in flatten(snapshot["windows"])}
+    operations = {choice["action"] for choice in choices.values()}
+    operation_criteria = {op: ACTION_DESCRIPTIONS[op] for op in sorted(operations)}
+    # Short tokens identify observed targets; only code maps them back to refs.
+    labels = {ref: f"e{i}" for i, ref in enumerate(nodes)}
+    state = compact_state(goal, snapshot["app"], nodes, labels)
+    if not allow_done:
+        state['native_success_verified'] = False
+    if "observation_scope" in snapshot:
+        scope = snapshot["observation_scope"]
+        state["observation_scope"] = {k: scope[k] for k in ("strategy", "original_nodes", "retained_nodes")}
+        state["observation_scope"]["matched_elements"] = [labels[ref] for ref in scope["matched_refs"]]
+    grouped = {}
+    questions = {
+        "next": {"type": "choice", "instructions": "Choose the single next native desktop operation that advances the goal. Replace a field directly with set_value, without a focus prerequisite; use type for insertion at the caret. Open expandable controls with expand.", "criteria": operation_criteria},
+        "goal_satisfied": {"type": "noul", "instructions": "Does the currently observed state demonstrate that the entire goal is already satisfied?", "criteria": {"true": "The state demonstrates completion", "false": "Work remains or completion is not observable"}},
+    }
+    for operation in sorted(operations - {"done"}):
+        criteria = {}
+        for token, choice in choices.items():
+            if choice["action"] != operation:
+                continue
+            target = nodes[choice["ref"]]
+            criteria[token] = {"element": labels[choice["ref"]], "role": target["role"],
+                               "name": target["name"], "current_value": target["value"],
+                               "parent_name": nodes.get(target["parent"], {}).get("name"),
+                               **{k: choice[k] for k in ("value", "direction", "amount") if k in choice}}
+        if len(criteria) > 255:
+            chunks = [list(criteria)[i:i + 240] for i in range(0, len(criteria), 240)]
+            if len(chunks) > 255:
+                raise BokkioError("Jev target groups exceed 255; select a narrower native window")
+            grouped[operation] = {f"g{i}": {token: criteria[token] for token in chunk}
+                                  for i, chunk in enumerate(chunks)}
+            group_criteria = {group: {"members": [member["element"] if all(member.get(k) is None for k in ("value", "direction", "amount"))
+                                                 else {k: v for k, v in member.items() if k in {"element", "value", "direction", "amount"} and v is not None}
+                                                 for member in members.values()]}
+                              for group, members in grouped[operation].items()}
+            questions[operation + "_group"] = {
+                "type": "choice", "instructions": f"If the next operation is {operation}, which group contains the target and parameters that advance the goal?", "criteria": group_criteria}
+        else:
+            questions[operation + "_target"] = {
+                "type": "choice", "instructions": f"If the next operation is {operation}, which listed target and parameters advance the goal? Evaluate this question independently of the other questions.", "criteria": criteria}
+    # Dense trees otherwise repeat the full state across too many parallel heads.
+    deferred_targets = len(nodes) >= 500
+    first_questions = {k: q for k, q in questions.items() if k in {"next", "goal_satisfied"}} if deferred_targets else questions
+    response = provider.ask(state, first_questions)
+    calls = [response]
+    try:
+        answers = dict(response["answers"])
+        operation, confidence = _choice(answers["next"], operation_criteria)
+        satisfied = answers["goal_satisfied"]
+        if satisfied["type"] != "noul":
+            raise BokkioError("Unexpected Noul answer type")
+        goal_score = _probability(satisfied["noul"], "goal satisfaction")
+        if confidence < threshold:
+            raise BokkioError("Decision confidence below threshold")
+        if operation == "done":
+            if goal_score < max(0.7, threshold):
+                raise BokkioError("Completion is unconfirmed or contradicts the chosen action")
+            choice = choices["done"]
+        else:
+            if goal_score > 0.5:
+                raise BokkioError("Goal satisfaction contradicts the chosen action")
+            head = operation + "_target"
+            if deferred_targets:
+                selected_head = operation + "_group" if operation in grouped else head
+                target_response = provider.ask(state, {selected_head: questions[selected_head]})
+                calls.append(target_response)
+                answers.update(target_response["answers"])
+            if operation in grouped:
+                group_head = operation + "_group"
+                group, group_confidence = _choice(answers[group_head], questions[group_head]["criteria"])
+                confidence = min(confidence, group_confidence)
+                if confidence < threshold:
+                    raise BokkioError("Target group confidence below threshold")
+                criteria = grouped[operation][group]
+                subset_refs = {choices[token]["ref"] for token in criteria}
+                for ref in list(subset_refs):
+                    parent = nodes[ref]["parent"]
+                    while parent in nodes:
+                        subset_refs.add(parent)
+                        parent = nodes[parent]["parent"]
+                subset = {ref: n for ref, n in nodes.items() if ref in subset_refs}
+                second = provider.ask(compact_state(goal, snapshot["app"], subset, labels), {
+                    "next": {"type": "choice", "instructions": f"For operation {operation}, which observed target and parameters advance the goal?", "criteria": criteria}})
+                token, target_confidence = _choice(second["answers"]["next"], criteria)
+                calls.append(second)
+                answers[head] = second["answers"]["next"]
+            else:
+                token, target_confidence = _choice(answers[head], questions[head]["criteria"])
+            confidence = min(confidence, target_confidence)
+            if confidence < threshold:
+                raise BokkioError("Target confidence below threshold")
+            choice = choices[token]
+    except (KeyError, TypeError, AttributeError) as error:
+        raise BokkioError("Malformed decision response") from error
+    if len(calls) > 1:
+        response = {**response, "calls": calls, "answers": answers,
+                    "elapsed_seconds": sum(r.get("elapsed_seconds", 0) for r in calls),
+                    "usage": {k: sum((r.get("usage") or {}).get(k, 0) or 0 for r in calls)
+                              for k in ("input_tokens", "output_tokens", "cost")}}
+    return Decision(**choice, confidence=confidence, snapshot_id=snapshot_id,
+                    window=snapshot.get("window_filter")), response
+
+
+def execute_decision(backend, app: str, decision: Decision, threshold=0.7):
+    confidence = _probability(decision.confidence, "decision confidence")
+    if confidence < _probability(threshold, "confidence threshold"):
+        raise BokkioActionError("Decision confidence below threshold")
+    if decision.action == "done":
+        if tree_digest(backend.snapshot(app, decision.window)["windows"]) != decision.snapshot_id:
+            raise BokkioActionError("Snapshot changed since decision; observe and decide again")
+        return {"action": "done", "verification": "model_reported", "snapshot_id": decision.snapshot_id}
+    if not decision.ref: raise BokkioActionError("Decision requires a current ref")
+    return backend.perform(app, decision.action, ref=decision.ref, value=decision.value,
+                           direction=decision.direction, amount=decision.amount,
+                           expected_snapshot=decision.snapshot_id, window=decision.window)

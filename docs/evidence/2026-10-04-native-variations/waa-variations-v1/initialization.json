@@ -1,0 +1,7 @@
+{
+  "status": "initialization_failed",
+  "planned": 6,
+  "started": 0,
+  "error": "KeyError: 'bokkio.windows_uia' before task execution",
+  "log": "../logs/variations-v1.log"
+}

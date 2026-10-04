@@ -1,0 +1,26 @@
+accessibility_trusted: true
+screen_locked: 1
+attribute=AXWindows status=0 count=1
+window_role=AXApplication status=0 same_as_app=true
+attribute=AXFocusedWindow status=0 count=0
+level=0 role_status=0 role=AXApplication children_status=0 count=2 repeats_self=true
+level=1 role_status=0 role=AXApplication children_status=0 count=2 repeats_self=true
+level=2 role_status=0 role=AXApplication children_status=0 count=2 repeats_self=true
+level=3 role_status=0 role=AXApplication children_status=0 count=2 repeats_self=true
+level=4 role_status=0 role=AXApplication children_status=0 count=2 repeats_self=true
+level=4 role_status=0 role=AXMenuBar children_status=0 count=2 repeats_self=false
+level=3 role_status=0 role=AXMenuBar children_status=0 count=2 repeats_self=false
+level=4 role_status=0 role=AXMenuBarItem children_status=0 count=1 repeats_self=false
+level=4 role_status=0 role=AXMenuBarItem children_status=0 count=1 repeats_self=false
+level=2 role_status=0 role=AXMenuBar children_status=0 count=2 repeats_self=false
+level=3 role_status=0 role=AXMenuBarItem children_status=0 count=1 repeats_self=false
+level=4 role_status=0 role=AXMenu children_status=0 count=21 repeats_self=false
+level=3 role_status=0 role=AXMenuBarItem children_status=0 count=1 repeats_self=false
+level=4 role_status=0 role=AXMenu children_status=0 count=0 repeats_self=false
+level=1 role_status=0 role=AXMenuBar children_status=0 count=2 repeats_self=false
+level=2 role_status=0 role=AXMenuBarItem children_status=0 count=1 repeats_self=false
+level=3 role_status=0 role=AXMenu children_status=0 count=21 repeats_self=false
+level=4 role_status=0 role=AXMenuItem children_status=0 count=0 repeats_self=false
+level=4 role_status=0 role=AXMenuItem children_status=0 count=0 repeats_self=false
+level=2 role_status=0 role=AXMenuBarItem children_status=0 count=1 repeats_self=false
+level=3 role_status=0 role=AXMenu children_status=0 count=0 repeats_self=false

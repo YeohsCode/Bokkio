@@ -1,0 +1,45 @@
+{
+  "case": "size-report",
+  "variant": "size-boundary",
+  "round": 1,
+  "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/2d292a2d-686b-4e72-80f7-af6c232b1258-WOS.json",
+  "task_sha256": "cfaaea375f97953cd53bdca431174bc7735b751855d2fb381a9a174c50d63398",
+  "scope": "WAA_derived_robustness_fixtures",
+  "passed": true,
+  "artifact_sha256": "15d31704767ee9847f57c5e9624ce36e9b2cb138d4c7ad892df0415625485386",
+  "agent_status": "completed",
+  "actions": 5,
+  "replans": 0,
+  "phases": 1,
+  "completed_steps": [
+    "step-1",
+    "step-2",
+    "step-3",
+    "step-4"
+  ],
+  "intermediate_checks": {
+    "source_observed_natively": true,
+    "text_observed_natively": true,
+    "save_dialog_observed": true,
+    "save_target_observed": true,
+    "native_save_dispatched": true
+  },
+  "final_checks": {
+    "persisted_artifact_exists": true,
+    "input_bytes_preserved": true,
+    "exact_large_file_names": true,
+    "reopen_kept_bytes": true,
+    "fresh_process_native_reopen": true
+  },
+  "resume_checks": {
+    "paused_after_editor_write": true,
+    "paused_before_persistence": true,
+    "checkpoint_history_preserved": true,
+    "editor_write_not_repeated": true,
+    "save_actions_after_resume": true
+  },
+  "independent_oracle_passed": true,
+  "pinned_metric_score": null,
+  "pinned_getter_result": null,
+  "seconds": 111.56
+}

@@ -1,0 +1,443 @@
+[
+  {
+    "run": "waa-longchain-v6",
+    "case": "size-report-r1",
+    "status": "failed",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "set_value failed for ca79367b33b7b402ebe2: (-2146233083, None, (None, None, None, 0, None))"
+      },
+      {
+        "kind": "status",
+        "reason": "Platform error (-2146233083): FindFirstBuildCache(ProcessId=1512) failed: 0x80131505"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v6",
+    "case": "word-count-r1",
+    "status": "blocked",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "Invalid allowed text values"
+      },
+      {
+        "kind": "error",
+        "reason": "Invalid allowed text values"
+      },
+      {
+        "kind": "error",
+        "reason": "Decision confidence below threshold"
+      },
+      {
+        "kind": "status",
+        "reason": "Decision confidence below threshold"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v6",
+    "case": "png-list-r1",
+    "status": "blocked",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "Decision confidence below threshold"
+      },
+      {
+        "kind": "error",
+        "reason": "Decision confidence below threshold"
+      },
+      {
+        "kind": "error",
+        "reason": "Decision confidence below threshold"
+      },
+      {
+        "kind": "status",
+        "reason": "Decision confidence below threshold"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v7",
+    "case": "size-report-r1",
+    "status": "failed",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "Decision confidence below threshold"
+      },
+      {
+        "kind": "status",
+        "reason": "Planner response did not finish completely"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v7",
+    "case": "word-count-r1",
+    "status": "running",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "Snapshot changed since decision; observe and decide again"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v7",
+    "case": "png-list-r1",
+    "status": "failed",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "Decision confidence below threshold"
+      },
+      {
+        "kind": "error",
+        "reason": "Decision confidence below threshold"
+      },
+      {
+        "kind": "status",
+        "reason": "Planner returned malformed JSON"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v8",
+    "case": "size-report-r1",
+    "status": "completed",
+    "errors": []
+  },
+  {
+    "run": "waa-longchain-v8",
+    "case": "word-count-r1",
+    "status": "blocked",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "Model completion lacks independent success evidence"
+      },
+      {
+        "kind": "error",
+        "reason": "Decision confidence below threshold"
+      },
+      {
+        "kind": "error",
+        "reason": "Model completion lacks independent success evidence"
+      },
+      {
+        "kind": "status",
+        "reason": "Model completion lacks independent success evidence"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v8",
+    "case": "png-list-r1",
+    "status": "blocked",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "Completion is unconfirmed or contradicts the chosen action"
+      },
+      {
+        "kind": "error",
+        "reason": "Model completion lacks independent success evidence"
+      },
+      {
+        "kind": "error",
+        "reason": "Model completion lacks independent success evidence"
+      },
+      {
+        "kind": "status",
+        "reason": "Model completion lacks independent success evidence"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v9",
+    "case": "size-report-r1",
+    "status": "blocked",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "Decision confidence below threshold"
+      },
+      {
+        "kind": "error",
+        "reason": "Decision confidence below threshold"
+      },
+      {
+        "kind": "error",
+        "reason": "Decision confidence below threshold"
+      },
+      {
+        "kind": "status",
+        "reason": "Decision confidence below threshold"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v9",
+    "case": "word-count-r1",
+    "status": "blocked",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "Model completion lacks independent success evidence"
+      },
+      {
+        "kind": "error",
+        "reason": "Model completion lacks independent success evidence"
+      },
+      {
+        "kind": "error",
+        "reason": "Model completion lacks independent success evidence"
+      },
+      {
+        "kind": "status",
+        "reason": "Model completion lacks independent success evidence"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v9",
+    "case": "png-list-r1",
+    "status": "blocked",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "Decision confidence below threshold"
+      },
+      {
+        "kind": "error",
+        "reason": "Decision confidence below threshold"
+      },
+      {
+        "kind": "error",
+        "reason": "Decision confidence below threshold"
+      },
+      {
+        "kind": "status",
+        "reason": "Decision confidence below threshold"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v10",
+    "case": "size-report-r1",
+    "status": "completed",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "Window not found: Untitled - Notepad"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v10",
+    "case": "word-count-r1",
+    "status": "blocked",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "Target confidence below threshold"
+      },
+      {
+        "kind": "error",
+        "reason": "Target confidence below threshold"
+      },
+      {
+        "kind": "error",
+        "reason": "Target confidence below threshold"
+      },
+      {
+        "kind": "status",
+        "reason": "Target confidence below threshold"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v10",
+    "case": "png-list-r1",
+    "status": "completed",
+    "errors": []
+  },
+  {
+    "run": "waa-longchain-v11",
+    "case": "size-report-r1",
+    "status": "completed",
+    "errors": []
+  },
+  {
+    "run": "waa-longchain-v11",
+    "case": "word-count-r1",
+    "status": "blocked",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "click failed for bb32b35912655e1639c1: Platform error (-2147220992): Invoke failed"
+      },
+      {
+        "kind": "error",
+        "reason": "click failed for bb32b35912655e1639c1: Platform error (-2147220992): Invoke failed"
+      },
+      {
+        "kind": "error",
+        "reason": "click failed for bb32b35912655e1639c1: Platform error (-2147220992): Invoke failed"
+      },
+      {
+        "kind": "status",
+        "reason": "click failed for bb32b35912655e1639c1: Platform error (-2147220992): Invoke failed"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v11",
+    "case": "png-list-r1",
+    "status": "completed",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "Presence checks require an exact element name"
+      },
+      {
+        "kind": "error",
+        "reason": "Model completion lacks independent success evidence"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v12",
+    "case": "size-report-r1",
+    "status": "completed",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "Window not found: Untitled - Notepad"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v12",
+    "case": "word-count-r1",
+    "status": "blocked",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "Model completion lacks independent success evidence"
+      },
+      {
+        "kind": "error",
+        "reason": "Window not found: Untitled - Notepad"
+      },
+      {
+        "kind": "error",
+        "reason": "click failed for c25f054ed02bfb1e6648: Platform error (-2147220992): Invoke failed"
+      },
+      {
+        "kind": "status",
+        "reason": "click failed for c25f054ed02bfb1e6648: Platform error (-2147220992): Invoke failed"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v12",
+    "case": "png-list-r1",
+    "status": "completed",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "Completion is unconfirmed or contradicts the chosen action"
+      },
+      {
+        "kind": "error",
+        "reason": "Window not found: Untitled - Notepad"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v13",
+    "case": "size-report-r1",
+    "status": "completed",
+    "errors": []
+  },
+  {
+    "run": "waa-longchain-v13",
+    "case": "word-count-r1",
+    "status": "blocked",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "Decision confidence below threshold"
+      },
+      {
+        "kind": "error",
+        "reason": "Decision confidence below threshold"
+      },
+      {
+        "kind": "error",
+        "reason": "Decision confidence below threshold"
+      },
+      {
+        "kind": "status",
+        "reason": "Decision confidence below threshold"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v13",
+    "case": "png-list-r1",
+    "status": "completed",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "Window not found: Untitled - Notepad"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v14",
+    "case": "size-report-r1",
+    "status": "completed",
+    "errors": []
+  },
+  {
+    "run": "waa-longchain-v14",
+    "case": "word-count-r1",
+    "status": "completed",
+    "errors": []
+  },
+  {
+    "run": "waa-longchain-v14",
+    "case": "png-list-r1",
+    "status": "completed",
+    "errors": []
+  },
+  {
+    "run": "waa-longchain-v15",
+    "case": "size-report-r1",
+    "status": "completed",
+    "errors": []
+  },
+  {
+    "run": "waa-longchain-v15",
+    "case": "word-count-r1",
+    "status": "completed",
+    "errors": []
+  },
+  {
+    "run": "waa-longchain-v15",
+    "case": "png-list-r1",
+    "status": "completed",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "No native action candidates for the unverified subtask"
+      }
+    ]
+  }
+]

@@ -1,0 +1,1775 @@
+[
+  {
+    "run": 1,
+    "click": {
+      "action": "click",
+      "after": {
+        "actions": [
+          "click",
+          "focus"
+        ],
+        "bounds": {
+          "height": 25,
+          "width": 75,
+          "x": 800,
+          "y": 129
+        },
+        "children": [],
+        "name": "Submit",
+        "parent": "ab970da27c02f667676c",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "press",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+          "control_type_id": 50000,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ea",
+          "uia_name": "Submit"
+        },
+        "ref": "859649a6257c37857930",
+        "role": "button",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "before": {
+        "actions": [
+          "click",
+          "focus"
+        ],
+        "bounds": {
+          "height": 25,
+          "width": 75,
+          "x": 800,
+          "y": 129
+        },
+        "children": [],
+        "name": "Submit",
+        "parent": "ab970da27c02f667676c",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "press",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+          "control_type_id": 50000,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ea",
+          "uia_name": "Submit"
+        },
+        "ref": "859649a6257c37857930",
+        "role": "button",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": false,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "target_ref": "859649a6257c37857930",
+      "tree_changed": true,
+      "verification": "observed"
+    },
+    "status_after": [
+      "Status: Submitted"
+    ],
+    "set_value": {
+      "action": "set_value",
+      "after": {
+        "actions": [
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 23,
+          "width": 260,
+          "x": 28,
+          "y": 608
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "541e6fe31716a7d2ccbb",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Edit.app.0.378734a_r3_ad1",
+          "control_type_id": 50004,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ce",
+          "uia_name": "Search",
+          "uia_value": "seed"
+        },
+        "ref": "9a3d7a8840267d369834",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": "seed"
+      },
+      "before": {
+        "actions": [
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 23,
+          "width": 260,
+          "x": 28,
+          "y": 608
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "541e6fe31716a7d2ccbb",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Edit.app.0.378734a_r3_ad1",
+          "control_type_id": 50004,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ce",
+          "uia_name": "Search",
+          "uia_value": "hello world"
+        },
+        "ref": "9a3d7a8840267d369834",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": false,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": "hello world"
+      },
+      "postcondition": {
+        "actual": "seed",
+        "check": "value",
+        "expected": "seed"
+      },
+      "target_ref": "9a3d7a8840267d369834",
+      "tree_changed": true,
+      "verification": "confirmed"
+    },
+    "clear": {
+      "action": "set_value",
+      "after": {
+        "actions": [
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 23,
+          "width": 260,
+          "x": 28,
+          "y": 608
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "541e6fe31716a7d2ccbb",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Edit.app.0.378734a_r3_ad1",
+          "control_type_id": 50004,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ce",
+          "uia_name": "Search"
+        },
+        "ref": "9a3d7a8840267d369834",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "before": {
+        "actions": [
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 23,
+          "width": 260,
+          "x": 28,
+          "y": 608
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "541e6fe31716a7d2ccbb",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Edit.app.0.378734a_r3_ad1",
+          "control_type_id": 50004,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ce",
+          "uia_name": "Search",
+          "uia_value": "seed"
+        },
+        "ref": "9a3d7a8840267d369834",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": "seed"
+      },
+      "postcondition": {
+        "actual": null,
+        "check": "value",
+        "expected": ""
+      },
+      "target_ref": "9a3d7a8840267d369834",
+      "tree_changed": true,
+      "verification": "unconfirmed"
+    },
+    "focus": {
+      "action": "focus",
+      "after": {
+        "actions": [
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 23,
+          "width": 260,
+          "x": 28,
+          "y": 608
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "541e6fe31716a7d2ccbb",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Edit.app.0.378734a_r3_ad1",
+          "control_type_id": 50004,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ce",
+          "uia_name": "Search"
+        },
+        "ref": "9a3d7a8840267d369834",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "before": {
+        "actions": [
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 23,
+          "width": 260,
+          "x": 28,
+          "y": 608
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "541e6fe31716a7d2ccbb",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Edit.app.0.378734a_r3_ad1",
+          "control_type_id": 50004,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ce",
+          "uia_name": "Search"
+        },
+        "ref": "9a3d7a8840267d369834",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "target_ref": "9a3d7a8840267d369834",
+      "tree_changed": false,
+      "verification": "confirmed"
+    },
+    "type": {
+      "action": "type",
+      "after": {
+        "actions": [
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 23,
+          "width": 260,
+          "x": 28,
+          "y": 608
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "541e6fe31716a7d2ccbb",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Edit.app.0.378734a_r3_ad1",
+          "control_type_id": 50004,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ce",
+          "uia_name": "Search",
+          "uia_value": "Bokkio Windows run 1"
+        },
+        "ref": "9a3d7a8840267d369834",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": "Bokkio Windows run 1"
+      },
+      "before": {
+        "actions": [
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 23,
+          "width": 260,
+          "x": 28,
+          "y": 608
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "541e6fe31716a7d2ccbb",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Edit.app.0.378734a_r3_ad1",
+          "control_type_id": 50004,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ce",
+          "uia_name": "Search"
+        },
+        "ref": "9a3d7a8840267d369834",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "postcondition": {
+        "actual": "Bokkio Windows run 1",
+        "check": "value",
+        "expected": "Bokkio Windows run 1"
+      },
+      "target_ref": "9a3d7a8840267d369834",
+      "tree_changed": true,
+      "verification": "confirmed"
+    },
+    "select": {
+      "action": "select",
+      "after": {
+        "actions": [
+          "click",
+          "focus",
+          "select"
+        ],
+        "bounds": {
+          "height": 15,
+          "width": 256,
+          "x": 336,
+          "y": 287
+        },
+        "children": [],
+        "name": "Item 2",
+        "parent": "fc1cbb68d6e559e9578b",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "press",
+            "select",
+            "focus"
+          ],
+          "control_type_id": 50007,
+          "description": null,
+          "native_stable_id": null,
+          "uia_name": "Item 2"
+        },
+        "ref": "3747d60e12e2feb6e079",
+        "role": "list_item",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": true,
+          "visible": true
+        },
+        "value": null
+      },
+      "before": {
+        "actions": [
+          "click",
+          "focus",
+          "select"
+        ],
+        "bounds": {
+          "height": 15,
+          "width": 256,
+          "x": 336,
+          "y": 287
+        },
+        "children": [],
+        "name": "Item 2",
+        "parent": "fc1cbb68d6e559e9578b",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "press",
+            "select",
+            "focus"
+          ],
+          "control_type_id": 50007,
+          "description": null,
+          "native_stable_id": null,
+          "uia_name": "Item 2"
+        },
+        "ref": "3747d60e12e2feb6e079",
+        "role": "list_item",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": false,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "target_ref": "3747d60e12e2feb6e079",
+      "tree_changed": true,
+      "verification": "confirmed"
+    }
+  },
+  {
+    "run": 2,
+    "click": {
+      "action": "click",
+      "after": {
+        "actions": [
+          "click",
+          "focus"
+        ],
+        "bounds": {
+          "height": 25,
+          "width": 75,
+          "x": 800,
+          "y": 129
+        },
+        "children": [],
+        "name": "Submit",
+        "parent": "ab970da27c02f667676c",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "press",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+          "control_type_id": 50000,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ea",
+          "uia_name": "Submit"
+        },
+        "ref": "859649a6257c37857930",
+        "role": "button",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "before": {
+        "actions": [
+          "click",
+          "focus"
+        ],
+        "bounds": {
+          "height": 25,
+          "width": 75,
+          "x": 800,
+          "y": 129
+        },
+        "children": [],
+        "name": "Submit",
+        "parent": "ab970da27c02f667676c",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "press",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+          "control_type_id": 50000,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ea",
+          "uia_name": "Submit"
+        },
+        "ref": "859649a6257c37857930",
+        "role": "button",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": false,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "target_ref": "859649a6257c37857930",
+      "tree_changed": true,
+      "verification": "observed"
+    },
+    "status_after": [
+      "Status: Ready"
+    ],
+    "set_value": {
+      "action": "set_value",
+      "after": {
+        "actions": [
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 23,
+          "width": 260,
+          "x": 28,
+          "y": 608
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "541e6fe31716a7d2ccbb",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Edit.app.0.378734a_r3_ad1",
+          "control_type_id": 50004,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ce",
+          "uia_name": "Search",
+          "uia_value": "seed"
+        },
+        "ref": "9a3d7a8840267d369834",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": "seed"
+      },
+      "before": {
+        "actions": [
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 23,
+          "width": 260,
+          "x": 28,
+          "y": 608
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "541e6fe31716a7d2ccbb",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Edit.app.0.378734a_r3_ad1",
+          "control_type_id": 50004,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ce",
+          "uia_name": "Search",
+          "uia_value": "Bokkio Windows run 1"
+        },
+        "ref": "9a3d7a8840267d369834",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": false,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": "Bokkio Windows run 1"
+      },
+      "postcondition": {
+        "actual": "seed",
+        "check": "value",
+        "expected": "seed"
+      },
+      "target_ref": "9a3d7a8840267d369834",
+      "tree_changed": true,
+      "verification": "confirmed"
+    },
+    "clear": {
+      "action": "set_value",
+      "after": {
+        "actions": [
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 23,
+          "width": 260,
+          "x": 28,
+          "y": 608
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "541e6fe31716a7d2ccbb",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Edit.app.0.378734a_r3_ad1",
+          "control_type_id": 50004,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ce",
+          "uia_name": "Search"
+        },
+        "ref": "9a3d7a8840267d369834",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "before": {
+        "actions": [
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 23,
+          "width": 260,
+          "x": 28,
+          "y": 608
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "541e6fe31716a7d2ccbb",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Edit.app.0.378734a_r3_ad1",
+          "control_type_id": 50004,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ce",
+          "uia_name": "Search",
+          "uia_value": "seed"
+        },
+        "ref": "9a3d7a8840267d369834",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": "seed"
+      },
+      "postcondition": {
+        "actual": null,
+        "check": "value",
+        "expected": ""
+      },
+      "target_ref": "9a3d7a8840267d369834",
+      "tree_changed": true,
+      "verification": "unconfirmed"
+    },
+    "focus": {
+      "action": "focus",
+      "after": {
+        "actions": [
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 23,
+          "width": 260,
+          "x": 28,
+          "y": 608
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "541e6fe31716a7d2ccbb",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Edit.app.0.378734a_r3_ad1",
+          "control_type_id": 50004,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ce",
+          "uia_name": "Search"
+        },
+        "ref": "9a3d7a8840267d369834",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "before": {
+        "actions": [
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 23,
+          "width": 260,
+          "x": 28,
+          "y": 608
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "541e6fe31716a7d2ccbb",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Edit.app.0.378734a_r3_ad1",
+          "control_type_id": 50004,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ce",
+          "uia_name": "Search"
+        },
+        "ref": "9a3d7a8840267d369834",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "target_ref": "9a3d7a8840267d369834",
+      "tree_changed": false,
+      "verification": "confirmed"
+    },
+    "type": {
+      "action": "type",
+      "after": {
+        "actions": [
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 23,
+          "width": 260,
+          "x": 28,
+          "y": 608
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "541e6fe31716a7d2ccbb",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Edit.app.0.378734a_r3_ad1",
+          "control_type_id": 50004,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ce",
+          "uia_name": "Search",
+          "uia_value": "Bokkio Windows run 2"
+        },
+        "ref": "9a3d7a8840267d369834",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": "Bokkio Windows run 2"
+      },
+      "before": {
+        "actions": [
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 23,
+          "width": 260,
+          "x": 28,
+          "y": 608
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "541e6fe31716a7d2ccbb",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Edit.app.0.378734a_r3_ad1",
+          "control_type_id": 50004,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ce",
+          "uia_name": "Search"
+        },
+        "ref": "9a3d7a8840267d369834",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "postcondition": {
+        "actual": "Bokkio Windows run 2",
+        "check": "value",
+        "expected": "Bokkio Windows run 2"
+      },
+      "target_ref": "9a3d7a8840267d369834",
+      "tree_changed": true,
+      "verification": "confirmed"
+    },
+    "select": {
+      "action": "select",
+      "after": {
+        "actions": [
+          "click",
+          "focus",
+          "select"
+        ],
+        "bounds": {
+          "height": 15,
+          "width": 256,
+          "x": 336,
+          "y": 272
+        },
+        "children": [],
+        "name": "Item 1",
+        "parent": "fc1cbb68d6e559e9578b",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "press",
+            "select",
+            "focus"
+          ],
+          "control_type_id": 50007,
+          "description": null,
+          "native_stable_id": null,
+          "uia_name": "Item 1"
+        },
+        "ref": "b3979fc413125099f709",
+        "role": "list_item",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": true,
+          "visible": true
+        },
+        "value": null
+      },
+      "before": {
+        "actions": [
+          "click",
+          "focus",
+          "select"
+        ],
+        "bounds": {
+          "height": 15,
+          "width": 256,
+          "x": 336,
+          "y": 272
+        },
+        "children": [],
+        "name": "Item 1",
+        "parent": "fc1cbb68d6e559e9578b",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "press",
+            "select",
+            "focus"
+          ],
+          "control_type_id": 50007,
+          "description": null,
+          "native_stable_id": null,
+          "uia_name": "Item 1"
+        },
+        "ref": "b3979fc413125099f709",
+        "role": "list_item",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": false,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "target_ref": "b3979fc413125099f709",
+      "tree_changed": true,
+      "verification": "confirmed"
+    }
+  },
+  {
+    "run": 3,
+    "click": {
+      "action": "click",
+      "after": {
+        "actions": [
+          "click",
+          "focus"
+        ],
+        "bounds": {
+          "height": 25,
+          "width": 75,
+          "x": 800,
+          "y": 129
+        },
+        "children": [],
+        "name": "Submit",
+        "parent": "ab970da27c02f667676c",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "press",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+          "control_type_id": 50000,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ea",
+          "uia_name": "Submit"
+        },
+        "ref": "859649a6257c37857930",
+        "role": "button",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "before": {
+        "actions": [
+          "click",
+          "focus"
+        ],
+        "bounds": {
+          "height": 25,
+          "width": 75,
+          "x": 800,
+          "y": 129
+        },
+        "children": [],
+        "name": "Submit",
+        "parent": "ab970da27c02f667676c",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "press",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+          "control_type_id": 50000,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ea",
+          "uia_name": "Submit"
+        },
+        "ref": "859649a6257c37857930",
+        "role": "button",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": false,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "target_ref": "859649a6257c37857930",
+      "tree_changed": true,
+      "verification": "observed"
+    },
+    "status_after": [
+      "Status: Submitted"
+    ],
+    "set_value": {
+      "action": "set_value",
+      "after": {
+        "actions": [
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 23,
+          "width": 260,
+          "x": 28,
+          "y": 608
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "541e6fe31716a7d2ccbb",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Edit.app.0.378734a_r3_ad1",
+          "control_type_id": 50004,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ce",
+          "uia_name": "Search",
+          "uia_value": "seed"
+        },
+        "ref": "9a3d7a8840267d369834",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": "seed"
+      },
+      "before": {
+        "actions": [
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 23,
+          "width": 260,
+          "x": 28,
+          "y": 608
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "541e6fe31716a7d2ccbb",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Edit.app.0.378734a_r3_ad1",
+          "control_type_id": 50004,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ce",
+          "uia_name": "Search",
+          "uia_value": "Bokkio Windows run 2"
+        },
+        "ref": "9a3d7a8840267d369834",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": false,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": "Bokkio Windows run 2"
+      },
+      "postcondition": {
+        "actual": "seed",
+        "check": "value",
+        "expected": "seed"
+      },
+      "target_ref": "9a3d7a8840267d369834",
+      "tree_changed": true,
+      "verification": "confirmed"
+    },
+    "clear": {
+      "action": "set_value",
+      "after": {
+        "actions": [
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 23,
+          "width": 260,
+          "x": 28,
+          "y": 608
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "541e6fe31716a7d2ccbb",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Edit.app.0.378734a_r3_ad1",
+          "control_type_id": 50004,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ce",
+          "uia_name": "Search"
+        },
+        "ref": "9a3d7a8840267d369834",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "before": {
+        "actions": [
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 23,
+          "width": 260,
+          "x": 28,
+          "y": 608
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "541e6fe31716a7d2ccbb",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Edit.app.0.378734a_r3_ad1",
+          "control_type_id": 50004,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ce",
+          "uia_name": "Search",
+          "uia_value": "seed"
+        },
+        "ref": "9a3d7a8840267d369834",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": "seed"
+      },
+      "postcondition": {
+        "actual": null,
+        "check": "value",
+        "expected": ""
+      },
+      "target_ref": "9a3d7a8840267d369834",
+      "tree_changed": true,
+      "verification": "unconfirmed"
+    },
+    "focus": {
+      "action": "focus",
+      "after": {
+        "actions": [
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 23,
+          "width": 260,
+          "x": 28,
+          "y": 608
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "541e6fe31716a7d2ccbb",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Edit.app.0.378734a_r3_ad1",
+          "control_type_id": 50004,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ce",
+          "uia_name": "Search"
+        },
+        "ref": "9a3d7a8840267d369834",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "before": {
+        "actions": [
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 23,
+          "width": 260,
+          "x": 28,
+          "y": 608
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "541e6fe31716a7d2ccbb",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Edit.app.0.378734a_r3_ad1",
+          "control_type_id": 50004,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ce",
+          "uia_name": "Search"
+        },
+        "ref": "9a3d7a8840267d369834",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "target_ref": "9a3d7a8840267d369834",
+      "tree_changed": false,
+      "verification": "confirmed"
+    },
+    "type": {
+      "action": "type",
+      "after": {
+        "actions": [
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 23,
+          "width": 260,
+          "x": 28,
+          "y": 608
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "541e6fe31716a7d2ccbb",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Edit.app.0.378734a_r3_ad1",
+          "control_type_id": 50004,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ce",
+          "uia_name": "Search",
+          "uia_value": "Bokkio Windows run 3"
+        },
+        "ref": "9a3d7a8840267d369834",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": "Bokkio Windows run 3"
+      },
+      "before": {
+        "actions": [
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 23,
+          "width": 260,
+          "x": 28,
+          "y": 608
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "541e6fe31716a7d2ccbb",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "class_name": "WindowsForms10.Edit.app.0.378734a_r3_ad1",
+          "control_type_id": 50004,
+          "description": null,
+          "native_stable_id": "hwnd:0x103ce",
+          "uia_name": "Search"
+        },
+        "ref": "9a3d7a8840267d369834",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "postcondition": {
+        "actual": "Bokkio Windows run 3",
+        "check": "value",
+        "expected": "Bokkio Windows run 3"
+      },
+      "target_ref": "9a3d7a8840267d369834",
+      "tree_changed": true,
+      "verification": "confirmed"
+    },
+    "select": {
+      "action": "select",
+      "after": {
+        "actions": [
+          "click",
+          "focus",
+          "select"
+        ],
+        "bounds": {
+          "height": 15,
+          "width": 256,
+          "x": 336,
+          "y": 287
+        },
+        "children": [],
+        "name": "Item 2",
+        "parent": "fc1cbb68d6e559e9578b",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "press",
+            "select",
+            "focus"
+          ],
+          "control_type_id": 50007,
+          "description": null,
+          "native_stable_id": null,
+          "uia_name": "Item 2"
+        },
+        "ref": "3747d60e12e2feb6e079",
+        "role": "list_item",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": true,
+          "visible": true
+        },
+        "value": null
+      },
+      "before": {
+        "actions": [
+          "click",
+          "focus",
+          "select"
+        ],
+        "bounds": {
+          "height": 15,
+          "width": 256,
+          "x": 336,
+          "y": 287
+        },
+        "children": [],
+        "name": "Item 2",
+        "parent": "fc1cbb68d6e559e9578b",
+        "platform": "windows",
+        "platform_data": {
+          "actions": [
+            "press",
+            "select",
+            "focus"
+          ],
+          "control_type_id": 50007,
+          "description": null,
+          "native_stable_id": null,
+          "uia_name": "Item 2"
+        },
+        "ref": "3747d60e12e2feb6e079",
+        "role": "list_item",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": false,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "target_ref": "3747d60e12e2feb6e079",
+      "tree_changed": true,
+      "verification": "confirmed"
+    }
+  }
+]

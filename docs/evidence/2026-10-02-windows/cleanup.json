@@ -1,0 +1,13 @@
+{
+  "password_registry_absent": true,
+  "guest_agent_config_absent": true,
+  "profile": "C:\\Users\\Bokkio",
+  "scheduled_tasks_remaining": 0,
+  "launcher_exists": true,
+  "runner_stopping": true,
+  "autologon_disabled": true,
+  "host_runner_stopped": true,
+  "credentials_outside_repository": true,
+  "mac_credential_file_mode": "0600",
+  "mac_private_directory_mode": "0700"
+}

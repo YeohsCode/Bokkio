@@ -1,0 +1,24 @@
+uv : Using CPython 3.12.13 interpreter at: 
+C:\BokkioWorkspace\tools\python\cpython-3.12.13-windows-x86_64-none\python.exe
+At line:1 char:683
++ ... 'Continue'; uv sync --group test --python "$target\python.exe" *> C:\ ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Using CPython 3...none\python.exe:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Creating virtual environment at: .venv
+Resolved 13 packages in 1ms
+Installed 8 packages in 37ms
+ + bokkio==0.1.0 (from file:///C:/BokkioWorkspace/Bokkio)
+ + colorama==0.4.6
+ + iniconfig==2.3.0
+ + packaging==26.3
+ + pluggy==1.6.0
+ + pygments==2.21.0
+ + pytest==9.1.1
+ + xa11y==0.15.0
+Sync exit: 0
+..................................                                       [100%]
+34 passed in 2.36s
+C:\BokkioWorkspace\tools\python\cpython-3.12.13-windows-x86_64-none
+Persistent machine environment and public desktop launcher installed.

@@ -1,0 +1,141 @@
+{
+  "manifest": {
+    "benchmark": "WindowsAgentArena",
+    "revision": "6d39ed88c545a0d40a7a02e39b928e278df7332b",
+    "selection_status": "fixed_before_execution",
+    "scope": "adapted_development_run",
+    "tasks": [
+      {
+        "case": "png-list",
+        "path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/016c9a9d-f2b9-4428-8fdb-f74f4439ece6-WOS.json",
+        "sha256": "880539a3eb2987f8dc68a7c5eddeceafad744a7620ff74c22ab9befcec1f7b42",
+        "id": "016c9a9d-f2b9-4428-8fdb-f74f4439ece6-WOS",
+        "assets": [
+          {
+            "kind": "input",
+            "url": "https://raw.githubusercontent.com/rogeriobonatti/winarenafiles/main/task_files/file_explorer/016c9a9d-f2b9-4428-8fdb-f74f4439ece6-WOS/config/cs-black-000.png",
+            "file": "inputs/cs-black-000.png",
+            "sha256": "71e18b0143704fc6db87349651d51b0a55590e332db9b0bdf4a9c4beb1576391",
+            "bytes": 1916
+          },
+          {
+            "kind": "input",
+            "url": "https://raw.githubusercontent.com/rogeriobonatti/winarenafiles/main/task_files/file_explorer/016c9a9d-f2b9-4428-8fdb-f74f4439ece6-WOS/config/cs-gray-7f7f7f.png",
+            "file": "inputs/cs-gray-7f7f7f.png",
+            "sha256": "d37cccaa92c3245fb5316e4f32bf132c8ab04e4e3fce53b15338a5c2d700fd8c",
+            "bytes": 1940
+          },
+          {
+            "kind": "input",
+            "url": "https://raw.githubusercontent.com/rogeriobonatti/winarenafiles/main/task_files/file_explorer/016c9a9d-f2b9-4428-8fdb-f74f4439ece6-WOS/config/cs-white-fff.png",
+            "file": "inputs/cs-white-fff.png",
+            "sha256": "a16e0c65d052dfad95684a22a0da00fb1c61d8b8ac905f6cb2790d70e78ab076",
+            "bytes": 1911
+          }
+        ],
+        "execution_status": "not_run"
+      },
+      {
+        "case": "size-report",
+        "path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/2d292a2d-686b-4e72-80f7-af6c232b1258-WOS.json",
+        "sha256": "cfaaea375f97953cd53bdca431174bc7735b751855d2fb381a9a174c50d63398",
+        "id": "2d292a2d-686b-4e72-80f7-af6c232b1258-WOS",
+        "assets": [
+          {
+            "kind": "input",
+            "url": "https://raw.githubusercontent.com/rogeriobonatti/winarenafiles/main/task_files/file_explorer/2d292a2d-686b-4e72-80f7-af6c232b1258-WOS/config/SampleText.txt",
+            "file": "inputs/example.txt",
+            "sha256": "95a2f1edb08a76120b82cec7c93ca477618639f04beac7d2aeba2dc039d43715",
+            "bytes": 6
+          },
+          {
+            "kind": "input",
+            "url": "https://raw.githubusercontent.com/rogeriobonatti/winarenafiles/main/task_files/file_explorer/2d292a2d-686b-4e72-80f7-af6c232b1258-WOS/config/The%20Wonders%20of%20Our%20Solar%20System.docx",
+            "file": "inputs/solarsystem.docx",
+            "sha256": "a96e3aa014225bf45d74ac43493598e02523900657ebc4cd5781e6cf7f8a51cf",
+            "bytes": 594367
+          }
+        ],
+        "execution_status": "not_run"
+      },
+      {
+        "case": "word-count",
+        "path": "src/win-arena-container/client/evaluation_examples_windows/examples/notepad/a7d4b6c5-569b-452e-9e1d-ffdb3d431d15-WOS.json",
+        "sha256": "0e8f10ece28ad8cfb0ed108771428ab8b8513761f260540d632ff942f4fae88c",
+        "id": "a7d4b6c5-569b-452e-9e1d-ffdb3d431d15-WOS",
+        "assets": [
+          {
+            "kind": "input",
+            "url": "https://raw.githubusercontent.com/rogeriobonatti/winarenafiles/main/task_files/notepad/a7d4b6c5-569b-452e-9e1d-ffdb3d431d15-WOS/config/largefile.txt",
+            "file": "inputs/largefile.txt",
+            "sha256": "f077be90ec7d39ba5641107f8094a5823e8ed7fb7ba3b1751870402805b942ca",
+            "bytes": 1129
+          },
+          {
+            "kind": "gold",
+            "url": "https://raw.githubusercontent.com/rogeriobonatti/winarenafiles/main/task_files/notepad/a7d4b6c5-569b-452e-9e1d-ffdb3d431d15-WOS/eval/example_count_gold.txt",
+            "file": "gold.txt",
+            "sha256": "785f3ec7eb32f30b90cd0fcf3657d388b5ff4297f2f9716ff66e9b69c05ddd09",
+            "bytes": 2
+          }
+        ],
+        "execution_status": "not_run"
+      }
+    ],
+    "metric_sources": [
+      {
+        "path": "src/win-arena-container/client/desktop_env/evaluators/metrics/general.py",
+        "sha256": "e3f75e5d601626ecd09ae0cd7a0727b8b8bf1687924bd039faf2529a6682ab9e",
+        "functions": [
+          "exact_match"
+        ]
+      },
+      {
+        "path": "src/win-arena-container/client/desktop_env/evaluators/metrics/vscode.py",
+        "sha256": "73e5ed8c975758598624bd05fa69d4db73c67d0197734386b2feeced8ccb2b75",
+        "functions": [
+          "compare_text_file"
+        ]
+      },
+      {
+        "path": "src/win-arena-container/client/desktop_env/evaluators/getters/fileexplorer.py",
+        "sha256": "d1e8121d0bd941ea51111eb81e5940cd4f0ec22141af6759d9753faf8995f2c1",
+        "functions": [
+          "get_all_png_file_names",
+          "get_is_file_saved_desktop"
+        ]
+      }
+    ]
+  },
+  "cases": [
+    "png-list",
+    "size-report",
+    "word-count"
+  ],
+  "variants": [
+    "png-spaces"
+  ],
+  "pause_before_save": true,
+  "rounds": 1,
+  "hidden_extensions_setup": true,
+  "max_actions": 32,
+  "max_replans": 2,
+  "max_phases": 8,
+  "planner_model": "openai/gpt-4.1",
+  "planner_reasoning_effort": "low",
+  "python": "3.12.13 (main, Aug  7 2026, 02:26:41) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26100-SP0",
+  "source_hashes": {
+    "bokkio.agent": "d9eaa4e633234342585fb2a32a729a5f0e238795d792b5f4208bc508a8e04efe",
+    "bokkio.planner": "53d83a33c201c1a4da482b0c29e6a52efac345f9fbe4864e85382c6b49daa988",
+    "bokkio.decision": "2e2d049d44ba95f20654b83a38d769de48072bbefd2345f34cda55214d57bb48",
+    "bokkio.xa11y_backend": "e046d133eab3a92cbf7672bb9d48ad60781c9844bc81911ccb475fca5acf406d",
+    "bokkio.jev": "637bc696117c59439bf8944d10bf4c9c34a45b9499cb5aef36326ae4596c0a59",
+    "bokkio.windows_uia": "818144ff817f083fdf02a233caed8004fb206963e99d74375c91051a45418e2a"
+  },
+  "harness_hashes": {
+    "verify_waa_longchain.py": "7fda52918987ed23ca145274eefce84c36dd1b5c7e60de5e02e827990e24cfb1",
+    "waa_variations.py": "072acd5be796a9af01e50be5682ff4892eca1d20df4fc615181f8c357379c72e"
+  },
+  "selected_before_execution": true
+}

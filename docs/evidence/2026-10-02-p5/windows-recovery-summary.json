@@ -1,0 +1,11 @@
+{
+  "status": "completed",
+  "actions": 3,
+  "replans": 1,
+  "stale_guard_observed": true,
+  "independent_checks": [
+    true,
+    true
+  ],
+  "passed": true
+}

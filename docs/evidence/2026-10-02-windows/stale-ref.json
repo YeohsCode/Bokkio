@@ -1,0 +1,71 @@
+{
+  "error": "stale_ref",
+  "selector": {
+    "ref": "missing-ref",
+    "role": null,
+    "name": null,
+    "parent": null
+  },
+  "candidates": [
+    {
+      "ref": "2cbd14b39a5ed9605c79",
+      "role": "application",
+      "name": "xa11y-winforms-test-app",
+      "parent": null
+    },
+    {
+      "ref": "8168e095fb606b35cebf",
+      "role": "window",
+      "name": "xa11y-winforms-test-app",
+      "parent": "2cbd14b39a5ed9605c79"
+    },
+    {
+      "ref": "de9f3516066c18068298",
+      "role": "group",
+      "name": null,
+      "parent": "8168e095fb606b35cebf"
+    },
+    {
+      "ref": "828bc40b0ad7e39faf90",
+      "role": "group",
+      "name": "Buttons",
+      "parent": "de9f3516066c18068298"
+    },
+    {
+      "ref": "ef9eea5690b7f7e3a8e7",
+      "role": "group",
+      "name": null,
+      "parent": "828bc40b0ad7e39faf90"
+    },
+    {
+      "ref": "a0da6b1dc5a18d27708b",
+      "role": "button",
+      "name": "OK",
+      "parent": "ef9eea5690b7f7e3a8e7"
+    },
+    {
+      "ref": "8f89c3f18851fd5c4596",
+      "role": "button",
+      "name": "Cancel",
+      "parent": "ef9eea5690b7f7e3a8e7"
+    },
+    {
+      "ref": "30904e3e438a3208257c",
+      "role": "group",
+      "name": "Checkboxes",
+      "parent": "de9f3516066c18068298"
+    },
+    {
+      "ref": "6ffd21a15d386466db5a",
+      "role": "group",
+      "name": null,
+      "parent": "30904e3e438a3208257c"
+    },
+    {
+      "ref": "61629682993a1520b097",
+      "role": "check_box",
+      "name": "Agree to terms",
+      "parent": "6ffd21a15d386466db5a"
+    }
+  ]
+}

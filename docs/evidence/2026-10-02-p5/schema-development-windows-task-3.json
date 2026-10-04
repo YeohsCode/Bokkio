@@ -1,0 +1,25 @@
+{
+  "goal": "In Notepad replace the document text with \"P5 cross app three\". Then in Bokkio Jev hard click Refresh and click Fresh 2 in Dynamic items so its status is \"Clicked Fresh 2\".",
+  "apps": [
+    "bokkio-interactions-fixture",
+    "6620",
+    "5548"
+  ],
+  "events": [
+    {
+      "kind": "start",
+      "time": 1790933965.323942,
+      "resumed": false
+    },
+    {
+      "kind": "status",
+      "time": 1790934000.7928755,
+      "status": "failed",
+      "reason": "Planner response did not finish completely"
+    }
+  ],
+  "completed_steps": [],
+  "actions": 0,
+  "replans": 0,
+  "status": "failed"
+}

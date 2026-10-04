@@ -1,0 +1,1 @@
+{"revision": 1, "agent_status": "blocked", "actions": 3, "replans": 3, "phases": 1, "checks": {"source_observed_natively": false, "text_observed_natively": false, "save_dialog_observed": false, "save_target_observed": false, "native_save_dispatched": false, "independent_content": false, "input_bytes_preserved": true, "fresh_native_reopen": false}, "passed": false}

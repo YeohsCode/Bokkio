@@ -1,0 +1,210 @@
+{
+  "goal": "In bokkio-interactions-fixture select Second in Mode. Then in Notepad replace the document text with \"P5 cross app two\".",
+  "apps": [
+    "bokkio-interactions-fixture",
+    "6620",
+    "5548"
+  ],
+  "events": [
+    {
+      "kind": "start",
+      "time": 1790933885.9719574,
+      "resumed": false
+    },
+    {
+      "kind": "plan_proposal",
+      "time": 1790933962.366546,
+      "plan": {
+        "goal": "In bokkio-interactions-fixture select Second in Mode, then in Notepad replace the document text with \"P5 cross app two\".",
+        "steps": [
+          {
+            "allowed_values": [
+              "Second"
+            ],
+            "app": "5548",
+            "goal": "Select Second in the Mode combo box of the Bokkio interactions window.",
+            "id": "step-1",
+            "risk": "local_write",
+            "success": [
+              {
+                "equals": "Second",
+                "field": "value",
+                "name": "Mode",
+                "role": "combo_box"
+              }
+            ],
+            "window": "Bokkio interactions"
+          },
+          {
+            "allowed_values": [
+              "P5 cross app two"
+            ],
+            "app": "5548",
+            "goal": "Replace the Notepad document text with \"P5 cross app two\".",
+            "id": "step-2",
+            "risk": "local_write",
+            "success": [
+              {
+                "equals": "P5 cross app two",
+                "field": "value",
+                "name": "Text Editor",
+                "role": "text_area"
+              }
+            ],
+            "window": "Untitled - Notepad"
+          }
+        ]
+      },
+      "model": {
+        "model": "z-ai/glm-5.3-flash",
+        "usage": {
+          "prompt_tokens": 15139,
+          "completion_tokens": 1825,
+          "total_tokens": 16964,
+          "cost": 0.002228345,
+          "is_byok": false,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0,
+            "audio_tokens": 0,
+            "video_tokens": 0
+          },
+          "cost_details": {
+            "upstream_inference_cost": 0.002228345,
+            "upstream_inference_prompt_cost": 0.001589595,
+            "upstream_inference_completions_cost": 0.00063875
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 1545,
+            "image_tokens": 0,
+            "audio_tokens": 0
+          }
+        },
+        "elapsed_seconds": 70.781
+      }
+    },
+    {
+      "kind": "plan",
+      "time": 1790933962.366546,
+      "plan": {
+        "goal": "In bokkio-interactions-fixture select Second in Mode, then in Notepad replace the document text with \"P5 cross app two\".",
+        "steps": [
+          {
+            "allowed_values": [
+              "Second"
+            ],
+            "app": "5548",
+            "goal": "Select Second in the Mode combo box of the Bokkio interactions window.",
+            "id": "step-1",
+            "risk": "local_write",
+            "success": [
+              {
+                "equals": "Second",
+                "field": "value",
+                "name": "Mode",
+                "role": "combo_box"
+              }
+            ],
+            "window": "Bokkio interactions"
+          },
+          {
+            "allowed_values": [
+              "P5 cross app two"
+            ],
+            "app": "5548",
+            "goal": "Replace the Notepad document text with \"P5 cross app two\".",
+            "id": "step-2",
+            "risk": "local_write",
+            "success": [
+              {
+                "equals": "P5 cross app two",
+                "field": "value",
+                "name": "Text Editor",
+                "role": "text_area"
+              }
+            ],
+            "window": "Untitled - Notepad"
+          }
+        ]
+      },
+      "model": {
+        "model": "z-ai/glm-5.3-flash",
+        "usage": {
+          "prompt_tokens": 15139,
+          "completion_tokens": 1825,
+          "total_tokens": 16964,
+          "cost": 0.002228345,
+          "is_byok": false,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0,
+            "audio_tokens": 0,
+            "video_tokens": 0
+          },
+          "cost_details": {
+            "upstream_inference_cost": 0.002228345,
+            "upstream_inference_prompt_cost": 0.001589595,
+            "upstream_inference_completions_cost": 0.00063875
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 1545,
+            "image_tokens": 0,
+            "audio_tokens": 0
+          }
+        },
+        "elapsed_seconds": 70.781
+      }
+    },
+    {
+      "kind": "status",
+      "time": 1790933962.4943447,
+      "status": "failed",
+      "reason": "Window not found: Bokkio interactions"
+    }
+  ],
+  "completed_steps": [],
+  "actions": 0,
+  "replans": 0,
+  "status": "failed",
+  "plan": {
+    "goal": "In bokkio-interactions-fixture select Second in Mode, then in Notepad replace the document text with \"P5 cross app two\".",
+    "steps": [
+      {
+        "allowed_values": [
+          "Second"
+        ],
+        "app": "5548",
+        "goal": "Select Second in the Mode combo box of the Bokkio interactions window.",
+        "id": "step-1",
+        "risk": "local_write",
+        "success": [
+          {
+            "equals": "Second",
+            "field": "value",
+            "name": "Mode",
+            "role": "combo_box"
+          }
+        ],
+        "window": "Bokkio interactions"
+      },
+      {
+        "allowed_values": [
+          "P5 cross app two"
+        ],
+        "app": "5548",
+        "goal": "Replace the Notepad document text with \"P5 cross app two\".",
+        "id": "step-2",
+        "risk": "local_write",
+        "success": [
+          {
+            "equals": "P5 cross app two",
+            "field": "value",
+            "name": "Text Editor",
+            "role": "text_area"
+          }
+        ],
+        "window": "Untitled - Notepad"
+      }
+    ]
+  }
+}

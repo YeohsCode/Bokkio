@@ -1,0 +1,134 @@
+[
+  {
+    "id": "scale-50-1",
+    "content_controls": 50,
+    "goal": "Click Sample 1",
+    "snapshot": "scale-50.json",
+    "values": [],
+    "expected": {
+      "action": "click",
+      "ref": "a934fa8ca149e7b72ba7"
+    }
+  },
+  {
+    "id": "scale-50-25",
+    "content_controls": 50,
+    "goal": "Click Sample 25",
+    "snapshot": "scale-50.json",
+    "values": [],
+    "expected": {
+      "action": "click",
+      "ref": "577d26da8cc2f3c0312a"
+    }
+  },
+  {
+    "id": "scale-50-50",
+    "content_controls": 50,
+    "goal": "Click Sample 50",
+    "snapshot": "scale-50.json",
+    "values": [],
+    "expected": {
+      "action": "click",
+      "ref": "fc4ead15979870887721"
+    }
+  },
+  {
+    "id": "scale-100-1",
+    "content_controls": 100,
+    "goal": "Click Sample 1",
+    "snapshot": "scale-100.json",
+    "values": [],
+    "expected": {
+      "action": "click",
+      "ref": "49c74c4a221098105b52"
+    }
+  },
+  {
+    "id": "scale-100-50",
+    "content_controls": 100,
+    "goal": "Click Sample 50",
+    "snapshot": "scale-100.json",
+    "values": [],
+    "expected": {
+      "action": "click",
+      "ref": "d064d04d8d91d2b09e3f"
+    }
+  },
+  {
+    "id": "scale-100-100",
+    "content_controls": 100,
+    "goal": "Click Sample 100",
+    "snapshot": "scale-100.json",
+    "values": [],
+    "expected": {
+      "action": "click",
+      "ref": "c37005fc511bea105c02"
+    }
+  },
+  {
+    "id": "scale-300-1",
+    "content_controls": 300,
+    "goal": "Click Sample 1",
+    "snapshot": "scale-300.json",
+    "values": [],
+    "expected": {
+      "action": "click",
+      "ref": "6b4e75a02e24cca22734"
+    }
+  },
+  {
+    "id": "scale-300-150",
+    "content_controls": 300,
+    "goal": "Click Sample 150",
+    "snapshot": "scale-300.json",
+    "values": [],
+    "expected": {
+      "action": "click",
+      "ref": "f1bbec7d69154628baf9"
+    }
+  },
+  {
+    "id": "scale-300-300",
+    "content_controls": 300,
+    "goal": "Click Sample 300",
+    "snapshot": "scale-300.json",
+    "values": [],
+    "expected": {
+      "action": "click",
+      "ref": "0e2b0dc062fb3af5d4cf"
+    }
+  },
+  {
+    "id": "scale-1000-1",
+    "content_controls": 1000,
+    "goal": "Click Sample 1",
+    "snapshot": "scale-1000.json",
+    "values": [],
+    "expected": {
+      "action": "click",
+      "ref": "e582c9bf60231bbecd30"
+    }
+  },
+  {
+    "id": "scale-1000-500",
+    "content_controls": 1000,
+    "goal": "Click Sample 500",
+    "snapshot": "scale-1000.json",
+    "values": [],
+    "expected": {
+      "action": "click",
+      "ref": "59f27b9a18d94bec68d2"
+    }
+  },
+  {
+    "id": "scale-1000-1000",
+    "content_controls": 1000,
+    "goal": "Click Sample 1000",
+    "snapshot": "scale-1000.json",
+    "values": [],
+    "expected": {
+      "action": "click",
+      "ref": "c95ce9578d585dc707ac"
+    }
+  }
+]

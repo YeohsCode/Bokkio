@@ -1,0 +1,1 @@
+{"passed": true, "paused_status": "paused", "resumed_status": "completed", "actions": 3, "replans": 0, "writes": ["P5 stage one", "P5 stage two", "P5 stage three"], "checks": {"paused_after_two_completed": true, "ordered_writes_once": true, "resume_only_remaining_write": true, "final_native_value": true, "retained_two_historical_steps": true}}

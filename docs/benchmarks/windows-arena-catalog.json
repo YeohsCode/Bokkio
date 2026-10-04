@@ -1,0 +1,3506 @@
+{
+  "benchmark": "WindowsAgentArena",
+  "repository": "https://github.com/microsoft/WindowsAgentArena",
+  "revision": "6d39ed88c545a0d40a7a02e39b928e278df7332b",
+  "task_file_count": 154,
+  "unique_declared_identity_count": 152,
+  "duplicate_declared_ids": [
+    {
+      "domain": "vlc",
+      "id": "INF-5ac2891a-eacd-4954-b339-98abba077adb-WOS",
+      "paths": [
+        "src/win-arena-container/client/evaluation_examples_windows/examples/vlc/INF-0d95d28a-9587-433b-a805-1fbe5467d598-WOS.json",
+        "src/win-arena-container/client/evaluation_examples_windows/examples/vlc/INF-5ac2891a-eacd-4954-b339-98abba077adb-WOS.json"
+      ]
+    },
+    {
+      "domain": "vs_code",
+      "id": "982d12a5-beab-424f-8d38-d2a48429e511-WOS",
+      "paths": [
+        "src/win-arena-container/client/evaluation_examples_windows/examples/vs_code/982d12a5-beab-424f-8d38-d2a48429e511-2-WOS.json",
+        "src/win-arena-container/client/evaluation_examples_windows/examples/vs_code/982d12a5-beab-424f-8d38-d2a48429e511-WOS.json"
+      ]
+    }
+  ],
+  "domains": {
+    "chrome": 17,
+    "clock": 4,
+    "file_explorer": 19,
+    "libreoffice_calc": 24,
+    "libreoffice_writer": 19,
+    "microsoft_paint": 3,
+    "msedge": 13,
+    "notepad": 2,
+    "settings": 5,
+    "vlc": 21,
+    "vs_code": 24,
+    "windows_calc": 3
+  },
+  "splits": {
+    "test_all.json": {
+      "domains": {
+        "file_explorer": 19,
+        "libreoffice_calc": 24,
+        "notepad": 2,
+        "chrome": 17,
+        "microsoft_paint": 3,
+        "libreoffice_writer": 19,
+        "settings": 5,
+        "vs_code": 24,
+        "msedge": 13,
+        "vlc": 21,
+        "windows_calc": 3,
+        "clock": 4
+      },
+      "task_count": 154
+    },
+    "test_custom.json": {
+      "domains": {
+        "msedge": 1
+      },
+      "task_count": 1
+    },
+    "test_small.json": {
+      "domains": {
+        "chrome": 3,
+        "libreoffice_calc": 3
+      },
+      "task_count": 6
+    }
+  },
+  "tasks": [
+    {
+      "domain": "chrome",
+      "id": "030eeff7-b492-4218-b312-701ec99ee0cc-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/chrome/030eeff7-b492-4218-b312-701ec99ee0cc-wos.json",
+      "sha256": "1340cc90c743bcc1b5a4052c9d139310f56fc529e61d7751fe41c2cebee909c0",
+      "snapshot": "chrome",
+      "setup_types": [
+        "launch",
+        "launch"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "enable_do_not_track"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "chrome",
+      "id": "06fe7178-4491-4589-810f-2e2bc9502122-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/chrome/06fe7178-4491-4589-810f-2e2bc9502122-wos.json",
+      "sha256": "2caeedfc2487be7048ff81ca501feaffa6943e2a085fd7229d8c01581963fa07",
+      "snapshot": "chrome",
+      "setup_types": [
+        "launch",
+        "launch",
+        "chrome_open_tabs",
+        "chrome_close_tabs"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "is_expected_tabs",
+      "result_types": [
+        "open_tabs_info"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "chrome",
+      "id": "121ba48f-9e17-48ce-9bc6-a4fb17a7ebba-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/chrome/121ba48f-9e17-48ce-9bc6-a4fb17a7ebba-wos.json",
+      "sha256": "4c1b160edc208779f1bcb711a257a113f23fe7331a4a9797900dc6ce548bfa04",
+      "snapshot": "chrome",
+      "setup_types": [
+        "launch",
+        "launch",
+        "chrome_open_tabs",
+        "activate_window",
+        "execute"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "is_added_to_steam_cart",
+      "result_types": [
+        "page_info"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "chrome",
+      "id": "2ae9ba84-3a0d-4d4c-8338-3a1478dc5fe3-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/chrome/2ae9ba84-3a0d-4d4c-8338-3a1478dc5fe3-wos.json",
+      "sha256": "ee2feedd7403fe6b0224eb36dbb28c17a0f737bdf269b21b9321f25f221fb4c3",
+      "snapshot": "chrome",
+      "setup_types": [
+        "launch",
+        "launch"
+      ],
+      "postconfig_types": [
+        "execute",
+        "sleep",
+        "launch"
+      ],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "profile_name"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "chrome",
+      "id": "35253b65-1c19-4304-8aa4-6884b8218fc0-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/chrome/35253b65-1c19-4304-8aa4-6884b8218fc0-wos.json",
+      "sha256": "9e79c135f56003bc97f426326ee4139107325258fa1b6343af2a53724cada56b",
+      "snapshot": "chrome",
+      "setup_types": [
+        "launch",
+        "launch",
+        "chrome_open_tabs"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "is_shortcut_on_desktop",
+      "result_types": [
+        "shortcuts_on_desktop"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "chrome",
+      "id": "44ee5668-ecd5-4366-a6ce-c1c9b8d4e938-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/chrome/44ee5668-ecd5-4366-a6ce-c1c9b8d4e938-wos.json",
+      "sha256": "c5a8dace4fc166b8b4d4e7ef94c1cc70ed6c3c62e1935e50b3711c0a45bf1884",
+      "snapshot": "chrome",
+      "setup_types": [
+        "update_browse_history",
+        "launch",
+        "launch"
+      ],
+      "postconfig_types": [
+        "execute",
+        "sleep",
+        "launch"
+      ],
+      "metric_functions": "check_history_deleted",
+      "result_types": [
+        "history"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "chrome",
+      "id": "480bcfea-d68f-4aaa-a0a9-2589ef319381-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/chrome/480bcfea-d68f-4aaa-a0a9-2589ef319381-wos.json",
+      "sha256": "fa0b57a7fa23a6dddd41c02e8730592a0c0b2cfd1fe5ca6f456d016d10c33b84",
+      "snapshot": "chrome",
+      "setup_types": [
+        "launch",
+        "launch"
+      ],
+      "postconfig_types": [
+        "execute",
+        "sleep",
+        "launch"
+      ],
+      "metric_functions": "check_enabled_experiments",
+      "result_types": [
+        "enabled_experiments"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "chrome",
+      "id": "7a5a7856-f1b6-42a4-ade9-1ca81ca0f263-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/chrome/7a5a7856-f1b6-42a4-ade9-1ca81ca0f263-wos.json",
+      "sha256": "807471213c01d3c9b968497ea4731a7337dca37470447872ac86d2ceb67a1cca",
+      "snapshot": "chrome",
+      "setup_types": [
+        "launch",
+        "launch",
+        "chrome_open_tabs"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "is_expected_bookmarks",
+      "result_types": [
+        "bookmarks"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "chrome",
+      "id": "7b6c7e24-c58a-49fc-a5bb-d57b80e5b4c3-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/chrome/7b6c7e24-c58a-49fc-a5bb-d57b80e5b4c3-wos.json",
+      "sha256": "ed8053dbca42648b28cbfcc21cfb490b6ec98a956fc9f935fec8e9098eeec3b3",
+      "snapshot": "chrome",
+      "setup_types": [
+        "launch",
+        "launch",
+        "chrome_open_tabs",
+        "sleep"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "is_cookie_deleted",
+      "result_types": [
+        "cookie_data"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "chrome",
+      "id": "82bc8d6a-36eb-4d2d-8801-ef714fb1e55a-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/chrome/82bc8d6a-36eb-4d2d-8801-ef714fb1e55a-wos.json",
+      "sha256": "81b91aa2397b8f8c68de546bdc67aa8103427b73ed157e520dc7e2a663b281c9",
+      "snapshot": "chrome",
+      "setup_types": [
+        "launch",
+        "launch",
+        "chrome_open_tabs",
+        "activate_window"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "check_direct_json_object",
+      "result_types": [
+        "active_tab_url_parse"
+      ],
+      "expected_types": [
+        "rule_relativeTime"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "chrome",
+      "id": "9656a811-9b5b-4ddf-99c7-5117bcef0626-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/chrome/9656a811-9b5b-4ddf-99c7-5117bcef0626-wos.json",
+      "sha256": "8dc78930aae0caad8f7d83abbebab9995cd0fe32e27269551346d94ee7b7d229",
+      "snapshot": "chrome",
+      "setup_types": [
+        "launch",
+        "launch"
+      ],
+      "postconfig_types": [
+        "execute"
+      ],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "enable_enhanced_safety_browsing"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "chrome",
+      "id": "99146c54-4f37-4ab8-9327-5f3291665e1e-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/chrome/99146c54-4f37-4ab8-9327-5f3291665e1e-wos.json",
+      "sha256": "6542da0aafbdff6dbb06f3c30d8b20d1ba342976accf669d4a5a710de0e8c621",
+      "snapshot": "chrome",
+      "setup_types": [
+        "launch",
+        "launch"
+      ],
+      "postconfig_types": [
+        "execute"
+      ],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "data_delete_automacally"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "chrome",
+      "id": "a96b564e-dbe9-42c3-9ccf-b4498073438a-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/chrome/a96b564e-dbe9-42c3-9ccf-b4498073438a-wos.json",
+      "sha256": "cbe5fb56f8419fa25c7ada28e5d57ff39b93c34547bffa37d918a8ae37fe773a",
+      "snapshot": "chrome",
+      "setup_types": [
+        "launch",
+        "launch",
+        "chrome_open_tabs",
+        "activate_window",
+        "execute"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "is_expected_active_tab",
+      "result_types": [
+        "active_tab_info"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "chrome",
+      "id": "af630914-714e-4a24-a7bb-f9af687d3b91-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/chrome/af630914-714e-4a24-a7bb-f9af687d3b91-wos.json",
+      "sha256": "1018f5dfd5c9f95edb1cb590e0b7a7a0f5b27ca9d445df066d1b5264f702b713",
+      "snapshot": "chrome",
+      "setup_types": [
+        "launch",
+        "launch"
+      ],
+      "postconfig_types": [
+        "execute",
+        "sleep",
+        "launch"
+      ],
+      "metric_functions": "check_font_size",
+      "result_types": [
+        "chrome_font_size"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "chrome",
+      "id": "b070486d-e161-459b-aa2b-ef442d973b92-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/chrome/b070486d-e161-459b-aa2b-ef442d973b92-wos.json",
+      "sha256": "4ddafe6dd3909712be319a0c8661673e2bb2d204a7157804c2acd06e503d3298",
+      "snapshot": "chrome",
+      "setup_types": [
+        "launch",
+        "launch",
+        "chrome_open_tabs",
+        "activate_window"
+      ],
+      "postconfig_types": [],
+      "metric_functions": [
+        "exact_match",
+        "exact_match"
+      ],
+      "result_types": [
+        "url_dashPart",
+        "url_dashPart"
+      ],
+      "expected_types": [
+        "rule",
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "chrome",
+      "id": "bb5e4c0d-f964-439c-97b6-bdb9747de3f4-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/chrome/bb5e4c0d-f964-439c-97b6-bdb9747de3f4-wos.json",
+      "sha256": "70c2c42f6e6597b0f7ba8fac5c241bc8e6b27c4df016712c790032147bc0e9cf",
+      "snapshot": "chrome",
+      "setup_types": [
+        "launch",
+        "launch"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "default_search_engine"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "chrome",
+      "id": "e1e75309-3ddb-4d09-92ec-de869c928143-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/chrome/e1e75309-3ddb-4d09-92ec-de869c928143-wos.json",
+      "sha256": "b92f9e8ce3a48823feb9dc65ecbda00988bac7648e0686ca5c264a961feace07",
+      "snapshot": "chrome",
+      "setup_types": [
+        "launch",
+        "launch",
+        "chrome_open_tabs"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "compare_pdfs",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "pdf_from_url"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "clock",
+      "id": "02F10F89-7171-4D37-8550-A00BA8930CDF-WOS-2",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/clock/02F10F89-7171-4D37-8550-A00BA8930CDF-2-WOS.json",
+      "sha256": "e2c79da5bf4c40e51346ca471deaacd3a934a3d8377a54dbd0672b9b5550861e",
+      "snapshot": "clock",
+      "setup_types": [
+        "launch",
+        "sleep"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep"
+      ],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "check_if_timer_started"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "clock",
+      "id": "02F10F89-7171-4D37-8550-A00BA8930CDF-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/clock/02F10F89-7171-4D37-8550-A00BA8930CDF-WOS.json",
+      "sha256": "a3472efd9b2a9dec851403ee183aa188f6028b763c5d987ab3a2a99a7ae521fe",
+      "snapshot": "clock",
+      "setup_types": [
+        "launch",
+        "sleep"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep"
+      ],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "check_if_timer_started"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "clock",
+      "id": "91A30BE9-0E11-4374-8D43-41D4D097080A-WOS-2",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/clock/91A30BE9-0E11-4374-8D43-41D4D097080A-WOS-2.json",
+      "sha256": "b1b842c2e5a7e531527dcd75ef7c8d1493d7de8462d7e6432c12329f88e846af",
+      "snapshot": "clock",
+      "setup_types": [
+        "launch",
+        "sleep"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep"
+      ],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "check_if_world_clock_exists"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "clock",
+      "id": "91A30BE9-0E11-4374-8D43-41D4D097080A-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/clock/91A30BE9-0E11-4374-8D43-41D4D097080A-WOS.json",
+      "sha256": "926006c71cf471237442d7e6e16c6a2b01e52f2f4f7f34fc7d237472c3b6f3b7",
+      "snapshot": "clock",
+      "setup_types": [
+        "launch",
+        "sleep"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep"
+      ],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "check_if_world_clock_exists"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "file_explorer",
+      "id": "016c9a9d-f2b9-4428-8fdb-f74f4439ece6-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/016c9a9d-f2b9-4428-8fdb-f74f4439ece6-WOS.json",
+      "sha256": "880539a3eb2987f8dc68a7c5eddeceafad744a7620ff74c22ab9befcec1f7b42",
+      "snapshot": "file_explorer",
+      "setup_types": [
+        "download",
+        "launch",
+        "sleep"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep"
+      ],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "all_png_file_names"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "file_explorer",
+      "id": "0c9dda13-428c-492b-900b-f48562111f93-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/0c9dda13-428c-492b-900b-f48562111f93-WOS.json",
+      "sha256": "dc7c57da4d1a039916536e2fefe512d622d8233fd92ef1d09abdf6e8c2620a46",
+      "snapshot": "file_explorer",
+      "setup_types": [
+        "download",
+        "launch",
+        "sleep"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep"
+      ],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "is_all_docx_in_archive"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "file_explorer",
+      "id": "1876fe7f-6fdc-5dd6-c9e0-237d4c8411f0-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/1876fe7f-6fdc-5dd6-c9e0-237d4c8411f0-WOS.json",
+      "sha256": "50d577332cde238ad522f6bd2dd511c892d8a62838e954b01ce41113207cd522",
+      "snapshot": "file_explorer",
+      "setup_types": [
+        "create_folder",
+        "sleep"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "vm_folder_exists_in_documents"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "file_explorer",
+      "id": "22e529ff-4199-4ffb-95b7-8e5be9b7a860-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/22e529ff-4199-4ffb-95b7-8e5be9b7a860-WOS.json",
+      "sha256": "d6253001547cc2980d461714fdc9c3b92ca09f5a1181b6f95eff564dca1315c0",
+      "snapshot": "file_explorer",
+      "setup_types": [
+        "create_folder",
+        "sleep",
+        "launch",
+        "download",
+        "sleep"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "are_all_images_tagged"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "file_explorer",
+      "id": "2b0c0844-bd4f-42ba-a25e-afb4267d51e2-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/2b0c0844-bd4f-42ba-a25e-afb4267d51e2-WOS.json",
+      "sha256": "184af77704fa2095a331ab4e21a0218ed417972d28c12e0693c249633a5105e4",
+      "snapshot": "file_explorer",
+      "setup_types": [],
+      "postconfig_types": [
+        "activate_window",
+        "sleep"
+      ],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "vm_active_window_title"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "file_explorer",
+      "id": "2d292a2d-686b-4e72-80f7-af6c232b1258-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/2d292a2d-686b-4e72-80f7-af6c232b1258-WOS.json",
+      "sha256": "cfaaea375f97953cd53bdca431174bc7735b751855d2fb381a9a174c50d63398",
+      "snapshot": "base_setup",
+      "setup_types": [
+        "download",
+        "download",
+        "command",
+        "sleep"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "is_file_saved_desktop"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "file_explorer",
+      "id": "34a4fee9-e52e-4a4a-96d2-68d35091504a-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/34a4fee9-e52e-4a4a-96d2-68d35091504a-WOS.json",
+      "sha256": "39e14dec1246f61112b5d6059c8549b9a3f332a7f651e9496fd0cf8a196f6349",
+      "snapshot": "file_explorer",
+      "setup_types": [
+        "launch",
+        "sleep"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep"
+      ],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "is_details_view"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "file_explorer",
+      "id": "3bad5766-5186-42be-abe1-12eacc798d3a-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/3bad5766-5186-42be-abe1-12eacc798d3a-WOS.json",
+      "sha256": "369e58cf33362937280d859021fd32859b93c8232ce6787c4376bd39d9dc14c3",
+      "snapshot": "file_explorer",
+      "setup_types": [
+        "create_folder",
+        "sleep",
+        "create_folder",
+        "sleep",
+        "create_folder",
+        "sleep",
+        "create_folder",
+        "sleep",
+        "download",
+        "launch",
+        "sleep"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "vm_library_folders"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "file_explorer",
+      "id": "5316686e-5688-4115-be24-052037df599f-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/5316686e-5688-4115-be24-052037df599f-WOS.json",
+      "sha256": "9c214d12b490703cb500acfe5f6ac0045dd546d1b1792a3ddae54346fe5ce18c",
+      "snapshot": "file_explorer",
+      "setup_types": [
+        "command",
+        "sleep"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "is_extension_installed",
+      "result_types": [
+        "vm_command_line"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "file_explorer",
+      "id": "5548314e-d807-4e9e-97e9-b3a4f9fd634f-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/5548314e-d807-4e9e-97e9-b3a4f9fd634f-WOS.json",
+      "sha256": "0269368ee191de45fdb0564f6a50906b0a809522bec2b3a7253676b730428770",
+      "snapshot": "file_explorer",
+      "setup_types": [
+        "download",
+        "launch",
+        "sleep"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep"
+      ],
+      "metric_functions": "compare_zip_files",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "file_explorer",
+      "id": "7AB09EF1-331B-4A21-90C9-996ADE3B6E1A-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/7AB09EF1-331B-4A21-90C9-996ADE3B6E1A-WOS.json",
+      "sha256": "66ddd39fcc0e6f7d438e7d04d71552dfb264634d2456eb11979a8e28da0c69b5",
+      "snapshot": "file_explorer",
+      "setup_types": [
+        "create_folder",
+        "sleep"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "vm_file_exists_in_desktop"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "file_explorer",
+      "id": "7c70e16b-e14f-4baa-b046-3e022b2d0305-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/7c70e16b-e14f-4baa-b046-3e022b2d0305-WOS.json",
+      "sha256": "886eb78a02a1bcc5ccb8fda6adfaf2938fd0c98898c95e99f960b26e5cd205c5",
+      "snapshot": "file_explorer",
+      "setup_types": [
+        "download",
+        "sleep",
+        "download",
+        "sleep",
+        "download",
+        "launch",
+        "sleep"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep"
+      ],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "are_files_sorted_by_modified_time"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "file_explorer",
+      "id": "ac46b5cb-616a-46e0-b287-9628fd0dab06-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/ac46b5cb-616a-46e0-b287-9628fd0dab06-WOS.json",
+      "sha256": "453eaf43fee811864d20f9adbd42e88ec2aa24b7840b31a2f89039c9f8737b52",
+      "snapshot": "base_setup",
+      "setup_types": [
+        "create_folder",
+        "create_folder",
+        "download",
+        "sleep"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "is_files_moved_downloads"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "file_explorer",
+      "id": "b0c9dac6-52ba-4937-aabb-b0abdc2a8138-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/b0c9dac6-52ba-4937-aabb-b0abdc2a8138-WOS.json",
+      "sha256": "e07fe00253eae18a556b37f130a2365b7720707336f52fd57cd9b96395129dc2",
+      "snapshot": "base_setup",
+      "setup_types": [
+        "create_folder",
+        "download",
+        "sleep"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "zipped_folder_in_desktop"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "file_explorer",
+      "id": "b12921b2-8772-4667-a960-067309906dd4-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/b12921b2-8772-4667-a960-067309906dd4-WOS.json",
+      "sha256": "1f28608876f25535363648bbd3cee9ad47d5492f544164c470b2412025f15b62",
+      "snapshot": "file_explorer",
+      "setup_types": [
+        "create_folder",
+        "sleep",
+        "launch",
+        "command",
+        "sleep"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "is_directory_read_only_for_user"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "file_explorer",
+      "id": "b12b2d3a-7da1-4aeb-97cc-6026d3975210-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/b12b2d3a-7da1-4aeb-97cc-6026d3975210-WOS.json",
+      "sha256": "5ea7167aa9771c6e356a1ef0e686f8b56c1f2fec0d09a93c9abc515713baaa8f",
+      "snapshot": "file_explorer",
+      "setup_types": [
+        "command",
+        "command",
+        "command",
+        "command",
+        "sleep"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "is_extension_installed",
+      "result_types": [
+        "vm_command_line"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "file_explorer",
+      "id": "b8ab0ae1-d2b4-4e6f-b609-df7d76b456d7-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/b8ab0ae1-d2b4-4e6f-b609-df7d76b456d7-WOS.json",
+      "sha256": "0505246631e539f397d2b3d481f0a9b88b49acd4acaa704ffd6e02a56447efd3",
+      "snapshot": "file_explorer",
+      "setup_types": [
+        "download",
+        "launch",
+        "sleep"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "compare_text_file",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "vm_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "file_explorer",
+      "id": "e27984c7-968c-48d7-b2c3-6e45cdcc5249-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/e27984c7-968c-48d7-b2c3-6e45cdcc5249-WOS.json",
+      "sha256": "3a9f2f1d94f31c0dfd1485e33b4d91c908c4f55533152a37a792c0d8d0f24366",
+      "snapshot": "file_explorer",
+      "setup_types": [
+        "download",
+        "launch",
+        "sleep"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep"
+      ],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "is_file_hidden"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "file_explorer",
+      "id": "f934d80d-84d2-4b46-953c-89f77b5a709a-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/f934d80d-84d2-4b46-953c-89f77b5a709a-WOS.json",
+      "sha256": "f6487504e9abbef9eacb96266f93b4c05f0a90fdadf842cd589d76f6d963fe94",
+      "snapshot": "base_setup",
+      "setup_types": [
+        "download",
+        "recycle_file",
+        "sleep"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "is_file_desktop"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_calc",
+      "id": "01b269ae-2111-4a07-81fd-3fcd711993b0-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_calc/01b269ae-2111-4a07-81fd-3fcd711993b0-WOS.json",
+      "sha256": "1979809990bf84b5d581decf8b604fd3e6c79f25cb59dc2ce99c8754e9bbabd9",
+      "snapshot": "libreoffice_calc",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute",
+        "sleep"
+      ],
+      "metric_functions": "compare_table",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_calc",
+      "id": "035f41ba-6653-43ab-aa63-c86d449d62e5-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_calc/035f41ba-6653-43ab-aa63-c86d449d62e5-WOS.json",
+      "sha256": "c3fe41d26d97f7512699e851045b080a58f6b81ba50746794d96a962ae364279",
+      "snapshot": "libreoffice_calc",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute",
+        "sleep"
+      ],
+      "metric_functions": "compare_table",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_calc",
+      "id": "04d9aeaf-7bed-4024-bedb-e10e6f00eb7f-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_calc/04d9aeaf-7bed-4024-bedb-e10e6f00eb7f-WOS.json",
+      "sha256": "78f4805c1a5873e4378119ed48278f28dee01349169054cc582417a39332d637",
+      "snapshot": "libreoffice_calc",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute",
+        "sleep"
+      ],
+      "metric_functions": "compare_table",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_calc",
+      "id": "0a2e43bf-b26c-4631-a966-af9dfa12c9e5-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_calc/0a2e43bf-b26c-4631-a966-af9dfa12c9e5-WOS.json",
+      "sha256": "6b8ba2268083b36b9bb7916e73ba7ae46df8ee4500047dd7383e722b083a016e",
+      "snapshot": "libreoffice_calc",
+      "setup_types": [
+        "download",
+        "open",
+        "sleep"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute",
+        "sleep"
+      ],
+      "metric_functions": "compare_table",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_calc",
+      "id": "0acbd372-ca7a-4507-b949-70673120190f-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_calc/0acbd372-ca7a-4507-b949-70673120190f-WOS.json",
+      "sha256": "7d92efbcdbf1712cf5815d2ca0fc2d5718c467eab572fd16689ca3c606e8218b",
+      "snapshot": "libreoffice_calc",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute",
+        "sleep"
+      ],
+      "metric_functions": "compare_table",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_calc",
+      "id": "0bf05a7d-b28b-44d2-955a-50b41e24012a-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_calc/0bf05a7d-b28b-44d2-955a-50b41e24012a-WOS.json",
+      "sha256": "7d329471bf31bdc48ff6f9762dcd63093059dfd99786f1078eb9ec05efb1e6bd",
+      "snapshot": "libreoffice_calc",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute",
+        "sleep",
+        "execute"
+      ],
+      "metric_functions": "compare_table",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_calc",
+      "id": "0cecd4f3-74de-457b-ba94-29ad6b5dafb6-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_calc/0cecd4f3-74de-457b-ba94-29ad6b5dafb6-WOS.json",
+      "sha256": "135a17fbaedc363a9efc578741be2deb71f59f5a52b2cf1205e45d5bfce24ad0",
+      "snapshot": "libreoffice_calc",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "sleep",
+        "activate_window",
+        "sleep",
+        "execute",
+        "sleep"
+      ],
+      "metric_functions": "compare_table",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_calc",
+      "id": "1d17d234-e39d-4ed7-b46f-4417922a4e7c-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_calc/1d17d234-e39d-4ed7-b46f-4417922a4e7c-WOS.json",
+      "sha256": "477e91024dfe02ace972753d1dbf00e94601ac03599cc6978994c20ae7002144",
+      "snapshot": "libreoffice_calc",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute",
+        "sleep"
+      ],
+      "metric_functions": "compare_table",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_calc",
+      "id": "1de60575-bb6e-4c3d-9e6a-2fa699f9f197-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_calc/1de60575-bb6e-4c3d-9e6a-2fa699f9f197-WOS.json",
+      "sha256": "9215550e16e9a24f6795bb6e8c07a063a28480c4e58a2902416bb4f0a50bcfce",
+      "snapshot": "libreoffice_calc",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute",
+        "sleep"
+      ],
+      "metric_functions": "compare_table",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_calc",
+      "id": "1e8df695-bd1b-45b3-b557-e7d599cf7597-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_calc/1e8df695-bd1b-45b3-b557-e7d599cf7597-WOS.json",
+      "sha256": "02b5da4a48de8e6a7d5fbb619e708c25b2ee86dd0abc2000cf564eaa894b8bd6",
+      "snapshot": "libreoffice_calc",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute",
+        "sleep"
+      ],
+      "metric_functions": "compare_table",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_calc",
+      "id": "21ab7b40-77c2-4ae6-8321-e00d3a086c73-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_calc/21ab7b40-77c2-4ae6-8321-e00d3a086c73-WOS.json",
+      "sha256": "e11ab2a0b2d9d2db63b470c7b30c3bc0685efcd1856a24b1447d679004416fd1",
+      "snapshot": "libreoffice_calc",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute",
+        "sleep"
+      ],
+      "metric_functions": "compare_table",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_calc",
+      "id": "26a8440e-c166-4c50-aef4-bfb77314b46b-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_calc/26a8440e-c166-4c50-aef4-bfb77314b46b-WOS.json",
+      "sha256": "a3a96653396dc020f28d029cd6f1a67c08386befdad14b0a5b6c242271a57f69",
+      "snapshot": "libreoffice_calc",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute",
+        "sleep"
+      ],
+      "metric_functions": "compare_table",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_calc",
+      "id": "30e3e107-1cfb-46ee-a755-2cd080d7ba6a-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_calc/30e3e107-1cfb-46ee-a755-2cd080d7ba6a-WOS.json",
+      "sha256": "dbd31f49600740437fc3bc128ccb507c2c785e2007e7a1dd8d7a209b5dd90db0",
+      "snapshot": "libreoffice_calc",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute",
+        "sleep"
+      ],
+      "metric_functions": "compare_table",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_calc",
+      "id": "39aa4e37-dc91-482e-99af-132a612d40f3-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_calc/39aa4e37-dc91-482e-99af-132a612d40f3-WOS.json",
+      "sha256": "00d272f804fe14754ec089f8832c1ff4e2b3b27357ed53dad1f40b93da0a5995",
+      "snapshot": "libreoffice_calc",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute"
+      ],
+      "metric_functions": "compare_table",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_calc",
+      "id": "4de54231-e4b5-49e3-b2ba-61a0bec721c0-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_calc/4de54231-e4b5-49e3-b2ba-61a0bec721c0-WOS.json",
+      "sha256": "5051d7cc14efa09fb5490d3d86853f54b462ddcf029ca5c2f4bfd5ce00d806bb",
+      "snapshot": "libreoffice_calc",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute",
+        "sleep"
+      ],
+      "metric_functions": "compare_table",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_calc",
+      "id": "4e6fcf72-daf3-439f-a232-c434ce416af6-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_calc/4e6fcf72-daf3-439f-a232-c434ce416af6-WOS.json",
+      "sha256": "b6893e903e9c15b944a2d1458d88d77882a63ac54a6016f0c4b552f86e2a5e04",
+      "snapshot": "libreoffice_calc",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "sleep",
+        "activate_window",
+        "sleep",
+        "execute",
+        "sleep"
+      ],
+      "metric_functions": "compare_table",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_calc",
+      "id": "4f07fbe9-70de-4927-a4d5-bb28bc12c52c-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_calc/4f07fbe9-70de-4927-a4d5-bb28bc12c52c-WOS.json",
+      "sha256": "4459a624273fe5dc491747b7c9d5f4d3eb0b2d21419c1cd34973abc224512fea",
+      "snapshot": "libreoffice_calc",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute",
+        "sleep",
+        "execute",
+        "sleep"
+      ],
+      "metric_functions": "compare_table",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_calc",
+      "id": "5d353deb-c4b0-4126-a99e-5490817b48cb-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_calc/5d353deb-c4b0-4126-a99e-5490817b48cb-WOS.json",
+      "sha256": "c60f1477f7d042bbb64f77ed6342cb6ca7f5309887e1a5333ad515e7f006243a",
+      "snapshot": "libreoffice_calc",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute",
+        "sleep"
+      ],
+      "metric_functions": "compare_table",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_calc",
+      "id": "5f8601f8-6e90-4d2c-91bb-eb5836ad1d5c-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_calc/5f8601f8-6e90-4d2c-91bb-eb5836ad1d5c-WOS.json",
+      "sha256": "51b3c7979e5343190732f2f790ee70aeffd6a2dbcd4a98ba1c875f6df4e48e74",
+      "snapshot": "libreoffice_calc",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute",
+        "sleep"
+      ],
+      "metric_functions": "compare_table",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_calc",
+      "id": "7a4e4bc8-922c-4c84-865c-25ba34136be1-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_calc/7a4e4bc8-922c-4c84-865c-25ba34136be1-WOS.json",
+      "sha256": "22da197ddc92b49703bf13266d6f72001f340d53e9111f5a4d620469535155c0",
+      "snapshot": "libreoffice_calc",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute",
+        "sleep"
+      ],
+      "metric_functions": "compare_table",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_calc",
+      "id": "7e429b8d-a3f0-4ed0-9b58-08957d00b127-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_calc/7e429b8d-a3f0-4ed0-9b58-08957d00b127-WOS.json",
+      "sha256": "a5e3988cfa1e25807d32ef2aa93874dcff1abd3bab6bc248eee56cd51a030714",
+      "snapshot": "libreoffice_calc",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute",
+        "sleep"
+      ],
+      "metric_functions": "compare_table",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_calc",
+      "id": "7efeb4b1-3d19-4762-b163-63328d66303b-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_calc/7efeb4b1-3d19-4762-b163-63328d66303b-WOS.json",
+      "sha256": "58c57803ca5b1104a19912caba0e072d5717ea40aa47a9ef90522c6bb6c89dcd",
+      "snapshot": "libreoffice_calc",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute",
+        "sleep"
+      ],
+      "metric_functions": "compare_table",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_calc",
+      "id": "8b1ce5f2-59d2-4dcc-b0b0-666a714b9a14-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_calc/8b1ce5f2-59d2-4dcc-b0b0-666a714b9a14-WOS.json",
+      "sha256": "d81617898576bc554391c3035cb70798ccd7ed8c47b111eb8a60916e0c5447cf",
+      "snapshot": "libreoffice_calc",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute",
+        "sleep"
+      ],
+      "metric_functions": "compare_table",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_calc",
+      "id": "9ed02102-6b28-4946-8339-c028166e9512-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_calc/9ed02102-6b28-4946-8339-c028166e9512-WOS.json",
+      "sha256": "3df450073b2ca1dc263612acbd3d96907f6ad54e4bed43ddae4bb7c52c70c27c",
+      "snapshot": "libreoffice_calc",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute",
+        "sleep"
+      ],
+      "metric_functions": "compare_table",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_writer",
+      "id": "0810415c-bde4-4443-9047-d5f70165a697-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_writer/0810415c-bde4-4443-9047-d5f70165a697-WOS.json",
+      "sha256": "9619455f94348b96edd268ad9624b61f0e94af44abaa72cf9403c7a35a793ec3",
+      "snapshot": "libreoffice_writer",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute"
+      ],
+      "metric_functions": "compare_line_spacing",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_writer",
+      "id": "0a0faba3-5580-44df-965d-f562a99b291c-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_writer/0a0faba3-5580-44df-965d-f562a99b291c-WOS.json",
+      "sha256": "cdf4df4e929d75ef1f1bdccd74b9c6e4b2f391810a4522a7ae80f57da3e8884b",
+      "snapshot": "libreoffice_writer",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute"
+      ],
+      "metric_functions": "check_tabstops",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_writer",
+      "id": "0b17a146-2934-46c7-8727-73ff6b6483e8-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_writer/0b17a146-2934-46c7-8727-73ff6b6483e8-WOS.json",
+      "sha256": "30a82a870f190305cfed1651f361887d0fff6f4bfa45564fcf54a45cb8d6add2",
+      "snapshot": "libreoffice_writer",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute"
+      ],
+      "metric_functions": [
+        "compare_docx_files",
+        "compare_subscript_contains"
+      ],
+      "result_types": [
+        "vm_file",
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file",
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_writer",
+      "id": "0e47de2a-32e0-456c-a366-8c607ef7a9d2-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_writer/0e47de2a-32e0-456c-a366-8c607ef7a9d2-WOS.json",
+      "sha256": "4a341f62c953309da3ccff01b85963c567d8076d576397d578f9a822ecbd4720",
+      "snapshot": "libreoffice_writer",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute"
+      ],
+      "metric_functions": "has_page_numbers_in_footers",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_writer",
+      "id": "0e763496-b6bb-4508-a427-fad0b6c3e195-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_writer/0e763496-b6bb-4508-a427-fad0b6c3e195-WOS.json",
+      "sha256": "18b88d075a5b8f9e0f2041141c8c5d22162c7c17513cf9ddba18a69382cb81c4",
+      "snapshot": "libreoffice_writer",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute"
+      ],
+      "metric_functions": "compare_font_names",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_writer",
+      "id": "3ef2b351-8a84-4ff2-8724-d86eae9b842e-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_writer/3ef2b351-8a84-4ff2-8724-d86eae9b842e-WOS.json",
+      "sha256": "8e2cf7b9d80f374c4633cbefd77e3ed94e2fed03487ee38c2774ca2de4240f1d",
+      "snapshot": "libreoffice_writer",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute"
+      ],
+      "metric_functions": "is_first_line_centered",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_writer",
+      "id": "41c621f7-3544-49e1-af8d-dafd0f834f75-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_writer/41c621f7-3544-49e1-af8d-dafd0f834f75-WOS.json",
+      "sha256": "6311d58905c1a748cbf4bfc212eb4ff29d8570f704c74233370608f808e1aeeb",
+      "snapshot": "libreoffice_writer",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute"
+      ],
+      "metric_functions": "compare_highlighted_text",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_writer",
+      "id": "4bcb1253-a636-4df4-8cb0-a35c04dfef31-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_writer/4bcb1253-a636-4df4-8cb0-a35c04dfef31-WOS.json",
+      "sha256": "163f274509f337560e0c354bad4db76a856588a7ee30c96eda2618d896a8fdc9",
+      "snapshot": "libreoffice_writer",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "compare_pdfs",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_writer",
+      "id": "6a33f9b9-0a56-4844-9c3f-96ec3ffb3ba2-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_writer/6a33f9b9-0a56-4844-9c3f-96ec3ffb3ba2-WOS.json",
+      "sha256": "41ecd0eebace58de49cd26e5a95f4017ed08843eb35bfbb86c90fbd4c15ec306",
+      "snapshot": "libreoffice_writer",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute"
+      ],
+      "metric_functions": "check_highlighted_words",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_writer",
+      "id": "72b810ef-4156-4d09-8f08-a0cf57e7cefe-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_writer/72b810ef-4156-4d09-8f08-a0cf57e7cefe-WOS.json",
+      "sha256": "6b2fced5b00038d587619b9ed7f9791298fb9beacc11a30cf89b88e36a8d1bbe",
+      "snapshot": "libreoffice_writer",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute"
+      ],
+      "metric_functions": "evaluate_strike_through_last_paragraph",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_writer",
+      "id": "88fe4b2d-3040-4c70-9a70-546a47764b48-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_writer/88fe4b2d-3040-4c70-9a70-546a47764b48-WOS.json",
+      "sha256": "beeaf9b077cabe52a86835f8018f9264a1eb21ff8fbee7bfdeae818c0b1dcd2d",
+      "snapshot": "libreoffice_writer",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute"
+      ],
+      "metric_functions": "compare_docx_files",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_writer",
+      "id": "936321ce-5236-426a-9a20-e0e3c5dc536f-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_writer/936321ce-5236-426a-9a20-e0e3c5dc536f-WOS.json",
+      "sha256": "d9a2331e0382b0c5ca974a014314e4a016a1591f11e5475b6def713aef567801",
+      "snapshot": "libreoffice_writer",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute"
+      ],
+      "metric_functions": "compare_docx_tables",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_writer",
+      "id": "INF-bb8ccc78-479f-4a2f-a71e-d565e439436b-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_writer/INF-bb8ccc78-479f-4a2f-a71e-d565e439436b-WOS.json",
+      "sha256": "1ba92e73ea23dca57a650d8de0b8c43c5d18f11a9962966aea8f65dec2ba2481",
+      "snapshot": "libreoffice_writer",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "infeasible",
+      "result_types": [],
+      "expected_types": [],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_writer",
+      "id": "adf5e2c3-64c7-4644-b7b6-d2f0167927e7-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_writer/adf5e2c3-64c7-4644-b7b6-d2f0167927e7-WOS.json",
+      "sha256": "73e7f25880064244715e69ab040d26aeca7faec2abe51b1306a26bcea16a0df7",
+      "snapshot": "libreoffice_writer",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute"
+      ],
+      "metric_functions": "compare_docx_files",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_writer",
+      "id": "b21acd93-60fd-4127-8a43-2f5178f4a830-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_writer/b21acd93-60fd-4127-8a43-2f5178f4a830-WOS.json",
+      "sha256": "71115df45ff54ffa122f2b769d3daeae1c5ffd591b4b3bcdaf1e104112ace548",
+      "snapshot": "libreoffice_writer",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute"
+      ],
+      "metric_functions": "compare_line_spacing",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_writer",
+      "id": "d53ff5ee-3b1a-431e-b2be-30ed2673079b-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_writer/d53ff5ee-3b1a-431e-b2be-30ed2673079b-WOS.json",
+      "sha256": "b774a0ebd390081f3d40f3b71f740cbc1d615104c263b07803a6091753e3d327",
+      "snapshot": "libreoffice_writer",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute"
+      ],
+      "metric_functions": "compare_docx_files",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_writer",
+      "id": "e246f6d8-78d7-44ac-b668-fcf47946cb50-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_writer/e246f6d8-78d7-44ac-b668-fcf47946cb50-WOS.json",
+      "sha256": "173fc93fce30ff0f931804f4e18503e2ab2ea8b48b6c04ebed51243a906309c0",
+      "snapshot": "libreoffice_writer",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute"
+      ],
+      "metric_functions": "check_italic_font_size_14",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_writer",
+      "id": "e528b65e-1107-4b8c-8988-490e4fece599-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_writer/e528b65e-1107-4b8c-8988-490e4fece599-WOS.json",
+      "sha256": "b09415b32704a757d95fdb7de90243eee8c43cab40fae765c3b616c4bfa28271",
+      "snapshot": "libreoffice_writer",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute"
+      ],
+      "metric_functions": "compare_docx_files",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "libreoffice_writer",
+      "id": "f178a4a9-d090-4b56-bc4c-4b72a61a035d-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/libreoffice_writer/f178a4a9-d090-4b56-bc4c-4b72a61a035d-WOS.json",
+      "sha256": "e806247684c2ffb521b5df97d6614be37afdcb36dcea2a1ad0f7a51594599ee0",
+      "snapshot": "libreoffice_writer",
+      "setup_types": [
+        "download",
+        "open"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute"
+      ],
+      "metric_functions": "find_default_font",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "microsoft_paint",
+      "id": "15f8de6e-3d39-40e4-af17-bdbb2393c0d9-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/microsoft_paint/15f8de6e-3d39-40e4-af17-bdbb2393c0d9-WOS.json",
+      "sha256": "5a9534bb5d6ed3e8b1fb0d4def9bb82cae9f65d77d520ef91bc88ef30153caca",
+      "snapshot": "microsoft_paint",
+      "setup_types": [
+        "sleep"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute",
+        "sleep"
+      ],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "is_red_circle_present_on_canvas"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "microsoft_paint",
+      "id": "3544ac9a-6aee-4a0b-a203-bc7b59b272b6-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/microsoft_paint/3544ac9a-6aee-4a0b-a203-bc7b59b272b6-WOS.json",
+      "sha256": "414c62f4c5ce5de2ac261d2cd044abd99e7e13d1e88e15e639aab857362078f1",
+      "snapshot": "microsoft_paint",
+      "setup_types": [
+        "open",
+        "sleep"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "vm_file_exists_in_vm_folder"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "microsoft_paint",
+      "id": "44dbac63-32bf-4cd2-81b4-ad6803ec812d-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/microsoft_paint/44dbac63-32bf-4cd2-81b4-ad6803ec812d-WOS.json",
+      "sha256": "9605422334ff5de19fd67f169042bf25cec763d8a381a0fcd4295e6db50f59ba",
+      "snapshot": "microsoft_paint",
+      "setup_types": [
+        "open",
+        "sleep"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute",
+        "sleep"
+      ],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "image_dimension_matches_input"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "msedge",
+      "id": "004587f8-6028-4656-94c1-681481abbc9c-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/msedge/004587f8-6028-4656-94c1-681481abbc9c-wos.json",
+      "sha256": "1ca8eaf13a43d0691ef27ea6b70617c044fcc7e844e6f97bbf0edab0550c7a08",
+      "snapshot": "msedge",
+      "setup_types": [
+        "launch",
+        "launch"
+      ],
+      "postconfig_types": [
+        "execute",
+        "sleep",
+        "launch"
+      ],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "enable_do_not_track_from_edge"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "msedge",
+      "id": "049d3788-c979-4ea6-934d-3a35c4630faf-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/msedge/049d3788-c979-4ea6-934d-3a35c4630faf-WOS.json",
+      "sha256": "6f003a158702051df8710256a36fce2b982a77668d8d37638f177949a50b1c2e",
+      "snapshot": "msedge",
+      "setup_types": [
+        "launch",
+        "launch"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "is_expected_bookmarks",
+      "result_types": [
+        "favorites"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "msedge",
+      "id": "1376d5e7-deb7-471a-9ecc-c5d4e155b0c8-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/msedge/1376d5e7-deb7-471a-9ecc-c5d4e155b0c8-wos.json",
+      "sha256": "7b0b3f6db2afa97f8f2f2b83cbeb6cb83ab3c042ebc9ca5f416b27ce78c71886",
+      "snapshot": "msedge",
+      "setup_types": [
+        "update_browse_history_edge",
+        "launch"
+      ],
+      "postconfig_types": [
+        "execute",
+        "sleep",
+        "launch"
+      ],
+      "metric_functions": "check_history_deleted",
+      "result_types": [
+        "history_for_edge"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "msedge",
+      "id": "1a1ec621-b675-4099-96a9-f702dc27afb4-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/msedge/1a1ec621-b675-4099-96a9-f702dc27afb4-wos.json",
+      "sha256": "6a5ce15da6743b2b6495197bcf8c13fb1a2c55e35215e179e73d8a39245b74ef",
+      "snapshot": "msedge",
+      "setup_types": [
+        "launch",
+        "launch"
+      ],
+      "postconfig_types": [
+        "execute",
+        "sleep",
+        "launch"
+      ],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "profile_name_from_edge"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "msedge",
+      "id": "1c9d2c6c-ae4b-4359-9a93-9d3c42f48417-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/msedge/1c9d2c6c-ae4b-4359-9a93-9d3c42f48417-wos.json",
+      "sha256": "8cc1704f70ca7dec6639be4ea78f6a1b0868db6d692aa5ef38ff7942138432c5",
+      "snapshot": "msedge",
+      "setup_types": [
+        "launch",
+        "launch"
+      ],
+      "postconfig_types": [
+        "execute"
+      ],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "data_delete_automacally_from_edge"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "msedge",
+      "id": "2acd62b4-a2ab-44a7-a7e3-f5227bbd8324-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/msedge/2acd62b4-a2ab-44a7-a7e3-f5227bbd8324-wos.json",
+      "sha256": "82875e8c7bb3ef604d3b41dfd14bb18ad9d4c66f52e07c6abc38191274f5e70d",
+      "snapshot": "msedge",
+      "setup_types": [
+        "launch",
+        "launch"
+      ],
+      "postconfig_types": [
+        "execute",
+        "sleep",
+        "launch"
+      ],
+      "metric_functions": "check_edge_font_size",
+      "result_types": [
+        "edge_font_size"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "msedge",
+      "id": "4d34ff3b-5cc8-44b2-a272-fb07927e996e-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/msedge/4d34ff3b-5cc8-44b2-a272-fb07927e996e-WOS.json",
+      "sha256": "b35769361391404914dc01bfa0433ae38b8ca01c67ab0b12bfb19bc8c8ffa374",
+      "snapshot": "msedge",
+      "setup_types": [
+        "launch",
+        "sleep"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "is_cookie_deleted",
+      "result_types": [
+        "cookie_data_for_edge"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "msedge",
+      "id": "58f493b5-5a96-4450-99ca-7cebe144c7e5-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/msedge/58f493b5-5a96-4450-99ca-7cebe144c7e5-wos.json",
+      "sha256": "d2dddb439bbdffd0352123733f219273df9e7cf0292e72fff1dff90a7c8b2d71",
+      "snapshot": "msedge",
+      "setup_types": [
+        "launch"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "edge_default_download_folder"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "msedge",
+      "id": "5b46f4a4-1a78-4860-ad92-76e051fa7efc-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/msedge/5b46f4a4-1a78-4860-ad92-76e051fa7efc-wos.json",
+      "sha256": "d9ed5e2b2ed165f9557bf2d10070711802e3b3ae7b7fc706490bca08cd618f19",
+      "snapshot": "msedge",
+      "setup_types": [
+        "launch",
+        "launch"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "default_search_engine_from_edge"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "msedge",
+      "id": "98cfcec4-c74e-4faa-b70d-664fb0a1d457-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/msedge/98cfcec4-c74e-4faa-b70d-664fb0a1d457-wos.json",
+      "sha256": "7e682536848217180d1194409b21ca27ce59519cbb4bff2926b05556a7a5e600",
+      "snapshot": "msedge",
+      "setup_types": [
+        "launch",
+        "launch"
+      ],
+      "postconfig_types": [
+        "execute"
+      ],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "enable_enhanced_safety_browsing_from_edge"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "msedge",
+      "id": "b27399ae-e91a-4055-9406-472372e0f5c7-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/msedge/b27399ae-e91a-4055-9406-472372e0f5c7-wos.json",
+      "sha256": "f6d04551d98f9e61fccf8460ad2623fb5973009b2f28c5dff94ef645217bc714",
+      "snapshot": "msedge",
+      "setup_types": [
+        "launch"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "validate_pwa_installed"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "msedge",
+      "id": "bd3e9ea0-a58a-45b3-97be-b418a7e2c0fd-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/msedge/bd3e9ea0-a58a-45b3-97be-b418a7e2c0fd-WOS.json",
+      "sha256": "93306971f68f91e9b6fd57e471fddad0df4fec31c8a3cba48b399f3dc524959d",
+      "snapshot": "edge",
+      "setup_types": [
+        "launch"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "is_url_shortcut_on_desktop",
+      "result_types": [
+        "url_shortcuts_on_desktop"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "msedge",
+      "id": "ccb22f83-0831-4655-b557-225144b70c71-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/msedge/ccb22f83-0831-4655-b557-225144b70c71-wos.json",
+      "sha256": "57fee7af6b9a2914d98860b6a3cf2f013014598006ee5135e3221cc98813168b",
+      "snapshot": "msedge",
+      "setup_types": [
+        "launch"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "edge_home_page"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "notepad",
+      "id": "366de66e-cbae-4d72-b042-26390db2b145-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/notepad/366de66e-cbae-4d72-b042-26390db2b145-WOS.json",
+      "sha256": "838b34719a839790926e0301ee990e0ffaecf664728620e535a74d6d2393c2ff",
+      "snapshot": "notepad",
+      "setup_types": [],
+      "postconfig_types": [
+        "open",
+        "activate_window",
+        "sleep"
+      ],
+      "metric_functions": [
+        "exact_match",
+        "compare_text_file"
+      ],
+      "result_types": [
+        "vm_file_exists_in_vm_folder",
+        "vm_file"
+      ],
+      "expected_types": [
+        "rule",
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "notepad",
+      "id": "a7d4b6c5-569b-452e-9e1d-ffdb3d431d15-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/notepad/a7d4b6c5-569b-452e-9e1d-ffdb3d431d15-WOS.json",
+      "sha256": "0e8f10ece28ad8cfb0ed108771428ab8b8513761f260540d632ff942f4fae88c",
+      "snapshot": "notepad",
+      "setup_types": [
+        "download"
+      ],
+      "postconfig_types": [
+        "open",
+        "open",
+        "sleep",
+        "execute"
+      ],
+      "metric_functions": "compare_text_file",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "settings",
+      "id": "37e10fc4-b4c5-4b02-a65c-bfae8bc51d3f-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/settings/37e10fc4-b4c5-4b02-a65c-bfae8bc51d3f-wos.json",
+      "sha256": "680d36fc18cfcd59964e7d1efc8d59971a07579be7e5351b66a3882f6ff42741",
+      "snapshot": "base_setup",
+      "setup_types": [],
+      "postconfig_types": [],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "system_notifications"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "settings",
+      "id": "46adf721-2949-4426-b069-010b7c128d8f-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/settings/46adf721-2949-4426-b069-010b7c128d8f-wos.json",
+      "sha256": "ed44f4bf21839af1005197e77577c67af931c127809f35644d33725ebceec518",
+      "snapshot": "base_setup",
+      "setup_types": [],
+      "postconfig_types": [],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "night_light_state"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "settings",
+      "id": "9504989a-0d6e-4017-aefb-d359f6c752aa-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/settings/9504989a-0d6e-4017-aefb-d359f6c752aa-wos.json",
+      "sha256": "657159ad20590e650dda0db7bf93982a99bfd6e8c583126735b6306d75239b19",
+      "snapshot": "base_setup",
+      "setup_types": [],
+      "postconfig_types": [],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "system_timezone"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "settings",
+      "id": "a659b26e-4e31-40c1-adaf-34742b6c44ac-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/settings/a659b26e-4e31-40c1-adaf-34742b6c44ac-wos.json",
+      "sha256": "7eedd5a39394f75588ccceb567062eb9421224a059b864d1aa87a3461fa5dfa8",
+      "snapshot": "base_setup",
+      "setup_types": [],
+      "postconfig_types": [],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "desktop_background"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "settings",
+      "id": "e8f68f22-1f6a-4cba-a97a-ac611bb4c67b-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/settings/e8f68f22-1f6a-4cba-a97a-ac611bb4c67b-wos.json",
+      "sha256": "71c19a535003667ddf7a00ba73c4cca8cfbbf8af79a1f9419d4997b8ac64a53a",
+      "snapshot": "base_setup",
+      "setup_types": [
+        "launch"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "storage_sense_run_frequency"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vlc",
+      "id": "215dfd39-f493-4bc3-a027-8a97d72c61bf-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vlc/215dfd39-f493-4bc3-a027-8a97d72c61bf-WOS.json",
+      "sha256": "3f9c783dfcb4e316b664cfce07745a6d3235b445c1d02f792e523baca6dac45d",
+      "snapshot": "chrome",
+      "setup_types": [
+        "launch",
+        "execute"
+      ],
+      "postconfig_types": [
+        "launch",
+        "sleep",
+        "launch"
+      ],
+      "metric_functions": "check_qt_bgcone",
+      "result_types": [
+        "vlc_config"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vlc",
+      "id": "386dbd0e-0241-4a0a-b6a2-6704fba26b1c-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vlc/386dbd0e-0241-4a0a-b6a2-6704fba26b1c-WOS.json",
+      "sha256": "ca245bae0ea9ebf0d5e6ef94d7a0762ee0cbd9c5bf55be593b900bd3eb7c1d69",
+      "snapshot": "chrome",
+      "setup_types": [
+        "download",
+        "download",
+        "launch",
+        "open",
+        "activate_window",
+        "sleep",
+        "execute",
+        "execute"
+      ],
+      "postconfig_types": [
+        "launch",
+        "sleep",
+        "launch"
+      ],
+      "metric_functions": "check_global_key_play_pause",
+      "result_types": [
+        "vlc_config"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vlc",
+      "id": "8ba5ae7a-5ae5-4eab-9fcc-5dd4fe3abf89-2-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vlc/8ba5ae7a-5ae5-4eab-9fcc-5dd4fe3abf89-2-WOS.json",
+      "sha256": "c5717e54862b105b4066e4168fabca49fd2c3a90239e6ac0a5d6c989e98ee4a2",
+      "snapshot": "base_setup",
+      "setup_types": [
+        "launch",
+        "execute"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "is_vlc_recordings_folder",
+      "result_types": [
+        "vlc_config"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vlc",
+      "id": "8ba5ae7a-5ae5-4eab-9fcc-5dd4fe3abf89-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vlc/8ba5ae7a-5ae5-4eab-9fcc-5dd4fe3abf89-WOS.json",
+      "sha256": "96945a7e5810782082f4b1cdc32242966eb73c76dcf62a3832e4dbe7e1c521ae",
+      "snapshot": "base_setup",
+      "setup_types": [
+        "launch",
+        "execute"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "is_vlc_recordings_folder",
+      "result_types": [
+        "vlc_config"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vlc",
+      "id": "8f080098-ddb1-424c-b438-4e96e5e4786e-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vlc/8f080098-ddb1-424c-b438-4e96e5e4786e-WOS.json",
+      "sha256": "2cd367f0934be1a6ce0ee6a0ef899d56b8bd5d62a4fff6f39ab8ad9f3eec76b9",
+      "snapshot": "base_setup",
+      "setup_types": [
+        "download",
+        "launch",
+        "execute"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "compare_audios",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vlc",
+      "id": "9195653c-f4aa-453d-aa95-787f6ccfaae9-2-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vlc/9195653c-f4aa-453d-aa95-787f6ccfaae9-2-WOS.json",
+      "sha256": "ea370aca109ca62be64b83566f40be1678e8405750b4ed02b6d05708f0b4267c",
+      "snapshot": "chrome",
+      "setup_types": [
+        "launch",
+        "execute"
+      ],
+      "postconfig_types": [
+        "launch",
+        "sleep",
+        "launch"
+      ],
+      "metric_functions": "check_qt_max_volume",
+      "result_types": [
+        "vlc_config"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vlc",
+      "id": "9195653c-f4aa-453d-aa95-787f6ccfaae9-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vlc/9195653c-f4aa-453d-aa95-787f6ccfaae9-WOS.json",
+      "sha256": "2858ab45e9dcde510677c1bf472393174908065313a8ae1d94d3991a963d6548",
+      "snapshot": "chrome",
+      "setup_types": [
+        "launch",
+        "execute"
+      ],
+      "postconfig_types": [
+        "launch",
+        "sleep",
+        "launch"
+      ],
+      "metric_functions": "check_qt_max_volume",
+      "result_types": [
+        "vlc_config"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vlc",
+      "id": "INF-5ac2891a-eacd-4954-b339-98abba077adb-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vlc/INF-0d95d28a-9587-433b-a805-1fbe5467d598-WOS.json",
+      "sha256": "9079ddafaa689c5953dcd5c3c0d548684589db4740528deaf04019563d246434",
+      "snapshot": "chrome",
+      "setup_types": [],
+      "postconfig_types": [],
+      "metric_functions": "infeasible",
+      "result_types": [
+        null
+      ],
+      "expected_types": [
+        null
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vlc",
+      "id": "INF-5ac2891a-eacd-4954-b339-98abba077adb-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vlc/INF-5ac2891a-eacd-4954-b339-98abba077adb-WOS.json",
+      "sha256": "b3fbbb958d8e11ec6393394a8f88843d8e4a729832b7407cf7302619b736c00e",
+      "snapshot": "base_setup",
+      "setup_types": [
+        "launch"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "infeasible",
+      "result_types": [],
+      "expected_types": [],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vlc",
+      "id": "INF-7882ed6e-bece-4bf0-bada-c32dc1ddae72-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vlc/INF-7882ed6e-bece-4bf0-bada-c32dc1ddae72-WOS.json",
+      "sha256": "fb04f981ffd7d8d617e61dd1b43385db682c4ec11a3ab9792ff5a99bc1b3b60a",
+      "snapshot": "base_setup",
+      "setup_types": [
+        "launch"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "infeasible",
+      "result_types": [],
+      "expected_types": [],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vlc",
+      "id": "INF-a1c3ab35-02de-4999-a7ed-2fd12c972c6e-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vlc/INF-a1c3ab35-02de-4999-a7ed-2fd12c972c6e-WOS.json",
+      "sha256": "dfab4e39d79ef672732b365197fb2fd4c51ddd27b2b6ccf468de027f028ec42a",
+      "snapshot": "base_setup",
+      "setup_types": [],
+      "postconfig_types": [],
+      "metric_functions": "infeasible",
+      "result_types": [],
+      "expected_types": [],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vlc",
+      "id": "INF-cb130f0d-d36f-4302-9838-b3baf46139b6-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vlc/INF-cb130f0d-d36f-4302-9838-b3baf46139b6-WOS.json",
+      "sha256": "91bbdb005d0e5de7dddbc7b968f3489f6384aca0bac7357ccb738608d6274b17",
+      "snapshot": "base_setup",
+      "setup_types": [
+        "launch"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "infeasible",
+      "result_types": [],
+      "expected_types": [],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vlc",
+      "id": "INF-d1ba14d0-fef8-4026-8418-5b581dc68ca0-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vlc/INF-d1ba14d0-fef8-4026-8418-5b581dc68ca0-WOS.json",
+      "sha256": "dce8d52feaa165494b05d2fe09df9068a84d87d359d0354019174577953cff8e",
+      "snapshot": "chrome",
+      "setup_types": [],
+      "postconfig_types": [],
+      "metric_functions": "infeasible",
+      "result_types": [
+        null
+      ],
+      "expected_types": [
+        null
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vlc",
+      "id": "INF-d70666e4-7348-42c7-a06a-664094c5df3c-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vlc/INF-d70666e4-7348-42c7-a06a-664094c5df3c-WOS.json",
+      "sha256": "7b22fc024f60ff81c89c444f1fc90d26e2d9893c0d13b48d871c8adb25e31c6c",
+      "snapshot": "base_setup",
+      "setup_types": [],
+      "postconfig_types": [],
+      "metric_functions": "infeasible",
+      "result_types": [],
+      "expected_types": [],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vlc",
+      "id": "a5bbbcd5-b398-4c91-83d4-55e1e31bbb81-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vlc/a5bbbcd5-b398-4c91-83d4-55e1e31bbb81-WOS.json",
+      "sha256": "b28873c482abaf7b0066f045f42259add43aad69dc82e03f913db2b71e7c27ca",
+      "snapshot": "chrome",
+      "setup_types": [
+        "launch",
+        "execute"
+      ],
+      "postconfig_types": [
+        "launch",
+        "sleep",
+        "launch"
+      ],
+      "metric_functions": "check_qt_minimal_view",
+      "result_types": [
+        "vlc_config"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vlc",
+      "id": "aa4b5023-aef6-4ed9-bdc9-705f59ab9ad6-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vlc/aa4b5023-aef6-4ed9-bdc9-705f59ab9ad6-WOS.json",
+      "sha256": "fb89d1affbd0a1785df89a0e81142dbb6f603c7c1b57be99ea6ab0e4d5a1a363",
+      "snapshot": "base_setup",
+      "setup_types": [
+        "download",
+        "launch",
+        "execute"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "compare_videos",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vlc",
+      "id": "d06f0d4d-2cd5-4ede-8de9-598629438c6e-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vlc/d06f0d4d-2cd5-4ede-8de9-598629438c6e-WOS.json",
+      "sha256": "12c0a31dea6345f6d1a49158e2efb16d7ce966fdde24e49c6bd547897e5ca3e9",
+      "snapshot": "chrome",
+      "setup_types": [
+        "launch",
+        "execute"
+      ],
+      "postconfig_types": [
+        "launch",
+        "sleep",
+        "launch"
+      ],
+      "metric_functions": "check_qt_slider_colours",
+      "result_types": [
+        "vlc_config"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vlc",
+      "id": "efcf0d81-0835-4880-b2fd-d866e8bc2294-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vlc/efcf0d81-0835-4880-b2fd-d866e8bc2294-WOS.json",
+      "sha256": "4ada94c8e9fa9d038ebd926b4000d7075f15809cdcfbc9c2ec7b4388274c30bb",
+      "snapshot": "base_setup",
+      "setup_types": [
+        "download",
+        "launch",
+        "execute"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "compare_images",
+      "result_types": [
+        "vm_wallpaper"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vlc",
+      "id": "f3977615-2b45-4ac5-8bba-80c17dbe2a37-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vlc/f3977615-2b45-4ac5-8bba-80c17dbe2a37-WOS.json",
+      "sha256": "b7b93866e9529aa3062f121a2db1c6ab1089a14ca76afcac327223308944f033",
+      "snapshot": "chrome",
+      "setup_types": [
+        "launch",
+        "execute"
+      ],
+      "postconfig_types": [
+        "launch",
+        "sleep",
+        "launch"
+      ],
+      "metric_functions": "check_one_instance_when_started_from_file",
+      "result_types": [
+        "vlc_config"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vlc",
+      "id": "fba2c100-79e8-42df-ae74-b592418d54f4-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vlc/fba2c100-79e8-42df-ae74-b592418d54f4-WOS.json",
+      "sha256": "49a509d8818028562738f0fb500e738abef4f64453103df5f8f183e16f44dfef",
+      "snapshot": "base_setup",
+      "setup_types": [
+        "download",
+        "launch",
+        "sleep",
+        "activate_window",
+        "execute"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "compare_images",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vlc",
+      "id": "fcd3d211-80f9-53eg-bf85-c603529e65g5-1-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vlc/fcd3d211-80f9-53eg-bf85-c603529e65g5-1-WOS.json",
+      "sha256": "144a3f2186bb5c789c536980d06590d643ef7d628550242c5ec0b2bfe52d8f01",
+      "snapshot": "base_setup",
+      "setup_types": [
+        "download",
+        "launch",
+        "sleep",
+        "activate_window",
+        "execute"
+      ],
+      "postconfig_types": [
+        "launch",
+        "sleep",
+        "launch"
+      ],
+      "metric_functions": "check_qt_video_resize",
+      "result_types": [
+        "vlc_config"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vs_code",
+      "id": "0ed39f63-6049-43d4-ba4d-5fa2fe04a951-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vs_code/0ed39f63-6049-43d4-ba4d-5fa2fe04a951-WOS.json",
+      "sha256": "92b17d7e586cc4f3e82c95f179b30c112a862aa011772397e7f73c80ffc4d3a6",
+      "snapshot": "vscode",
+      "setup_types": [
+        "download",
+        "launch",
+        "sleep",
+        "activate_window"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute",
+        "sleep"
+      ],
+      "metric_functions": "compare_text_file",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vs_code",
+      "id": "276cc624-87ea-4f08-ab93-f770e3790175-2-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vs_code/276cc624-87ea-4f08-ab93-f770e3790175-2-WOS.json",
+      "sha256": "d79820db49a142ad5a7feee415e8c76d1dabf320c8ec02e97905a315ee0d2036",
+      "snapshot": "vscode",
+      "setup_types": [
+        "launch",
+        "sleep",
+        "activate_window"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "check_json_settings",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vs_code",
+      "id": "276cc624-87ea-4f08-ab93-f770e3790175-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vs_code/276cc624-87ea-4f08-ab93-f770e3790175-WOS.json",
+      "sha256": "899770ade81217dfd650ce65185233ca30336e299e3b8c9615cdd279d9701ffb",
+      "snapshot": "vscode",
+      "setup_types": [
+        "launch",
+        "sleep",
+        "activate_window"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "check_json_settings",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vs_code",
+      "id": "4e60007a-f5be-4bfc-9723-c39affa0a6d3-2-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vs_code/4e60007a-f5be-4bfc-9723-c39affa0a6d3-2-WOS.json",
+      "sha256": "8cd0457db304fd0413a026a821795a1d4709a911dd0bf1719d7f0363da5e9e16",
+      "snapshot": "vscode",
+      "setup_types": [
+        "launch",
+        "sleep",
+        "activate_window"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "is_extension_installed",
+      "result_types": [
+        "vm_command_line"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vs_code",
+      "id": "4e60007a-f5be-4bfc-9723-c39affa0a6d3-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vs_code/4e60007a-f5be-4bfc-9723-c39affa0a6d3-WOS.json",
+      "sha256": "0f560c1c12fd4487d1896841876a49ad5d331a91438714835afa24e304f020b8",
+      "snapshot": "vscode",
+      "setup_types": [
+        "launch",
+        "sleep",
+        "activate_window"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "is_extension_installed",
+      "result_types": [
+        "vm_command_line"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vs_code",
+      "id": "57242fad-77ca-454f-b71b-f187181a9f23-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vs_code/57242fad-77ca-454f-b71b-f187181a9f23-WOS.json",
+      "sha256": "de0529cfc6e2626107b5950f887588a2896a319850100caea28ee367e964e84c",
+      "snapshot": "vscode",
+      "setup_types": [
+        "launch",
+        "sleep",
+        "activate_window"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "is_extension_installed",
+      "result_types": [
+        "vm_command_line"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vs_code",
+      "id": "5e2d93d8-8ad0-4435-b150-1692aacaa994-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vs_code/5e2d93d8-8ad0-4435-b150-1692aacaa994-WOS.json",
+      "sha256": "fe943dfc5f2d68bb2d2cc390649a72589439a7c27910969600fcb23ebfac8960",
+      "snapshot": "vscode",
+      "setup_types": [
+        "command",
+        "download",
+        "launch",
+        "sleep",
+        "activate_window"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "is_extension_installed",
+      "result_types": [
+        "vm_command_line"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vs_code",
+      "id": "70745df8-f2f5-42bd-8074-fbc10334fcc5-2-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vs_code/70745df8-f2f5-42bd-8074-fbc10334fcc5-2-WOS.json",
+      "sha256": "a8ad7dfa84de93f6f89695b9126387766cd580387adcad0a854ee6ea323a328b",
+      "snapshot": "vscode",
+      "setup_types": [
+        "launch",
+        "sleep",
+        "activate_window"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "check_json_settings",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vs_code",
+      "id": "70745df8-f2f5-42bd-8074-fbc10334fcc5-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vs_code/70745df8-f2f5-42bd-8074-fbc10334fcc5-WOS.json",
+      "sha256": "62a44e92ff24568995253b202d5163f38ec5d770d0aae45b2148db6a6d30d33c",
+      "snapshot": "vscode",
+      "setup_types": [
+        "launch",
+        "sleep",
+        "activate_window"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "check_json_settings",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vs_code",
+      "id": "930fdb3b-11a8-46fe-9bac-577332e2640e-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vs_code/930fdb3b-11a8-46fe-9bac-577332e2640e-WOS.json",
+      "sha256": "3526433a9291e4cd41bb692ca5465b080df6b143fd1138707628afb38e47cd0c",
+      "snapshot": "vscode",
+      "setup_types": [
+        "launch",
+        "sleep",
+        "activate_window"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "check_json_keybindings",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vs_code",
+      "id": "9439a27b-18ae-42d8-9778-5f68f891805e-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vs_code/9439a27b-18ae-42d8-9778-5f68f891805e-WOS.json",
+      "sha256": "e538c3a728e1dbc0be763c6b8d794311e5ed7266efce97890863843d6d5329cb",
+      "snapshot": "vscode",
+      "setup_types": [
+        "launch",
+        "sleep",
+        "activate_window"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "check_json_settings",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vs_code",
+      "id": "982d12a5-beab-424f-8d38-d2a48429e511-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vs_code/982d12a5-beab-424f-8d38-d2a48429e511-2-WOS.json",
+      "sha256": "5b30bbcbc199cd55431308dcc1d4546ac1dbdb1d31e07e7f1e52fa4f9a01c086",
+      "snapshot": "vscode",
+      "setup_types": [
+        "launch",
+        "sleep",
+        "activate_window"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "check_json_settings",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vs_code",
+      "id": "982d12a5-beab-424f-8d38-d2a48429e511-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vs_code/982d12a5-beab-424f-8d38-d2a48429e511-WOS.json",
+      "sha256": "eee0f2d0067b70654924f7f0b0b619f37c9ac463f8c4c194f109f825c7c5f267",
+      "snapshot": "vscode",
+      "setup_types": [
+        "launch",
+        "sleep",
+        "activate_window"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "check_json_settings",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vs_code",
+      "id": "9d425400-e9b2-4424-9a4b-d4c7abac4140-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vs_code/9d425400-e9b2-4424-9a4b-d4c7abac4140-WOS.json",
+      "sha256": "cd07c4456a2ba06beceee438b8c3ee05b139708a742f639def147e1ad8563498",
+      "snapshot": "vscode",
+      "setup_types": [
+        "launch",
+        "sleep",
+        "activate_window"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "check_json_settings",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vs_code",
+      "id": "INF-7aeae0e2-70ee-4705-821d-1bba5d5b2ddd-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vs_code/INF-7aeae0e2-70ee-4705-821d-1bba5d5b2ddd-WOS.json",
+      "sha256": "36bfa09ce31c2bde365d4733e5aaa881edcbd633aa59e6b4eb9909e51a19dcc5",
+      "snapshot": "vscode",
+      "setup_types": [
+        "download",
+        "launch",
+        "activate_window"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "infeasible",
+      "result_types": [],
+      "expected_types": [],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vs_code",
+      "id": "INF-7c4cc09e-7a92-40dd-8338-b2286535c4ed-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vs_code/INF-7c4cc09e-7a92-40dd-8338-b2286535c4ed-WOS.json",
+      "sha256": "03ad5a366af34372fb059d833386230f4c87303b992b259095544fc4180dcd8a",
+      "snapshot": "vscode",
+      "setup_types": [
+        "launch",
+        "sleep",
+        "activate_window"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "infeasible",
+      "result_types": [],
+      "expected_types": [],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vs_code",
+      "id": "INF-847a96b6-df94-4927-97e6-8cc9ea66ced7-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vs_code/INF-847a96b6-df94-4927-97e6-8cc9ea66ced7-WOS.json",
+      "sha256": "cc8bcad49ba5a272daef503a24b1b9ee9eac31803154385bc11e8e1087133904",
+      "snapshot": "vscode",
+      "setup_types": [
+        "command",
+        "command",
+        "download",
+        "launch",
+        "sleep",
+        "activate_window"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "infeasible",
+      "result_types": [],
+      "expected_types": [],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vs_code",
+      "id": "INF-971cbb5b-3cbf-4ff7-9e24-b5c84fcebfa6-wos",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vs_code/INF-971cbb5b-3cbf-4ff7-9e24-b5c84fcebfa6-WOS.json",
+      "sha256": "afd812e5f05c5134b145b725a138bc3dcad0be253a071d98199b54b476284e64",
+      "snapshot": "vscode",
+      "setup_types": [
+        "launch",
+        "sleep",
+        "activate_window"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "infeasible",
+      "result_types": [],
+      "expected_types": [],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vs_code",
+      "id": "INF-dcbe20e8-647f-4f1d-8696-f1c5bbb570e3-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vs_code/INF-dcbe20e8-647f-4f1d-8696-f1c5bbb570e3-WOS.json",
+      "sha256": "94cb60ba43edf50e5a3a0e17a44704107e4aab66839de5a0d0df446be613e2ca",
+      "snapshot": "vscode",
+      "setup_types": [
+        "launch",
+        "sleep",
+        "activate_window"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "infeasible",
+      "result_types": [],
+      "expected_types": [],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vs_code",
+      "id": "c6bf789c-ba3a-4209-971d-b63abf0ab733-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vs_code/c6bf789c-ba3a-4209-971d-b63abf0ab733-WOS.json",
+      "sha256": "090bfa62d4f760f2fbb160a536e0d9b5ef601ec6f408e51c1c5c616b12c88bfe",
+      "snapshot": "vscode",
+      "setup_types": [
+        "launch",
+        "sleep",
+        "activate_window"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "check_json_settings",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vs_code",
+      "id": "e2b5e914-ffe1-44d2-8e92-58f8c5d92bb2-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vs_code/e2b5e914-ffe1-44d2-8e92-58f8c5d92bb2-WOS.json",
+      "sha256": "10089b775171a95043f3d8e3203d8a7932f85b0fa6f10ada720fb5f4de6360df",
+      "snapshot": "vscode",
+      "setup_types": [
+        "command",
+        "launch",
+        "sleep",
+        "activate_window"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "check_json_settings",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vs_code",
+      "id": "ea98c5d7-3cf9-4f9b-8ad3-366b58e0fcae-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vs_code/ea98c5d7-3cf9-4f9b-8ad3-366b58e0fcae-WOS.json",
+      "sha256": "3fc9756278dd69da468e4b2277afef286e00ecee4ac6d4c1c82d1d90b8d2cbc6",
+      "snapshot": "vscode",
+      "setup_types": [
+        "launch",
+        "sleep",
+        "activate_window"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "check_json_keybindings",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vs_code",
+      "id": "eabc805a-bfcf-4460-b250-ac92135819f6-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vs_code/eabc805a-bfcf-4460-b250-ac92135819f6-WOS.json",
+      "sha256": "5b447762e1b44401515480e60f1dbfb968f0bcb1384bcf0defdd52ac6c04a477",
+      "snapshot": "vscode",
+      "setup_types": [
+        "launch",
+        "sleep",
+        "activate_window"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "is_extension_installed",
+      "result_types": [
+        "vm_command_line"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "vs_code",
+      "id": "ec71221e-ac43-46f9-89b8-ee7d80f7e1c5-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/vs_code/ec71221e-ac43-46f9-89b8-ee7d80f7e1c5-WOS.json",
+      "sha256": "b09fe855e097d48c22fa1767163d4f60d3d3a3ffac0d39c4270c8c2c63ed07dd",
+      "snapshot": "vscode",
+      "setup_types": [
+        "download",
+        "launch",
+        "sleep",
+        "activate_window"
+      ],
+      "postconfig_types": [
+        "activate_window",
+        "sleep",
+        "execute",
+        "sleep"
+      ],
+      "metric_functions": "compare_text_file",
+      "result_types": [
+        "vm_file"
+      ],
+      "expected_types": [
+        "cloud_file"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "windows_calc",
+      "id": "28b91a24-5d97-4c2a-891c-dccbd3820c62-WOS-2",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/windows_calc/28b91a24-5d97-4c2a-891c-dccbd3820c62-WOS-2.json",
+      "sha256": "5f9643d299e7a90fd20d1d9f84a666a4948c99270e3299d56a219b71b3cb79a2",
+      "snapshot": "base_setup",
+      "setup_types": [
+        "launch",
+        "sleep"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "is_file_saved_desktop"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "windows_calc",
+      "id": "28b91a24-5d97-4c2a-891c-dccbd3820c62-WOS-3",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/windows_calc/28b91a24-5d97-4c2a-891c-dccbd3820c62-WOS-3.json",
+      "sha256": "38321f2f0b612245913a49ded1238bd5869cbb284bef044860ae04dda157db61",
+      "snapshot": "base_setup",
+      "setup_types": [
+        "launch",
+        "sleep"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "is_file_saved_desktop"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    },
+    {
+      "domain": "windows_calc",
+      "id": "28b91a24-5d97-4c2a-891c-dccbd3820c62-WOS",
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/windows_calc/28b91a24-5d97-4c2a-891c-dccbd3820c62-WOS.json",
+      "sha256": "c4b09b99f26747b81c1ac7e96742e38d97f32bc80889b4b19683368983ae249a",
+      "snapshot": "base_setup",
+      "setup_types": [
+        "launch",
+        "sleep"
+      ],
+      "postconfig_types": [],
+      "metric_functions": "exact_match",
+      "result_types": [
+        "is_file_saved_desktop"
+      ],
+      "expected_types": [
+        "rule"
+      ],
+      "execution_status": "not_run"
+    }
+  ]
+}

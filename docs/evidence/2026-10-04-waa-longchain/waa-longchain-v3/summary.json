@@ -1,0 +1,93 @@
+{
+  "scope": "adapted_WAA_development_run",
+  "planned": 3,
+  "attempted": 3,
+  "passed": 0,
+  "results": [
+    {
+      "case": "png-list",
+      "round": 1,
+      "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/016c9a9d-f2b9-4428-8fdb-f74f4439ece6-WOS.json",
+      "task_sha256": "880539a3eb2987f8dc68a7c5eddeceafad744a7620ff74c22ab9befcec1f7b42",
+      "scope": "adapted_development_run",
+      "passed": false,
+      "agent_status": "failed",
+      "actions": 1,
+      "replans": 2,
+      "completed_steps": [],
+      "intermediate_checks": {
+        "source_observed_natively": true,
+        "text_observed_natively": false,
+        "save_dialog_observed": false,
+        "save_target_observed": false,
+        "native_save_dispatched": false
+      },
+      "final_checks": {
+        "persisted_artifact_exists": false,
+        "fresh_process_native_reopen": false
+      },
+      "pinned_metric_score": 0.0,
+      "pinned_getter_result": "false",
+      "seconds": 51.458
+    },
+    {
+      "case": "size-report",
+      "round": 1,
+      "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/2d292a2d-686b-4e72-80f7-af6c232b1258-WOS.json",
+      "task_sha256": "cfaaea375f97953cd53bdca431174bc7735b751855d2fb381a9a174c50d63398",
+      "scope": "adapted_development_run",
+      "passed": false,
+      "agent_status": "blocked",
+      "actions": 4,
+      "replans": 2,
+      "completed_steps": [
+        "step-1",
+        "step-2",
+        "step-3",
+        "step-5"
+      ],
+      "intermediate_checks": {
+        "source_observed_natively": true,
+        "text_observed_natively": false,
+        "save_dialog_observed": true,
+        "save_target_observed": true,
+        "native_save_dispatched": true
+      },
+      "final_checks": {
+        "persisted_artifact_exists": false,
+        "fresh_process_native_reopen": false
+      },
+      "pinned_metric_score": 0.0,
+      "pinned_getter_result": "false",
+      "seconds": 49.979
+    },
+    {
+      "case": "word-count",
+      "round": 1,
+      "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/notepad/a7d4b6c5-569b-452e-9e1d-ffdb3d431d15-WOS.json",
+      "task_sha256": "0e8f10ece28ad8cfb0ed108771428ab8b8513761f260540d632ff942f4fae88c",
+      "scope": "adapted_development_run",
+      "passed": false,
+      "agent_status": "failed",
+      "actions": 3,
+      "replans": 1,
+      "completed_steps": [
+        "step-1"
+      ],
+      "intermediate_checks": {
+        "source_observed_natively": false,
+        "text_observed_natively": false,
+        "save_dialog_observed": false,
+        "save_target_observed": false,
+        "native_save_dispatched": false
+      },
+      "final_checks": {
+        "persisted_artifact_exists": false,
+        "fresh_process_native_reopen": false
+      },
+      "pinned_metric_score": 0.0,
+      "pinned_getter_result": null,
+      "seconds": 41.958
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "planned": 6,
+  "passed": 0,
+  "stopped_actor_count": 0,
+  "reason": "Repeated menu toggling from unavailable checked state; fixed with native TogglePattern readback before fresh rerun",
+  "completed": 1,
+  "stopped_driver_count": 0,
+  "scope": "diagnostic_interruption",
+  "active": [
+    {
+      "status": "interrupted",
+      "case": "png-many-r1",
+      "actions": 29,
+      "phases": 1,
+      "replans": 2
+    }
+  ]
+}

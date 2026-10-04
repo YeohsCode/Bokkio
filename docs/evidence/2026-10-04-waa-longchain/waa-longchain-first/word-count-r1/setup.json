@@ -1,0 +1,16 @@
+{
+  "folders": {
+    "Pictures": "C:\\BokkioTasks\\waa-longchain-first\\word-count-r1\\world-654627bb\\Pictures",
+    "Downloads": "C:\\BokkioTasks\\waa-longchain-first\\word-count-r1\\world-654627bb\\Downloads",
+    "Desktop": "C:\\BokkioTasks\\waa-longchain-first\\word-count-r1\\world-654627bb\\Desktop",
+    "Documents": "C:\\BokkioTasks\\waa-longchain-first\\word-count-r1\\world-654627bb\\Documents"
+  },
+  "artifact": "C:\\BokkioTasks\\waa-longchain-first\\word-count-r1\\world-654627bb\\Documents\\example_count.txt",
+  "inputs": [
+    {
+      "name": "largefile.txt",
+      "bytes": 1129,
+      "sha256": "f077be90ec7d39ba5641107f8094a5823e8ed7fb7ba3b1751870402805b942ca"
+    }
+  ]
+}

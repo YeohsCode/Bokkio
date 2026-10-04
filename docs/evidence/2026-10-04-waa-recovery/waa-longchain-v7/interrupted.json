@@ -1,0 +1,14 @@
+{
+  "time": "2026-10-03T18:18:59.3396434Z",
+  "runnerPids": [
+    2100,
+    3772
+  ],
+  "reason": "Interrupted diagnostic round: planner latency/truncation; serialize native trials before next acceptance run",
+  "partial": {
+    "status": "running",
+    "actions": 4,
+    "phases": 2,
+    "replans": 1
+  }
+}

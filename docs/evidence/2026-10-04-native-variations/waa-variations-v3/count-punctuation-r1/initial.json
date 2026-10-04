@@ -1,0 +1,1224 @@
+{
+  "3772": {
+    "app": {
+      "pid": 3772,
+      "name": "notepad",
+      "is_foreground": false,
+      "role": "application"
+    },
+    "ref_strategy": "structural-v3",
+    "window_filter": null,
+    "windows": [
+      {
+        "ref": "f2476b8ebc570690cb62",
+        "platform": "windows",
+        "role": "application",
+        "name": "notepad",
+        "value": null,
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": false,
+          "active": false,
+          "selected": false,
+          "editable": false,
+          "focusable": false,
+          "checked": null,
+          "expanded": null,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": null,
+        "parent": null,
+        "children": [
+          {
+            "ref": "7cb5f8263be51e0cf53a",
+            "platform": "windows",
+            "role": "window",
+            "name": "Untitled - Notepad",
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": true,
+              "selected": false,
+              "editable": false,
+              "focusable": true,
+              "checked": null,
+              "expanded": null,
+              "minimized": false,
+              "maximized": false,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 130,
+              "y": 130,
+              "width": 768,
+              "height": 519
+            },
+            "parent": "f2476b8ebc570690cb62",
+            "children": [
+              {
+                "ref": "7e0ea94ce99158a558c0",
+                "platform": "windows",
+                "role": "text_area",
+                "name": "Text Editor",
+                "value": "",
+                "state": {
+                  "enabled": true,
+                  "visible": true,
+                  "focused": true,
+                  "active": false,
+                  "selected": false,
+                  "editable": true,
+                  "focusable": true,
+                  "checked": null,
+                  "expanded": null,
+                  "minimized": null,
+                  "maximized": null,
+                  "fullscreen": null
+                },
+                "bounds": {
+                  "x": 138,
+                  "y": 181,
+                  "width": 752,
+                  "height": 437
+                },
+                "parent": "7cb5f8263be51e0cf53a",
+                "children": [
+                  {
+                    "ref": "3f59f2dd499a209e8554",
+                    "platform": "windows",
+                    "role": "scroll_bar",
+                    "name": "Vertical",
+                    "value": "0",
+                    "state": {
+                      "enabled": false,
+                      "visible": true,
+                      "focused": false,
+                      "active": false,
+                      "selected": false,
+                      "editable": false,
+                      "focusable": false,
+                      "checked": null,
+                      "expanded": null,
+                      "minimized": null,
+                      "maximized": null,
+                      "fullscreen": null
+                    },
+                    "bounds": {
+                      "x": 873,
+                      "y": 181,
+                      "width": 17,
+                      "height": 420
+                    },
+                    "parent": "7e0ea94ce99158a558c0",
+                    "children": [
+                      {
+                        "ref": "4f5231231b26eae3a3e8",
+                        "platform": "windows",
+                        "role": "button",
+                        "name": "Line up",
+                        "value": null,
+                        "state": {
+                          "enabled": false,
+                          "visible": true,
+                          "focused": false,
+                          "active": false,
+                          "selected": false,
+                          "editable": false,
+                          "focusable": false,
+                          "checked": null,
+                          "expanded": null,
+                          "minimized": null,
+                          "maximized": null,
+                          "fullscreen": null
+                        },
+                        "bounds": {
+                          "x": 873,
+                          "y": 181,
+                          "width": 17,
+                          "height": 17
+                        },
+                        "parent": "3f59f2dd499a209e8554",
+                        "children": [],
+                        "actions": [
+                          "click"
+                        ],
+                        "platform_data": {
+                          "control_type_id": 50000,
+                          "automation_id": "UpButton",
+                          "uia_name": "Line up",
+                          "description": null,
+                          "actions": [
+                            "press"
+                          ],
+                          "native_stable_id": "UpButton"
+                        }
+                      },
+                      {
+                        "ref": "f25b9861bf25c1a5d07d",
+                        "platform": "windows",
+                        "role": "button",
+                        "name": "Line down",
+                        "value": null,
+                        "state": {
+                          "enabled": false,
+                          "visible": true,
+                          "focused": false,
+                          "active": false,
+                          "selected": false,
+                          "editable": false,
+                          "focusable": false,
+                          "checked": null,
+                          "expanded": null,
+                          "minimized": null,
+                          "maximized": null,
+                          "fullscreen": null
+                        },
+                        "bounds": {
+                          "x": 873,
+                          "y": 584,
+                          "width": 17,
+                          "height": 17
+                        },
+                        "parent": "3f59f2dd499a209e8554",
+                        "children": [],
+                        "actions": [
+                          "click"
+                        ],
+                        "platform_data": {
+                          "automation_id": "DownButton",
+                          "uia_name": "Line down",
+                          "control_type_id": 50000,
+                          "description": null,
+                          "actions": [
+                            "press"
+                          ],
+                          "native_stable_id": "DownButton"
+                        }
+                      }
+                    ],
+                    "actions": [],
+                    "platform_data": {
+                      "uia_value": "0",
+                      "automation_id": "NonClientVerticalScrollBar",
+                      "control_type_id": 50014,
+                      "uia_name": "Vertical",
+                      "description": null,
+                      "actions": [
+                        "set_value",
+                        "increment",
+                        "decrement"
+                      ],
+                      "native_stable_id": "NonClientVerticalScrollBar",
+                      "numeric_value": 0.0
+                    }
+                  },
+                  {
+                    "ref": "f8fba5cdb6f6edd778e2",
+                    "platform": "windows",
+                    "role": "scroll_bar",
+                    "name": "Horizontal",
+                    "value": "0",
+                    "state": {
+                      "enabled": false,
+                      "visible": true,
+                      "focused": false,
+                      "active": false,
+                      "selected": false,
+                      "editable": false,
+                      "focusable": false,
+                      "checked": null,
+                      "expanded": null,
+                      "minimized": null,
+                      "maximized": null,
+                      "fullscreen": null
+                    },
+                    "bounds": {
+                      "x": 138,
+                      "y": 601,
+                      "width": 735,
+                      "height": 17
+                    },
+                    "parent": "7e0ea94ce99158a558c0",
+                    "children": [
+                      {
+                        "ref": "b03046db80820b3d9c85",
+                        "platform": "windows",
+                        "role": "button",
+                        "name": "Column left",
+                        "value": null,
+                        "state": {
+                          "enabled": false,
+                          "visible": true,
+                          "focused": false,
+                          "active": false,
+                          "selected": false,
+                          "editable": false,
+                          "focusable": false,
+                          "checked": null,
+                          "expanded": null,
+                          "minimized": null,
+                          "maximized": null,
+                          "fullscreen": null
+                        },
+                        "bounds": {
+                          "x": 138,
+                          "y": 601,
+                          "width": 17,
+                          "height": 17
+                        },
+                        "parent": "f8fba5cdb6f6edd778e2",
+                        "children": [],
+                        "actions": [
+                          "click"
+                        ],
+                        "platform_data": {
+                          "uia_name": "Column left",
+                          "control_type_id": 50000,
+                          "automation_id": "UpButton",
+                          "description": null,
+                          "actions": [
+                            "press"
+                          ],
+                          "native_stable_id": "UpButton"
+                        }
+                      },
+                      {
+                        "ref": "d0fdde0f8a165d4b8f5d",
+                        "platform": "windows",
+                        "role": "button",
+                        "name": "Column right",
+                        "value": null,
+                        "state": {
+                          "enabled": false,
+                          "visible": true,
+                          "focused": false,
+                          "active": false,
+                          "selected": false,
+                          "editable": false,
+                          "focusable": false,
+                          "checked": null,
+                          "expanded": null,
+                          "minimized": null,
+                          "maximized": null,
+                          "fullscreen": null
+                        },
+                        "bounds": {
+                          "x": 856,
+                          "y": 601,
+                          "width": 17,
+                          "height": 17
+                        },
+                        "parent": "f8fba5cdb6f6edd778e2",
+                        "children": [],
+                        "actions": [
+                          "click"
+                        ],
+                        "platform_data": {
+                          "uia_name": "Column right",
+                          "automation_id": "DownButton",
+                          "control_type_id": 50000,
+                          "description": null,
+                          "actions": [
+                            "press"
+                          ],
+                          "native_stable_id": "DownButton"
+                        }
+                      }
+                    ],
+                    "actions": [],
+                    "platform_data": {
+                      "control_type_id": 50014,
+                      "uia_name": "Horizontal",
+                      "automation_id": "NonClientHorizontalScrollBar",
+                      "uia_value": "0",
+                      "description": null,
+                      "actions": [
+                        "set_value",
+                        "increment",
+                        "decrement"
+                      ],
+                      "native_stable_id": "NonClientHorizontalScrollBar",
+                      "numeric_value": 0.0
+                    }
+                  },
+                  {
+                    "ref": "2881f12a20a6875b7685",
+                    "platform": "windows",
+                    "role": "scroll_thumb",
+                    "name": null,
+                    "value": null,
+                    "state": {
+                      "enabled": false,
+                      "visible": true,
+                      "focused": false,
+                      "active": false,
+                      "selected": false,
+                      "editable": false,
+                      "focusable": false,
+                      "checked": null,
+                      "expanded": null,
+                      "minimized": null,
+                      "maximized": null,
+                      "fullscreen": null
+                    },
+                    "bounds": {
+                      "x": 873,
+                      "y": 601,
+                      "width": 17,
+                      "height": 17
+                    },
+                    "parent": "7e0ea94ce99158a558c0",
+                    "children": [],
+                    "actions": [],
+                    "platform_data": {
+                      "control_type_id": 50027,
+                      "description": null,
+                      "actions": [],
+                      "native_stable_id": null
+                    }
+                  }
+                ],
+                "actions": [
+                  "focus",
+                  "set_value",
+                  "type"
+                ],
+                "platform_data": {
+                  "automation_id": "15",
+                  "class_name": "Edit",
+                  "control_type_id": 50030,
+                  "uia_name": "Text Editor",
+                  "description": null,
+                  "actions": [
+                    "set_value",
+                    "focus"
+                  ],
+                  "native_stable_id": "hwnd:0x4203b0",
+                  "value_source": "UIA.ValuePattern",
+                  "value_scope_hwnd": 14549906,
+                  "value_runtime_id": [
+                    42,
+                    4326320
+                  ],
+                  "scroll": {
+                    "source": "UIA.ScrollPattern",
+                    "x": {
+                      "scrollable": false,
+                      "position": 0.0,
+                      "view_size": 1.0
+                    },
+                    "y": {
+                      "scrollable": false,
+                      "position": 0.0,
+                      "view_size": 1.0
+                    }
+                  }
+                }
+              },
+              {
+                "ref": "7892468f6f2efb077380",
+                "platform": "windows",
+                "role": "status",
+                "name": "Status Bar",
+                "value": null,
+                "state": {
+                  "enabled": true,
+                  "visible": true,
+                  "focused": false,
+                  "active": false,
+                  "selected": false,
+                  "editable": false,
+                  "focusable": true,
+                  "checked": null,
+                  "expanded": null,
+                  "minimized": null,
+                  "maximized": null,
+                  "fullscreen": null
+                },
+                "bounds": {
+                  "x": 138,
+                  "y": 618,
+                  "width": 752,
+                  "height": 23
+                },
+                "parent": "7cb5f8263be51e0cf53a",
+                "children": [
+                  {
+                    "ref": "819fa115e2fcc0d31f0b",
+                    "platform": "windows",
+                    "role": "static_text",
+                    "name": null,
+                    "value": null,
+                    "state": {
+                      "enabled": true,
+                      "visible": true,
+                      "focused": false,
+                      "active": false,
+                      "selected": false,
+                      "editable": false,
+                      "focusable": false,
+                      "checked": null,
+                      "expanded": null,
+                      "minimized": null,
+                      "maximized": null,
+                      "fullscreen": null
+                    },
+                    "bounds": {
+                      "x": 138,
+                      "y": 620,
+                      "width": 322,
+                      "height": 21
+                    },
+                    "parent": "7892468f6f2efb077380",
+                    "children": [],
+                    "actions": [],
+                    "platform_data": {
+                      "control_type_id": 50020,
+                      "description": null,
+                      "actions": [],
+                      "native_stable_id": null
+                    }
+                  },
+                  {
+                    "ref": "561c14d2856482019ba5",
+                    "platform": "windows",
+                    "role": "static_text",
+                    "name": "  Ln 1, Col 1",
+                    "value": null,
+                    "state": {
+                      "enabled": true,
+                      "visible": true,
+                      "focused": false,
+                      "active": false,
+                      "selected": false,
+                      "editable": false,
+                      "focusable": false,
+                      "checked": null,
+                      "expanded": null,
+                      "minimized": null,
+                      "maximized": null,
+                      "fullscreen": null
+                    },
+                    "bounds": {
+                      "x": 462,
+                      "y": 620,
+                      "width": 138,
+                      "height": 21
+                    },
+                    "parent": "7892468f6f2efb077380",
+                    "children": [],
+                    "actions": [],
+                    "platform_data": {
+                      "control_type_id": 50020,
+                      "uia_name": "  Ln 1, Col 1",
+                      "description": null,
+                      "actions": [],
+                      "native_stable_id": null
+                    }
+                  },
+                  {
+                    "ref": "f50594af77f943b7989c",
+                    "platform": "windows",
+                    "role": "static_text",
+                    "name": " 100%",
+                    "value": null,
+                    "state": {
+                      "enabled": true,
+                      "visible": true,
+                      "focused": false,
+                      "active": false,
+                      "selected": false,
+                      "editable": false,
+                      "focusable": false,
+                      "checked": null,
+                      "expanded": null,
+                      "minimized": null,
+                      "maximized": null,
+                      "fullscreen": null
+                    },
+                    "bounds": {
+                      "x": 602,
+                      "y": 620,
+                      "width": 48,
+                      "height": 21
+                    },
+                    "parent": "7892468f6f2efb077380",
+                    "children": [],
+                    "actions": [],
+                    "platform_data": {
+                      "uia_name": " 100%",
+                      "control_type_id": 50020,
+                      "description": null,
+                      "actions": [],
+                      "native_stable_id": null
+                    }
+                  },
+                  {
+                    "ref": "bda6c996172f2e9c7c62",
+                    "platform": "windows",
+                    "role": "static_text",
+                    "name": " Windows (CRLF)",
+                    "value": null,
+                    "state": {
+                      "enabled": true,
+                      "visible": true,
+                      "focused": false,
+                      "active": false,
+                      "selected": false,
+                      "editable": false,
+                      "focusable": false,
+                      "checked": null,
+                      "expanded": null,
+                      "minimized": null,
+                      "maximized": null,
+                      "fullscreen": null
+                    },
+                    "bounds": {
+                      "x": 652,
+                      "y": 620,
+                      "width": 118,
+                      "height": 21
+                    },
+                    "parent": "7892468f6f2efb077380",
+                    "children": [],
+                    "actions": [],
+                    "platform_data": {
+                      "uia_name": " Windows (CRLF)",
+                      "control_type_id": 50020,
+                      "description": null,
+                      "actions": [],
+                      "native_stable_id": null
+                    }
+                  },
+                  {
+                    "ref": "b8bcc088916cc4846138",
+                    "platform": "windows",
+                    "role": "static_text",
+                    "name": " UTF-8",
+                    "value": null,
+                    "state": {
+                      "enabled": true,
+                      "visible": true,
+                      "focused": false,
+                      "active": false,
+                      "selected": false,
+                      "editable": false,
+                      "focusable": false,
+                      "checked": null,
+                      "expanded": null,
+                      "minimized": null,
+                      "maximized": null,
+                      "fullscreen": null
+                    },
+                    "bounds": {
+                      "x": 772,
+                      "y": 620,
+                      "width": 102,
+                      "height": 21
+                    },
+                    "parent": "7892468f6f2efb077380",
+                    "children": [],
+                    "actions": [],
+                    "platform_data": {
+                      "control_type_id": 50020,
+                      "uia_name": " UTF-8",
+                      "description": null,
+                      "actions": [],
+                      "native_stable_id": null
+                    }
+                  }
+                ],
+                "actions": [
+                  "focus"
+                ],
+                "platform_data": {
+                  "automation_id": "1025",
+                  "class_name": "msctls_statusbar32",
+                  "control_type_id": 50017,
+                  "uia_name": "Status Bar",
+                  "description": null,
+                  "actions": [
+                    "focus"
+                  ],
+                  "native_stable_id": "hwnd:0x3c0516"
+                }
+              },
+              {
+                "ref": "bd01a3e87243cd20fa50",
+                "platform": "windows",
+                "role": "group",
+                "name": null,
+                "value": "Untitled - Notepad",
+                "state": {
+                  "enabled": true,
+                  "visible": true,
+                  "focused": false,
+                  "active": false,
+                  "selected": false,
+                  "editable": null,
+                  "focusable": true,
+                  "checked": null,
+                  "expanded": null,
+                  "minimized": null,
+                  "maximized": null,
+                  "fullscreen": null
+                },
+                "bounds": {
+                  "x": 154,
+                  "y": 133,
+                  "width": 736,
+                  "height": 28
+                },
+                "parent": "7cb5f8263be51e0cf53a",
+                "children": [
+                  {
+                    "ref": "38a8f616c71b7a06a7e7",
+                    "platform": "windows",
+                    "role": "menu_bar",
+                    "name": "System",
+                    "value": null,
+                    "state": {
+                      "enabled": true,
+                      "visible": true,
+                      "focused": false,
+                      "active": false,
+                      "selected": false,
+                      "editable": false,
+                      "focusable": true,
+                      "checked": null,
+                      "expanded": null,
+                      "minimized": null,
+                      "maximized": null,
+                      "fullscreen": null
+                    },
+                    "bounds": {
+                      "x": 138,
+                      "y": 138,
+                      "width": 22,
+                      "height": 22
+                    },
+                    "parent": "bd01a3e87243cd20fa50",
+                    "children": [
+                      {
+                        "ref": "fcf716002eaa619000de",
+                        "platform": "windows",
+                        "role": "menu_item",
+                        "name": "System",
+                        "value": null,
+                        "state": {
+                          "enabled": true,
+                          "visible": true,
+                          "focused": false,
+                          "active": false,
+                          "selected": false,
+                          "editable": false,
+                          "focusable": true,
+                          "checked": null,
+                          "expanded": false,
+                          "minimized": null,
+                          "maximized": null,
+                          "fullscreen": null
+                        },
+                        "bounds": {
+                          "x": 138,
+                          "y": 138,
+                          "width": 22,
+                          "height": 22
+                        },
+                        "parent": "38a8f616c71b7a06a7e7",
+                        "children": [],
+                        "actions": [
+                          "click",
+                          "collapse",
+                          "expand",
+                          "focus"
+                        ],
+                        "platform_data": {
+                          "control_type_id": 50011,
+                          "uia_name": "System",
+                          "description": null,
+                          "actions": [
+                            "press",
+                            "expand",
+                            "collapse",
+                            "focus"
+                          ],
+                          "native_stable_id": null
+                        }
+                      }
+                    ],
+                    "actions": [
+                      "focus"
+                    ],
+                    "platform_data": {
+                      "control_type_id": 50010,
+                      "uia_name": "System",
+                      "automation_id": "SystemMenuBar",
+                      "description": null,
+                      "actions": [
+                        "focus"
+                      ],
+                      "native_stable_id": "SystemMenuBar"
+                    }
+                  },
+                  {
+                    "ref": "62f3cd8a5b13826f8785",
+                    "platform": "windows",
+                    "role": "button",
+                    "name": "Minimize",
+                    "value": null,
+                    "state": {
+                      "enabled": true,
+                      "visible": true,
+                      "focused": false,
+                      "active": false,
+                      "selected": false,
+                      "editable": false,
+                      "focusable": false,
+                      "checked": null,
+                      "expanded": null,
+                      "minimized": null,
+                      "maximized": null,
+                      "fullscreen": null
+                    },
+                    "bounds": {
+                      "x": 751,
+                      "y": 131,
+                      "width": 47,
+                      "height": 30
+                    },
+                    "parent": "bd01a3e87243cd20fa50",
+                    "children": [],
+                    "actions": [
+                      "click"
+                    ],
+                    "platform_data": {
+                      "automation_id": "Minimize-Restore",
+                      "uia_name": "Minimize",
+                      "control_type_id": 50000,
+                      "description": null,
+                      "actions": [
+                        "press"
+                      ],
+                      "native_stable_id": "Minimize-Restore"
+                    }
+                  },
+                  {
+                    "ref": "feb92afb4a3a87730a1a",
+                    "platform": "windows",
+                    "role": "button",
+                    "name": "Maximize",
+                    "value": null,
+                    "state": {
+                      "enabled": true,
+                      "visible": true,
+                      "focused": false,
+                      "active": false,
+                      "selected": false,
+                      "editable": false,
+                      "focusable": false,
+                      "checked": null,
+                      "expanded": null,
+                      "minimized": null,
+                      "maximized": null,
+                      "fullscreen": null
+                    },
+                    "bounds": {
+                      "x": 798,
+                      "y": 131,
+                      "width": 46,
+                      "height": 30
+                    },
+                    "parent": "bd01a3e87243cd20fa50",
+                    "children": [],
+                    "actions": [
+                      "click"
+                    ],
+                    "platform_data": {
+                      "control_type_id": 50000,
+                      "automation_id": "Maximize-Restore",
+                      "uia_name": "Maximize",
+                      "description": null,
+                      "actions": [
+                        "press"
+                      ],
+                      "native_stable_id": "Maximize-Restore"
+                    }
+                  },
+                  {
+                    "ref": "3cb04bf17bde1f62203c",
+                    "platform": "windows",
+                    "role": "button",
+                    "name": "Close",
+                    "value": null,
+                    "state": {
+                      "enabled": true,
+                      "visible": true,
+                      "focused": false,
+                      "active": false,
+                      "selected": false,
+                      "editable": false,
+                      "focusable": false,
+                      "checked": null,
+                      "expanded": null,
+                      "minimized": null,
+                      "maximized": null,
+                      "fullscreen": null
+                    },
+                    "bounds": {
+                      "x": 844,
+                      "y": 131,
+                      "width": 47,
+                      "height": 30
+                    },
+                    "parent": "bd01a3e87243cd20fa50",
+                    "children": [],
+                    "actions": [
+                      "click"
+                    ],
+                    "platform_data": {
+                      "control_type_id": 50000,
+                      "automation_id": "Close",
+                      "uia_name": "Close",
+                      "description": null,
+                      "actions": [
+                        "press"
+                      ],
+                      "native_stable_id": "Close"
+                    }
+                  }
+                ],
+                "actions": [
+                  "focus"
+                ],
+                "platform_data": {
+                  "automation_id": "TitleBar",
+                  "uia_value": "Untitled - Notepad",
+                  "control_type_id": 50037,
+                  "description": null,
+                  "actions": [
+                    "set_value",
+                    "focus"
+                  ],
+                  "native_stable_id": "TitleBar"
+                }
+              },
+              {
+                "ref": "3b45157ff5aaf8d16d3c",
+                "platform": "windows",
+                "role": "menu_bar",
+                "name": "Application",
+                "value": null,
+                "state": {
+                  "enabled": true,
+                  "visible": true,
+                  "focused": false,
+                  "active": false,
+                  "selected": false,
+                  "editable": false,
+                  "focusable": true,
+                  "checked": null,
+                  "expanded": null,
+                  "minimized": null,
+                  "maximized": null,
+                  "fullscreen": null
+                },
+                "bounds": {
+                  "x": 138,
+                  "y": 161,
+                  "width": 752,
+                  "height": 19
+                },
+                "parent": "7cb5f8263be51e0cf53a",
+                "children": [
+                  {
+                    "ref": "3b3555178dd9fb50f39c",
+                    "platform": "windows",
+                    "role": "menu_item",
+                    "name": "File",
+                    "value": null,
+                    "state": {
+                      "enabled": true,
+                      "visible": true,
+                      "focused": false,
+                      "active": false,
+                      "selected": false,
+                      "editable": false,
+                      "focusable": true,
+                      "checked": null,
+                      "expanded": false,
+                      "minimized": null,
+                      "maximized": null,
+                      "fullscreen": null
+                    },
+                    "bounds": {
+                      "x": 138,
+                      "y": 161,
+                      "width": 32,
+                      "height": 19
+                    },
+                    "parent": "3b45157ff5aaf8d16d3c",
+                    "children": [],
+                    "actions": [
+                      "click",
+                      "collapse",
+                      "expand",
+                      "focus"
+                    ],
+                    "platform_data": {
+                      "control_type_id": 50011,
+                      "uia_name": "File",
+                      "description": null,
+                      "actions": [
+                        "press",
+                        "expand",
+                        "collapse",
+                        "focus"
+                      ],
+                      "native_stable_id": null
+                    }
+                  },
+                  {
+                    "ref": "ab9b1d52e69918c2fd0f",
+                    "platform": "windows",
+                    "role": "menu_item",
+                    "name": "Edit",
+                    "value": null,
+                    "state": {
+                      "enabled": true,
+                      "visible": true,
+                      "focused": false,
+                      "active": false,
+                      "selected": false,
+                      "editable": false,
+                      "focusable": true,
+                      "checked": null,
+                      "expanded": false,
+                      "minimized": null,
+                      "maximized": null,
+                      "fullscreen": null
+                    },
+                    "bounds": {
+                      "x": 170,
+                      "y": 161,
+                      "width": 34,
+                      "height": 19
+                    },
+                    "parent": "3b45157ff5aaf8d16d3c",
+                    "children": [],
+                    "actions": [
+                      "click",
+                      "collapse",
+                      "expand",
+                      "focus"
+                    ],
+                    "platform_data": {
+                      "control_type_id": 50011,
+                      "uia_name": "Edit",
+                      "description": null,
+                      "actions": [
+                        "press",
+                        "expand",
+                        "collapse",
+                        "focus"
+                      ],
+                      "native_stable_id": null
+                    }
+                  },
+                  {
+                    "ref": "f3287dd5d288e91c16fb",
+                    "platform": "windows",
+                    "role": "menu_item",
+                    "name": "Format",
+                    "value": null,
+                    "state": {
+                      "enabled": true,
+                      "visible": true,
+                      "focused": false,
+                      "active": false,
+                      "selected": false,
+                      "editable": false,
+                      "focusable": true,
+                      "checked": null,
+                      "expanded": false,
+                      "minimized": null,
+                      "maximized": null,
+                      "fullscreen": null
+                    },
+                    "bounds": {
+                      "x": 204,
+                      "y": 161,
+                      "width": 52,
+                      "height": 19
+                    },
+                    "parent": "3b45157ff5aaf8d16d3c",
+                    "children": [],
+                    "actions": [
+                      "click",
+                      "collapse",
+                      "expand",
+                      "focus"
+                    ],
+                    "platform_data": {
+                      "uia_name": "Format",
+                      "control_type_id": 50011,
+                      "description": null,
+                      "actions": [
+                        "press",
+                        "expand",
+                        "collapse",
+                        "focus"
+                      ],
+                      "native_stable_id": null
+                    }
+                  },
+                  {
+                    "ref": "0db46f5f1d401efc3384",
+                    "platform": "windows",
+                    "role": "menu_item",
+                    "name": "View",
+                    "value": null,
+                    "state": {
+                      "enabled": true,
+                      "visible": true,
+                      "focused": false,
+                      "active": false,
+                      "selected": false,
+                      "editable": false,
+                      "focusable": true,
+                      "checked": null,
+                      "expanded": false,
+                      "minimized": null,
+                      "maximized": null,
+                      "fullscreen": null
+                    },
+                    "bounds": {
+                      "x": 256,
+                      "y": 161,
+                      "width": 39,
+                      "height": 19
+                    },
+                    "parent": "3b45157ff5aaf8d16d3c",
+                    "children": [],
+                    "actions": [
+                      "click",
+                      "collapse",
+                      "expand",
+                      "focus"
+                    ],
+                    "platform_data": {
+                      "uia_name": "View",
+                      "control_type_id": 50011,
+                      "description": null,
+                      "actions": [
+                        "press",
+                        "expand",
+                        "collapse",
+                        "focus"
+                      ],
+                      "native_stable_id": null
+                    }
+                  },
+                  {
+                    "ref": "9afebc595e0a5e87fd10",
+                    "platform": "windows",
+                    "role": "menu_item",
+                    "name": "Help",
+                    "value": null,
+                    "state": {
+                      "enabled": true,
+                      "visible": true,
+                      "focused": false,
+                      "active": false,
+                      "selected": false,
+                      "editable": false,
+                      "focusable": true,
+                      "checked": null,
+                      "expanded": false,
+                      "minimized": null,
+                      "maximized": null,
+                      "fullscreen": null
+                    },
+                    "bounds": {
+                      "x": 295,
+                      "y": 161,
+                      "width": 39,
+                      "height": 19
+                    },
+                    "parent": "3b45157ff5aaf8d16d3c",
+                    "children": [],
+                    "actions": [
+                      "click",
+                      "collapse",
+                      "expand",
+                      "focus"
+                    ],
+                    "platform_data": {
+                      "control_type_id": 50011,
+                      "uia_name": "Help",
+                      "description": null,
+                      "actions": [
+                        "press",
+                        "expand",
+                        "collapse",
+                        "focus"
+                      ],
+                      "native_stable_id": null
+                    }
+                  }
+                ],
+                "actions": [
+                  "focus"
+                ],
+                "platform_data": {
+                  "uia_name": "Application",
+                  "automation_id": "MenuBar",
+                  "control_type_id": 50010,
+                  "description": null,
+                  "actions": [
+                    "focus"
+                  ],
+                  "native_stable_id": "MenuBar"
+                }
+              }
+            ],
+            "actions": [
+              "focus"
+            ],
+            "platform_data": {
+              "control_type_id": 50032,
+              "class_name": "Notepad",
+              "uia_name": "Untitled - Notepad",
+              "description": null,
+              "actions": [
+                "focus",
+                "close",
+                "minimize",
+                "maximize",
+                "restore",
+                "move_to",
+                "resize_to",
+                "activate"
+              ],
+              "native_stable_id": "hwnd:0xde0392"
+            }
+          }
+        ],
+        "actions": [],
+        "platform_data": {
+          "uia_name_source": "process",
+          "uia_process_name": "C:\\Windows\\System32\\notepad.exe",
+          "uia_synthesized": true,
+          "description": null,
+          "actions": [],
+          "native_stable_id": null
+        }
+      }
+    ]
+  }
+}

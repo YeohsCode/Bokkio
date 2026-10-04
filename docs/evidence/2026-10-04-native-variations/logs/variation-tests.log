@@ -1,0 +1,10 @@
+........................................................................ [ 41%]
+........................................................................ [ 82%]
+..............................                                           [100%]
+============================== warnings summary ===============================
+.venv\Lib\site-packages\_pytest\cacheprovider.py:469
+  C:\BokkioWorkspace\Bokkio\.venv\Lib\site-packages\_pytest\cacheprovider.py:469: PytestCacheWarning: cache could not write path C:\BokkioWorkspace\Bokkio\.pytest_cache\v\cache\nodeids: [Errno 13] Permission denied: 'C:\\BokkioWorkspace\\Bokkio\\.pytest_cache\\v\\cache\\nodeids'
+    config.cache.set("cache/nodeids", sorted(self.cached_nodeids))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+174 passed, 1 warning in 3.32s

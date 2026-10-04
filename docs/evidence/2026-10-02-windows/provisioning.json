@@ -1,0 +1,22 @@
+{
+  "id": "account-ready",
+  "autologon_disabled": true,
+  "account_enabled": true,
+  "password_last_set": "/Date(1790917728218)/",
+  "os": {
+    "Caption": "Microsoft Windows 11 IoT Enterprise LTSC Evaluation",
+    "Version": "10.0.26100",
+    "BuildNumber": "26100"
+  },
+  "identity": "BOKKIO-WIN11\\Bokkio",
+  "session": 2,
+  "status": "ready",
+  "administrator": true,
+  "vm_name": "Bokkio Windows Unattended",
+  "vcpus": 4,
+  "memory_mib": 8192,
+  "disk_gb": 100,
+  "secure_boot": true,
+  "vtpm": false,
+  "password_authentication_verified": true
+}

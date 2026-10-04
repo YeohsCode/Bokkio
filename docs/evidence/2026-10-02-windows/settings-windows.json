@@ -1,0 +1,108 @@
+[
+  {
+    "active": false,
+    "bounds": {
+      "height": 641,
+      "width": 816,
+      "x": 40,
+      "y": 32
+    },
+    "minimized": false,
+    "name": "Settings",
+    "platform_data": {
+      "actions": [
+        "focus",
+        "close",
+        "minimize",
+        "maximize",
+        "restore",
+        "move_to",
+        "resize_to",
+        "activate"
+      ],
+      "class_name": "ApplicationFrameWindow",
+      "control_type_id": 50032,
+      "description": null,
+      "native_stable_id": "hwnd:0x102a4",
+      "uia_name": "Settings"
+    },
+    "ref": "baf106d7ddf43f24f3a0",
+    "role": "window",
+    "value": null
+  },
+  {
+    "active": false,
+    "bounds": {
+      "height": 32,
+      "width": 188,
+      "x": 660,
+      "y": 33
+    },
+    "minimized": null,
+    "name": "Settings",
+    "platform_data": {
+      "actions": [
+        "set_value",
+        "activate"
+      ],
+      "automation_id": "TitleBar",
+      "class_name": "ApplicationFrameTitleBarWindow",
+      "control_type_id": 50032,
+      "description": null,
+      "native_stable_id": "hwnd:0x102ac",
+      "uia_name": "Settings",
+      "uia_value": "Settings"
+    },
+    "ref": "1afd7761d758fad1da4d",
+    "role": "window",
+    "value": "Settings"
+  },
+  {
+    "active": false,
+    "bounds": {
+      "height": 632,
+      "width": 800,
+      "x": 48,
+      "y": 33
+    },
+    "minimized": null,
+    "name": "Settings",
+    "platform_data": {
+      "actions": [
+        "activate"
+      ],
+      "class_name": "Windows.UI.Core.CoreWindow",
+      "control_type_id": 50032,
+      "description": null,
+      "native_stable_id": "hwnd:0x102da",
+      "uia_name": "Settings"
+    },
+    "ref": "778645ab362f94073c36",
+    "role": "window",
+    "value": null
+  },
+  {
+    "active": false,
+    "bounds": {
+      "height": 632,
+      "width": 300,
+      "x": 48,
+      "y": 33
+    },
+    "minimized": null,
+    "name": null,
+    "platform_data": {
+      "actions": [
+        "activate"
+      ],
+      "automation_id": "PaneRoot",
+      "class_name": "SplitViewPane",
+      "control_type_id": 50032,
+      "description": null,
+      "native_stable_id": "PaneRoot"
+    },
+    "ref": "e84481f64d9f5a1ee960",
+    "role": "window",
+    "value": null
+  }
+]

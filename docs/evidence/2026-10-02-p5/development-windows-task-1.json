@@ -1,0 +1,25 @@
+{
+  "goal": "In bokkio-interactions-fixture set Search to \"P5 cross app one\" and click Submit so its status is \"Submitted: P5 cross app one\". Then in Bokkio Jev hard click Action in Right pane so its status is \"Clicked Right pane\".",
+  "apps": [
+    "bokkio-interactions-fixture",
+    "2156",
+    "7732"
+  ],
+  "events": [
+    {
+      "kind": "start",
+      "time": 1790933485.4105148,
+      "resumed": false
+    },
+    {
+      "kind": "status",
+      "time": 1790933533.9726677,
+      "status": "failed",
+      "reason": "Subtask ids must be unique nonempty strings"
+    }
+  ],
+  "completed_steps": [],
+  "actions": 0,
+  "replans": 0,
+  "status": "failed"
+}

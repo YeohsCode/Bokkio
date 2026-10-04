@@ -1,0 +1,2 @@
+{"id": 1, "status": "failed", "actions": 0, "replans": 0, "independent_checks": [false, false], "passed": false}
+{"id": 2, "status": "failed", "actions": 0, "replans": 0, "independent_checks": [true, false], "passed": false}

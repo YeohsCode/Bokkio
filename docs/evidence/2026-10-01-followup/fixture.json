@@ -1,0 +1,4750 @@
+{
+  "app": {
+    "is_foreground": false,
+    "name": "BokkioTest",
+    "pid": 64629,
+    "role": "application"
+  },
+  "ref_strategy": "structural-v2",
+  "window_filter": null,
+  "windows": [
+    {
+      "actions": [],
+      "bounds": null,
+      "children": [
+        {
+          "actions": [
+            "focus"
+          ],
+          "bounds": {
+            "height": 20,
+            "width": 52,
+            "x": 938,
+            "y": 155
+          },
+          "children": [
+            {
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "bounds": {
+                "height": 22,
+                "width": 54,
+                "x": 937,
+                "y": 154
+              },
+              "children": [],
+              "name": "WindowSharingSessionButton",
+              "parent": "f0af0ddc8e9733c1bd9c",
+              "platform": "macos",
+              "platform_data": {
+                "AXEnabled": true,
+                "AXFocused": false,
+                "AXPosition": {
+                  "x": 937.0,
+                  "y": 154.0
+                },
+                "AXSize": {
+                  "height": 22.0,
+                  "width": 54.0
+                },
+                "AXTitle": "WindowSharingSessionButton",
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "ax_role": "AXButton",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "7973917a984d931f3564",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            }
+          ],
+          "name": "Window",
+          "parent": "a9dadb3318245745fb38",
+          "platform": "macos",
+          "platform_data": {
+            "AXFocused": false,
+            "AXModal": false,
+            "AXPosition": {
+              "x": 938.0,
+              "y": 155.0
+            },
+            "AXSize": {
+              "height": 20.0,
+              "width": 52.0
+            },
+            "AXTitle": "Window",
+            "actions": [
+              "activate",
+              "focus",
+              "move_to"
+            ],
+            "ax_identifier": "_NS:8",
+            "ax_role": "AXWindow",
+            "ax_subrole": "AXDialog",
+            "description": null,
+            "native_stable_id": "_NS:8"
+          },
+          "ref": "f0af0ddc8e9733c1bd9c",
+          "role": "dialog",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": false,
+            "maximized": null,
+            "minimized": false,
+            "selected": false,
+            "visible": true
+          },
+          "value": null
+        },
+        {
+          "actions": [
+            "focus"
+          ],
+          "bounds": {
+            "height": 828,
+            "width": 700,
+            "x": 930,
+            "y": 151
+          },
+          "children": [
+            {
+              "actions": [
+                "focus"
+              ],
+              "bounds": {
+                "height": 800,
+                "width": 700,
+                "x": 930,
+                "y": 179
+              },
+              "children": [
+                {
+                  "actions": [
+                    "focus"
+                  ],
+                  "bounds": {
+                    "height": 100,
+                    "width": 656,
+                    "x": 942,
+                    "y": -1
+                  },
+                  "children": [
+                    {
+                      "actions": [
+                        "click",
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 22,
+                        "width": 108,
+                        "x": 973,
+                        "y": 41
+                      },
+                      "children": [],
+                      "name": "OK",
+                      "parent": "0e37c6cf0370fcd3dac5",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXDescription": "OK",
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXHelp": "Confirm the dialog",
+                        "AXPosition": {
+                          "x": 973.0,
+                          "y": 41.0
+                        },
+                        "AXSize": {
+                          "height": 22.0,
+                          "width": 108.0
+                        },
+                        "AXTitle": "OK",
+                        "actions": [
+                          "press",
+                          "focus"
+                        ],
+                        "ax_role": "AXButton",
+                        "description": "Confirm the dialog",
+                        "native_stable_id": null
+                      },
+                      "ref": "74405994b1a642749dac",
+                      "role": "button",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": null
+                    },
+                    {
+                      "actions": [
+                        "click",
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 22,
+                        "width": 108,
+                        "x": 1105,
+                        "y": 41
+                      },
+                      "children": [],
+                      "name": "Cancel",
+                      "parent": "0e37c6cf0370fcd3dac5",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXDescription": "Cancel",
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 1105.0,
+                          "y": 41.0
+                        },
+                        "AXSize": {
+                          "height": 22.0,
+                          "width": 108.0
+                        },
+                        "AXTitle": "Cancel",
+                        "actions": [
+                          "press",
+                          "focus"
+                        ],
+                        "ax_role": "AXButton",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "b79952032c33e81dbeb4",
+                      "role": "button",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": null
+                    },
+                    {
+                      "actions": [
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 16,
+                        "width": 47,
+                        "x": 954,
+                        "y": -2
+                      },
+                      "children": [],
+                      "name": "Buttons",
+                      "parent": "0e37c6cf0370fcd3dac5",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 954.0,
+                          "y": -2.0
+                        },
+                        "AXSize": {
+                          "height": 16.0,
+                          "width": 47.0
+                        },
+                        "AXValue": "Buttons",
+                        "actions": [
+                          "focus"
+                        ],
+                        "ax_role": "AXStaticText",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "88cdb18a23cba346c104",
+                      "role": "static_text",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": "Buttons"
+                    }
+                  ],
+                  "name": null,
+                  "parent": "3db748f7ec552381da13",
+                  "platform": "macos",
+                  "platform_data": {
+                    "AXFocused": false,
+                    "AXPosition": {
+                      "x": 942.0,
+                      "y": -1.0
+                    },
+                    "AXSize": {
+                      "height": 100.0,
+                      "width": 656.0
+                    },
+                    "actions": [
+                      "focus"
+                    ],
+                    "ax_role": "AXGroup",
+                    "description": null,
+                    "native_stable_id": null
+                  },
+                  "ref": "0e37c6cf0370fcd3dac5",
+                  "role": "group",
+                  "state": {
+                    "active": false,
+                    "checked": null,
+                    "editable": false,
+                    "enabled": true,
+                    "expanded": null,
+                    "focusable": true,
+                    "focused": false,
+                    "fullscreen": null,
+                    "maximized": null,
+                    "minimized": null,
+                    "selected": false,
+                    "visible": true
+                  },
+                  "value": null
+                },
+                {
+                  "actions": [
+                    "focus"
+                  ],
+                  "bounds": {
+                    "height": 100,
+                    "width": 656,
+                    "x": 942,
+                    "y": 109
+                  },
+                  "children": [
+                    {
+                      "actions": [
+                        "click",
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 24,
+                        "width": 200,
+                        "x": 968,
+                        "y": 125
+                      },
+                      "children": [],
+                      "name": "Agree to terms",
+                      "parent": "f6d8c750e3a090be568a",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXDescription": "Agree to terms",
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 968.0,
+                          "y": 125.0
+                        },
+                        "AXSize": {
+                          "height": 24.0,
+                          "width": 200.0
+                        },
+                        "AXTitle": "Agree to terms",
+                        "AXValue": 0.0,
+                        "actions": [
+                          "press",
+                          "focus",
+                          "toggle"
+                        ],
+                        "ax_role": "AXCheckBox",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "7dbe01c47bf64b4e1f09",
+                      "role": "check_box",
+                      "state": {
+                        "active": false,
+                        "checked": "off",
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": null
+                    },
+                    {
+                      "actions": [
+                        "click",
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 24,
+                        "width": 200,
+                        "x": 968,
+                        "y": 155
+                      },
+                      "children": [],
+                      "name": "Subscribe",
+                      "parent": "f6d8c750e3a090be568a",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXDescription": "Subscribe",
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 968.0,
+                          "y": 155.0
+                        },
+                        "AXSize": {
+                          "height": 24.0,
+                          "width": 200.0
+                        },
+                        "AXTitle": "Subscribe",
+                        "AXValue": 1.0,
+                        "actions": [
+                          "press",
+                          "focus",
+                          "toggle"
+                        ],
+                        "ax_role": "AXCheckBox",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "a767375d2411380d8a3e",
+                      "role": "check_box",
+                      "state": {
+                        "active": false,
+                        "checked": "on",
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": null
+                    },
+                    {
+                      "actions": [
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 16,
+                        "width": 70,
+                        "x": 954,
+                        "y": 108
+                      },
+                      "children": [],
+                      "name": "Checkboxes",
+                      "parent": "f6d8c750e3a090be568a",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 954.0,
+                          "y": 108.0
+                        },
+                        "AXSize": {
+                          "height": 16.0,
+                          "width": 70.0
+                        },
+                        "AXValue": "Checkboxes",
+                        "actions": [
+                          "focus"
+                        ],
+                        "ax_role": "AXStaticText",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "2a0a3794b563b115f9ea",
+                      "role": "static_text",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": "Checkboxes"
+                    }
+                  ],
+                  "name": null,
+                  "parent": "3db748f7ec552381da13",
+                  "platform": "macos",
+                  "platform_data": {
+                    "AXFocused": false,
+                    "AXPosition": {
+                      "x": 942.0,
+                      "y": 109.0
+                    },
+                    "AXSize": {
+                      "height": 100.0,
+                      "width": 656.0
+                    },
+                    "actions": [
+                      "focus"
+                    ],
+                    "ax_role": "AXGroup",
+                    "description": null,
+                    "native_stable_id": null
+                  },
+                  "ref": "f6d8c750e3a090be568a",
+                  "role": "group",
+                  "state": {
+                    "active": false,
+                    "checked": null,
+                    "editable": false,
+                    "enabled": true,
+                    "expanded": null,
+                    "focusable": true,
+                    "focused": false,
+                    "fullscreen": null,
+                    "maximized": null,
+                    "minimized": null,
+                    "selected": false,
+                    "visible": true
+                  },
+                  "value": null
+                },
+                {
+                  "actions": [
+                    "focus"
+                  ],
+                  "bounds": {
+                    "height": 110,
+                    "width": 656,
+                    "x": 942,
+                    "y": 219
+                  },
+                  "children": [
+                    {
+                      "actions": [
+                        "click",
+                        "focus",
+                        "select"
+                      ],
+                      "bounds": {
+                        "height": 24,
+                        "width": 150,
+                        "x": 968,
+                        "y": 225
+                      },
+                      "children": [],
+                      "name": "Option A",
+                      "parent": "43d28677f48fab9299da",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXDescription": "Option A",
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 968.0,
+                          "y": 225.0
+                        },
+                        "AXSize": {
+                          "height": 24.0,
+                          "width": 150.0
+                        },
+                        "AXTitle": "Option A",
+                        "AXValue": 1.0,
+                        "actions": [
+                          "press",
+                          "focus",
+                          "toggle"
+                        ],
+                        "ax_role": "AXRadioButton",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "171280cfebc49fdc7f8a",
+                      "role": "radio_button",
+                      "state": {
+                        "active": false,
+                        "checked": "on",
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": null
+                    },
+                    {
+                      "actions": [
+                        "click",
+                        "focus",
+                        "select"
+                      ],
+                      "bounds": {
+                        "height": 24,
+                        "width": 150,
+                        "x": 968,
+                        "y": 251
+                      },
+                      "children": [],
+                      "name": "Option B",
+                      "parent": "43d28677f48fab9299da",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXDescription": "Option B",
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 968.0,
+                          "y": 251.0
+                        },
+                        "AXSize": {
+                          "height": 24.0,
+                          "width": 150.0
+                        },
+                        "AXTitle": "Option B",
+                        "AXValue": 1.0,
+                        "actions": [
+                          "press",
+                          "focus",
+                          "toggle"
+                        ],
+                        "ax_role": "AXRadioButton",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "dfecaac2356ea9f025e0",
+                      "role": "radio_button",
+                      "state": {
+                        "active": false,
+                        "checked": "on",
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": null
+                    },
+                    {
+                      "actions": [
+                        "click",
+                        "focus",
+                        "select"
+                      ],
+                      "bounds": {
+                        "height": 24,
+                        "width": 150,
+                        "x": 968,
+                        "y": 277
+                      },
+                      "children": [],
+                      "name": "Option C",
+                      "parent": "43d28677f48fab9299da",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXDescription": "Option C",
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 968.0,
+                          "y": 277.0
+                        },
+                        "AXSize": {
+                          "height": 24.0,
+                          "width": 150.0
+                        },
+                        "AXTitle": "Option C",
+                        "AXValue": 0.0,
+                        "actions": [
+                          "press",
+                          "focus",
+                          "toggle"
+                        ],
+                        "ax_role": "AXRadioButton",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "c723a8175c56103fb27f",
+                      "role": "radio_button",
+                      "state": {
+                        "active": false,
+                        "checked": "off",
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": null
+                    },
+                    {
+                      "actions": [
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 16,
+                        "width": 48,
+                        "x": 954,
+                        "y": 218
+                      },
+                      "children": [],
+                      "name": "Options",
+                      "parent": "43d28677f48fab9299da",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 954.0,
+                          "y": 218.0
+                        },
+                        "AXSize": {
+                          "height": 16.0,
+                          "width": 48.0
+                        },
+                        "AXValue": "Options",
+                        "actions": [
+                          "focus"
+                        ],
+                        "ax_role": "AXStaticText",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "533476b6d15a24703dcb",
+                      "role": "static_text",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": "Options"
+                    }
+                  ],
+                  "name": null,
+                  "parent": "3db748f7ec552381da13",
+                  "platform": "macos",
+                  "platform_data": {
+                    "AXFocused": false,
+                    "AXPosition": {
+                      "x": 942.0,
+                      "y": 219.0
+                    },
+                    "AXSize": {
+                      "height": 110.0,
+                      "width": 656.0
+                    },
+                    "actions": [
+                      "focus"
+                    ],
+                    "ax_role": "AXGroup",
+                    "description": null,
+                    "native_stable_id": null
+                  },
+                  "ref": "43d28677f48fab9299da",
+                  "role": "group",
+                  "state": {
+                    "active": false,
+                    "checked": null,
+                    "editable": false,
+                    "enabled": true,
+                    "expanded": null,
+                    "focusable": true,
+                    "focused": false,
+                    "fullscreen": null,
+                    "maximized": null,
+                    "minimized": null,
+                    "selected": false,
+                    "visible": true
+                  },
+                  "value": null
+                },
+                {
+                  "actions": [
+                    "focus"
+                  ],
+                  "bounds": {
+                    "height": 90,
+                    "width": 656,
+                    "x": 942,
+                    "y": 339
+                  },
+                  "children": [
+                    {
+                      "actions": [
+                        "click",
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 25,
+                        "width": 198,
+                        "x": 967,
+                        "y": 363
+                      },
+                      "children": [
+                        {
+                          "actions": [
+                            "click",
+                            "focus"
+                          ],
+                          "bounds": {
+                            "height": 23,
+                            "width": 28,
+                            "x": 1144,
+                            "y": 364
+                          },
+                          "children": [],
+                          "name": "",
+                          "parent": "7b54238f4dea05edfbce",
+                          "platform": "macos",
+                          "platform_data": {
+                            "AXDescription": "Fruit",
+                            "AXEnabled": true,
+                            "AXFocused": false,
+                            "AXPosition": {
+                              "x": 1144.0,
+                              "y": 364.5
+                            },
+                            "AXSize": {
+                              "height": 23.0,
+                              "width": 28.0
+                            },
+                            "AXTitle": "",
+                            "actions": [
+                              "press",
+                              "focus"
+                            ],
+                            "ax_role": "AXButton",
+                            "description": "Fruit",
+                            "native_stable_id": null
+                          },
+                          "ref": "1090ae301900199aa516",
+                          "role": "button",
+                          "state": {
+                            "active": false,
+                            "checked": null,
+                            "editable": false,
+                            "enabled": true,
+                            "expanded": null,
+                            "focusable": true,
+                            "focused": false,
+                            "fullscreen": null,
+                            "maximized": null,
+                            "minimized": null,
+                            "selected": false,
+                            "visible": true
+                          },
+                          "value": null
+                        }
+                      ],
+                      "name": "Fruit",
+                      "parent": "017dd76a15808b3b5e24",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXDescription": "Fruit",
+                        "AXEnabled": true,
+                        "AXExpanded": false,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 967.0,
+                          "y": 363.0
+                        },
+                        "AXSize": {
+                          "height": 25.0,
+                          "width": 198.0
+                        },
+                        "AXValue": "Banana",
+                        "actions": [
+                          "show_menu",
+                          "press",
+                          "focus"
+                        ],
+                        "ax_role": "AXComboBox",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "7b54238f4dea05edfbce",
+                      "role": "combo_box",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": false,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": "Banana"
+                    },
+                    {
+                      "actions": [
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 16,
+                        "width": 63,
+                        "x": 954,
+                        "y": 338
+                      },
+                      "children": [],
+                      "name": "ComboBox",
+                      "parent": "017dd76a15808b3b5e24",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 954.0,
+                          "y": 338.0
+                        },
+                        "AXSize": {
+                          "height": 16.0,
+                          "width": 63.0
+                        },
+                        "AXValue": "ComboBox",
+                        "actions": [
+                          "focus"
+                        ],
+                        "ax_role": "AXStaticText",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "b793f0e340c29e62a46f",
+                      "role": "static_text",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": "ComboBox"
+                    }
+                  ],
+                  "name": null,
+                  "parent": "3db748f7ec552381da13",
+                  "platform": "macos",
+                  "platform_data": {
+                    "AXFocused": false,
+                    "AXPosition": {
+                      "x": 942.0,
+                      "y": 339.0
+                    },
+                    "AXSize": {
+                      "height": 90.0,
+                      "width": 656.0
+                    },
+                    "actions": [
+                      "focus"
+                    ],
+                    "ax_role": "AXGroup",
+                    "description": null,
+                    "native_stable_id": null
+                  },
+                  "ref": "017dd76a15808b3b5e24",
+                  "role": "group",
+                  "state": {
+                    "active": false,
+                    "checked": null,
+                    "editable": false,
+                    "enabled": true,
+                    "expanded": null,
+                    "focusable": true,
+                    "focused": false,
+                    "fullscreen": null,
+                    "maximized": null,
+                    "minimized": null,
+                    "selected": false,
+                    "visible": true
+                  },
+                  "value": null
+                },
+                {
+                  "actions": [
+                    "focus"
+                  ],
+                  "bounds": {
+                    "height": 150,
+                    "width": 656,
+                    "x": 942,
+                    "y": 439
+                  },
+                  "children": [
+                    {
+                      "actions": [
+                        "focus",
+                        "set_value"
+                      ],
+                      "bounds": {
+                        "height": 18,
+                        "width": 298,
+                        "x": 968,
+                        "y": 451
+                      },
+                      "children": [
+                        {
+                          "actions": [
+                            "focus"
+                          ],
+                          "bounds": {
+                            "height": 28,
+                            "width": 24,
+                            "x": 1105,
+                            "y": 448
+                          },
+                          "children": [],
+                          "name": null,
+                          "parent": "e7a5d6fc02e49c475385",
+                          "platform": "macos",
+                          "platform_data": {
+                            "AXFocused": false,
+                            "AXPosition": {
+                              "x": 1105.0,
+                              "y": 448.0
+                            },
+                            "AXSize": {
+                              "height": 28.0,
+                              "width": 24.0
+                            },
+                            "AXValue": 50.0,
+                            "actions": [
+                              "focus"
+                            ],
+                            "ax_role": "AXValueIndicator",
+                            "description": null,
+                            "native_stable_id": null
+                          },
+                          "ref": "1d4313cd7cbc65bf4934",
+                          "role": "scroll_thumb",
+                          "state": {
+                            "active": false,
+                            "checked": null,
+                            "editable": false,
+                            "enabled": true,
+                            "expanded": null,
+                            "focusable": true,
+                            "focused": false,
+                            "fullscreen": null,
+                            "maximized": null,
+                            "minimized": null,
+                            "selected": false,
+                            "visible": true
+                          },
+                          "value": "50"
+                        }
+                      ],
+                      "name": "Volume",
+                      "parent": "a91a712318cca6e01dec",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXDescription": "Volume",
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 968.0,
+                          "y": 451.0
+                        },
+                        "AXSize": {
+                          "height": 18.0,
+                          "width": 298.0
+                        },
+                        "AXValue": 50.0,
+                        "actions": [
+                          "increment",
+                          "decrement",
+                          "focus",
+                          "set_value"
+                        ],
+                        "ax_role": "AXSlider",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "e7a5d6fc02e49c475385",
+                      "role": "slider",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": "50"
+                    },
+                    {
+                      "actions": [
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 20,
+                        "width": 76,
+                        "x": 969,
+                        "y": 486
+                      },
+                      "children": [
+                        {
+                          "actions": [
+                            "click"
+                          ],
+                          "bounds": {
+                            "height": 10,
+                            "width": 76,
+                            "x": 969,
+                            "y": 486
+                          },
+                          "children": [],
+                          "name": null,
+                          "parent": "b96c3d053abb39c4bff8",
+                          "platform": "macos",
+                          "platform_data": {
+                            "AXPosition": {
+                              "x": 969.0,
+                              "y": 486.0
+                            },
+                            "AXSize": {
+                              "height": 10.0,
+                              "width": 76.0
+                            },
+                            "actions": [
+                              "press"
+                            ],
+                            "ax_role": "AXButton",
+                            "ax_subrole": "AXIncrementArrow",
+                            "description": null,
+                            "native_stable_id": null
+                          },
+                          "ref": "8ffda8224705564597d7",
+                          "role": "button",
+                          "state": {
+                            "active": false,
+                            "checked": null,
+                            "editable": false,
+                            "enabled": true,
+                            "expanded": null,
+                            "focusable": true,
+                            "focused": false,
+                            "fullscreen": null,
+                            "maximized": null,
+                            "minimized": null,
+                            "selected": false,
+                            "visible": true
+                          },
+                          "value": null
+                        },
+                        {
+                          "actions": [
+                            "click"
+                          ],
+                          "bounds": {
+                            "height": 10,
+                            "width": 76,
+                            "x": 969,
+                            "y": 496
+                          },
+                          "children": [],
+                          "name": null,
+                          "parent": "b96c3d053abb39c4bff8",
+                          "platform": "macos",
+                          "platform_data": {
+                            "AXPosition": {
+                              "x": 969.0,
+                              "y": 496.0
+                            },
+                            "AXSize": {
+                              "height": 10.0,
+                              "width": 76.0
+                            },
+                            "actions": [
+                              "press"
+                            ],
+                            "ax_role": "AXButton",
+                            "ax_subrole": "AXDecrementArrow",
+                            "description": null,
+                            "native_stable_id": null
+                          },
+                          "ref": "c4dc5ea0d62d8276f25d",
+                          "role": "button",
+                          "state": {
+                            "active": false,
+                            "checked": null,
+                            "editable": false,
+                            "enabled": true,
+                            "expanded": null,
+                            "focusable": true,
+                            "focused": false,
+                            "fullscreen": null,
+                            "maximized": null,
+                            "minimized": null,
+                            "selected": false,
+                            "visible": true
+                          },
+                          "value": null
+                        }
+                      ],
+                      "name": "Quantity",
+                      "parent": "a91a712318cca6e01dec",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXDescription": "Quantity",
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 969.0,
+                          "y": 486.0
+                        },
+                        "AXSize": {
+                          "height": 20.0,
+                          "width": 76.0
+                        },
+                        "AXValue": 42.0,
+                        "actions": [
+                          "increment",
+                          "decrement",
+                          "focus"
+                        ],
+                        "ax_role": "AXIncrementor",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "b96c3d053abb39c4bff8",
+                      "role": "spin_button",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": "42"
+                    },
+                    {
+                      "actions": [
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 28,
+                        "width": 82,
+                        "x": 1050,
+                        "y": 482
+                      },
+                      "children": [],
+                      "name": "42",
+                      "parent": "a91a712318cca6e01dec",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 1050.0,
+                          "y": 482.0
+                        },
+                        "AXSize": {
+                          "height": 28.0,
+                          "width": 82.0
+                        },
+                        "AXValue": 42.0,
+                        "actions": [
+                          "focus"
+                        ],
+                        "ax_role": "AXStaticText",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "daf09f87f1101975f543",
+                      "role": "static_text",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": "42"
+                    },
+                    {
+                      "actions": [
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 20,
+                        "width": 300,
+                        "x": 967,
+                        "y": 529
+                      },
+                      "children": [],
+                      "name": "Progress",
+                      "parent": "a91a712318cca6e01dec",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXDescription": "Progress",
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 967.0,
+                          "y": 529.0
+                        },
+                        "AXSize": {
+                          "height": 20.0,
+                          "width": 300.0
+                        },
+                        "AXValue": 0.75,
+                        "actions": [
+                          "focus"
+                        ],
+                        "ax_role": "AXProgressIndicator",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "15e0040b52048c2e60e4",
+                      "role": "progress_bar",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": "0.75"
+                    },
+                    {
+                      "actions": [
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 16,
+                        "width": 87,
+                        "x": 954,
+                        "y": 438
+                      },
+                      "children": [],
+                      "name": "Range Controls",
+                      "parent": "a91a712318cca6e01dec",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 954.0,
+                          "y": 438.0
+                        },
+                        "AXSize": {
+                          "height": 16.0,
+                          "width": 87.0
+                        },
+                        "AXValue": "Range Controls",
+                        "actions": [
+                          "focus"
+                        ],
+                        "ax_role": "AXStaticText",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "a66eca4195cdacc0a59a",
+                      "role": "static_text",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": "Range Controls"
+                    }
+                  ],
+                  "name": null,
+                  "parent": "3db748f7ec552381da13",
+                  "platform": "macos",
+                  "platform_data": {
+                    "AXFocused": false,
+                    "AXPosition": {
+                      "x": 942.0,
+                      "y": 439.0
+                    },
+                    "AXSize": {
+                      "height": 150.0,
+                      "width": 656.0
+                    },
+                    "actions": [
+                      "focus"
+                    ],
+                    "ax_role": "AXGroup",
+                    "description": null,
+                    "native_stable_id": null
+                  },
+                  "ref": "a91a712318cca6e01dec",
+                  "role": "group",
+                  "state": {
+                    "active": false,
+                    "checked": null,
+                    "editable": false,
+                    "enabled": true,
+                    "expanded": null,
+                    "focusable": true,
+                    "focused": false,
+                    "fullscreen": null,
+                    "maximized": null,
+                    "minimized": null,
+                    "selected": false,
+                    "visible": true
+                  },
+                  "value": null
+                },
+                {
+                  "actions": [
+                    "focus"
+                  ],
+                  "bounds": {
+                    "height": 90,
+                    "width": 656,
+                    "x": 942,
+                    "y": 599
+                  },
+                  "children": [
+                    {
+                      "actions": [
+                        "click",
+                        "focus",
+                        "set_value"
+                      ],
+                      "bounds": {
+                        "height": 28,
+                        "width": 302,
+                        "x": 966,
+                        "y": 622
+                      },
+                      "children": [],
+                      "name": "Search",
+                      "parent": "c33f18da1c04272b41b8",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXDescription": "Search",
+                        "AXEnabled": true,
+                        "AXFocused": true,
+                        "AXPosition": {
+                          "x": 966.0,
+                          "y": 622.0
+                        },
+                        "AXSize": {
+                          "height": 28.0,
+                          "width": 302.0
+                        },
+                        "AXValue": "Bokkio native run 3",
+                        "actions": [
+                          "show_menu",
+                          "press",
+                          "focus",
+                          "set_value"
+                        ],
+                        "ax_role": "AXTextField",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "e3b92e437a6a92f8a117",
+                      "role": "text_field",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": true,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": true,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": "Bokkio native run 3"
+                    },
+                    {
+                      "actions": [
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 16,
+                        "width": 33,
+                        "x": 954,
+                        "y": 598
+                      },
+                      "children": [],
+                      "name": "Input",
+                      "parent": "c33f18da1c04272b41b8",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 954.0,
+                          "y": 598.0
+                        },
+                        "AXSize": {
+                          "height": 16.0,
+                          "width": 33.0
+                        },
+                        "AXValue": "Input",
+                        "actions": [
+                          "focus"
+                        ],
+                        "ax_role": "AXStaticText",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "acd03efcad42c33a547f",
+                      "role": "static_text",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": "Input"
+                    }
+                  ],
+                  "name": null,
+                  "parent": "3db748f7ec552381da13",
+                  "platform": "macos",
+                  "platform_data": {
+                    "AXFocused": false,
+                    "AXPosition": {
+                      "x": 942.0,
+                      "y": 599.0
+                    },
+                    "AXSize": {
+                      "height": 90.0,
+                      "width": 656.0
+                    },
+                    "actions": [
+                      "focus"
+                    ],
+                    "ax_role": "AXGroup",
+                    "description": null,
+                    "native_stable_id": null
+                  },
+                  "ref": "c33f18da1c04272b41b8",
+                  "role": "group",
+                  "state": {
+                    "active": false,
+                    "checked": null,
+                    "editable": false,
+                    "enabled": true,
+                    "expanded": null,
+                    "focusable": true,
+                    "focused": false,
+                    "fullscreen": null,
+                    "maximized": null,
+                    "minimized": null,
+                    "selected": false,
+                    "visible": true
+                  },
+                  "value": null
+                },
+                {
+                  "actions": [
+                    "focus"
+                  ],
+                  "bounds": {
+                    "height": 120,
+                    "width": 656,
+                    "x": 942,
+                    "y": 699
+                  },
+                  "children": [
+                    {
+                      "actions": [
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 26,
+                        "width": 302,
+                        "x": 966,
+                        "y": 706
+                      },
+                      "children": [],
+                      "name": "Heading Text",
+                      "parent": "6b156d1088d19147798d",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXDescription": "Heading Text",
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 966.0,
+                          "y": 706.0
+                        },
+                        "AXSize": {
+                          "height": 26.0,
+                          "width": 302.0
+                        },
+                        "AXValue": "Heading Text",
+                        "actions": [
+                          "focus"
+                        ],
+                        "ax_role": "AXStaticText",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "5db3d01de199a6399fd0",
+                      "role": "static_text",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": "Heading Text"
+                    },
+                    {
+                      "actions": [
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 60,
+                        "width": 400,
+                        "x": 967,
+                        "y": 739
+                      },
+                      "children": [
+                        {
+                          "actions": [
+                            "focus",
+                            "set_value"
+                          ],
+                          "bounds": {
+                            "height": 60,
+                            "width": 400,
+                            "x": 967,
+                            "y": 739
+                          },
+                          "children": [],
+                          "name": "Notes",
+                          "parent": "a1e388027485c42a91b4",
+                          "platform": "macos",
+                          "platform_data": {
+                            "AXDescription": "Notes",
+                            "AXFocused": false,
+                            "AXPosition": {
+                              "x": 967.0,
+                              "y": 739.0
+                            },
+                            "AXSize": {
+                              "height": 60.0,
+                              "width": 400.0
+                            },
+                            "AXValue": "Line 1\nLine 2\nLine 3",
+                            "actions": [
+                              "show_menu",
+                              "focus",
+                              "set_value"
+                            ],
+                            "ax_role": "AXTextArea",
+                            "description": null,
+                            "native_stable_id": null
+                          },
+                          "ref": "8b3256dd100e0caf3d13",
+                          "role": "text_area",
+                          "state": {
+                            "active": false,
+                            "checked": null,
+                            "editable": true,
+                            "enabled": true,
+                            "expanded": null,
+                            "focusable": true,
+                            "focused": false,
+                            "fullscreen": null,
+                            "maximized": null,
+                            "minimized": null,
+                            "selected": false,
+                            "visible": true
+                          },
+                          "value": "Line 1\nLine 2\nLine 3"
+                        }
+                      ],
+                      "name": null,
+                      "parent": "6b156d1088d19147798d",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 967.0,
+                          "y": 739.0
+                        },
+                        "AXSize": {
+                          "height": 60.0,
+                          "width": 400.0
+                        },
+                        "actions": [
+                          "scroll_left_by_page",
+                          "scroll_right_by_page",
+                          "scroll_up_by_page",
+                          "scroll_down_by_page",
+                          "focus"
+                        ],
+                        "ax_role": "AXScrollArea",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "a1e388027485c42a91b4",
+                      "role": "group",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": null
+                    },
+                    {
+                      "actions": [
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 16,
+                        "width": 28,
+                        "x": 954,
+                        "y": 698
+                      },
+                      "children": [],
+                      "name": "Text",
+                      "parent": "6b156d1088d19147798d",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 954.0,
+                          "y": 698.0
+                        },
+                        "AXSize": {
+                          "height": 16.0,
+                          "width": 28.0
+                        },
+                        "AXValue": "Text",
+                        "actions": [
+                          "focus"
+                        ],
+                        "ax_role": "AXStaticText",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "62220ea0031f95bf88cd",
+                      "role": "static_text",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": "Text"
+                    }
+                  ],
+                  "name": null,
+                  "parent": "3db748f7ec552381da13",
+                  "platform": "macos",
+                  "platform_data": {
+                    "AXFocused": false,
+                    "AXPosition": {
+                      "x": 942.0,
+                      "y": 699.0
+                    },
+                    "AXSize": {
+                      "height": 120.0,
+                      "width": 656.0
+                    },
+                    "actions": [
+                      "focus"
+                    ],
+                    "ax_role": "AXGroup",
+                    "description": null,
+                    "native_stable_id": null
+                  },
+                  "ref": "6b156d1088d19147798d",
+                  "role": "group",
+                  "state": {
+                    "active": false,
+                    "checked": null,
+                    "editable": false,
+                    "enabled": true,
+                    "expanded": null,
+                    "focusable": true,
+                    "focused": false,
+                    "fullscreen": null,
+                    "maximized": null,
+                    "minimized": null,
+                    "selected": false,
+                    "visible": true
+                  },
+                  "value": null
+                },
+                {
+                  "actions": [
+                    "focus"
+                  ],
+                  "bounds": {
+                    "height": 150,
+                    "width": 656,
+                    "x": 942,
+                    "y": 829
+                  },
+                  "children": [
+                    {
+                      "actions": [
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 120,
+                        "width": 400,
+                        "x": 967,
+                        "y": 839
+                      },
+                      "children": [
+                        {
+                          "actions": [
+                            "focus"
+                          ],
+                          "bounds": {
+                            "height": 142,
+                            "width": 402,
+                            "x": 966,
+                            "y": 866
+                          },
+                          "children": [
+                            {
+                              "actions": [],
+                              "bounds": {
+                                "height": 24,
+                                "width": 400,
+                                "x": 967,
+                                "y": 877
+                              },
+                              "children": [
+                                {
+                                  "actions": [
+                                    "click",
+                                    "focus",
+                                    "set_value"
+                                  ],
+                                  "bounds": {
+                                    "height": 24,
+                                    "width": 100,
+                                    "x": 983,
+                                    "y": 877
+                                  },
+                                  "children": [],
+                                  "name": null,
+                                  "parent": "1956944bd9bffabe7bab",
+                                  "platform": "macos",
+                                  "platform_data": {
+                                    "AXEnabled": true,
+                                    "AXFocused": false,
+                                    "AXPosition": {
+                                      "x": 983.0,
+                                      "y": 877.0
+                                    },
+                                    "AXSize": {
+                                      "height": 24.0,
+                                      "width": 100.0
+                                    },
+                                    "AXValue": "Item 1",
+                                    "actions": [
+                                      "show_menu",
+                                      "press",
+                                      "focus",
+                                      "set_value"
+                                    ],
+                                    "ax_role": "AXTextField",
+                                    "description": null,
+                                    "native_stable_id": null
+                                  },
+                                  "ref": "d0dbe30d36f46428f808",
+                                  "role": "text_field",
+                                  "state": {
+                                    "active": false,
+                                    "checked": null,
+                                    "editable": true,
+                                    "enabled": true,
+                                    "expanded": null,
+                                    "focusable": true,
+                                    "focused": false,
+                                    "fullscreen": null,
+                                    "maximized": null,
+                                    "minimized": null,
+                                    "selected": false,
+                                    "visible": true
+                                  },
+                                  "value": "Item 1"
+                                }
+                              ],
+                              "name": null,
+                              "parent": "2bf32237a3b3ba2a644d",
+                              "platform": "macos",
+                              "platform_data": {
+                                "AXPosition": {
+                                  "x": 967.0,
+                                  "y": 877.0
+                                },
+                                "AXSelected": false,
+                                "AXSize": {
+                                  "height": 24.0,
+                                  "width": 400.0
+                                },
+                                "actions": [],
+                                "ax_role": "AXRow",
+                                "ax_subrole": "AXTableRow",
+                                "description": null,
+                                "native_stable_id": null
+                              },
+                              "ref": "1956944bd9bffabe7bab",
+                              "role": "table_row",
+                              "state": {
+                                "active": false,
+                                "checked": null,
+                                "editable": false,
+                                "enabled": true,
+                                "expanded": null,
+                                "focusable": false,
+                                "focused": false,
+                                "fullscreen": null,
+                                "maximized": null,
+                                "minimized": null,
+                                "selected": false,
+                                "visible": true
+                              },
+                              "value": null
+                            },
+                            {
+                              "actions": [],
+                              "bounds": {
+                                "height": 24,
+                                "width": 400,
+                                "x": 967,
+                                "y": 901
+                              },
+                              "children": [
+                                {
+                                  "actions": [
+                                    "click",
+                                    "focus",
+                                    "set_value"
+                                  ],
+                                  "bounds": {
+                                    "height": 24,
+                                    "width": 100,
+                                    "x": 983,
+                                    "y": 901
+                                  },
+                                  "children": [],
+                                  "name": null,
+                                  "parent": "bf5edc5eddbb441ca563",
+                                  "platform": "macos",
+                                  "platform_data": {
+                                    "AXEnabled": true,
+                                    "AXFocused": false,
+                                    "AXPosition": {
+                                      "x": 983.0,
+                                      "y": 901.0
+                                    },
+                                    "AXSize": {
+                                      "height": 24.0,
+                                      "width": 100.0
+                                    },
+                                    "AXValue": "Item 2",
+                                    "actions": [
+                                      "show_menu",
+                                      "press",
+                                      "focus",
+                                      "set_value"
+                                    ],
+                                    "ax_role": "AXTextField",
+                                    "description": null,
+                                    "native_stable_id": null
+                                  },
+                                  "ref": "42b5926a2d4aa45ec1ea",
+                                  "role": "text_field",
+                                  "state": {
+                                    "active": false,
+                                    "checked": null,
+                                    "editable": true,
+                                    "enabled": true,
+                                    "expanded": null,
+                                    "focusable": true,
+                                    "focused": false,
+                                    "fullscreen": null,
+                                    "maximized": null,
+                                    "minimized": null,
+                                    "selected": false,
+                                    "visible": true
+                                  },
+                                  "value": "Item 2"
+                                }
+                              ],
+                              "name": null,
+                              "parent": "2bf32237a3b3ba2a644d",
+                              "platform": "macos",
+                              "platform_data": {
+                                "AXPosition": {
+                                  "x": 967.0,
+                                  "y": 901.0
+                                },
+                                "AXSelected": true,
+                                "AXSize": {
+                                  "height": 24.0,
+                                  "width": 400.0
+                                },
+                                "actions": [],
+                                "ax_role": "AXRow",
+                                "ax_subrole": "AXTableRow",
+                                "description": null,
+                                "native_stable_id": null
+                              },
+                              "ref": "bf5edc5eddbb441ca563",
+                              "role": "table_row",
+                              "state": {
+                                "active": false,
+                                "checked": null,
+                                "editable": false,
+                                "enabled": true,
+                                "expanded": null,
+                                "focusable": false,
+                                "focused": false,
+                                "fullscreen": null,
+                                "maximized": null,
+                                "minimized": null,
+                                "selected": true,
+                                "visible": true
+                              },
+                              "value": null
+                            },
+                            {
+                              "actions": [],
+                              "bounds": {
+                                "height": 24,
+                                "width": 400,
+                                "x": 967,
+                                "y": 925
+                              },
+                              "children": [
+                                {
+                                  "actions": [
+                                    "click",
+                                    "focus",
+                                    "set_value"
+                                  ],
+                                  "bounds": {
+                                    "height": 24,
+                                    "width": 100,
+                                    "x": 983,
+                                    "y": 925
+                                  },
+                                  "children": [],
+                                  "name": null,
+                                  "parent": "4bd9ace417b3c664ce1b",
+                                  "platform": "macos",
+                                  "platform_data": {
+                                    "AXEnabled": true,
+                                    "AXFocused": false,
+                                    "AXPosition": {
+                                      "x": 983.0,
+                                      "y": 925.0
+                                    },
+                                    "AXSize": {
+                                      "height": 24.0,
+                                      "width": 100.0
+                                    },
+                                    "AXValue": "Item 3",
+                                    "actions": [
+                                      "show_menu",
+                                      "press",
+                                      "focus",
+                                      "set_value"
+                                    ],
+                                    "ax_role": "AXTextField",
+                                    "description": null,
+                                    "native_stable_id": null
+                                  },
+                                  "ref": "7d2d062260c77c6ac302",
+                                  "role": "text_field",
+                                  "state": {
+                                    "active": false,
+                                    "checked": null,
+                                    "editable": true,
+                                    "enabled": true,
+                                    "expanded": null,
+                                    "focusable": true,
+                                    "focused": false,
+                                    "fullscreen": null,
+                                    "maximized": null,
+                                    "minimized": null,
+                                    "selected": false,
+                                    "visible": true
+                                  },
+                                  "value": "Item 3"
+                                }
+                              ],
+                              "name": null,
+                              "parent": "2bf32237a3b3ba2a644d",
+                              "platform": "macos",
+                              "platform_data": {
+                                "AXPosition": {
+                                  "x": 967.0,
+                                  "y": 925.0
+                                },
+                                "AXSelected": false,
+                                "AXSize": {
+                                  "height": 24.0,
+                                  "width": 400.0
+                                },
+                                "actions": [],
+                                "ax_role": "AXRow",
+                                "ax_subrole": "AXTableRow",
+                                "description": null,
+                                "native_stable_id": null
+                              },
+                              "ref": "4bd9ace417b3c664ce1b",
+                              "role": "table_row",
+                              "state": {
+                                "active": false,
+                                "checked": null,
+                                "editable": false,
+                                "enabled": true,
+                                "expanded": null,
+                                "focusable": false,
+                                "focused": false,
+                                "fullscreen": null,
+                                "maximized": null,
+                                "minimized": null,
+                                "selected": false,
+                                "visible": true
+                              },
+                              "value": null
+                            },
+                            {
+                              "actions": [],
+                              "bounds": {
+                                "height": 24,
+                                "width": 400,
+                                "x": 967,
+                                "y": 949
+                              },
+                              "children": [
+                                {
+                                  "actions": [
+                                    "click",
+                                    "focus",
+                                    "set_value"
+                                  ],
+                                  "bounds": {
+                                    "height": 24,
+                                    "width": 100,
+                                    "x": 983,
+                                    "y": 949
+                                  },
+                                  "children": [],
+                                  "name": null,
+                                  "parent": "d7da54128584be416a3b",
+                                  "platform": "macos",
+                                  "platform_data": {
+                                    "AXEnabled": true,
+                                    "AXFocused": false,
+                                    "AXPosition": {
+                                      "x": 983.0,
+                                      "y": 949.0
+                                    },
+                                    "AXSize": {
+                                      "height": 24.0,
+                                      "width": 100.0
+                                    },
+                                    "AXValue": "Item 4",
+                                    "actions": [
+                                      "show_menu",
+                                      "press",
+                                      "focus",
+                                      "set_value"
+                                    ],
+                                    "ax_role": "AXTextField",
+                                    "description": null,
+                                    "native_stable_id": null
+                                  },
+                                  "ref": "ae92cdfc6ca1a9135b2d",
+                                  "role": "text_field",
+                                  "state": {
+                                    "active": false,
+                                    "checked": null,
+                                    "editable": true,
+                                    "enabled": true,
+                                    "expanded": null,
+                                    "focusable": true,
+                                    "focused": false,
+                                    "fullscreen": null,
+                                    "maximized": null,
+                                    "minimized": null,
+                                    "selected": false,
+                                    "visible": true
+                                  },
+                                  "value": "Item 4"
+                                }
+                              ],
+                              "name": null,
+                              "parent": "2bf32237a3b3ba2a644d",
+                              "platform": "macos",
+                              "platform_data": {
+                                "AXPosition": {
+                                  "x": 967.0,
+                                  "y": 949.0
+                                },
+                                "AXSelected": false,
+                                "AXSize": {
+                                  "height": 24.0,
+                                  "width": 400.0
+                                },
+                                "actions": [],
+                                "ax_role": "AXRow",
+                                "ax_subrole": "AXTableRow",
+                                "description": null,
+                                "native_stable_id": null
+                              },
+                              "ref": "d7da54128584be416a3b",
+                              "role": "table_row",
+                              "state": {
+                                "active": false,
+                                "checked": null,
+                                "editable": false,
+                                "enabled": true,
+                                "expanded": null,
+                                "focusable": false,
+                                "focused": false,
+                                "fullscreen": null,
+                                "maximized": null,
+                                "minimized": null,
+                                "selected": false,
+                                "visible": true
+                              },
+                              "value": null
+                            },
+                            {
+                              "actions": [],
+                              "bounds": {
+                                "height": 24,
+                                "width": 400,
+                                "x": 967,
+                                "y": 973
+                              },
+                              "children": [
+                                {
+                                  "actions": [
+                                    "click",
+                                    "focus",
+                                    "set_value"
+                                  ],
+                                  "bounds": {
+                                    "height": 24,
+                                    "width": 100,
+                                    "x": 983,
+                                    "y": 973
+                                  },
+                                  "children": [],
+                                  "name": null,
+                                  "parent": "4176a25210518e13e02b",
+                                  "platform": "macos",
+                                  "platform_data": {
+                                    "AXEnabled": true,
+                                    "AXFocused": false,
+                                    "AXPosition": {
+                                      "x": 983.0,
+                                      "y": 973.0
+                                    },
+                                    "AXSize": {
+                                      "height": 24.0,
+                                      "width": 100.0
+                                    },
+                                    "AXValue": "Item 5",
+                                    "actions": [
+                                      "show_menu",
+                                      "press",
+                                      "focus",
+                                      "set_value"
+                                    ],
+                                    "ax_role": "AXTextField",
+                                    "description": null,
+                                    "native_stable_id": null
+                                  },
+                                  "ref": "c9ac58d024d57bdfed32",
+                                  "role": "text_field",
+                                  "state": {
+                                    "active": false,
+                                    "checked": null,
+                                    "editable": true,
+                                    "enabled": true,
+                                    "expanded": null,
+                                    "focusable": true,
+                                    "focused": false,
+                                    "fullscreen": null,
+                                    "maximized": null,
+                                    "minimized": null,
+                                    "selected": false,
+                                    "visible": true
+                                  },
+                                  "value": "Item 5"
+                                }
+                              ],
+                              "name": null,
+                              "parent": "2bf32237a3b3ba2a644d",
+                              "platform": "macos",
+                              "platform_data": {
+                                "AXPosition": {
+                                  "x": 967.0,
+                                  "y": 973.0
+                                },
+                                "AXSelected": false,
+                                "AXSize": {
+                                  "height": 24.0,
+                                  "width": 400.0
+                                },
+                                "actions": [],
+                                "ax_role": "AXRow",
+                                "ax_subrole": "AXTableRow",
+                                "description": null,
+                                "native_stable_id": null
+                              },
+                              "ref": "4176a25210518e13e02b",
+                              "role": "table_row",
+                              "state": {
+                                "active": false,
+                                "checked": null,
+                                "editable": false,
+                                "enabled": true,
+                                "expanded": null,
+                                "focusable": false,
+                                "focused": false,
+                                "fullscreen": null,
+                                "maximized": null,
+                                "minimized": null,
+                                "selected": false,
+                                "visible": true
+                              },
+                              "value": null
+                            },
+                            {
+                              "actions": [],
+                              "bounds": {
+                                "height": 140,
+                                "width": 112,
+                                "x": 977,
+                                "y": 867
+                              },
+                              "children": [],
+                              "name": null,
+                              "parent": "2bf32237a3b3ba2a644d",
+                              "platform": "macos",
+                              "platform_data": {
+                                "AXPosition": {
+                                  "x": 977.0,
+                                  "y": 867.0
+                                },
+                                "AXSelected": false,
+                                "AXSize": {
+                                  "height": 140.0,
+                                  "width": 112.0
+                                },
+                                "actions": [],
+                                "ax_identifier": "item",
+                                "ax_role": "AXColumn",
+                                "description": null,
+                                "native_stable_id": "item"
+                              },
+                              "ref": "1e8a91e036a2d1b3c471",
+                              "role": "group",
+                              "state": {
+                                "active": false,
+                                "checked": null,
+                                "editable": false,
+                                "enabled": true,
+                                "expanded": null,
+                                "focusable": false,
+                                "focused": false,
+                                "fullscreen": null,
+                                "maximized": null,
+                                "minimized": null,
+                                "selected": false,
+                                "visible": true
+                              },
+                              "value": null
+                            },
+                            {
+                              "actions": [
+                                "focus"
+                              ],
+                              "bounds": {
+                                "height": 28,
+                                "width": 400,
+                                "x": 967,
+                                "y": 839
+                              },
+                              "children": [
+                                {
+                                  "actions": [
+                                    "click",
+                                    "focus"
+                                  ],
+                                  "bounds": {
+                                    "height": 28,
+                                    "width": 112,
+                                    "x": 977,
+                                    "y": 839
+                                  },
+                                  "children": [],
+                                  "name": "Item",
+                                  "parent": "ccef4c8b7953390765b0",
+                                  "platform": "macos",
+                                  "platform_data": {
+                                    "AXEnabled": true,
+                                    "AXFocused": false,
+                                    "AXPosition": {
+                                      "x": 977.0,
+                                      "y": 839.0
+                                    },
+                                    "AXSize": {
+                                      "height": 28.0,
+                                      "width": 112.0
+                                    },
+                                    "AXTitle": "Item",
+                                    "actions": [
+                                      "press",
+                                      "focus"
+                                    ],
+                                    "ax_role": "AXButton",
+                                    "ax_subrole": "AXSortButton",
+                                    "description": null,
+                                    "native_stable_id": null
+                                  },
+                                  "ref": "e25d6d372459a650026a",
+                                  "role": "button",
+                                  "state": {
+                                    "active": false,
+                                    "checked": null,
+                                    "editable": false,
+                                    "enabled": true,
+                                    "expanded": null,
+                                    "focusable": true,
+                                    "focused": false,
+                                    "fullscreen": null,
+                                    "maximized": null,
+                                    "minimized": null,
+                                    "selected": false,
+                                    "visible": true
+                                  },
+                                  "value": null
+                                }
+                              ],
+                              "name": null,
+                              "parent": "2bf32237a3b3ba2a644d",
+                              "platform": "macos",
+                              "platform_data": {
+                                "AXFocused": false,
+                                "AXPosition": {
+                                  "x": 967.0,
+                                  "y": 839.0
+                                },
+                                "AXSize": {
+                                  "height": 28.0,
+                                  "width": 400.0
+                                },
+                                "actions": [
+                                  "focus"
+                                ],
+                                "ax_role": "AXGroup",
+                                "description": null,
+                                "native_stable_id": null
+                              },
+                              "ref": "ccef4c8b7953390765b0",
+                              "role": "group",
+                              "state": {
+                                "active": false,
+                                "checked": null,
+                                "editable": false,
+                                "enabled": true,
+                                "expanded": null,
+                                "focusable": true,
+                                "focused": false,
+                                "fullscreen": null,
+                                "maximized": null,
+                                "minimized": null,
+                                "selected": false,
+                                "visible": true
+                              },
+                              "value": null
+                            }
+                          ],
+                          "name": "Items",
+                          "parent": "39251557846868df578e",
+                          "platform": "macos",
+                          "platform_data": {
+                            "AXDescription": "Items",
+                            "AXEnabled": true,
+                            "AXFocused": false,
+                            "AXPosition": {
+                              "x": 966.0,
+                              "y": 866.0
+                            },
+                            "AXSize": {
+                              "height": 142.0,
+                              "width": 402.0
+                            },
+                            "actions": [
+                              "focus"
+                            ],
+                            "ax_role": "AXTable",
+                            "description": null,
+                            "native_stable_id": null
+                          },
+                          "ref": "2bf32237a3b3ba2a644d",
+                          "role": "table",
+                          "state": {
+                            "active": false,
+                            "checked": null,
+                            "editable": false,
+                            "enabled": true,
+                            "expanded": null,
+                            "focusable": true,
+                            "focused": false,
+                            "fullscreen": null,
+                            "maximized": null,
+                            "minimized": null,
+                            "selected": false,
+                            "visible": true
+                          },
+                          "value": null
+                        }
+                      ],
+                      "name": null,
+                      "parent": "fdcf01a8d5766d6c3412",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 967.0,
+                          "y": 839.0
+                        },
+                        "AXSize": {
+                          "height": 120.0,
+                          "width": 400.0
+                        },
+                        "actions": [
+                          "scroll_left_by_page",
+                          "scroll_right_by_page",
+                          "scroll_up_by_page",
+                          "scroll_down_by_page",
+                          "focus"
+                        ],
+                        "ax_role": "AXScrollArea",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "39251557846868df578e",
+                      "role": "group",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": null
+                    },
+                    {
+                      "actions": [
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 16,
+                        "width": 25,
+                        "x": 954,
+                        "y": 828
+                      },
+                      "children": [],
+                      "name": "List",
+                      "parent": "fdcf01a8d5766d6c3412",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 954.0,
+                          "y": 828.0
+                        },
+                        "AXSize": {
+                          "height": 16.0,
+                          "width": 25.0
+                        },
+                        "AXValue": "List",
+                        "actions": [
+                          "focus"
+                        ],
+                        "ax_role": "AXStaticText",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "bc825cbf6e2b39a202ed",
+                      "role": "static_text",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": "List"
+                    }
+                  ],
+                  "name": null,
+                  "parent": "3db748f7ec552381da13",
+                  "platform": "macos",
+                  "platform_data": {
+                    "AXFocused": false,
+                    "AXPosition": {
+                      "x": 942.0,
+                      "y": 829.0
+                    },
+                    "AXSize": {
+                      "height": 150.0,
+                      "width": 656.0
+                    },
+                    "actions": [
+                      "focus"
+                    ],
+                    "ax_role": "AXGroup",
+                    "description": null,
+                    "native_stable_id": null
+                  },
+                  "ref": "fdcf01a8d5766d6c3412",
+                  "role": "group",
+                  "state": {
+                    "active": false,
+                    "checked": null,
+                    "editable": false,
+                    "enabled": true,
+                    "expanded": null,
+                    "focusable": true,
+                    "focused": false,
+                    "fullscreen": null,
+                    "maximized": null,
+                    "minimized": null,
+                    "selected": false,
+                    "visible": true
+                  },
+                  "value": null
+                },
+                {
+                  "actions": [
+                    "focus"
+                  ],
+                  "bounds": {
+                    "height": 150,
+                    "width": 656,
+                    "x": 942,
+                    "y": 989
+                  },
+                  "children": [
+                    {
+                      "actions": [
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 120,
+                        "width": 400,
+                        "x": 967,
+                        "y": 999
+                      },
+                      "children": [
+                        {
+                          "actions": [
+                            "focus"
+                          ],
+                          "bounds": {
+                            "height": 94,
+                            "width": 402,
+                            "x": 966,
+                            "y": 1026
+                          },
+                          "children": [
+                            {
+                              "actions": [],
+                              "bounds": {
+                                "height": 24,
+                                "width": 400,
+                                "x": 967,
+                                "y": 1032
+                              },
+                              "children": [
+                                {
+                                  "actions": [
+                                    "focus"
+                                  ],
+                                  "bounds": {
+                                    "height": 24,
+                                    "width": 100,
+                                    "x": 983,
+                                    "y": 1032
+                                  },
+                                  "children": [
+                                    {
+                                      "actions": [
+                                        "focus"
+                                      ],
+                                      "bounds": {
+                                        "height": 26,
+                                        "width": 98,
+                                        "x": 984,
+                                        "y": 1031
+                                      },
+                                      "children": [],
+                                      "name": "Alice",
+                                      "parent": "4ea22de25231d9cdc135",
+                                      "platform": "macos",
+                                      "platform_data": {
+                                        "AXEnabled": true,
+                                        "AXFocused": false,
+                                        "AXPosition": {
+                                          "x": 984.0,
+                                          "y": 1031.0
+                                        },
+                                        "AXSize": {
+                                          "height": 26.0,
+                                          "width": 98.0
+                                        },
+                                        "AXValue": "Alice",
+                                        "actions": [
+                                          "focus"
+                                        ],
+                                        "ax_role": "AXStaticText",
+                                        "description": null,
+                                        "native_stable_id": null
+                                      },
+                                      "ref": "4fb080b7e310a341782c",
+                                      "role": "static_text",
+                                      "state": {
+                                        "active": false,
+                                        "checked": null,
+                                        "editable": false,
+                                        "enabled": true,
+                                        "expanded": null,
+                                        "focusable": true,
+                                        "focused": false,
+                                        "fullscreen": null,
+                                        "maximized": null,
+                                        "minimized": null,
+                                        "selected": false,
+                                        "visible": true
+                                      },
+                                      "value": "Alice"
+                                    }
+                                  ],
+                                  "name": null,
+                                  "parent": "11a249c1eee231fa5795",
+                                  "platform": "macos",
+                                  "platform_data": {
+                                    "AXEnabled": true,
+                                    "AXFocused": true,
+                                    "AXPosition": {
+                                      "x": 983.0,
+                                      "y": 1032.0
+                                    },
+                                    "AXSelected": false,
+                                    "AXSize": {
+                                      "height": 24.0,
+                                      "width": 100.0
+                                    },
+                                    "actions": [
+                                      "focus"
+                                    ],
+                                    "ax_role": "AXCell",
+                                    "description": null,
+                                    "native_stable_id": null
+                                  },
+                                  "ref": "4ea22de25231d9cdc135",
+                                  "role": "table_cell",
+                                  "state": {
+                                    "active": false,
+                                    "checked": null,
+                                    "editable": false,
+                                    "enabled": true,
+                                    "expanded": null,
+                                    "focusable": true,
+                                    "focused": true,
+                                    "fullscreen": null,
+                                    "maximized": null,
+                                    "minimized": null,
+                                    "selected": false,
+                                    "visible": true
+                                  },
+                                  "value": null
+                                },
+                                {
+                                  "actions": [
+                                    "focus"
+                                  ],
+                                  "bounds": {
+                                    "height": 24,
+                                    "width": 100,
+                                    "x": 1100,
+                                    "y": 1032
+                                  },
+                                  "children": [
+                                    {
+                                      "actions": [
+                                        "focus"
+                                      ],
+                                      "bounds": {
+                                        "height": 26,
+                                        "width": 98,
+                                        "x": 1101,
+                                        "y": 1031
+                                      },
+                                      "children": [],
+                                      "name": "Admin",
+                                      "parent": "2c5cb4f993ea8e276026",
+                                      "platform": "macos",
+                                      "platform_data": {
+                                        "AXEnabled": true,
+                                        "AXFocused": false,
+                                        "AXPosition": {
+                                          "x": 1101.0,
+                                          "y": 1031.0
+                                        },
+                                        "AXSize": {
+                                          "height": 26.0,
+                                          "width": 98.0
+                                        },
+                                        "AXValue": "Admin",
+                                        "actions": [
+                                          "focus"
+                                        ],
+                                        "ax_role": "AXStaticText",
+                                        "description": null,
+                                        "native_stable_id": null
+                                      },
+                                      "ref": "6276cf67353e4b877798",
+                                      "role": "static_text",
+                                      "state": {
+                                        "active": false,
+                                        "checked": null,
+                                        "editable": false,
+                                        "enabled": true,
+                                        "expanded": null,
+                                        "focusable": true,
+                                        "focused": false,
+                                        "fullscreen": null,
+                                        "maximized": null,
+                                        "minimized": null,
+                                        "selected": false,
+                                        "visible": true
+                                      },
+                                      "value": "Admin"
+                                    }
+                                  ],
+                                  "name": null,
+                                  "parent": "11a249c1eee231fa5795",
+                                  "platform": "macos",
+                                  "platform_data": {
+                                    "AXEnabled": true,
+                                    "AXFocused": true,
+                                    "AXPosition": {
+                                      "x": 1100.0,
+                                      "y": 1032.0
+                                    },
+                                    "AXSelected": false,
+                                    "AXSize": {
+                                      "height": 24.0,
+                                      "width": 100.0
+                                    },
+                                    "actions": [
+                                      "focus"
+                                    ],
+                                    "ax_role": "AXCell",
+                                    "description": null,
+                                    "native_stable_id": null
+                                  },
+                                  "ref": "2c5cb4f993ea8e276026",
+                                  "role": "table_cell",
+                                  "state": {
+                                    "active": false,
+                                    "checked": null,
+                                    "editable": false,
+                                    "enabled": true,
+                                    "expanded": null,
+                                    "focusable": true,
+                                    "focused": true,
+                                    "fullscreen": null,
+                                    "maximized": null,
+                                    "minimized": null,
+                                    "selected": false,
+                                    "visible": true
+                                  },
+                                  "value": null
+                                }
+                              ],
+                              "name": null,
+                              "parent": "bb0069676244a4f3b0b0",
+                              "platform": "macos",
+                              "platform_data": {
+                                "AXPosition": {
+                                  "x": 967.0,
+                                  "y": 1032.0
+                                },
+                                "AXSelected": false,
+                                "AXSize": {
+                                  "height": 24.0,
+                                  "width": 400.0
+                                },
+                                "actions": [],
+                                "ax_role": "AXRow",
+                                "ax_subrole": "AXTableRow",
+                                "description": null,
+                                "native_stable_id": null
+                              },
+                              "ref": "11a249c1eee231fa5795",
+                              "role": "table_row",
+                              "state": {
+                                "active": false,
+                                "checked": null,
+                                "editable": false,
+                                "enabled": true,
+                                "expanded": null,
+                                "focusable": false,
+                                "focused": false,
+                                "fullscreen": null,
+                                "maximized": null,
+                                "minimized": null,
+                                "selected": false,
+                                "visible": true
+                              },
+                              "value": null
+                            },
+                            {
+                              "actions": [],
+                              "bounds": {
+                                "height": 24,
+                                "width": 400,
+                                "x": 967,
+                                "y": 1056
+                              },
+                              "children": [
+                                {
+                                  "actions": [
+                                    "focus"
+                                  ],
+                                  "bounds": {
+                                    "height": 24,
+                                    "width": 100,
+                                    "x": 983,
+                                    "y": 1056
+                                  },
+                                  "children": [
+                                    {
+                                      "actions": [
+                                        "focus"
+                                      ],
+                                      "bounds": {
+                                        "height": 26,
+                                        "width": 98,
+                                        "x": 984,
+                                        "y": 1055
+                                      },
+                                      "children": [],
+                                      "name": "Bob",
+                                      "parent": "e91427223ab06152fd76",
+                                      "platform": "macos",
+                                      "platform_data": {
+                                        "AXEnabled": true,
+                                        "AXFocused": false,
+                                        "AXPosition": {
+                                          "x": 984.0,
+                                          "y": 1055.0
+                                        },
+                                        "AXSize": {
+                                          "height": 26.0,
+                                          "width": 98.0
+                                        },
+                                        "AXValue": "Bob",
+                                        "actions": [
+                                          "focus"
+                                        ],
+                                        "ax_role": "AXStaticText",
+                                        "description": null,
+                                        "native_stable_id": null
+                                      },
+                                      "ref": "c0800fce8ad464cadcd2",
+                                      "role": "static_text",
+                                      "state": {
+                                        "active": false,
+                                        "checked": null,
+                                        "editable": false,
+                                        "enabled": true,
+                                        "expanded": null,
+                                        "focusable": true,
+                                        "focused": false,
+                                        "fullscreen": null,
+                                        "maximized": null,
+                                        "minimized": null,
+                                        "selected": false,
+                                        "visible": true
+                                      },
+                                      "value": "Bob"
+                                    }
+                                  ],
+                                  "name": null,
+                                  "parent": "5b99d817129daa853ff5",
+                                  "platform": "macos",
+                                  "platform_data": {
+                                    "AXEnabled": true,
+                                    "AXFocused": true,
+                                    "AXPosition": {
+                                      "x": 983.0,
+                                      "y": 1056.0
+                                    },
+                                    "AXSelected": false,
+                                    "AXSize": {
+                                      "height": 24.0,
+                                      "width": 100.0
+                                    },
+                                    "actions": [
+                                      "focus"
+                                    ],
+                                    "ax_role": "AXCell",
+                                    "description": null,
+                                    "native_stable_id": null
+                                  },
+                                  "ref": "e91427223ab06152fd76",
+                                  "role": "table_cell",
+                                  "state": {
+                                    "active": false,
+                                    "checked": null,
+                                    "editable": false,
+                                    "enabled": true,
+                                    "expanded": null,
+                                    "focusable": true,
+                                    "focused": true,
+                                    "fullscreen": null,
+                                    "maximized": null,
+                                    "minimized": null,
+                                    "selected": false,
+                                    "visible": true
+                                  },
+                                  "value": null
+                                },
+                                {
+                                  "actions": [
+                                    "focus"
+                                  ],
+                                  "bounds": {
+                                    "height": 24,
+                                    "width": 100,
+                                    "x": 1100,
+                                    "y": 1056
+                                  },
+                                  "children": [
+                                    {
+                                      "actions": [
+                                        "focus"
+                                      ],
+                                      "bounds": {
+                                        "height": 26,
+                                        "width": 98,
+                                        "x": 1101,
+                                        "y": 1055
+                                      },
+                                      "children": [],
+                                      "name": "User",
+                                      "parent": "e77e6ebda5f7a1254afa",
+                                      "platform": "macos",
+                                      "platform_data": {
+                                        "AXEnabled": true,
+                                        "AXFocused": false,
+                                        "AXPosition": {
+                                          "x": 1101.0,
+                                          "y": 1055.0
+                                        },
+                                        "AXSize": {
+                                          "height": 26.0,
+                                          "width": 98.0
+                                        },
+                                        "AXValue": "User",
+                                        "actions": [
+                                          "focus"
+                                        ],
+                                        "ax_role": "AXStaticText",
+                                        "description": null,
+                                        "native_stable_id": null
+                                      },
+                                      "ref": "6233bac25ff9cd57789e",
+                                      "role": "static_text",
+                                      "state": {
+                                        "active": false,
+                                        "checked": null,
+                                        "editable": false,
+                                        "enabled": true,
+                                        "expanded": null,
+                                        "focusable": true,
+                                        "focused": false,
+                                        "fullscreen": null,
+                                        "maximized": null,
+                                        "minimized": null,
+                                        "selected": false,
+                                        "visible": true
+                                      },
+                                      "value": "User"
+                                    }
+                                  ],
+                                  "name": null,
+                                  "parent": "5b99d817129daa853ff5",
+                                  "platform": "macos",
+                                  "platform_data": {
+                                    "AXEnabled": true,
+                                    "AXFocused": true,
+                                    "AXPosition": {
+                                      "x": 1100.0,
+                                      "y": 1056.0
+                                    },
+                                    "AXSelected": false,
+                                    "AXSize": {
+                                      "height": 24.0,
+                                      "width": 100.0
+                                    },
+                                    "actions": [
+                                      "focus"
+                                    ],
+                                    "ax_role": "AXCell",
+                                    "description": null,
+                                    "native_stable_id": null
+                                  },
+                                  "ref": "e77e6ebda5f7a1254afa",
+                                  "role": "table_cell",
+                                  "state": {
+                                    "active": false,
+                                    "checked": null,
+                                    "editable": false,
+                                    "enabled": true,
+                                    "expanded": null,
+                                    "focusable": true,
+                                    "focused": true,
+                                    "fullscreen": null,
+                                    "maximized": null,
+                                    "minimized": null,
+                                    "selected": false,
+                                    "visible": true
+                                  },
+                                  "value": null
+                                }
+                              ],
+                              "name": null,
+                              "parent": "bb0069676244a4f3b0b0",
+                              "platform": "macos",
+                              "platform_data": {
+                                "AXPosition": {
+                                  "x": 967.0,
+                                  "y": 1056.0
+                                },
+                                "AXSelected": false,
+                                "AXSize": {
+                                  "height": 24.0,
+                                  "width": 400.0
+                                },
+                                "actions": [],
+                                "ax_role": "AXRow",
+                                "ax_subrole": "AXTableRow",
+                                "description": null,
+                                "native_stable_id": null
+                              },
+                              "ref": "5b99d817129daa853ff5",
+                              "role": "table_row",
+                              "state": {
+                                "active": false,
+                                "checked": null,
+                                "editable": false,
+                                "enabled": true,
+                                "expanded": null,
+                                "focusable": false,
+                                "focused": false,
+                                "fullscreen": null,
+                                "maximized": null,
+                                "minimized": null,
+                                "selected": false,
+                                "visible": true
+                              },
+                              "value": null
+                            },
+                            {
+                              "actions": [],
+                              "bounds": {
+                                "height": 92,
+                                "width": 115,
+                                "x": 977,
+                                "y": 1027
+                              },
+                              "children": [],
+                              "name": null,
+                              "parent": "bb0069676244a4f3b0b0",
+                              "platform": "macos",
+                              "platform_data": {
+                                "AXPosition": {
+                                  "x": 977.0,
+                                  "y": 1027.0
+                                },
+                                "AXSelected": false,
+                                "AXSize": {
+                                  "height": 92.0,
+                                  "width": 115.0
+                                },
+                                "actions": [],
+                                "ax_identifier": "name",
+                                "ax_role": "AXColumn",
+                                "description": null,
+                                "native_stable_id": "name"
+                              },
+                              "ref": "b5542fff7ce49e6956a4",
+                              "role": "group",
+                              "state": {
+                                "active": false,
+                                "checked": null,
+                                "editable": false,
+                                "enabled": true,
+                                "expanded": null,
+                                "focusable": false,
+                                "focused": false,
+                                "fullscreen": null,
+                                "maximized": null,
+                                "minimized": null,
+                                "selected": false,
+                                "visible": true
+                              },
+                              "value": null
+                            },
+                            {
+                              "actions": [],
+                              "bounds": {
+                                "height": 92,
+                                "width": 114,
+                                "x": 1092,
+                                "y": 1027
+                              },
+                              "children": [],
+                              "name": null,
+                              "parent": "bb0069676244a4f3b0b0",
+                              "platform": "macos",
+                              "platform_data": {
+                                "AXPosition": {
+                                  "x": 1092.0,
+                                  "y": 1027.0
+                                },
+                                "AXSelected": false,
+                                "AXSize": {
+                                  "height": 92.0,
+                                  "width": 114.0
+                                },
+                                "actions": [],
+                                "ax_identifier": "role",
+                                "ax_role": "AXColumn",
+                                "description": null,
+                                "native_stable_id": "role"
+                              },
+                              "ref": "fa3c2b704195d023b46a",
+                              "role": "group",
+                              "state": {
+                                "active": false,
+                                "checked": null,
+                                "editable": false,
+                                "enabled": true,
+                                "expanded": null,
+                                "focusable": false,
+                                "focused": false,
+                                "fullscreen": null,
+                                "maximized": null,
+                                "minimized": null,
+                                "selected": false,
+                                "visible": true
+                              },
+                              "value": null
+                            },
+                            {
+                              "actions": [
+                                "focus"
+                              ],
+                              "bounds": {
+                                "height": 28,
+                                "width": 400,
+                                "x": 967,
+                                "y": 999
+                              },
+                              "children": [
+                                {
+                                  "actions": [
+                                    "click",
+                                    "focus"
+                                  ],
+                                  "bounds": {
+                                    "height": 28,
+                                    "width": 115,
+                                    "x": 977,
+                                    "y": 999
+                                  },
+                                  "children": [],
+                                  "name": "Name",
+                                  "parent": "3d28c8534f76f13e2107",
+                                  "platform": "macos",
+                                  "platform_data": {
+                                    "AXEnabled": true,
+                                    "AXFocused": false,
+                                    "AXPosition": {
+                                      "x": 977.0,
+                                      "y": 999.0
+                                    },
+                                    "AXSize": {
+                                      "height": 28.0,
+                                      "width": 115.0
+                                    },
+                                    "AXTitle": "Name",
+                                    "actions": [
+                                      "press",
+                                      "focus"
+                                    ],
+                                    "ax_role": "AXButton",
+                                    "ax_subrole": "AXSortButton",
+                                    "description": null,
+                                    "native_stable_id": null
+                                  },
+                                  "ref": "97e5dbd81c4d4b03415e",
+                                  "role": "button",
+                                  "state": {
+                                    "active": false,
+                                    "checked": null,
+                                    "editable": false,
+                                    "enabled": true,
+                                    "expanded": null,
+                                    "focusable": true,
+                                    "focused": false,
+                                    "fullscreen": null,
+                                    "maximized": null,
+                                    "minimized": null,
+                                    "selected": false,
+                                    "visible": true
+                                  },
+                                  "value": null
+                                },
+                                {
+                                  "actions": [
+                                    "click",
+                                    "focus"
+                                  ],
+                                  "bounds": {
+                                    "height": 28,
+                                    "width": 114,
+                                    "x": 1092,
+                                    "y": 999
+                                  },
+                                  "children": [],
+                                  "name": "Role",
+                                  "parent": "3d28c8534f76f13e2107",
+                                  "platform": "macos",
+                                  "platform_data": {
+                                    "AXEnabled": true,
+                                    "AXFocused": false,
+                                    "AXPosition": {
+                                      "x": 1092.0,
+                                      "y": 999.0
+                                    },
+                                    "AXSize": {
+                                      "height": 28.0,
+                                      "width": 114.0
+                                    },
+                                    "AXTitle": "Role",
+                                    "actions": [
+                                      "press",
+                                      "focus"
+                                    ],
+                                    "ax_role": "AXButton",
+                                    "ax_subrole": "AXSortButton",
+                                    "description": null,
+                                    "native_stable_id": null
+                                  },
+                                  "ref": "e67e7d83c441b3eae2a0",
+                                  "role": "button",
+                                  "state": {
+                                    "active": false,
+                                    "checked": null,
+                                    "editable": false,
+                                    "enabled": true,
+                                    "expanded": null,
+                                    "focusable": true,
+                                    "focused": false,
+                                    "fullscreen": null,
+                                    "maximized": null,
+                                    "minimized": null,
+                                    "selected": false,
+                                    "visible": true
+                                  },
+                                  "value": null
+                                }
+                              ],
+                              "name": null,
+                              "parent": "bb0069676244a4f3b0b0",
+                              "platform": "macos",
+                              "platform_data": {
+                                "AXFocused": false,
+                                "AXPosition": {
+                                  "x": 967.0,
+                                  "y": 999.0
+                                },
+                                "AXSize": {
+                                  "height": 28.0,
+                                  "width": 400.0
+                                },
+                                "actions": [
+                                  "focus"
+                                ],
+                                "ax_role": "AXGroup",
+                                "description": null,
+                                "native_stable_id": null
+                              },
+                              "ref": "3d28c8534f76f13e2107",
+                              "role": "group",
+                              "state": {
+                                "active": false,
+                                "checked": null,
+                                "editable": false,
+                                "enabled": true,
+                                "expanded": null,
+                                "focusable": true,
+                                "focused": false,
+                                "fullscreen": null,
+                                "maximized": null,
+                                "minimized": null,
+                                "selected": false,
+                                "visible": true
+                              },
+                              "value": null
+                            }
+                          ],
+                          "name": "Users Table",
+                          "parent": "78dd976b7dcf88909440",
+                          "platform": "macos",
+                          "platform_data": {
+                            "AXDescription": "Users Table",
+                            "AXEnabled": true,
+                            "AXFocused": false,
+                            "AXPosition": {
+                              "x": 966.0,
+                              "y": 1026.0
+                            },
+                            "AXSize": {
+                              "height": 94.0,
+                              "width": 402.0
+                            },
+                            "actions": [
+                              "focus"
+                            ],
+                            "ax_role": "AXTable",
+                            "description": null,
+                            "native_stable_id": null
+                          },
+                          "ref": "bb0069676244a4f3b0b0",
+                          "role": "table",
+                          "state": {
+                            "active": false,
+                            "checked": null,
+                            "editable": false,
+                            "enabled": true,
+                            "expanded": null,
+                            "focusable": true,
+                            "focused": false,
+                            "fullscreen": null,
+                            "maximized": null,
+                            "minimized": null,
+                            "selected": false,
+                            "visible": true
+                          },
+                          "value": null
+                        }
+                      ],
+                      "name": null,
+                      "parent": "6117d29086f54bd1fc36",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 967.0,
+                          "y": 999.0
+                        },
+                        "AXSize": {
+                          "height": 120.0,
+                          "width": 400.0
+                        },
+                        "actions": [
+                          "scroll_left_by_page",
+                          "scroll_right_by_page",
+                          "scroll_up_by_page",
+                          "scroll_down_by_page",
+                          "focus"
+                        ],
+                        "ax_role": "AXScrollArea",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "78dd976b7dcf88909440",
+                      "role": "group",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": null
+                    },
+                    {
+                      "actions": [
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 16,
+                        "width": 35,
+                        "x": 954,
+                        "y": 988
+                      },
+                      "children": [],
+                      "name": "Table",
+                      "parent": "6117d29086f54bd1fc36",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 954.0,
+                          "y": 988.0
+                        },
+                        "AXSize": {
+                          "height": 16.0,
+                          "width": 35.0
+                        },
+                        "AXValue": "Table",
+                        "actions": [
+                          "focus"
+                        ],
+                        "ax_role": "AXStaticText",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "48701242eae1dfcddb6e",
+                      "role": "static_text",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": "Table"
+                    }
+                  ],
+                  "name": null,
+                  "parent": "3db748f7ec552381da13",
+                  "platform": "macos",
+                  "platform_data": {
+                    "AXFocused": false,
+                    "AXPosition": {
+                      "x": 942.0,
+                      "y": 989.0
+                    },
+                    "AXSize": {
+                      "height": 150.0,
+                      "width": 656.0
+                    },
+                    "actions": [
+                      "focus"
+                    ],
+                    "ax_role": "AXGroup",
+                    "description": null,
+                    "native_stable_id": null
+                  },
+                  "ref": "6117d29086f54bd1fc36",
+                  "role": "group",
+                  "state": {
+                    "active": false,
+                    "checked": null,
+                    "editable": false,
+                    "enabled": true,
+                    "expanded": null,
+                    "focusable": true,
+                    "focused": false,
+                    "fullscreen": null,
+                    "maximized": null,
+                    "minimized": null,
+                    "selected": false,
+                    "visible": true
+                  },
+                  "value": null
+                },
+                {
+                  "actions": [
+                    "focus"
+                  ],
+                  "bounds": {
+                    "height": 120,
+                    "width": 656,
+                    "x": 942,
+                    "y": 1149
+                  },
+                  "children": [
+                    {
+                      "actions": [
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 18,
+                        "width": 42,
+                        "x": 966,
+                        "y": 1178
+                      },
+                      "children": [],
+                      "name": "Name",
+                      "parent": "69e64e8c47bcbe513d79",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 966.0,
+                          "y": 1178.0
+                        },
+                        "AXSize": {
+                          "height": 18.0,
+                          "width": 42.0
+                        },
+                        "AXValue": "Name",
+                        "actions": [
+                          "focus"
+                        ],
+                        "ax_role": "AXStaticText",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "cc89d0de8beeca16d03e",
+                      "role": "static_text",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": "Name"
+                    },
+                    {
+                      "actions": [
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 18,
+                        "width": 40,
+                        "x": 1228,
+                        "y": 1178
+                      },
+                      "children": [],
+                      "name": "Value",
+                      "parent": "69e64e8c47bcbe513d79",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 1228.0,
+                          "y": 1178.0
+                        },
+                        "AXSize": {
+                          "height": 18.0,
+                          "width": 40.0
+                        },
+                        "AXValue": "Value",
+                        "actions": [
+                          "focus"
+                        ],
+                        "ax_role": "AXStaticText",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "6793e921b965d873506c",
+                      "role": "static_text",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": "Value"
+                    },
+                    {
+                      "actions": [
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 16,
+                        "width": 29,
+                        "x": 954,
+                        "y": 1148
+                      },
+                      "children": [],
+                      "name": "Grid",
+                      "parent": "69e64e8c47bcbe513d79",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 954.0,
+                          "y": 1148.0
+                        },
+                        "AXSize": {
+                          "height": 16.0,
+                          "width": 29.0
+                        },
+                        "AXValue": "Grid",
+                        "actions": [
+                          "focus"
+                        ],
+                        "ax_role": "AXStaticText",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "bde8126dd08a8b52042e",
+                      "role": "static_text",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": "Grid"
+                    }
+                  ],
+                  "name": null,
+                  "parent": "3db748f7ec552381da13",
+                  "platform": "macos",
+                  "platform_data": {
+                    "AXFocused": false,
+                    "AXPosition": {
+                      "x": 942.0,
+                      "y": 1149.0
+                    },
+                    "AXSize": {
+                      "height": 120.0,
+                      "width": 656.0
+                    },
+                    "actions": [
+                      "focus"
+                    ],
+                    "ax_role": "AXGroup",
+                    "description": null,
+                    "native_stable_id": null
+                  },
+                  "ref": "69e64e8c47bcbe513d79",
+                  "role": "group",
+                  "state": {
+                    "active": false,
+                    "checked": null,
+                    "editable": false,
+                    "enabled": true,
+                    "expanded": null,
+                    "focusable": true,
+                    "focused": false,
+                    "fullscreen": null,
+                    "maximized": null,
+                    "minimized": null,
+                    "selected": false,
+                    "visible": true
+                  },
+                  "value": null
+                },
+                {
+                  "actions": [
+                    "focus"
+                  ],
+                  "bounds": {
+                    "height": 120,
+                    "width": 656,
+                    "x": 942,
+                    "y": 1279
+                  },
+                  "children": [
+                    {
+                      "actions": [
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 26,
+                        "width": 302,
+                        "x": 966,
+                        "y": 1286
+                      },
+                      "children": [],
+                      "name": "Status: Submitted",
+                      "parent": "492302ae4e75fc9824f8",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXDescription": "Status: Submitted",
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 966.0,
+                          "y": 1286.0
+                        },
+                        "AXSize": {
+                          "height": 26.0,
+                          "width": 302.0
+                        },
+                        "AXValue": "Status: Submitted",
+                        "actions": [
+                          "focus"
+                        ],
+                        "ax_role": "AXStaticText",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "1567b4dd413980c2a632",
+                      "role": "static_text",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": "Status: Submitted"
+                    },
+                    {
+                      "actions": [
+                        "click",
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 14,
+                        "width": 108,
+                        "x": 973,
+                        "y": 1325
+                      },
+                      "children": [],
+                      "name": "Submit",
+                      "parent": "492302ae4e75fc9824f8",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXDescription": "Submit",
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 973.0,
+                          "y": 1325.0
+                        },
+                        "AXSize": {
+                          "height": 14.0,
+                          "width": 108.0
+                        },
+                        "AXTitle": "Submit",
+                        "actions": [
+                          "press",
+                          "focus"
+                        ],
+                        "ax_role": "AXButton",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "9a9cd6348cd65aa9c0de",
+                      "role": "button",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": null
+                    },
+                    {
+                      "actions": [
+                        "click",
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 14,
+                        "width": 108,
+                        "x": 1105,
+                        "y": 1325
+                      },
+                      "children": [],
+                      "name": "Add Item",
+                      "parent": "492302ae4e75fc9824f8",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXDescription": "Add Item",
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 1105.0,
+                          "y": 1325.0
+                        },
+                        "AXSize": {
+                          "height": 14.0,
+                          "width": 108.0
+                        },
+                        "AXTitle": "Add Item",
+                        "actions": [
+                          "press",
+                          "focus"
+                        ],
+                        "ax_role": "AXButton",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "75919489823d72f2352e",
+                      "role": "button",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": null
+                    },
+                    {
+                      "actions": [
+                        "click",
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 14,
+                        "width": 108,
+                        "x": 1237,
+                        "y": 1325
+                      },
+                      "children": [],
+                      "name": "Remove Item",
+                      "parent": "492302ae4e75fc9824f8",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXDescription": "Remove Item",
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 1237.0,
+                          "y": 1325.0
+                        },
+                        "AXSize": {
+                          "height": 14.0,
+                          "width": 108.0
+                        },
+                        "AXTitle": "Remove Item",
+                        "actions": [
+                          "press",
+                          "focus"
+                        ],
+                        "ax_role": "AXButton",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "ab940ab22b5f95a546f3",
+                      "role": "button",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": null
+                    },
+                    {
+                      "actions": [
+                        "click",
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 14,
+                        "width": 148,
+                        "x": 973,
+                        "y": 1359
+                      },
+                      "children": [],
+                      "name": "Toggle Fullscreen",
+                      "parent": "492302ae4e75fc9824f8",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXDescription": "Toggle Fullscreen",
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 973.0,
+                          "y": 1359.0
+                        },
+                        "AXSize": {
+                          "height": 14.0,
+                          "width": 148.0
+                        },
+                        "AXTitle": "Toggle Fullscreen",
+                        "actions": [
+                          "press",
+                          "focus"
+                        ],
+                        "ax_role": "AXButton",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "09c3bbe3d6f734117703",
+                      "role": "button",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": null
+                    },
+                    {
+                      "actions": [
+                        "focus"
+                      ],
+                      "bounds": {
+                        "height": 16,
+                        "width": 52,
+                        "x": 954,
+                        "y": 1278
+                      },
+                      "children": [],
+                      "name": "Dynamic",
+                      "parent": "492302ae4e75fc9824f8",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXEnabled": true,
+                        "AXFocused": false,
+                        "AXPosition": {
+                          "x": 954.0,
+                          "y": 1278.0
+                        },
+                        "AXSize": {
+                          "height": 16.0,
+                          "width": 52.0
+                        },
+                        "AXValue": "Dynamic",
+                        "actions": [
+                          "focus"
+                        ],
+                        "ax_role": "AXStaticText",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "4243ae3685ae11eec357",
+                      "role": "static_text",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": "Dynamic"
+                    }
+                  ],
+                  "name": null,
+                  "parent": "3db748f7ec552381da13",
+                  "platform": "macos",
+                  "platform_data": {
+                    "AXFocused": false,
+                    "AXPosition": {
+                      "x": 942.0,
+                      "y": 1279.0
+                    },
+                    "AXSize": {
+                      "height": 120.0,
+                      "width": 656.0
+                    },
+                    "actions": [
+                      "focus"
+                    ],
+                    "ax_role": "AXGroup",
+                    "description": null,
+                    "native_stable_id": null
+                  },
+                  "ref": "492302ae4e75fc9824f8",
+                  "role": "group",
+                  "state": {
+                    "active": false,
+                    "checked": null,
+                    "editable": false,
+                    "enabled": true,
+                    "expanded": null,
+                    "focusable": true,
+                    "focused": false,
+                    "fullscreen": null,
+                    "maximized": null,
+                    "minimized": null,
+                    "selected": false,
+                    "visible": true
+                  },
+                  "value": null
+                },
+                {
+                  "actions": [
+                    "focus",
+                    "scroll"
+                  ],
+                  "bounds": {
+                    "height": 802,
+                    "width": 17,
+                    "x": 1614,
+                    "y": 178
+                  },
+                  "children": [
+                    {
+                      "actions": [],
+                      "bounds": {
+                        "height": 430,
+                        "width": 15,
+                        "x": 1615,
+                        "y": 364
+                      },
+                      "children": [],
+                      "name": null,
+                      "parent": "4cff37f875cc76fd7ede",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXPosition": {
+                          "x": 1615.0,
+                          "y": 364.0
+                        },
+                        "AXSize": {
+                          "height": 430.0,
+                          "width": 15.0
+                        },
+                        "AXValue": 0.5,
+                        "actions": [],
+                        "ax_role": "AXValueIndicator",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "f791a6265c796d1e971a",
+                      "role": "scroll_thumb",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": false,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": "0.5"
+                    },
+                    {
+                      "actions": [
+                        "click"
+                      ],
+                      "bounds": null,
+                      "children": [],
+                      "name": null,
+                      "parent": "4cff37f875cc76fd7ede",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXPosition": {
+                          "x": 1615.0,
+                          "y": 179.0
+                        },
+                        "AXSize": {
+                          "height": 0.0,
+                          "width": 0.0
+                        },
+                        "actions": [
+                          "press"
+                        ],
+                        "ax_role": "AXButton",
+                        "ax_subrole": "AXIncrementArrow",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "7e64c2e1657787446d7a",
+                      "role": "button",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": null
+                    },
+                    {
+                      "actions": [
+                        "click"
+                      ],
+                      "bounds": null,
+                      "children": [],
+                      "name": null,
+                      "parent": "4cff37f875cc76fd7ede",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXPosition": {
+                          "x": 1615.0,
+                          "y": 179.0
+                        },
+                        "AXSize": {
+                          "height": 0.0,
+                          "width": 0.0
+                        },
+                        "actions": [
+                          "press"
+                        ],
+                        "ax_role": "AXButton",
+                        "ax_subrole": "AXDecrementArrow",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "7f2dbb272e1a03629e40",
+                      "role": "button",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": null
+                    },
+                    {
+                      "actions": [
+                        "click"
+                      ],
+                      "bounds": {
+                        "height": 184,
+                        "width": 15,
+                        "x": 1615,
+                        "y": 795
+                      },
+                      "children": [],
+                      "name": null,
+                      "parent": "4cff37f875cc76fd7ede",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXPosition": {
+                          "x": 1615.0,
+                          "y": 795.0
+                        },
+                        "AXSize": {
+                          "height": 184.0,
+                          "width": 15.0
+                        },
+                        "actions": [
+                          "press"
+                        ],
+                        "ax_role": "AXButton",
+                        "ax_subrole": "AXIncrementPage",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "bc0feb2dc71e8310695e",
+                      "role": "button",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": null
+                    },
+                    {
+                      "actions": [
+                        "click"
+                      ],
+                      "bounds": {
+                        "height": 184,
+                        "width": 15,
+                        "x": 1615,
+                        "y": 179
+                      },
+                      "children": [],
+                      "name": null,
+                      "parent": "4cff37f875cc76fd7ede",
+                      "platform": "macos",
+                      "platform_data": {
+                        "AXPosition": {
+                          "x": 1615.0,
+                          "y": 179.0
+                        },
+                        "AXSize": {
+                          "height": 184.0,
+                          "width": 15.0
+                        },
+                        "actions": [
+                          "press"
+                        ],
+                        "ax_role": "AXButton",
+                        "ax_subrole": "AXDecrementPage",
+                        "description": null,
+                        "native_stable_id": null
+                      },
+                      "ref": "f0d5df6e66a68d94da16",
+                      "role": "button",
+                      "state": {
+                        "active": false,
+                        "checked": null,
+                        "editable": false,
+                        "enabled": true,
+                        "expanded": null,
+                        "focusable": true,
+                        "focused": false,
+                        "fullscreen": null,
+                        "maximized": null,
+                        "minimized": null,
+                        "selected": false,
+                        "visible": true
+                      },
+                      "value": null
+                    }
+                  ],
+                  "name": null,
+                  "parent": "3db748f7ec552381da13",
+                  "platform": "macos",
+                  "platform_data": {
+                    "AXEnabled": true,
+                    "AXFocused": false,
+                    "AXPosition": {
+                      "x": 1614.0,
+                      "y": 178.0
+                    },
+                    "AXSize": {
+                      "height": 802.0,
+                      "width": 17.0
+                    },
+                    "AXValue": 0.5,
+                    "actions": [
+                      "focus"
+                    ],
+                    "ax_role": "AXScrollBar",
+                    "description": null,
+                    "native_stable_id": null,
+                    "numeric_value": 0.5
+                  },
+                  "ref": "4cff37f875cc76fd7ede",
+                  "role": "scroll_bar",
+                  "state": {
+                    "active": false,
+                    "checked": null,
+                    "editable": false,
+                    "enabled": true,
+                    "expanded": null,
+                    "focusable": true,
+                    "focused": false,
+                    "fullscreen": null,
+                    "maximized": null,
+                    "minimized": null,
+                    "selected": false,
+                    "visible": true
+                  },
+                  "value": "0.5"
+                }
+              ],
+              "name": null,
+              "parent": "8f9a6972cdb0e6e066af",
+              "platform": "macos",
+              "platform_data": {
+                "AXFocused": false,
+                "AXPosition": {
+                  "x": 930.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 800.0,
+                  "width": 700.0
+                },
+                "actions": [
+                  "scroll_left_by_page",
+                  "scroll_right_by_page",
+                  "scroll_up_by_page",
+                  "scroll_down_by_page",
+                  "focus"
+                ],
+                "ax_role": "AXScrollArea",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "3db748f7ec552381da13",
+              "role": "group",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            }
+          ],
+          "name": "xa11y-cocoa-test-app",
+          "parent": "a9dadb3318245745fb38",
+          "platform": "macos",
+          "platform_data": {
+            "AXFocused": false,
+            "AXModal": false,
+            "AXPosition": {
+              "x": 930.0,
+              "y": 151.0
+            },
+            "AXSize": {
+              "height": 828.0,
+              "width": 700.0
+            },
+            "AXTitle": "xa11y-cocoa-test-app",
+            "actions": [
+              "activate",
+              "focus",
+              "minimize",
+              "enter_fullscreen",
+              "restore",
+              "close",
+              "move_to",
+              "resize_to"
+            ],
+            "ax_role": "AXWindow",
+            "ax_subrole": "AXStandardWindow",
+            "description": null,
+            "native_stable_id": null
+          },
+          "ref": "8f9a6972cdb0e6e066af",
+          "role": "window",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": false,
+            "maximized": null,
+            "minimized": false,
+            "selected": false,
+            "visible": true
+          },
+          "value": null
+        }
+      ],
+      "name": "BokkioTest",
+      "parent": null,
+      "platform": "macos",
+      "platform_data": {
+        "AXHidden": false,
+        "AXTitle": "BokkioTest",
+        "actions": [],
+        "ax_role": "AXApplication",
+        "description": null,
+        "native_stable_id": null
+      },
+      "ref": "a9dadb3318245745fb38",
+      "role": "application",
+      "state": {
+        "active": false,
+        "checked": null,
+        "editable": false,
+        "enabled": true,
+        "expanded": null,
+        "focusable": false,
+        "focused": false,
+        "fullscreen": null,
+        "maximized": null,
+        "minimized": null,
+        "selected": false,
+        "visible": true
+      },
+      "value": null
+    }
+  ]
+}

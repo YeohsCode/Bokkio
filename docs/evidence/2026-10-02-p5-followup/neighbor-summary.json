@@ -1,0 +1,17 @@
+{
+  "status": "completed",
+  "actions": 2,
+  "replans": 0,
+  "independent_checks": [
+    true,
+    true,
+    true
+  ],
+  "passed": true,
+  "planner_scope": {
+    "strategy": "exact_observed_names",
+    "original_nodes": 2081,
+    "retained_nodes": 55,
+    "limit": 240
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "expected": [
+    "picture 01.png",
+    "picture 02.png",
+    "picture 03.png",
+    "picture 04.png",
+    "picture 05.png",
+    "picture 06.png",
+    "picture 07.png",
+    "picture 08.png",
+    "picture 09.png",
+    "picture 10.png"
+  ],
+  "execution_feedback": false
+}

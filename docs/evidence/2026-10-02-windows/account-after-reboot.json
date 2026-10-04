@@ -1,0 +1,16 @@
+{
+  "id": "account-after-reboot",
+  "autologon_disabled": true,
+  "account_enabled": true,
+  "password_last_set": "/Date(1790917728218)/",
+  "profile": "C:\\Users\\Bokkio",
+  "os": {
+    "Caption": "Microsoft Windows 11 IoT Enterprise LTSC Evaluation",
+    "Version": "10.0.26100",
+    "BuildNumber": "26100"
+  },
+  "identity": "BOKKIO-WIN11\\Bokkio",
+  "session": 1,
+  "status": "ready",
+  "administrator": true
+}

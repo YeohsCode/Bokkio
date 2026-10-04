@@ -1,0 +1,50 @@
+{
+  "planned": 2,
+  "attempted": 2,
+  "passed": 2,
+  "versions": [
+    {
+      "revision": 1,
+      "agent_status": "completed",
+      "actions": 9,
+      "replans": 0,
+      "phases": 3,
+      "checks": {
+        "source_observed_natively": true,
+        "text_observed_natively": true,
+        "save_dialog_observed": true,
+        "save_target_observed": true,
+        "native_save_dispatched": true,
+        "independent_content": true,
+        "input_bytes_preserved": true,
+        "fresh_native_reopen": true
+      },
+      "passed": true,
+      "artifact_sha256": "7902699be42c8a8e46fbbb4501726517e86b22c56a189f7625a6da49081b2451"
+    },
+    {
+      "revision": 2,
+      "agent_status": "completed",
+      "actions": 18,
+      "replans": 1,
+      "phases": 5,
+      "checks": {
+        "source_observed_natively": true,
+        "text_observed_natively": true,
+        "save_dialog_observed": true,
+        "save_target_observed": true,
+        "native_save_dispatched": true,
+        "independent_content": true,
+        "input_bytes_preserved": true,
+        "fresh_native_reopen": true,
+        "previous_history_preserved": true,
+        "requirement_revision": true,
+        "old_output_preserved": true,
+        "two_artifact_versions": true
+      },
+      "passed": true,
+      "artifact_sha256": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d"
+    }
+  ],
+  "seconds": 364.229
+}

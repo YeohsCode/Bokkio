@@ -1,0 +1,21 @@
+..................................                                       [100%]
+34 passed in 0.12s
+{"app": "xa11y-winforms-test-app", "nodes": 83, "roles": {"application": 1, "window": 1, "group": 22, "button": 18, "check_box": 2, "radio_button": 3, "slider": 1, "scroll_thumb": 3, "spin_button": 2, "text_field": 3, "progress_bar": 1, "static_text": 3, "list": 1, "list_item": 5, "table": 1, "table_row": 3, "table_cell": 4, "scroll_bar": 1, "toolbar": 1, "status": 1, "menu_bar": 2, "menu_item": 4}, "refs_unique": true, "refs_stable": true, "two_reads_seconds": 0.718}
+{"app": "notepad", "nodes": 28, "roles": {"application": 1, "window": 1, "web_area": 1, "scroll_bar": 2, "button": 7, "scroll_thumb": 1, "status": 1, "static_text": 5, "group": 1, "menu_bar": 2, "menu_item": 6}, "refs_unique": true, "refs_stable": true, "two_reads_seconds": 0.453}
+{"app": "explorer", "nodes": 166, "roles": {"application": 1, "window": 1, "group": 24, "status": 1, "static_text": 26, "radio_button": 2, "list": 3, "scroll_bar": 2, "button": 49, "scroll_thumb": 2, "tree_item": 12, "list_item": 4, "text_field": 20, "tab_group": 1, "tab": 1, "image": 12, "toolbar": 3, "menu_bar": 1, "menu_item": 1}, "refs_unique": true, "refs_stable": true, "two_reads_seconds": 1.032}
+{"app": "ApplicationFrameHost", "nodes": 195, "roles": {"application": 1, "window": 4, "menu_bar": 1, "menu_item": 1, "button": 10, "static_text": 96, "group": 32, "image": 14, "text_field": 2, "list_item": 29, "scroll_bar": 2, "link": 1, "status": 1, "list": 1}, "refs_unique": true, "refs_stable": true, "two_reads_seconds": 0.875}
+{"app": "msedge", "nodes": 278, "roles": {"application": 1, "window": 1, "group": 97, "static_text": 9, "button": 95, "toolbar": 3, "alert": 53, "text_field": 2, "image": 1, "separator": 4, "link": 1, "web_area": 6, "slider": 1, "tab_group": 3, "tab": 1}, "refs_unique": true, "refs_stable": true, "two_reads_seconds": 1.156}
+Windows native action sequence 1: passed
+Windows native action sequence 2: passed
+Windows native action sequence 3: passed
+Evidence saved to evidence\windows
+{
+    "unit_exit":  0,
+    "password_registry_absent":  true,
+    "profile":  "C:\\Users\\Bokkio",
+    "acceptance_exit":  0,
+    "autologon_disabled":  true,
+    "profile_status":  0,
+    "profile_loaded":  true,
+    "launcher":  true
+}

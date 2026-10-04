@@ -1,0 +1,37 @@
+{
+  "case": "word-count",
+  "round": 1,
+  "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/notepad/a7d4b6c5-569b-452e-9e1d-ffdb3d431d15-WOS.json",
+  "task_sha256": "0e8f10ece28ad8cfb0ed108771428ab8b8513761f260540d632ff942f4fae88c",
+  "scope": "adapted_development_run",
+  "passed": false,
+  "agent_status": "blocked",
+  "actions": 8,
+  "replans": 2,
+  "phases": 3,
+  "completed_steps": [
+    "step-1",
+    "step-2",
+    "step-3",
+    "step-4",
+    "step-5",
+    "step-6",
+    "step-7",
+    "step-8"
+  ],
+  "intermediate_checks": {
+    "source_observed_natively": true,
+    "text_observed_natively": false,
+    "save_dialog_observed": true,
+    "save_target_observed": true,
+    "native_save_dispatched": false
+  },
+  "final_checks": {
+    "persisted_artifact_exists": false,
+    "input_bytes_preserved": true,
+    "fresh_process_native_reopen": false
+  },
+  "pinned_metric_score": 0.0,
+  "pinned_getter_result": null,
+  "seconds": 193.48
+}

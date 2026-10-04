@@ -1,0 +1,252 @@
+[
+  {
+    "run": "waa-longchain-first",
+    "case": "png-list",
+    "errors": [
+      {
+        "kind": "status",
+        "reason": "Planner response did not finish completely"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-first",
+    "case": "size-report",
+    "errors": [
+      {
+        "kind": "status",
+        "reason": "Planner response did not finish completely"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-first",
+    "case": "word-count",
+    "errors": [
+      {
+        "kind": "status",
+        "reason": "Planner response did not finish completely"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v2",
+    "case": "png-list",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "set_value failed for 4bba307b94ea40ff70c3: Text value not supported for this element"
+      },
+      {
+        "kind": "status",
+        "reason": "Platform error (-2146233083): FindFirstBuildCache(ProcessId=3376) failed: 0x80131505"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v2",
+    "case": "size-report",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "Completion is unconfirmed or contradicts the chosen action"
+      },
+      {
+        "kind": "error",
+        "reason": "Model completion lacks independent success evidence"
+      },
+      {
+        "kind": "error",
+        "reason": "Model completion lacks independent success evidence"
+      },
+      {
+        "kind": "status",
+        "reason": "Model completion lacks independent success evidence"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v2",
+    "case": "word-count",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "Target confidence below threshold"
+      },
+      {
+        "kind": "error",
+        "reason": "Decision confidence below threshold"
+      },
+      {
+        "kind": "error",
+        "reason": "Decision confidence below threshold"
+      },
+      {
+        "kind": "status",
+        "reason": "Decision confidence below threshold"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v3",
+    "case": "png-list",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "Target confidence below threshold"
+      },
+      {
+        "kind": "error",
+        "reason": "set_value failed for ce207da239607fce3edc: Text value not supported for this element"
+      },
+      {
+        "kind": "status",
+        "reason": "Platform error (-2146233083): FindFirstBuildCache(ProcessId=2476) failed: 0x80131505"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v3",
+    "case": "size-report",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "Decision confidence below threshold"
+      },
+      {
+        "kind": "error",
+        "reason": "Decision confidence below threshold"
+      },
+      {
+        "kind": "error",
+        "reason": "Decision confidence below threshold"
+      },
+      {
+        "kind": "status",
+        "reason": "Decision confidence below threshold"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v3",
+    "case": "word-count",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "set_value failed for 3a32178dce671da678d1: Text value not supported for this element"
+      },
+      {
+        "kind": "status",
+        "reason": "Platform error (-2146233083): FindFirstBuildCache(ProcessId=4428) failed: 0x80131505"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v4",
+    "case": "png-list",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "Target confidence below threshold"
+      },
+      {
+        "kind": "error",
+        "reason": "Target confidence below threshold"
+      },
+      {
+        "kind": "error",
+        "reason": "Target confidence below threshold"
+      },
+      {
+        "kind": "status",
+        "reason": "Target confidence below threshold"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v4",
+    "case": "size-report",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "Decision confidence below threshold"
+      },
+      {
+        "kind": "error",
+        "reason": "Decision confidence below threshold"
+      },
+      {
+        "kind": "error",
+        "reason": "Decision confidence below threshold"
+      },
+      {
+        "kind": "status",
+        "reason": "Decision confidence below threshold"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v4",
+    "case": "word-count",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "set_value failed for 85da8497c7c8857ace0c: Text value not supported for this element"
+      },
+      {
+        "kind": "status",
+        "reason": "Platform error (-2146233083): FindFirstBuildCache(ProcessId=9124) failed: 0x80131505"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v5",
+    "case": "png-list",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "Decision confidence below threshold"
+      },
+      {
+        "kind": "error",
+        "reason": "Decision confidence below threshold"
+      },
+      {
+        "kind": "error",
+        "reason": "Decision confidence below threshold"
+      },
+      {
+        "kind": "status",
+        "reason": "Decision confidence below threshold"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v5",
+    "case": "size-report",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "set_value failed for f08613fb7e6fa4f790c8: Text value not supported for this element"
+      },
+      {
+        "kind": "status",
+        "reason": "Platform error (-2146233083): FindFirstBuildCache(ProcessId=8104) failed: 0x80131505"
+      }
+    ]
+  },
+  {
+    "run": "waa-longchain-v5",
+    "case": "word-count",
+    "errors": [
+      {
+        "kind": "error",
+        "reason": "set_value failed for 773e0d38155f9d919b3e: Text value not supported for this element"
+      },
+      {
+        "kind": "status",
+        "reason": "Platform error (-2146233083): FindFirstBuildCache(ProcessId=8164) failed: 0x80131505"
+      }
+    ]
+  }
+]

@@ -1,0 +1,43 @@
+{
+  "provider": "openrouter",
+  "real_model_evaluation": true,
+  "passed": 0,
+  "tasks": 5,
+  "results": [
+    {
+      "id": "input",
+      "goal": "Set Search to \"Bokkio Jev native\"",
+      "passed": false,
+      "error": "Jev connection failed or timed out",
+      "total_seconds": 4.359
+    },
+    {
+      "id": "submit",
+      "goal": "Click Submit",
+      "passed": false,
+      "error": "Jev connection failed or timed out",
+      "total_seconds": 3.391
+    },
+    {
+      "id": "tree",
+      "goal": "Expand Parent in Folders",
+      "passed": false,
+      "error": "Jev connection failed or timed out",
+      "total_seconds": 3.609
+    },
+    {
+      "id": "dropdown",
+      "goal": "Open the Mode dropdown",
+      "passed": false,
+      "error": "Jev connection failed or timed out",
+      "total_seconds": 3.109
+    },
+    {
+      "id": "scroll",
+      "goal": "Scroll the Scroll content container to the right",
+      "passed": false,
+      "error": "Jev connection failed or timed out",
+      "total_seconds": 4.484
+    }
+  ]
+}

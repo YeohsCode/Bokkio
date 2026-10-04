@@ -1,0 +1,16 @@
+{
+  "final_source_hashes_match": true,
+  "native_source_revision_checks": 2,
+  "actual_action_events": 18,
+  "action_budget_count": 19,
+  "source_facts": [
+    {
+      "revision": 1,
+      "native_text_sha256": "9ca2b02734efc6f2125c0fd15a7ddb269a94d1a58dae44e8b5963764bfbf943a"
+    },
+    {
+      "revision": 2,
+      "native_text_sha256": "9ca2b02734efc6f2125c0fd15a7ddb269a94d1a58dae44e8b5963764bfbf943a"
+    }
+  ]
+}

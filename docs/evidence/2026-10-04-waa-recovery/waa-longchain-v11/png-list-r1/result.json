@@ -1,0 +1,36 @@
+{
+  "case": "png-list",
+  "round": 1,
+  "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/016c9a9d-f2b9-4428-8fdb-f74f4439ece6-WOS.json",
+  "task_sha256": "880539a3eb2987f8dc68a7c5eddeceafad744a7620ff74c22ab9befcec1f7b42",
+  "scope": "adapted_development_run",
+  "passed": false,
+  "artifact_sha256": "35f2506e23c7e26249b866516bccf8e14491ce757ad9504977914b39011e8c38",
+  "agent_status": "completed",
+  "actions": 6,
+  "replans": 2,
+  "phases": 1,
+  "completed_steps": [
+    "step-1",
+    "step-2",
+    "step-3",
+    "step-4",
+    "step-5",
+    "step-6"
+  ],
+  "intermediate_checks": {
+    "source_observed_natively": true,
+    "text_observed_natively": true,
+    "save_dialog_observed": true,
+    "save_target_observed": true,
+    "native_save_dispatched": true
+  },
+  "final_checks": {
+    "persisted_artifact_exists": true,
+    "reopen_kept_bytes": true,
+    "fresh_process_native_reopen": true
+  },
+  "pinned_metric_score": 0.0,
+  "pinned_getter_result": "false",
+  "seconds": 126.856
+}

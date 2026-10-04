@@ -1,0 +1,2108 @@
+[
+  {
+    "run": 1,
+    "click": {
+      "action": "click",
+      "after": {
+        "actions": [
+          "click",
+          "focus"
+        ],
+        "bounds": {
+          "height": 14,
+          "width": 108,
+          "x": 973,
+          "y": 1325
+        },
+        "children": [],
+        "name": "Submit",
+        "parent": "492302ae4e75fc9824f8",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Submit",
+          "AXEnabled": true,
+          "AXFocused": false,
+          "AXPosition": {
+            "x": 973.0,
+            "y": 1325.0
+          },
+          "AXSize": {
+            "height": 14.0,
+            "width": 108.0
+          },
+          "AXTitle": "Submit",
+          "actions": [
+            "press",
+            "focus"
+          ],
+          "ax_role": "AXButton",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "9a9cd6348cd65aa9c0de",
+        "role": "button",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": false,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "before": {
+        "actions": [
+          "click",
+          "focus"
+        ],
+        "bounds": {
+          "height": 14,
+          "width": 108,
+          "x": 973,
+          "y": 1325
+        },
+        "children": [],
+        "name": "Submit",
+        "parent": "492302ae4e75fc9824f8",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Submit",
+          "AXEnabled": true,
+          "AXFocused": false,
+          "AXPosition": {
+            "x": 973.0,
+            "y": 1325.0
+          },
+          "AXSize": {
+            "height": 14.0,
+            "width": 108.0
+          },
+          "AXTitle": "Submit",
+          "actions": [
+            "press",
+            "focus"
+          ],
+          "ax_role": "AXButton",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "9a9cd6348cd65aa9c0de",
+        "role": "button",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": false,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "target_ref": "9a9cd6348cd65aa9c0de",
+      "tree_changed": true,
+      "verification": "observed"
+    },
+    "set_value": {
+      "action": "set_value",
+      "after": {
+        "actions": [
+          "click",
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 28,
+          "width": 302,
+          "x": 966,
+          "y": 622
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "c33f18da1c04272b41b8",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Search",
+          "AXEnabled": true,
+          "AXFocused": true,
+          "AXPosition": {
+            "x": 966.0,
+            "y": 622.0
+          },
+          "AXSize": {
+            "height": 28.0,
+            "width": 302.0
+          },
+          "AXValue": "",
+          "actions": [
+            "show_menu",
+            "press",
+            "focus",
+            "set_value"
+          ],
+          "ax_role": "AXTextField",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "e3b92e437a6a92f8a117",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": ""
+      },
+      "before": {
+        "actions": [
+          "click",
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 28,
+          "width": 302,
+          "x": 966,
+          "y": 622
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "c33f18da1c04272b41b8",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Search",
+          "AXEnabled": true,
+          "AXFocused": true,
+          "AXPosition": {
+            "x": 966.0,
+            "y": 622.0
+          },
+          "AXSize": {
+            "height": 28.0,
+            "width": 302.0
+          },
+          "AXValue": "Bokkio native run 3",
+          "actions": [
+            "show_menu",
+            "press",
+            "focus",
+            "set_value"
+          ],
+          "ax_role": "AXTextField",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "e3b92e437a6a92f8a117",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": "Bokkio native run 3"
+      },
+      "postcondition": {
+        "actual": "",
+        "check": "value",
+        "expected": ""
+      },
+      "target_ref": "e3b92e437a6a92f8a117",
+      "tree_changed": true,
+      "verification": "confirmed"
+    },
+    "focus": {
+      "action": "focus",
+      "after": {
+        "actions": [
+          "click",
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 28,
+          "width": 302,
+          "x": 966,
+          "y": 622
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "c33f18da1c04272b41b8",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Search",
+          "AXEnabled": true,
+          "AXFocused": true,
+          "AXPosition": {
+            "x": 966.0,
+            "y": 622.0
+          },
+          "AXSize": {
+            "height": 28.0,
+            "width": 302.0
+          },
+          "AXValue": "",
+          "actions": [
+            "show_menu",
+            "press",
+            "focus",
+            "set_value"
+          ],
+          "ax_role": "AXTextField",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "e3b92e437a6a92f8a117",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": ""
+      },
+      "before": {
+        "actions": [
+          "click",
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 28,
+          "width": 302,
+          "x": 966,
+          "y": 622
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "c33f18da1c04272b41b8",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Search",
+          "AXEnabled": true,
+          "AXFocused": true,
+          "AXPosition": {
+            "x": 966.0,
+            "y": 622.0
+          },
+          "AXSize": {
+            "height": 28.0,
+            "width": 302.0
+          },
+          "AXValue": "",
+          "actions": [
+            "show_menu",
+            "press",
+            "focus",
+            "set_value"
+          ],
+          "ax_role": "AXTextField",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "e3b92e437a6a92f8a117",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": ""
+      },
+      "target_ref": "e3b92e437a6a92f8a117",
+      "tree_changed": false,
+      "verification": "confirmed"
+    },
+    "type": {
+      "action": "type",
+      "after": {
+        "actions": [
+          "click",
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 28,
+          "width": 302,
+          "x": 966,
+          "y": 622
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "c33f18da1c04272b41b8",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Search",
+          "AXEnabled": true,
+          "AXFocused": true,
+          "AXPosition": {
+            "x": 966.0,
+            "y": 622.0
+          },
+          "AXSize": {
+            "height": 28.0,
+            "width": 302.0
+          },
+          "AXValue": "Bokkio native run 1",
+          "actions": [
+            "show_menu",
+            "press",
+            "focus",
+            "set_value"
+          ],
+          "ax_role": "AXTextField",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "e3b92e437a6a92f8a117",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": "Bokkio native run 1"
+      },
+      "before": {
+        "actions": [
+          "click",
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 28,
+          "width": 302,
+          "x": 966,
+          "y": 622
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "c33f18da1c04272b41b8",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Search",
+          "AXEnabled": true,
+          "AXFocused": true,
+          "AXPosition": {
+            "x": 966.0,
+            "y": 622.0
+          },
+          "AXSize": {
+            "height": 28.0,
+            "width": 302.0
+          },
+          "AXValue": "",
+          "actions": [
+            "show_menu",
+            "press",
+            "focus",
+            "set_value"
+          ],
+          "ax_role": "AXTextField",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "e3b92e437a6a92f8a117",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": ""
+      },
+      "postcondition": {
+        "actual": "Bokkio native run 1",
+        "check": "value",
+        "expected": "Bokkio native run 1"
+      },
+      "target_ref": "e3b92e437a6a92f8a117",
+      "tree_changed": true,
+      "verification": "confirmed"
+    },
+    "select": {
+      "action": "select",
+      "after": {
+        "actions": [],
+        "bounds": {
+          "height": 24,
+          "width": 400,
+          "x": 967,
+          "y": 901
+        },
+        "children": [
+          {
+            "actions": [
+              "click",
+              "focus",
+              "set_value"
+            ],
+            "bounds": {
+              "height": 24,
+              "width": 100,
+              "x": 983,
+              "y": 901
+            },
+            "children": [],
+            "name": null,
+            "parent": "bf5edc5eddbb441ca563",
+            "platform": "macos",
+            "platform_data": {
+              "AXEnabled": true,
+              "AXFocused": false,
+              "AXPosition": {
+                "x": 983.0,
+                "y": 901.0
+              },
+              "AXSize": {
+                "height": 24.0,
+                "width": 100.0
+              },
+              "AXValue": "Item 2",
+              "actions": [
+                "show_menu",
+                "press",
+                "focus",
+                "set_value"
+              ],
+              "ax_role": "AXTextField",
+              "description": null,
+              "native_stable_id": null
+            },
+            "ref": "42b5926a2d4aa45ec1ea",
+            "role": "text_field",
+            "state": {
+              "active": false,
+              "checked": null,
+              "editable": true,
+              "enabled": true,
+              "expanded": null,
+              "focusable": true,
+              "focused": false,
+              "fullscreen": null,
+              "maximized": null,
+              "minimized": null,
+              "selected": false,
+              "visible": true
+            },
+            "value": "Item 2"
+          }
+        ],
+        "name": null,
+        "parent": "2bf32237a3b3ba2a644d",
+        "platform": "macos",
+        "platform_data": {
+          "AXPosition": {
+            "x": 967.0,
+            "y": 901.0
+          },
+          "AXSelected": true,
+          "AXSize": {
+            "height": 24.0,
+            "width": 400.0
+          },
+          "actions": [],
+          "ax_role": "AXRow",
+          "ax_subrole": "AXTableRow",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "bf5edc5eddbb441ca563",
+        "role": "table_row",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": false,
+          "focused": false,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": true,
+          "visible": true
+        },
+        "value": null
+      },
+      "before": {
+        "actions": [],
+        "bounds": {
+          "height": 24,
+          "width": 400,
+          "x": 967,
+          "y": 901
+        },
+        "children": [
+          {
+            "actions": [
+              "click",
+              "focus",
+              "set_value"
+            ],
+            "bounds": {
+              "height": 24,
+              "width": 100,
+              "x": 983,
+              "y": 901
+            },
+            "children": [],
+            "name": null,
+            "parent": "bf5edc5eddbb441ca563",
+            "platform": "macos",
+            "platform_data": {
+              "AXEnabled": true,
+              "AXFocused": false,
+              "AXPosition": {
+                "x": 983.0,
+                "y": 901.0
+              },
+              "AXSize": {
+                "height": 24.0,
+                "width": 100.0
+              },
+              "AXValue": "Item 2",
+              "actions": [
+                "show_menu",
+                "press",
+                "focus",
+                "set_value"
+              ],
+              "ax_role": "AXTextField",
+              "description": null,
+              "native_stable_id": null
+            },
+            "ref": "42b5926a2d4aa45ec1ea",
+            "role": "text_field",
+            "state": {
+              "active": false,
+              "checked": null,
+              "editable": true,
+              "enabled": true,
+              "expanded": null,
+              "focusable": true,
+              "focused": false,
+              "fullscreen": null,
+              "maximized": null,
+              "minimized": null,
+              "selected": false,
+              "visible": true
+            },
+            "value": "Item 2"
+          }
+        ],
+        "name": null,
+        "parent": "2bf32237a3b3ba2a644d",
+        "platform": "macos",
+        "platform_data": {
+          "AXPosition": {
+            "x": 967.0,
+            "y": 901.0
+          },
+          "AXSelected": true,
+          "AXSize": {
+            "height": 24.0,
+            "width": 400.0
+          },
+          "actions": [],
+          "ax_role": "AXRow",
+          "ax_subrole": "AXTableRow",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "bf5edc5eddbb441ca563",
+        "role": "table_row",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": false,
+          "focused": false,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": true,
+          "visible": true
+        },
+        "value": null
+      },
+      "target_ref": "bf5edc5eddbb441ca563",
+      "tree_changed": false,
+      "verification": "confirmed"
+    },
+    "status_after": [
+      "Status: Ready"
+    ]
+  },
+  {
+    "run": 2,
+    "click": {
+      "action": "click",
+      "after": {
+        "actions": [
+          "click",
+          "focus"
+        ],
+        "bounds": {
+          "height": 14,
+          "width": 108,
+          "x": 973,
+          "y": 1325
+        },
+        "children": [],
+        "name": "Submit",
+        "parent": "492302ae4e75fc9824f8",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Submit",
+          "AXEnabled": true,
+          "AXFocused": false,
+          "AXPosition": {
+            "x": 973.0,
+            "y": 1325.0
+          },
+          "AXSize": {
+            "height": 14.0,
+            "width": 108.0
+          },
+          "AXTitle": "Submit",
+          "actions": [
+            "press",
+            "focus"
+          ],
+          "ax_role": "AXButton",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "9a9cd6348cd65aa9c0de",
+        "role": "button",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": false,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "before": {
+        "actions": [
+          "click",
+          "focus"
+        ],
+        "bounds": {
+          "height": 14,
+          "width": 108,
+          "x": 973,
+          "y": 1325
+        },
+        "children": [],
+        "name": "Submit",
+        "parent": "492302ae4e75fc9824f8",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Submit",
+          "AXEnabled": true,
+          "AXFocused": false,
+          "AXPosition": {
+            "x": 973.0,
+            "y": 1325.0
+          },
+          "AXSize": {
+            "height": 14.0,
+            "width": 108.0
+          },
+          "AXTitle": "Submit",
+          "actions": [
+            "press",
+            "focus"
+          ],
+          "ax_role": "AXButton",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "9a9cd6348cd65aa9c0de",
+        "role": "button",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": false,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "target_ref": "9a9cd6348cd65aa9c0de",
+      "tree_changed": true,
+      "verification": "observed"
+    },
+    "set_value": {
+      "action": "set_value",
+      "after": {
+        "actions": [
+          "click",
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 28,
+          "width": 302,
+          "x": 966,
+          "y": 622
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "c33f18da1c04272b41b8",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Search",
+          "AXEnabled": true,
+          "AXFocused": true,
+          "AXPosition": {
+            "x": 966.0,
+            "y": 622.0
+          },
+          "AXSize": {
+            "height": 28.0,
+            "width": 302.0
+          },
+          "AXValue": "",
+          "actions": [
+            "show_menu",
+            "press",
+            "focus",
+            "set_value"
+          ],
+          "ax_role": "AXTextField",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "e3b92e437a6a92f8a117",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": ""
+      },
+      "before": {
+        "actions": [
+          "click",
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 28,
+          "width": 302,
+          "x": 966,
+          "y": 622
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "c33f18da1c04272b41b8",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Search",
+          "AXEnabled": true,
+          "AXFocused": true,
+          "AXPosition": {
+            "x": 966.0,
+            "y": 622.0
+          },
+          "AXSize": {
+            "height": 28.0,
+            "width": 302.0
+          },
+          "AXValue": "Bokkio native run 1",
+          "actions": [
+            "show_menu",
+            "press",
+            "focus",
+            "set_value"
+          ],
+          "ax_role": "AXTextField",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "e3b92e437a6a92f8a117",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": "Bokkio native run 1"
+      },
+      "postcondition": {
+        "actual": "",
+        "check": "value",
+        "expected": ""
+      },
+      "target_ref": "e3b92e437a6a92f8a117",
+      "tree_changed": true,
+      "verification": "confirmed"
+    },
+    "focus": {
+      "action": "focus",
+      "after": {
+        "actions": [
+          "click",
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 28,
+          "width": 302,
+          "x": 966,
+          "y": 622
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "c33f18da1c04272b41b8",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Search",
+          "AXEnabled": true,
+          "AXFocused": true,
+          "AXPosition": {
+            "x": 966.0,
+            "y": 622.0
+          },
+          "AXSize": {
+            "height": 28.0,
+            "width": 302.0
+          },
+          "AXValue": "",
+          "actions": [
+            "show_menu",
+            "press",
+            "focus",
+            "set_value"
+          ],
+          "ax_role": "AXTextField",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "e3b92e437a6a92f8a117",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": ""
+      },
+      "before": {
+        "actions": [
+          "click",
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 28,
+          "width": 302,
+          "x": 966,
+          "y": 622
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "c33f18da1c04272b41b8",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Search",
+          "AXEnabled": true,
+          "AXFocused": true,
+          "AXPosition": {
+            "x": 966.0,
+            "y": 622.0
+          },
+          "AXSize": {
+            "height": 28.0,
+            "width": 302.0
+          },
+          "AXValue": "",
+          "actions": [
+            "show_menu",
+            "press",
+            "focus",
+            "set_value"
+          ],
+          "ax_role": "AXTextField",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "e3b92e437a6a92f8a117",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": ""
+      },
+      "target_ref": "e3b92e437a6a92f8a117",
+      "tree_changed": false,
+      "verification": "confirmed"
+    },
+    "type": {
+      "action": "type",
+      "after": {
+        "actions": [
+          "click",
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 28,
+          "width": 302,
+          "x": 966,
+          "y": 622
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "c33f18da1c04272b41b8",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Search",
+          "AXEnabled": true,
+          "AXFocused": true,
+          "AXPosition": {
+            "x": 966.0,
+            "y": 622.0
+          },
+          "AXSize": {
+            "height": 28.0,
+            "width": 302.0
+          },
+          "AXValue": "Bokkio native run 2",
+          "actions": [
+            "show_menu",
+            "press",
+            "focus",
+            "set_value"
+          ],
+          "ax_role": "AXTextField",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "e3b92e437a6a92f8a117",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": "Bokkio native run 2"
+      },
+      "before": {
+        "actions": [
+          "click",
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 28,
+          "width": 302,
+          "x": 966,
+          "y": 622
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "c33f18da1c04272b41b8",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Search",
+          "AXEnabled": true,
+          "AXFocused": true,
+          "AXPosition": {
+            "x": 966.0,
+            "y": 622.0
+          },
+          "AXSize": {
+            "height": 28.0,
+            "width": 302.0
+          },
+          "AXValue": "",
+          "actions": [
+            "show_menu",
+            "press",
+            "focus",
+            "set_value"
+          ],
+          "ax_role": "AXTextField",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "e3b92e437a6a92f8a117",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": ""
+      },
+      "postcondition": {
+        "actual": "Bokkio native run 2",
+        "check": "value",
+        "expected": "Bokkio native run 2"
+      },
+      "target_ref": "e3b92e437a6a92f8a117",
+      "tree_changed": true,
+      "verification": "confirmed"
+    },
+    "select": {
+      "action": "select",
+      "after": {
+        "actions": [],
+        "bounds": {
+          "height": 24,
+          "width": 400,
+          "x": 967,
+          "y": 877
+        },
+        "children": [
+          {
+            "actions": [
+              "click",
+              "focus",
+              "set_value"
+            ],
+            "bounds": {
+              "height": 24,
+              "width": 100,
+              "x": 983,
+              "y": 877
+            },
+            "children": [],
+            "name": null,
+            "parent": "1956944bd9bffabe7bab",
+            "platform": "macos",
+            "platform_data": {
+              "AXEnabled": true,
+              "AXFocused": false,
+              "AXPosition": {
+                "x": 983.0,
+                "y": 877.0
+              },
+              "AXSize": {
+                "height": 24.0,
+                "width": 100.0
+              },
+              "AXValue": "Item 1",
+              "actions": [
+                "show_menu",
+                "press",
+                "focus",
+                "set_value"
+              ],
+              "ax_role": "AXTextField",
+              "description": null,
+              "native_stable_id": null
+            },
+            "ref": "d0dbe30d36f46428f808",
+            "role": "text_field",
+            "state": {
+              "active": false,
+              "checked": null,
+              "editable": true,
+              "enabled": true,
+              "expanded": null,
+              "focusable": true,
+              "focused": false,
+              "fullscreen": null,
+              "maximized": null,
+              "minimized": null,
+              "selected": false,
+              "visible": true
+            },
+            "value": "Item 1"
+          }
+        ],
+        "name": null,
+        "parent": "2bf32237a3b3ba2a644d",
+        "platform": "macos",
+        "platform_data": {
+          "AXPosition": {
+            "x": 967.0,
+            "y": 877.0
+          },
+          "AXSelected": true,
+          "AXSize": {
+            "height": 24.0,
+            "width": 400.0
+          },
+          "actions": [],
+          "ax_role": "AXRow",
+          "ax_subrole": "AXTableRow",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "1956944bd9bffabe7bab",
+        "role": "table_row",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": false,
+          "focused": false,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": true,
+          "visible": true
+        },
+        "value": null
+      },
+      "before": {
+        "actions": [],
+        "bounds": {
+          "height": 24,
+          "width": 400,
+          "x": 967,
+          "y": 877
+        },
+        "children": [
+          {
+            "actions": [
+              "click",
+              "focus",
+              "set_value"
+            ],
+            "bounds": {
+              "height": 24,
+              "width": 100,
+              "x": 983,
+              "y": 877
+            },
+            "children": [],
+            "name": null,
+            "parent": "1956944bd9bffabe7bab",
+            "platform": "macos",
+            "platform_data": {
+              "AXEnabled": true,
+              "AXFocused": false,
+              "AXPosition": {
+                "x": 983.0,
+                "y": 877.0
+              },
+              "AXSize": {
+                "height": 24.0,
+                "width": 100.0
+              },
+              "AXValue": "Item 1",
+              "actions": [
+                "show_menu",
+                "press",
+                "focus",
+                "set_value"
+              ],
+              "ax_role": "AXTextField",
+              "description": null,
+              "native_stable_id": null
+            },
+            "ref": "d0dbe30d36f46428f808",
+            "role": "text_field",
+            "state": {
+              "active": false,
+              "checked": null,
+              "editable": true,
+              "enabled": true,
+              "expanded": null,
+              "focusable": true,
+              "focused": false,
+              "fullscreen": null,
+              "maximized": null,
+              "minimized": null,
+              "selected": false,
+              "visible": true
+            },
+            "value": "Item 1"
+          }
+        ],
+        "name": null,
+        "parent": "2bf32237a3b3ba2a644d",
+        "platform": "macos",
+        "platform_data": {
+          "AXPosition": {
+            "x": 967.0,
+            "y": 877.0
+          },
+          "AXSelected": false,
+          "AXSize": {
+            "height": 24.0,
+            "width": 400.0
+          },
+          "actions": [],
+          "ax_role": "AXRow",
+          "ax_subrole": "AXTableRow",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "1956944bd9bffabe7bab",
+        "role": "table_row",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": false,
+          "focused": false,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "target_ref": "1956944bd9bffabe7bab",
+      "tree_changed": true,
+      "verification": "confirmed"
+    },
+    "status_after": [
+      "Status: Submitted"
+    ]
+  },
+  {
+    "run": 3,
+    "click": {
+      "action": "click",
+      "after": {
+        "actions": [
+          "click",
+          "focus"
+        ],
+        "bounds": {
+          "height": 14,
+          "width": 108,
+          "x": 973,
+          "y": 1325
+        },
+        "children": [],
+        "name": "Submit",
+        "parent": "492302ae4e75fc9824f8",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Submit",
+          "AXEnabled": true,
+          "AXFocused": false,
+          "AXPosition": {
+            "x": 973.0,
+            "y": 1325.0
+          },
+          "AXSize": {
+            "height": 14.0,
+            "width": 108.0
+          },
+          "AXTitle": "Submit",
+          "actions": [
+            "press",
+            "focus"
+          ],
+          "ax_role": "AXButton",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "9a9cd6348cd65aa9c0de",
+        "role": "button",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": false,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "before": {
+        "actions": [
+          "click",
+          "focus"
+        ],
+        "bounds": {
+          "height": 14,
+          "width": 108,
+          "x": 973,
+          "y": 1325
+        },
+        "children": [],
+        "name": "Submit",
+        "parent": "492302ae4e75fc9824f8",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Submit",
+          "AXEnabled": true,
+          "AXFocused": false,
+          "AXPosition": {
+            "x": 973.0,
+            "y": 1325.0
+          },
+          "AXSize": {
+            "height": 14.0,
+            "width": 108.0
+          },
+          "AXTitle": "Submit",
+          "actions": [
+            "press",
+            "focus"
+          ],
+          "ax_role": "AXButton",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "9a9cd6348cd65aa9c0de",
+        "role": "button",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": false,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "target_ref": "9a9cd6348cd65aa9c0de",
+      "tree_changed": true,
+      "verification": "observed"
+    },
+    "set_value": {
+      "action": "set_value",
+      "after": {
+        "actions": [
+          "click",
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 28,
+          "width": 302,
+          "x": 966,
+          "y": 622
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "c33f18da1c04272b41b8",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Search",
+          "AXEnabled": true,
+          "AXFocused": true,
+          "AXPosition": {
+            "x": 966.0,
+            "y": 622.0
+          },
+          "AXSize": {
+            "height": 28.0,
+            "width": 302.0
+          },
+          "AXValue": "",
+          "actions": [
+            "show_menu",
+            "press",
+            "focus",
+            "set_value"
+          ],
+          "ax_role": "AXTextField",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "e3b92e437a6a92f8a117",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": ""
+      },
+      "before": {
+        "actions": [
+          "click",
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 28,
+          "width": 302,
+          "x": 966,
+          "y": 622
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "c33f18da1c04272b41b8",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Search",
+          "AXEnabled": true,
+          "AXFocused": true,
+          "AXPosition": {
+            "x": 966.0,
+            "y": 622.0
+          },
+          "AXSize": {
+            "height": 28.0,
+            "width": 302.0
+          },
+          "AXValue": "Bokkio native run 2",
+          "actions": [
+            "show_menu",
+            "press",
+            "focus",
+            "set_value"
+          ],
+          "ax_role": "AXTextField",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "e3b92e437a6a92f8a117",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": "Bokkio native run 2"
+      },
+      "postcondition": {
+        "actual": "",
+        "check": "value",
+        "expected": ""
+      },
+      "target_ref": "e3b92e437a6a92f8a117",
+      "tree_changed": true,
+      "verification": "confirmed"
+    },
+    "focus": {
+      "action": "focus",
+      "after": {
+        "actions": [
+          "click",
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 28,
+          "width": 302,
+          "x": 966,
+          "y": 622
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "c33f18da1c04272b41b8",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Search",
+          "AXEnabled": true,
+          "AXFocused": true,
+          "AXPosition": {
+            "x": 966.0,
+            "y": 622.0
+          },
+          "AXSize": {
+            "height": 28.0,
+            "width": 302.0
+          },
+          "AXValue": "",
+          "actions": [
+            "show_menu",
+            "press",
+            "focus",
+            "set_value"
+          ],
+          "ax_role": "AXTextField",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "e3b92e437a6a92f8a117",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": ""
+      },
+      "before": {
+        "actions": [
+          "click",
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 28,
+          "width": 302,
+          "x": 966,
+          "y": 622
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "c33f18da1c04272b41b8",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Search",
+          "AXEnabled": true,
+          "AXFocused": true,
+          "AXPosition": {
+            "x": 966.0,
+            "y": 622.0
+          },
+          "AXSize": {
+            "height": 28.0,
+            "width": 302.0
+          },
+          "AXValue": "",
+          "actions": [
+            "show_menu",
+            "press",
+            "focus",
+            "set_value"
+          ],
+          "ax_role": "AXTextField",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "e3b92e437a6a92f8a117",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": ""
+      },
+      "target_ref": "e3b92e437a6a92f8a117",
+      "tree_changed": false,
+      "verification": "confirmed"
+    },
+    "type": {
+      "action": "type",
+      "after": {
+        "actions": [
+          "click",
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 28,
+          "width": 302,
+          "x": 966,
+          "y": 622
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "c33f18da1c04272b41b8",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Search",
+          "AXEnabled": true,
+          "AXFocused": true,
+          "AXPosition": {
+            "x": 966.0,
+            "y": 622.0
+          },
+          "AXSize": {
+            "height": 28.0,
+            "width": 302.0
+          },
+          "AXValue": "Bokkio native run 3",
+          "actions": [
+            "show_menu",
+            "press",
+            "focus",
+            "set_value"
+          ],
+          "ax_role": "AXTextField",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "e3b92e437a6a92f8a117",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": "Bokkio native run 3"
+      },
+      "before": {
+        "actions": [
+          "click",
+          "focus",
+          "set_value"
+        ],
+        "bounds": {
+          "height": 28,
+          "width": 302,
+          "x": 966,
+          "y": 622
+        },
+        "children": [],
+        "name": "Search",
+        "parent": "c33f18da1c04272b41b8",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Search",
+          "AXEnabled": true,
+          "AXFocused": true,
+          "AXPosition": {
+            "x": 966.0,
+            "y": 622.0
+          },
+          "AXSize": {
+            "height": 28.0,
+            "width": 302.0
+          },
+          "AXValue": "",
+          "actions": [
+            "show_menu",
+            "press",
+            "focus",
+            "set_value"
+          ],
+          "ax_role": "AXTextField",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "e3b92e437a6a92f8a117",
+        "role": "text_field",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": true,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": true,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": ""
+      },
+      "postcondition": {
+        "actual": "Bokkio native run 3",
+        "check": "value",
+        "expected": "Bokkio native run 3"
+      },
+      "target_ref": "e3b92e437a6a92f8a117",
+      "tree_changed": true,
+      "verification": "confirmed"
+    },
+    "select": {
+      "action": "select",
+      "after": {
+        "actions": [],
+        "bounds": {
+          "height": 24,
+          "width": 400,
+          "x": 967,
+          "y": 901
+        },
+        "children": [
+          {
+            "actions": [
+              "click",
+              "focus",
+              "set_value"
+            ],
+            "bounds": {
+              "height": 24,
+              "width": 100,
+              "x": 983,
+              "y": 901
+            },
+            "children": [],
+            "name": null,
+            "parent": "bf5edc5eddbb441ca563",
+            "platform": "macos",
+            "platform_data": {
+              "AXEnabled": true,
+              "AXFocused": false,
+              "AXPosition": {
+                "x": 983.0,
+                "y": 901.0
+              },
+              "AXSize": {
+                "height": 24.0,
+                "width": 100.0
+              },
+              "AXValue": "Item 2",
+              "actions": [
+                "show_menu",
+                "press",
+                "focus",
+                "set_value"
+              ],
+              "ax_role": "AXTextField",
+              "description": null,
+              "native_stable_id": null
+            },
+            "ref": "42b5926a2d4aa45ec1ea",
+            "role": "text_field",
+            "state": {
+              "active": false,
+              "checked": null,
+              "editable": true,
+              "enabled": true,
+              "expanded": null,
+              "focusable": true,
+              "focused": false,
+              "fullscreen": null,
+              "maximized": null,
+              "minimized": null,
+              "selected": false,
+              "visible": true
+            },
+            "value": "Item 2"
+          }
+        ],
+        "name": null,
+        "parent": "2bf32237a3b3ba2a644d",
+        "platform": "macos",
+        "platform_data": {
+          "AXPosition": {
+            "x": 967.0,
+            "y": 901.0
+          },
+          "AXSelected": true,
+          "AXSize": {
+            "height": 24.0,
+            "width": 400.0
+          },
+          "actions": [],
+          "ax_role": "AXRow",
+          "ax_subrole": "AXTableRow",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "bf5edc5eddbb441ca563",
+        "role": "table_row",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": false,
+          "focused": false,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": true,
+          "visible": true
+        },
+        "value": null
+      },
+      "before": {
+        "actions": [],
+        "bounds": {
+          "height": 24,
+          "width": 400,
+          "x": 967,
+          "y": 901
+        },
+        "children": [
+          {
+            "actions": [
+              "click",
+              "focus",
+              "set_value"
+            ],
+            "bounds": {
+              "height": 24,
+              "width": 100,
+              "x": 983,
+              "y": 901
+            },
+            "children": [],
+            "name": null,
+            "parent": "bf5edc5eddbb441ca563",
+            "platform": "macos",
+            "platform_data": {
+              "AXEnabled": true,
+              "AXFocused": false,
+              "AXPosition": {
+                "x": 983.0,
+                "y": 901.0
+              },
+              "AXSize": {
+                "height": 24.0,
+                "width": 100.0
+              },
+              "AXValue": "Item 2",
+              "actions": [
+                "show_menu",
+                "press",
+                "focus",
+                "set_value"
+              ],
+              "ax_role": "AXTextField",
+              "description": null,
+              "native_stable_id": null
+            },
+            "ref": "42b5926a2d4aa45ec1ea",
+            "role": "text_field",
+            "state": {
+              "active": false,
+              "checked": null,
+              "editable": true,
+              "enabled": true,
+              "expanded": null,
+              "focusable": true,
+              "focused": false,
+              "fullscreen": null,
+              "maximized": null,
+              "minimized": null,
+              "selected": false,
+              "visible": true
+            },
+            "value": "Item 2"
+          }
+        ],
+        "name": null,
+        "parent": "2bf32237a3b3ba2a644d",
+        "platform": "macos",
+        "platform_data": {
+          "AXPosition": {
+            "x": 967.0,
+            "y": 901.0
+          },
+          "AXSelected": false,
+          "AXSize": {
+            "height": 24.0,
+            "width": 400.0
+          },
+          "actions": [],
+          "ax_role": "AXRow",
+          "ax_subrole": "AXTableRow",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "bf5edc5eddbb441ca563",
+        "role": "table_row",
+        "state": {
+          "active": false,
+          "checked": null,
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": false,
+          "focused": false,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "target_ref": "bf5edc5eddbb441ca563",
+      "tree_changed": true,
+      "verification": "confirmed"
+    },
+    "status_after": [
+      "Status: Ready"
+    ]
+  }
+]

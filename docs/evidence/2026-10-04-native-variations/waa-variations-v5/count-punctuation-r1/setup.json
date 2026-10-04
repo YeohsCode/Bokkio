@@ -1,0 +1,16 @@
+{
+  "folders": {
+    "Pictures": "C:\\BokkioTasks\\waa-variations-v5\\count-punctuation-r1\\world-8cfc8e27\\Pictures",
+    "Downloads": "C:\\BokkioTasks\\waa-variations-v5\\count-punctuation-r1\\world-8cfc8e27\\Downloads",
+    "Desktop": "C:\\BokkioTasks\\waa-variations-v5\\count-punctuation-r1\\world-8cfc8e27\\Desktop",
+    "Documents": "C:\\BokkioTasks\\waa-variations-v5\\count-punctuation-r1\\world-8cfc8e27\\Documents"
+  },
+  "artifact": "C:\\BokkioTasks\\waa-variations-v5\\count-punctuation-r1\\world-8cfc8e27\\Documents\\example_count.txt",
+  "inputs": [
+    {
+      "name": "largefile.txt",
+      "bytes": 115,
+      "sha256": "9ca2b02734efc6f2125c0fd15a7ddb269a94d1a58dae44e8b5963764bfbf943a"
+    }
+  ]
+}

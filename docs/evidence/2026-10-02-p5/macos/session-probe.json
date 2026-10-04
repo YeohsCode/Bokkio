@@ -1,0 +1,22 @@
+{
+  "foreground_before": [
+    {
+      "pid": 901,
+      "name": "loginwindow",
+      "is_foreground": true,
+      "role": "application"
+    }
+  ],
+  "error": {
+    "type": "BokkioError",
+    "message": "Accessibility tree exceeds 64 levels; provider may contain a cycle or the desktop may be locked"
+  },
+  "foreground_after": [
+    {
+      "pid": 901,
+      "name": "loginwindow",
+      "is_foreground": true,
+      "role": "application"
+    }
+  ]
+}

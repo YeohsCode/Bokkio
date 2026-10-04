@@ -1,0 +1,8 @@
+{
+  "expected": [
+    "alpha image.png",
+    "release final.PNG",
+    "zeta.png"
+  ],
+  "execution_feedback": false
+}

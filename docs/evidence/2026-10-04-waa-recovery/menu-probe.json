@@ -1,0 +1,540 @@
+[
+  {
+    "action": "background-expand",
+    "result": {
+      "action": "expand",
+      "target_ref": "31980442c8632dfdbc47",
+      "before": {
+        "ref": "31980442c8632dfdbc47",
+        "platform": "windows",
+        "role": "menu_item",
+        "name": "File",
+        "value": null,
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": false,
+          "active": false,
+          "selected": false,
+          "editable": false,
+          "focusable": true,
+          "checked": null,
+          "expanded": false,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": {
+          "x": 34,
+          "y": 57,
+          "width": 32,
+          "height": 19
+        },
+        "parent": "72e18ce2d88c48b254ff",
+        "children": [],
+        "actions": [
+          "collapse",
+          "expand",
+          "focus"
+        ],
+        "platform_data": {
+          "control_type_id": 50011,
+          "uia_name": "File",
+          "description": null,
+          "actions": [
+            "expand",
+            "collapse",
+            "focus"
+          ],
+          "native_stable_id": null
+        }
+      },
+      "after": {
+        "ref": "31980442c8632dfdbc47",
+        "platform": "windows",
+        "role": "menu_item",
+        "name": "File",
+        "value": null,
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": true,
+          "active": false,
+          "selected": false,
+          "editable": false,
+          "focusable": true,
+          "checked": null,
+          "expanded": true,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": {
+          "x": 34,
+          "y": 57,
+          "width": 32,
+          "height": 19
+        },
+        "parent": "72e18ce2d88c48b254ff",
+        "children": [],
+        "actions": [
+          "click",
+          "collapse",
+          "expand",
+          "focus"
+        ],
+        "platform_data": {
+          "control_type_id": 50011,
+          "uia_name": "File",
+          "description": null,
+          "actions": [
+            "press",
+            "expand",
+            "collapse",
+            "focus"
+          ],
+          "native_stable_id": null
+        }
+      },
+      "verification": "confirmed",
+      "tree_changed": true,
+      "postcondition": {
+        "check": "expanded",
+        "expected": true,
+        "actual": true
+      }
+    }
+  },
+  {
+    "action": "background-expand",
+    "scope": "Untitled - Notepad",
+    "menus": [
+      [
+        "menu",
+        "File",
+        null
+      ],
+      [
+        "menu_item",
+        "New",
+        null
+      ],
+      [
+        "menu_item",
+        "New Window",
+        null
+      ],
+      [
+        "menu_item",
+        "Open...",
+        null
+      ],
+      [
+        "menu_item",
+        "Save",
+        null
+      ],
+      [
+        "menu_item",
+        "Save As...",
+        null
+      ],
+      [
+        "menu_item",
+        "Page Setup...",
+        null
+      ],
+      [
+        "menu_item",
+        "Print...",
+        null
+      ],
+      [
+        "menu_item",
+        "Exit",
+        null
+      ],
+      [
+        "menu_item",
+        "System",
+        false
+      ],
+      [
+        "menu_item",
+        "File",
+        true
+      ],
+      [
+        "menu_item",
+        "Edit",
+        false
+      ],
+      [
+        "menu_item",
+        "Format",
+        false
+      ],
+      [
+        "menu_item",
+        "View",
+        false
+      ],
+      [
+        "menu_item",
+        "Help",
+        false
+      ]
+    ]
+  },
+  {
+    "action": "background-expand",
+    "scope": null,
+    "menus": [
+      [
+        "menu",
+        "File",
+        null
+      ],
+      [
+        "menu_item",
+        "New",
+        null
+      ],
+      [
+        "menu_item",
+        "New Window",
+        null
+      ],
+      [
+        "menu_item",
+        "Open...",
+        null
+      ],
+      [
+        "menu_item",
+        "Save",
+        null
+      ],
+      [
+        "menu_item",
+        "Save As...",
+        null
+      ],
+      [
+        "menu_item",
+        "Page Setup...",
+        null
+      ],
+      [
+        "menu_item",
+        "Print...",
+        null
+      ],
+      [
+        "menu_item",
+        "Exit",
+        null
+      ],
+      [
+        "menu_item",
+        "System",
+        false
+      ],
+      [
+        "menu_item",
+        "File",
+        true
+      ],
+      [
+        "menu_item",
+        "Edit",
+        false
+      ],
+      [
+        "menu_item",
+        "Format",
+        false
+      ],
+      [
+        "menu_item",
+        "View",
+        false
+      ],
+      [
+        "menu_item",
+        "Help",
+        false
+      ]
+    ]
+  },
+  {
+    "action": "focus-expand",
+    "result": {
+      "action": "expand",
+      "target_ref": "42b4817b588eea6e6feb",
+      "before": {
+        "ref": "42b4817b588eea6e6feb",
+        "platform": "windows",
+        "role": "menu_item",
+        "name": "File",
+        "value": null,
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": true,
+          "active": false,
+          "selected": false,
+          "editable": false,
+          "focusable": true,
+          "checked": null,
+          "expanded": true,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": {
+          "x": 60,
+          "y": 83,
+          "width": 32,
+          "height": 19
+        },
+        "parent": "62321a47dc41871a5874",
+        "children": [],
+        "actions": [
+          "click",
+          "collapse",
+          "expand",
+          "focus"
+        ],
+        "platform_data": {
+          "control_type_id": 50011,
+          "uia_name": "File",
+          "description": null,
+          "actions": [
+            "press",
+            "expand",
+            "collapse",
+            "focus"
+          ],
+          "native_stable_id": null
+        }
+      },
+      "after": {
+        "ref": "42b4817b588eea6e6feb",
+        "platform": "windows",
+        "role": "menu_item",
+        "name": "File",
+        "value": null,
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": true,
+          "active": false,
+          "selected": false,
+          "editable": false,
+          "focusable": true,
+          "checked": null,
+          "expanded": true,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": {
+          "x": 60,
+          "y": 83,
+          "width": 32,
+          "height": 19
+        },
+        "parent": "62321a47dc41871a5874",
+        "children": [],
+        "actions": [
+          "click",
+          "collapse",
+          "expand",
+          "focus"
+        ],
+        "platform_data": {
+          "control_type_id": 50011,
+          "uia_name": "File",
+          "description": null,
+          "actions": [
+            "press",
+            "expand",
+            "collapse",
+            "focus"
+          ],
+          "native_stable_id": null
+        }
+      },
+      "verification": "confirmed",
+      "tree_changed": true,
+      "postcondition": {
+        "check": "expanded",
+        "expected": true,
+        "actual": true
+      }
+    }
+  },
+  {
+    "action": "focus-expand",
+    "scope": "Untitled - Notepad",
+    "menus": [
+      [
+        "menu",
+        "File",
+        null
+      ],
+      [
+        "menu_item",
+        "New",
+        null
+      ],
+      [
+        "menu_item",
+        "New Window",
+        null
+      ],
+      [
+        "menu_item",
+        "Open...",
+        null
+      ],
+      [
+        "menu_item",
+        "Save",
+        null
+      ],
+      [
+        "menu_item",
+        "Save As...",
+        null
+      ],
+      [
+        "menu_item",
+        "Page Setup...",
+        null
+      ],
+      [
+        "menu_item",
+        "Print...",
+        null
+      ],
+      [
+        "menu_item",
+        "Exit",
+        null
+      ],
+      [
+        "menu_item",
+        "System",
+        false
+      ],
+      [
+        "menu_item",
+        "File",
+        true
+      ],
+      [
+        "menu_item",
+        "Edit",
+        false
+      ],
+      [
+        "menu_item",
+        "Format",
+        false
+      ],
+      [
+        "menu_item",
+        "View",
+        false
+      ],
+      [
+        "menu_item",
+        "Help",
+        false
+      ]
+    ]
+  },
+  {
+    "action": "focus-expand",
+    "scope": null,
+    "menus": [
+      [
+        "menu",
+        "File",
+        null
+      ],
+      [
+        "menu_item",
+        "New",
+        null
+      ],
+      [
+        "menu_item",
+        "New Window",
+        null
+      ],
+      [
+        "menu_item",
+        "Open...",
+        null
+      ],
+      [
+        "menu_item",
+        "Save",
+        null
+      ],
+      [
+        "menu_item",
+        "Save As...",
+        null
+      ],
+      [
+        "menu_item",
+        "Page Setup...",
+        null
+      ],
+      [
+        "menu_item",
+        "Print...",
+        null
+      ],
+      [
+        "menu_item",
+        "Exit",
+        null
+      ],
+      [
+        "menu_item",
+        "System",
+        false
+      ],
+      [
+        "menu_item",
+        "File",
+        true
+      ],
+      [
+        "menu_item",
+        "Edit",
+        false
+      ],
+      [
+        "menu_item",
+        "Format",
+        false
+      ],
+      [
+        "menu_item",
+        "View",
+        false
+      ],
+      [
+        "menu_item",
+        "Help",
+        false
+      ]
+    ]
+  }
+]

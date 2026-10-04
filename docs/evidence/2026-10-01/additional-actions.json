@@ -1,0 +1,593 @@
+{
+  "combo_set_value": {
+    "action": "set_value",
+    "target_ref": "7b54238f4dea05edfbce",
+    "before": {
+      "ref": "7b54238f4dea05edfbce",
+      "platform": "macos",
+      "role": "combo_box",
+      "name": "Fruit",
+      "value": "Apple",
+      "state": {
+        "enabled": true,
+        "visible": true,
+        "focused": false,
+        "active": false,
+        "selected": false,
+        "editable": false,
+        "focusable": true,
+        "checked": null,
+        "expanded": false,
+        "minimized": null,
+        "maximized": null,
+        "fullscreen": null
+      },
+      "bounds": {
+        "x": 967,
+        "y": 23,
+        "width": 198,
+        "height": 25
+      },
+      "parent": "017dd76a15808b3b5e24",
+      "children": [
+        {
+          "ref": "1090ae301900199aa516",
+          "platform": "macos",
+          "role": "button",
+          "name": "",
+          "value": null,
+          "state": {
+            "enabled": true,
+            "visible": true,
+            "focused": false,
+            "active": false,
+            "selected": false,
+            "editable": false,
+            "focusable": true,
+            "checked": null,
+            "expanded": null,
+            "minimized": null,
+            "maximized": null,
+            "fullscreen": null
+          },
+          "bounds": {
+            "x": 1144,
+            "y": 24,
+            "width": 28,
+            "height": 23
+          },
+          "parent": "7b54238f4dea05edfbce",
+          "children": [],
+          "actions": [
+            "click",
+            "focus"
+          ],
+          "platform_data": {
+            "AXDescription": "Fruit",
+            "AXFocused": false,
+            "AXEnabled": true,
+            "AXPosition": {
+              "x": 1144.0,
+              "y": 24.5
+            },
+            "AXTitle": "",
+            "AXSize": {
+              "height": 23.0,
+              "width": 28.0
+            },
+            "ax_role": "AXButton",
+            "description": "Fruit",
+            "actions": [
+              "press",
+              "focus"
+            ],
+            "native_stable_id": null
+          }
+        }
+      ],
+      "actions": [
+        "click",
+        "focus"
+      ],
+      "platform_data": {
+        "AXValue": "Apple",
+        "AXDescription": "Fruit",
+        "AXExpanded": false,
+        "AXPosition": {
+          "x": 967.0,
+          "y": 23.0
+        },
+        "AXSize": {
+          "height": 25.0,
+          "width": 198.0
+        },
+        "AXEnabled": true,
+        "ax_role": "AXComboBox",
+        "AXFocused": false,
+        "description": null,
+        "actions": [
+          "show_menu",
+          "press",
+          "focus"
+        ],
+        "native_stable_id": null
+      }
+    },
+    "after": {
+      "ref": "7b54238f4dea05edfbce",
+      "platform": "macos",
+      "role": "combo_box",
+      "name": "Fruit",
+      "value": "Banana",
+      "state": {
+        "enabled": true,
+        "visible": true,
+        "focused": false,
+        "active": false,
+        "selected": false,
+        "editable": false,
+        "focusable": true,
+        "checked": null,
+        "expanded": false,
+        "minimized": null,
+        "maximized": null,
+        "fullscreen": null
+      },
+      "bounds": {
+        "x": 967,
+        "y": 23,
+        "width": 198,
+        "height": 25
+      },
+      "parent": "017dd76a15808b3b5e24",
+      "children": [
+        {
+          "ref": "1090ae301900199aa516",
+          "platform": "macos",
+          "role": "button",
+          "name": "",
+          "value": null,
+          "state": {
+            "enabled": true,
+            "visible": true,
+            "focused": false,
+            "active": false,
+            "selected": false,
+            "editable": false,
+            "focusable": true,
+            "checked": null,
+            "expanded": null,
+            "minimized": null,
+            "maximized": null,
+            "fullscreen": null
+          },
+          "bounds": {
+            "x": 1144,
+            "y": 24,
+            "width": 28,
+            "height": 23
+          },
+          "parent": "7b54238f4dea05edfbce",
+          "children": [],
+          "actions": [
+            "click",
+            "focus"
+          ],
+          "platform_data": {
+            "ax_role": "AXButton",
+            "AXEnabled": true,
+            "AXSize": {
+              "height": 23.0,
+              "width": 28.0
+            },
+            "AXFocused": false,
+            "AXTitle": "",
+            "AXDescription": "Fruit",
+            "AXPosition": {
+              "x": 1144.0,
+              "y": 24.5
+            },
+            "description": "Fruit",
+            "actions": [
+              "press",
+              "focus"
+            ],
+            "native_stable_id": null
+          }
+        }
+      ],
+      "actions": [
+        "click",
+        "focus"
+      ],
+      "platform_data": {
+        "ax_role": "AXComboBox",
+        "AXExpanded": false,
+        "AXEnabled": true,
+        "AXFocused": false,
+        "AXPosition": {
+          "x": 967.0,
+          "y": 23.0
+        },
+        "AXValue": "Banana",
+        "AXDescription": "Fruit",
+        "AXSize": {
+          "height": 25.0,
+          "width": 198.0
+        },
+        "description": null,
+        "actions": [
+          "show_menu",
+          "press",
+          "focus"
+        ],
+        "native_stable_id": null
+      }
+    },
+    "verification": "confirmed",
+    "tree_changed": true
+  },
+  "scroll_error": "scroll is unsupported on macOS: xa11y scroll_into_view is a no-op",
+  "radio_select_runs": [
+    {
+      "action": "select",
+      "after": {
+        "actions": [
+          "click",
+          "focus",
+          "select"
+        ],
+        "bounds": {
+          "height": 24,
+          "width": 150,
+          "x": 968,
+          "y": -89
+        },
+        "children": [],
+        "name": "Option B",
+        "parent": "43d28677f48fab9299da",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Option B",
+          "AXEnabled": true,
+          "AXFocused": false,
+          "AXPosition": {
+            "x": 968.0,
+            "y": -89.0
+          },
+          "AXSize": {
+            "height": 24.0,
+            "width": 150.0
+          },
+          "AXTitle": "Option B",
+          "AXValue": 1.0,
+          "actions": [
+            "press",
+            "focus",
+            "toggle"
+          ],
+          "ax_role": "AXRadioButton",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "dfecaac2356ea9f025e0",
+        "role": "radio_button",
+        "state": {
+          "active": false,
+          "checked": "on",
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": false,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "before": {
+        "actions": [
+          "click",
+          "focus",
+          "select"
+        ],
+        "bounds": {
+          "height": 24,
+          "width": 150,
+          "x": 968,
+          "y": -89
+        },
+        "children": [],
+        "name": "Option B",
+        "parent": "43d28677f48fab9299da",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Option B",
+          "AXEnabled": true,
+          "AXFocused": false,
+          "AXPosition": {
+            "x": 968.0,
+            "y": -89.0
+          },
+          "AXSize": {
+            "height": 24.0,
+            "width": 150.0
+          },
+          "AXTitle": "Option B",
+          "AXValue": 0.0,
+          "actions": [
+            "press",
+            "focus",
+            "toggle"
+          ],
+          "ax_role": "AXRadioButton",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "dfecaac2356ea9f025e0",
+        "role": "radio_button",
+        "state": {
+          "active": false,
+          "checked": "off",
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": false,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "target_ref": "dfecaac2356ea9f025e0",
+      "tree_changed": true,
+      "verification": "confirmed"
+    },
+    {
+      "action": "select",
+      "after": {
+        "actions": [
+          "click",
+          "focus",
+          "select"
+        ],
+        "bounds": {
+          "height": 24,
+          "width": 150,
+          "x": 968,
+          "y": -115
+        },
+        "children": [],
+        "name": "Option A",
+        "parent": "43d28677f48fab9299da",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Option A",
+          "AXEnabled": true,
+          "AXFocused": false,
+          "AXPosition": {
+            "x": 968.0,
+            "y": -115.0
+          },
+          "AXSize": {
+            "height": 24.0,
+            "width": 150.0
+          },
+          "AXTitle": "Option A",
+          "AXValue": 1.0,
+          "actions": [
+            "press",
+            "focus",
+            "toggle"
+          ],
+          "ax_role": "AXRadioButton",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "171280cfebc49fdc7f8a",
+        "role": "radio_button",
+        "state": {
+          "active": false,
+          "checked": "on",
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": false,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "before": {
+        "actions": [
+          "click",
+          "focus",
+          "select"
+        ],
+        "bounds": {
+          "height": 24,
+          "width": 150,
+          "x": 968,
+          "y": -115
+        },
+        "children": [],
+        "name": "Option A",
+        "parent": "43d28677f48fab9299da",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Option A",
+          "AXEnabled": true,
+          "AXFocused": false,
+          "AXPosition": {
+            "x": 968.0,
+            "y": -115.0
+          },
+          "AXSize": {
+            "height": 24.0,
+            "width": 150.0
+          },
+          "AXTitle": "Option A",
+          "AXValue": 1.0,
+          "actions": [
+            "press",
+            "focus",
+            "toggle"
+          ],
+          "ax_role": "AXRadioButton",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "171280cfebc49fdc7f8a",
+        "role": "radio_button",
+        "state": {
+          "active": false,
+          "checked": "on",
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": false,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "target_ref": "171280cfebc49fdc7f8a",
+      "tree_changed": false,
+      "verification": "confirmed"
+    },
+    {
+      "action": "select",
+      "after": {
+        "actions": [
+          "click",
+          "focus",
+          "select"
+        ],
+        "bounds": {
+          "height": 24,
+          "width": 150,
+          "x": 968,
+          "y": -89
+        },
+        "children": [],
+        "name": "Option B",
+        "parent": "43d28677f48fab9299da",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Option B",
+          "AXEnabled": true,
+          "AXFocused": false,
+          "AXPosition": {
+            "x": 968.0,
+            "y": -89.0
+          },
+          "AXSize": {
+            "height": 24.0,
+            "width": 150.0
+          },
+          "AXTitle": "Option B",
+          "AXValue": 1.0,
+          "actions": [
+            "press",
+            "focus",
+            "toggle"
+          ],
+          "ax_role": "AXRadioButton",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "dfecaac2356ea9f025e0",
+        "role": "radio_button",
+        "state": {
+          "active": false,
+          "checked": "on",
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": false,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "before": {
+        "actions": [
+          "click",
+          "focus",
+          "select"
+        ],
+        "bounds": {
+          "height": 24,
+          "width": 150,
+          "x": 968,
+          "y": -89
+        },
+        "children": [],
+        "name": "Option B",
+        "parent": "43d28677f48fab9299da",
+        "platform": "macos",
+        "platform_data": {
+          "AXDescription": "Option B",
+          "AXEnabled": true,
+          "AXFocused": false,
+          "AXPosition": {
+            "x": 968.0,
+            "y": -89.0
+          },
+          "AXSize": {
+            "height": 24.0,
+            "width": 150.0
+          },
+          "AXTitle": "Option B",
+          "AXValue": 1.0,
+          "actions": [
+            "press",
+            "focus",
+            "toggle"
+          ],
+          "ax_role": "AXRadioButton",
+          "description": null,
+          "native_stable_id": null
+        },
+        "ref": "dfecaac2356ea9f025e0",
+        "role": "radio_button",
+        "state": {
+          "active": false,
+          "checked": "on",
+          "editable": false,
+          "enabled": true,
+          "expanded": null,
+          "focusable": true,
+          "focused": false,
+          "fullscreen": null,
+          "maximized": null,
+          "minimized": null,
+          "selected": false,
+          "visible": true
+        },
+        "value": null
+      },
+      "target_ref": "dfecaac2356ea9f025e0",
+      "tree_changed": false,
+      "verification": "confirmed"
+    }
+  ]
+}

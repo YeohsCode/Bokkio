@@ -1,0 +1,25 @@
+{
+  "goal": "In bokkio-interactions-fixture select Second in Mode. Then in Notepad replace the document text with \"P5 cross app two\".",
+  "apps": [
+    "bokkio-interactions-fixture",
+    "2156",
+    "7732"
+  ],
+  "events": [
+    {
+      "kind": "start",
+      "time": 1790933536.7809193,
+      "resumed": false
+    },
+    {
+      "kind": "status",
+      "time": 1790933559.426792,
+      "status": "failed",
+      "reason": "Planner app is outside the explicit allowlist"
+    }
+  ],
+  "completed_steps": [],
+  "actions": 0,
+  "replans": 0,
+  "status": "failed"
+}

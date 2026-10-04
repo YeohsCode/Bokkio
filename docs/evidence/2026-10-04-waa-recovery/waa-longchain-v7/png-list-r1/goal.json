@@ -1,0 +1,4 @@
+{
+  "original_instruction": "Search for all files with the extension .png in the Pictures folder and list their full names in png_files.txt in the same folder.",
+  "adapted_goal": "Search for all files with the extension .png in the Pictures folder and list their full names in png_files.txt in the same folder.\nIsolated task folder bindings: Pictures means \"C:\\BokkioTasks\\waa-longchain-v7\\png-list-r1\\world-e25c8994\\Pictures\"; Downloads means \"C:\\BokkioTasks\\waa-longchain-v7\\png-list-r1\\world-e25c8994\\Downloads\"; Desktop means \"C:\\BokkioTasks\\waa-longchain-v7\\png-list-r1\\world-e25c8994\\Desktop\"; Documents means \"C:\\BokkioTasks\\waa-longchain-v7\\png-list-r1\\world-e25c8994\\Documents\". Use Notepad for the output and save the deliverable at \"C:\\BokkioTasks\\waa-longchain-v7\\png-list-r1\\world-e25c8994\\Pictures\\png_files.txt\". All input documents and these folders belong to this disposable test. Do not use scripts or shell commands."
+}

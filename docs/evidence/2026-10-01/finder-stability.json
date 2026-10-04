@@ -1,0 +1,16 @@
+{
+  "before_nodes": 3109,
+  "after_nodes": 3109,
+  "removed_refs": 10,
+  "added_refs": 10,
+  "removed_roles": {
+    "static_text": 10
+  },
+  "added_roles": {
+    "static_text": 10
+  },
+  "common_ref_field_changes": {
+    "bounds": 241
+  },
+  "name_changes_same_role_bounds_parent": 0
+}

@@ -1,0 +1,464 @@
+[
+  {
+    "mode": "without_focus",
+    "source": "C:\\BokkioTasks\\save-commit-probe-3e5f9b02\\source.txt",
+    "output": "C:\\BokkioTasks\\save-commit-probe-3e5f9b02\\result.txt",
+    "path_write": {
+      "action": "set_value",
+      "target_ref": "f549a0bbb438c3172048",
+      "before": {
+        "ref": "f549a0bbb438c3172048",
+        "platform": "windows",
+        "role": "text_field",
+        "name": "File name:",
+        "value": "source",
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": true,
+          "active": false,
+          "selected": false,
+          "editable": true,
+          "focusable": true,
+          "checked": null,
+          "expanded": null,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": {
+          "x": 300,
+          "y": 535,
+          "width": 456,
+          "height": 17
+        },
+        "parent": "155377ffa1a3ad966340",
+        "children": [],
+        "actions": [
+          "focus",
+          "set_value",
+          "type"
+        ],
+        "platform_data": {
+          "uia_name": "File name:",
+          "control_type_id": 50004,
+          "uia_value": "source",
+          "automation_id": "1001",
+          "class_name": "Edit",
+          "description": null,
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "native_stable_id": "hwnd:0x36040e",
+          "value_source": "UIA.ValuePattern",
+          "value_scope_hwnd": 2295032,
+          "value_runtime_id": [
+            42,
+            3539982
+          ]
+        }
+      },
+      "after": {
+        "ref": "f549a0bbb438c3172048",
+        "platform": "windows",
+        "role": "text_field",
+        "name": "File name:",
+        "value": "C:\\BokkioTasks\\save-commit-probe-3e5f9b02\\result.txt",
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": true,
+          "active": false,
+          "selected": false,
+          "editable": true,
+          "focusable": true,
+          "checked": null,
+          "expanded": null,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": {
+          "x": 300,
+          "y": 535,
+          "width": 456,
+          "height": 17
+        },
+        "parent": "155377ffa1a3ad966340",
+        "children": [],
+        "actions": [
+          "focus",
+          "set_value",
+          "type"
+        ],
+        "platform_data": {
+          "uia_value": "C:\\BokkioTasks\\save-commit-probe-3e5f9b02\\result.txt",
+          "automation_id": "1001",
+          "control_type_id": 50004,
+          "uia_name": "File name:",
+          "class_name": "Edit",
+          "description": null,
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "native_stable_id": "hwnd:0x36040e",
+          "value_source": "UIA.ValuePattern",
+          "value_scope_hwnd": 2295032,
+          "value_runtime_id": [
+            42,
+            3539982
+          ]
+        }
+      },
+      "verification": "confirmed",
+      "tree_changed": true,
+      "postcondition": {
+        "check": "value",
+        "expected": "C:\\BokkioTasks\\save-commit-probe-3e5f9b02\\result.txt",
+        "actual": "C:\\BokkioTasks\\save-commit-probe-3e5f9b02\\result.txt"
+      }
+    },
+    "save": {
+      "action": "click",
+      "target_ref": "19f027a859472f234bc8",
+      "before": {
+        "ref": "19f027a859472f234bc8",
+        "platform": "windows",
+        "role": "button",
+        "name": "Save",
+        "value": null,
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": false,
+          "active": false,
+          "selected": false,
+          "editable": false,
+          "focusable": true,
+          "checked": null,
+          "expanded": null,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": {
+          "x": 576,
+          "y": 635,
+          "width": 88,
+          "height": 26
+        },
+        "parent": "5320fdad9b54ebde753c",
+        "children": [],
+        "actions": [
+          "click",
+          "focus"
+        ],
+        "platform_data": {
+          "uia_name": "Save",
+          "control_type_id": 50000,
+          "automation_id": "1",
+          "class_name": "Button",
+          "description": null,
+          "actions": [
+            "press",
+            "focus"
+          ],
+          "native_stable_id": "hwnd:0x330458"
+        }
+      },
+      "after": {
+        "ref": "19f027a859472f234bc8",
+        "platform": "windows",
+        "role": "button",
+        "name": "Save",
+        "value": null,
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": false,
+          "active": false,
+          "selected": false,
+          "editable": false,
+          "focusable": true,
+          "checked": null,
+          "expanded": null,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": {
+          "x": 576,
+          "y": 635,
+          "width": 88,
+          "height": 26
+        },
+        "parent": "5320fdad9b54ebde753c",
+        "children": [],
+        "actions": [
+          "click",
+          "focus"
+        ],
+        "platform_data": {
+          "control_type_id": 50000,
+          "class_name": "Button",
+          "uia_name": "Save",
+          "automation_id": "1",
+          "description": null,
+          "actions": [
+            "press",
+            "focus"
+          ],
+          "native_stable_id": "hwnd:0x330458"
+        }
+      },
+      "verification": "observed",
+      "tree_changed": true
+    },
+    "dialogs": [
+      {
+        "role": "dialog",
+        "name": "Save As"
+      },
+      {
+        "role": "dialog",
+        "name": "Confirm Save As"
+      }
+    ],
+    "output_exists": false,
+    "output_text": null,
+    "source_unchanged": true
+  },
+  {
+    "mode": "with_focus",
+    "source": "C:\\BokkioTasks\\save-commit-probe-d797a77b\\source.txt",
+    "output": "C:\\BokkioTasks\\save-commit-probe-d797a77b\\result.txt",
+    "path_write": {
+      "action": "set_value",
+      "target_ref": "a40ecc99d465ac5955ba",
+      "before": {
+        "ref": "a40ecc99d465ac5955ba",
+        "platform": "windows",
+        "role": "text_field",
+        "name": "File name:",
+        "value": "source",
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": true,
+          "active": false,
+          "selected": false,
+          "editable": true,
+          "focusable": true,
+          "checked": null,
+          "expanded": null,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": {
+          "x": 170,
+          "y": 406,
+          "width": 456,
+          "height": 17
+        },
+        "parent": "5f50cf4e0047e771adfd",
+        "children": [],
+        "actions": [
+          "focus",
+          "set_value",
+          "type"
+        ],
+        "platform_data": {
+          "uia_value": "source",
+          "class_name": "Edit",
+          "uia_name": "File name:",
+          "control_type_id": 50004,
+          "automation_id": "1001",
+          "description": null,
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "native_stable_id": "hwnd:0x1c052e",
+          "value_source": "UIA.ValuePattern",
+          "value_scope_hwnd": 4785222,
+          "value_runtime_id": [
+            42,
+            1836334
+          ]
+        }
+      },
+      "after": {
+        "ref": "a40ecc99d465ac5955ba",
+        "platform": "windows",
+        "role": "text_field",
+        "name": "File name:",
+        "value": "C:\\BokkioTasks\\save-commit-probe-d797a77b\\result.txt",
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": true,
+          "active": false,
+          "selected": false,
+          "editable": true,
+          "focusable": true,
+          "checked": null,
+          "expanded": null,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": {
+          "x": 170,
+          "y": 406,
+          "width": 456,
+          "height": 17
+        },
+        "parent": "5f50cf4e0047e771adfd",
+        "children": [],
+        "actions": [
+          "focus",
+          "set_value",
+          "type"
+        ],
+        "platform_data": {
+          "uia_value": "C:\\BokkioTasks\\save-commit-probe-d797a77b\\result.txt",
+          "automation_id": "1001",
+          "class_name": "Edit",
+          "uia_name": "File name:",
+          "control_type_id": 50004,
+          "description": null,
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "native_stable_id": "hwnd:0x1c052e",
+          "value_source": "UIA.ValuePattern",
+          "value_scope_hwnd": 4785222,
+          "value_runtime_id": [
+            42,
+            1836334
+          ]
+        }
+      },
+      "verification": "confirmed",
+      "tree_changed": true,
+      "postcondition": {
+        "check": "value",
+        "expected": "C:\\BokkioTasks\\save-commit-probe-d797a77b\\result.txt",
+        "actual": "C:\\BokkioTasks\\save-commit-probe-d797a77b\\result.txt"
+      }
+    },
+    "save": {
+      "action": "click",
+      "target_ref": "13ab3175dee9ecc906e5",
+      "before": {
+        "ref": "13ab3175dee9ecc906e5",
+        "platform": "windows",
+        "role": "button",
+        "name": "Save",
+        "value": null,
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": true,
+          "active": false,
+          "selected": false,
+          "editable": false,
+          "focusable": true,
+          "checked": null,
+          "expanded": null,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": {
+          "x": 446,
+          "y": 506,
+          "width": 88,
+          "height": 26
+        },
+        "parent": "03e230ad305cf7a4f990",
+        "children": [],
+        "actions": [
+          "click",
+          "focus"
+        ],
+        "platform_data": {
+          "control_type_id": 50000,
+          "class_name": "Button",
+          "uia_name": "Save",
+          "automation_id": "1",
+          "description": null,
+          "actions": [
+            "press",
+            "focus"
+          ],
+          "native_stable_id": "hwnd:0x2b04e6"
+        }
+      },
+      "after": {
+        "ref": "13ab3175dee9ecc906e5",
+        "platform": "windows",
+        "role": "button",
+        "name": "Save",
+        "value": null,
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": false,
+          "active": false,
+          "selected": false,
+          "editable": false,
+          "focusable": true,
+          "checked": null,
+          "expanded": null,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": {
+          "x": 446,
+          "y": 506,
+          "width": 88,
+          "height": 26
+        },
+        "parent": "03e230ad305cf7a4f990",
+        "children": [],
+        "actions": [
+          "click",
+          "focus"
+        ],
+        "platform_data": {
+          "control_type_id": 50000,
+          "automation_id": "1",
+          "uia_name": "Save",
+          "class_name": "Button",
+          "description": null,
+          "actions": [
+            "press",
+            "focus"
+          ],
+          "native_stable_id": "hwnd:0x2b04e6"
+        }
+      },
+      "verification": "observed",
+      "tree_changed": true
+    },
+    "dialogs": [
+      {
+        "role": "dialog",
+        "name": "Save As"
+      },
+      {
+        "role": "dialog",
+        "name": "Confirm Save As"
+      }
+    ],
+    "output_exists": false,
+    "output_text": null,
+    "source_unchanged": true
+  }
+]

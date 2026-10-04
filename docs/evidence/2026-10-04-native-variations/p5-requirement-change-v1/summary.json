@@ -1,0 +1,27 @@
+{
+  "planned": 2,
+  "attempted": 1,
+  "passed": 0,
+  "versions": [
+    {
+      "revision": 1,
+      "agent_status": "completed",
+      "actions": 9,
+      "replans": 1,
+      "phases": 2,
+      "checks": {
+        "source_observed_natively": false,
+        "text_observed_natively": true,
+        "save_dialog_observed": true,
+        "save_target_observed": true,
+        "native_save_dispatched": true,
+        "independent_content": false,
+        "input_bytes_preserved": true,
+        "fresh_native_reopen": true
+      },
+      "passed": false,
+      "artifact_sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9"
+    }
+  ],
+  "seconds": 191.553
+}

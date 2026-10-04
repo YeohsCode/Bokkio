@@ -1,0 +1,8 @@
+{
+  "source": "C:\\BokkioTasks\\p5-requirement-change-v3\\Documents\\largefile.txt",
+  "source_sha256": "9ca2b02734efc6f2125c0fd15a7ddb269a94d1a58dae44e8b5963764bfbf943a",
+  "artifacts": [
+    "C:\\BokkioTasks\\p5-requirement-change-v3\\Documents\\count-v1.txt",
+    "C:\\BokkioTasks\\p5-requirement-change-v3\\Documents\\count-v2.txt"
+  ]
+}

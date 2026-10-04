@@ -1,0 +1,54 @@
+[
+  {
+    "operation": "native.snapshot",
+    "seconds": 0.119911
+  },
+  {
+    "operation": "native.windows",
+    "seconds": 0.123799
+  },
+  {
+    "operation": "planner.plan",
+    "seconds": 32.969363
+  },
+  {
+    "operation": "native.snapshot",
+    "seconds": 0.16587
+  },
+  {
+    "operation": "jev.ask",
+    "seconds": 1.926095
+  },
+  {
+    "operation": "native.perform",
+    "seconds": 0.32904
+  },
+  {
+    "operation": "native.snapshot",
+    "seconds": 0.124851
+  },
+  {
+    "operation": "native.snapshot",
+    "seconds": 0.121812
+  },
+  {
+    "operation": "native.snapshot",
+    "seconds": 0.121313
+  },
+  {
+    "operation": "jev.ask",
+    "seconds": 1.74277
+  },
+  {
+    "operation": "native.perform",
+    "seconds": 0.258924
+  },
+  {
+    "operation": "native.snapshot",
+    "seconds": 0.122748
+  },
+  {
+    "operation": "native.snapshot",
+    "seconds": 0.122294
+  }
+]

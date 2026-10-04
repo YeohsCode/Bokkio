@@ -1,0 +1,56 @@
+[
+  {
+    "id": "search",
+    "goal": "Set Search to \"Bokkio evaluation\"",
+    "snapshot": "jev-fixture.json",
+    "values": [
+      "Bokkio evaluation"
+    ],
+    "expected": {
+      "action": "set_value",
+      "ref": "c531440f9cef5641e22e",
+      "value": "Bokkio evaluation"
+    }
+  },
+  {
+    "id": "submit",
+    "goal": "Click Submit",
+    "snapshot": "jev-fixture.json",
+    "values": [],
+    "expected": {
+      "action": "click",
+      "ref": "5900bc9f17c25cb6fa1f"
+    }
+  },
+  {
+    "id": "tree",
+    "goal": "Expand Parent in Folders",
+    "snapshot": "jev-fixture.json",
+    "values": [],
+    "expected": {
+      "action": "expand",
+      "ref": "14f0415b56b44f27027d"
+    }
+  },
+  {
+    "id": "dropdown",
+    "goal": "Open the Mode dropdown",
+    "snapshot": "jev-fixture.json",
+    "values": [],
+    "expected": {
+      "action": "expand",
+      "ref": "c0816850343abc91214d"
+    }
+  },
+  {
+    "id": "scroll",
+    "goal": "Scroll the Scroll content container to the right",
+    "snapshot": "jev-fixture.json",
+    "values": [],
+    "expected": {
+      "action": "scroll",
+      "ref": "51c05025672d86eff6a4",
+      "direction": "right"
+    }
+  }
+]

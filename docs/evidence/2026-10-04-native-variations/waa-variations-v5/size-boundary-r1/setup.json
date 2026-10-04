@@ -1,0 +1,31 @@
+{
+  "folders": {
+    "Pictures": "C:\\BokkioTasks\\waa-variations-v5\\size-boundary-r1\\world-8d71920f\\Pictures",
+    "Downloads": "C:\\BokkioTasks\\waa-variations-v5\\size-boundary-r1\\world-8d71920f\\Downloads",
+    "Desktop": "C:\\BokkioTasks\\waa-variations-v5\\size-boundary-r1\\world-8d71920f\\Desktop",
+    "Documents": "C:\\BokkioTasks\\waa-variations-v5\\size-boundary-r1\\world-8d71920f\\Documents"
+  },
+  "artifact": "C:\\BokkioTasks\\waa-variations-v5\\size-boundary-r1\\world-8d71920f\\Desktop\\report.txt",
+  "inputs": [
+    {
+      "name": "above limit.bin",
+      "bytes": 6291456,
+      "sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c"
+    },
+    {
+      "name": "below limit.bin",
+      "bytes": 4194304,
+      "sha256": "bb9f8df61474d25e71fa00722318cd387396ca1736605e1248821cc0de3d3af8"
+    },
+    {
+      "name": "exact limit.bin",
+      "bytes": 5242880,
+      "sha256": "c036cbb7553a909f8b8877d4461924307f27ecb66cff928eeeafd569c3887e29"
+    },
+    {
+      "name": "small.txt",
+      "bytes": 1200,
+      "sha256": "655a3ef0465a9f30fddf25f4dde0c19a05c6f9069b83961800c1944165955273"
+    }
+  ]
+}

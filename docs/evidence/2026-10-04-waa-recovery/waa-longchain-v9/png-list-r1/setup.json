@@ -1,0 +1,26 @@
+{
+  "folders": {
+    "Pictures": "C:\\BokkioTasks\\waa-longchain-v9\\png-list-r1\\world-9ec1c93a\\Pictures",
+    "Downloads": "C:\\BokkioTasks\\waa-longchain-v9\\png-list-r1\\world-9ec1c93a\\Downloads",
+    "Desktop": "C:\\BokkioTasks\\waa-longchain-v9\\png-list-r1\\world-9ec1c93a\\Desktop",
+    "Documents": "C:\\BokkioTasks\\waa-longchain-v9\\png-list-r1\\world-9ec1c93a\\Documents"
+  },
+  "artifact": "C:\\BokkioTasks\\waa-longchain-v9\\png-list-r1\\world-9ec1c93a\\Pictures\\png_files.txt",
+  "inputs": [
+    {
+      "name": "cs-black-000.png",
+      "bytes": 1916,
+      "sha256": "71e18b0143704fc6db87349651d51b0a55590e332db9b0bdf4a9c4beb1576391"
+    },
+    {
+      "name": "cs-gray-7f7f7f.png",
+      "bytes": 1940,
+      "sha256": "d37cccaa92c3245fb5316e4f32bf132c8ab04e4e3fce53b15338a5c2d700fd8c"
+    },
+    {
+      "name": "cs-white-fff.png",
+      "bytes": 1911,
+      "sha256": "a16e0c65d052dfad95684a22a0da00fb1c61d8b8ac905f6cb2790d70e78ab076"
+    }
+  ]
+}

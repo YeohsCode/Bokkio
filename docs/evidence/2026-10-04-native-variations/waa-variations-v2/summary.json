@@ -1,0 +1,270 @@
+{
+  "scope": "WAA_derived_robustness_fixtures",
+  "planned": 6,
+  "attempted": 6,
+  "passed": 2,
+  "results": [
+    {
+      "case": "png-list",
+      "variant": "png-spaces",
+      "round": 1,
+      "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/016c9a9d-f2b9-4428-8fdb-f74f4439ece6-WOS.json",
+      "task_sha256": "880539a3eb2987f8dc68a7c5eddeceafad744a7620ff74c22ab9befcec1f7b42",
+      "scope": "WAA_derived_robustness_fixtures",
+      "passed": false,
+      "artifact_sha256": "eba604af58a2e53c5a555b4bf7cd87c9f857bd73fe742be2f3a48fae6661226e",
+      "agent_status": "completed",
+      "actions": 5,
+      "replans": 0,
+      "phases": 1,
+      "completed_steps": [
+        "step-1",
+        "step-2",
+        "step-3",
+        "step-4"
+      ],
+      "intermediate_checks": {
+        "source_observed_natively": false,
+        "text_observed_natively": true,
+        "save_dialog_observed": true,
+        "save_target_observed": true,
+        "native_save_dispatched": true
+      },
+      "final_checks": {
+        "persisted_artifact_exists": true,
+        "input_bytes_preserved": true,
+        "reopen_kept_bytes": true,
+        "fresh_process_native_reopen": true
+      },
+      "resume_checks": {
+        "paused_after_editor_write": true,
+        "paused_before_persistence": true,
+        "checkpoint_history_preserved": true,
+        "editor_write_not_repeated": true,
+        "save_actions_after_resume": true
+      },
+      "independent_oracle_passed": false,
+      "pinned_metric_score": null,
+      "pinned_getter_result": null,
+      "seconds": 107.907
+    },
+    {
+      "case": "png-list",
+      "variant": "png-many",
+      "round": 1,
+      "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/016c9a9d-f2b9-4428-8fdb-f74f4439ece6-WOS.json",
+      "task_sha256": "880539a3eb2987f8dc68a7c5eddeceafad744a7620ff74c22ab9befcec1f7b42",
+      "scope": "WAA_derived_robustness_fixtures",
+      "passed": false,
+      "agent_status": "blocked",
+      "actions": 0,
+      "replans": 2,
+      "phases": 0,
+      "completed_steps": [],
+      "intermediate_checks": {
+        "source_observed_natively": true,
+        "text_observed_natively": false,
+        "save_dialog_observed": false,
+        "save_target_observed": false,
+        "native_save_dispatched": false
+      },
+      "final_checks": {
+        "persisted_artifact_exists": false,
+        "input_bytes_preserved": true,
+        "fresh_process_native_reopen": false
+      },
+      "resume_checks": {
+        "paused_after_editor_write": false,
+        "paused_before_persistence": true,
+        "checkpoint_history_preserved": true,
+        "editor_write_not_repeated": true,
+        "save_actions_after_resume": false
+      },
+      "independent_oracle_passed": false,
+      "pinned_metric_score": null,
+      "pinned_getter_result": null,
+      "seconds": 57.738
+    },
+    {
+      "case": "size-report",
+      "variant": "size-boundary",
+      "round": 1,
+      "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/2d292a2d-686b-4e72-80f7-af6c232b1258-WOS.json",
+      "task_sha256": "cfaaea375f97953cd53bdca431174bc7735b751855d2fb381a9a174c50d63398",
+      "scope": "WAA_derived_robustness_fixtures",
+      "passed": false,
+      "artifact_sha256": "15d31704767ee9847f57c5e9624ce36e9b2cb138d4c7ad892df0415625485386",
+      "agent_status": "failed",
+      "actions": 10,
+      "replans": 2,
+      "phases": 1,
+      "completed_steps": [
+        "step-1",
+        "step-2",
+        "step-3",
+        "step-4-retry",
+        "step-5"
+      ],
+      "intermediate_checks": {
+        "source_observed_natively": true,
+        "text_observed_natively": true,
+        "save_dialog_observed": true,
+        "save_target_observed": true,
+        "native_save_dispatched": true
+      },
+      "final_checks": {
+        "persisted_artifact_exists": true,
+        "input_bytes_preserved": true,
+        "exact_large_file_names": true,
+        "reopen_kept_bytes": true,
+        "fresh_process_native_reopen": true
+      },
+      "resume_checks": {
+        "paused_after_editor_write": true,
+        "paused_before_persistence": true,
+        "checkpoint_history_preserved": true,
+        "editor_write_not_repeated": true,
+        "save_actions_after_resume": true
+      },
+      "independent_oracle_passed": true,
+      "pinned_metric_score": null,
+      "pinned_getter_result": null,
+      "seconds": 240.25
+    },
+    {
+      "case": "size-report",
+      "variant": "size-many",
+      "round": 1,
+      "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/2d292a2d-686b-4e72-80f7-af6c232b1258-WOS.json",
+      "task_sha256": "cfaaea375f97953cd53bdca431174bc7735b751855d2fb381a9a174c50d63398",
+      "scope": "WAA_derived_robustness_fixtures",
+      "passed": false,
+      "agent_status": "blocked",
+      "actions": 0,
+      "replans": 2,
+      "phases": 0,
+      "completed_steps": [],
+      "intermediate_checks": {
+        "source_observed_natively": true,
+        "text_observed_natively": false,
+        "save_dialog_observed": false,
+        "save_target_observed": false,
+        "native_save_dispatched": false
+      },
+      "final_checks": {
+        "persisted_artifact_exists": false,
+        "input_bytes_preserved": true,
+        "fresh_process_native_reopen": false
+      },
+      "resume_checks": {
+        "paused_after_editor_write": false,
+        "paused_before_persistence": true,
+        "checkpoint_history_preserved": true,
+        "editor_write_not_repeated": true,
+        "save_actions_after_resume": false
+      },
+      "independent_oracle_passed": false,
+      "pinned_metric_score": null,
+      "pinned_getter_result": null,
+      "seconds": 53.797
+    },
+    {
+      "case": "word-count",
+      "variant": "count-punctuation",
+      "round": 1,
+      "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/notepad/a7d4b6c5-569b-452e-9e1d-ffdb3d431d15-WOS.json",
+      "task_sha256": "0e8f10ece28ad8cfb0ed108771428ab8b8513761f260540d632ff942f4fae88c",
+      "scope": "WAA_derived_robustness_fixtures",
+      "passed": true,
+      "artifact_sha256": "7902699be42c8a8e46fbbb4501726517e86b22c56a189f7625a6da49081b2451",
+      "agent_status": "completed",
+      "actions": 9,
+      "replans": 1,
+      "phases": 2,
+      "completed_steps": [
+        "step-1",
+        "step-2",
+        "step-3",
+        "step-4",
+        "step-5-retry",
+        "step-6",
+        "step-7",
+        "step-8",
+        "step-9"
+      ],
+      "intermediate_checks": {
+        "source_observed_natively": true,
+        "text_observed_natively": true,
+        "save_dialog_observed": true,
+        "save_target_observed": true,
+        "native_save_dispatched": true
+      },
+      "final_checks": {
+        "persisted_artifact_exists": true,
+        "input_bytes_preserved": true,
+        "reopen_kept_bytes": true,
+        "fresh_process_native_reopen": true
+      },
+      "resume_checks": {
+        "paused_after_editor_write": true,
+        "paused_before_persistence": true,
+        "checkpoint_history_preserved": true,
+        "editor_write_not_repeated": true,
+        "save_actions_after_resume": true
+      },
+      "independent_oracle_passed": true,
+      "pinned_metric_score": null,
+      "pinned_getter_result": null,
+      "seconds": 160.178
+    },
+    {
+      "case": "word-count",
+      "variant": "count-zero",
+      "round": 1,
+      "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/notepad/a7d4b6c5-569b-452e-9e1d-ffdb3d431d15-WOS.json",
+      "task_sha256": "0e8f10ece28ad8cfb0ed108771428ab8b8513761f260540d632ff942f4fae88c",
+      "scope": "WAA_derived_robustness_fixtures",
+      "passed": true,
+      "artifact_sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "agent_status": "completed",
+      "actions": 9,
+      "replans": 0,
+      "phases": 3,
+      "completed_steps": [
+        "step-1",
+        "step-2",
+        "step-3",
+        "step-4",
+        "step-5",
+        "step-6",
+        "step-7",
+        "step-8",
+        "step-9"
+      ],
+      "intermediate_checks": {
+        "source_observed_natively": true,
+        "text_observed_natively": true,
+        "save_dialog_observed": true,
+        "save_target_observed": true,
+        "native_save_dispatched": true
+      },
+      "final_checks": {
+        "persisted_artifact_exists": true,
+        "input_bytes_preserved": true,
+        "reopen_kept_bytes": true,
+        "fresh_process_native_reopen": true
+      },
+      "resume_checks": {
+        "paused_after_editor_write": true,
+        "paused_before_persistence": true,
+        "checkpoint_history_preserved": true,
+        "editor_write_not_repeated": true,
+        "save_actions_after_resume": true
+      },
+      "independent_oracle_passed": true,
+      "pinned_metric_score": null,
+      "pinned_getter_result": null,
+      "seconds": 165.274
+    }
+  ]
+}

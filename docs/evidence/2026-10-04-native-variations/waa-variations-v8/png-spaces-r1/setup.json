@@ -1,0 +1,41 @@
+{
+  "folders": {
+    "Pictures": "C:\\BokkioTasks\\waa-variations-v8\\png-spaces-r1\\world-aaeda3fb\\Pictures",
+    "Downloads": "C:\\BokkioTasks\\waa-variations-v8\\png-spaces-r1\\world-aaeda3fb\\Downloads",
+    "Desktop": "C:\\BokkioTasks\\waa-variations-v8\\png-spaces-r1\\world-aaeda3fb\\Desktop",
+    "Documents": "C:\\BokkioTasks\\waa-variations-v8\\png-spaces-r1\\world-aaeda3fb\\Documents"
+  },
+  "artifact": "C:\\BokkioTasks\\waa-variations-v8\\png-spaces-r1\\world-aaeda3fb\\Pictures\\png_files.txt",
+  "inputs": [
+    {
+      "name": "alpha image.png",
+      "bytes": 20,
+      "sha256": "f5e60ab9155a8aa18a6b7e4ef05daf0e815b7b54d922f7a42e7277a8fd289359"
+    },
+    {
+      "name": "ignore.png.txt",
+      "bytes": 20,
+      "sha256": "f5e60ab9155a8aa18a6b7e4ef05daf0e815b7b54d922f7a42e7277a8fd289359"
+    },
+    {
+      "name": "preview.jpg",
+      "bytes": 20,
+      "sha256": "f5e60ab9155a8aa18a6b7e4ef05daf0e815b7b54d922f7a42e7277a8fd289359"
+    },
+    {
+      "name": "readme.txt",
+      "bytes": 20,
+      "sha256": "f5e60ab9155a8aa18a6b7e4ef05daf0e815b7b54d922f7a42e7277a8fd289359"
+    },
+    {
+      "name": "release final.PNG",
+      "bytes": 20,
+      "sha256": "f5e60ab9155a8aa18a6b7e4ef05daf0e815b7b54d922f7a42e7277a8fd289359"
+    },
+    {
+      "name": "zeta.png",
+      "bytes": 20,
+      "sha256": "f5e60ab9155a8aa18a6b7e4ef05daf0e815b7b54d922f7a42e7277a8fd289359"
+    }
+  ]
+}

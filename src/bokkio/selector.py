@@ -1,0 +1,59 @@
+from __future__ import annotations
+
+from typing import Any, Iterable
+
+from .model import BokkioLookupError
+
+
+def flatten(nodes: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
+    result = []
+
+    def visit(node: dict[str, Any]) -> None:
+        result.append(node)
+        for child in node.get("children") or []:
+            visit(child)
+
+    for root in nodes:
+        visit(root)
+    return result
+
+
+def choose(
+    nodes: Iterable[dict[str, Any]],
+    *,
+    ref: str | None = None,
+    role: str | None = None,
+    name: str | None = None,
+    parent: str | None = None,
+) -> dict[str, Any]:
+    selector = {"ref": ref, "role": role, "name": name, "parent": parent}
+    all_nodes = flatten(nodes)
+    if ref:
+        matches = [node for node in all_nodes if node["ref"] == ref]
+        if not matches:
+            raise BokkioLookupError("stale_ref", selector, all_nodes)
+    elif role:
+        matches = [
+            node for node in all_nodes
+            if node["role"].casefold() == role.casefold()
+            and (name is None or (node.get("name") or "").casefold() == name.casefold())
+            and (parent is None or node.get("parent") == parent)
+        ]
+        if not matches:
+            candidates = [
+                node for node in all_nodes if node["role"].casefold() == role.casefold()
+            ]
+            raise BokkioLookupError("element_not_found", selector, candidates)
+    else:
+        raise BokkioLookupError("selector_required", selector, [])
+
+    if len(matches) > 1:
+        raise BokkioLookupError("ambiguous_element", selector, matches)
+    node = matches[0]
+    if role and node["role"].casefold() != role.casefold():
+        raise BokkioLookupError("selector_mismatch", selector, [node])
+    if name and (node.get("name") or "").casefold() != name.casefold():
+        raise BokkioLookupError("selector_mismatch", selector, [node])
+    if parent and node.get("parent") != parent:
+        raise BokkioLookupError("selector_mismatch", selector, [node])
+    return node

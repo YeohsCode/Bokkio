@@ -1,0 +1,87 @@
+{
+  "provider": "real TypeSafe API",
+  "execution": false,
+  "completed": 5,
+  "cases": 5,
+  "results": [
+    {
+      "id": "search",
+      "goal": "Set Search to \"Bokkio evaluation\"",
+      "matched": false,
+      "error": "Decision confidence below threshold"
+    },
+    {
+      "id": "submit",
+      "goal": "Click Submit",
+      "decision": {
+        "action": "click",
+        "ref": "5900bc9f17c25cb6fa1f",
+        "value": null,
+        "confidence": 0.83,
+        "snapshot_id": "39be456d0ad56aa7cfb0",
+        "direction": null,
+        "amount": null,
+        "window": "4e91c5846bfe4cc580ac"
+      },
+      "matched": true,
+      "usage": {
+        "input_tokens": 18602,
+        "output_tokens": 1007,
+        "cost": 0.000781284
+      },
+      "elapsed_seconds": 2.534739,
+      "model": "typesafe/jev-1.13-20260917"
+    },
+    {
+      "id": "tree",
+      "goal": "Expand Parent in Folders",
+      "decision": {
+        "action": "expand",
+        "ref": "14f0415b56b44f27027d",
+        "value": null,
+        "confidence": 0.86,
+        "snapshot_id": "39be456d0ad56aa7cfb0",
+        "direction": null,
+        "amount": null,
+        "window": "4e91c5846bfe4cc580ac"
+      },
+      "matched": true,
+      "usage": {
+        "input_tokens": 18606,
+        "output_tokens": 1008,
+        "cost": 0.000781452
+      },
+      "elapsed_seconds": 1.398192,
+      "model": "typesafe/jev-1.13-20260917"
+    },
+    {
+      "id": "dropdown",
+      "goal": "Open the Mode dropdown",
+      "matched": false,
+      "error": "Decision confidence below threshold"
+    },
+    {
+      "id": "scroll",
+      "goal": "Scroll the Scroll content container to the right",
+      "decision": {
+        "action": "scroll",
+        "ref": "51c05025672d86eff6a4",
+        "value": null,
+        "confidence": 0.77,
+        "snapshot_id": "39be456d0ad56aa7cfb0",
+        "direction": "right",
+        "amount": 0.25,
+        "window": "4e91c5846bfe4cc580ac"
+      },
+      "matched": true,
+      "usage": {
+        "input_tokens": 18608,
+        "output_tokens": 1008,
+        "cost": 0.000781536
+      },
+      "elapsed_seconds": 1.21087,
+      "model": "typesafe/jev-1.13-20260917"
+    }
+  ],
+  "matched": 3
+}

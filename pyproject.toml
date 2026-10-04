@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bokkio"
+version = "0.1.0"
+description = "Native desktop accessibility inspection and semantic actions"
+requires-python = ">=3.9"
+dependencies = ["xa11y>=0.15,<0.16", "certifi>=2025.1,<2027", "comtypes>=1.4.17,<2; sys_platform == 'win32'"]
+
+[project.scripts]
+bokkio = "bokkio.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[dependency-groups]
+test = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

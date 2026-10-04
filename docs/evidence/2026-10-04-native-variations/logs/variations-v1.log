@@ -1,0 +1,18 @@
+python.exe : Traceback (most recent call last):
+At line:4 char:1
++ & .venv\Scripts\python.exe -u scripts\verify_waa_longchain.py --bundl ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], Remot
+   eException
+    + FullyQualifiedErrorId : NativeCommandError
+
+  File "C:\BokkioWorkspace\Bokkio\scripts\verify_waa_longchain.py", line 368, in <module>
+    raise SystemExit(0 if
+run(args.bundle,args.output,args.cases,args.rounds,args.variants,args.pause_before_save) else 1)
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\BokkioWorkspace\Bokkio\scripts\verify_waa_longchain.py", line 191, in run
+    source_hashes = {name:
+hashlib.sha256(Path(sys.modules[name].__file__).read_bytes()).hexdigest()
+                                               ~~~~~~~~~~~^^^^^^
+KeyError: 'bokkio.windows_uia'

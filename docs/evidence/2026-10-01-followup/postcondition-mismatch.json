@@ -1,0 +1,125 @@
+{
+  "action": "type",
+  "after": {
+    "actions": [
+      "click",
+      "focus",
+      "set_value"
+    ],
+    "bounds": {
+      "height": 28,
+      "width": 302,
+      "x": 966,
+      "y": 962
+    },
+    "children": [],
+    "name": "Search",
+    "parent": "c33f18da1c04272b41b8",
+    "platform": "macos",
+    "platform_data": {
+      "AXDescription": "Search",
+      "AXEnabled": true,
+      "AXFocused": true,
+      "AXPosition": {
+        "x": 966.0,
+        "y": 962.0
+      },
+      "AXSize": {
+        "height": 28.0,
+        "width": 302.0
+      },
+      "AXValue": "Bokkio native run 3!",
+      "actions": [
+        "show_menu",
+        "press",
+        "focus",
+        "set_value"
+      ],
+      "ax_role": "AXTextField",
+      "description": null,
+      "native_stable_id": null
+    },
+    "ref": "e3b92e437a6a92f8a117",
+    "role": "text_field",
+    "state": {
+      "active": false,
+      "checked": null,
+      "editable": true,
+      "enabled": true,
+      "expanded": null,
+      "focusable": true,
+      "focused": true,
+      "fullscreen": null,
+      "maximized": null,
+      "minimized": null,
+      "selected": false,
+      "visible": true
+    },
+    "value": "Bokkio native run 3!"
+  },
+  "before": {
+    "actions": [
+      "click",
+      "focus",
+      "set_value"
+    ],
+    "bounds": {
+      "height": 28,
+      "width": 302,
+      "x": 966,
+      "y": 962
+    },
+    "children": [],
+    "name": "Search",
+    "parent": "c33f18da1c04272b41b8",
+    "platform": "macos",
+    "platform_data": {
+      "AXDescription": "Search",
+      "AXEnabled": true,
+      "AXFocused": true,
+      "AXPosition": {
+        "x": 966.0,
+        "y": 962.0
+      },
+      "AXSize": {
+        "height": 28.0,
+        "width": 302.0
+      },
+      "AXValue": "Bokkio native run 3",
+      "actions": [
+        "show_menu",
+        "press",
+        "focus",
+        "set_value"
+      ],
+      "ax_role": "AXTextField",
+      "description": null,
+      "native_stable_id": null
+    },
+    "ref": "e3b92e437a6a92f8a117",
+    "role": "text_field",
+    "state": {
+      "active": false,
+      "checked": null,
+      "editable": true,
+      "enabled": true,
+      "expanded": null,
+      "focusable": true,
+      "focused": true,
+      "fullscreen": null,
+      "maximized": null,
+      "minimized": null,
+      "selected": false,
+      "visible": true
+    },
+    "value": "Bokkio native run 3"
+  },
+  "postcondition": {
+    "actual": "Bokkio native run 3!",
+    "check": "value",
+    "expected": "intentionally wrong"
+  },
+  "target_ref": "e3b92e437a6a92f8a117",
+  "tree_changed": true,
+  "verification": "unconfirmed"
+}

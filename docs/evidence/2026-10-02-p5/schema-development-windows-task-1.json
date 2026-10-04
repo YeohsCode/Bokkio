@@ -1,0 +1,252 @@
+{
+  "goal": "In bokkio-interactions-fixture set Search to \"P5 cross app one\" and click Submit so its status is \"Submitted: P5 cross app one\". Then in Bokkio Jev hard click Action in Right pane so its status is \"Clicked Right pane\".",
+  "apps": [
+    "bokkio-interactions-fixture",
+    "6620",
+    "5548"
+  ],
+  "events": [
+    {
+      "kind": "start",
+      "time": 1790933846.309656,
+      "resumed": false
+    },
+    {
+      "kind": "plan_proposal",
+      "time": 1790933882.995172,
+      "plan": {
+        "steps": [
+          {
+            "window": "Bokkio interactions",
+            "success": [
+              {
+                "role": "text_field",
+                "name": "Search",
+                "field": "value",
+                "equals": "P5 cross app one"
+              }
+            ],
+            "risk": "local_write",
+            "id": "step-1",
+            "goal": "In the bokkio-interactions-fixture window 'Bokkio interactions', set the Search text field to \"P5 cross app one\".",
+            "app": "6620",
+            "allowed_values": [
+              "P5 cross app one"
+            ]
+          },
+          {
+            "window": "Bokkio interactions",
+            "success": [
+              {
+                "role": "static_text",
+                "name": "Submitted: P5 cross app one",
+                "field": "name",
+                "equals": "Submitted: P5 cross app one"
+              }
+            ],
+            "risk": "local_write",
+            "id": "step-2",
+            "goal": "In the bokkio-interactions-fixture window 'Bokkio interactions', click Submit so the status label reads \"Submitted: P5 cross app one\".",
+            "app": "6620",
+            "allowed_values": []
+          },
+          {
+            "window": "Bokkio Jev hard",
+            "success": [
+              {
+                "role": "static_text",
+                "name": "Clicked Right pane",
+                "field": "name",
+                "equals": "Clicked Right pane"
+              }
+            ],
+            "risk": "local_write",
+            "id": "step-3",
+            "goal": "In the bokkio-jev-hard-fixture window 'Bokkio Jev hard', hard click the Action button located in the Right pane group (not the Left pane one) so the status label changes from \"Ready\" to \"Clicked Right pane\".",
+            "app": "5548",
+            "allowed_values": []
+          }
+        ],
+        "goal": "In bokkio-interactions-fixture set Search to \"P5 cross app one\" and click Submit so its status is \"Submitted: P5 cross app one\". Then in Bokkio Jev hard click Action in Right pane so its status is \"Clicked Right pane\"."
+      },
+      "model": {
+        "model": "z-ai/glm-5.3-flash",
+        "usage": {
+          "prompt_tokens": 15168,
+          "completion_tokens": 1890,
+          "total_tokens": 17058,
+          "cost": 0.001771056,
+          "is_byok": false,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0,
+            "audio_tokens": 0,
+            "video_tokens": 0
+          },
+          "cost_details": {
+            "upstream_inference_cost": 0.001771056,
+            "upstream_inference_prompt_cost": 0.000637056,
+            "upstream_inference_completions_cost": 0.001134
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 1347,
+            "image_tokens": 0,
+            "audio_tokens": 0
+          }
+        },
+        "elapsed_seconds": 31.078
+      }
+    },
+    {
+      "kind": "plan",
+      "time": 1790933883.000385,
+      "plan": {
+        "steps": [
+          {
+            "window": "Bokkio interactions",
+            "success": [
+              {
+                "role": "text_field",
+                "name": "Search",
+                "field": "value",
+                "equals": "P5 cross app one"
+              }
+            ],
+            "risk": "local_write",
+            "id": "step-1",
+            "goal": "In the bokkio-interactions-fixture window 'Bokkio interactions', set the Search text field to \"P5 cross app one\".",
+            "app": "6620",
+            "allowed_values": [
+              "P5 cross app one"
+            ]
+          },
+          {
+            "window": "Bokkio interactions",
+            "success": [
+              {
+                "role": "static_text",
+                "name": "Submitted: P5 cross app one",
+                "field": "name",
+                "equals": "Submitted: P5 cross app one"
+              }
+            ],
+            "risk": "local_write",
+            "id": "step-2",
+            "goal": "In the bokkio-interactions-fixture window 'Bokkio interactions', click Submit so the status label reads \"Submitted: P5 cross app one\".",
+            "app": "6620",
+            "allowed_values": []
+          },
+          {
+            "window": "Bokkio Jev hard",
+            "success": [
+              {
+                "role": "static_text",
+                "name": "Clicked Right pane",
+                "field": "name",
+                "equals": "Clicked Right pane"
+              }
+            ],
+            "risk": "local_write",
+            "id": "step-3",
+            "goal": "In the bokkio-jev-hard-fixture window 'Bokkio Jev hard', hard click the Action button located in the Right pane group (not the Left pane one) so the status label changes from \"Ready\" to \"Clicked Right pane\".",
+            "app": "5548",
+            "allowed_values": []
+          }
+        ],
+        "goal": "In bokkio-interactions-fixture set Search to \"P5 cross app one\" and click Submit so its status is \"Submitted: P5 cross app one\". Then in Bokkio Jev hard click Action in Right pane so its status is \"Clicked Right pane\"."
+      },
+      "model": {
+        "model": "z-ai/glm-5.3-flash",
+        "usage": {
+          "prompt_tokens": 15168,
+          "completion_tokens": 1890,
+          "total_tokens": 17058,
+          "cost": 0.001771056,
+          "is_byok": false,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0,
+            "audio_tokens": 0,
+            "video_tokens": 0
+          },
+          "cost_details": {
+            "upstream_inference_cost": 0.001771056,
+            "upstream_inference_prompt_cost": 0.000637056,
+            "upstream_inference_completions_cost": 0.001134
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 1347,
+            "image_tokens": 0,
+            "audio_tokens": 0
+          }
+        },
+        "elapsed_seconds": 31.078
+      }
+    },
+    {
+      "kind": "status",
+      "time": 1790933883.1184335,
+      "status": "failed",
+      "reason": "Window not found: Bokkio interactions"
+    }
+  ],
+  "completed_steps": [],
+  "actions": 0,
+  "replans": 0,
+  "status": "failed",
+  "plan": {
+    "steps": [
+      {
+        "window": "Bokkio interactions",
+        "success": [
+          {
+            "role": "text_field",
+            "name": "Search",
+            "field": "value",
+            "equals": "P5 cross app one"
+          }
+        ],
+        "risk": "local_write",
+        "id": "step-1",
+        "goal": "In the bokkio-interactions-fixture window 'Bokkio interactions', set the Search text field to \"P5 cross app one\".",
+        "app": "6620",
+        "allowed_values": [
+          "P5 cross app one"
+        ]
+      },
+      {
+        "window": "Bokkio interactions",
+        "success": [
+          {
+            "role": "static_text",
+            "name": "Submitted: P5 cross app one",
+            "field": "name",
+            "equals": "Submitted: P5 cross app one"
+          }
+        ],
+        "risk": "local_write",
+        "id": "step-2",
+        "goal": "In the bokkio-interactions-fixture window 'Bokkio interactions', click Submit so the status label reads \"Submitted: P5 cross app one\".",
+        "app": "6620",
+        "allowed_values": []
+      },
+      {
+        "window": "Bokkio Jev hard",
+        "success": [
+          {
+            "role": "static_text",
+            "name": "Clicked Right pane",
+            "field": "name",
+            "equals": "Clicked Right pane"
+          }
+        ],
+        "risk": "local_write",
+        "id": "step-3",
+        "goal": "In the bokkio-jev-hard-fixture window 'Bokkio Jev hard', hard click the Action button located in the Right pane group (not the Left pane one) so the status label changes from \"Ready\" to \"Clicked Right pane\".",
+        "app": "5548",
+        "allowed_values": []
+      }
+    ],
+    "goal": "In bokkio-interactions-fixture set Search to \"P5 cross app one\" and click Submit so its status is \"Submitted: P5 cross app one\". Then in Bokkio Jev hard click Action in Right pane so its status is \"Clicked Right pane\"."
+  }
+}

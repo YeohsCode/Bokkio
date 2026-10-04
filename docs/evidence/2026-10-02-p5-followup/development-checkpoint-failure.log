@@ -1,0 +1,22 @@
+python.exe : Traceback (most recent call last):
+At line:3 char:1
++ & .venv\Scripts\python.exe -u scripts\verify_p5_extended.py --scale-f ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], Remot
+   eException
+    + FullyQualifiedErrorId : NativeCommandError
+
+  File "C:\BokkioWorkspace\Bokkio\scripts\verify_p5_extended.py", line 161, in <module>
+    raise SystemExit(0 if run(args.scale_fixture, args.hard_fixture, args.output) else 1)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\BokkioWorkspace\Bokkio\scripts\verify_p5_extended.py", line 72, in run
+    trace = DesktopAgent(ObservedBackend(), planner, provider, max_actions=20, max_replans=2).run(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\BokkioWorkspace\Bokkio\src\bokkio\agent.py", line 222, in run
+    return stop("failed", str(error))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\BokkioWorkspace\Bokkio\src\bokkio\agent.py", line 137, in stop
+    event("status", status=status, reason=reason)
+  File "C:\BokkioWorkspace\Bokkio\src\bokkio\agent.py", line 132, in event
+    raise BokkioError("Could not write private task trace") from None
+bokkio.model.BokkioError: Could not write private task trace

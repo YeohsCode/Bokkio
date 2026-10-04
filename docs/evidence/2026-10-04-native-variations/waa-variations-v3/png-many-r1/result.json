@@ -1,0 +1,34 @@
+{
+  "case": "png-list",
+  "variant": "png-many",
+  "round": 1,
+  "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/016c9a9d-f2b9-4428-8fdb-f74f4439ece6-WOS.json",
+  "task_sha256": "880539a3eb2987f8dc68a7c5eddeceafad744a7620ff74c22ab9befcec1f7b42",
+  "scope": "WAA_derived_robustness_fixtures",
+  "passed": false,
+  "agent_status": "blocked",
+  "actions": 0,
+  "replans": 2,
+  "phases": 0,
+  "completed_steps": [],
+  "intermediate_checks": {
+    "source_observed_natively": true,
+    "text_observed_natively": false,
+    "save_dialog_observed": false,
+    "save_target_observed": false,
+    "native_save_dispatched": false
+  },
+  "final_checks": {
+    "persisted_artifact_exists": false,
+    "input_bytes_preserved": true,
+    "fresh_process_native_reopen": false
+  },
+  "resume_checks": {
+    "paused_after_editor_write": false,
+    "paused_before_persistence": true
+  },
+  "independent_oracle_passed": false,
+  "pinned_metric_score": null,
+  "pinned_getter_result": null,
+  "seconds": 49.831
+}

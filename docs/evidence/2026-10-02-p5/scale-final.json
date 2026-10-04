@@ -1,0 +1,1317 @@
+{
+  "provider": "openrouter",
+  "execution": false,
+  "completed": 12,
+  "cases": 12,
+  "results": [
+    {
+      "id": "scale-50-1",
+      "goal": "Click Sample 1",
+      "decision": {
+        "action": "click",
+        "ref": "a934fa8ca149e7b72ba7",
+        "value": null,
+        "confidence": 0.99,
+        "snapshot_id": "42b310ac129e6491b977",
+        "direction": null,
+        "amount": null,
+        "window": null
+      },
+      "matched": true,
+      "usage": {
+        "input_tokens": 1213,
+        "output_tokens": 105,
+        "cost": 5.0946e-05
+      },
+      "elapsed_seconds": 1.081205,
+      "model": "typesafe/jev-1.13-20260917",
+      "source": "openrouter",
+      "calls": [
+        {
+          "model": "typesafe/jev-1.13-20260917",
+          "answers": {
+            "next": {
+              "type": "choice",
+              "choice": "click",
+              "probabilities": {
+                "done": 0.01,
+                "click": 0.99,
+                "focus": 0
+              },
+              "confidence": 0.99
+            },
+            "goal_satisfied": {
+              "type": "noul",
+              "noul": 0.08
+            },
+            "click_target": {
+              "type": "choice",
+              "choice": "c2",
+              "probabilities": {
+                "c2": 1
+              },
+              "confidence": 1
+            },
+            "focus_target": {
+              "type": "choice",
+              "choice": "c3",
+              "probabilities": {
+                "c3": 1
+              },
+              "confidence": 1
+            }
+          },
+          "usage": {
+            "input_tokens": 1213,
+            "output_tokens": 105,
+            "cost": 5.0946e-05
+          },
+          "id": "gen-dec-1790935245-Kn1OEnhLUpFp78A8XGDZ",
+          "provider": "TypeSafe",
+          "elapsed_seconds": 1.081205,
+          "source": "openrouter"
+        }
+      ],
+      "answers": {
+        "next": {
+          "type": "choice",
+          "choice": "click",
+          "probabilities": {
+            "done": 0.01,
+            "click": 0.99,
+            "focus": 0
+          },
+          "confidence": 0.99
+        },
+        "goal_satisfied": {
+          "type": "noul",
+          "noul": 0.08
+        },
+        "click_target": {
+          "type": "choice",
+          "choice": "c2",
+          "probabilities": {
+            "c2": 1
+          },
+          "confidence": 1
+        },
+        "focus_target": {
+          "type": "choice",
+          "choice": "c3",
+          "probabilities": {
+            "c3": 1
+          },
+          "confidence": 1
+        }
+      },
+      "model_calls": 1,
+      "content_controls": 50,
+      "question_options": {
+        "next": 3,
+        "goal_satisfied": 2,
+        "click_target": 1,
+        "focus_target": 1
+      }
+    },
+    {
+      "id": "scale-50-25",
+      "goal": "Click Sample 25",
+      "decision": {
+        "action": "click",
+        "ref": "577d26da8cc2f3c0312a",
+        "value": null,
+        "confidence": 0.99,
+        "snapshot_id": "42b310ac129e6491b977",
+        "direction": null,
+        "amount": null,
+        "window": null
+      },
+      "matched": true,
+      "usage": {
+        "input_tokens": 1218,
+        "output_tokens": 105,
+        "cost": 5.1156e-05
+      },
+      "elapsed_seconds": 2.490317,
+      "model": "typesafe/jev-1.13-20260917",
+      "source": "openrouter",
+      "calls": [
+        {
+          "model": "typesafe/jev-1.13-20260917",
+          "answers": {
+            "next": {
+              "type": "choice",
+              "choice": "click",
+              "probabilities": {
+                "click": 0.99,
+                "done": 0.01,
+                "focus": 0
+              },
+              "confidence": 0.99
+            },
+            "goal_satisfied": {
+              "type": "noul",
+              "noul": 0.08
+            },
+            "click_target": {
+              "type": "choice",
+              "choice": "c2",
+              "probabilities": {
+                "c2": 1
+              },
+              "confidence": 1
+            },
+            "focus_target": {
+              "type": "choice",
+              "choice": "c3",
+              "probabilities": {
+                "c3": 1
+              },
+              "confidence": 1
+            }
+          },
+          "usage": {
+            "input_tokens": 1218,
+            "output_tokens": 105,
+            "cost": 5.1156e-05
+          },
+          "id": "gen-dec-1790935247-f2cdgIxE7pT642hvj0md",
+          "provider": "TypeSafe",
+          "elapsed_seconds": 2.490317,
+          "source": "openrouter"
+        }
+      ],
+      "answers": {
+        "next": {
+          "type": "choice",
+          "choice": "click",
+          "probabilities": {
+            "click": 0.99,
+            "done": 0.01,
+            "focus": 0
+          },
+          "confidence": 0.99
+        },
+        "goal_satisfied": {
+          "type": "noul",
+          "noul": 0.08
+        },
+        "click_target": {
+          "type": "choice",
+          "choice": "c2",
+          "probabilities": {
+            "c2": 1
+          },
+          "confidence": 1
+        },
+        "focus_target": {
+          "type": "choice",
+          "choice": "c3",
+          "probabilities": {
+            "c3": 1
+          },
+          "confidence": 1
+        }
+      },
+      "model_calls": 1,
+      "content_controls": 50,
+      "question_options": {
+        "next": 3,
+        "goal_satisfied": 2,
+        "click_target": 1,
+        "focus_target": 1
+      }
+    },
+    {
+      "id": "scale-50-50",
+      "goal": "Click Sample 50",
+      "decision": {
+        "action": "click",
+        "ref": "fc4ead15979870887721",
+        "value": null,
+        "confidence": 0.99,
+        "snapshot_id": "42b310ac129e6491b977",
+        "direction": null,
+        "amount": null,
+        "window": null
+      },
+      "matched": true,
+      "usage": {
+        "input_tokens": 1219,
+        "output_tokens": 105,
+        "cost": 5.1198e-05
+      },
+      "elapsed_seconds": 1.472664,
+      "model": "typesafe/jev-1.13-20260917",
+      "source": "openrouter",
+      "calls": [
+        {
+          "model": "typesafe/jev-1.13-20260917",
+          "answers": {
+            "next": {
+              "type": "choice",
+              "choice": "click",
+              "probabilities": {
+                "focus": 0,
+                "click": 0.99,
+                "done": 0.01
+              },
+              "confidence": 0.99
+            },
+            "goal_satisfied": {
+              "type": "noul",
+              "noul": 0.08
+            },
+            "click_target": {
+              "type": "choice",
+              "choice": "c2",
+              "probabilities": {
+                "c2": 1
+              },
+              "confidence": 1
+            },
+            "focus_target": {
+              "type": "choice",
+              "choice": "c3",
+              "probabilities": {
+                "c3": 1
+              },
+              "confidence": 1
+            }
+          },
+          "usage": {
+            "input_tokens": 1219,
+            "output_tokens": 105,
+            "cost": 5.1198e-05
+          },
+          "id": "gen-dec-1790935248-BvAm5C5oKko2vIcTwq93",
+          "provider": "TypeSafe",
+          "elapsed_seconds": 1.472664,
+          "source": "openrouter"
+        }
+      ],
+      "answers": {
+        "next": {
+          "type": "choice",
+          "choice": "click",
+          "probabilities": {
+            "focus": 0,
+            "click": 0.99,
+            "done": 0.01
+          },
+          "confidence": 0.99
+        },
+        "goal_satisfied": {
+          "type": "noul",
+          "noul": 0.08
+        },
+        "click_target": {
+          "type": "choice",
+          "choice": "c2",
+          "probabilities": {
+            "c2": 1
+          },
+          "confidence": 1
+        },
+        "focus_target": {
+          "type": "choice",
+          "choice": "c3",
+          "probabilities": {
+            "c3": 1
+          },
+          "confidence": 1
+        }
+      },
+      "model_calls": 1,
+      "content_controls": 50,
+      "question_options": {
+        "next": 3,
+        "goal_satisfied": 2,
+        "click_target": 1,
+        "focus_target": 1
+      }
+    },
+    {
+      "id": "scale-100-1",
+      "goal": "Click Sample 1",
+      "decision": {
+        "action": "click",
+        "ref": "49c74c4a221098105b52",
+        "value": null,
+        "confidence": 0.99,
+        "snapshot_id": "e108b39345c723551250",
+        "direction": null,
+        "amount": null,
+        "window": null
+      },
+      "matched": true,
+      "usage": {
+        "input_tokens": 1217,
+        "output_tokens": 105,
+        "cost": 5.1114e-05
+      },
+      "elapsed_seconds": 1.109531,
+      "model": "typesafe/jev-1.13-20260917",
+      "source": "openrouter",
+      "calls": [
+        {
+          "model": "typesafe/jev-1.13-20260917",
+          "answers": {
+            "next": {
+              "type": "choice",
+              "choice": "click",
+              "probabilities": {
+                "focus": 0,
+                "done": 0,
+                "click": 1
+              },
+              "confidence": 0.99
+            },
+            "goal_satisfied": {
+              "type": "noul",
+              "noul": 0.07
+            },
+            "click_target": {
+              "type": "choice",
+              "choice": "c2",
+              "probabilities": {
+                "c2": 1
+              },
+              "confidence": 1
+            },
+            "focus_target": {
+              "type": "choice",
+              "choice": "c3",
+              "probabilities": {
+                "c3": 1
+              },
+              "confidence": 1
+            }
+          },
+          "usage": {
+            "input_tokens": 1217,
+            "output_tokens": 105,
+            "cost": 5.1114e-05
+          },
+          "id": "gen-dec-1790935250-rjHhD7UwMEdPAf7CUKgp",
+          "provider": "TypeSafe",
+          "elapsed_seconds": 1.109531,
+          "source": "openrouter"
+        }
+      ],
+      "answers": {
+        "next": {
+          "type": "choice",
+          "choice": "click",
+          "probabilities": {
+            "focus": 0,
+            "done": 0,
+            "click": 1
+          },
+          "confidence": 0.99
+        },
+        "goal_satisfied": {
+          "type": "noul",
+          "noul": 0.07
+        },
+        "click_target": {
+          "type": "choice",
+          "choice": "c2",
+          "probabilities": {
+            "c2": 1
+          },
+          "confidence": 1
+        },
+        "focus_target": {
+          "type": "choice",
+          "choice": "c3",
+          "probabilities": {
+            "c3": 1
+          },
+          "confidence": 1
+        }
+      },
+      "model_calls": 1,
+      "content_controls": 100,
+      "question_options": {
+        "next": 3,
+        "goal_satisfied": 2,
+        "click_target": 1,
+        "focus_target": 1
+      }
+    },
+    {
+      "id": "scale-100-50",
+      "goal": "Click Sample 50",
+      "decision": {
+        "action": "click",
+        "ref": "d064d04d8d91d2b09e3f",
+        "value": null,
+        "confidence": 0.99,
+        "snapshot_id": "e108b39345c723551250",
+        "direction": null,
+        "amount": null,
+        "window": null
+      },
+      "matched": true,
+      "usage": {
+        "input_tokens": 1223,
+        "output_tokens": 105,
+        "cost": 5.1366e-05
+      },
+      "elapsed_seconds": 1.554594,
+      "model": "typesafe/jev-1.13-20260917",
+      "source": "openrouter",
+      "calls": [
+        {
+          "model": "typesafe/jev-1.13-20260917",
+          "answers": {
+            "next": {
+              "type": "choice",
+              "choice": "click",
+              "probabilities": {
+                "done": 0.01,
+                "click": 0.99,
+                "focus": 0
+              },
+              "confidence": 0.99
+            },
+            "goal_satisfied": {
+              "type": "noul",
+              "noul": 0.08
+            },
+            "click_target": {
+              "type": "choice",
+              "choice": "c2",
+              "probabilities": {
+                "c2": 1
+              },
+              "confidence": 1
+            },
+            "focus_target": {
+              "type": "choice",
+              "choice": "c3",
+              "probabilities": {
+                "c3": 1
+              },
+              "confidence": 1
+            }
+          },
+          "usage": {
+            "input_tokens": 1223,
+            "output_tokens": 105,
+            "cost": 5.1366e-05
+          },
+          "id": "gen-dec-1790935251-TLlTqPeJovp9YhyWt255",
+          "provider": "TypeSafe",
+          "elapsed_seconds": 1.554594,
+          "source": "openrouter"
+        }
+      ],
+      "answers": {
+        "next": {
+          "type": "choice",
+          "choice": "click",
+          "probabilities": {
+            "done": 0.01,
+            "click": 0.99,
+            "focus": 0
+          },
+          "confidence": 0.99
+        },
+        "goal_satisfied": {
+          "type": "noul",
+          "noul": 0.08
+        },
+        "click_target": {
+          "type": "choice",
+          "choice": "c2",
+          "probabilities": {
+            "c2": 1
+          },
+          "confidence": 1
+        },
+        "focus_target": {
+          "type": "choice",
+          "choice": "c3",
+          "probabilities": {
+            "c3": 1
+          },
+          "confidence": 1
+        }
+      },
+      "model_calls": 1,
+      "content_controls": 100,
+      "question_options": {
+        "next": 3,
+        "goal_satisfied": 2,
+        "click_target": 1,
+        "focus_target": 1
+      }
+    },
+    {
+      "id": "scale-100-100",
+      "goal": "Click Sample 100",
+      "decision": {
+        "action": "click",
+        "ref": "c37005fc511bea105c02",
+        "value": null,
+        "confidence": 0.99,
+        "snapshot_id": "e108b39345c723551250",
+        "direction": null,
+        "amount": null,
+        "window": null
+      },
+      "matched": true,
+      "usage": {
+        "input_tokens": 1227,
+        "output_tokens": 105,
+        "cost": 5.1534e-05
+      },
+      "elapsed_seconds": 1.130433,
+      "model": "typesafe/jev-1.13-20260917",
+      "source": "openrouter",
+      "calls": [
+        {
+          "model": "typesafe/jev-1.13-20260917",
+          "answers": {
+            "next": {
+              "type": "choice",
+              "choice": "click",
+              "probabilities": {
+                "click": 0.99,
+                "done": 0.01,
+                "focus": 0
+              },
+              "confidence": 0.99
+            },
+            "goal_satisfied": {
+              "type": "noul",
+              "noul": 0.07
+            },
+            "click_target": {
+              "type": "choice",
+              "choice": "c2",
+              "probabilities": {
+                "c2": 1
+              },
+              "confidence": 1
+            },
+            "focus_target": {
+              "type": "choice",
+              "choice": "c3",
+              "probabilities": {
+                "c3": 1
+              },
+              "confidence": 1
+            }
+          },
+          "usage": {
+            "input_tokens": 1227,
+            "output_tokens": 105,
+            "cost": 5.1534e-05
+          },
+          "id": "gen-dec-1790935252-cUlZcJZgj507QtteMAou",
+          "provider": "TypeSafe",
+          "elapsed_seconds": 1.130433,
+          "source": "openrouter"
+        }
+      ],
+      "answers": {
+        "next": {
+          "type": "choice",
+          "choice": "click",
+          "probabilities": {
+            "click": 0.99,
+            "done": 0.01,
+            "focus": 0
+          },
+          "confidence": 0.99
+        },
+        "goal_satisfied": {
+          "type": "noul",
+          "noul": 0.07
+        },
+        "click_target": {
+          "type": "choice",
+          "choice": "c2",
+          "probabilities": {
+            "c2": 1
+          },
+          "confidence": 1
+        },
+        "focus_target": {
+          "type": "choice",
+          "choice": "c3",
+          "probabilities": {
+            "c3": 1
+          },
+          "confidence": 1
+        }
+      },
+      "model_calls": 1,
+      "content_controls": 100,
+      "question_options": {
+        "next": 3,
+        "goal_satisfied": 2,
+        "click_target": 1,
+        "focus_target": 1
+      }
+    },
+    {
+      "id": "scale-300-1",
+      "goal": "Click Sample 1",
+      "decision": {
+        "action": "click",
+        "ref": "6b4e75a02e24cca22734",
+        "value": null,
+        "confidence": 0.99,
+        "snapshot_id": "69b392e73bb7e698c620",
+        "direction": null,
+        "amount": null,
+        "window": null
+      },
+      "matched": true,
+      "usage": {
+        "input_tokens": 1310,
+        "output_tokens": 105,
+        "cost": 5.502e-05
+      },
+      "elapsed_seconds": 1.500474,
+      "model": "typesafe/jev-1.13-20260917",
+      "source": "openrouter",
+      "calls": [
+        {
+          "model": "typesafe/jev-1.13-20260917",
+          "answers": {
+            "next": {
+              "type": "choice",
+              "choice": "click",
+              "probabilities": {
+                "focus": 0,
+                "done": 0.01,
+                "click": 0.99
+              },
+              "confidence": 0.99
+            },
+            "goal_satisfied": {
+              "type": "noul",
+              "noul": 0.08
+            },
+            "click_target": {
+              "type": "choice",
+              "choice": "c3",
+              "probabilities": {
+                "c3": 1
+              },
+              "confidence": 1
+            },
+            "focus_target": {
+              "type": "choice",
+              "choice": "c4",
+              "probabilities": {
+                "c4": 1
+              },
+              "confidence": 1
+            }
+          },
+          "usage": {
+            "input_tokens": 1310,
+            "output_tokens": 105,
+            "cost": 5.502e-05
+          },
+          "id": "gen-dec-1790935254-W7CaaIpll6q2pwXzllcA",
+          "provider": "TypeSafe",
+          "elapsed_seconds": 1.500474,
+          "source": "openrouter"
+        }
+      ],
+      "answers": {
+        "next": {
+          "type": "choice",
+          "choice": "click",
+          "probabilities": {
+            "focus": 0,
+            "done": 0.01,
+            "click": 0.99
+          },
+          "confidence": 0.99
+        },
+        "goal_satisfied": {
+          "type": "noul",
+          "noul": 0.08
+        },
+        "click_target": {
+          "type": "choice",
+          "choice": "c3",
+          "probabilities": {
+            "c3": 1
+          },
+          "confidence": 1
+        },
+        "focus_target": {
+          "type": "choice",
+          "choice": "c4",
+          "probabilities": {
+            "c4": 1
+          },
+          "confidence": 1
+        }
+      },
+      "model_calls": 1,
+      "content_controls": 300,
+      "question_options": {
+        "next": 3,
+        "goal_satisfied": 2,
+        "click_target": 1,
+        "focus_target": 1
+      }
+    },
+    {
+      "id": "scale-300-150",
+      "goal": "Click Sample 150",
+      "decision": {
+        "action": "click",
+        "ref": "f1bbec7d69154628baf9",
+        "value": null,
+        "confidence": 0.99,
+        "snapshot_id": "69b392e73bb7e698c620",
+        "direction": null,
+        "amount": null,
+        "window": null
+      },
+      "matched": true,
+      "usage": {
+        "input_tokens": 1320,
+        "output_tokens": 105,
+        "cost": 5.544e-05
+      },
+      "elapsed_seconds": 1.554633,
+      "model": "typesafe/jev-1.13-20260917",
+      "source": "openrouter",
+      "calls": [
+        {
+          "model": "typesafe/jev-1.13-20260917",
+          "answers": {
+            "next": {
+              "type": "choice",
+              "choice": "click",
+              "probabilities": {
+                "click": 0.99,
+                "focus": 0,
+                "done": 0.01
+              },
+              "confidence": 0.99
+            },
+            "goal_satisfied": {
+              "type": "noul",
+              "noul": 0.08
+            },
+            "click_target": {
+              "type": "choice",
+              "choice": "c3",
+              "probabilities": {
+                "c3": 1
+              },
+              "confidence": 1
+            },
+            "focus_target": {
+              "type": "choice",
+              "choice": "c4",
+              "probabilities": {
+                "c4": 1
+              },
+              "confidence": 1
+            }
+          },
+          "usage": {
+            "input_tokens": 1320,
+            "output_tokens": 105,
+            "cost": 5.544e-05
+          },
+          "id": "gen-dec-1790935255-RYwIkwqkhwNEMpE7NvMD",
+          "provider": "TypeSafe",
+          "elapsed_seconds": 1.554633,
+          "source": "openrouter"
+        }
+      ],
+      "answers": {
+        "next": {
+          "type": "choice",
+          "choice": "click",
+          "probabilities": {
+            "click": 0.99,
+            "focus": 0,
+            "done": 0.01
+          },
+          "confidence": 0.99
+        },
+        "goal_satisfied": {
+          "type": "noul",
+          "noul": 0.08
+        },
+        "click_target": {
+          "type": "choice",
+          "choice": "c3",
+          "probabilities": {
+            "c3": 1
+          },
+          "confidence": 1
+        },
+        "focus_target": {
+          "type": "choice",
+          "choice": "c4",
+          "probabilities": {
+            "c4": 1
+          },
+          "confidence": 1
+        }
+      },
+      "model_calls": 1,
+      "content_controls": 300,
+      "question_options": {
+        "next": 3,
+        "goal_satisfied": 2,
+        "click_target": 1,
+        "focus_target": 1
+      }
+    },
+    {
+      "id": "scale-300-300",
+      "goal": "Click Sample 300",
+      "decision": {
+        "action": "click",
+        "ref": "0e2b0dc062fb3af5d4cf",
+        "value": null,
+        "confidence": 0.97,
+        "snapshot_id": "69b392e73bb7e698c620",
+        "direction": null,
+        "amount": null,
+        "window": null
+      },
+      "matched": true,
+      "usage": {
+        "input_tokens": 1321,
+        "output_tokens": 105,
+        "cost": 5.5482e-05
+      },
+      "elapsed_seconds": 1.711672,
+      "model": "typesafe/jev-1.13-20260917",
+      "source": "openrouter",
+      "calls": [
+        {
+          "model": "typesafe/jev-1.13-20260917",
+          "answers": {
+            "next": {
+              "type": "choice",
+              "choice": "click",
+              "probabilities": {
+                "done": 0.01,
+                "click": 0.98,
+                "focus": 0.01
+              },
+              "confidence": 0.97
+            },
+            "goal_satisfied": {
+              "type": "noul",
+              "noul": 0.06
+            },
+            "click_target": {
+              "type": "choice",
+              "choice": "c3",
+              "probabilities": {
+                "c3": 1
+              },
+              "confidence": 1
+            },
+            "focus_target": {
+              "type": "choice",
+              "choice": "c4",
+              "probabilities": {
+                "c4": 1
+              },
+              "confidence": 1
+            }
+          },
+          "usage": {
+            "input_tokens": 1321,
+            "output_tokens": 105,
+            "cost": 5.5482e-05
+          },
+          "id": "gen-dec-1790935257-EBj6eaUmMTF4DAfXRjhj",
+          "provider": "TypeSafe",
+          "elapsed_seconds": 1.711672,
+          "source": "openrouter"
+        }
+      ],
+      "answers": {
+        "next": {
+          "type": "choice",
+          "choice": "click",
+          "probabilities": {
+            "done": 0.01,
+            "click": 0.98,
+            "focus": 0.01
+          },
+          "confidence": 0.97
+        },
+        "goal_satisfied": {
+          "type": "noul",
+          "noul": 0.06
+        },
+        "click_target": {
+          "type": "choice",
+          "choice": "c3",
+          "probabilities": {
+            "c3": 1
+          },
+          "confidence": 1
+        },
+        "focus_target": {
+          "type": "choice",
+          "choice": "c4",
+          "probabilities": {
+            "c4": 1
+          },
+          "confidence": 1
+        }
+      },
+      "model_calls": 1,
+      "content_controls": 300,
+      "question_options": {
+        "next": 3,
+        "goal_satisfied": 2,
+        "click_target": 1,
+        "focus_target": 1
+      }
+    },
+    {
+      "id": "scale-1000-1",
+      "goal": "Click Sample 1",
+      "decision": {
+        "action": "click",
+        "ref": "e582c9bf60231bbecd30",
+        "value": null,
+        "confidence": 0.99,
+        "snapshot_id": "4c66cae63c3a1f6acf5b",
+        "direction": null,
+        "amount": null,
+        "window": null
+      },
+      "matched": true,
+      "usage": {
+        "input_tokens": 1315,
+        "output_tokens": 105,
+        "cost": 5.523e-05
+      },
+      "elapsed_seconds": 1.49085,
+      "model": "typesafe/jev-1.13-20260917",
+      "source": "openrouter",
+      "calls": [
+        {
+          "model": "typesafe/jev-1.13-20260917",
+          "answers": {
+            "next": {
+              "type": "choice",
+              "choice": "click",
+              "probabilities": {
+                "focus": 0,
+                "done": 0.01,
+                "click": 0.99
+              },
+              "confidence": 0.99
+            },
+            "goal_satisfied": {
+              "type": "noul",
+              "noul": 0.08
+            },
+            "click_target": {
+              "type": "choice",
+              "choice": "c3",
+              "probabilities": {
+                "c3": 1
+              },
+              "confidence": 1
+            },
+            "focus_target": {
+              "type": "choice",
+              "choice": "c4",
+              "probabilities": {
+                "c4": 1
+              },
+              "confidence": 1
+            }
+          },
+          "usage": {
+            "input_tokens": 1315,
+            "output_tokens": 105,
+            "cost": 5.523e-05
+          },
+          "id": "gen-dec-1790935259-j0ZxvLTL0RdRHdKYr099",
+          "provider": "TypeSafe",
+          "elapsed_seconds": 1.49085,
+          "source": "openrouter"
+        }
+      ],
+      "answers": {
+        "next": {
+          "type": "choice",
+          "choice": "click",
+          "probabilities": {
+            "focus": 0,
+            "done": 0.01,
+            "click": 0.99
+          },
+          "confidence": 0.99
+        },
+        "goal_satisfied": {
+          "type": "noul",
+          "noul": 0.08
+        },
+        "click_target": {
+          "type": "choice",
+          "choice": "c3",
+          "probabilities": {
+            "c3": 1
+          },
+          "confidence": 1
+        },
+        "focus_target": {
+          "type": "choice",
+          "choice": "c4",
+          "probabilities": {
+            "c4": 1
+          },
+          "confidence": 1
+        }
+      },
+      "model_calls": 1,
+      "content_controls": 1000,
+      "question_options": {
+        "next": 3,
+        "goal_satisfied": 2,
+        "click_target": 1,
+        "focus_target": 1
+      }
+    },
+    {
+      "id": "scale-1000-500",
+      "goal": "Click Sample 500",
+      "decision": {
+        "action": "click",
+        "ref": "59f27b9a18d94bec68d2",
+        "value": null,
+        "confidence": 0.97,
+        "snapshot_id": "4c66cae63c3a1f6acf5b",
+        "direction": null,
+        "amount": null,
+        "window": null
+      },
+      "matched": true,
+      "usage": {
+        "input_tokens": 1325,
+        "output_tokens": 105,
+        "cost": 5.565e-05
+      },
+      "elapsed_seconds": 1.496235,
+      "model": "typesafe/jev-1.13-20260917",
+      "source": "openrouter",
+      "calls": [
+        {
+          "model": "typesafe/jev-1.13-20260917",
+          "answers": {
+            "next": {
+              "type": "choice",
+              "choice": "click",
+              "probabilities": {
+                "done": 0.01,
+                "click": 0.98,
+                "focus": 0.01
+              },
+              "confidence": 0.97
+            },
+            "goal_satisfied": {
+              "type": "noul",
+              "noul": 0.06
+            },
+            "click_target": {
+              "type": "choice",
+              "choice": "c3",
+              "probabilities": {
+                "c3": 1
+              },
+              "confidence": 1
+            },
+            "focus_target": {
+              "type": "choice",
+              "choice": "c4",
+              "probabilities": {
+                "c4": 1
+              },
+              "confidence": 1
+            }
+          },
+          "usage": {
+            "input_tokens": 1325,
+            "output_tokens": 105,
+            "cost": 5.565e-05
+          },
+          "id": "gen-dec-1790935260-dlk5DH3Syu25lTp9j7Jv",
+          "provider": "TypeSafe",
+          "elapsed_seconds": 1.496235,
+          "source": "openrouter"
+        }
+      ],
+      "answers": {
+        "next": {
+          "type": "choice",
+          "choice": "click",
+          "probabilities": {
+            "done": 0.01,
+            "click": 0.98,
+            "focus": 0.01
+          },
+          "confidence": 0.97
+        },
+        "goal_satisfied": {
+          "type": "noul",
+          "noul": 0.06
+        },
+        "click_target": {
+          "type": "choice",
+          "choice": "c3",
+          "probabilities": {
+            "c3": 1
+          },
+          "confidence": 1
+        },
+        "focus_target": {
+          "type": "choice",
+          "choice": "c4",
+          "probabilities": {
+            "c4": 1
+          },
+          "confidence": 1
+        }
+      },
+      "model_calls": 1,
+      "content_controls": 1000,
+      "question_options": {
+        "next": 3,
+        "goal_satisfied": 2,
+        "click_target": 1,
+        "focus_target": 1
+      }
+    },
+    {
+      "id": "scale-1000-1000",
+      "goal": "Click Sample 1000",
+      "decision": {
+        "action": "click",
+        "ref": "c95ce9578d585dc707ac",
+        "value": null,
+        "confidence": 0.98,
+        "snapshot_id": "4c66cae63c3a1f6acf5b",
+        "direction": null,
+        "amount": null,
+        "window": null
+      },
+      "matched": true,
+      "usage": {
+        "input_tokens": 1329,
+        "output_tokens": 105,
+        "cost": 5.5818e-05
+      },
+      "elapsed_seconds": 1.555554,
+      "model": "typesafe/jev-1.13-20260917",
+      "source": "openrouter",
+      "calls": [
+        {
+          "model": "typesafe/jev-1.13-20260917",
+          "answers": {
+            "next": {
+              "type": "choice",
+              "choice": "click",
+              "probabilities": {
+                "done": 0.01,
+                "focus": 0.01,
+                "click": 0.98
+              },
+              "confidence": 0.98
+            },
+            "goal_satisfied": {
+              "type": "noul",
+              "noul": 0.06
+            },
+            "click_target": {
+              "type": "choice",
+              "choice": "c3",
+              "probabilities": {
+                "c3": 1
+              },
+              "confidence": 1
+            },
+            "focus_target": {
+              "type": "choice",
+              "choice": "c4",
+              "probabilities": {
+                "c4": 1
+              },
+              "confidence": 1
+            }
+          },
+          "usage": {
+            "input_tokens": 1329,
+            "output_tokens": 105,
+            "cost": 5.5818e-05
+          },
+          "id": "gen-dec-1790935262-jQ6lci1e8Y2DLQLLgxzo",
+          "provider": "TypeSafe",
+          "elapsed_seconds": 1.555554,
+          "source": "openrouter"
+        }
+      ],
+      "answers": {
+        "next": {
+          "type": "choice",
+          "choice": "click",
+          "probabilities": {
+            "done": 0.01,
+            "focus": 0.01,
+            "click": 0.98
+          },
+          "confidence": 0.98
+        },
+        "goal_satisfied": {
+          "type": "noul",
+          "noul": 0.06
+        },
+        "click_target": {
+          "type": "choice",
+          "choice": "c3",
+          "probabilities": {
+            "c3": 1
+          },
+          "confidence": 1
+        },
+        "focus_target": {
+          "type": "choice",
+          "choice": "c4",
+          "probabilities": {
+            "c4": 1
+          },
+          "confidence": 1
+        }
+      },
+      "model_calls": 1,
+      "content_controls": 1000,
+      "question_options": {
+        "next": 3,
+        "goal_satisfied": 2,
+        "click_target": 1,
+        "focus_target": 1
+      }
+    }
+  ],
+  "matched": 12
+}

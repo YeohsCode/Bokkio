@@ -1,0 +1,80 @@
+{
+  "tasks": 4,
+  "attempted": 4,
+  "passed": 3,
+  "results": [
+    {
+      "case": "extended_large_tree",
+      "status": "failed",
+      "actions": 4,
+      "replans": 1,
+      "independent_checks": [
+        true,
+        false,
+        true,
+        false,
+        true,
+        false
+      ],
+      "passed": false,
+      "activated": [
+        "Activated Sample 137"
+      ],
+      "action_milestones": [
+        "input",
+        "submit",
+        "137",
+        "document"
+      ],
+      "planner_scope": {
+        "strategy": "exact_observed_names",
+        "original_nodes": 1015,
+        "retained_nodes": 7,
+        "limit": 240
+      }
+    },
+    {
+      "case": "repeated_recovery",
+      "status": "completed",
+      "actions": 4,
+      "replans": 2,
+      "independent_checks": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "passed": true,
+      "stale_rejections": 2
+    },
+    {
+      "case": "pause_resume",
+      "status": "completed",
+      "actions": 2,
+      "replans": 0,
+      "independent_checks": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "passed": true,
+      "paused_actions": 0
+    },
+    {
+      "case": "application_restart",
+      "status": "completed",
+      "actions": 2,
+      "replans": 1,
+      "independent_checks": [
+        true,
+        true,
+        true
+      ],
+      "passed": true,
+      "original_pid": 6480,
+      "restarted_pid": 4560,
+      "stale_rejected": true
+    }
+  ]
+}

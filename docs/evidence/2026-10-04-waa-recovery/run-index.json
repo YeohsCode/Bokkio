@@ -1,0 +1,72 @@
+[
+  {
+    "run": "waa-longchain-v6",
+    "status": "serial",
+    "planned": 3,
+    "finished": 3,
+    "passed": 0
+  },
+  {
+    "run": "waa-longchain-v7",
+    "status": "interrupted after 2 completed cases",
+    "planned": 3,
+    "finished": 2,
+    "passed": 0
+  },
+  {
+    "run": "waa-longchain-v8",
+    "status": "diagnostic overlap",
+    "planned": 3,
+    "finished": 3,
+    "passed": 0
+  },
+  {
+    "run": "waa-longchain-v9",
+    "status": "serial",
+    "planned": 3,
+    "finished": 3,
+    "passed": 0
+  },
+  {
+    "run": "waa-longchain-v10",
+    "status": "serial",
+    "planned": 3,
+    "finished": 3,
+    "passed": 2
+  },
+  {
+    "run": "waa-longchain-v11",
+    "status": "serial",
+    "planned": 3,
+    "finished": 3,
+    "passed": 1
+  },
+  {
+    "run": "waa-longchain-v12",
+    "status": "serial",
+    "planned": 3,
+    "finished": 3,
+    "passed": 2
+  },
+  {
+    "run": "waa-longchain-v13",
+    "status": "serial",
+    "planned": 3,
+    "finished": 3,
+    "passed": 2
+  },
+  {
+    "run": "waa-longchain-v14",
+    "status": "serial",
+    "planned": 3,
+    "finished": 3,
+    "passed": 3
+  },
+  {
+    "run": "waa-longchain-v15",
+    "status": "serial",
+    "planned": 3,
+    "finished": 3,
+    "passed": 3
+  }
+]

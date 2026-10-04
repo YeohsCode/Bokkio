@@ -1,0 +1,11 @@
+﻿{
+    "notepad":  "10.0.26100.8457 (WinBuild.160101.0800)",
+    "explorer":  "10.0.26100.8117 (WinBuild.160101.0800)",
+    "os":  {
+               "caption":  "Microsoft Windows 11 IoT Enterprise LTSC Evaluation",
+               "architecture":  "ARM 64-bit Processor",
+               "build":  "26100",
+               "version":  "10.0.26100"
+           },
+    "capturedAt":  "2026-10-03T17:37:50.8532216Z"
+}

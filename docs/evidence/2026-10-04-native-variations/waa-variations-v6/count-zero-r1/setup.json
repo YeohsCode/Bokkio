@@ -1,0 +1,16 @@
+{
+  "folders": {
+    "Pictures": "C:\\BokkioTasks\\waa-variations-v6\\count-zero-r1\\world-bfd0a7de\\Pictures",
+    "Downloads": "C:\\BokkioTasks\\waa-variations-v6\\count-zero-r1\\world-bfd0a7de\\Downloads",
+    "Desktop": "C:\\BokkioTasks\\waa-variations-v6\\count-zero-r1\\world-bfd0a7de\\Desktop",
+    "Documents": "C:\\BokkioTasks\\waa-variations-v6\\count-zero-r1\\world-bfd0a7de\\Documents"
+  },
+  "artifact": "C:\\BokkioTasks\\waa-variations-v6\\count-zero-r1\\world-bfd0a7de\\Documents\\example_count.txt",
+  "inputs": [
+    {
+      "name": "largefile.txt",
+      "bytes": 94,
+      "sha256": "bfd4a9382d2902af1eacc653da662739a6f4168673de3a188b6e4840f76e4742"
+    }
+  ]
+}

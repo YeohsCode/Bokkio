@@ -1,0 +1,11 @@
+{
+  "status": "failed",
+  "phase": "native_preflight",
+  "reason": "Accessibility tree exceeds 64 levels; provider may contain a cycle or the desktop may be locked",
+  "tasks": 3,
+  "attempted": 0,
+  "passed": 0,
+  "foreground": [
+    "loginwindow"
+  ]
+}

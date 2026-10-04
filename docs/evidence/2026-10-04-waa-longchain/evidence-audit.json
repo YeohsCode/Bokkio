@@ -1,0 +1,14 @@
+{
+  "scope": "post-run audit; originals preserved",
+  "corrections": [
+    {
+      "run": "waa-longchain-v3",
+      "case": "size-report",
+      "field": "native_save_dispatched",
+      "original": true,
+      "corrected": false,
+      "reason": "Menu Save opened the dialog; no Save button was dispatched",
+      "overall_pass_changed": false
+    }
+  ]
+}

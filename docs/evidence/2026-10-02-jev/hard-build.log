@@ -1,0 +1,9 @@
+﻿  Determining projects to restore...
+  Restored C:\BokkioWorkspace\Bokkio\fixtures\windows-jev-hard\windows-jev-hard.csproj (in 46 ms).
+  windows-jev-hard -> C:\BokkioWorkspace\Bokkio\fixtures\windows-jev-hard\bin\Release\net8.0-windows\bokkio-jev-hard-fixture.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:03.51

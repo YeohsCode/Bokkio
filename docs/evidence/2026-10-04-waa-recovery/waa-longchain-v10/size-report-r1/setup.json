@@ -1,0 +1,26 @@
+{
+  "folders": {
+    "Pictures": "C:\\BokkioTasks\\waa-longchain-v10\\size-report-r1\\world-730cbf9d\\Pictures",
+    "Downloads": "C:\\BokkioTasks\\waa-longchain-v10\\size-report-r1\\world-730cbf9d\\Downloads",
+    "Desktop": "C:\\BokkioTasks\\waa-longchain-v10\\size-report-r1\\world-730cbf9d\\Desktop",
+    "Documents": "C:\\BokkioTasks\\waa-longchain-v10\\size-report-r1\\world-730cbf9d\\Documents"
+  },
+  "artifact": "C:\\BokkioTasks\\waa-longchain-v10\\size-report-r1\\world-730cbf9d\\Desktop\\report.txt",
+  "inputs": [
+    {
+      "name": "example.txt",
+      "bytes": 6,
+      "sha256": "95a2f1edb08a76120b82cec7c93ca477618639f04beac7d2aeba2dc039d43715"
+    },
+    {
+      "name": "solarsystem.docx",
+      "bytes": 594367,
+      "sha256": "a96e3aa014225bf45d74ac43493598e02523900657ebc4cd5781e6cf7f8a51cf"
+    },
+    {
+      "name": "testing.bin",
+      "bytes": 15000000,
+      "sha256": "96ce53dde66484cf0a3056b87a666081a689e0c09f5fd51e6deaa5cfa89d145b"
+    }
+  ]
+}

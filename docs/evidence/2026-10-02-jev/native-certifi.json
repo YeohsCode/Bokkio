@@ -1,0 +1,5465 @@
+{
+  "provider": "openrouter",
+  "real_model_evaluation": true,
+  "passed": 5,
+  "tasks": 5,
+  "results": [
+    {
+      "id": "input",
+      "goal": "Set Search to \"Bokkio Jev native\"",
+      "passed": true,
+      "decision": {
+        "action": "set_value",
+        "ref": "c531440f9cef5641e22e",
+        "value": "Bokkio Jev native",
+        "confidence": 0.99,
+        "snapshot_id": "fbe24037fbecc6f159a1",
+        "direction": null,
+        "amount": null,
+        "window": "Bokkio interactions"
+      },
+      "result": {
+        "action": "set_value",
+        "target_ref": "c531440f9cef5641e22e",
+        "before": {
+          "ref": "c531440f9cef5641e22e",
+          "platform": "windows",
+          "role": "text_field",
+          "name": "Search",
+          "value": "",
+          "state": {
+            "enabled": true,
+            "visible": true,
+            "focused": true,
+            "active": false,
+            "selected": false,
+            "editable": true,
+            "focusable": true,
+            "checked": null,
+            "expanded": null,
+            "minimized": null,
+            "maximized": null,
+            "fullscreen": null
+          },
+          "bounds": {
+            "x": 148,
+            "y": 120,
+            "width": 260,
+            "height": 23
+          },
+          "parent": "4e91c5846bfe4cc580ac",
+          "children": [],
+          "actions": [
+            "focus",
+            "set_value",
+            "type"
+          ],
+          "platform_data": {
+            "control_type_id": 50004,
+            "uia_name": "Search",
+            "class_name": "WindowsForms10.Edit.app.0.378734a_r3_ad1",
+            "description": null,
+            "actions": [
+              "set_value",
+              "focus"
+            ],
+            "native_stable_id": "hwnd:0x602d6",
+            "value_source": "UIA.ValuePattern"
+          }
+        },
+        "after": {
+          "ref": "c531440f9cef5641e22e",
+          "platform": "windows",
+          "role": "text_field",
+          "name": "Search",
+          "value": "Bokkio Jev native",
+          "state": {
+            "enabled": true,
+            "visible": true,
+            "focused": true,
+            "active": false,
+            "selected": false,
+            "editable": true,
+            "focusable": true,
+            "checked": null,
+            "expanded": null,
+            "minimized": null,
+            "maximized": null,
+            "fullscreen": null
+          },
+          "bounds": {
+            "x": 148,
+            "y": 120,
+            "width": 260,
+            "height": 23
+          },
+          "parent": "4e91c5846bfe4cc580ac",
+          "children": [],
+          "actions": [
+            "focus",
+            "set_value",
+            "type"
+          ],
+          "platform_data": {
+            "uia_name": "Search",
+            "control_type_id": 50004,
+            "uia_value": "Bokkio Jev native",
+            "class_name": "WindowsForms10.Edit.app.0.378734a_r3_ad1",
+            "description": null,
+            "actions": [
+              "set_value",
+              "focus"
+            ],
+            "native_stable_id": "hwnd:0x602d6",
+            "value_source": "UIA.ValuePattern"
+          }
+        },
+        "verification": "confirmed",
+        "tree_changed": true,
+        "postcondition": {
+          "check": "value",
+          "expected": "Bokkio Jev native",
+          "actual": "Bokkio Jev native"
+        }
+      },
+      "outcome": {
+        "check": "value",
+        "expected": "Bokkio Jev native",
+        "actual": "Bokkio Jev native"
+      },
+      "model_call": {
+        "model": "typesafe/jev-1.13-20260917",
+        "source": "openrouter",
+        "answers": {
+          "next": {
+            "type": "choice",
+            "choice": "set_value",
+            "probabilities": {
+              "scroll": 0,
+              "type": 0,
+              "set_value": 0.99,
+              "done": 0,
+              "expand": 0,
+              "click": 0,
+              "focus": 0.01
+            },
+            "confidence": 0.99
+          },
+          "goal_satisfied": {
+            "type": "noul",
+            "noul": 0.03
+          },
+          "click_target": {
+            "type": "choice",
+            "choice": "c4",
+            "probabilities": {
+              "c69": 0,
+              "c63": 0,
+              "c15": 0,
+              "c99": 0,
+              "c79": 0,
+              "c81": 0,
+              "c71": 0,
+              "c37": 0,
+              "c21": 0,
+              "c86": 0.01,
+              "c43": 0,
+              "c90": 0,
+              "c61": 0,
+              "c6": 0.19,
+              "c97": 0,
+              "c11": 0.12,
+              "c29": 0,
+              "c57": 0.02,
+              "c41": 0,
+              "c45": 0,
+              "c27": 0,
+              "c53": 0,
+              "c87": 0,
+              "c17": 0,
+              "c47": 0,
+              "c4": 0.42,
+              "c35": 0,
+              "c49": 0,
+              "c39": 0,
+              "c31": 0,
+              "c65": 0,
+              "c19": 0,
+              "c55": 0,
+              "c67": 0,
+              "c85": 0,
+              "c25": 0.02,
+              "c33": 0,
+              "c73": 0,
+              "c98": 0,
+              "c51": 0,
+              "c59": 0.01,
+              "c75": 0,
+              "c83": 0,
+              "c88": 0,
+              "c94": 0.05,
+              "c89": 0,
+              "c77": 0,
+              "c13": 0.16
+            },
+            "confidence": 0.4
+          },
+          "expand_target": {
+            "type": "choice",
+            "choice": "c14",
+            "probabilities": {
+              "c14": 0.63,
+              "c7": 0.28,
+              "c95": 0.09
+            },
+            "confidence": 0.44
+          },
+          "focus_target": {
+            "type": "choice",
+            "choice": "c3",
+            "probabilities": {
+              "c56": 0,
+              "c5": 0.15000000000000002,
+              "c34": 0,
+              "c82": 0,
+              "c76": 0,
+              "c50": 0,
+              "c70": 0,
+              "c54": 0,
+              "c18": 0,
+              "c28": 0,
+              "c30": 0,
+              "c68": 0,
+              "c36": 0,
+              "c66": 0,
+              "c64": 0,
+              "c16": 0,
+              "c8": 0.14,
+              "c58": 0,
+              "c12": 0.12,
+              "c96": 0.02,
+              "c91": 0.09,
+              "c40": 0,
+              "c22": 0,
+              "c78": 0,
+              "c80": 0,
+              "c44": 0.01,
+              "c32": 0,
+              "c26": 0.01,
+              "c48": 0,
+              "c60": 0,
+              "c74": 0,
+              "c42": 0,
+              "c84": 0,
+              "c38": 0,
+              "c20": 0,
+              "c52": 0,
+              "c10": 0.01,
+              "c62": 0,
+              "c93": 0,
+              "c3": 0.44,
+              "c72": 0,
+              "c46": 0
+            },
+            "confidence": 0.41
+          },
+          "scroll_target": {
+            "type": "choice",
+            "choice": "c23",
+            "probabilities": {
+              "c24": 0.16,
+              "c23": 0.84
+            },
+            "confidence": 0.69
+          },
+          "set_value_target": {
+            "type": "choice",
+            "choice": "c1",
+            "probabilities": {
+              "c92": 0,
+              "c9": 0,
+              "c1": 1
+            },
+            "confidence": 1
+          },
+          "type_target": {
+            "type": "choice",
+            "choice": "c2",
+            "probabilities": {
+              "c2": 1
+            },
+            "confidence": 1
+          }
+        },
+        "usage": {
+          "input_tokens": 15166,
+          "output_tokens": 1068,
+          "cost": 0.000636972
+        },
+        "elapsed_seconds": 1.375
+      },
+      "total_seconds": 11.656
+    },
+    {
+      "id": "submit",
+      "goal": "Click Submit",
+      "passed": true,
+      "decision": {
+        "action": "click",
+        "ref": "5900bc9f17c25cb6fa1f",
+        "value": null,
+        "confidence": 0.96,
+        "snapshot_id": "35a51481712a5b94ef8a",
+        "direction": null,
+        "amount": null,
+        "window": "Bokkio interactions"
+      },
+      "result": {
+        "action": "click",
+        "target_ref": "5900bc9f17c25cb6fa1f",
+        "before": {
+          "ref": "5900bc9f17c25cb6fa1f",
+          "platform": "windows",
+          "role": "button",
+          "name": "Submit",
+          "value": null,
+          "state": {
+            "enabled": true,
+            "visible": true,
+            "focused": false,
+            "active": false,
+            "selected": false,
+            "editable": false,
+            "focusable": true,
+            "checked": null,
+            "expanded": null,
+            "minimized": null,
+            "maximized": null,
+            "fullscreen": null
+          },
+          "bounds": {
+            "x": 548,
+            "y": 118,
+            "width": 75,
+            "height": 23
+          },
+          "parent": "4e91c5846bfe4cc580ac",
+          "children": [],
+          "actions": [
+            "click",
+            "focus"
+          ],
+          "platform_data": {
+            "uia_name": "Submit",
+            "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+            "control_type_id": 50000,
+            "description": null,
+            "actions": [
+              "press",
+              "focus"
+            ],
+            "native_stable_id": "hwnd:0x6040a"
+          }
+        },
+        "after": {
+          "ref": "5900bc9f17c25cb6fa1f",
+          "platform": "windows",
+          "role": "button",
+          "name": "Submit",
+          "value": null,
+          "state": {
+            "enabled": true,
+            "visible": true,
+            "focused": true,
+            "active": false,
+            "selected": false,
+            "editable": false,
+            "focusable": true,
+            "checked": null,
+            "expanded": null,
+            "minimized": null,
+            "maximized": null,
+            "fullscreen": null
+          },
+          "bounds": {
+            "x": 548,
+            "y": 118,
+            "width": 75,
+            "height": 23
+          },
+          "parent": "4e91c5846bfe4cc580ac",
+          "children": [],
+          "actions": [
+            "click",
+            "focus"
+          ],
+          "platform_data": {
+            "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+            "uia_name": "Submit",
+            "control_type_id": 50000,
+            "description": null,
+            "actions": [
+              "press",
+              "focus"
+            ],
+            "native_stable_id": "hwnd:0x6040a"
+          }
+        },
+        "verification": "observed",
+        "tree_changed": true
+      },
+      "outcome": {
+        "check": "name",
+        "expected": "Submitted: Bokkio Jev native",
+        "actual": "Submitted: Bokkio Jev native"
+      },
+      "model_call": {
+        "model": "typesafe/jev-1.13-20260917",
+        "source": "openrouter",
+        "answers": {
+          "next": {
+            "type": "choice",
+            "choice": "click",
+            "probabilities": {
+              "done": 0.01,
+              "expand": 0,
+              "click": 0.97,
+              "focus": 0.02,
+              "scroll": 0
+            },
+            "confidence": 0.96
+          },
+          "goal_satisfied": {
+            "type": "noul",
+            "noul": 0.08
+          },
+          "click_target": {
+            "type": "choice",
+            "choice": "c2",
+            "probabilities": {
+              "c8": 0,
+              "c44": 0,
+              "c4": 0,
+              "c56": 0,
+              "c82": 0,
+              "c83": 0,
+              "c36": 0,
+              "c2": 1,
+              "c50": 0,
+              "c70": 0,
+              "c84": 0,
+              "c72": 0,
+              "c66": 0,
+              "c24": 0,
+              "c85": 0,
+              "c30": 0,
+              "c64": 0,
+              "c32": 0,
+              "c34": 0,
+              "c93": 0,
+              "c58": 0,
+              "c26": 0,
+              "c10": 0,
+              "c12": 0,
+              "c54": 0,
+              "c62": 0,
+              "c40": 0,
+              "c38": 0,
+              "c76": 0,
+              "c48": 0,
+              "c78": 0,
+              "c42": 0,
+              "c28": 0,
+              "c90": 0,
+              "c87": 0,
+              "c46": 0,
+              "c95": 0,
+              "c86": 0,
+              "c18": 0,
+              "c68": 0,
+              "c22": 0,
+              "c74": 0,
+              "c52": 0,
+              "c14": 0,
+              "c80": 0,
+              "c60": 0,
+              "c94": 0,
+              "c16": 0
+            },
+            "confidence": 1
+          },
+          "expand_target": {
+            "type": "choice",
+            "choice": "c5",
+            "probabilities": {
+              "c91": 0.1,
+              "c5": 0.6,
+              "c11": 0.3
+            },
+            "confidence": 0.41
+          },
+          "focus_target": {
+            "type": "choice",
+            "choice": "c3",
+            "probabilities": {
+              "c89": 0,
+              "c17": 0,
+              "c31": 0,
+              "c59": 0,
+              "c75": 0,
+              "c37": 0,
+              "c13": 0,
+              "c29": 0,
+              "c81": 0,
+              "c41": 0,
+              "c53": 0,
+              "c39": 0,
+              "c63": 0,
+              "c49": 0,
+              "c27": 0,
+              "c71": 0,
+              "c51": 0,
+              "c47": 0,
+              "c23": 0,
+              "c45": 0,
+              "c67": 0,
+              "c33": 0,
+              "c9": 0,
+              "c55": 0,
+              "c7": 0,
+              "c3": 1,
+              "c15": 0,
+              "c6": 0,
+              "c43": 0,
+              "c57": 0,
+              "c25": 0,
+              "c88": 0,
+              "c35": 0,
+              "c79": 0,
+              "c1": 0,
+              "c61": 0,
+              "c77": 0,
+              "c92": 0,
+              "c65": 0,
+              "c73": 0,
+              "c19": 0,
+              "c69": 0
+            },
+            "confidence": 1
+          },
+          "scroll_target": {
+            "type": "choice",
+            "choice": "c20",
+            "probabilities": {
+              "c21": 0.13,
+              "c20": 0.87
+            },
+            "confidence": 0.74
+          }
+        },
+        "usage": {
+          "input_tokens": 14768,
+          "output_tokens": 982,
+          "cost": 0.000620256
+        },
+        "elapsed_seconds": 1.407
+      },
+      "total_seconds": 11.625
+    },
+    {
+      "id": "tree",
+      "goal": "Expand Parent in Folders",
+      "passed": true,
+      "decision": {
+        "action": "expand",
+        "ref": "14f0415b56b44f27027d",
+        "value": null,
+        "confidence": 0.99,
+        "snapshot_id": "63abfe9736bbae0d71a3",
+        "direction": null,
+        "amount": null,
+        "window": "Bokkio interactions"
+      },
+      "result": {
+        "action": "expand",
+        "target_ref": "14f0415b56b44f27027d",
+        "before": {
+          "ref": "14f0415b56b44f27027d",
+          "platform": "windows",
+          "role": "tree_item",
+          "name": "Parent",
+          "value": null,
+          "state": {
+            "enabled": true,
+            "visible": true,
+            "focused": true,
+            "active": false,
+            "selected": true,
+            "editable": false,
+            "focusable": true,
+            "checked": null,
+            "expanded": false,
+            "minimized": null,
+            "maximized": null,
+            "fullscreen": null
+          },
+          "bounds": {
+            "x": 172,
+            "y": 222,
+            "width": 38,
+            "height": 18
+          },
+          "parent": "c686a61e41e02ded190e",
+          "children": [],
+          "actions": [
+            "click",
+            "collapse",
+            "expand",
+            "focus",
+            "select"
+          ],
+          "platform_data": {
+            "control_type_id": 50024,
+            "uia_name": "Parent",
+            "description": null,
+            "actions": [
+              "press",
+              "expand",
+              "collapse",
+              "select",
+              "focus"
+            ],
+            "native_stable_id": null
+          }
+        },
+        "after": {
+          "ref": "14f0415b56b44f27027d",
+          "platform": "windows",
+          "role": "tree_item",
+          "name": "Parent",
+          "value": null,
+          "state": {
+            "enabled": true,
+            "visible": true,
+            "focused": true,
+            "active": false,
+            "selected": true,
+            "editable": false,
+            "focusable": true,
+            "checked": null,
+            "expanded": true,
+            "minimized": null,
+            "maximized": null,
+            "fullscreen": null
+          },
+          "bounds": {
+            "x": 172,
+            "y": 222,
+            "width": 38,
+            "height": 18
+          },
+          "parent": "c686a61e41e02ded190e",
+          "children": [
+            {
+              "ref": "9cc65d377f398bd5fa87",
+              "platform": "windows",
+              "role": "tree_item",
+              "name": "Child",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 191,
+                "y": 240,
+                "width": 32,
+                "height": 18
+              },
+              "parent": "14f0415b56b44f27027d",
+              "children": [],
+              "actions": [
+                "click",
+                "focus",
+                "select"
+              ],
+              "platform_data": {
+                "uia_name": "Child",
+                "control_type_id": 50024,
+                "description": null,
+                "actions": [
+                  "press",
+                  "select",
+                  "focus"
+                ],
+                "native_stable_id": null
+              }
+            }
+          ],
+          "actions": [
+            "click",
+            "collapse",
+            "expand",
+            "focus",
+            "select"
+          ],
+          "platform_data": {
+            "uia_name": "Parent",
+            "control_type_id": 50024,
+            "description": null,
+            "actions": [
+              "press",
+              "expand",
+              "collapse",
+              "select",
+              "focus"
+            ],
+            "native_stable_id": null
+          }
+        },
+        "verification": "confirmed",
+        "tree_changed": true,
+        "postcondition": {
+          "check": "expanded",
+          "expected": true,
+          "actual": true
+        }
+      },
+      "outcome": {
+        "check": "expanded",
+        "expected": true,
+        "actual": true
+      },
+      "model_call": {
+        "model": "typesafe/jev-1.13-20260917",
+        "source": "openrouter",
+        "answers": {
+          "next": {
+            "type": "choice",
+            "choice": "expand",
+            "probabilities": {
+              "scroll": 0,
+              "click": 0,
+              "expand": 0.99,
+              "done": 0,
+              "focus": 0.01
+            },
+            "confidence": 0.99
+          },
+          "goal_satisfied": {
+            "type": "noul",
+            "noul": 0.05
+          },
+          "click_target": {
+            "type": "choice",
+            "choice": "c10",
+            "probabilities": {
+              "c26": 0,
+              "c68": 0,
+              "c94": 0,
+              "c58": 0,
+              "c4": 0,
+              "c24": 0,
+              "c85": 0,
+              "c30": 0,
+              "c83": 0,
+              "c36": 0,
+              "c50": 0,
+              "c87": 0,
+              "c84": 0,
+              "c42": 0,
+              "c74": 0,
+              "c16": 0,
+              "c12": 0,
+              "c56": 0,
+              "c46": 0,
+              "c95": 0,
+              "c54": 0,
+              "c18": 0,
+              "c3": 0,
+              "c14": 0,
+              "c64": 0,
+              "c93": 0,
+              "c72": 0,
+              "c22": 0,
+              "c8": 0,
+              "c82": 0,
+              "c66": 0,
+              "c38": 0,
+              "c60": 0,
+              "c32": 0,
+              "c34": 0,
+              "c48": 0,
+              "c52": 0,
+              "c10": 1,
+              "c70": 0,
+              "c90": 0,
+              "c44": 0,
+              "c80": 0,
+              "c28": 0,
+              "c40": 0,
+              "c62": 0,
+              "c78": 0,
+              "c76": 0,
+              "c86": 0
+            },
+            "confidence": 1
+          },
+          "expand_target": {
+            "type": "choice",
+            "choice": "c11",
+            "probabilities": {
+              "c91": 0,
+              "c11": 1,
+              "c5": 0
+            },
+            "confidence": 1
+          },
+          "focus_target": {
+            "type": "choice",
+            "choice": "c9",
+            "probabilities": {
+              "c9": 0.97,
+              "c6": 0.02,
+              "c92": 0,
+              "c27": 0,
+              "c69": 0,
+              "c77": 0,
+              "c89": 0,
+              "c17": 0,
+              "c15": 0,
+              "c63": 0,
+              "c35": 0,
+              "c31": 0,
+              "c39": 0,
+              "c71": 0,
+              "c45": 0,
+              "c59": 0,
+              "c79": 0,
+              "c25": 0,
+              "c41": 0,
+              "c19": 0,
+              "c47": 0,
+              "c67": 0,
+              "c51": 0,
+              "c49": 0,
+              "c61": 0,
+              "c88": 0,
+              "c7": 0,
+              "c29": 0,
+              "c55": 0,
+              "c13": 0,
+              "c57": 0,
+              "c53": 0,
+              "c33": 0,
+              "c75": 0,
+              "c1": 0.01,
+              "c81": 0,
+              "c43": 0,
+              "c2": 0,
+              "c65": 0,
+              "c23": 0,
+              "c73": 0,
+              "c37": 0
+            },
+            "confidence": 0.96
+          },
+          "scroll_target": {
+            "type": "choice",
+            "choice": "c20",
+            "probabilities": {
+              "c20": 0.8,
+              "c21": 0.2
+            },
+            "confidence": 0.6
+          }
+        },
+        "usage": {
+          "input_tokens": 14784,
+          "output_tokens": 984,
+          "cost": 0.000620928
+        },
+        "elapsed_seconds": 1.531
+      },
+      "total_seconds": 11.766
+    },
+    {
+      "id": "dropdown",
+      "goal": "Open the Mode dropdown",
+      "passed": true,
+      "decision": {
+        "action": "expand",
+        "ref": "c0816850343abc91214d",
+        "value": null,
+        "confidence": 0.97,
+        "snapshot_id": "caa9898f677503cf042a",
+        "direction": null,
+        "amount": null,
+        "window": "Bokkio interactions"
+      },
+      "result": {
+        "action": "expand",
+        "target_ref": "c0816850343abc91214d",
+        "before": {
+          "ref": "c0816850343abc91214d",
+          "platform": "windows",
+          "role": "combo_box",
+          "name": "Mode",
+          "value": "Second",
+          "state": {
+            "enabled": true,
+            "visible": true,
+            "focused": false,
+            "active": false,
+            "selected": false,
+            "editable": true,
+            "focusable": true,
+            "checked": null,
+            "expanded": false,
+            "minimized": null,
+            "maximized": null,
+            "fullscreen": null
+          },
+          "bounds": {
+            "x": 148,
+            "y": 185,
+            "width": 121,
+            "height": 23
+          },
+          "parent": "4e91c5846bfe4cc580ac",
+          "children": [
+            {
+              "ref": "2d93e5d9c23d09053157",
+              "platform": "windows",
+              "role": "static_text",
+              "name": "Mode",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 148,
+                "y": 185,
+                "width": 121,
+                "height": 23
+              },
+              "parent": "c0816850343abc91214d",
+              "children": [],
+              "actions": [
+                "focus"
+              ],
+              "platform_data": {
+                "uia_name": "Mode",
+                "control_type_id": 50020,
+                "description": null,
+                "actions": [
+                  "focus"
+                ],
+                "native_stable_id": null
+              }
+            },
+            {
+              "ref": "5d1968a2fabb3447050e",
+              "platform": "windows",
+              "role": "button",
+              "name": "Open",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": false,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 253,
+                "y": 186,
+                "width": 15,
+                "height": 21
+              },
+              "parent": "c0816850343abc91214d",
+              "children": [],
+              "actions": [
+                "click"
+              ],
+              "platform_data": {
+                "uia_name": "Open",
+                "control_type_id": 50000,
+                "description": null,
+                "actions": [
+                  "press"
+                ],
+                "native_stable_id": null
+              }
+            }
+          ],
+          "actions": [
+            "click",
+            "collapse",
+            "expand",
+            "focus",
+            "set_value"
+          ],
+          "platform_data": {
+            "uia_name": "Mode",
+            "control_type_id": 50003,
+            "class_name": "WindowsForms10.ComboBox.app.0.378734a_r3_ad1",
+            "uia_value": "Second",
+            "description": null,
+            "actions": [
+              "press",
+              "expand",
+              "collapse",
+              "set_value",
+              "focus"
+            ],
+            "native_stable_id": "hwnd:0x4041c",
+            "value_source": "UIA.ValuePattern"
+          }
+        },
+        "after": {
+          "ref": "c0816850343abc91214d",
+          "platform": "windows",
+          "role": "combo_box",
+          "name": "Mode",
+          "value": "Second",
+          "state": {
+            "enabled": true,
+            "visible": true,
+            "focused": true,
+            "active": false,
+            "selected": false,
+            "editable": true,
+            "focusable": true,
+            "checked": null,
+            "expanded": true,
+            "minimized": null,
+            "maximized": null,
+            "fullscreen": null
+          },
+          "bounds": {
+            "x": 148,
+            "y": 185,
+            "width": 121,
+            "height": 23
+          },
+          "parent": "4e91c5846bfe4cc580ac",
+          "children": [
+            {
+              "ref": "636dbb56a58251e20456",
+              "platform": "windows",
+              "role": "list",
+              "name": "Mode",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 148,
+                "y": 208,
+                "width": 121,
+                "height": 47
+              },
+              "parent": "c0816850343abc91214d",
+              "children": [
+                {
+                  "ref": "842dab3640f67dc2062c",
+                  "platform": "windows",
+                  "role": "list_item",
+                  "name": "First",
+                  "value": null,
+                  "state": {
+                    "enabled": true,
+                    "visible": true,
+                    "focused": false,
+                    "active": false,
+                    "selected": false,
+                    "editable": false,
+                    "focusable": true,
+                    "checked": null,
+                    "expanded": null,
+                    "minimized": null,
+                    "maximized": null,
+                    "fullscreen": null
+                  },
+                  "bounds": {
+                    "x": 149,
+                    "y": 209,
+                    "width": 119,
+                    "height": 15
+                  },
+                  "parent": "636dbb56a58251e20456",
+                  "children": [],
+                  "actions": [
+                    "click",
+                    "focus",
+                    "select"
+                  ],
+                  "platform_data": {
+                    "control_type_id": 50007,
+                    "uia_name": "First",
+                    "description": null,
+                    "actions": [
+                      "press",
+                      "select",
+                      "focus"
+                    ],
+                    "native_stable_id": null
+                  }
+                },
+                {
+                  "ref": "818a80c135e33a8fc3e7",
+                  "platform": "windows",
+                  "role": "list_item",
+                  "name": "Second",
+                  "value": null,
+                  "state": {
+                    "enabled": true,
+                    "visible": true,
+                    "focused": true,
+                    "active": false,
+                    "selected": true,
+                    "editable": false,
+                    "focusable": true,
+                    "checked": null,
+                    "expanded": null,
+                    "minimized": null,
+                    "maximized": null,
+                    "fullscreen": null
+                  },
+                  "bounds": {
+                    "x": 149,
+                    "y": 224,
+                    "width": 119,
+                    "height": 15
+                  },
+                  "parent": "636dbb56a58251e20456",
+                  "children": [],
+                  "actions": [
+                    "click",
+                    "focus",
+                    "select"
+                  ],
+                  "platform_data": {
+                    "uia_name": "Second",
+                    "control_type_id": 50007,
+                    "description": null,
+                    "actions": [
+                      "press",
+                      "select",
+                      "focus"
+                    ],
+                    "native_stable_id": null
+                  }
+                },
+                {
+                  "ref": "16fcb787234667f0c248",
+                  "platform": "windows",
+                  "role": "list_item",
+                  "name": "Third",
+                  "value": null,
+                  "state": {
+                    "enabled": true,
+                    "visible": true,
+                    "focused": false,
+                    "active": false,
+                    "selected": false,
+                    "editable": false,
+                    "focusable": true,
+                    "checked": null,
+                    "expanded": null,
+                    "minimized": null,
+                    "maximized": null,
+                    "fullscreen": null
+                  },
+                  "bounds": {
+                    "x": 149,
+                    "y": 239,
+                    "width": 119,
+                    "height": 15
+                  },
+                  "parent": "636dbb56a58251e20456",
+                  "children": [],
+                  "actions": [
+                    "click",
+                    "focus",
+                    "select"
+                  ],
+                  "platform_data": {
+                    "control_type_id": 50007,
+                    "uia_name": "Third",
+                    "description": null,
+                    "actions": [
+                      "press",
+                      "select",
+                      "focus"
+                    ],
+                    "native_stable_id": null
+                  }
+                }
+              ],
+              "actions": [
+                "focus"
+              ],
+              "platform_data": {
+                "class_name": "ComboLBox",
+                "automation_id": "1000",
+                "control_type_id": 50008,
+                "uia_name": "Mode",
+                "description": null,
+                "actions": [
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x4041e"
+              }
+            },
+            {
+              "ref": "2d93e5d9c23d09053157",
+              "platform": "windows",
+              "role": "static_text",
+              "name": "Mode",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": true,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 148,
+                "y": 185,
+                "width": 121,
+                "height": 23
+              },
+              "parent": "c0816850343abc91214d",
+              "children": [],
+              "actions": [
+                "focus"
+              ],
+              "platform_data": {
+                "uia_name": "Mode",
+                "control_type_id": 50020,
+                "description": null,
+                "actions": [
+                  "focus"
+                ],
+                "native_stable_id": null
+              }
+            },
+            {
+              "ref": "b8d792655fd58487dfe0",
+              "platform": "windows",
+              "role": "button",
+              "name": "Close",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": true,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": false,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 253,
+                "y": 186,
+                "width": 15,
+                "height": 21
+              },
+              "parent": "c0816850343abc91214d",
+              "children": [],
+              "actions": [
+                "click"
+              ],
+              "platform_data": {
+                "control_type_id": 50000,
+                "uia_name": "Close",
+                "description": null,
+                "actions": [
+                  "press"
+                ],
+                "native_stable_id": null
+              }
+            }
+          ],
+          "actions": [
+            "click",
+            "collapse",
+            "expand",
+            "focus",
+            "set_value"
+          ],
+          "platform_data": {
+            "uia_name": "Mode",
+            "control_type_id": 50003,
+            "class_name": "WindowsForms10.ComboBox.app.0.378734a_r3_ad1",
+            "uia_value": "Second",
+            "description": null,
+            "actions": [
+              "press",
+              "expand",
+              "collapse",
+              "set_value",
+              "focus"
+            ],
+            "native_stable_id": "hwnd:0x4041c",
+            "value_source": "UIA.ValuePattern"
+          }
+        },
+        "verification": "confirmed",
+        "tree_changed": true,
+        "postcondition": {
+          "check": "expanded",
+          "expected": true,
+          "actual": true
+        }
+      },
+      "outcome": {
+        "check": "expanded",
+        "expected": true,
+        "actual": true
+      },
+      "model_call": {
+        "model": "typesafe/jev-1.13-20260917",
+        "source": "openrouter",
+        "answers": {
+          "expand_target": {
+            "type": "choice",
+            "choice": "c6",
+            "probabilities": {
+              "c6": 1,
+              "c95": 0
+            },
+            "confidence": 1
+          },
+          "focus_target": {
+            "type": "choice",
+            "choice": "c7",
+            "probabilities": {
+              "c93": 0,
+              "c71": 0,
+              "c2": 0,
+              "c79": 0,
+              "c10": 0,
+              "c53": 0,
+              "c81": 0,
+              "c63": 0,
+              "c37": 0,
+              "c51": 0,
+              "c14": 0,
+              "c65": 0,
+              "c43": 0,
+              "c96": 0,
+              "c49": 0,
+              "c83": 0,
+              "c55": 0,
+              "c8": 0,
+              "c1": 0,
+              "c33": 0,
+              "c23": 0,
+              "c75": 0,
+              "c59": 0,
+              "c31": 0,
+              "c77": 0,
+              "c29": 0,
+              "c41": 0,
+              "c45": 0,
+              "c67": 0,
+              "c47": 0,
+              "c92": 0,
+              "c4": 0,
+              "c17": 0,
+              "c57": 0,
+              "c21": 0,
+              "c85": 0,
+              "c69": 0,
+              "c35": 0,
+              "c61": 0,
+              "c7": 1,
+              "c73": 0,
+              "c27": 0,
+              "c19": 0,
+              "c39": 0
+            },
+            "confidence": 1
+          },
+          "scroll_target": {
+            "type": "choice",
+            "choice": "c24",
+            "probabilities": {
+              "c25": 0.15,
+              "c24": 0.85
+            },
+            "confidence": 0.7
+          },
+          "select_target": {
+            "type": "choice",
+            "choice": "c15",
+            "probabilities": {
+              "c15": 1
+            },
+            "confidence": 1
+          },
+          "next": {
+            "type": "choice",
+            "choice": "expand",
+            "probabilities": {
+              "done": 0,
+              "scroll": 0,
+              "collapse": 0,
+              "focus": 0.01,
+              "expand": 0.97,
+              "select": 0,
+              "click": 0.02
+            },
+            "confidence": 0.97
+          },
+          "goal_satisfied": {
+            "type": "noul",
+            "noul": 0.04
+          },
+          "click_target": {
+            "type": "choice",
+            "choice": "c9",
+            "probabilities": {
+              "c5": 0.46,
+              "c72": 0,
+              "c86": 0,
+              "c56": 0,
+              "c3": 0,
+              "c46": 0,
+              "c30": 0,
+              "c91": 0,
+              "c94": 0,
+              "c20": 0,
+              "c42": 0,
+              "c13": 0,
+              "c74": 0,
+              "c80": 0,
+              "c52": 0,
+              "c78": 0,
+              "c84": 0,
+              "c82": 0,
+              "c9": 0.54,
+              "c60": 0,
+              "c88": 0,
+              "c16": 0,
+              "c68": 0,
+              "c90": 0,
+              "c76": 0,
+              "c32": 0,
+              "c11": 0,
+              "c50": 0,
+              "c54": 0,
+              "c64": 0,
+              "c58": 0,
+              "c40": 0,
+              "c98": 0,
+              "c89": 0,
+              "c28": 0,
+              "c87": 0,
+              "c44": 0,
+              "c26": 0,
+              "c48": 0,
+              "c62": 0,
+              "c22": 0,
+              "c38": 0,
+              "c18": 0,
+              "c36": 0,
+              "c99": 0,
+              "c70": 0,
+              "c97": 0,
+              "c66": 0,
+              "c34": 0
+            },
+            "confidence": 0.53
+          },
+          "collapse_target": {
+            "type": "choice",
+            "choice": "c12",
+            "probabilities": {
+              "c12": 1
+            },
+            "confidence": 1
+          }
+        },
+        "usage": {
+          "input_tokens": 15263,
+          "output_tokens": 1066,
+          "cost": 0.000641046
+        },
+        "elapsed_seconds": 1.546
+      },
+      "total_seconds": 12.031
+    },
+    {
+      "id": "scroll",
+      "goal": "Scroll the Scroll content container to the right",
+      "passed": true,
+      "decision": {
+        "action": "scroll",
+        "ref": "51c05025672d86eff6a4",
+        "value": null,
+        "confidence": 0.99,
+        "snapshot_id": "900f38856312a50dbc66",
+        "direction": "right",
+        "amount": 0.25,
+        "window": "Bokkio interactions"
+      },
+      "result": {
+        "action": "scroll",
+        "target_ref": "51c05025672d86eff6a4",
+        "before": {
+          "ref": "51c05025672d86eff6a4",
+          "platform": "windows",
+          "role": "group",
+          "name": "Scroll content",
+          "value": null,
+          "state": {
+            "enabled": true,
+            "visible": true,
+            "focused": false,
+            "active": false,
+            "selected": false,
+            "editable": false,
+            "focusable": false,
+            "checked": null,
+            "expanded": null,
+            "minimized": null,
+            "maximized": null,
+            "fullscreen": null
+          },
+          "bounds": {
+            "x": 148,
+            "y": 360,
+            "width": 780,
+            "height": 360
+          },
+          "parent": "4e91c5846bfe4cc580ac",
+          "children": [
+            {
+              "ref": "19e5bb3ff3020ebdf47f",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 1",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 148,
+                "y": 360,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "control_type_id": 50000,
+                "uia_name": "Content 1",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x40432"
+              }
+            },
+            {
+              "ref": "b8286388491071ed111b",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 2",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 448,
+                "y": 360,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "control_type_id": 50000,
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 2",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x40434"
+              }
+            },
+            {
+              "ref": "2de1222c53dbebb7a570",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 3",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 748,
+                "y": 360,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "control_type_id": 50000,
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 3",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x40436"
+              }
+            },
+            {
+              "ref": "03379b9962cf2b466050",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 4",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 1048,
+                "y": 360,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "control_type_id": 50000,
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 4",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x40438"
+              }
+            },
+            {
+              "ref": "01511700d86293d57bf3",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 5",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 1348,
+                "y": 360,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "control_type_id": 50000,
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 5",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x4043a"
+              }
+            },
+            {
+              "ref": "0b14c51a3c6cd103ec84",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 6",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 148,
+                "y": 510,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "control_type_id": 50000,
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 6",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x4043c"
+              }
+            },
+            {
+              "ref": "aff306903b266370e2d7",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 7",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 448,
+                "y": 510,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "control_type_id": 50000,
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 7",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x4043e"
+              }
+            },
+            {
+              "ref": "3e1dc624400f74d05492",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 8",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 748,
+                "y": 510,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "control_type_id": 50000,
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 8",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x40440"
+              }
+            },
+            {
+              "ref": "549a2bca22752813231f",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 9",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 1048,
+                "y": 510,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "control_type_id": 50000,
+                "uia_name": "Content 9",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x40442"
+              }
+            },
+            {
+              "ref": "a8f25f9935b56676ff86",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 10",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 1348,
+                "y": 510,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 10",
+                "control_type_id": 50000,
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x40444"
+              }
+            },
+            {
+              "ref": "cdd1527eaa115476005f",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 11",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 148,
+                "y": 660,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "control_type_id": 50000,
+                "uia_name": "Content 11",
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x40446"
+              }
+            },
+            {
+              "ref": "6302e138db0320c34543",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 12",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 448,
+                "y": 660,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "uia_name": "Content 12",
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "control_type_id": 50000,
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x40448"
+              }
+            },
+            {
+              "ref": "26c3c3c0a3a6d1dc2f10",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 13",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 748,
+                "y": 660,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "uia_name": "Content 13",
+                "control_type_id": 50000,
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x4044a"
+              }
+            },
+            {
+              "ref": "9991b289feeecc88569b",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 14",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 1048,
+                "y": 660,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 14",
+                "control_type_id": 50000,
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x4044c"
+              }
+            },
+            {
+              "ref": "b1bfbaa4d4023495cd21",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 15",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 1348,
+                "y": 660,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 15",
+                "control_type_id": 50000,
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x4044e"
+              }
+            },
+            {
+              "ref": "ceaaea220dabddac1019",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 16",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 148,
+                "y": 810,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "uia_name": "Content 16",
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "control_type_id": 50000,
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x40450"
+              }
+            },
+            {
+              "ref": "1ac6cf5714ce0c9d6464",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 17",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 448,
+                "y": 810,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "uia_name": "Content 17",
+                "control_type_id": 50000,
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x40454"
+              }
+            },
+            {
+              "ref": "56192a4bf156e0d22a8e",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 18",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 748,
+                "y": 810,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "control_type_id": 50000,
+                "uia_name": "Content 18",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x40456"
+              }
+            },
+            {
+              "ref": "da736c6c97a4471e2a1e",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 19",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 1048,
+                "y": 810,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 19",
+                "control_type_id": 50000,
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x4045c"
+              }
+            },
+            {
+              "ref": "b5d55645f0b14272d742",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 20",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 1348,
+                "y": 810,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 20",
+                "control_type_id": 50000,
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x50458"
+              }
+            },
+            {
+              "ref": "6c6d1a7e59db80e32dd2",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 21",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 148,
+                "y": 960,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 21",
+                "control_type_id": 50000,
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x4045a"
+              }
+            },
+            {
+              "ref": "28c38ef543164f8ce290",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 22",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 448,
+                "y": 960,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "control_type_id": 50000,
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 22",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x50470"
+              }
+            },
+            {
+              "ref": "e79846ee04e76d093875",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 23",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 748,
+                "y": 960,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "control_type_id": 50000,
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 23",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x4046e"
+              }
+            },
+            {
+              "ref": "0dfd88518b3f6c11e733",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 24",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 1048,
+                "y": 960,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "control_type_id": 50000,
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 24",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x5045e"
+              }
+            },
+            {
+              "ref": "8cec2a62361ff2a34553",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 25",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 1348,
+                "y": 960,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "control_type_id": 50000,
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 25",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x602d4"
+              }
+            },
+            {
+              "ref": "5eae431e96cd0490bbd3",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 26",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 148,
+                "y": 1110,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "control_type_id": 50000,
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 26",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x60476"
+              }
+            },
+            {
+              "ref": "39e54fba409fa523fcf9",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 27",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 448,
+                "y": 1110,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "control_type_id": 50000,
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 27",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x40420"
+              }
+            },
+            {
+              "ref": "d8a22845e914d6268f84",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 28",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 748,
+                "y": 1110,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "uia_name": "Content 28",
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "control_type_id": 50000,
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x70464"
+              }
+            },
+            {
+              "ref": "04089587b9451dea6538",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 29",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 1048,
+                "y": 1110,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "control_type_id": 50000,
+                "uia_name": "Content 29",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x602ce"
+              }
+            },
+            {
+              "ref": "30d25c4523f707e3227c",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 30",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 1348,
+                "y": 1110,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "uia_name": "Content 30",
+                "control_type_id": 50000,
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x5047a"
+              }
+            },
+            {
+              "ref": "5f28bfbbf7ef617d9b5c",
+              "platform": "windows",
+              "role": "scroll_bar",
+              "name": "Vertical",
+              "value": "0",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": false,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 911,
+                "y": 360,
+                "width": 17,
+                "height": 343
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [
+                {
+                  "ref": "00b453e1778b5e91ba3a",
+                  "platform": "windows",
+                  "role": "button",
+                  "name": "Line up",
+                  "value": null,
+                  "state": {
+                    "enabled": true,
+                    "visible": true,
+                    "focused": false,
+                    "active": false,
+                    "selected": false,
+                    "editable": false,
+                    "focusable": false,
+                    "checked": null,
+                    "expanded": null,
+                    "minimized": null,
+                    "maximized": null,
+                    "fullscreen": null
+                  },
+                  "bounds": {
+                    "x": 911,
+                    "y": 360,
+                    "width": 17,
+                    "height": 17
+                  },
+                  "parent": "5f28bfbbf7ef617d9b5c",
+                  "children": [],
+                  "actions": [
+                    "click"
+                  ],
+                  "platform_data": {
+                    "control_type_id": 50000,
+                    "uia_name": "Line up",
+                    "automation_id": "UpButton",
+                    "description": null,
+                    "actions": [
+                      "press"
+                    ],
+                    "native_stable_id": "UpButton"
+                  }
+                },
+                {
+                  "ref": "708f5972df8ce9acd1c8",
+                  "platform": "windows",
+                  "role": "scroll_thumb",
+                  "name": "Position",
+                  "value": null,
+                  "state": {
+                    "enabled": true,
+                    "visible": true,
+                    "focused": false,
+                    "active": false,
+                    "selected": false,
+                    "editable": false,
+                    "focusable": false,
+                    "checked": null,
+                    "expanded": null,
+                    "minimized": null,
+                    "maximized": null,
+                    "fullscreen": null
+                  },
+                  "bounds": {
+                    "x": 911,
+                    "y": 377,
+                    "width": 17,
+                    "height": 134
+                  },
+                  "parent": "5f28bfbbf7ef617d9b5c",
+                  "children": [],
+                  "actions": [],
+                  "platform_data": {
+                    "control_type_id": 50027,
+                    "uia_name": "Position",
+                    "automation_id": "ScrollbarThumb",
+                    "description": null,
+                    "actions": [],
+                    "native_stable_id": "ScrollbarThumb"
+                  }
+                },
+                {
+                  "ref": "400bf58a8f6840a6fe25",
+                  "platform": "windows",
+                  "role": "button",
+                  "name": "Page down",
+                  "value": null,
+                  "state": {
+                    "enabled": true,
+                    "visible": true,
+                    "focused": false,
+                    "active": false,
+                    "selected": false,
+                    "editable": false,
+                    "focusable": false,
+                    "checked": null,
+                    "expanded": null,
+                    "minimized": null,
+                    "maximized": null,
+                    "fullscreen": null
+                  },
+                  "bounds": {
+                    "x": 911,
+                    "y": 511,
+                    "width": 17,
+                    "height": 175
+                  },
+                  "parent": "5f28bfbbf7ef617d9b5c",
+                  "children": [],
+                  "actions": [
+                    "click"
+                  ],
+                  "platform_data": {
+                    "control_type_id": 50000,
+                    "automation_id": "DownPageButton",
+                    "uia_name": "Page down",
+                    "description": null,
+                    "actions": [
+                      "press"
+                    ],
+                    "native_stable_id": "DownPageButton"
+                  }
+                },
+                {
+                  "ref": "0a53378e4a53ad8eb7a6",
+                  "platform": "windows",
+                  "role": "button",
+                  "name": "Line down",
+                  "value": null,
+                  "state": {
+                    "enabled": true,
+                    "visible": true,
+                    "focused": false,
+                    "active": false,
+                    "selected": false,
+                    "editable": false,
+                    "focusable": false,
+                    "checked": null,
+                    "expanded": null,
+                    "minimized": null,
+                    "maximized": null,
+                    "fullscreen": null
+                  },
+                  "bounds": {
+                    "x": 911,
+                    "y": 686,
+                    "width": 17,
+                    "height": 17
+                  },
+                  "parent": "5f28bfbbf7ef617d9b5c",
+                  "children": [],
+                  "actions": [
+                    "click"
+                  ],
+                  "platform_data": {
+                    "automation_id": "DownButton",
+                    "control_type_id": 50000,
+                    "uia_name": "Line down",
+                    "description": null,
+                    "actions": [
+                      "press"
+                    ],
+                    "native_stable_id": "DownButton"
+                  }
+                }
+              ],
+              "actions": [
+                "scroll"
+              ],
+              "platform_data": {
+                "automation_id": "NonClientVerticalScrollBar",
+                "uia_value": "0",
+                "uia_name": "Vertical",
+                "control_type_id": 50014,
+                "description": null,
+                "actions": [
+                  "set_value",
+                  "increment",
+                  "decrement"
+                ],
+                "native_stable_id": "NonClientVerticalScrollBar",
+                "numeric_value": 0.0
+              }
+            },
+            {
+              "ref": "48919922acba706b998e",
+              "platform": "windows",
+              "role": "scroll_bar",
+              "name": "Horizontal",
+              "value": "0",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": false,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 148,
+                "y": 703,
+                "width": 763,
+                "height": 17
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [
+                {
+                  "ref": "54c7407a096097c905f7",
+                  "platform": "windows",
+                  "role": "button",
+                  "name": "Column left",
+                  "value": null,
+                  "state": {
+                    "enabled": true,
+                    "visible": true,
+                    "focused": false,
+                    "active": false,
+                    "selected": false,
+                    "editable": false,
+                    "focusable": false,
+                    "checked": null,
+                    "expanded": null,
+                    "minimized": null,
+                    "maximized": null,
+                    "fullscreen": null
+                  },
+                  "bounds": {
+                    "x": 148,
+                    "y": 703,
+                    "width": 17,
+                    "height": 17
+                  },
+                  "parent": "48919922acba706b998e",
+                  "children": [],
+                  "actions": [
+                    "click"
+                  ],
+                  "platform_data": {
+                    "uia_name": "Column left",
+                    "control_type_id": 50000,
+                    "automation_id": "UpButton",
+                    "description": null,
+                    "actions": [
+                      "press"
+                    ],
+                    "native_stable_id": "UpButton"
+                  }
+                },
+                {
+                  "ref": "5a58db19510d08c9b90f",
+                  "platform": "windows",
+                  "role": "scroll_thumb",
+                  "name": "Position",
+                  "value": null,
+                  "state": {
+                    "enabled": true,
+                    "visible": true,
+                    "focused": false,
+                    "active": false,
+                    "selected": false,
+                    "editable": false,
+                    "focusable": false,
+                    "checked": null,
+                    "expanded": null,
+                    "minimized": null,
+                    "maximized": null,
+                    "fullscreen": null
+                  },
+                  "bounds": {
+                    "x": 165,
+                    "y": 703,
+                    "width": 421,
+                    "height": 17
+                  },
+                  "parent": "48919922acba706b998e",
+                  "children": [],
+                  "actions": [],
+                  "platform_data": {
+                    "control_type_id": 50027,
+                    "automation_id": "ScrollbarThumb",
+                    "uia_name": "Position",
+                    "description": null,
+                    "actions": [],
+                    "native_stable_id": "ScrollbarThumb"
+                  }
+                },
+                {
+                  "ref": "b86d474da8b0a018b6ff",
+                  "platform": "windows",
+                  "role": "button",
+                  "name": "Page right",
+                  "value": null,
+                  "state": {
+                    "enabled": true,
+                    "visible": true,
+                    "focused": false,
+                    "active": false,
+                    "selected": false,
+                    "editable": false,
+                    "focusable": false,
+                    "checked": null,
+                    "expanded": null,
+                    "minimized": null,
+                    "maximized": null,
+                    "fullscreen": null
+                  },
+                  "bounds": {
+                    "x": 586,
+                    "y": 703,
+                    "width": 308,
+                    "height": 17
+                  },
+                  "parent": "48919922acba706b998e",
+                  "children": [],
+                  "actions": [
+                    "click"
+                  ],
+                  "platform_data": {
+                    "control_type_id": 50000,
+                    "automation_id": "DownPageButton",
+                    "uia_name": "Page right",
+                    "description": null,
+                    "actions": [
+                      "press"
+                    ],
+                    "native_stable_id": "DownPageButton"
+                  }
+                },
+                {
+                  "ref": "b5d2dae4c7ea68700a94",
+                  "platform": "windows",
+                  "role": "button",
+                  "name": "Column right",
+                  "value": null,
+                  "state": {
+                    "enabled": true,
+                    "visible": true,
+                    "focused": false,
+                    "active": false,
+                    "selected": false,
+                    "editable": false,
+                    "focusable": false,
+                    "checked": null,
+                    "expanded": null,
+                    "minimized": null,
+                    "maximized": null,
+                    "fullscreen": null
+                  },
+                  "bounds": {
+                    "x": 894,
+                    "y": 703,
+                    "width": 17,
+                    "height": 17
+                  },
+                  "parent": "48919922acba706b998e",
+                  "children": [],
+                  "actions": [
+                    "click"
+                  ],
+                  "platform_data": {
+                    "control_type_id": 50000,
+                    "automation_id": "DownButton",
+                    "uia_name": "Column right",
+                    "description": null,
+                    "actions": [
+                      "press"
+                    ],
+                    "native_stable_id": "DownButton"
+                  }
+                }
+              ],
+              "actions": [
+                "scroll"
+              ],
+              "platform_data": {
+                "uia_value": "0",
+                "control_type_id": 50014,
+                "uia_name": "Horizontal",
+                "automation_id": "NonClientHorizontalScrollBar",
+                "description": null,
+                "actions": [
+                  "set_value",
+                  "increment",
+                  "decrement"
+                ],
+                "native_stable_id": "NonClientHorizontalScrollBar",
+                "numeric_value": 0.0
+              }
+            },
+            {
+              "ref": "3f3db9e850b043b20eb7",
+              "platform": "windows",
+              "role": "scroll_thumb",
+              "name": null,
+              "value": null,
+              "state": {
+                "enabled": false,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": false,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 911,
+                "y": 703,
+                "width": 17,
+                "height": 17
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [],
+              "platform_data": {
+                "control_type_id": 50027,
+                "description": null,
+                "actions": [],
+                "native_stable_id": null
+              }
+            }
+          ],
+          "actions": [
+            "scroll"
+          ],
+          "platform_data": {
+            "uia_name": "Scroll content",
+            "control_type_id": 50033,
+            "class_name": "WindowsForms10.Window.8.app.0.378734a_r3_ad1",
+            "description": null,
+            "actions": [],
+            "native_stable_id": "hwnd:0x40430",
+            "scroll": {
+              "source": "UIA.ScrollPattern",
+              "x": {
+                "scrollable": true,
+                "position": 0.0,
+                "view_size": 0.578030303030303
+              },
+              "y": {
+                "scrollable": true,
+                "position": 0.0,
+                "view_size": 0.4341772151898734
+              }
+            }
+          }
+        },
+        "after": {
+          "ref": "51c05025672d86eff6a4",
+          "platform": "windows",
+          "role": "group",
+          "name": "Scroll content",
+          "value": null,
+          "state": {
+            "enabled": true,
+            "visible": true,
+            "focused": true,
+            "active": false,
+            "selected": false,
+            "editable": false,
+            "focusable": false,
+            "checked": null,
+            "expanded": null,
+            "minimized": null,
+            "maximized": null,
+            "fullscreen": null
+          },
+          "bounds": {
+            "x": 148,
+            "y": 360,
+            "width": 780,
+            "height": 360
+          },
+          "parent": "4e91c5846bfe4cc580ac",
+          "children": [
+            {
+              "ref": "19e5bb3ff3020ebdf47f",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 1",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 8,
+                "y": 360,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "uia_name": "Content 1",
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "control_type_id": 50000,
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x40432"
+              }
+            },
+            {
+              "ref": "b8286388491071ed111b",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 2",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 308,
+                "y": 360,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "control_type_id": 50000,
+                "uia_name": "Content 2",
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x40434"
+              }
+            },
+            {
+              "ref": "2de1222c53dbebb7a570",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 3",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 608,
+                "y": 360,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 3",
+                "control_type_id": 50000,
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x40436"
+              }
+            },
+            {
+              "ref": "03379b9962cf2b466050",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 4",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 908,
+                "y": 360,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "control_type_id": 50000,
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 4",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x40438"
+              }
+            },
+            {
+              "ref": "01511700d86293d57bf3",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 5",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 1208,
+                "y": 360,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "control_type_id": 50000,
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 5",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x4043a"
+              }
+            },
+            {
+              "ref": "0b14c51a3c6cd103ec84",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 6",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 8,
+                "y": 510,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 6",
+                "control_type_id": 50000,
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x4043c"
+              }
+            },
+            {
+              "ref": "aff306903b266370e2d7",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 7",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 308,
+                "y": 510,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "control_type_id": 50000,
+                "uia_name": "Content 7",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x4043e"
+              }
+            },
+            {
+              "ref": "3e1dc624400f74d05492",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 8",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 608,
+                "y": 510,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "uia_name": "Content 8",
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "control_type_id": 50000,
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x40440"
+              }
+            },
+            {
+              "ref": "549a2bca22752813231f",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 9",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 908,
+                "y": 510,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "uia_name": "Content 9",
+                "control_type_id": 50000,
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x40442"
+              }
+            },
+            {
+              "ref": "a8f25f9935b56676ff86",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 10",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 1208,
+                "y": 510,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "control_type_id": 50000,
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 10",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x40444"
+              }
+            },
+            {
+              "ref": "cdd1527eaa115476005f",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 11",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 8,
+                "y": 660,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "control_type_id": 50000,
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 11",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x40446"
+              }
+            },
+            {
+              "ref": "6302e138db0320c34543",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 12",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 308,
+                "y": 660,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "control_type_id": 50000,
+                "uia_name": "Content 12",
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x40448"
+              }
+            },
+            {
+              "ref": "26c3c3c0a3a6d1dc2f10",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 13",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 608,
+                "y": 660,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "control_type_id": 50000,
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 13",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x4044a"
+              }
+            },
+            {
+              "ref": "9991b289feeecc88569b",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 14",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 908,
+                "y": 660,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "uia_name": "Content 14",
+                "control_type_id": 50000,
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x4044c"
+              }
+            },
+            {
+              "ref": "b1bfbaa4d4023495cd21",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 15",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 1208,
+                "y": 660,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "uia_name": "Content 15",
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "control_type_id": 50000,
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x4044e"
+              }
+            },
+            {
+              "ref": "ceaaea220dabddac1019",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 16",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 8,
+                "y": 810,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 16",
+                "control_type_id": 50000,
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x40450"
+              }
+            },
+            {
+              "ref": "1ac6cf5714ce0c9d6464",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 17",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 308,
+                "y": 810,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "uia_name": "Content 17",
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "control_type_id": 50000,
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x40454"
+              }
+            },
+            {
+              "ref": "56192a4bf156e0d22a8e",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 18",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 608,
+                "y": 810,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "control_type_id": 50000,
+                "uia_name": "Content 18",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x40456"
+              }
+            },
+            {
+              "ref": "da736c6c97a4471e2a1e",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 19",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 908,
+                "y": 810,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "uia_name": "Content 19",
+                "control_type_id": 50000,
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x4045c"
+              }
+            },
+            {
+              "ref": "b5d55645f0b14272d742",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 20",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 1208,
+                "y": 810,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "control_type_id": 50000,
+                "uia_name": "Content 20",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x50458"
+              }
+            },
+            {
+              "ref": "6c6d1a7e59db80e32dd2",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 21",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 8,
+                "y": 960,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "control_type_id": 50000,
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 21",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x4045a"
+              }
+            },
+            {
+              "ref": "28c38ef543164f8ce290",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 22",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 308,
+                "y": 960,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "uia_name": "Content 22",
+                "control_type_id": 50000,
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x50470"
+              }
+            },
+            {
+              "ref": "e79846ee04e76d093875",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 23",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 608,
+                "y": 960,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 23",
+                "control_type_id": 50000,
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x4046e"
+              }
+            },
+            {
+              "ref": "0dfd88518b3f6c11e733",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 24",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 908,
+                "y": 960,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "uia_name": "Content 24",
+                "control_type_id": 50000,
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x5045e"
+              }
+            },
+            {
+              "ref": "8cec2a62361ff2a34553",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 25",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 1208,
+                "y": 960,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "control_type_id": 50000,
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 25",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x602d4"
+              }
+            },
+            {
+              "ref": "5eae431e96cd0490bbd3",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 26",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 8,
+                "y": 1110,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 26",
+                "control_type_id": 50000,
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x60476"
+              }
+            },
+            {
+              "ref": "39e54fba409fa523fcf9",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 27",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 308,
+                "y": 1110,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "uia_name": "Content 27",
+                "control_type_id": 50000,
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x40420"
+              }
+            },
+            {
+              "ref": "d8a22845e914d6268f84",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 28",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 608,
+                "y": 1110,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "uia_name": "Content 28",
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "control_type_id": 50000,
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x70464"
+              }
+            },
+            {
+              "ref": "04089587b9451dea6538",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 29",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 908,
+                "y": 1110,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "control_type_id": 50000,
+                "uia_name": "Content 29",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x602ce"
+              }
+            },
+            {
+              "ref": "30d25c4523f707e3227c",
+              "platform": "windows",
+              "role": "button",
+              "name": "Content 30",
+              "value": null,
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": true,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 1208,
+                "y": 1110,
+                "width": 120,
+                "height": 40
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [
+                "click",
+                "focus"
+              ],
+              "platform_data": {
+                "control_type_id": 50000,
+                "uia_name": "Content 30",
+                "class_name": "WindowsForms10.Button.app.0.378734a_r3_ad1",
+                "description": null,
+                "actions": [
+                  "press",
+                  "focus"
+                ],
+                "native_stable_id": "hwnd:0x5047a"
+              }
+            },
+            {
+              "ref": "5f28bfbbf7ef617d9b5c",
+              "platform": "windows",
+              "role": "scroll_bar",
+              "name": "Vertical",
+              "value": "0",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": false,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 911,
+                "y": 360,
+                "width": 17,
+                "height": 343
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [
+                {
+                  "ref": "00b453e1778b5e91ba3a",
+                  "platform": "windows",
+                  "role": "button",
+                  "name": "Line up",
+                  "value": null,
+                  "state": {
+                    "enabled": true,
+                    "visible": true,
+                    "focused": false,
+                    "active": false,
+                    "selected": false,
+                    "editable": false,
+                    "focusable": false,
+                    "checked": null,
+                    "expanded": null,
+                    "minimized": null,
+                    "maximized": null,
+                    "fullscreen": null
+                  },
+                  "bounds": {
+                    "x": 911,
+                    "y": 360,
+                    "width": 17,
+                    "height": 17
+                  },
+                  "parent": "5f28bfbbf7ef617d9b5c",
+                  "children": [],
+                  "actions": [
+                    "click"
+                  ],
+                  "platform_data": {
+                    "uia_name": "Line up",
+                    "automation_id": "UpButton",
+                    "control_type_id": 50000,
+                    "description": null,
+                    "actions": [
+                      "press"
+                    ],
+                    "native_stable_id": "UpButton"
+                  }
+                },
+                {
+                  "ref": "708f5972df8ce9acd1c8",
+                  "platform": "windows",
+                  "role": "scroll_thumb",
+                  "name": "Position",
+                  "value": null,
+                  "state": {
+                    "enabled": true,
+                    "visible": true,
+                    "focused": false,
+                    "active": false,
+                    "selected": false,
+                    "editable": false,
+                    "focusable": false,
+                    "checked": null,
+                    "expanded": null,
+                    "minimized": null,
+                    "maximized": null,
+                    "fullscreen": null
+                  },
+                  "bounds": {
+                    "x": 911,
+                    "y": 377,
+                    "width": 17,
+                    "height": 134
+                  },
+                  "parent": "5f28bfbbf7ef617d9b5c",
+                  "children": [],
+                  "actions": [],
+                  "platform_data": {
+                    "automation_id": "ScrollbarThumb",
+                    "uia_name": "Position",
+                    "control_type_id": 50027,
+                    "description": null,
+                    "actions": [],
+                    "native_stable_id": "ScrollbarThumb"
+                  }
+                },
+                {
+                  "ref": "400bf58a8f6840a6fe25",
+                  "platform": "windows",
+                  "role": "button",
+                  "name": "Page down",
+                  "value": null,
+                  "state": {
+                    "enabled": true,
+                    "visible": true,
+                    "focused": false,
+                    "active": false,
+                    "selected": false,
+                    "editable": false,
+                    "focusable": false,
+                    "checked": null,
+                    "expanded": null,
+                    "minimized": null,
+                    "maximized": null,
+                    "fullscreen": null
+                  },
+                  "bounds": {
+                    "x": 911,
+                    "y": 511,
+                    "width": 17,
+                    "height": 175
+                  },
+                  "parent": "5f28bfbbf7ef617d9b5c",
+                  "children": [],
+                  "actions": [
+                    "click"
+                  ],
+                  "platform_data": {
+                    "automation_id": "DownPageButton",
+                    "control_type_id": 50000,
+                    "uia_name": "Page down",
+                    "description": null,
+                    "actions": [
+                      "press"
+                    ],
+                    "native_stable_id": "DownPageButton"
+                  }
+                },
+                {
+                  "ref": "0a53378e4a53ad8eb7a6",
+                  "platform": "windows",
+                  "role": "button",
+                  "name": "Line down",
+                  "value": null,
+                  "state": {
+                    "enabled": true,
+                    "visible": true,
+                    "focused": false,
+                    "active": false,
+                    "selected": false,
+                    "editable": false,
+                    "focusable": false,
+                    "checked": null,
+                    "expanded": null,
+                    "minimized": null,
+                    "maximized": null,
+                    "fullscreen": null
+                  },
+                  "bounds": {
+                    "x": 911,
+                    "y": 686,
+                    "width": 17,
+                    "height": 17
+                  },
+                  "parent": "5f28bfbbf7ef617d9b5c",
+                  "children": [],
+                  "actions": [
+                    "click"
+                  ],
+                  "platform_data": {
+                    "uia_name": "Line down",
+                    "control_type_id": 50000,
+                    "automation_id": "DownButton",
+                    "description": null,
+                    "actions": [
+                      "press"
+                    ],
+                    "native_stable_id": "DownButton"
+                  }
+                }
+              ],
+              "actions": [
+                "scroll"
+              ],
+              "platform_data": {
+                "uia_name": "Vertical",
+                "uia_value": "0",
+                "control_type_id": 50014,
+                "automation_id": "NonClientVerticalScrollBar",
+                "description": null,
+                "actions": [
+                  "set_value",
+                  "increment",
+                  "decrement"
+                ],
+                "native_stable_id": "NonClientVerticalScrollBar",
+                "numeric_value": 0.0
+              }
+            },
+            {
+              "ref": "48919922acba706b998e",
+              "platform": "windows",
+              "role": "scroll_bar",
+              "name": "Horizontal",
+              "value": "25",
+              "state": {
+                "enabled": true,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": false,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 148,
+                "y": 703,
+                "width": 763,
+                "height": 17
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [
+                {
+                  "ref": "54c7407a096097c905f7",
+                  "platform": "windows",
+                  "role": "button",
+                  "name": "Column left",
+                  "value": null,
+                  "state": {
+                    "enabled": true,
+                    "visible": true,
+                    "focused": false,
+                    "active": false,
+                    "selected": false,
+                    "editable": false,
+                    "focusable": false,
+                    "checked": null,
+                    "expanded": null,
+                    "minimized": null,
+                    "maximized": null,
+                    "fullscreen": null
+                  },
+                  "bounds": {
+                    "x": 148,
+                    "y": 703,
+                    "width": 17,
+                    "height": 17
+                  },
+                  "parent": "48919922acba706b998e",
+                  "children": [],
+                  "actions": [
+                    "click"
+                  ],
+                  "platform_data": {
+                    "automation_id": "UpButton",
+                    "uia_name": "Column left",
+                    "control_type_id": 50000,
+                    "description": null,
+                    "actions": [
+                      "press"
+                    ],
+                    "native_stable_id": "UpButton"
+                  }
+                },
+                {
+                  "ref": "0a5e6dcef4481268df40",
+                  "platform": "windows",
+                  "role": "button",
+                  "name": "Page left",
+                  "value": null,
+                  "state": {
+                    "enabled": true,
+                    "visible": true,
+                    "focused": false,
+                    "active": false,
+                    "selected": false,
+                    "editable": false,
+                    "focusable": false,
+                    "checked": null,
+                    "expanded": null,
+                    "minimized": null,
+                    "maximized": null,
+                    "fullscreen": null
+                  },
+                  "bounds": {
+                    "x": 165,
+                    "y": 703,
+                    "width": 77,
+                    "height": 17
+                  },
+                  "parent": "48919922acba706b998e",
+                  "children": [],
+                  "actions": [
+                    "click"
+                  ],
+                  "platform_data": {
+                    "automation_id": "UpPageButton",
+                    "control_type_id": 50000,
+                    "uia_name": "Page left",
+                    "description": null,
+                    "actions": [
+                      "press"
+                    ],
+                    "native_stable_id": "UpPageButton"
+                  }
+                },
+                {
+                  "ref": "5a58db19510d08c9b90f",
+                  "platform": "windows",
+                  "role": "scroll_thumb",
+                  "name": "Position",
+                  "value": null,
+                  "state": {
+                    "enabled": true,
+                    "visible": true,
+                    "focused": false,
+                    "active": false,
+                    "selected": false,
+                    "editable": false,
+                    "focusable": false,
+                    "checked": null,
+                    "expanded": null,
+                    "minimized": null,
+                    "maximized": null,
+                    "fullscreen": null
+                  },
+                  "bounds": {
+                    "x": 242,
+                    "y": 703,
+                    "width": 421,
+                    "height": 17
+                  },
+                  "parent": "48919922acba706b998e",
+                  "children": [],
+                  "actions": [],
+                  "platform_data": {
+                    "control_type_id": 50027,
+                    "uia_name": "Position",
+                    "automation_id": "ScrollbarThumb",
+                    "description": null,
+                    "actions": [],
+                    "native_stable_id": "ScrollbarThumb"
+                  }
+                },
+                {
+                  "ref": "b86d474da8b0a018b6ff",
+                  "platform": "windows",
+                  "role": "button",
+                  "name": "Page right",
+                  "value": null,
+                  "state": {
+                    "enabled": true,
+                    "visible": true,
+                    "focused": false,
+                    "active": false,
+                    "selected": false,
+                    "editable": false,
+                    "focusable": false,
+                    "checked": null,
+                    "expanded": null,
+                    "minimized": null,
+                    "maximized": null,
+                    "fullscreen": null
+                  },
+                  "bounds": {
+                    "x": 663,
+                    "y": 703,
+                    "width": 231,
+                    "height": 17
+                  },
+                  "parent": "48919922acba706b998e",
+                  "children": [],
+                  "actions": [
+                    "click"
+                  ],
+                  "platform_data": {
+                    "uia_name": "Page right",
+                    "control_type_id": 50000,
+                    "automation_id": "DownPageButton",
+                    "description": null,
+                    "actions": [
+                      "press"
+                    ],
+                    "native_stable_id": "DownPageButton"
+                  }
+                },
+                {
+                  "ref": "b5d2dae4c7ea68700a94",
+                  "platform": "windows",
+                  "role": "button",
+                  "name": "Column right",
+                  "value": null,
+                  "state": {
+                    "enabled": true,
+                    "visible": true,
+                    "focused": false,
+                    "active": false,
+                    "selected": false,
+                    "editable": false,
+                    "focusable": false,
+                    "checked": null,
+                    "expanded": null,
+                    "minimized": null,
+                    "maximized": null,
+                    "fullscreen": null
+                  },
+                  "bounds": {
+                    "x": 894,
+                    "y": 703,
+                    "width": 17,
+                    "height": 17
+                  },
+                  "parent": "48919922acba706b998e",
+                  "children": [],
+                  "actions": [
+                    "click"
+                  ],
+                  "platform_data": {
+                    "automation_id": "DownButton",
+                    "control_type_id": 50000,
+                    "uia_name": "Column right",
+                    "description": null,
+                    "actions": [
+                      "press"
+                    ],
+                    "native_stable_id": "DownButton"
+                  }
+                }
+              ],
+              "actions": [
+                "scroll"
+              ],
+              "platform_data": {
+                "control_type_id": 50014,
+                "uia_value": "25",
+                "uia_name": "Horizontal",
+                "automation_id": "NonClientHorizontalScrollBar",
+                "description": null,
+                "actions": [
+                  "set_value",
+                  "increment",
+                  "decrement"
+                ],
+                "native_stable_id": "NonClientHorizontalScrollBar",
+                "numeric_value": 25.0
+              }
+            },
+            {
+              "ref": "3f3db9e850b043b20eb7",
+              "platform": "windows",
+              "role": "scroll_thumb",
+              "name": null,
+              "value": null,
+              "state": {
+                "enabled": false,
+                "visible": true,
+                "focused": false,
+                "active": false,
+                "selected": false,
+                "editable": false,
+                "focusable": false,
+                "checked": null,
+                "expanded": null,
+                "minimized": null,
+                "maximized": null,
+                "fullscreen": null
+              },
+              "bounds": {
+                "x": 911,
+                "y": 703,
+                "width": 17,
+                "height": 17
+              },
+              "parent": "51c05025672d86eff6a4",
+              "children": [],
+              "actions": [],
+              "platform_data": {
+                "control_type_id": 50027,
+                "description": null,
+                "actions": [],
+                "native_stable_id": null
+              }
+            }
+          ],
+          "actions": [
+            "scroll"
+          ],
+          "platform_data": {
+            "class_name": "WindowsForms10.Window.8.app.0.378734a_r3_ad1",
+            "control_type_id": 50033,
+            "uia_name": "Scroll content",
+            "description": null,
+            "actions": [],
+            "native_stable_id": "hwnd:0x40430",
+            "scroll": {
+              "source": "UIA.ScrollPattern",
+              "x": {
+                "scrollable": true,
+                "position": 0.2513464991023339,
+                "view_size": 0.578030303030303
+              },
+              "y": {
+                "scrollable": true,
+                "position": 0.0,
+                "view_size": 0.4341772151898734
+              }
+            }
+          }
+        },
+        "verification": "confirmed",
+        "tree_changed": true,
+        "scroll": {
+          "source": "UIA.ScrollPattern",
+          "scope_ref": "51c05025672d86eff6a4",
+          "axis": "x",
+          "direction": "right",
+          "amount": 0.25,
+          "before_position": 0.0,
+          "requested_position": 0.25,
+          "after_position": 0.2513464991023339,
+          "content_nodes_moved": 30,
+          "content_refs_changed": 0,
+          "visibility_changes": 0,
+          "reason": "scroll_position_and_content_changed"
+        }
+      },
+      "outcome": {
+        "before_position": 0.0,
+        "after_position": 0.2513464991023339,
+        "buttons_moved_left": 30
+      },
+      "model_call": {
+        "model": "typesafe/jev-1.13-20260917",
+        "source": "openrouter",
+        "answers": {
+          "next": {
+            "type": "choice",
+            "choice": "scroll",
+            "probabilities": {
+              "click": 0.01,
+              "done": 0,
+              "collapse": 0,
+              "focus": 0.01,
+              "scroll": 0.98,
+              "select": 0,
+              "expand": 0
+            },
+            "confidence": 0.99
+          },
+          "goal_satisfied": {
+            "type": "noul",
+            "noul": 0.07
+          },
+          "click_target": {
+            "type": "choice",
+            "choice": "c89",
+            "probabilities": {
+              "c28": 0,
+              "c54": 0,
+              "c66": 0,
+              "c95": 0,
+              "c72": 0,
+              "c3": 0,
+              "c68": 0,
+              "c18": 0,
+              "c50": 0,
+              "c24": 0,
+              "c70": 0,
+              "c89": 0.65,
+              "c97": 0,
+              "c44": 0,
+              "c80": 0,
+              "c74": 0,
+              "c34": 0,
+              "c87": 0,
+              "c60": 0,
+              "c88": 0.35,
+              "c62": 0,
+              "c46": 0,
+              "c56": 0,
+              "c20": 0,
+              "c58": 0,
+              "c11": 0,
+              "c85": 0,
+              "c92": 0,
+              "c9": 0,
+              "c96": 0,
+              "c5": 0,
+              "c26": 0,
+              "c84": 0,
+              "c42": 0,
+              "c52": 0,
+              "c78": 0,
+              "c7": 0,
+              "c76": 0,
+              "c64": 0,
+              "c48": 0,
+              "c14": 0,
+              "c30": 0,
+              "c16": 0,
+              "c40": 0,
+              "c82": 0,
+              "c86": 0,
+              "c38": 0,
+              "c36": 0,
+              "c32": 0
+            },
+            "confidence": 0.63
+          },
+          "collapse_target": {
+            "type": "choice",
+            "choice": "c10",
+            "probabilities": {
+              "c10": 1
+            },
+            "confidence": 1
+          },
+          "expand_target": {
+            "type": "choice",
+            "choice": "c6",
+            "probabilities": {
+              "c6": 0.76,
+              "c93": 0.24
+            },
+            "confidence": 0.51
+          },
+          "focus_target": {
+            "type": "choice",
+            "choice": "c55",
+            "probabilities": {
+              "c73": 0,
+              "c4": 0.02,
+              "c47": 0.09999999999999999,
+              "c57": 0,
+              "c19": 0,
+              "c25": 0.3,
+              "c39": 0,
+              "c45": 0,
+              "c79": 0,
+              "c63": 0.01,
+              "c67": 0,
+              "c75": 0,
+              "c33": 0,
+              "c71": 0,
+              "c29": 0.01,
+              "c81": 0,
+              "c15": 0,
+              "c35": 0,
+              "c12": 0,
+              "c77": 0,
+              "c91": 0,
+              "c8": 0.03,
+              "c2": 0.01,
+              "c69": 0,
+              "c51": 0.01,
+              "c49": 0,
+              "c17": 0,
+              "c27": 0.01,
+              "c53": 0.01,
+              "c59": 0,
+              "c83": 0.05,
+              "c1": 0.03,
+              "c43": 0.01,
+              "c90": 0.05,
+              "c55": 0.34,
+              "c37": 0,
+              "c31": 0.01,
+              "c41": 0,
+              "c21": 0,
+              "c65": 0,
+              "c94": 0,
+              "c61": 0
+            },
+            "confidence": 0.31
+          },
+          "scroll_target": {
+            "type": "choice",
+            "choice": "c23",
+            "probabilities": {
+              "c22": 0,
+              "c23": 1
+            },
+            "confidence": 1
+          },
+          "select_target": {
+            "type": "choice",
+            "choice": "c13",
+            "probabilities": {
+              "c13": 1
+            },
+            "confidence": 1
+          }
+        },
+        "usage": {
+          "input_tokens": 15163,
+          "output_tokens": 1050,
+          "cost": 0.000636846
+        },
+        "elapsed_seconds": 2.156
+      },
+      "total_seconds": 13.078
+    }
+  ]
+}

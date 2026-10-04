@@ -1,0 +1,383 @@
+[
+  {
+    "window": {
+      "hwnd": 1442790,
+      "pid": 5388,
+      "title": "Pictures - File Explorer"
+    },
+    "uia_search_nodes": [
+      {
+        "ref": "1c094592648a9685fec3",
+        "platform": "windows",
+        "role": "text_field",
+        "name": " Search Pictures",
+        "value": "",
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": false,
+          "active": false,
+          "selected": false,
+          "editable": true,
+          "focusable": true,
+          "checked": null,
+          "expanded": null,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": {
+          "x": 771,
+          "y": 144,
+          "width": 158,
+          "height": 32
+        },
+        "parent": "4958fdd0b87c23f30ffd",
+        "children": [
+          {
+            "ref": "51d745109c911c635288",
+            "platform": "windows",
+            "role": "text_field",
+            "name": " Search Pictures",
+            "value": "",
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": true,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 771,
+              "y": 144,
+              "width": 158,
+              "height": 32
+            },
+            "parent": "1c094592648a9685fec3",
+            "children": [],
+            "actions": [
+              "set_value",
+              "type"
+            ],
+            "platform_data": {
+              "uia_name": " Search Pictures",
+              "control_type_id": 50004,
+              "description": null,
+              "actions": [
+                "set_value"
+              ],
+              "native_stable_id": null,
+              "value_source": "UIA.ValuePattern",
+              "value_scope_hwnd": 1442790,
+              "ambiguous_ref_identity": true
+            }
+          },
+          {
+            "ref": "5a261cb80dd80bba449c",
+            "platform": "windows",
+            "role": "group",
+            "name": null,
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 772,
+              "y": 145,
+              "width": 118,
+              "height": 30
+            },
+            "parent": "1c094592648a9685fec3",
+            "children": [],
+            "actions": [],
+            "platform_data": {
+              "control_type_id": 50033,
+              "automation_id": "ContentElement",
+              "class_name": "ScrollViewer",
+              "description": null,
+              "actions": [],
+              "native_stable_id": "ContentElement",
+              "ambiguous_ref_identity": true
+            }
+          },
+          {
+            "ref": "acdb4afe2059210614bd",
+            "platform": "windows",
+            "role": "static_text",
+            "name": " Search Pictures",
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 782,
+              "y": 150,
+              "width": 98,
+              "height": 19
+            },
+            "parent": "1c094592648a9685fec3",
+            "children": [],
+            "actions": [],
+            "platform_data": {
+              "uia_name": " Search Pictures",
+              "control_type_id": 50020,
+              "class_name": "TextBlock",
+              "description": null,
+              "actions": [],
+              "native_stable_id": null,
+              "ambiguous_ref_identity": true
+            }
+          },
+          {
+            "ref": "45a0895fc3acba8d1f5c",
+            "platform": "windows",
+            "role": "button",
+            "name": "Search",
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 894,
+              "y": 149,
+              "width": 30,
+              "height": 22
+            },
+            "parent": "1c094592648a9685fec3",
+            "children": [
+              {
+                "ref": "2ea63b751e0f89ee2680",
+                "platform": "windows",
+                "role": "static_text",
+                "name": "",
+                "value": null,
+                "state": {
+                  "enabled": true,
+                  "visible": true,
+                  "focused": false,
+                  "active": false,
+                  "selected": false,
+                  "editable": false,
+                  "focusable": false,
+                  "checked": null,
+                  "expanded": null,
+                  "minimized": null,
+                  "maximized": null,
+                  "fullscreen": null
+                },
+                "bounds": {
+                  "x": 904,
+                  "y": 154,
+                  "width": 12,
+                  "height": 12
+                },
+                "parent": "45a0895fc3acba8d1f5c",
+                "children": [],
+                "actions": [],
+                "platform_data": {
+                  "control_type_id": 50020,
+                  "class_name": "TextBlock",
+                  "uia_name": "",
+                  "description": null,
+                  "actions": [],
+                  "native_stable_id": null,
+                  "ambiguous_ref_identity": true
+                }
+              }
+            ],
+            "actions": [
+              "click"
+            ],
+            "platform_data": {
+              "control_type_id": 50000,
+              "class_name": "Button",
+              "automation_id": "QueryButton",
+              "uia_name": "Search",
+              "description": null,
+              "actions": [
+                "press"
+              ],
+              "native_stable_id": "QueryButton",
+              "ambiguous_ref_identity": true
+            }
+          }
+        ],
+        "actions": [
+          "focus",
+          "set_value",
+          "type"
+        ],
+        "platform_data": {
+          "control_type_id": 50004,
+          "automation_id": "TextBox",
+          "uia_name": " Search Pictures",
+          "class_name": "TextBox",
+          "description": null,
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "native_stable_id": "TextBox",
+          "value_source": "UIA.ValuePattern",
+          "value_scope_hwnd": 1442790,
+          "ambiguous_ref_identity": true
+        }
+      },
+      {
+        "ref": "51d745109c911c635288",
+        "platform": "windows",
+        "role": "text_field",
+        "name": " Search Pictures",
+        "value": "",
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": false,
+          "active": false,
+          "selected": false,
+          "editable": true,
+          "focusable": false,
+          "checked": null,
+          "expanded": null,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": {
+          "x": 771,
+          "y": 144,
+          "width": 158,
+          "height": 32
+        },
+        "parent": "1c094592648a9685fec3",
+        "children": [],
+        "actions": [
+          "set_value",
+          "type"
+        ],
+        "platform_data": {
+          "uia_name": " Search Pictures",
+          "control_type_id": 50004,
+          "description": null,
+          "actions": [
+            "set_value"
+          ],
+          "native_stable_id": null,
+          "value_source": "UIA.ValuePattern",
+          "value_scope_hwnd": 1442790,
+          "ambiguous_ref_identity": true
+        }
+      }
+    ]
+  },
+  {
+    "name": "Name",
+    "class": "UIProperty",
+    "automation_id": "System.ItemNameDisplay",
+    "rect": [
+      347,
+      336,
+      71,
+      16
+    ],
+    "has_value": true,
+    "value": "cs-black-000",
+    "readonly": false
+  },
+  {
+    "name": "Name",
+    "class": "UIProperty",
+    "automation_id": "System.ItemNameDisplay",
+    "rect": [
+      466,
+      336,
+      78,
+      16
+    ],
+    "has_value": true,
+    "value": "cs-gray-7f7f7f",
+    "readonly": false
+  },
+  {
+    "name": "Name",
+    "class": "UIProperty",
+    "automation_id": "System.ItemNameDisplay",
+    "rect": [
+      594,
+      336,
+      66,
+      16
+    ],
+    "has_value": true,
+    "value": "cs-white-fff",
+    "readonly": false
+  },
+  {
+    "name": "Address Bar",
+    "class": "TextBox",
+    "automation_id": "TextBox",
+    "rect": [
+      357,
+      144,
+      406,
+      32
+    ],
+    "has_value": true,
+    "value": "",
+    "readonly": false
+  },
+  {
+    "name": " Search Pictures",
+    "class": "TextBox",
+    "automation_id": "TextBox",
+    "rect": [
+      771,
+      144,
+      158,
+      32
+    ],
+    "has_value": true,
+    "value": "",
+    "readonly": false
+  }
+]

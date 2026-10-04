@@ -1,0 +1,102 @@
+[
+  {
+    "operation": "native.snapshot",
+    "seconds": 0.126834
+  },
+  {
+    "operation": "native.windows",
+    "seconds": 0.130325
+  },
+  {
+    "operation": "native.snapshot",
+    "seconds": 0.09316
+  },
+  {
+    "operation": "native.windows",
+    "seconds": 0.089624
+  },
+  {
+    "operation": "planner.plan",
+    "seconds": 38.143585
+  },
+  {
+    "operation": "native.snapshot",
+    "seconds": 0.166562
+  },
+  {
+    "operation": "jev.ask",
+    "seconds": 0.926432
+  },
+  {
+    "operation": "native.perform",
+    "seconds": 0.300634
+  },
+  {
+    "operation": "native.snapshot",
+    "seconds": 0.136487
+  },
+  {
+    "operation": "native.snapshot",
+    "seconds": 0.143896
+  },
+  {
+    "operation": "native.snapshot",
+    "seconds": 0.131118
+  },
+  {
+    "operation": "jev.ask",
+    "seconds": 2.0319
+  },
+  {
+    "operation": "native.perform",
+    "seconds": 0.344221
+  },
+  {
+    "operation": "native.snapshot",
+    "seconds": 0.127243
+  },
+  {
+    "operation": "native.snapshot",
+    "seconds": 0.124656
+  },
+  {
+    "operation": "native.snapshot",
+    "seconds": 0.125044
+  },
+  {
+    "operation": "jev.ask",
+    "seconds": 2.35311
+  },
+  {
+    "operation": "native.perform",
+    "seconds": 0.263012
+  },
+  {
+    "operation": "native.snapshot",
+    "seconds": 0.124196
+  },
+  {
+    "operation": "native.snapshot",
+    "seconds": 0.121159
+  },
+  {
+    "operation": "native.snapshot",
+    "seconds": 0.088298
+  },
+  {
+    "operation": "jev.ask",
+    "seconds": 2.855506
+  },
+  {
+    "operation": "native.perform",
+    "seconds": 0.180633
+  },
+  {
+    "operation": "native.snapshot",
+    "seconds": 0.082986
+  },
+  {
+    "operation": "native.snapshot",
+    "seconds": 0.087342
+  }
+]

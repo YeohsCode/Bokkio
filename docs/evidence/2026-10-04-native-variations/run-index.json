@@ -1,0 +1,217 @@
+[
+  {
+    "run": "p5-requirement-change-v1",
+    "planned": 2,
+    "started": 1,
+    "completed": 1,
+    "passed": 0,
+    "status": "finished",
+    "unstarted": 1,
+    "selected_before_execution": true,
+    "source_hashes": {
+      "bokkio.agent": "5527712dc58df813ea711da2b97df5991d33f19692b4133b775b5fdea698dd01",
+      "bokkio.planner": "9f5b61dd43d65af791620466ab979169b7f434439c36f6a81164d873c372b857",
+      "bokkio.decision": "df01936c45937bedf7a461dbd572b95d2533746666b7a9ccf34f1a2d025b54d0",
+      "bokkio.xa11y_backend": "4edaef19b0daebe183c39221d1a4371120e538671a05e5ca8344073e4a07b31b",
+      "bokkio.jev": "637bc696117c59439bf8944d10bf4c9c34a45b9499cb5aef36326ae4596c0a59",
+      "bokkio.windows_uia": "818144ff817f083fdf02a233caed8004fb206963e99d74375c91051a45418e2a"
+    }
+  },
+  {
+    "run": "p5-requirement-change-v2",
+    "planned": 2,
+    "started": 2,
+    "completed": 2,
+    "passed": 2,
+    "status": "finished",
+    "unstarted": 0,
+    "selected_before_execution": true,
+    "source_hashes": {
+      "bokkio.agent": "df17880572c0c48aa8b9194e1b3d966060723685f77bd36b68d3c6b4d209aa7f",
+      "bokkio.planner": "53d83a33c201c1a4da482b0c29e6a52efac345f9fbe4864e85382c6b49daa988",
+      "bokkio.decision": "2e2d049d44ba95f20654b83a38d769de48072bbefd2345f34cda55214d57bb48",
+      "bokkio.xa11y_backend": "e046d133eab3a92cbf7672bb9d48ad60781c9844bc81911ccb475fca5acf406d",
+      "bokkio.jev": "637bc696117c59439bf8944d10bf4c9c34a45b9499cb5aef36326ae4596c0a59",
+      "bokkio.windows_uia": "818144ff817f083fdf02a233caed8004fb206963e99d74375c91051a45418e2a"
+    }
+  },
+  {
+    "run": "p5-requirement-change-v3",
+    "planned": 2,
+    "started": 1,
+    "completed": 1,
+    "passed": 0,
+    "status": "finished",
+    "unstarted": 1,
+    "selected_before_execution": true,
+    "source_hashes": {
+      "bokkio.agent": "a564e5347a684ca9ebb136946b682c5d023c26db709e9d467dc3ef9b9ac722b8",
+      "bokkio.planner": "4eac4101a14e5326de6caa7b1b3a9e9c60fa7c35b9f506230579e8df20c916cf",
+      "bokkio.decision": "2e2d049d44ba95f20654b83a38d769de48072bbefd2345f34cda55214d57bb48",
+      "bokkio.xa11y_backend": "e046d133eab3a92cbf7672bb9d48ad60781c9844bc81911ccb475fca5acf406d",
+      "bokkio.jev": "637bc696117c59439bf8944d10bf4c9c34a45b9499cb5aef36326ae4596c0a59",
+      "bokkio.windows_uia": "818144ff817f083fdf02a233caed8004fb206963e99d74375c91051a45418e2a"
+    }
+  },
+  {
+    "run": "p5-requirement-change-v4",
+    "planned": 2,
+    "started": 2,
+    "completed": 2,
+    "passed": 2,
+    "status": "finished",
+    "unstarted": 0,
+    "selected_before_execution": true,
+    "source_hashes": {
+      "bokkio.agent": "a564e5347a684ca9ebb136946b682c5d023c26db709e9d467dc3ef9b9ac722b8",
+      "bokkio.planner": "4eac4101a14e5326de6caa7b1b3a9e9c60fa7c35b9f506230579e8df20c916cf",
+      "bokkio.decision": "5a8ca7f84a78fdd4ed85ffcf6d89106860d74b5a872d6ed06d95b87fcb29b86f",
+      "bokkio.xa11y_backend": "e046d133eab3a92cbf7672bb9d48ad60781c9844bc81911ccb475fca5acf406d",
+      "bokkio.jev": "637bc696117c59439bf8944d10bf4c9c34a45b9499cb5aef36326ae4596c0a59",
+      "bokkio.windows_uia": "818144ff817f083fdf02a233caed8004fb206963e99d74375c91051a45418e2a"
+    }
+  },
+  {
+    "run": "waa-variations-v1",
+    "planned": 6,
+    "started": 0,
+    "completed": 0,
+    "passed": 0,
+    "status": "initialization_failed"
+  },
+  {
+    "run": "waa-variations-v2",
+    "planned": 6,
+    "started": 6,
+    "completed": 6,
+    "passed": 2,
+    "status": "finished",
+    "unstarted": 0,
+    "selected_before_execution": true,
+    "source_hashes": {
+      "bokkio.agent": "ffde224f688a665bbfed8b0ee7a1e597033c80aa94c0356c59bfa436ec38495a",
+      "bokkio.planner": "c9af676c1980afd2948af371e95ae62f3a9743ae307f144fefb3643799bdba7e",
+      "bokkio.decision": "3dd068fa8d39f34edc569aa430e5b6beee41a9d5a464475e948706fce976223d",
+      "bokkio.xa11y_backend": "1b1a1c19bf51121a93bd78fac15a73a57b290434b23e526127e190a6b4013f81",
+      "bokkio.jev": "637bc696117c59439bf8944d10bf4c9c34a45b9499cb5aef36326ae4596c0a59",
+      "bokkio.windows_uia": "9ab743fa829d216ba805b681a646572d6bc57aaf766cccea20981754bf472634"
+    }
+  },
+  {
+    "run": "waa-variations-v3",
+    "planned": 6,
+    "started": 6,
+    "completed": 6,
+    "passed": 3,
+    "status": "finished",
+    "unstarted": 0,
+    "selected_before_execution": true,
+    "source_hashes": {
+      "bokkio.agent": "8b4fa7109ace7dab51a625249f2f44984c742686e59ce397686793d7be17122a",
+      "bokkio.planner": "9f5b61dd43d65af791620466ab979169b7f434439c36f6a81164d873c372b857",
+      "bokkio.decision": "3dd068fa8d39f34edc569aa430e5b6beee41a9d5a464475e948706fce976223d",
+      "bokkio.xa11y_backend": "1b1a1c19bf51121a93bd78fac15a73a57b290434b23e526127e190a6b4013f81",
+      "bokkio.jev": "637bc696117c59439bf8944d10bf4c9c34a45b9499cb5aef36326ae4596c0a59",
+      "bokkio.windows_uia": "9ab743fa829d216ba805b681a646572d6bc57aaf766cccea20981754bf472634"
+    }
+  },
+  {
+    "run": "waa-variations-v4",
+    "planned": 6,
+    "started": 2,
+    "completed": 1,
+    "passed": 0,
+    "status": "interrupted",
+    "interrupted": [
+      {
+        "status": "interrupted",
+        "case": "png-many-r1",
+        "actions": 29,
+        "phases": 1,
+        "replans": 2
+      }
+    ],
+    "unstarted": 4,
+    "selected_before_execution": true,
+    "source_hashes": {
+      "bokkio.agent": "5527712dc58df813ea711da2b97df5991d33f19692b4133b775b5fdea698dd01",
+      "bokkio.planner": "9f5b61dd43d65af791620466ab979169b7f434439c36f6a81164d873c372b857",
+      "bokkio.decision": "df01936c45937bedf7a461dbd572b95d2533746666b7a9ccf34f1a2d025b54d0",
+      "bokkio.xa11y_backend": "4edaef19b0daebe183c39221d1a4371120e538671a05e5ca8344073e4a07b31b",
+      "bokkio.jev": "637bc696117c59439bf8944d10bf4c9c34a45b9499cb5aef36326ae4596c0a59",
+      "bokkio.windows_uia": "818144ff817f083fdf02a233caed8004fb206963e99d74375c91051a45418e2a"
+    }
+  },
+  {
+    "run": "waa-variations-v5",
+    "planned": 6,
+    "started": 6,
+    "completed": 6,
+    "passed": 5,
+    "status": "finished",
+    "unstarted": 0,
+    "selected_before_execution": true,
+    "source_hashes": {
+      "bokkio.agent": "5527712dc58df813ea711da2b97df5991d33f19692b4133b775b5fdea698dd01",
+      "bokkio.planner": "ab56d185b1904d7b7fd5895a7035393eef728fdffef052f52b45815e06596c5d",
+      "bokkio.decision": "ef4c9e96eab4c13ec1c35e9dc1989e442a92903a967592001ec821f0ec32085a",
+      "bokkio.xa11y_backend": "e046d133eab3a92cbf7672bb9d48ad60781c9844bc81911ccb475fca5acf406d",
+      "bokkio.jev": "637bc696117c59439bf8944d10bf4c9c34a45b9499cb5aef36326ae4596c0a59",
+      "bokkio.windows_uia": "818144ff817f083fdf02a233caed8004fb206963e99d74375c91051a45418e2a"
+    }
+  },
+  {
+    "run": "waa-variations-v6",
+    "planned": 3,
+    "started": 3,
+    "completed": 3,
+    "passed": 3,
+    "status": "finished",
+    "unstarted": 0,
+    "selected_before_execution": true,
+    "source_hashes": {
+      "bokkio.agent": "df17880572c0c48aa8b9194e1b3d966060723685f77bd36b68d3c6b4d209aa7f",
+      "bokkio.planner": "53d83a33c201c1a4da482b0c29e6a52efac345f9fbe4864e85382c6b49daa988",
+      "bokkio.decision": "2e2d049d44ba95f20654b83a38d769de48072bbefd2345f34cda55214d57bb48",
+      "bokkio.xa11y_backend": "e046d133eab3a92cbf7672bb9d48ad60781c9844bc81911ccb475fca5acf406d",
+      "bokkio.jev": "637bc696117c59439bf8944d10bf4c9c34a45b9499cb5aef36326ae4596c0a59",
+      "bokkio.windows_uia": "818144ff817f083fdf02a233caed8004fb206963e99d74375c91051a45418e2a"
+    }
+  },
+  {
+    "run": "waa-variations-v7",
+    "planned": 1,
+    "started": 1,
+    "completed": 1,
+    "passed": 0,
+    "status": "finished",
+    "unstarted": 0,
+    "selected_before_execution": true,
+    "source_hashes": {
+      "bokkio.agent": "d9eaa4e633234342585fb2a32a729a5f0e238795d792b5f4208bc508a8e04efe",
+      "bokkio.planner": "53d83a33c201c1a4da482b0c29e6a52efac345f9fbe4864e85382c6b49daa988",
+      "bokkio.decision": "2e2d049d44ba95f20654b83a38d769de48072bbefd2345f34cda55214d57bb48",
+      "bokkio.xa11y_backend": "e046d133eab3a92cbf7672bb9d48ad60781c9844bc81911ccb475fca5acf406d",
+      "bokkio.jev": "637bc696117c59439bf8944d10bf4c9c34a45b9499cb5aef36326ae4596c0a59",
+      "bokkio.windows_uia": "818144ff817f083fdf02a233caed8004fb206963e99d74375c91051a45418e2a"
+    }
+  },
+  {
+    "run": "waa-variations-v8",
+    "planned": 1,
+    "started": 1,
+    "completed": 1,
+    "passed": 1,
+    "status": "finished",
+    "unstarted": 0,
+    "selected_before_execution": true,
+    "source_hashes": {
+      "bokkio.agent": "a564e5347a684ca9ebb136946b682c5d023c26db709e9d467dc3ef9b9ac722b8",
+      "bokkio.planner": "4eac4101a14e5326de6caa7b1b3a9e9c60fa7c35b9f506230579e8df20c916cf",
+      "bokkio.decision": "2e2d049d44ba95f20654b83a38d769de48072bbefd2345f34cda55214d57bb48",
+      "bokkio.xa11y_backend": "e046d133eab3a92cbf7672bb9d48ad60781c9844bc81911ccb475fca5acf406d",
+      "bokkio.jev": "637bc696117c59439bf8944d10bf4c9c34a45b9499cb5aef36326ae4596c0a59",
+      "bokkio.windows_uia": "818144ff817f083fdf02a233caed8004fb206963e99d74375c91051a45418e2a"
+    }
+  }
+]

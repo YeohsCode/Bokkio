@@ -1,0 +1,4717 @@
+{
+  "reset": {
+    "action": "scroll",
+    "after": {
+      "actions": [
+        "focus",
+        "scroll"
+      ],
+      "bounds": {
+        "height": 802,
+        "width": 17,
+        "x": 1614,
+        "y": 178
+      },
+      "children": [
+        {
+          "actions": [],
+          "bounds": {
+            "height": 430,
+            "width": 15,
+            "x": 1615,
+            "y": 181
+          },
+          "children": [],
+          "name": null,
+          "parent": "4cff37f875cc76fd7ede",
+          "platform": "macos",
+          "platform_data": {
+            "AXPosition": {
+              "x": 1615.0,
+              "y": 181.0
+            },
+            "AXSize": {
+              "height": 430.0,
+              "width": 15.0
+            },
+            "AXValue": 0.0,
+            "actions": [],
+            "ax_role": "AXValueIndicator",
+            "description": null,
+            "native_stable_id": null
+          },
+          "ref": "f791a6265c796d1e971a",
+          "role": "scroll_thumb",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": false,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": "0"
+        },
+        {
+          "actions": [
+            "click"
+          ],
+          "bounds": null,
+          "children": [],
+          "name": null,
+          "parent": "4cff37f875cc76fd7ede",
+          "platform": "macos",
+          "platform_data": {
+            "AXPosition": {
+              "x": 1615.0,
+              "y": 179.0
+            },
+            "AXSize": {
+              "height": 0.0,
+              "width": 0.0
+            },
+            "actions": [
+              "press"
+            ],
+            "ax_role": "AXButton",
+            "ax_subrole": "AXIncrementArrow",
+            "description": null,
+            "native_stable_id": null
+          },
+          "ref": "7e64c2e1657787446d7a",
+          "role": "button",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": null
+        },
+        {
+          "actions": [
+            "click"
+          ],
+          "bounds": null,
+          "children": [],
+          "name": null,
+          "parent": "4cff37f875cc76fd7ede",
+          "platform": "macos",
+          "platform_data": {
+            "AXPosition": {
+              "x": 1615.0,
+              "y": 179.0
+            },
+            "AXSize": {
+              "height": 0.0,
+              "width": 0.0
+            },
+            "actions": [
+              "press"
+            ],
+            "ax_role": "AXButton",
+            "ax_subrole": "AXDecrementArrow",
+            "description": null,
+            "native_stable_id": null
+          },
+          "ref": "7f2dbb272e1a03629e40",
+          "role": "button",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": null
+        },
+        {
+          "actions": [
+            "click"
+          ],
+          "bounds": {
+            "height": 367,
+            "width": 15,
+            "x": 1615,
+            "y": 612
+          },
+          "children": [],
+          "name": null,
+          "parent": "4cff37f875cc76fd7ede",
+          "platform": "macos",
+          "platform_data": {
+            "AXPosition": {
+              "x": 1615.0,
+              "y": 612.0
+            },
+            "AXSize": {
+              "height": 367.0,
+              "width": 15.0
+            },
+            "actions": [
+              "press"
+            ],
+            "ax_role": "AXButton",
+            "ax_subrole": "AXIncrementPage",
+            "description": null,
+            "native_stable_id": null
+          },
+          "ref": "bc0feb2dc71e8310695e",
+          "role": "button",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": null
+        },
+        {
+          "actions": [
+            "click"
+          ],
+          "bounds": {
+            "height": 2,
+            "width": 15,
+            "x": 1615,
+            "y": 179
+          },
+          "children": [],
+          "name": null,
+          "parent": "4cff37f875cc76fd7ede",
+          "platform": "macos",
+          "platform_data": {
+            "AXPosition": {
+              "x": 1615.0,
+              "y": 179.0
+            },
+            "AXSize": {
+              "height": 2.0,
+              "width": 15.0
+            },
+            "actions": [
+              "press"
+            ],
+            "ax_role": "AXButton",
+            "ax_subrole": "AXDecrementPage",
+            "description": null,
+            "native_stable_id": null
+          },
+          "ref": "f0d5df6e66a68d94da16",
+          "role": "button",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": null
+        }
+      ],
+      "name": null,
+      "parent": "3db748f7ec552381da13",
+      "platform": "macos",
+      "platform_data": {
+        "AXEnabled": true,
+        "AXFocused": false,
+        "AXPosition": {
+          "x": 1614.0,
+          "y": 178.0
+        },
+        "AXSize": {
+          "height": 802.0,
+          "width": 17.0
+        },
+        "AXValue": 0.0,
+        "actions": [
+          "focus"
+        ],
+        "ax_role": "AXScrollBar",
+        "description": null,
+        "native_stable_id": null,
+        "numeric_value": 0.0
+      },
+      "ref": "4cff37f875cc76fd7ede",
+      "role": "scroll_bar",
+      "state": {
+        "active": false,
+        "checked": null,
+        "editable": false,
+        "enabled": true,
+        "expanded": null,
+        "focusable": true,
+        "focused": false,
+        "fullscreen": null,
+        "maximized": null,
+        "minimized": null,
+        "selected": false,
+        "visible": true
+      },
+      "value": "0"
+    },
+    "before": {
+      "actions": [
+        "focus",
+        "scroll"
+      ],
+      "bounds": {
+        "height": 802,
+        "width": 17,
+        "x": 1614,
+        "y": 178
+      },
+      "children": [
+        {
+          "actions": [],
+          "bounds": {
+            "height": 430,
+            "width": 15,
+            "x": 1615,
+            "y": 364
+          },
+          "children": [],
+          "name": null,
+          "parent": "4cff37f875cc76fd7ede",
+          "platform": "macos",
+          "platform_data": {
+            "AXPosition": {
+              "x": 1615.0,
+              "y": 364.0
+            },
+            "AXSize": {
+              "height": 430.0,
+              "width": 15.0
+            },
+            "AXValue": 0.5,
+            "actions": [],
+            "ax_role": "AXValueIndicator",
+            "description": null,
+            "native_stable_id": null
+          },
+          "ref": "f791a6265c796d1e971a",
+          "role": "scroll_thumb",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": false,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": "0.5"
+        },
+        {
+          "actions": [
+            "click"
+          ],
+          "bounds": null,
+          "children": [],
+          "name": null,
+          "parent": "4cff37f875cc76fd7ede",
+          "platform": "macos",
+          "platform_data": {
+            "AXPosition": {
+              "x": 1615.0,
+              "y": 179.0
+            },
+            "AXSize": {
+              "height": 0.0,
+              "width": 0.0
+            },
+            "actions": [
+              "press"
+            ],
+            "ax_role": "AXButton",
+            "ax_subrole": "AXIncrementArrow",
+            "description": null,
+            "native_stable_id": null
+          },
+          "ref": "7e64c2e1657787446d7a",
+          "role": "button",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": null
+        },
+        {
+          "actions": [
+            "click"
+          ],
+          "bounds": null,
+          "children": [],
+          "name": null,
+          "parent": "4cff37f875cc76fd7ede",
+          "platform": "macos",
+          "platform_data": {
+            "AXPosition": {
+              "x": 1615.0,
+              "y": 179.0
+            },
+            "AXSize": {
+              "height": 0.0,
+              "width": 0.0
+            },
+            "actions": [
+              "press"
+            ],
+            "ax_role": "AXButton",
+            "ax_subrole": "AXDecrementArrow",
+            "description": null,
+            "native_stable_id": null
+          },
+          "ref": "7f2dbb272e1a03629e40",
+          "role": "button",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": null
+        },
+        {
+          "actions": [
+            "click"
+          ],
+          "bounds": {
+            "height": 184,
+            "width": 15,
+            "x": 1615,
+            "y": 795
+          },
+          "children": [],
+          "name": null,
+          "parent": "4cff37f875cc76fd7ede",
+          "platform": "macos",
+          "platform_data": {
+            "AXPosition": {
+              "x": 1615.0,
+              "y": 795.0
+            },
+            "AXSize": {
+              "height": 184.0,
+              "width": 15.0
+            },
+            "actions": [
+              "press"
+            ],
+            "ax_role": "AXButton",
+            "ax_subrole": "AXIncrementPage",
+            "description": null,
+            "native_stable_id": null
+          },
+          "ref": "bc0feb2dc71e8310695e",
+          "role": "button",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": null
+        },
+        {
+          "actions": [
+            "click"
+          ],
+          "bounds": {
+            "height": 184,
+            "width": 15,
+            "x": 1615,
+            "y": 179
+          },
+          "children": [],
+          "name": null,
+          "parent": "4cff37f875cc76fd7ede",
+          "platform": "macos",
+          "platform_data": {
+            "AXPosition": {
+              "x": 1615.0,
+              "y": 179.0
+            },
+            "AXSize": {
+              "height": 184.0,
+              "width": 15.0
+            },
+            "actions": [
+              "press"
+            ],
+            "ax_role": "AXButton",
+            "ax_subrole": "AXDecrementPage",
+            "description": null,
+            "native_stable_id": null
+          },
+          "ref": "f0d5df6e66a68d94da16",
+          "role": "button",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": null
+        }
+      ],
+      "name": null,
+      "parent": "3db748f7ec552381da13",
+      "platform": "macos",
+      "platform_data": {
+        "AXEnabled": true,
+        "AXFocused": false,
+        "AXPosition": {
+          "x": 1614.0,
+          "y": 178.0
+        },
+        "AXSize": {
+          "height": 802.0,
+          "width": 17.0
+        },
+        "AXValue": 0.5,
+        "actions": [
+          "focus"
+        ],
+        "ax_role": "AXScrollBar",
+        "description": null,
+        "native_stable_id": null,
+        "numeric_value": 0.5
+      },
+      "ref": "4cff37f875cc76fd7ede",
+      "role": "scroll_bar",
+      "state": {
+        "active": false,
+        "checked": null,
+        "editable": false,
+        "enabled": true,
+        "expanded": null,
+        "focusable": true,
+        "focused": false,
+        "fullscreen": null,
+        "maximized": null,
+        "minimized": null,
+        "selected": false,
+        "visible": true
+      },
+      "value": "0.5"
+    },
+    "scroll": {
+      "after_position": 0.0,
+      "amount": 1.0,
+      "axis": "y",
+      "bar_ref": "4cff37f875cc76fd7ede",
+      "before_position": 0.5,
+      "content_nodes_moved": 81,
+      "direction": "up",
+      "reason": "scroll_position_changed",
+      "requested_position": 0.0,
+      "scope_ref": "3db748f7ec552381da13"
+    },
+    "target_ref": "4cff37f875cc76fd7ede",
+    "tree_changed": true,
+    "verification": "confirmed"
+  },
+  "runs": [
+    {
+      "run": 1,
+      "down": {
+        "action": "scroll",
+        "after": {
+          "actions": [
+            "focus",
+            "scroll"
+          ],
+          "bounds": {
+            "height": 802,
+            "width": 17,
+            "x": 1614,
+            "y": 178
+          },
+          "children": [
+            {
+              "actions": [],
+              "bounds": {
+                "height": 430,
+                "width": 15,
+                "x": 1615,
+                "y": 272
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 272.0
+                },
+                "AXSize": {
+                  "height": 430.0,
+                  "width": 15.0
+                },
+                "AXValue": 0.25,
+                "actions": [],
+                "ax_role": "AXValueIndicator",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "f791a6265c796d1e971a",
+              "role": "scroll_thumb",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": false,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": "0.25"
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": null,
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 0.0,
+                  "width": 0.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXIncrementArrow",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "7e64c2e1657787446d7a",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": null,
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 0.0,
+                  "width": 0.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXDecrementArrow",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "7f2dbb272e1a03629e40",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": {
+                "height": 276,
+                "width": 15,
+                "x": 1615,
+                "y": 703
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 703.0
+                },
+                "AXSize": {
+                  "height": 276.0,
+                  "width": 15.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXIncrementPage",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "bc0feb2dc71e8310695e",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": {
+                "height": 93,
+                "width": 15,
+                "x": 1615,
+                "y": 179
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 93.0,
+                  "width": 15.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXDecrementPage",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "f0d5df6e66a68d94da16",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            }
+          ],
+          "name": null,
+          "parent": "3db748f7ec552381da13",
+          "platform": "macos",
+          "platform_data": {
+            "AXEnabled": true,
+            "AXFocused": false,
+            "AXPosition": {
+              "x": 1614.0,
+              "y": 178.0
+            },
+            "AXSize": {
+              "height": 802.0,
+              "width": 17.0
+            },
+            "AXValue": 0.25,
+            "actions": [
+              "focus"
+            ],
+            "ax_role": "AXScrollBar",
+            "description": null,
+            "native_stable_id": null,
+            "numeric_value": 0.25
+          },
+          "ref": "4cff37f875cc76fd7ede",
+          "role": "scroll_bar",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": "0.25"
+        },
+        "before": {
+          "actions": [
+            "focus",
+            "scroll"
+          ],
+          "bounds": {
+            "height": 802,
+            "width": 17,
+            "x": 1614,
+            "y": 178
+          },
+          "children": [
+            {
+              "actions": [],
+              "bounds": {
+                "height": 430,
+                "width": 15,
+                "x": 1615,
+                "y": 181
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 181.0
+                },
+                "AXSize": {
+                  "height": 430.0,
+                  "width": 15.0
+                },
+                "AXValue": 0.0,
+                "actions": [],
+                "ax_role": "AXValueIndicator",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "f791a6265c796d1e971a",
+              "role": "scroll_thumb",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": false,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": "0"
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": null,
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 0.0,
+                  "width": 0.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXIncrementArrow",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "7e64c2e1657787446d7a",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": null,
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 0.0,
+                  "width": 0.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXDecrementArrow",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "7f2dbb272e1a03629e40",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": {
+                "height": 367,
+                "width": 15,
+                "x": 1615,
+                "y": 612
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 612.0
+                },
+                "AXSize": {
+                  "height": 367.0,
+                  "width": 15.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXIncrementPage",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "bc0feb2dc71e8310695e",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": {
+                "height": 2,
+                "width": 15,
+                "x": 1615,
+                "y": 179
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 2.0,
+                  "width": 15.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXDecrementPage",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "f0d5df6e66a68d94da16",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            }
+          ],
+          "name": null,
+          "parent": "3db748f7ec552381da13",
+          "platform": "macos",
+          "platform_data": {
+            "AXEnabled": true,
+            "AXFocused": false,
+            "AXPosition": {
+              "x": 1614.0,
+              "y": 178.0
+            },
+            "AXSize": {
+              "height": 802.0,
+              "width": 17.0
+            },
+            "AXValue": 0.0,
+            "actions": [
+              "focus"
+            ],
+            "ax_role": "AXScrollBar",
+            "description": null,
+            "native_stable_id": null,
+            "numeric_value": 0.0
+          },
+          "ref": "4cff37f875cc76fd7ede",
+          "role": "scroll_bar",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": "0"
+        },
+        "scroll": {
+          "after_position": 0.25,
+          "amount": 0.25,
+          "axis": "y",
+          "bar_ref": "4cff37f875cc76fd7ede",
+          "before_position": 0.0,
+          "content_nodes_moved": 81,
+          "direction": "down",
+          "reason": "scroll_position_changed",
+          "requested_position": 0.25,
+          "scope_ref": "3db748f7ec552381da13"
+        },
+        "target_ref": "4cff37f875cc76fd7ede",
+        "tree_changed": true,
+        "verification": "confirmed"
+      },
+      "up": {
+        "action": "scroll",
+        "after": {
+          "actions": [
+            "focus",
+            "scroll"
+          ],
+          "bounds": {
+            "height": 802,
+            "width": 17,
+            "x": 1614,
+            "y": 178
+          },
+          "children": [
+            {
+              "actions": [],
+              "bounds": {
+                "height": 430,
+                "width": 15,
+                "x": 1615,
+                "y": 181
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 181.0
+                },
+                "AXSize": {
+                  "height": 430.0,
+                  "width": 15.0
+                },
+                "AXValue": 0.0,
+                "actions": [],
+                "ax_role": "AXValueIndicator",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "f791a6265c796d1e971a",
+              "role": "scroll_thumb",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": false,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": "0"
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": null,
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 0.0,
+                  "width": 0.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXIncrementArrow",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "7e64c2e1657787446d7a",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": null,
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 0.0,
+                  "width": 0.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXDecrementArrow",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "7f2dbb272e1a03629e40",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": {
+                "height": 367,
+                "width": 15,
+                "x": 1615,
+                "y": 612
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 612.0
+                },
+                "AXSize": {
+                  "height": 367.0,
+                  "width": 15.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXIncrementPage",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "bc0feb2dc71e8310695e",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": {
+                "height": 2,
+                "width": 15,
+                "x": 1615,
+                "y": 179
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 2.0,
+                  "width": 15.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXDecrementPage",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "f0d5df6e66a68d94da16",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            }
+          ],
+          "name": null,
+          "parent": "3db748f7ec552381da13",
+          "platform": "macos",
+          "platform_data": {
+            "AXEnabled": true,
+            "AXFocused": false,
+            "AXPosition": {
+              "x": 1614.0,
+              "y": 178.0
+            },
+            "AXSize": {
+              "height": 802.0,
+              "width": 17.0
+            },
+            "AXValue": 0.0,
+            "actions": [
+              "focus"
+            ],
+            "ax_role": "AXScrollBar",
+            "description": null,
+            "native_stable_id": null,
+            "numeric_value": 0.0
+          },
+          "ref": "4cff37f875cc76fd7ede",
+          "role": "scroll_bar",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": "0"
+        },
+        "before": {
+          "actions": [
+            "focus",
+            "scroll"
+          ],
+          "bounds": {
+            "height": 802,
+            "width": 17,
+            "x": 1614,
+            "y": 178
+          },
+          "children": [
+            {
+              "actions": [],
+              "bounds": {
+                "height": 430,
+                "width": 15,
+                "x": 1615,
+                "y": 272
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 272.0
+                },
+                "AXSize": {
+                  "height": 430.0,
+                  "width": 15.0
+                },
+                "AXValue": 0.25,
+                "actions": [],
+                "ax_role": "AXValueIndicator",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "f791a6265c796d1e971a",
+              "role": "scroll_thumb",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": false,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": "0.25"
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": null,
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 0.0,
+                  "width": 0.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXIncrementArrow",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "7e64c2e1657787446d7a",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": null,
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 0.0,
+                  "width": 0.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXDecrementArrow",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "7f2dbb272e1a03629e40",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": {
+                "height": 276,
+                "width": 15,
+                "x": 1615,
+                "y": 703
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 703.0
+                },
+                "AXSize": {
+                  "height": 276.0,
+                  "width": 15.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXIncrementPage",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "bc0feb2dc71e8310695e",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": {
+                "height": 93,
+                "width": 15,
+                "x": 1615,
+                "y": 179
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 93.0,
+                  "width": 15.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXDecrementPage",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "f0d5df6e66a68d94da16",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            }
+          ],
+          "name": null,
+          "parent": "3db748f7ec552381da13",
+          "platform": "macos",
+          "platform_data": {
+            "AXEnabled": true,
+            "AXFocused": false,
+            "AXPosition": {
+              "x": 1614.0,
+              "y": 178.0
+            },
+            "AXSize": {
+              "height": 802.0,
+              "width": 17.0
+            },
+            "AXValue": 0.25,
+            "actions": [
+              "focus"
+            ],
+            "ax_role": "AXScrollBar",
+            "description": null,
+            "native_stable_id": null,
+            "numeric_value": 0.25
+          },
+          "ref": "4cff37f875cc76fd7ede",
+          "role": "scroll_bar",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": "0.25"
+        },
+        "scroll": {
+          "after_position": 0.0,
+          "amount": 0.25,
+          "axis": "y",
+          "bar_ref": "4cff37f875cc76fd7ede",
+          "before_position": 0.25,
+          "content_nodes_moved": 81,
+          "direction": "up",
+          "reason": "scroll_position_changed",
+          "requested_position": 0.0,
+          "scope_ref": "3db748f7ec552381da13"
+        },
+        "target_ref": "4cff37f875cc76fd7ede",
+        "tree_changed": true,
+        "verification": "confirmed"
+      }
+    },
+    {
+      "run": 2,
+      "down": {
+        "action": "scroll",
+        "after": {
+          "actions": [
+            "focus",
+            "scroll"
+          ],
+          "bounds": {
+            "height": 802,
+            "width": 17,
+            "x": 1614,
+            "y": 178
+          },
+          "children": [
+            {
+              "actions": [],
+              "bounds": {
+                "height": 430,
+                "width": 15,
+                "x": 1615,
+                "y": 272
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 272.0
+                },
+                "AXSize": {
+                  "height": 430.0,
+                  "width": 15.0
+                },
+                "AXValue": 0.25,
+                "actions": [],
+                "ax_role": "AXValueIndicator",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "f791a6265c796d1e971a",
+              "role": "scroll_thumb",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": false,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": "0.25"
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": null,
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 0.0,
+                  "width": 0.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXIncrementArrow",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "7e64c2e1657787446d7a",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": null,
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 0.0,
+                  "width": 0.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXDecrementArrow",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "7f2dbb272e1a03629e40",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": {
+                "height": 276,
+                "width": 15,
+                "x": 1615,
+                "y": 703
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 703.0
+                },
+                "AXSize": {
+                  "height": 276.0,
+                  "width": 15.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXIncrementPage",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "bc0feb2dc71e8310695e",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": {
+                "height": 93,
+                "width": 15,
+                "x": 1615,
+                "y": 179
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 93.0,
+                  "width": 15.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXDecrementPage",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "f0d5df6e66a68d94da16",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            }
+          ],
+          "name": null,
+          "parent": "3db748f7ec552381da13",
+          "platform": "macos",
+          "platform_data": {
+            "AXEnabled": true,
+            "AXFocused": false,
+            "AXPosition": {
+              "x": 1614.0,
+              "y": 178.0
+            },
+            "AXSize": {
+              "height": 802.0,
+              "width": 17.0
+            },
+            "AXValue": 0.25,
+            "actions": [
+              "focus"
+            ],
+            "ax_role": "AXScrollBar",
+            "description": null,
+            "native_stable_id": null,
+            "numeric_value": 0.25
+          },
+          "ref": "4cff37f875cc76fd7ede",
+          "role": "scroll_bar",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": "0.25"
+        },
+        "before": {
+          "actions": [
+            "focus",
+            "scroll"
+          ],
+          "bounds": {
+            "height": 802,
+            "width": 17,
+            "x": 1614,
+            "y": 178
+          },
+          "children": [
+            {
+              "actions": [],
+              "bounds": {
+                "height": 430,
+                "width": 15,
+                "x": 1615,
+                "y": 181
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 181.0
+                },
+                "AXSize": {
+                  "height": 430.0,
+                  "width": 15.0
+                },
+                "AXValue": 0.0,
+                "actions": [],
+                "ax_role": "AXValueIndicator",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "f791a6265c796d1e971a",
+              "role": "scroll_thumb",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": false,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": "0"
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": null,
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 0.0,
+                  "width": 0.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXIncrementArrow",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "7e64c2e1657787446d7a",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": null,
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 0.0,
+                  "width": 0.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXDecrementArrow",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "7f2dbb272e1a03629e40",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": {
+                "height": 367,
+                "width": 15,
+                "x": 1615,
+                "y": 612
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 612.0
+                },
+                "AXSize": {
+                  "height": 367.0,
+                  "width": 15.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXIncrementPage",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "bc0feb2dc71e8310695e",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": {
+                "height": 2,
+                "width": 15,
+                "x": 1615,
+                "y": 179
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 2.0,
+                  "width": 15.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXDecrementPage",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "f0d5df6e66a68d94da16",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            }
+          ],
+          "name": null,
+          "parent": "3db748f7ec552381da13",
+          "platform": "macos",
+          "platform_data": {
+            "AXEnabled": true,
+            "AXFocused": false,
+            "AXPosition": {
+              "x": 1614.0,
+              "y": 178.0
+            },
+            "AXSize": {
+              "height": 802.0,
+              "width": 17.0
+            },
+            "AXValue": 0.0,
+            "actions": [
+              "focus"
+            ],
+            "ax_role": "AXScrollBar",
+            "description": null,
+            "native_stable_id": null,
+            "numeric_value": 0.0
+          },
+          "ref": "4cff37f875cc76fd7ede",
+          "role": "scroll_bar",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": "0"
+        },
+        "scroll": {
+          "after_position": 0.25,
+          "amount": 0.25,
+          "axis": "y",
+          "bar_ref": "4cff37f875cc76fd7ede",
+          "before_position": 0.0,
+          "content_nodes_moved": 81,
+          "direction": "down",
+          "reason": "scroll_position_changed",
+          "requested_position": 0.25,
+          "scope_ref": "3db748f7ec552381da13"
+        },
+        "target_ref": "4cff37f875cc76fd7ede",
+        "tree_changed": true,
+        "verification": "confirmed"
+      },
+      "up": {
+        "action": "scroll",
+        "after": {
+          "actions": [
+            "focus",
+            "scroll"
+          ],
+          "bounds": {
+            "height": 802,
+            "width": 17,
+            "x": 1614,
+            "y": 178
+          },
+          "children": [
+            {
+              "actions": [],
+              "bounds": {
+                "height": 430,
+                "width": 15,
+                "x": 1615,
+                "y": 181
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 181.0
+                },
+                "AXSize": {
+                  "height": 430.0,
+                  "width": 15.0
+                },
+                "AXValue": 0.0,
+                "actions": [],
+                "ax_role": "AXValueIndicator",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "f791a6265c796d1e971a",
+              "role": "scroll_thumb",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": false,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": "0"
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": null,
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 0.0,
+                  "width": 0.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXIncrementArrow",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "7e64c2e1657787446d7a",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": null,
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 0.0,
+                  "width": 0.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXDecrementArrow",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "7f2dbb272e1a03629e40",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": {
+                "height": 367,
+                "width": 15,
+                "x": 1615,
+                "y": 612
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 612.0
+                },
+                "AXSize": {
+                  "height": 367.0,
+                  "width": 15.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXIncrementPage",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "bc0feb2dc71e8310695e",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": {
+                "height": 2,
+                "width": 15,
+                "x": 1615,
+                "y": 179
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 2.0,
+                  "width": 15.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXDecrementPage",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "f0d5df6e66a68d94da16",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            }
+          ],
+          "name": null,
+          "parent": "3db748f7ec552381da13",
+          "platform": "macos",
+          "platform_data": {
+            "AXEnabled": true,
+            "AXFocused": false,
+            "AXPosition": {
+              "x": 1614.0,
+              "y": 178.0
+            },
+            "AXSize": {
+              "height": 802.0,
+              "width": 17.0
+            },
+            "AXValue": 0.0,
+            "actions": [
+              "focus"
+            ],
+            "ax_role": "AXScrollBar",
+            "description": null,
+            "native_stable_id": null,
+            "numeric_value": 0.0
+          },
+          "ref": "4cff37f875cc76fd7ede",
+          "role": "scroll_bar",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": "0"
+        },
+        "before": {
+          "actions": [
+            "focus",
+            "scroll"
+          ],
+          "bounds": {
+            "height": 802,
+            "width": 17,
+            "x": 1614,
+            "y": 178
+          },
+          "children": [
+            {
+              "actions": [],
+              "bounds": {
+                "height": 430,
+                "width": 15,
+                "x": 1615,
+                "y": 272
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 272.0
+                },
+                "AXSize": {
+                  "height": 430.0,
+                  "width": 15.0
+                },
+                "AXValue": 0.25,
+                "actions": [],
+                "ax_role": "AXValueIndicator",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "f791a6265c796d1e971a",
+              "role": "scroll_thumb",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": false,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": "0.25"
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": null,
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 0.0,
+                  "width": 0.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXIncrementArrow",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "7e64c2e1657787446d7a",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": null,
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 0.0,
+                  "width": 0.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXDecrementArrow",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "7f2dbb272e1a03629e40",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": {
+                "height": 276,
+                "width": 15,
+                "x": 1615,
+                "y": 703
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 703.0
+                },
+                "AXSize": {
+                  "height": 276.0,
+                  "width": 15.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXIncrementPage",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "bc0feb2dc71e8310695e",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": {
+                "height": 93,
+                "width": 15,
+                "x": 1615,
+                "y": 179
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 93.0,
+                  "width": 15.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXDecrementPage",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "f0d5df6e66a68d94da16",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            }
+          ],
+          "name": null,
+          "parent": "3db748f7ec552381da13",
+          "platform": "macos",
+          "platform_data": {
+            "AXEnabled": true,
+            "AXFocused": false,
+            "AXPosition": {
+              "x": 1614.0,
+              "y": 178.0
+            },
+            "AXSize": {
+              "height": 802.0,
+              "width": 17.0
+            },
+            "AXValue": 0.25,
+            "actions": [
+              "focus"
+            ],
+            "ax_role": "AXScrollBar",
+            "description": null,
+            "native_stable_id": null,
+            "numeric_value": 0.25
+          },
+          "ref": "4cff37f875cc76fd7ede",
+          "role": "scroll_bar",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": "0.25"
+        },
+        "scroll": {
+          "after_position": 0.0,
+          "amount": 0.25,
+          "axis": "y",
+          "bar_ref": "4cff37f875cc76fd7ede",
+          "before_position": 0.25,
+          "content_nodes_moved": 81,
+          "direction": "up",
+          "reason": "scroll_position_changed",
+          "requested_position": 0.0,
+          "scope_ref": "3db748f7ec552381da13"
+        },
+        "target_ref": "4cff37f875cc76fd7ede",
+        "tree_changed": true,
+        "verification": "confirmed"
+      }
+    },
+    {
+      "run": 3,
+      "down": {
+        "action": "scroll",
+        "after": {
+          "actions": [
+            "focus",
+            "scroll"
+          ],
+          "bounds": {
+            "height": 802,
+            "width": 17,
+            "x": 1614,
+            "y": 178
+          },
+          "children": [
+            {
+              "actions": [],
+              "bounds": {
+                "height": 430,
+                "width": 15,
+                "x": 1615,
+                "y": 272
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 272.0
+                },
+                "AXSize": {
+                  "height": 430.0,
+                  "width": 15.0
+                },
+                "AXValue": 0.25,
+                "actions": [],
+                "ax_role": "AXValueIndicator",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "f791a6265c796d1e971a",
+              "role": "scroll_thumb",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": false,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": "0.25"
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": null,
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 0.0,
+                  "width": 0.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXIncrementArrow",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "7e64c2e1657787446d7a",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": null,
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 0.0,
+                  "width": 0.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXDecrementArrow",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "7f2dbb272e1a03629e40",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": {
+                "height": 276,
+                "width": 15,
+                "x": 1615,
+                "y": 703
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 703.0
+                },
+                "AXSize": {
+                  "height": 276.0,
+                  "width": 15.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXIncrementPage",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "bc0feb2dc71e8310695e",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": {
+                "height": 93,
+                "width": 15,
+                "x": 1615,
+                "y": 179
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 93.0,
+                  "width": 15.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXDecrementPage",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "f0d5df6e66a68d94da16",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            }
+          ],
+          "name": null,
+          "parent": "3db748f7ec552381da13",
+          "platform": "macos",
+          "platform_data": {
+            "AXEnabled": true,
+            "AXFocused": false,
+            "AXPosition": {
+              "x": 1614.0,
+              "y": 178.0
+            },
+            "AXSize": {
+              "height": 802.0,
+              "width": 17.0
+            },
+            "AXValue": 0.25,
+            "actions": [
+              "focus"
+            ],
+            "ax_role": "AXScrollBar",
+            "description": null,
+            "native_stable_id": null,
+            "numeric_value": 0.25
+          },
+          "ref": "4cff37f875cc76fd7ede",
+          "role": "scroll_bar",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": "0.25"
+        },
+        "before": {
+          "actions": [
+            "focus",
+            "scroll"
+          ],
+          "bounds": {
+            "height": 802,
+            "width": 17,
+            "x": 1614,
+            "y": 178
+          },
+          "children": [
+            {
+              "actions": [],
+              "bounds": {
+                "height": 430,
+                "width": 15,
+                "x": 1615,
+                "y": 181
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 181.0
+                },
+                "AXSize": {
+                  "height": 430.0,
+                  "width": 15.0
+                },
+                "AXValue": 0.0,
+                "actions": [],
+                "ax_role": "AXValueIndicator",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "f791a6265c796d1e971a",
+              "role": "scroll_thumb",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": false,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": "0"
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": null,
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 0.0,
+                  "width": 0.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXIncrementArrow",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "7e64c2e1657787446d7a",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": null,
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 0.0,
+                  "width": 0.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXDecrementArrow",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "7f2dbb272e1a03629e40",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": {
+                "height": 367,
+                "width": 15,
+                "x": 1615,
+                "y": 612
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 612.0
+                },
+                "AXSize": {
+                  "height": 367.0,
+                  "width": 15.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXIncrementPage",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "bc0feb2dc71e8310695e",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": {
+                "height": 2,
+                "width": 15,
+                "x": 1615,
+                "y": 179
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 2.0,
+                  "width": 15.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXDecrementPage",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "f0d5df6e66a68d94da16",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            }
+          ],
+          "name": null,
+          "parent": "3db748f7ec552381da13",
+          "platform": "macos",
+          "platform_data": {
+            "AXEnabled": true,
+            "AXFocused": false,
+            "AXPosition": {
+              "x": 1614.0,
+              "y": 178.0
+            },
+            "AXSize": {
+              "height": 802.0,
+              "width": 17.0
+            },
+            "AXValue": 0.0,
+            "actions": [
+              "focus"
+            ],
+            "ax_role": "AXScrollBar",
+            "description": null,
+            "native_stable_id": null,
+            "numeric_value": 0.0
+          },
+          "ref": "4cff37f875cc76fd7ede",
+          "role": "scroll_bar",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": "0"
+        },
+        "scroll": {
+          "after_position": 0.25,
+          "amount": 0.25,
+          "axis": "y",
+          "bar_ref": "4cff37f875cc76fd7ede",
+          "before_position": 0.0,
+          "content_nodes_moved": 81,
+          "direction": "down",
+          "reason": "scroll_position_changed",
+          "requested_position": 0.25,
+          "scope_ref": "3db748f7ec552381da13"
+        },
+        "target_ref": "4cff37f875cc76fd7ede",
+        "tree_changed": true,
+        "verification": "confirmed"
+      },
+      "up": {
+        "action": "scroll",
+        "after": {
+          "actions": [
+            "focus",
+            "scroll"
+          ],
+          "bounds": {
+            "height": 802,
+            "width": 17,
+            "x": 1614,
+            "y": 178
+          },
+          "children": [
+            {
+              "actions": [],
+              "bounds": {
+                "height": 430,
+                "width": 15,
+                "x": 1615,
+                "y": 181
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 181.0
+                },
+                "AXSize": {
+                  "height": 430.0,
+                  "width": 15.0
+                },
+                "AXValue": 0.0,
+                "actions": [],
+                "ax_role": "AXValueIndicator",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "f791a6265c796d1e971a",
+              "role": "scroll_thumb",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": false,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": "0"
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": null,
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 0.0,
+                  "width": 0.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXIncrementArrow",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "7e64c2e1657787446d7a",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": null,
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 0.0,
+                  "width": 0.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXDecrementArrow",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "7f2dbb272e1a03629e40",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": {
+                "height": 367,
+                "width": 15,
+                "x": 1615,
+                "y": 612
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 612.0
+                },
+                "AXSize": {
+                  "height": 367.0,
+                  "width": 15.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXIncrementPage",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "bc0feb2dc71e8310695e",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": {
+                "height": 2,
+                "width": 15,
+                "x": 1615,
+                "y": 179
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 2.0,
+                  "width": 15.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXDecrementPage",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "f0d5df6e66a68d94da16",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            }
+          ],
+          "name": null,
+          "parent": "3db748f7ec552381da13",
+          "platform": "macos",
+          "platform_data": {
+            "AXEnabled": true,
+            "AXFocused": false,
+            "AXPosition": {
+              "x": 1614.0,
+              "y": 178.0
+            },
+            "AXSize": {
+              "height": 802.0,
+              "width": 17.0
+            },
+            "AXValue": 0.0,
+            "actions": [
+              "focus"
+            ],
+            "ax_role": "AXScrollBar",
+            "description": null,
+            "native_stable_id": null,
+            "numeric_value": 0.0
+          },
+          "ref": "4cff37f875cc76fd7ede",
+          "role": "scroll_bar",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": "0"
+        },
+        "before": {
+          "actions": [
+            "focus",
+            "scroll"
+          ],
+          "bounds": {
+            "height": 802,
+            "width": 17,
+            "x": 1614,
+            "y": 178
+          },
+          "children": [
+            {
+              "actions": [],
+              "bounds": {
+                "height": 430,
+                "width": 15,
+                "x": 1615,
+                "y": 272
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 272.0
+                },
+                "AXSize": {
+                  "height": 430.0,
+                  "width": 15.0
+                },
+                "AXValue": 0.25,
+                "actions": [],
+                "ax_role": "AXValueIndicator",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "f791a6265c796d1e971a",
+              "role": "scroll_thumb",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": false,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": "0.25"
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": null,
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 0.0,
+                  "width": 0.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXIncrementArrow",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "7e64c2e1657787446d7a",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": null,
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 0.0,
+                  "width": 0.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXDecrementArrow",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "7f2dbb272e1a03629e40",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": {
+                "height": 276,
+                "width": 15,
+                "x": 1615,
+                "y": 703
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 703.0
+                },
+                "AXSize": {
+                  "height": 276.0,
+                  "width": 15.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXIncrementPage",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "bc0feb2dc71e8310695e",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            },
+            {
+              "actions": [
+                "click"
+              ],
+              "bounds": {
+                "height": 93,
+                "width": 15,
+                "x": 1615,
+                "y": 179
+              },
+              "children": [],
+              "name": null,
+              "parent": "4cff37f875cc76fd7ede",
+              "platform": "macos",
+              "platform_data": {
+                "AXPosition": {
+                  "x": 1615.0,
+                  "y": 179.0
+                },
+                "AXSize": {
+                  "height": 93.0,
+                  "width": 15.0
+                },
+                "actions": [
+                  "press"
+                ],
+                "ax_role": "AXButton",
+                "ax_subrole": "AXDecrementPage",
+                "description": null,
+                "native_stable_id": null
+              },
+              "ref": "f0d5df6e66a68d94da16",
+              "role": "button",
+              "state": {
+                "active": false,
+                "checked": null,
+                "editable": false,
+                "enabled": true,
+                "expanded": null,
+                "focusable": true,
+                "focused": false,
+                "fullscreen": null,
+                "maximized": null,
+                "minimized": null,
+                "selected": false,
+                "visible": true
+              },
+              "value": null
+            }
+          ],
+          "name": null,
+          "parent": "3db748f7ec552381da13",
+          "platform": "macos",
+          "platform_data": {
+            "AXEnabled": true,
+            "AXFocused": false,
+            "AXPosition": {
+              "x": 1614.0,
+              "y": 178.0
+            },
+            "AXSize": {
+              "height": 802.0,
+              "width": 17.0
+            },
+            "AXValue": 0.25,
+            "actions": [
+              "focus"
+            ],
+            "ax_role": "AXScrollBar",
+            "description": null,
+            "native_stable_id": null,
+            "numeric_value": 0.25
+          },
+          "ref": "4cff37f875cc76fd7ede",
+          "role": "scroll_bar",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": "0.25"
+        },
+        "scroll": {
+          "after_position": 0.0,
+          "amount": 0.25,
+          "axis": "y",
+          "bar_ref": "4cff37f875cc76fd7ede",
+          "before_position": 0.25,
+          "content_nodes_moved": 81,
+          "direction": "up",
+          "reason": "scroll_position_changed",
+          "requested_position": 0.0,
+          "scope_ref": "3db748f7ec552381da13"
+        },
+        "target_ref": "4cff37f875cc76fd7ede",
+        "tree_changed": true,
+        "verification": "confirmed"
+      }
+    }
+  ],
+  "boundary": {
+    "action": "scroll",
+    "after": {
+      "actions": [
+        "focus",
+        "scroll"
+      ],
+      "bounds": {
+        "height": 802,
+        "width": 17,
+        "x": 1614,
+        "y": 178
+      },
+      "children": [
+        {
+          "actions": [],
+          "bounds": {
+            "height": 430,
+            "width": 15,
+            "x": 1615,
+            "y": 181
+          },
+          "children": [],
+          "name": null,
+          "parent": "4cff37f875cc76fd7ede",
+          "platform": "macos",
+          "platform_data": {
+            "AXPosition": {
+              "x": 1615.0,
+              "y": 181.0
+            },
+            "AXSize": {
+              "height": 430.0,
+              "width": 15.0
+            },
+            "AXValue": 0.0,
+            "actions": [],
+            "ax_role": "AXValueIndicator",
+            "description": null,
+            "native_stable_id": null
+          },
+          "ref": "f791a6265c796d1e971a",
+          "role": "scroll_thumb",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": false,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": "0"
+        },
+        {
+          "actions": [
+            "click"
+          ],
+          "bounds": null,
+          "children": [],
+          "name": null,
+          "parent": "4cff37f875cc76fd7ede",
+          "platform": "macos",
+          "platform_data": {
+            "AXPosition": {
+              "x": 1615.0,
+              "y": 179.0
+            },
+            "AXSize": {
+              "height": 0.0,
+              "width": 0.0
+            },
+            "actions": [
+              "press"
+            ],
+            "ax_role": "AXButton",
+            "ax_subrole": "AXIncrementArrow",
+            "description": null,
+            "native_stable_id": null
+          },
+          "ref": "7e64c2e1657787446d7a",
+          "role": "button",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": null
+        },
+        {
+          "actions": [
+            "click"
+          ],
+          "bounds": null,
+          "children": [],
+          "name": null,
+          "parent": "4cff37f875cc76fd7ede",
+          "platform": "macos",
+          "platform_data": {
+            "AXPosition": {
+              "x": 1615.0,
+              "y": 179.0
+            },
+            "AXSize": {
+              "height": 0.0,
+              "width": 0.0
+            },
+            "actions": [
+              "press"
+            ],
+            "ax_role": "AXButton",
+            "ax_subrole": "AXDecrementArrow",
+            "description": null,
+            "native_stable_id": null
+          },
+          "ref": "7f2dbb272e1a03629e40",
+          "role": "button",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": null
+        },
+        {
+          "actions": [
+            "click"
+          ],
+          "bounds": {
+            "height": 367,
+            "width": 15,
+            "x": 1615,
+            "y": 612
+          },
+          "children": [],
+          "name": null,
+          "parent": "4cff37f875cc76fd7ede",
+          "platform": "macos",
+          "platform_data": {
+            "AXPosition": {
+              "x": 1615.0,
+              "y": 612.0
+            },
+            "AXSize": {
+              "height": 367.0,
+              "width": 15.0
+            },
+            "actions": [
+              "press"
+            ],
+            "ax_role": "AXButton",
+            "ax_subrole": "AXIncrementPage",
+            "description": null,
+            "native_stable_id": null
+          },
+          "ref": "bc0feb2dc71e8310695e",
+          "role": "button",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": null
+        },
+        {
+          "actions": [
+            "click"
+          ],
+          "bounds": {
+            "height": 2,
+            "width": 15,
+            "x": 1615,
+            "y": 179
+          },
+          "children": [],
+          "name": null,
+          "parent": "4cff37f875cc76fd7ede",
+          "platform": "macos",
+          "platform_data": {
+            "AXPosition": {
+              "x": 1615.0,
+              "y": 179.0
+            },
+            "AXSize": {
+              "height": 2.0,
+              "width": 15.0
+            },
+            "actions": [
+              "press"
+            ],
+            "ax_role": "AXButton",
+            "ax_subrole": "AXDecrementPage",
+            "description": null,
+            "native_stable_id": null
+          },
+          "ref": "f0d5df6e66a68d94da16",
+          "role": "button",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": null
+        }
+      ],
+      "name": null,
+      "parent": "3db748f7ec552381da13",
+      "platform": "macos",
+      "platform_data": {
+        "AXEnabled": true,
+        "AXFocused": false,
+        "AXPosition": {
+          "x": 1614.0,
+          "y": 178.0
+        },
+        "AXSize": {
+          "height": 802.0,
+          "width": 17.0
+        },
+        "AXValue": 0.0,
+        "actions": [
+          "focus"
+        ],
+        "ax_role": "AXScrollBar",
+        "description": null,
+        "native_stable_id": null,
+        "numeric_value": 0.0
+      },
+      "ref": "4cff37f875cc76fd7ede",
+      "role": "scroll_bar",
+      "state": {
+        "active": false,
+        "checked": null,
+        "editable": false,
+        "enabled": true,
+        "expanded": null,
+        "focusable": true,
+        "focused": false,
+        "fullscreen": null,
+        "maximized": null,
+        "minimized": null,
+        "selected": false,
+        "visible": true
+      },
+      "value": "0"
+    },
+    "before": {
+      "actions": [
+        "focus",
+        "scroll"
+      ],
+      "bounds": {
+        "height": 802,
+        "width": 17,
+        "x": 1614,
+        "y": 178
+      },
+      "children": [
+        {
+          "actions": [],
+          "bounds": {
+            "height": 430,
+            "width": 15,
+            "x": 1615,
+            "y": 181
+          },
+          "children": [],
+          "name": null,
+          "parent": "4cff37f875cc76fd7ede",
+          "platform": "macos",
+          "platform_data": {
+            "AXPosition": {
+              "x": 1615.0,
+              "y": 181.0
+            },
+            "AXSize": {
+              "height": 430.0,
+              "width": 15.0
+            },
+            "AXValue": 0.0,
+            "actions": [],
+            "ax_role": "AXValueIndicator",
+            "description": null,
+            "native_stable_id": null
+          },
+          "ref": "f791a6265c796d1e971a",
+          "role": "scroll_thumb",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": false,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": "0"
+        },
+        {
+          "actions": [
+            "click"
+          ],
+          "bounds": null,
+          "children": [],
+          "name": null,
+          "parent": "4cff37f875cc76fd7ede",
+          "platform": "macos",
+          "platform_data": {
+            "AXPosition": {
+              "x": 1615.0,
+              "y": 179.0
+            },
+            "AXSize": {
+              "height": 0.0,
+              "width": 0.0
+            },
+            "actions": [
+              "press"
+            ],
+            "ax_role": "AXButton",
+            "ax_subrole": "AXIncrementArrow",
+            "description": null,
+            "native_stable_id": null
+          },
+          "ref": "7e64c2e1657787446d7a",
+          "role": "button",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": null
+        },
+        {
+          "actions": [
+            "click"
+          ],
+          "bounds": null,
+          "children": [],
+          "name": null,
+          "parent": "4cff37f875cc76fd7ede",
+          "platform": "macos",
+          "platform_data": {
+            "AXPosition": {
+              "x": 1615.0,
+              "y": 179.0
+            },
+            "AXSize": {
+              "height": 0.0,
+              "width": 0.0
+            },
+            "actions": [
+              "press"
+            ],
+            "ax_role": "AXButton",
+            "ax_subrole": "AXDecrementArrow",
+            "description": null,
+            "native_stable_id": null
+          },
+          "ref": "7f2dbb272e1a03629e40",
+          "role": "button",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": null
+        },
+        {
+          "actions": [
+            "click"
+          ],
+          "bounds": {
+            "height": 367,
+            "width": 15,
+            "x": 1615,
+            "y": 612
+          },
+          "children": [],
+          "name": null,
+          "parent": "4cff37f875cc76fd7ede",
+          "platform": "macos",
+          "platform_data": {
+            "AXPosition": {
+              "x": 1615.0,
+              "y": 612.0
+            },
+            "AXSize": {
+              "height": 367.0,
+              "width": 15.0
+            },
+            "actions": [
+              "press"
+            ],
+            "ax_role": "AXButton",
+            "ax_subrole": "AXIncrementPage",
+            "description": null,
+            "native_stable_id": null
+          },
+          "ref": "bc0feb2dc71e8310695e",
+          "role": "button",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": null
+        },
+        {
+          "actions": [
+            "click"
+          ],
+          "bounds": {
+            "height": 2,
+            "width": 15,
+            "x": 1615,
+            "y": 179
+          },
+          "children": [],
+          "name": null,
+          "parent": "4cff37f875cc76fd7ede",
+          "platform": "macos",
+          "platform_data": {
+            "AXPosition": {
+              "x": 1615.0,
+              "y": 179.0
+            },
+            "AXSize": {
+              "height": 2.0,
+              "width": 15.0
+            },
+            "actions": [
+              "press"
+            ],
+            "ax_role": "AXButton",
+            "ax_subrole": "AXDecrementPage",
+            "description": null,
+            "native_stable_id": null
+          },
+          "ref": "f0d5df6e66a68d94da16",
+          "role": "button",
+          "state": {
+            "active": false,
+            "checked": null,
+            "editable": false,
+            "enabled": true,
+            "expanded": null,
+            "focusable": true,
+            "focused": false,
+            "fullscreen": null,
+            "maximized": null,
+            "minimized": null,
+            "selected": false,
+            "visible": true
+          },
+          "value": null
+        }
+      ],
+      "name": null,
+      "parent": "3db748f7ec552381da13",
+      "platform": "macos",
+      "platform_data": {
+        "AXEnabled": true,
+        "AXFocused": false,
+        "AXPosition": {
+          "x": 1614.0,
+          "y": 178.0
+        },
+        "AXSize": {
+          "height": 802.0,
+          "width": 17.0
+        },
+        "AXValue": 0.0,
+        "actions": [
+          "focus"
+        ],
+        "ax_role": "AXScrollBar",
+        "description": null,
+        "native_stable_id": null,
+        "numeric_value": 0.0
+      },
+      "ref": "4cff37f875cc76fd7ede",
+      "role": "scroll_bar",
+      "state": {
+        "active": false,
+        "checked": null,
+        "editable": false,
+        "enabled": true,
+        "expanded": null,
+        "focusable": true,
+        "focused": false,
+        "fullscreen": null,
+        "maximized": null,
+        "minimized": null,
+        "selected": false,
+        "visible": true
+      },
+      "value": "0"
+    },
+    "scroll": {
+      "after_position": 0.0,
+      "amount": 0.25,
+      "axis": "y",
+      "bar_ref": "4cff37f875cc76fd7ede",
+      "before_position": 0.0,
+      "content_nodes_moved": 0,
+      "direction": "up",
+      "reason": "at_boundary",
+      "requested_position": 0.0,
+      "scope_ref": "3db748f7ec552381da13"
+    },
+    "target_ref": "4cff37f875cc76fd7ede",
+    "tree_changed": false,
+    "verification": "unconfirmed"
+  }
+}

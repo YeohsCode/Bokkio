@@ -1,0 +1,56 @@
+{
+  "nodes": 49,
+  "roles": {
+    "application": 1,
+    "dialog": 1,
+    "button": 16,
+    "window": 1,
+    "split_group": 1,
+    "separator": 1,
+    "tab_group": 1,
+    "group": 12,
+    "web_area": 1,
+    "heading": 1,
+    "static_text": 4,
+    "text_field": 2,
+    "combo_box": 2,
+    "toolbar": 1,
+    "tab": 2,
+    "image": 2
+  },
+  "page_controls_found": [
+    {
+      "ref": "9b337231ee16c2d7d0f0",
+      "role": "text_field",
+      "name": "Test name",
+      "value": "Bokkio",
+      "actions": [
+        "click",
+        "focus",
+        "set_value"
+      ]
+    },
+    {
+      "ref": "f0b41017ccdd9f7a2ac8",
+      "role": "button",
+      "name": "Test submit",
+      "value": "",
+      "actions": [
+        "click",
+        "focus"
+      ]
+    },
+    {
+      "ref": "a3691f3baafa436c91d7",
+      "role": "combo_box",
+      "name": "Test option",
+      "value": "Apple",
+      "actions": [
+        "click",
+        "focus"
+      ]
+    }
+  ],
+  "refs_stable": true,
+  "two_reads_seconds": 1.037
+}

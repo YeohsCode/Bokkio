@@ -1,0 +1,32 @@
+{
+  "ref_strategy": "structural-v2",
+  "runs": [
+    {
+      "run": 1,
+      "before_nodes": 3110,
+      "after_nodes": 3110,
+      "removed_refs": 0,
+      "added_refs": 0,
+      "names_changed_same_ref": 8,
+      "bounds_changed_same_ref": 293
+    },
+    {
+      "run": 2,
+      "before_nodes": 3110,
+      "after_nodes": 3110,
+      "removed_refs": 0,
+      "added_refs": 0,
+      "names_changed_same_ref": 15,
+      "bounds_changed_same_ref": 295
+    },
+    {
+      "run": 3,
+      "before_nodes": 3110,
+      "after_nodes": 3110,
+      "removed_refs": 0,
+      "added_refs": 0,
+      "names_changed_same_ref": 13,
+      "bounds_changed_same_ref": 276
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "status": "failed",
+  "phase": "native_preflight",
+  "reason": "Invalid macOS Accessibility tree: application node nested below its root",
+  "tasks": 3,
+  "attempted": 0,
+  "passed": 0,
+  "foreground": [
+    "loginwindow"
+  ]
+}

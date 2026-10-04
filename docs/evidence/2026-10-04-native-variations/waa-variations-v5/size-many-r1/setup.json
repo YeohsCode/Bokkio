@@ -1,0 +1,31 @@
+{
+  "folders": {
+    "Pictures": "C:\\BokkioTasks\\waa-variations-v5\\size-many-r1\\world-a8093ece\\Pictures",
+    "Downloads": "C:\\BokkioTasks\\waa-variations-v5\\size-many-r1\\world-a8093ece\\Downloads",
+    "Desktop": "C:\\BokkioTasks\\waa-variations-v5\\size-many-r1\\world-a8093ece\\Desktop",
+    "Documents": "C:\\BokkioTasks\\waa-variations-v5\\size-many-r1\\world-a8093ece\\Documents"
+  },
+  "artifact": "C:\\BokkioTasks\\waa-variations-v5\\size-many-r1\\world-a8093ece\\Desktop\\report.txt",
+  "inputs": [
+    {
+      "name": "archive one.bin",
+      "bytes": 7340032,
+      "sha256": "e4e5749032a5163c45125eccf3e8598ba5ed840df442c97e1d5ad4ad84359605"
+    },
+    {
+      "name": "archive three.bin",
+      "bytes": 12582912,
+      "sha256": "cfadd44a103cbd6d5726fa07b27d7aad2f67ed3930ff96901c486a5beaf7e723"
+    },
+    {
+      "name": "archive two.bin",
+      "bytes": 9437184,
+      "sha256": "d2ee4703cd9698945ca7b9fe1689ea3095597eac1a0afd8dba00cac7894fdc43"
+    },
+    {
+      "name": "small.dat",
+      "bytes": 2097152,
+      "sha256": "5647f05ec18958947d32874eeb788fa396a05d0bab7c1b71f112ceb7e9b31eee"
+    }
+  ]
+}

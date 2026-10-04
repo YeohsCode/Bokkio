@@ -1,0 +1,8 @@
+{
+  "python_version": "3.12.13 (main, Aug  7 2026, 02:26:41) [MSC v.1944 64 bit (AMD64)]",
+  "python_platform": "win-amd64",
+  "host_arch": "ARM64",
+  "pointer_bits": 64,
+  "executable": "C:\\BokkioWorkspace\\Bokkio\\.venv\\Scripts\\python.exe",
+  "base_prefix": "C:\\BokkioWorkspace\\tools\\python\\cpython-3.12.13-windows-x86_64-none"
+}

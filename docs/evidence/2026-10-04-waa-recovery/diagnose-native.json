@@ -1,0 +1,382 @@
+[
+  {
+    "stage": "snapshot",
+    "seconds": 0.17907770800229628,
+    "nodes": 28
+  },
+  {
+    "stage": "snapshot",
+    "seconds": 0.10611116599466186,
+    "nodes": 28
+  },
+  {
+    "stage": "snapshot",
+    "seconds": 0.1080880410008831,
+    "nodes": 28
+  },
+  {
+    "stage": "snapshot",
+    "seconds": 0.10948958399967523,
+    "nodes": 28
+  },
+  {
+    "node": {
+      "ref": "e28e77aeb681e51b1792",
+      "name": "Name",
+      "role": "text_field",
+      "value": "Save",
+      "actions": [
+        "set_value",
+        "type"
+      ],
+      "platform_data": {
+        "automation_id": "System.ItemNameDisplay",
+        "uia_name": "Name",
+        "control_type_id": 50004,
+        "uia_value": "Save",
+        "class_name": "UIProperty",
+        "description": null,
+        "actions": [
+          "set_value"
+        ],
+        "native_stable_id": "System.ItemNameDisplay",
+        "value_source": "UIA.ValuePattern",
+        "value_scope_hwnd": 918440
+      },
+      "bounds": {
+        "x": 368,
+        "y": 357,
+        "width": 236,
+        "height": 19
+      }
+    },
+    "parent_name": "Save"
+  },
+  {
+    "node": {
+      "ref": "2ec7b4d005726942cad5",
+      "name": "Date modified",
+      "role": "text_field",
+      "value": "‎10/‎3/‎2026 ‏‎12:08 PM",
+      "actions": [
+        "focus"
+      ],
+      "platform_data": {
+        "automation_id": "System.DateModified",
+        "control_type_id": 50004,
+        "class_name": "UIProperty",
+        "uia_name": "Date modified",
+        "uia_value": "‎10/‎3/‎2026 ‏‎12:08 PM",
+        "description": null,
+        "actions": [
+          "set_value",
+          "focus"
+        ],
+        "native_stable_id": "System.DateModified",
+        "value_source": "UIA.ValuePattern",
+        "value_scope_hwnd": 918440
+      },
+      "bounds": {
+        "x": 604,
+        "y": 357,
+        "width": 144,
+        "height": 19
+      }
+    },
+    "parent_name": "Save"
+  },
+  {
+    "node": {
+      "ref": "cfc10ecbe76f2c58a225",
+      "name": "Type",
+      "role": "text_field",
+      "value": "Text Document",
+      "actions": [
+        "focus"
+      ],
+      "platform_data": {
+        "uia_value": "Text Document",
+        "uia_name": "Type",
+        "control_type_id": 50004,
+        "automation_id": "System.ItemTypeText",
+        "class_name": "UIProperty",
+        "description": null,
+        "actions": [
+          "set_value",
+          "focus"
+        ],
+        "native_stable_id": "System.ItemTypeText",
+        "value_source": "UIA.ValuePattern",
+        "value_scope_hwnd": 918440
+      },
+      "bounds": {
+        "x": 748,
+        "y": 357,
+        "width": 120,
+        "height": 19
+      }
+    },
+    "parent_name": "Save"
+  },
+  {
+    "node": {
+      "ref": "c8bd89515ef7b9435945",
+      "name": "Size",
+      "role": "text_field",
+      "value": "1 KB",
+      "actions": [
+        "focus"
+      ],
+      "platform_data": {
+        "uia_name": "Size",
+        "uia_value": "1 KB",
+        "control_type_id": 50004,
+        "class_name": "UIProperty",
+        "automation_id": "System.Size",
+        "description": null,
+        "actions": [
+          "set_value",
+          "focus"
+        ],
+        "native_stable_id": "System.Size",
+        "value_source": "UIA.ValuePattern",
+        "value_scope_hwnd": 918440
+      },
+      "bounds": {
+        "x": 868,
+        "y": 357,
+        "width": 80,
+        "height": 19
+      }
+    },
+    "parent_name": "Save"
+  },
+  {
+    "node": {
+      "ref": "dac8dbb72235567bcc2c",
+      "name": "File name:",
+      "role": "combo_box",
+      "value": "",
+      "actions": [
+        "collapse",
+        "expand",
+        "focus",
+        "set_value"
+      ],
+      "platform_data": {
+        "control_type_id": 50003,
+        "uia_name": "File name:",
+        "automation_id": "1148",
+        "class_name": "ComboBox",
+        "description": null,
+        "actions": [
+          "expand",
+          "collapse",
+          "set_value",
+          "focus"
+        ],
+        "native_stable_id": "hwnd:0x1003c4",
+        "value_source": "UIA.ValuePattern",
+        "value_scope_hwnd": 918440
+      },
+      "bounds": {
+        "x": 361,
+        "y": 606,
+        "width": 203,
+        "height": 24
+      }
+    },
+    "parent_name": null
+  },
+  {
+    "node": {
+      "ref": "f743dde639c67142b611",
+      "name": "File name:",
+      "role": "text_field",
+      "value": "",
+      "actions": [
+        "focus",
+        "set_value",
+        "type"
+      ],
+      "platform_data": {
+        "class_name": "Edit",
+        "automation_id": "1148",
+        "control_type_id": 50004,
+        "uia_name": "File name:",
+        "description": null,
+        "actions": [
+          "set_value",
+          "focus"
+        ],
+        "native_stable_id": "hwnd:0x1903da",
+        "value_source": "UIA.ValuePattern",
+        "value_scope_hwnd": 918440
+      },
+      "bounds": {
+        "x": 365,
+        "y": 611,
+        "width": 179,
+        "height": 15
+      }
+    },
+    "parent_name": "File name:"
+  },
+  {
+    "node": {
+      "ref": "beb4e9f8c7a3f6dd557e",
+      "name": "Files of type:",
+      "role": "combo_box",
+      "value": "Text Documents (*.txt)",
+      "actions": [
+        "collapse",
+        "expand",
+        "focus",
+        "set_value"
+      ],
+      "platform_data": {
+        "uia_value": "Text Documents (*.txt)",
+        "control_type_id": 50003,
+        "class_name": "ComboBox",
+        "uia_name": "Files of type:",
+        "automation_id": "1136",
+        "description": null,
+        "actions": [
+          "expand",
+          "collapse",
+          "set_value",
+          "focus"
+        ],
+        "native_stable_id": "hwnd:0x1503b8",
+        "value_source": "UIA.ValuePattern",
+        "value_scope_hwnd": 918440
+      },
+      "bounds": {
+        "x": 576,
+        "y": 606,
+        "width": 188,
+        "height": 23
+      }
+    },
+    "parent_name": "Open"
+  },
+  {
+    "node": {
+      "ref": "28d550605d15874fa5fa",
+      "name": "Encoding:",
+      "role": "combo_box",
+      "value": "Auto-Detect",
+      "actions": [
+        "collapse",
+        "expand",
+        "focus",
+        "set_value"
+      ],
+      "platform_data": {
+        "uia_value": "Auto-Detect",
+        "uia_name": "Encoding:",
+        "control_type_id": 50003,
+        "class_name": "ComboBox",
+        "description": null,
+        "actions": [
+          "expand",
+          "collapse",
+          "set_value",
+          "focus"
+        ],
+        "native_stable_id": "hwnd:0x1203d8",
+        "value_source": "UIA.ValuePattern",
+        "value_scope_hwnd": 918440
+      },
+      "bounds": {
+        "x": 414,
+        "y": 636,
+        "width": 150,
+        "height": 23
+      }
+    },
+    "parent_name": "Open"
+  },
+  {
+    "node": {
+      "ref": "b737bf2b471529901f02",
+      "name": "Search Box",
+      "role": "text_field",
+      "value": "",
+      "actions": [
+        "focus",
+        "set_value",
+        "type"
+      ],
+      "platform_data": {
+        "class_name": "SearchEditBox",
+        "uia_help_text": " Search round-3-7edd3c21",
+        "control_type_id": 50004,
+        "automation_id": "SearchEditBox",
+        "uia_name": "Search Box",
+        "description": " Search round-3-7edd3c21",
+        "actions": [
+          "set_value",
+          "focus"
+        ],
+        "native_stable_id": "SearchEditBox",
+        "value_source": "UIA.ValuePattern",
+        "value_scope_hwnd": 918440
+      },
+      "bounds": {
+        "x": 573,
+        "y": 256,
+        "width": 158,
+        "height": 15
+      }
+    },
+    "parent_name": " Search round-3-7edd3c21"
+  },
+  {
+    "node": {
+      "ref": "b003bb1c8ed75417a42e",
+      "name": "Text Editor",
+      "role": "text_area",
+      "value": "",
+      "actions": [
+        "focus",
+        "set_value",
+        "type"
+      ],
+      "platform_data": {
+        "control_type_id": 50030,
+        "uia_name": "Text Editor",
+        "automation_id": "15",
+        "class_name": "Edit",
+        "description": null,
+        "actions": [
+          "set_value",
+          "focus"
+        ],
+        "native_stable_id": "hwnd:0x1003b0",
+        "value_source": "UIA.ValuePattern",
+        "value_scope_hwnd": 2360198,
+        "scroll": {
+          "source": "UIA.ScrollPattern",
+          "x": {
+            "scrollable": false,
+            "position": 0.0,
+            "view_size": 1.0
+          },
+          "y": {
+            "scrollable": false,
+            "position": 0.0,
+            "view_size": 1.0
+          }
+        }
+      },
+      "bounds": {
+        "x": 164,
+        "y": 207,
+        "width": 752,
+        "height": 437
+      }
+    },
+    "parent_name": "Untitled - Notepad"
+  }
+]

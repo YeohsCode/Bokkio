@@ -1,0 +1,32 @@
+{
+  "scope": "native_requirement_change_development_run",
+  "selected_before_execution": true,
+  "versions": [
+    {
+      "case_insensitive": true,
+      "expected": "7"
+    },
+    {
+      "case_insensitive": false,
+      "expected": "5"
+    }
+  ],
+  "python": "3.12.13",
+  "max_actions": 40,
+  "max_replans": 3,
+  "max_phases": 8,
+  "planner_model": "openai/gpt-4.1",
+  "source_hashes": {
+    "bokkio.agent": "5527712dc58df813ea711da2b97df5991d33f19692b4133b775b5fdea698dd01",
+    "bokkio.planner": "9f5b61dd43d65af791620466ab979169b7f434439c36f6a81164d873c372b857",
+    "bokkio.decision": "df01936c45937bedf7a461dbd572b95d2533746666b7a9ccf34f1a2d025b54d0",
+    "bokkio.xa11y_backend": "4edaef19b0daebe183c39221d1a4371120e538671a05e5ca8344073e4a07b31b",
+    "bokkio.jev": "637bc696117c59439bf8944d10bf4c9c34a45b9499cb5aef36326ae4596c0a59",
+    "bokkio.windows_uia": "818144ff817f083fdf02a233caed8004fb206963e99d74375c91051a45418e2a"
+  },
+  "harness_hashes": {
+    "verify_p5_requirement_change.py": "85a4853ef6d05bb14b69e74e89a9cc78964d3f1792bdb26f13941e18a9514588",
+    "verify_waa_longchain.py": "02d718cd0d0250662127d4f36dc03de7f503d7e5224641f4703768c483e947b9",
+    "waa_variations.py": "072acd5be796a9af01e50be5682ff4892eca1d20df4fc615181f8c357379c72e"
+  }
+}

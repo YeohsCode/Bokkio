@@ -1,0 +1,6 @@
+{
+  "artifact_digests_checked": 21,
+  "source_text_digests_checked": 12,
+  "credential_pattern_scan": "passed",
+  "scope": "custom development fixtures; no official benchmark score"
+}

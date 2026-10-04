@@ -1,0 +1,66 @@
+{
+  "tasks": 2,
+  "attempted": 2,
+  "passed": 2,
+  "results": [
+    {
+      "case": "hidden_target_cross_app",
+      "status": "completed",
+      "actions": 4,
+      "replans": 0,
+      "independent_checks": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "passed": true,
+      "action_names": [
+        "Page",
+        "Go",
+        "Row 997",
+        "Text Editor"
+      ],
+      "elapsed_seconds": 50.108,
+      "call_seconds": {
+        "native.snapshot": 1.678981,
+        "native.windows": 0.219949,
+        "planner.plan": 38.143585,
+        "jev.ask": 8.166948,
+        "native.perform": 1.0885
+      }
+    },
+    {
+      "case": "next_page_target",
+      "status": "completed",
+      "actions": 2,
+      "replans": 0,
+      "independent_checks": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "passed": true,
+      "action_names": [
+        "Next",
+        "Row 37"
+      ],
+      "elapsed_seconds": 38.497,
+      "call_seconds": {
+        "native.snapshot": 0.898799,
+        "native.windows": 0.123799,
+        "planner.plan": 32.969363,
+        "jev.ask": 3.668865,
+        "native.perform": 0.587964
+      }
+    }
+  ]
+}

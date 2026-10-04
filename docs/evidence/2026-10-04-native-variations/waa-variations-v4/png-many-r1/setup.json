@@ -1,0 +1,71 @@
+{
+  "folders": {
+    "Pictures": "C:\\BokkioTasks\\waa-variations-v4\\png-many-r1\\world-2d0e4dbc\\Pictures",
+    "Downloads": "C:\\BokkioTasks\\waa-variations-v4\\png-many-r1\\world-2d0e4dbc\\Downloads",
+    "Desktop": "C:\\BokkioTasks\\waa-variations-v4\\png-many-r1\\world-2d0e4dbc\\Desktop",
+    "Documents": "C:\\BokkioTasks\\waa-variations-v4\\png-many-r1\\world-2d0e4dbc\\Documents"
+  },
+  "artifact": "C:\\BokkioTasks\\waa-variations-v4\\png-many-r1\\world-2d0e4dbc\\Pictures\\png_files.txt",
+  "inputs": [
+    {
+      "name": "notes.txt",
+      "bytes": 20,
+      "sha256": "f5e60ab9155a8aa18a6b7e4ef05daf0e815b7b54d922f7a42e7277a8fd289359"
+    },
+    {
+      "name": "other.jpg",
+      "bytes": 20,
+      "sha256": "f5e60ab9155a8aa18a6b7e4ef05daf0e815b7b54d922f7a42e7277a8fd289359"
+    },
+    {
+      "name": "picture 01.png",
+      "bytes": 20,
+      "sha256": "f5e60ab9155a8aa18a6b7e4ef05daf0e815b7b54d922f7a42e7277a8fd289359"
+    },
+    {
+      "name": "picture 02.png",
+      "bytes": 20,
+      "sha256": "f5e60ab9155a8aa18a6b7e4ef05daf0e815b7b54d922f7a42e7277a8fd289359"
+    },
+    {
+      "name": "picture 03.png",
+      "bytes": 20,
+      "sha256": "f5e60ab9155a8aa18a6b7e4ef05daf0e815b7b54d922f7a42e7277a8fd289359"
+    },
+    {
+      "name": "picture 04.png",
+      "bytes": 20,
+      "sha256": "f5e60ab9155a8aa18a6b7e4ef05daf0e815b7b54d922f7a42e7277a8fd289359"
+    },
+    {
+      "name": "picture 05.png",
+      "bytes": 20,
+      "sha256": "f5e60ab9155a8aa18a6b7e4ef05daf0e815b7b54d922f7a42e7277a8fd289359"
+    },
+    {
+      "name": "picture 06.png",
+      "bytes": 20,
+      "sha256": "f5e60ab9155a8aa18a6b7e4ef05daf0e815b7b54d922f7a42e7277a8fd289359"
+    },
+    {
+      "name": "picture 07.png",
+      "bytes": 20,
+      "sha256": "f5e60ab9155a8aa18a6b7e4ef05daf0e815b7b54d922f7a42e7277a8fd289359"
+    },
+    {
+      "name": "picture 08.png",
+      "bytes": 20,
+      "sha256": "f5e60ab9155a8aa18a6b7e4ef05daf0e815b7b54d922f7a42e7277a8fd289359"
+    },
+    {
+      "name": "picture 09.png",
+      "bytes": 20,
+      "sha256": "f5e60ab9155a8aa18a6b7e4ef05daf0e815b7b54d922f7a42e7277a8fd289359"
+    },
+    {
+      "name": "picture 10.png",
+      "bytes": 20,
+      "sha256": "f5e60ab9155a8aa18a6b7e4ef05daf0e815b7b54d922f7a42e7277a8fd289359"
+    }
+  ]
+}

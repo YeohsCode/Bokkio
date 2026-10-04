@@ -1,0 +1,14 @@
+{
+  "benchmark": "WindowsAgentArena",
+  "revision": "6d39ed88c545a0d40a7a02e39b928e278df7332b",
+  "selection_status": "proposed_before_execution",
+  "purpose": "Native UIA integration pilot after Windows P5 acceptance",
+  "task_count": 5,
+  "tasks": [
+    {"path": "src/win-arena-container/client/evaluation_examples_windows/examples/notepad/366de66e-cbae-4d72-b042-26390db2b145-WOS.json", "execution_status": "not_run"},
+    {"path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/2b0c0844-bd4f-42ba-a25e-afb4267d51e2-WOS.json", "execution_status": "not_run"},
+    {"path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/34a4fee9-e52e-4a4a-96d2-68d35091504a-WOS.json", "execution_status": "not_run"},
+    {"path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/b8ab0ae1-d2b4-4e6f-b609-df7d76b456d7-WOS.json", "execution_status": "not_run"},
+    {"path": "src/win-arena-container/client/evaluation_examples_windows/examples/settings/37e10fc4-b4c5-4b02-a65c-bfae8bc51d3f-wos.json", "execution_status": "not_run"}
+  ]
+}

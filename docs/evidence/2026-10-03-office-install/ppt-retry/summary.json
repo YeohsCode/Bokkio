@@ -1,0 +1,124 @@
+[
+  {
+    "app": "POWERPNT",
+    "installed": true,
+    "native_read": true,
+    "pid": 7308,
+    "windows": [
+      "Microsoft PowerPoint",
+      "Sign in to set up Office",
+      "Sign in to set up Office"
+    ],
+    "node_count": 73,
+    "roles": {
+      "application": 1,
+      "window": 2,
+      "dialog": 1,
+      "group": 25,
+      "image": 1,
+      "button": 11,
+      "static_text": 4,
+      "list_item": 12,
+      "link": 5,
+      "list": 2,
+      "scroll_bar": 2,
+      "text_field": 1,
+      "tab_group": 1,
+      "tab": 3,
+      "menu_bar": 1,
+      "menu_item": 1
+    },
+    "startup_controls": [
+      {
+        "role": "button",
+        "name": "Send a smile for feedback",
+        "actions": [
+          "click",
+          "focus"
+        ]
+      },
+      {
+        "role": "button",
+        "name": "Send a frown for feedback",
+        "actions": [
+          "click",
+          "focus"
+        ]
+      },
+      {
+        "role": "button",
+        "name": "Sign in or create account",
+        "actions": [
+          "click",
+          "focus"
+        ]
+      },
+      {
+        "role": "button",
+        "name": "Help",
+        "actions": [
+          "click"
+        ]
+      },
+      {
+        "role": "button",
+        "name": "Minimize",
+        "actions": [
+          "click"
+        ]
+      },
+      {
+        "role": "button",
+        "name": "Restore Down",
+        "actions": [
+          "click"
+        ]
+      },
+      {
+        "role": "button",
+        "name": "Close",
+        "actions": [
+          "click"
+        ]
+      },
+      {
+        "role": "button",
+        "name": "Hide or show region",
+        "actions": [
+          "click",
+          "focus"
+        ]
+      },
+      {
+        "role": "text_field",
+        "name": "Search for a file",
+        "actions": [
+          "focus",
+          "set_value",
+          "type"
+        ]
+      },
+      {
+        "role": "button",
+        "name": "Minimize",
+        "actions": [
+          "click"
+        ]
+      },
+      {
+        "role": "button",
+        "name": "Restore",
+        "actions": [
+          "click"
+        ]
+      },
+      {
+        "role": "button",
+        "name": "Close",
+        "actions": [
+          "click"
+        ]
+      }
+    ]
+  }
+]

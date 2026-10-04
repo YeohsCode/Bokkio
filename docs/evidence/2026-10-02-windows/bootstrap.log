@@ -1,0 +1,66 @@
+uv : Downloading cpython-3.12.13-windows-x86_64-none (download) (20.9MiB)
+At line:37 char:1
++ uv sync --group test --python cpython-3.12.13-windows-x86_64-none
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Downloading cpy...load) (20.9MiB):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+ Downloaded cpython-3.12.13-windows-x86_64-none (download)
+Using CPython 3.12.13
+Creating virtual environment at: .venv
+Resolved 13 packages in 3ms
+   Building bokkio @ file:///C:/BokkioWorkspace/Bokkio
+Downloading pygments (1.2MiB)
+Downloading xa11y (1.0MiB)
+ Downloaded pygments
+ Downloaded xa11y
+      Built bokkio @ file:///C:/BokkioWorkspace/Bokkio
+Prepared 8 packages in 17.78s
+Installed 8 packages in 38ms
+ + bokkio==0.1.0 (from file:///C:/BokkioWorkspace/Bokkio)
+ + colorama==0.4.6
+ + iniconfig==2.3.0
+ + packaging==26.3
+ + pluggy==1.6.0
+ + pygments==2.21.0
+ + pytest==9.1.1
+ + xa11y==0.15.0
+Windows-11-10.0.26100-SP0 ARM64 64 C:\BokkioWorkspace\Bokkio\.venv\Lib\site-packages\xa11y\__init__.py
+..................................                                       [100%]
+34 passed in 0.16s
+
+Welcome to .NET 8.0!
+---------------------
+SDK Version: 8.0.425
+
+----------------
+Installed an ASP.NET Core HTTPS development certificate.
+To trust the certificate, run 'dotnet dev-certs https --trust'
+Learn about HTTPS: https://aka.ms/dotnet-https
+
+----------------
+Write your first app: https://aka.ms/dotnet-hello-world
+Find out what's new: https://aka.ms/dotnet-whats-new
+Explore documentation: https://aka.ms/dotnet-docs
+Report issues and find source on GitHub: https://github.com/dotnet/core
+Use 'dotnet --help' to see available commands or visit: https://aka.ms/dotnet-cli
+--------------------------------------------------------------------------------------
+  Determining projects to restore...
+  Restored C:\BokkioWorkspace\Bokkio\vendor\xa11y\test-apps\winforms\xa11y-winforms-test-app.csproj (in 49 ms).
+  xa11y-winforms-test-app -> C:\BokkioWorkspace\Bokkio\vendor\xa11y\test-apps\winforms\bin\Release\net8.0-windows\xa11y-winforms-test-app.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:05.88
+  Determining projects to restore...
+  Restored C:\BokkioWorkspace\Bokkio\fixtures\windows-scale\windows-scale.csproj (in 35 ms).
+  windows-scale -> C:\BokkioWorkspace\Bokkio\fixtures\windows-scale\bin\Release\net8.0-windows\bokkio-scale-fixture.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.72
+Setup completed in C:\BokkioWorkspace\Bokkio. Open native matrix apps, then run scripts/verify_windows.py.

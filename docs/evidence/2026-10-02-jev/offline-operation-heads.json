@@ -1,0 +1,1032 @@
+{
+  "provider": "openrouter",
+  "execution": false,
+  "completed": 5,
+  "cases": 5,
+  "results": [
+    {
+      "id": "search",
+      "goal": "Set Search to \"Bokkio evaluation\"",
+      "decision": {
+        "action": "set_value",
+        "ref": "c531440f9cef5641e22e",
+        "value": "Bokkio evaluation",
+        "confidence": 0.75,
+        "snapshot_id": "39be456d0ad56aa7cfb0",
+        "direction": null,
+        "amount": null,
+        "window": "4e91c5846bfe4cc580ac"
+      },
+      "matched": true,
+      "usage": {
+        "input_tokens": 16023,
+        "output_tokens": 1237,
+        "cost": 0.000672966
+      },
+      "elapsed_seconds": 1.544186,
+      "model": "typesafe/jev-1.13-20260917",
+      "source": "openrouter",
+      "answers": {
+        "next": {
+          "type": "choice",
+          "choice": "set_value",
+          "probabilities": {
+            "set_value": 0.78,
+            "click": 0,
+            "type": 0,
+            "focus": 0.22,
+            "select": 0,
+            "done": 0,
+            "expand": 0,
+            "collapse": 0,
+            "scroll": 0
+          },
+          "confidence": 0.75
+        },
+        "goal_satisfied": {
+          "type": "noul",
+          "noul": 0.03
+        },
+        "click_target": {
+          "type": "choice",
+          "choice": "c6",
+          "probabilities": {
+            "c79": 0,
+            "c16": 0.02,
+            "c43": 0,
+            "c6": 0.75,
+            "c8": 0.14,
+            "c77": 0,
+            "c33": 0,
+            "c85": 0,
+            "c89": 0,
+            "c100": 0,
+            "c95": 0,
+            "c27": 0,
+            "c101": 0,
+            "c109": 0,
+            "c102": 0,
+            "c57": 0.01,
+            "c51": 0,
+            "c110": 0.01,
+            "c97": 0,
+            "c83": 0,
+            "c91": 0,
+            "c35": 0,
+            "c87": 0,
+            "c14": 0.060000000000000005,
+            "c73": 0,
+            "c71": 0,
+            "c53": 0,
+            "c37": 0,
+            "c75": 0,
+            "c41": 0,
+            "c21": 0,
+            "c111": 0,
+            "c39": 0,
+            "c25": 0,
+            "c69": 0,
+            "c96": 0,
+            "c63": 0,
+            "c61": 0,
+            "c59": 0.01,
+            "c67": 0,
+            "c47": 0,
+            "c45": 0,
+            "c65": 0,
+            "c49": 0,
+            "c23": 0,
+            "c81": 0,
+            "c55": 0
+          },
+          "confidence": 0.74
+        },
+        "collapse_target": {
+          "type": "choice",
+          "choice": "c106",
+          "probabilities": {
+            "c17": 0.14,
+            "c9": 0.42,
+            "c106": 0.44
+          },
+          "confidence": 0.16
+        },
+        "expand_target": {
+          "type": "choice",
+          "choice": "c10",
+          "probabilities": {
+            "c18": 0.22,
+            "c107": 0.34,
+            "c10": 0.44
+          },
+          "confidence": 0.16
+        },
+        "focus_target": {
+          "type": "choice",
+          "choice": "c2",
+          "probabilities": {
+            "c108": 0,
+            "c90": 0,
+            "c68": 0,
+            "c5": 0,
+            "c72": 0,
+            "c76": 0,
+            "c24": 0,
+            "c62": 0,
+            "c80": 0,
+            "c19": 0,
+            "c40": 0,
+            "c78": 0,
+            "c26": 0,
+            "c60": 0,
+            "c70": 0,
+            "c34": 0,
+            "c74": 0,
+            "c48": 0,
+            "c86": 0,
+            "c1": 0.03,
+            "c52": 0,
+            "c50": 0,
+            "c28": 0,
+            "c105": 0,
+            "c11": 0,
+            "c15": 0,
+            "c36": 0,
+            "c56": 0,
+            "c54": 0,
+            "c42": 0,
+            "c46": 0,
+            "c103": 0,
+            "c66": 0,
+            "c13": 0,
+            "c58": 0,
+            "c2": 0.97,
+            "c22": 0,
+            "c64": 0,
+            "c88": 0,
+            "c7": 0,
+            "c44": 0,
+            "c84": 0,
+            "c82": 0,
+            "c38": 0,
+            "c92": 0
+          },
+          "confidence": 0.96
+        },
+        "scroll_target": {
+          "type": "choice",
+          "choice": "c29",
+          "probabilities": {
+            "c29": 0.35000000000000003,
+            "c32": 0.01,
+            "c93": 0.13,
+            "c31": 0.01,
+            "c98": 0,
+            "c99": 0.02,
+            "c94": 0.24,
+            "c30": 0.24
+          },
+          "confidence": 0.25
+        },
+        "select_target": {
+          "type": "choice",
+          "choice": "c20",
+          "probabilities": {
+            "c20": 1
+          },
+          "confidence": 1
+        },
+        "set_value_target": {
+          "type": "choice",
+          "choice": "c3",
+          "probabilities": {
+            "c3": 1,
+            "c12": 0,
+            "c104": 0
+          },
+          "confidence": 1
+        },
+        "type_target": {
+          "type": "choice",
+          "choice": "c4",
+          "probabilities": {
+            "c4": 1
+          },
+          "confidence": 1
+        }
+      },
+      "question_options": {
+        "next": 9,
+        "goal_satisfied": 2,
+        "click_target": 47,
+        "collapse_target": 3,
+        "expand_target": 3,
+        "focus_target": 45,
+        "scroll_target": 8,
+        "select_target": 1,
+        "set_value_target": 3,
+        "type_target": 1
+      }
+    },
+    {
+      "id": "submit",
+      "goal": "Click Submit",
+      "decision": {
+        "action": "click",
+        "ref": "5900bc9f17c25cb6fa1f",
+        "value": null,
+        "confidence": 0.92,
+        "snapshot_id": "39be456d0ad56aa7cfb0",
+        "direction": null,
+        "amount": null,
+        "window": "4e91c5846bfe4cc580ac"
+      },
+      "matched": true,
+      "usage": {
+        "input_tokens": 15625,
+        "output_tokens": 1145,
+        "cost": 0.00065625
+      },
+      "elapsed_seconds": 3.145875,
+      "model": "typesafe/jev-1.13-20260917",
+      "source": "openrouter",
+      "answers": {
+        "next": {
+          "type": "choice",
+          "choice": "click",
+          "probabilities": {
+            "click": 0.9400000000000001,
+            "scroll": 0,
+            "expand": 0,
+            "focus": 0.06,
+            "done": 0,
+            "collapse": 0,
+            "select": 0
+          },
+          "confidence": 0.92
+        },
+        "goal_satisfied": {
+          "type": "noul",
+          "noul": 0.04
+        },
+        "click_target": {
+          "type": "choice",
+          "choice": "c4",
+          "probabilities": {
+            "c42": 0,
+            "c34": 0,
+            "c72": 0,
+            "c6": 0,
+            "c40": 0,
+            "c30": 0,
+            "c20": 0,
+            "c106": 0,
+            "c48": 0,
+            "c82": 0,
+            "c76": 0,
+            "c94": 0,
+            "c78": 0,
+            "c50": 0,
+            "c92": 0,
+            "c22": 0,
+            "c97": 0,
+            "c98": 0,
+            "c107": 0,
+            "c38": 0,
+            "c70": 0,
+            "c58": 0,
+            "c105": 0,
+            "c62": 0,
+            "c54": 0,
+            "c18": 0,
+            "c44": 0,
+            "c93": 0,
+            "c36": 0,
+            "c66": 0,
+            "c99": 0,
+            "c52": 0,
+            "c4": 1,
+            "c74": 0,
+            "c68": 0,
+            "c80": 0,
+            "c13": 0,
+            "c88": 0,
+            "c64": 0,
+            "c56": 0,
+            "c60": 0,
+            "c46": 0,
+            "c84": 0,
+            "c11": 0,
+            "c86": 0,
+            "c32": 0,
+            "c24": 0
+          },
+          "confidence": 1
+        },
+        "collapse_target": {
+          "type": "choice",
+          "choice": "c7",
+          "probabilities": {
+            "c14": 0.08,
+            "c102": 0.43,
+            "c7": 0.49
+          },
+          "confidence": 0.24
+        },
+        "expand_target": {
+          "type": "choice",
+          "choice": "c8",
+          "probabilities": {
+            "c103": 0.35,
+            "c8": 0.5,
+            "c15": 0.15
+          },
+          "confidence": 0.24
+        },
+        "focus_target": {
+          "type": "choice",
+          "choice": "c5",
+          "probabilities": {
+            "c51": 0,
+            "c3": 0,
+            "c100": 0,
+            "c1": 0.15,
+            "c39": 0,
+            "c35": 0,
+            "c85": 0,
+            "c65": 0,
+            "c41": 0,
+            "c104": 0,
+            "c10": 0,
+            "c67": 0,
+            "c57": 0,
+            "c16": 0,
+            "c53": 0,
+            "c45": 0,
+            "c2": 0.01,
+            "c43": 0,
+            "c19": 0,
+            "c25": 0,
+            "c81": 0,
+            "c83": 0,
+            "c33": 0,
+            "c101": 0,
+            "c73": 0,
+            "c59": 0,
+            "c23": 0,
+            "c12": 0,
+            "c77": 0,
+            "c55": 0,
+            "c87": 0,
+            "c71": 0,
+            "c61": 0,
+            "c47": 0,
+            "c69": 0,
+            "c21": 0,
+            "c79": 0,
+            "c49": 0,
+            "c89": 0,
+            "c63": 0,
+            "c5": 0.84,
+            "c9": 0,
+            "c37": 0,
+            "c31": 0,
+            "c75": 0
+          },
+          "confidence": 0.83
+        },
+        "scroll_target": {
+          "type": "choice",
+          "choice": "c91",
+          "probabilities": {
+            "c91": 0.38,
+            "c90": 0.08,
+            "c27": 0.29,
+            "c28": 0.01,
+            "c26": 0.21,
+            "c29": 0.01,
+            "c95": 0,
+            "c96": 0.02
+          },
+          "confidence": 0.3
+        },
+        "select_target": {
+          "type": "choice",
+          "choice": "c17",
+          "probabilities": {
+            "c17": 1
+          },
+          "confidence": 1
+        }
+      },
+      "question_options": {
+        "next": 7,
+        "goal_satisfied": 2,
+        "click_target": 47,
+        "collapse_target": 3,
+        "expand_target": 3,
+        "focus_target": 45,
+        "scroll_target": 8,
+        "select_target": 1
+      }
+    },
+    {
+      "id": "tree",
+      "goal": "Expand Parent in Folders",
+      "decision": {
+        "action": "expand",
+        "ref": "14f0415b56b44f27027d",
+        "value": null,
+        "confidence": 0.98,
+        "snapshot_id": "39be456d0ad56aa7cfb0",
+        "direction": null,
+        "amount": null,
+        "window": "4e91c5846bfe4cc580ac"
+      },
+      "matched": true,
+      "usage": {
+        "input_tokens": 15629,
+        "output_tokens": 1149,
+        "cost": 0.000656418
+      },
+      "elapsed_seconds": 1.604423,
+      "model": "typesafe/jev-1.13-20260917",
+      "source": "openrouter",
+      "answers": {
+        "next": {
+          "type": "choice",
+          "choice": "expand",
+          "probabilities": {
+            "select": 0,
+            "expand": 0.99,
+            "collapse": 0,
+            "click": 0,
+            "done": 0,
+            "focus": 0.01,
+            "scroll": 0
+          },
+          "confidence": 0.98
+        },
+        "goal_satisfied": {
+          "type": "noul",
+          "noul": 0.04
+        },
+        "click_target": {
+          "type": "choice",
+          "choice": "c13",
+          "probabilities": {
+            "c18": 0,
+            "c68": 0,
+            "c4": 0,
+            "c72": 0,
+            "c6": 0,
+            "c106": 0,
+            "c76": 0,
+            "c24": 0,
+            "c62": 0,
+            "c78": 0,
+            "c80": 0,
+            "c40": 0,
+            "c97": 0,
+            "c107": 0,
+            "c60": 0,
+            "c70": 0,
+            "c34": 0,
+            "c105": 0,
+            "c48": 0,
+            "c94": 0,
+            "c74": 0,
+            "c52": 0,
+            "c50": 0,
+            "c56": 0,
+            "c32": 0,
+            "c11": 0,
+            "c93": 0,
+            "c36": 0,
+            "c98": 0,
+            "c54": 0,
+            "c42": 0,
+            "c86": 0,
+            "c46": 0,
+            "c58": 0,
+            "c66": 0,
+            "c13": 1,
+            "c30": 0,
+            "c20": 0,
+            "c22": 0,
+            "c64": 0,
+            "c88": 0,
+            "c99": 0,
+            "c44": 0,
+            "c84": 0,
+            "c82": 0,
+            "c38": 0,
+            "c92": 0
+          },
+          "confidence": 1
+        },
+        "collapse_target": {
+          "type": "choice",
+          "choice": "c14",
+          "probabilities": {
+            "c14": 0.77,
+            "c102": 0.16,
+            "c7": 0.07
+          },
+          "confidence": 0.67
+        },
+        "expand_target": {
+          "type": "choice",
+          "choice": "c15",
+          "probabilities": {
+            "c103": 0,
+            "c8": 0,
+            "c15": 1
+          },
+          "confidence": 1
+        },
+        "focus_target": {
+          "type": "choice",
+          "choice": "c16",
+          "probabilities": {
+            "c79": 0,
+            "c16": 0.9,
+            "c43": 0,
+            "c77": 0,
+            "c85": 0,
+            "c33": 0,
+            "c89": 0,
+            "c100": 0,
+            "c57": 0,
+            "c10": 0,
+            "c101": 0,
+            "c19": 0,
+            "c51": 0,
+            "c9": 0,
+            "c83": 0,
+            "c12": 0.02,
+            "c31": 0,
+            "c87": 0,
+            "c35": 0,
+            "c71": 0,
+            "c73": 0,
+            "c3": 0,
+            "c53": 0,
+            "c37": 0,
+            "c75": 0,
+            "c41": 0,
+            "c21": 0,
+            "c1": 0.08,
+            "c39": 0,
+            "c69": 0,
+            "c25": 0,
+            "c63": 0,
+            "c61": 0,
+            "c59": 0,
+            "c45": 0,
+            "c47": 0,
+            "c2": 0,
+            "c65": 0,
+            "c49": 0,
+            "c67": 0,
+            "c104": 0,
+            "c23": 0,
+            "c81": 0,
+            "c55": 0,
+            "c5": 0
+          },
+          "confidence": 0.89
+        },
+        "scroll_target": {
+          "type": "choice",
+          "choice": "c91",
+          "probabilities": {
+            "c29": 0.01,
+            "c90": 0.08,
+            "c28": 0.01,
+            "c91": 0.33,
+            "c95": 0,
+            "c96": 0.01,
+            "c27": 0.25,
+            "c26": 0.31
+          },
+          "confidence": 0.25
+        },
+        "select_target": {
+          "type": "choice",
+          "choice": "c17",
+          "probabilities": {
+            "c17": 1
+          },
+          "confidence": 1
+        }
+      },
+      "question_options": {
+        "next": 7,
+        "goal_satisfied": 2,
+        "click_target": 47,
+        "collapse_target": 3,
+        "expand_target": 3,
+        "focus_target": 45,
+        "scroll_target": 8,
+        "select_target": 1
+      }
+    },
+    {
+      "id": "dropdown",
+      "goal": "Open the Mode dropdown",
+      "decision": {
+        "action": "expand",
+        "ref": "c0816850343abc91214d",
+        "value": null,
+        "confidence": 0.98,
+        "snapshot_id": "39be456d0ad56aa7cfb0",
+        "direction": null,
+        "amount": null,
+        "window": "4e91c5846bfe4cc580ac"
+      },
+      "matched": true,
+      "usage": {
+        "input_tokens": 15627,
+        "output_tokens": 1146,
+        "cost": 0.000656334
+      },
+      "elapsed_seconds": 1.601232,
+      "model": "typesafe/jev-1.13-20260917",
+      "source": "openrouter",
+      "answers": {
+        "next": {
+          "type": "choice",
+          "choice": "expand",
+          "probabilities": {
+            "scroll": 0,
+            "click": 0.01,
+            "select": 0,
+            "done": 0,
+            "collapse": 0,
+            "expand": 0.99,
+            "focus": 0
+          },
+          "confidence": 0.98
+        },
+        "goal_satisfied": {
+          "type": "noul",
+          "noul": 0.04
+        },
+        "click_target": {
+          "type": "choice",
+          "choice": "c11",
+          "probabilities": {
+            "c30": 0,
+            "c54": 0,
+            "c42": 0,
+            "c32": 0,
+            "c36": 0,
+            "c97": 0,
+            "c60": 0,
+            "c84": 0,
+            "c93": 0,
+            "c18": 0,
+            "c62": 0,
+            "c98": 0,
+            "c4": 0,
+            "c105": 0,
+            "c82": 0,
+            "c92": 0,
+            "c24": 0,
+            "c99": 0,
+            "c6": 0.44,
+            "c58": 0,
+            "c70": 0,
+            "c86": 0,
+            "c46": 0,
+            "c78": 0,
+            "c44": 0,
+            "c107": 0,
+            "c88": 0,
+            "c68": 0,
+            "c66": 0,
+            "c52": 0,
+            "c38": 0,
+            "c13": 0,
+            "c76": 0,
+            "c40": 0,
+            "c11": 0.56,
+            "c80": 0,
+            "c74": 0,
+            "c94": 0,
+            "c56": 0,
+            "c20": 0,
+            "c64": 0,
+            "c72": 0,
+            "c22": 0,
+            "c50": 0,
+            "c34": 0,
+            "c48": 0,
+            "c106": 0
+          },
+          "confidence": 0.54
+        },
+        "collapse_target": {
+          "type": "choice",
+          "choice": "c7",
+          "probabilities": {
+            "c102": 0.16,
+            "c14": 0.06,
+            "c7": 0.78
+          },
+          "confidence": 0.68
+        },
+        "expand_target": {
+          "type": "choice",
+          "choice": "c8",
+          "probabilities": {
+            "c103": 0,
+            "c8": 1,
+            "c15": 0
+          },
+          "confidence": 1
+        },
+        "focus_target": {
+          "type": "choice",
+          "choice": "c9",
+          "probabilities": {
+            "c49": 0,
+            "c81": 0,
+            "c77": 0,
+            "c10": 0,
+            "c35": 0,
+            "c1": 0.02,
+            "c37": 0,
+            "c61": 0,
+            "c55": 0,
+            "c43": 0,
+            "c23": 0,
+            "c5": 0,
+            "c89": 0,
+            "c41": 0,
+            "c87": 0,
+            "c57": 0,
+            "c67": 0,
+            "c71": 0,
+            "c19": 0,
+            "c31": 0,
+            "c51": 0,
+            "c83": 0,
+            "c21": 0,
+            "c101": 0,
+            "c104": 0,
+            "c73": 0,
+            "c25": 0,
+            "c63": 0,
+            "c79": 0,
+            "c12": 0,
+            "c69": 0,
+            "c59": 0,
+            "c85": 0,
+            "c39": 0,
+            "c2": 0,
+            "c53": 0,
+            "c45": 0,
+            "c75": 0,
+            "c65": 0,
+            "c16": 0,
+            "c47": 0,
+            "c3": 0,
+            "c33": 0,
+            "c9": 0.98,
+            "c100": 0
+          },
+          "confidence": 0.97
+        },
+        "scroll_target": {
+          "type": "choice",
+          "choice": "c26",
+          "probabilities": {
+            "c91": 0.23,
+            "c29": 0.01,
+            "c26": 0.35,
+            "c28": 0.01,
+            "c95": 0,
+            "c96": 0.02,
+            "c27": 0.22,
+            "c90": 0.16
+          },
+          "confidence": 0.26
+        },
+        "select_target": {
+          "type": "choice",
+          "choice": "c17",
+          "probabilities": {
+            "c17": 1
+          },
+          "confidence": 1
+        }
+      },
+      "question_options": {
+        "next": 7,
+        "goal_satisfied": 2,
+        "click_target": 47,
+        "collapse_target": 3,
+        "expand_target": 3,
+        "focus_target": 45,
+        "scroll_target": 8,
+        "select_target": 1
+      }
+    },
+    {
+      "id": "scroll",
+      "goal": "Scroll the Scroll content container to the right",
+      "matched": false,
+      "error": "Target confidence below threshold",
+      "model": "typesafe/jev-1.13-20260917",
+      "source": "openrouter",
+      "usage": {
+        "input_tokens": 15631,
+        "output_tokens": 1147,
+        "cost": 0.000656502
+      },
+      "answers": {
+        "next": {
+          "type": "choice",
+          "choice": "scroll",
+          "probabilities": {
+            "done": 0,
+            "focus": 0.01,
+            "collapse": 0,
+            "scroll": 0.98,
+            "select": 0,
+            "click": 0.01,
+            "expand": 0
+          },
+          "confidence": 0.98
+        },
+        "goal_satisfied": {
+          "type": "noul",
+          "noul": 0.06
+        },
+        "click_target": {
+          "type": "choice",
+          "choice": "c98",
+          "probabilities": {
+            "c56": 0,
+            "c13": 0,
+            "c62": 0,
+            "c97": 0,
+            "c20": 0,
+            "c24": 0,
+            "c64": 0,
+            "c50": 0,
+            "c6": 0,
+            "c82": 0,
+            "c36": 0,
+            "c30": 0,
+            "c44": 0,
+            "c107": 0,
+            "c11": 0,
+            "c22": 0,
+            "c4": 0,
+            "c52": 0,
+            "c94": 0,
+            "c84": 0,
+            "c88": 0,
+            "c60": 0,
+            "c34": 0,
+            "c80": 0,
+            "c72": 0,
+            "c58": 0,
+            "c76": 0,
+            "c66": 0,
+            "c38": 0,
+            "c78": 0,
+            "c93": 0,
+            "c54": 0.01,
+            "c99": 0.35,
+            "c74": 0,
+            "c98": 0.64,
+            "c86": 0,
+            "c92": 0,
+            "c32": 0,
+            "c46": 0,
+            "c40": 0,
+            "c42": 0,
+            "c48": 0,
+            "c18": 0,
+            "c105": 0,
+            "c106": 0,
+            "c68": 0,
+            "c70": 0
+          },
+          "confidence": 0.63
+        },
+        "collapse_target": {
+          "type": "choice",
+          "choice": "c7",
+          "probabilities": {
+            "c102": 0.34,
+            "c14": 0.26,
+            "c7": 0.4
+          },
+          "confidence": 0.1
+        },
+        "expand_target": {
+          "type": "choice",
+          "choice": "c15",
+          "probabilities": {
+            "c103": 0.16,
+            "c8": 0.37,
+            "c15": 0.47
+          },
+          "confidence": 0.2
+        },
+        "focus_target": {
+          "type": "choice",
+          "choice": "c1",
+          "probabilities": {
+            "c100": 0.01,
+            "c63": 0,
+            "c9": 0,
+            "c65": 0,
+            "c1": 0.6900000000000001,
+            "c49": 0,
+            "c43": 0,
+            "c10": 0,
+            "c59": 0,
+            "c104": 0,
+            "c39": 0,
+            "c101": 0,
+            "c16": 0,
+            "c89": 0,
+            "c12": 0,
+            "c77": 0,
+            "c19": 0,
+            "c5": 0,
+            "c61": 0,
+            "c35": 0,
+            "c83": 0,
+            "c25": 0,
+            "c71": 0,
+            "c53": 0,
+            "c31": 0.07,
+            "c45": 0,
+            "c85": 0,
+            "c2": 0.01,
+            "c79": 0,
+            "c23": 0,
+            "c75": 0,
+            "c47": 0,
+            "c57": 0,
+            "c69": 0,
+            "c55": 0.14,
+            "c73": 0,
+            "c51": 0.07,
+            "c81": 0,
+            "c67": 0,
+            "c37": 0,
+            "c87": 0,
+            "c3": 0,
+            "c21": 0,
+            "c41": 0,
+            "c33": 0
+          },
+          "confidence": 0.68
+        },
+        "scroll_target": {
+          "type": "choice",
+          "choice": "c96",
+          "probabilities": {
+            "c96": 0.51,
+            "c29": 0.49,
+            "c90": 0,
+            "c95": 0,
+            "c91": 0,
+            "c27": 0,
+            "c28": 0,
+            "c26": 0
+          },
+          "confidence": 0.44
+        },
+        "select_target": {
+          "type": "choice",
+          "choice": "c17",
+          "probabilities": {
+            "c17": 1
+          },
+          "confidence": 1
+        }
+      },
+      "elapsed_seconds": 1.371775,
+      "question_options": {
+        "next": 7,
+        "goal_satisfied": 2,
+        "click_target": 47,
+        "collapse_target": 3,
+        "expand_target": 3,
+        "focus_target": 45,
+        "scroll_target": 8,
+        "select_target": 1
+      }
+    }
+  ],
+  "matched": 4
+}

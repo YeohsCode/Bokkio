@@ -1,0 +1,40 @@
+{
+    "apps":  [
+
+             ],
+    "os":  {
+               "Caption":  "Microsoft Windows 11 IoT Enterprise LTSC Evaluation",
+               "Version":  "10.0.26100",
+               "OSArchitecture":  "ARM 64-bit Processor"
+           },
+    "executables":  [
+                        {
+                            "exists":  false,
+                            "path":  "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE"
+                        },
+                        {
+                            "exists":  false,
+                            "path":  "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE"
+                        },
+                        {
+                            "exists":  false,
+                            "path":  "C:\\Program Files\\Microsoft Office\\root\\Office16\\POWERPNT.EXE"
+                        },
+                        {
+                            "exists":  false,
+                            "path":  "C:\\Program Files\\LibreOffice\\program\\soffice.exe"
+                        },
+                        {
+                            "exists":  false,
+                            "path":  "C:\\Program Files\\Mozilla Thunderbird\\thunderbird.exe"
+                        },
+                        {
+                            "exists":  true,
+                            "path":  "C:\\Windows\\explorer.exe"
+                        },
+                        {
+                            "exists":  true,
+                            "path":  "C:\\Windows\\System32\\notepad.exe"
+                        }
+                    ]
+}

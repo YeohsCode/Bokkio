@@ -1,0 +1,8 @@
+{
+  "expected": [
+    "archive one.bin",
+    "archive two.bin",
+    "archive three.bin"
+  ],
+  "execution_feedback": false
+}
