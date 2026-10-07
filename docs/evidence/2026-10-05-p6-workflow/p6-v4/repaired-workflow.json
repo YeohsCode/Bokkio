@@ -1,0 +1,225 @@
+{
+  "schema": "bokkio.workflow.v1",
+  "name": "Native click type select and cross-app write",
+  "revision": 2,
+  "parent_sha256": "431ce7c4f811c82fa2bd8d24866fcd1f3e2825ae8f4a0c62512a04ee910d914c",
+  "source": "semantic_recording",
+  "metadata": {
+    "repair": {
+      "reason": "Restore Search selector from the verified native recording",
+      "failed_run_sha256": "3397a26d6a89e795cbf7b53ed56112aea06a18d011ea320f1265a449b75172fa"
+    }
+  },
+  "steps": [
+    {
+      "id": "s1",
+      "app": "fixture",
+      "intent": "Focus Search",
+      "action": "focus",
+      "target": {
+        "ref": "ae5c50e6b28a23a2cf7d",
+        "role": "text_field",
+        "name": "Search",
+        "ancestors": [
+          {
+            "role": "window",
+            "name": "Bokkio interactions"
+          }
+        ]
+      },
+      "arguments": {},
+      "wait": [],
+      "verify": [
+        {
+          "role": "text_field",
+          "name": "Search",
+          "parent_name": null,
+          "field": "focused",
+          "equals": true
+        }
+      ],
+      "depends_on": [],
+      "risk": "local_write"
+    },
+    {
+      "id": "s2",
+      "app": "fixture",
+      "intent": "Insert P6 repeatable",
+      "action": "type",
+      "target": {
+        "ref": "ae5c50e6b28a23a2cf7d",
+        "role": "text_field",
+        "name": "Search",
+        "ancestors": [
+          {
+            "role": "window",
+            "name": "Bokkio interactions"
+          }
+        ]
+      },
+      "arguments": {
+        "value": "P6 repeatable",
+        "expected_value": "P6 repeatable"
+      },
+      "wait": [
+        {
+          "role": "text_field",
+          "name": "Search",
+          "field": "value",
+          "equals": ""
+        }
+      ],
+      "verify": [
+        {
+          "role": "text_field",
+          "name": "Search",
+          "parent_name": null,
+          "field": "value",
+          "equals": "P6 repeatable"
+        }
+      ],
+      "depends_on": [
+        "s1"
+      ],
+      "risk": "local_write"
+    },
+    {
+      "id": "s3",
+      "app": "fixture",
+      "intent": "Submit Search",
+      "action": "click",
+      "target": {
+        "ref": "139df695c87795cb5667",
+        "role": "button",
+        "name": "Submit",
+        "ancestors": [
+          {
+            "role": "window",
+            "name": "Bokkio interactions"
+          }
+        ]
+      },
+      "arguments": {},
+      "wait": [],
+      "verify": [
+        {
+          "role": "static_text",
+          "name": "Submitted: P6 repeatable",
+          "field": "present",
+          "equals": true
+        }
+      ],
+      "depends_on": [
+        "s2"
+      ],
+      "risk": "local_write"
+    },
+    {
+      "id": "s4",
+      "app": "fixture",
+      "intent": "Open Mode",
+      "action": "expand",
+      "target": {
+        "ref": "dbe946a676629c248a08",
+        "role": "combo_box",
+        "name": "Mode",
+        "ancestors": [
+          {
+            "role": "window",
+            "name": "Bokkio interactions"
+          }
+        ]
+      },
+      "arguments": {},
+      "wait": [],
+      "verify": [
+        {
+          "role": "combo_box",
+          "name": "Mode",
+          "parent_name": null,
+          "field": "expanded",
+          "equals": true
+        }
+      ],
+      "depends_on": [
+        "s3"
+      ],
+      "risk": "local_write"
+    },
+    {
+      "id": "s5",
+      "app": "fixture",
+      "intent": "Select Second",
+      "action": "select",
+      "target": {
+        "ref": "856aaeb7fd097ca510b4",
+        "role": "list_item",
+        "name": "Second",
+        "ancestors": [
+          {
+            "role": "list",
+            "name": "Mode"
+          },
+          {
+            "role": "combo_box",
+            "name": "Mode"
+          },
+          {
+            "role": "window",
+            "name": "Bokkio interactions"
+          }
+        ]
+      },
+      "arguments": {},
+      "wait": [],
+      "verify": [
+        {
+          "role": "list_item",
+          "name": "Second",
+          "parent_name": null,
+          "field": "selected",
+          "equals": true
+        }
+      ],
+      "depends_on": [
+        "s4"
+      ],
+      "risk": "local_write"
+    },
+    {
+      "id": "s6",
+      "app": "notepad",
+      "intent": "Write native cross-app output",
+      "action": "set_value",
+      "target": {
+        "ref": "589d5366407cb5a5f333",
+        "role": "text_area",
+        "name": "Text Editor",
+        "ancestors": [
+          {
+            "role": "window",
+            "name": "Untitled - Notepad"
+          }
+        ]
+      },
+      "arguments": {
+        "value": "P6 native workflow"
+      },
+      "wait": [],
+      "verify": [
+        {
+          "role": "text_area",
+          "name": "Text Editor",
+          "parent_name": null,
+          "field": "value",
+          "equals": "P6 native workflow"
+        }
+      ],
+      "depends_on": [
+        "s5"
+      ],
+      "risk": "local_write"
+    }
+  ],
+  "sha256": "35cad1009476f89a8aeb5fab9c63968445ee3dc0192702e8cef9df51a39d062f"
+}

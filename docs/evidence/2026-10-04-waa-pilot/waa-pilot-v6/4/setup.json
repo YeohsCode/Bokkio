@@ -1,0 +1,40 @@
+{
+  "original_config": [
+    {
+      "type": "download",
+      "parameters": {
+        "files": [
+          {
+            "url": "https://raw.githubusercontent.com/rogeriobonatti/winarenafiles/main/task_files/file_explorer/b8ab0ae1-d2b4-4e6f-b609-df7d76b456d7-WOS/config/SampleText.txt",
+            "path": "C:\\Users\\Docker\\Desktop\\example.txt"
+          }
+        ]
+      }
+    },
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "explorer",
+          "C:\\Users\\Docker\\Documents"
+        ]
+      }
+    },
+    {
+      "type": "sleep",
+      "parameters": {
+        "seconds": 1
+      }
+    }
+  ],
+  "path_bindings": {
+    "C:\\Users\\Docker\\Documents": "C:\\BokkioTasks\\waa-pilot-v6\\4\\task\\Documents",
+    "C:\\Users\\Docker\\Desktop": "C:\\BokkioTasks\\waa-pilot-v6\\4\\task\\Desktop"
+  },
+  "additional_fixture": "fresh owned app; disposable folders; Details starts in icons; notifications starts enabled",
+  "settings_reset": null,
+  "notifications_before": null,
+  "input_hashes": {
+    "Desktop\\example.txt": "95a2f1edb08a76120b82cec7c93ca477618639f04beac7d2aeba2dc039d43715"
+  }
+}

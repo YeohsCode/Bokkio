@@ -1,0 +1,324 @@
+{
+  "schema": "bokkio.workflow.v1",
+  "name": "Native source to saved report",
+  "revision": 1,
+  "parent_sha256": null,
+  "source": "client_receipts_and_completed_agent_trace",
+  "metadata": {
+    "notepad_trace_sha256": "6fc83cc61d1f830d51afbf4fa96f2cf62e10a75356ef9d287ac16fd9e5e6556c",
+    "client_receipts": 2
+  },
+  "steps": [
+    {
+      "id": "s1",
+      "app": "explorer",
+      "intent": "Select the source file before creating its report",
+      "action": "select",
+      "target": {
+        "ref": "8553cd63c6362042ef5d",
+        "role": "list_item",
+        "name": "source-baseline.txt",
+        "ancestors": [
+          {
+            "role": "list",
+            "name": "Items View"
+          },
+          {
+            "role": "group",
+            "name": "Shell Folder View"
+          },
+          {
+            "role": "group",
+            "name": "Folder Layout Pane"
+          },
+          {
+            "role": "group",
+            "name": "Explorer Pane"
+          },
+          {
+            "role": "group",
+            "name": null
+          },
+          {
+            "role": "group",
+            "name": "baseline"
+          },
+          {
+            "role": "window",
+            "name": "baseline - File Explorer"
+          }
+        ]
+      },
+      "arguments": {},
+      "wait": [],
+      "verify": [
+        {
+          "role": "list_item",
+          "name": "source-baseline.txt",
+          "parent_name": null,
+          "field": "selected",
+          "equals": true
+        }
+      ],
+      "depends_on": [],
+      "risk": "local_write"
+    },
+    {
+      "id": "s2",
+      "app": "notepad",
+      "intent": "Type 'This is a draft.' into the text editor.",
+      "action": "set_value",
+      "target": {
+        "ref": "57fd34ebb64dfe96bcd4",
+        "role": "text_area",
+        "name": "Text Editor",
+        "ancestors": [
+          {
+            "role": "window",
+            "name": "Untitled - Notepad"
+          }
+        ]
+      },
+      "arguments": {
+        "value": "P6 report baseline."
+      },
+      "wait": [],
+      "verify": [
+        {
+          "role": "text_area",
+          "name": "Text Editor",
+          "parent_name": "Untitled - Notepad",
+          "field": "value",
+          "equals": "P6 report baseline."
+        }
+      ],
+      "depends_on": [
+        "s1"
+      ],
+      "risk": "local_write"
+    },
+    {
+      "id": "s3",
+      "app": "notepad",
+      "intent": "Expand the File menu to prepare for saving the file.",
+      "action": "expand",
+      "target": {
+        "ref": "93ae7e0abec1361ef423",
+        "role": "menu_item",
+        "name": "File",
+        "ancestors": [
+          {
+            "role": "menu_bar",
+            "name": "Application"
+          },
+          {
+            "role": "window",
+            "name": "Untitled - Notepad"
+          }
+        ]
+      },
+      "arguments": {},
+      "wait": [],
+      "verify": [
+        {
+          "role": "menu_item",
+          "name": "File",
+          "parent_name": "Application",
+          "field": "expanded",
+          "equals": true
+        }
+      ],
+      "depends_on": [
+        "s2"
+      ],
+      "risk": "read"
+    },
+    {
+      "id": "s4",
+      "app": "notepad",
+      "intent": "Invoke Save As... from the File menu to open the Save As dialog.",
+      "action": "click",
+      "target": {
+        "ref": "85f229a1d441d1f4df14",
+        "role": "menu_item",
+        "name": "Save As...",
+        "ancestors": [
+          {
+            "role": "menu",
+            "name": "File"
+          },
+          {
+            "role": "window",
+            "name": "Untitled - Notepad"
+          }
+        ]
+      },
+      "arguments": {},
+      "wait": [],
+      "verify": [
+        {
+          "role": "dialog",
+          "name": "Save As",
+          "parent_name": null,
+          "field": "present",
+          "equals": true
+        }
+      ],
+      "depends_on": [
+        "s3"
+      ],
+      "risk": "read"
+    },
+    {
+      "id": "s5",
+      "app": "notepad",
+      "intent": "Set the File name: field in the Save As dialog to the full path C:\\BokkioTasks\\waa-pilot-v16\\1\\task\\Documents\\draft.txt.",
+      "action": "set_value",
+      "target": {
+        "ref": "327ef653ae4d3f07b179",
+        "role": "text_field",
+        "name": "File name:",
+        "ancestors": [
+          {
+            "role": "combo_box",
+            "name": "File name:"
+          },
+          {
+            "role": "group",
+            "name": "Details Pane"
+          },
+          {
+            "role": "group",
+            "name": "Folder Layout Pane"
+          },
+          {
+            "role": "group",
+            "name": "Explorer Pane"
+          },
+          {
+            "role": "group",
+            "name": null
+          },
+          {
+            "role": "dialog",
+            "name": "Save As"
+          },
+          {
+            "role": "window",
+            "name": "Untitled - Notepad"
+          }
+        ]
+      },
+      "arguments": {
+        "value": "C:\\BokkioTasks\\p6-complete-v3\\baseline\\report-baseline.txt"
+      },
+      "wait": [],
+      "verify": [
+        {
+          "role": "text_field",
+          "name": "File name:",
+          "parent_name": "File name:",
+          "field": "value",
+          "equals": "C:\\BokkioTasks\\p6-complete-v3\\baseline\\report-baseline.txt"
+        }
+      ],
+      "depends_on": [
+        "s4"
+      ],
+      "risk": "local_write"
+    },
+    {
+      "id": "s6",
+      "app": "notepad",
+      "intent": "Click the Save button in the Save As dialog to save the file.",
+      "action": "click",
+      "target": {
+        "ref": "ad29fde38dcb419cebf5",
+        "role": "button",
+        "name": "Save",
+        "ancestors": [
+          {
+            "role": "dialog",
+            "name": "Save As"
+          },
+          {
+            "role": "window",
+            "name": "Untitled - Notepad"
+          }
+        ]
+      },
+      "arguments": {},
+      "wait": [],
+      "verify": [
+        {
+          "role": "dialog",
+          "name": "Save As",
+          "parent_name": null,
+          "field": "present",
+          "equals": false
+        }
+      ],
+      "depends_on": [
+        "s5"
+      ],
+      "risk": "local_write"
+    },
+    {
+      "id": "s7",
+      "app": "explorer",
+      "intent": "Select the saved report in Explorer",
+      "action": "select",
+      "target": {
+        "ref": "cba60be98eefd18f27eb",
+        "role": "list_item",
+        "name": "report-baseline.txt",
+        "ancestors": [
+          {
+            "role": "list",
+            "name": "Items View"
+          },
+          {
+            "role": "group",
+            "name": "Shell Folder View"
+          },
+          {
+            "role": "group",
+            "name": "Folder Layout Pane"
+          },
+          {
+            "role": "group",
+            "name": "Explorer Pane"
+          },
+          {
+            "role": "group",
+            "name": null
+          },
+          {
+            "role": "group",
+            "name": "baseline"
+          },
+          {
+            "role": "window",
+            "name": "baseline - File Explorer"
+          }
+        ]
+      },
+      "arguments": {},
+      "wait": [],
+      "verify": [
+        {
+          "role": "list_item",
+          "name": "report-baseline.txt",
+          "parent_name": null,
+          "field": "selected",
+          "equals": true
+        }
+      ],
+      "depends_on": [
+        "s6"
+      ],
+      "risk": "local_write"
+    }
+  ],
+  "sha256": "6f08a32e74a39613999f564bd6cdbbf215e8623a390024eeafb12827ef9bc250"
+}

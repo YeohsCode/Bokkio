@@ -1,0 +1,30 @@
+[
+  {
+    "entry": {
+      "type": "open",
+      "parameters": {
+        "path": "C:\\BokkioTasks\\waa-pilot-v4\\1\\task\\Documents\\draft.txt"
+      }
+    },
+    "phase": "official_evaluator_postconfig"
+  },
+  {
+    "entry": {
+      "type": "activate_window",
+      "parameters": {
+        "window_name": "draft.txt - Notepad"
+      }
+    },
+    "phase": "official_evaluator_postconfig",
+    "foreground_requested": false
+  },
+  {
+    "entry": {
+      "type": "sleep",
+      "parameters": {
+        "seconds": 0.5
+      }
+    },
+    "phase": "official_evaluator_postconfig"
+  }
+]

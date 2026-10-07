@@ -1,0 +1,27 @@
+{
+  "index": 5,
+  "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/settings/37e10fc4-b4c5-4b02-a65c-bfae8bc51d3f-wos.json",
+  "task_sha256": "680d36fc18cfcd59964e7d1efc8d59971a07579be7e5351b66a3882f6ff42741",
+  "passed": true,
+  "scope": "adapted_development_run",
+  "native_steps": 2,
+  "metric_score": 1.0,
+  "agent_status": "completed",
+  "action_budget_used": 2,
+  "replans": 1,
+  "intermediate_checks": {
+    "one_action_per_runner_step": true,
+    "successful_dispatches_match_trace": true,
+    "native_observation_after_each_success": true
+  },
+  "artifacts": {},
+  "input_bytes_preserved": true,
+  "notification_native_restored": true,
+  "notification_registry_restored": true,
+  "seconds": 29.391,
+  "component_seconds": {
+    "uia": 8.811,
+    "planner": 6.156,
+    "jev": 3.406
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "app": "Microsoft Word",
+  "window_filter": "weekly-report",
+  "observation": "after_document_reopen_same_process",
+  "editors": [
+    {
+      "ref": "cc1c950cb18258cf237f",
+      "role": "text_area",
+      "name": "Page 1 content",
+      "value": "Bokkio weekly report v2\nRegion: East\nStatus: Complete\nOrder count: 2\nTotal amount: 370\nRevision: order 1004 amount changed from 200 to 250.\nSource: orders.xlsx\nSynthetic computer-use acceptance data.",
+      "state": {
+        "enabled": false,
+        "visible": true,
+        "focused": true,
+        "active": false,
+        "selected": false,
+        "editable": true,
+        "focusable": true,
+        "checked": null,
+        "expanded": false,
+        "minimized": null,
+        "maximized": null,
+        "fullscreen": null
+      },
+      "actions": [
+        "focus",
+        "set_value",
+        "type"
+      ]
+    }
+  ]
+}

@@ -28,6 +28,97 @@ def backend(children, native=None):
     return b
 
 
+@pytest.mark.parametrize('owner,window_class,allowed',[(10,'Windows.UI.Core.CoreWindow',True),
+    (99,'Windows.UI.Core.CoreWindow',False),(10,'OtherWindow',False)])
+def test_hosted_settings_provider_requires_the_observed_win32_owner(owner,window_class,allowed):
+    from types import SimpleNamespace as N
+    from bokkio.windows_uia import WindowsUIA
+    from bokkio.model import BokkioError
+    helper=object.__new__(WindowsUIA)
+    helper.types=N(UIA_ProcessIdPropertyId=1,UIA_ControlTypePropertyId=2,UIA_NamePropertyId=3,
+                   UIA_ClassNamePropertyId=4,UIA_AutomationIdPropertyId=5,TreeScope_Subtree=6,
+                   UIA_BoundingRectanglePropertyId=7)
+    candidate=N(GetCurrentPropertyValue=lambda _: (1,2,3,4))
+    def find(scope,condition):
+        assert (1,20) in condition
+        return N(Length=1,GetElement=lambda _:candidate)
+    root=N(CurrentProcessId=20,CurrentClassName=window_class,FindAll=find)
+    helper.automation=N(ElementFromHandle=lambda _:root,
+        CreatePropertyCondition=lambda key,value:[(key,value)],CreateAndCondition=lambda a,b:a+b)
+    helper._root_process_id=lambda _:owner
+    element=N(pid=10,stable_id=None,name='System',raw={'control_type_id':50007,'class_name':'NavigationViewItem'},
+              bounds=N(x=1,y=2,width=3,height=4))
+    if allowed:assert helper._element(element,100) is candidate
+    else:
+        with pytest.raises(BokkioError,match='outside'):
+            helper._element(element,100)
+
+
+@pytest.mark.parametrize('same_identity',[True,False])
+def test_winui_aliases_use_nearest_hwnd_and_deduplicate_only_native_identity(same_identity):
+    from bokkio.agent import verify_conditions
+    from bokkio.decision import options
+    a,b=Element('list_item','Path'),Element('list_item','Path')
+    for item in [a,b]:item.actions=['press','select']
+    left,right=Element('group','Island 1',children=[a]),Element('group','Island 2',children=[b])
+    left.stable_id='hwnd:0x201';right.stable_id='hwnd:0x202'
+    left.actions=right.actions=[]
+    class Islands(Native):
+        selected=False
+        def action_capabilities(self,element,hwnd):
+            assert hwnd==(0x201 if element is a else 0x202)
+            return {'runtime_id':[42,9 if same_identity or element is a else 10],
+                    'process_id':100,'actions':['click','select'],'state':{'selected':self.selected}}
+        def perform_action(self,element,action,scope,identity):
+            self.selected=True
+            return {'action_source':'UIA.SelectionItemPattern'}
+    helper=Islands();native_backend=backend([left,right],helper)
+    native_backend._resolve_app('app').window.stable_id='hwnd:0x100'
+    snapshot=native_backend.snapshot('app')
+    nodes=[n for n in flatten(snapshot['windows']) if n['role']=='list_item']
+    assert {n['platform_data']['action_scope_hwnd'] for n in nodes}=={0x201,0x202}
+    choices=options(snapshot,[])
+    assert sum(c['action']=='select' for c in choices.values())==(1 if same_identity else 2)
+    passed,_=verify_conditions(snapshot,[{'role':'list_item','name':'Path','field':'selected','equals':False}])
+    assert passed is same_identity
+    if same_identity:
+        result=native_backend.perform('app','select',ref=nodes[0]['ref'])
+        assert result['verification']=='confirmed' and helper.selected
+
+
+@pytest.mark.parametrize('mode',['ok','foreground','runtime','value_changed','wrong_owner','partial','inline'])
+def test_enter_is_bound_to_foreground_focus_value_and_runtime(monkeypatch,mode):
+    import ctypes
+    from types import SimpleNamespace as N
+    from bokkio.windows_uia import WindowsUIA
+    from bokkio.model import BokkioError
+    helper=object.__new__(WindowsUIA);sent=[]
+    pattern=N(CurrentIsReadOnly=False,CurrentValue=r'C:\Tasks\Documents')
+    def focus():
+        if mode=='value_changed':pattern.CurrentValue='changed'
+    native=N(CurrentProcessId=100,CurrentClassName='UIRenameTextElement' if mode=='inline' else 'Edit',CurrentIsEnabled=True,
+             GetRuntimeId=lambda:[42,1],SetFocus=focus)
+    focused=N(CurrentProcessId=100,GetRuntimeId=lambda:[42,2 if mode=='runtime' else 1])
+    root=N(CurrentClassName='CabinetWClass',CurrentProcessId=101 if mode=='wrong_owner' else 100)
+    helper.automation=N(ElementFromHandle=lambda _:root,GetFocusedElement=lambda:focused)
+    helper._element=lambda *_:native;helper._pattern=lambda *_:pattern
+    def send(count,events,size):
+        if count==2:
+            sent.extend([(events[i].payload.keyboard.vk,events[i].payload.keyboard.flags) for i in range(count)])
+            return 1 if mode=='partial' else 2
+        sent.append(('release',count));return count
+    user=N(GetAncestor=lambda *_:200,GetForegroundWindow=lambda:999 if mode=='foreground' else 200,
+           SetForegroundWindow=lambda _:True,SendInput=send)
+    monkeypatch.setattr(ctypes,'WinDLL',lambda *_args,**_kw:user,raising=False)
+    if mode in {'ok','inline'}:
+        result=helper.submit(N(pid=100),200,[42,1],r'C:\Tasks\Documents')
+        assert result['action_source']=='Win32.SendInput.VK_RETURN' and sent==[(13,0),(13,2)]
+    else:
+        with pytest.raises(BokkioError):helper.submit(N(pid=100),200,[42,1],r'C:\Tasks\Documents')
+        if mode=='partial':assert sent==[(13,0),(13,2),('release',1)]
+        else:assert not sent
+
+
 def test_disabled_dialog_blocks_its_advertised_enabled_button():
     button=Element('button','Save')
     dialog=Element('dialog','Save As',children=[button]);dialog.enabled=False
@@ -343,3 +434,31 @@ def test_partial_virtual_tree_materialization_invalidates_disappeared_ref():
     with pytest.raises(BokkioLookupError) as error:
         b.perform("app", "select", ref=old)
     assert error.value.code == "stale_ref"
+
+
+@pytest.mark.parametrize('rectangle,count,expected',[
+    ((1,2,3,4),1,'ok'), ((1,2,30,4),1,'missing'),
+    ((1,2,float('nan'),4),1,'invalid'), (None,1,'invalid'),
+    ((1,2,3),1,'invalid'), ((1,2,3,4),5000,'bounded')])
+def test_winui_bounds_use_variant_transport_and_fail_closed(rectangle,count,expected):
+    from types import SimpleNamespace as N
+    from bokkio.windows_uia import WindowsUIA
+    from bokkio.model import BokkioError
+    helper=object.__new__(WindowsUIA)
+    helper.types=N(UIA_ProcessIdPropertyId=1,UIA_ControlTypePropertyId=2,UIA_NamePropertyId=3,
+        UIA_ClassNamePropertyId=4,UIA_AutomationIdPropertyId=5,TreeScope_Subtree=6,UIA_BoundingRectanglePropertyId=7)
+    class Candidate:
+        def GetCurrentPropertyValue(self,property_id):
+            assert property_id==7;return rectangle
+        @property
+        def CurrentBoundingRectangle(self):
+            raise AssertionError('Struct-return getter must not be called')
+    candidate=Candidate()
+    root=N(CurrentProcessId=10,FindAll=lambda *_:N(Length=count,GetElement=lambda _:candidate))
+    helper.automation=N(ElementFromHandle=lambda _:root,CreatePropertyCondition=lambda *x:x,
+                        CreateAndCondition=lambda *x:x)
+    element=N(pid=10,stable_id=None,name='Path',raw={'control_type_id':50007},bounds=N(x=1,y=2,width=3,height=4))
+    if expected=='ok':assert helper._element(element,100) is candidate
+    elif expected=='missing':assert helper._element(element,100) is None
+    else:
+        with pytest.raises(BokkioError,match=expected):helper._element(element,100)

@@ -26,6 +26,47 @@ class Provider:
         return {"model": "fake-offline", "answers": answers}
 
 
+def test_native_address_submission_uses_bound_popup_not_other_documents_shortcuts():
+    from test_cli import Element
+    from bokkio.selector import flatten
+    path=r'C:\Tasks\isolated\Documents'
+    backend,window,_=backend_with_button()
+    address=Element('text_field','Address Bar',path);address.actions=['set_value'];address.editable=True
+    shortcuts=[Element('tree_item','Documents'),Element('tree_item','Documents')]
+    for n in shortcuts:n.actions=['select']
+    suggestion=Element('list_item',path);suggestion.actions=['press','select']
+    popup=Element('window','Popup',children=[suggestion])
+    window.children_values=[address,*shortcuts,popup]
+    snapshot=backend.snapshot('TextEdit');nodes=flatten(snapshot['windows'])
+    for n in nodes:
+        n['platform']='windows'
+        if n['name']=='Address Bar':
+            n['platform_data'].update(value_source='UIA.ValuePattern',value_runtime_id=[42,1])
+        if n['name']==path:
+            n['platform_data'].update(action_runtime_id=[42,2],action_process_id=100,
+                action_scope_hwnd=200,verified_native_actions=['click','select'])
+    provider=Provider(choice='click')
+    decision,_=decide(provider,'Submit the address entry to navigate to the Documents folder',snapshot,allow_done=False)
+    assert list(provider.questions['next']['criteria'])==['click']
+    assert len(provider.questions['click_target']['criteria'])==1
+    target=next(n for n in nodes if n['ref']==decision.ref)
+    assert target['name']==path and target['role']=='list_item'
+    for n in nodes:
+        if n['name']=='Address Bar':
+            n['actions'].append('submit');n['platform_data']['submit_available']=True
+    provider=Provider(choice='submit')
+    entered,_=decide(provider,'Submit the address entry to navigate to the Documents folder',snapshot,allow_done=False)
+    assert list(provider.questions['next']['criteria'])==['submit']
+    assert next(n for n in nodes if n['ref']==entered.ref)['name']=='Address Bar'
+    # Another explicit destination cannot be authorized by the current address.
+    from bokkio.decision import bounded_observation
+    scoped=bounded_observation(r'Navigate to C:\Tasks\other\Documents',snapshot)
+    assert not scoped.get('observation_scope',{}).get('address_submission_refs')
+    target['platform_data'].pop('action_runtime_id')
+    scoped=bounded_observation('Submit the address entry to navigate to Documents',snapshot)
+    assert not scoped.get('observation_scope',{}).get('address_submission_refs')
+
+
 
 def test_valid_closed_choice_executes_against_same_observation():
     b, _, button = backend_with_button()
@@ -414,3 +455,70 @@ def test_classic_confirmation_button_excludes_same_named_combo_arrows(name,dialo
     candidates=provider.questions['click_target']['criteria']
     assert len(candidates)==1 and next(iter(candidates.values()))['parent_name']==dialog_name
     assert next(n for n in flatten(snapshot['windows']) if n['ref']==decision.ref)['parent']==next(n['ref'] for n in flatten(snapshot['windows']) if n['role']=='dialog')
+
+
+def test_explicit_classic_save_button_uses_unique_native_confirmation_without_folder_actions():
+    from test_cli import Element
+    from bokkio.selector import flatten
+    backend,window,_=backend_with_button()
+    save=Element('button','Save')
+    folder=Element('tree_item','Documents');folder.actions=['select','expand']
+    dialog=Element('dialog','Save As',children=[save,folder]);dialog.raw={'class_name':'#32770'}
+    window.children_values=[dialog]
+    snapshot=backend.snapshot('TextEdit')
+    for n in flatten(snapshot['windows']):n['platform']='windows'
+    provider=Provider()
+    selected,_=decide(provider,'Click the Save button to save draft.txt in the Documents folder',
+                      snapshot,allow_done=False,require_action=True)
+    assert list(provider.questions['next']['criteria'])==['click']
+    assert len(provider.questions['click_target']['criteria'])==1
+    assert next(n for n in flatten(snapshot['windows']) if n['ref']==selected.ref)['name']=='Save'
+    # With two genuine confirmation buttons there is no unique command route.
+    dialog.children_values.append(Element('button','Save'))
+    snapshot=backend.snapshot('TextEdit')
+    for n in flatten(snapshot['windows']):n['platform']='windows'
+    provider=Provider()
+    decide(provider,'Click the Save button in Documents',snapshot,allow_done=False)
+    assert 'expand' in provider.questions['next']['criteria']
+
+
+def test_submit_filename_binds_to_verified_inline_editor_not_address_bar():
+    from test_cli import Element
+    from bokkio.selector import flatten
+    backend,window,_=backend_with_button()
+    field=Element('text_field','old.txt','new.txt');field.editable=True;field.actions=['set_value']
+    address=Element('text_field','Address Bar',r'C:\Task\Documents');address.editable=True;address.actions=['set_value']
+    window.children_values=[field,address]
+    snapshot=backend.snapshot('TextEdit')
+    for n in flatten(snapshot['windows']):
+        n['platform']='windows'
+        if n['role']=='text_field':
+            n['actions'].append('submit');n['platform_data'].update(submit_available=True,value_runtime_id=[42,1 if n['name']=='old.txt' else 2])
+        if n['name']=='old.txt':n['platform_data']['class_name']='UIRenameTextElement'
+    provider=Provider()
+    decision,_=decide(provider,'Submit the edited filename to rename it to new.txt',snapshot,allow_done=False)
+    assert list(provider.questions['next']['criteria'])==['submit']
+    assert len(provider.questions['submit_target']['criteria'])==1
+    assert next(n for n in flatten(snapshot['windows']) if n['ref']==decision.ref)['name']=='old.txt'
+    from bokkio.decision import bounded_observation
+    assert not bounded_observation('Submit the filename wrong.txt',snapshot).get('observation_scope',{}).get('inline_enter_refs')
+
+
+def test_file_selection_condition_binds_exact_row_not_incidental_documents_navigation():
+    from test_cli import Element
+    from bokkio.selector import flatten
+    backend,window,_=backend_with_button()
+    item=Element('list_item','example.txt');item.actions=['select'];item.selected=True
+    folder=Element('tree_item','Documents');folder.actions=['select'];folder.selected=False
+    window.children_values=[item,folder]
+    condition=[{'role':'list_item','name':'example.txt','field':'selected','equals':True}]
+    goal='Select the file named example.txt in the Documents folder.\nRequired observable outcome: '+json.dumps(condition)
+    provider=Provider(satisfied=1.0)
+    decision,_=decide(provider,goal,backend.snapshot('TextEdit'),allow_done=False,require_action=True)
+    assert list(provider.questions['next']['criteria'])==['select']
+    assert len(provider.questions['select_target']['criteria'])==1
+    assert next(n for n in flatten(backend.snapshot('TextEdit')['windows']) if n['ref']==decision.ref)['name']=='example.txt'
+    window.children_values.append(Element('list_item','example.txt'));window.children_values[-1].actions=['select']
+    provider=Provider()
+    with pytest.raises(BokkioError,match='uniquely actionable native row'):
+        decide(provider,goal,backend.snapshot('TextEdit'),allow_done=False)

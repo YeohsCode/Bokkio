@@ -1,0 +1,6 @@
+{
+  "fixtures/mac-office/orders.tsv": "52affa91fdf82243806f9e28ac552970cf7b6454a4642a48e0e84d29f4cff4b3",
+  "scripts/verify_macos_office_artifacts.py": "8706c696d94f63e684b170ca95caed9921c24a870a52c1d42f1b02cf43220e55",
+  "src/bokkio/xa11y_backend.py": "79ee902597b75e48e93455923adb1da12f3a2f883e3e90230af04b017466fe61",
+  "src/bokkio/arena.py": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f"
+}

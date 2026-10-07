@@ -1,0 +1,30 @@
+{
+  "scope": "adapted_development_run",
+  "revision": "6d39ed88c545a0d40a7a02e39b928e278df7332b",
+  "planned": 5,
+  "selection": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "attempted": 0,
+  "passed": 0,
+  "results": [],
+  "environment": {
+    "platform": "Windows-11-10.0.26100-SP0",
+    "machine": "ARM64",
+    "python": "3.12.13"
+  },
+  "models": {
+    "planner": "openai/gpt-4.1",
+    "jev": "typesafe/jev-1.13"
+  },
+  "evaluator_sha256": "c340c602905fda043021421dac28023c246dae64398df8200d9dd2f056f152fa",
+  "source_sha256": {
+    "verify_waa_pilot.py": "81fc97b3c72b880e512def2a2ac22e3cedd292a2116c872c7d8536588e9793a8",
+    "arena.py": "e2eb070402e34272bfb7856010a40fa47a5b6da2f31773b6382f08eea5b8e5d3",
+    "agent.py": "a564e5347a684ca9ebb136946b682c5d023c26db709e9d467dc3ef9b9ac722b8"
+  }
+}

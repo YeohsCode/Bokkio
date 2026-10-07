@@ -1,0 +1,113 @@
+[
+  {
+    "step": 1,
+    "request": {
+      "type": "bokkio_native",
+      "token": "1b9624c94d4245ceab55bf4e838fb466",
+      "app": "8348",
+      "action": "expand",
+      "arguments": {
+        "ref": "85229cdfb9e962085296",
+        "value": null,
+        "direction": null,
+        "amount": null,
+        "expected_snapshot": "5b2e5139c75cfe6cc05e",
+        "window": "Settings"
+      }
+    },
+    "dispatched": true,
+    "passed": true,
+    "seconds": 1.6560000000026776,
+    "result": {
+      "action": "expand",
+      "target_ref": "85229cdfb9e962085296",
+      "before": {
+        "ref": "85229cdfb9e962085296",
+        "platform": "windows",
+        "role": "menu_item",
+        "name": "System",
+        "value": null,
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": false,
+          "active": false,
+          "selected": false,
+          "editable": false,
+          "focusable": true,
+          "checked": null,
+          "expanded": false,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": null,
+        "parent": "d720aad412a6480ca03b",
+        "children": [],
+        "actions": [
+          "collapse",
+          "expand",
+          "focus"
+        ],
+        "platform_data": {
+          "uia_name": "System",
+          "control_type_id": 50011,
+          "description": null,
+          "actions": [
+            "expand",
+            "collapse",
+            "focus"
+          ],
+          "native_stable_id": null
+        }
+      },
+      "after": {
+        "ref": "85229cdfb9e962085296",
+        "platform": "windows",
+        "role": "menu_item",
+        "name": "System",
+        "value": null,
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": false,
+          "active": false,
+          "selected": false,
+          "editable": false,
+          "focusable": true,
+          "checked": null,
+          "expanded": true,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": null,
+        "parent": "d720aad412a6480ca03b",
+        "children": [],
+        "actions": [
+          "collapse",
+          "expand",
+          "focus"
+        ],
+        "platform_data": {
+          "control_type_id": 50011,
+          "uia_name": "System",
+          "description": null,
+          "actions": [
+            "expand",
+            "collapse",
+            "focus"
+          ],
+          "native_stable_id": null
+        }
+      },
+      "verification": "confirmed",
+      "tree_changed": true,
+      "postcondition": {
+        "check": "expanded",
+        "expected": true,
+        "actual": true
+      }
+    }
+  }
+]

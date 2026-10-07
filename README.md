@@ -22,22 +22,30 @@ Bokkio 源于一个具体需求：在 Windows 和 macOS 上，通过统一接口
 
 ### 当前进展
 
-截至 **2026-10-04**：
+截至 **2026-10-07**：
 
 - **P0：macOS 环境与授权已验证。** xa11y 构建、Python 绑定和原生 Cocoa 测试应用可用；Fusion 与 Windows 11 ARM 虚机已配置，Windows 已安装，账户已验证。
 - **P1：实机读取已验证。** TextEdit、Finder、系统设置和固定原生应用的 AX 树均可读取；Safari 本地页面作为兼容性样本。本轮枚举到 35 个应用，元素查询、窗口筛选和 ref 查找通过验证。
 - **P2：核心原生动作闭环通过三轮测试。** 按钮点击后的状态变化、文本写入与输入、焦点、表格行选择均验证成功；下拉框写值和单选按钮选择也通过验证；新增三轮原生滚动往返测试通过。114 项隔离测试通过。
-- **已知限制：** Finder 的三组连续快照 ref 已保持一致，仍需验证节点重排与虚拟化；TextEdit 部分节点角色为 `unknown`。滚动支持暴露数值滚动条的 macOS 容器和暴露 ScrollPattern 的 Windows 容器；macOS 横向滚动与后续模型实测因原生 AX 读取异常待补。
+- **已知限制：** Finder 的三组连续快照 ref 已保持一致，仍需验证节点重排与虚拟化；TextEdit 部分节点角色为 `unknown`。滚动支持暴露数值滚动条的 macOS 容器和暴露 ScrollPattern 的 Windows 容器；2026-10-06 的 macOS 双轴滚动、三条模型跨应用任务和 Workflow 对照已通过；文件流程与虚拟化继续扩展，见 [Mac 续测](docs/MACOS-FOLLOWUP.md)。
 - **P3：Windows UIA 验证通过。** 虚机内五个应用读取、三轮原生 WinForms 动作、失效 ref 和 50/100/300/1,000 控件性能基准均已完成；Windows 114 项隔离测试通过。实测差异见 [P3 报告](docs/P3-REPORT.md)。
 - **Runtime 续测通过：** Windows 方向滚动、空值回读、只读能力检查、顶层窗口筛选、重复控件重排与重建，以及真实 Notepad 输入。50 条原生测试记录和五种决策动作链路见 [续测报告](docs/RUNTIME-FOLLOWUP.md)。
-- **P4 实测推进中：** OpenRouter Jev 已配置；五个原生离线样本命中，Windows 五个实时任务通过，包含两步下拉选择。四类原生难例通过。收窄目标上下文后，四档规模开发样本多轮达到 12/12；新增 1,000 控件原生点击三例通过。详见 [P4 报告](docs/P4-REPORT.md)。P5 首版已通过七步跨应用流程、两次连续变化恢复、暂停恢复及应用重启续测，详见 [P5 续测](docs/P5-FOLLOWUP.md)；Recorder、Workflow 和视觉兜底待实现。
+- **P4 实测推进中：** OpenRouter Jev 已配置；五个原生离线样本命中，Windows 五个实时任务通过，包含两步下拉选择。四类原生难例通过。收窄目标上下文后，四档规模开发样本多轮达到 12/12；新增 1,000 控件原生点击三例通过。详见 [P4 报告](docs/P4-REPORT.md)。P5 首版已通过七步跨应用流程、两次连续变化恢复、暂停恢复及应用重启续测，详见 [P5 续测](docs/P5-FOLLOWUP.md)；P6 的 Recorder/Workflow 已完成 Windows 原生验收，视觉兜底待 P7。
 
 - **P5 阶段恢复与文件交付基础：** 修复历史中间状态被覆盖后的重复执行；真实 Planner/Jev 在第二阶段完成后暂停，恢复仅执行剩余一步。Notepad 原生菜单保存、文件校验与新进程重开三轮通过。后续已安装七款 Office 应用并通过原生启动读取；激活与邮箱配置待完成，见 [Office 安装记录](docs/WINDOWS-OFFICE-SETUP.md)。基础动作证据见 [前置实测](docs/P5-OFFICE-PREREQUISITES.md)。
 - **P5 部分暴露续测：** 新增每页只暴露 25 个 UIA 条目的原生分页应用，两条真实 Planner/Jev 流程通过，包括换页后选择 Row 997 并写入 Notepad；旧引用返回 `stale_ref`。已记录模型与原生调用耗时，见 [分页报告](docs/P5-PAGED.md)。
 
 **WAA 修复续测：** 固定三题最新两轮各 **3/3**：PNG 清单、大小报告、计数文件均完成原生流程、持久化和新进程重开；源文件哈希保持不变。修复搜索重复身份、对话框文本提交、词频与阶段规划；缺少交付文件会触发补救。失败原因与最新原生验收见 [修复报告](docs/P5-WAA-RECOVERY.md)。
 
-**本轮 P5 续测：** 六种新输入各有通过记录；完整 v5 为 5/6、定向 v6 为 3/3，最终 PNG v8 为 1/1。需求变更最终通过 2/2，交付 7 → 5 并保留旧文件和历史。macOS / Windows 各 195 项隔离测试通过。实现完整源路径约束、需求版本与产物哈希，并修复原生菜单导航、勾选验收和同名 Open 按钮；见 [全部分轮结果](docs/P5-NATIVE-VARIATIONS.md)。
+**此前 P5 变体验收：** 六种新输入各有通过记录；完整 v5 为 5/6、定向 v6 为 3/3，最终 PNG v8 为 1/1。需求变更最终通过 2/2，交付 7 → 5 并保留旧文件和历史。macOS / Windows 各 195 项隔离测试通过。实现完整源路径约束、需求版本与产物哈希，并修复原生菜单导航、勾选验收和同名 Open 按钮；见 [全部分轮结果](docs/P5-NATIVE-VARIATIONS.md)。
+
+**固定五题 pilot：** 最终同代码 v26、v27 完整复测各 4/5，五项 Agent 全部 completed，中间步骤与独立产物验收通过。导航路径正确，原始精确标题评分因环境后缀差异仍为 0。修复原生边界读取崩溃、Settings 准备和同名控件验收；Settings 三次定向复测各 1/1。保留全部失败与真实分母，见 [pilot 报告](docs/P5-WAA-PILOT.md)。
+
+**P6 已完成 Windows 验收，P7 可开始：** 最终代码的六步录制重放 **3/3**、真实 Notepad trace 保存/重开 **3/3**；一份七步跨应用模板换三组参数 **3/3**，重启恢复仅执行剩余一步，结构变化与真实模型修复通过。主机和 Windows 各 **292 项隔离测试通过**；见 [P6 验收](docs/P6-CLOSURE.md)。
+
+**Mac 原生续测（2026-10-06）：** 动作与真实模型跨应用各 3/3；录制及成功 trace 重放各 3/3，双轴滚动、结构重排与暂停恢复通过。修正 `table_row` 选择能力，主机回归 293/293；见 [报告](docs/MACOS-FOLLOWUP.md)。
+
+**Mac Office 交互测试（2026-10-07）：** Excel 计算、Word/PPT 摘要、Outlook 草稿附件、需求修订与关闭后重开完成；六份保存文件独立校验通过，金额 320 → 370，三份 v1 哈希保持不变。UI 由 CUA 操作，Bokkio 仅作读取诊断；Office 编辑区元数据、Excel 单元格观察与 Outlook 遍历仍需适配，尚未完成 Bokkio Agent/Workflow 办公验收。见 [Office 报告](docs/MACOS-OFFICE-REPORT.md)。
 
 当前实现为 **Python + xa11y 0.15.x**，Windows 额外使用 comtypes 读取原生 UIA ValuePattern 与 ScrollPattern；经典对话框 Edit 的文本提交使用已验证的 Win32 编辑消息。后续核心 Runtime 优先考虑 Rust；统一元素模型参考 CUP（Computer Use Protocol），目前尚未实现完整 CUP 协议适配。Jev 使用 OpenRouter Decisions API 的 `typesafe/jev-1.13`，也保留 TypeSafe 直连选项。当前小样本结果不能代表通用桌面成功率。
 
@@ -58,7 +66,7 @@ Windows UIA / macOS AX         访问原生应用
 Accessibility 信息不足 → OCR / Vision / 坐标操作兜底
 ```
 
-当前已实现 **原生读取与动作、真实 Jev、P5 规划执行循环首版**。录制、重放与视觉兜底属于后续阶段。
+当前已实现 **原生读取与动作、真实 Jev、P5 规划循环、P6 语义录制、参数化与可恢复确定性重放**。视觉兜底属于 P7。
 
 ### 安装与权限
 
@@ -71,7 +79,7 @@ uv sync --group test
 uv run bokkio --help
 ```
 
-在 **系统设置 → 隐私与安全性 → 辅助功能** 中，给运行 CLI 的宿主应用（例如终端）或实际 Python 解释器授权，重新运行 CLI；若权限仍未生效，再重启宿主应用。早期完整 AX 读取曾通过；当前 AX 原生读取异常仍待解决，Windows 为优先验收平台。
+在 **系统设置 → 隐私与安全性 → 辅助功能** 中，给运行 CLI 的宿主应用（例如终端）或实际 Python 解释器授权，重新运行 CLI；若权限仍未生效，再重启宿主应用。早期完整 AX 读取曾通过；2026-10-06 自有 Cocoa fixture 的 AX 读取和动作已恢复并通过续测；权限缺失仍需按错误提示处理。
 
 Windows 通过 UIA 读取原生桌面；建议先在自己的可丢弃测试文件和应用窗口上验证。当前实测环境为 Windows 11 ARM64 虚机和 x64 Python 3.12。
 
@@ -101,7 +109,7 @@ uv run bokkio act --app BokkioTest --action scroll --role scroll_bar --direction
 - `find` 按 role 和可选 name 做不区分大小写的精确匹配；名称必须符合目标应用的语言与实际 AX 内容，示例中的 `Save` 仅为示意。
 - `find` 和 `get` 默认输出 JSON。将 `REF` 替换为应用级 JSON snapshot 或 `find` 返回的完整 ref；树形视图只显示前 8 位。
 - `get` 重新读取当前应用树。窗口快照和应用快照中的同一元素共用 ref。
-- `act` 提供 `click`、`invoke`、`type`、`set_value`、`select`、`focus`、`scroll`、`expand` 和 `collapse` 接口；通过 `--ref` 或 `--role` 配合可选 `--name`、`--parent` 定位。`type` 与 `set_value` 需要 `--value`。动作会返回执行前后元素和验证状态。只有对已授权的测试应用执行动作。
+- `act` 提供 `click`、`invoke`、`type`、`set_value`、`select`、`focus`、`scroll`、`expand`、`collapse` 和 `submit` 接口；通过 `--ref` 或 `--role` 配合可选 `--name`、`--parent` 定位。`type` 与 `set_value` 需要 `--value`。`submit` 限于 Explorer 的可写原生字段；发送 Enter 前核验窗口、焦点、进程、RuntimeId 和字段值。动作会返回执行前后元素和验证状态。只有对已授权的测试应用执行动作。
 
 `set_value`、`focus`、`select`、`expand`、`collapse` 和 `scroll` 检查执行后的值或状态；`type --expect-value` 检查输入结果。click 及未指定期望值的 type 返回 `observed`，需要任务自己的成功条件。滚动需指定 `--direction up/down/left/right`；`--amount` 是整个滚动范围的比例，默认 `0.25`。可定位滚动条或其容器内的元素；Windows 使用容器 ScrollPattern；位置与内容均变化才确认滚动。目标不支持时明确报错，到达边界返回 `unconfirmed`。实测证据见 [P2 报告](docs/P2-REPORT.md)。
 
@@ -132,21 +140,21 @@ ref 是基于当前结构的引用。TextEdit、系统设置和固定应用的�
 | P2 | Unified Element、Selector 与 macOS 操作 | 核心动作及三轮滚动通过；稳定性覆盖继续扩展 |
 | P3 | Windows UIA 读取与操作 | 五应用读取、三轮动作和四档规模基准通过 |
 | P4 | Jev 局部决策与评测 | 真实五任务及难例通过；大树开发样本 12/12，三例实时大树点击通过 |
-| P5 | LLM 任务规划与执行循环 | 首版已实现；Windows 七步流程、恢复及分页部分暴露通过，macOS 对照待验收 |
-| P6 | Recorder 与确定性 Workflow 重放 | 待开始 |
-| P7 | Vision / CUA 兜底与可靠性加固 | 待开始 |
+| P5 | LLM 任务规划与执行循环 | 首版已实现；Windows 七步流程、恢复及分页部分暴露通过，macOS 三条模型对照通过；独立应用继续扩展 |
+| P6 | Recorder 与确定性 Workflow 重放 | Windows 验收完成；参数、文件版本、恢复与模型修复通过 |
+| P7 | Vision / CUA 兜底与可靠性加固 | 启动条件满足；首项为窗口截图与自绘 fixture |
 
-### 当前下一步
+### 当前阶段与后续工作
 
-当前处于 **P5 首版实现后的验收与稳定性补齐阶段**，后续优先使用现有 Windows 11 虚机推进。macOS 原生读取异常保留为对照验收待办。
+**P6 已完成 Windows 验收，当前可以开始 P7。** 录制、成功 trace 固化、参数化重放、文件版本、跨进程恢复、结构变化及真实模型修复均有原生证据，见 [验收报告](docs/P6-CLOSURE.md)。
 
-1. **扩大 Windows 原生多步验收。** Office 激活按用户要求暂缓。固定 WAA Explorer/Notepad 三题已连续两轮各 3/3；本轮增加六种输入变化、暂停恢复与完整源路径约束，见 [变体验收](docs/P5-NATIVE-VARIATIONS.md)。下一步接入官方初始化、逐步执行与 evaluator，并跑原先五项 pilot。
-2. **完成 Windows P5 验收。** 参考 OSWorld 2，补读取新资料后的阶段规划、事实/约束与产物版本、需求变化和阶段恢复；继续补真正虚拟化控件、耗时与敏感动作策略。已有实测见 [P5 续测](docs/P5-FOLLOWUP.md)。Microsoft Office 办公任务在具备可用许可证后恢复，见 [办公流程计划](docs/WINDOWS-OFFICE-PLAN.md)。
-3. **外部测试集与 Windows P6。** 完整官方 runner 适配和原先五项 pilot 仍待执行；扩大子集前先修复本轮失败。P6 的 Recorder、Workflow 与确定性重放随后推进，视觉任务待 P7，macOS 对照后补。
+1. 按 [P7 计划](docs/P7-PLAN.md) 实现 Windows 窗口截图、DPI/坐标映射和自绘测试应用，再接 OCR/视觉定位与有界坐标动作。
+2. 保留原生优先路径，完善权限、取消、限速、确认和崩溃恢复；每条视觉路径都保留截图、回执与新观察验证。
+3. 扩展 Mac 文件交付、虚拟化和 Workflow 文件合约/跨进程恢复；Windows Office 激活、Mac Office 的 Bokkio 执行适配、完整 benchmark runner 和可选录制仍待完成，见 [完整 Pending 清单](docs/PENDING.md)。
 
 ### Computer Use 测试集
 
-已固定 WindowsAgentArena 源码版本、154 份任务配置及五项原生 pilot。另选三项 Explorer/Notepad 多步任务，已在 ARM64 虚机实际运行 Planner → Jev → UIA，并复用指定版本的 evaluator 函数独立校验；所有尝试见 [实测报告](docs/P5-WAA-LONGCHAIN.md)。这些是明确改动环境与路径的开发试跑，不能作为官方榜单得分。原先五项 pilot 仍未执行；WindowsWorld/OSWorld 2 是设计参考。接入边界见 [测试集接入计划](docs/BENCHMARK-PLAN.md)。
+已固定 WindowsAgentArena 源码版本、154 份任务配置及五项原生 pilot。另选三项 Explorer/Notepad 多步任务，已在 ARM64 虚机实际运行 Planner → Jev → UIA，并复用指定版本的 evaluator 函数独立校验；所有尝试见 [实测报告](docs/P5-WAA-LONGCHAIN.md)。这些是明确改动环境与路径的开发试跑，不能作为官方榜单得分。原先五项 pilot 已执行，逐次派发、中间检查、独立评分和失败记录见 [pilot 报告](docs/P5-WAA-PILOT.md)。WindowsWorld/OSWorld 2 是设计参考。接入边界见 [测试集接入计划](docs/BENCHMARK-PLAN.md)。
 
 ### Jev 决策入口
 
@@ -177,9 +185,24 @@ uv run bokkio run --goal '将 Search 设置为 hello 并提交' --allow-app Bokk
 每个子任务都有原生可观察的成功条件。`--max-actions` 和 `--max-replans` 限制执行与恢复次数；`--max-phases` 限制读取新资料/打开对话框后的阶段续规划次数（默认 4）。`--require-file` 可重复指定必须存在的交付文件，恢复时保留相同要求。通过 `--control-file` 提供暂停/取消信号，再用 `--resume` 恢复同一目标和应用白名单。CLI 输出状态摘要，完整快照与模型/动作记录写入 trace。涉及发送、支付、删除等的步骤会被阻断。实现与实测限制见 [P5 报告](docs/P5-REPORT.md)。
 
 
+Planner 的 `requires_action` 可要求子任务至少实际派发一次原生命令，避免以已经存在的选择状态证明 Copy/Paste 或地址提交。通常已满足的页面、选择或开关状态仍可直接验收。
+
 `--require-source` 可重复指定原文的完整路径：执行前核验 Windows 经典 Open 对话框的原生路径读值，读取后保存当前需求版本的源事实；未读取指定源时阻止正文写入和完成。新需求必须重新读原文。此约束目前适用于英文 Windows 经典 Open 对话框。
 
 需求变化时，使用 `--resume`、新的 `--goal` 和 `--amend-reason`，从暂停或已完成的检查点建立下一需求版本；应用白名单保持一致，累计预算继续计算。旧步骤保留在历史中，新需求重新观察并规划。`--require-file` 的已验证交付记录包含路径、大小和 SHA-256，写入 `artifact_versions`；它证明文件存在及当时的字节版本，内容正确性仍由任务验收检查。
+
+### P6 录制与重放入口
+
+先启动可丢弃原生应用并取得 PID；录制与重放分别显式绑定授权应用。重放直接调用 Runtime，不调用模型。
+
+```powershell
+bokkio workflow record --actions fixtures/workflows/interactions.actions.json --bind fixture=1234 --name "Native interactions" --output workflow.json
+bokkio workflow replay --workflow workflow.json --bind fixture=5678 --output replay.json
+```
+
+支持 `workflow compile` 从成功 trace 固化；`workflow parameterize` 添加经过审查的文本/路径/哈希参数和输入/交付版本；`workflow replay --parameters values.json --resume paused.json` 在应用重启后恢复。用 `--window-bind alias=hwnd:0x...` 显式限定窗口。
+
+`workflow repair --model-repair` 由模型从原生候选中修复失败 selector，生成保留父版本的新版本；随后重放不调用模型。原生客户端回执可接入 `Recorder.capture_receipt`，捕获时不重复执行动作。输入状态、合约、条件和完整命令见 [P6 文档](docs/P6-WORKFLOW.md)。
 
 ### 开发与文档
 
@@ -187,7 +210,7 @@ uv run bokkio run --goal '将 Search 设置为 hello 并提交' --allow-app Bokk
 uv run --group test pytest -q
 ```
 
-195 项隔离测试覆盖字段、树结构、ref、查询、窗口筛选、动作、滚动、动态文本与错误。真实桌面验证另用 `scripts/verify_native.py`：先启动名为 `BokkioTest` 的固定原生应用及矩阵中的应用，创建空白 TextEdit 窗口，再执行：
+292 项隔离测试覆盖逐步派发、原生提交保护、字段、树结构、ref、查询、窗口筛选、动作、滚动、动态文本与错误。真实桌面验证另用 `scripts/verify_native.py`：先启动名为 `BokkioTest` 的固定原生应用及矩阵中的应用，创建空白 TextEdit 窗口，再执行：
 
 ```bash
 uv run python scripts/verify_native.py --output /tmp/bokkio-evidence
@@ -218,18 +241,24 @@ The [research proposal](docs/RESEARCH.md) defines the requirements, and the [pha
 
 ### Current status
 
-As of **2026-10-04**:
+As of **2026-10-07**:
 
 - **P0: macOS environment and permissions verified.** xa11y builds, Python bindings, and the native Cocoa test app work. Fusion and a Windows 11 ARM VM are configured; Windows and its local account are ready.
 - **P1: live reads verified.** AX trees from TextEdit, Finder, System Settings, and the fixed native app are readable. Safari serves as a local compatibility sample. The follow-up enumerated 35 applications; element queries, window filters, and ref lookup passed.
 - **P2: three native action sequences passed.** Button status changes, text writes and typing, focus, and table row selection were verified. Combo box writes and radio selection passed; three additional native scroll round trips passed. At that stage, 114 isolated tests passed.
-- **Known limits:** Finder ref sets remained stable in three consecutive snapshot pairs; reordering and virtualization still need coverage. Some TextEdit roles are `unknown`. Scrolling supports macOS numeric scroll bars and Windows ScrollPattern containers. Live macOS horizontal scrolling and later model tasks await resolution of a native AX read failure.
+- **Known limits:** Finder ref sets remained stable in three consecutive snapshot pairs; reordering and virtualization still need coverage. Some TextEdit roles are `unknown`. Scrolling supports macOS numeric scroll bars and Windows ScrollPattern containers. Mac two-axis scrolling, three live model cross-app tasks and workflow comparison passed on 2026-10-06. Broader application and virtualization coverage remains pending; see the [Mac report](docs/MACOS-FOLLOWUP.md).
 - **P3: Windows UIA validation passed.** Five app reads, three native WinForms action sequences, stale-ref handling, and benchmarks at 50/100/300/1,000 controls completed inside the VM. All 114 Windows isolated tests passed. See the [P3 report](docs/P3-REPORT.md).
 - **Runtime follow-up passed:** Windows directional scrolling, empty-value readback, read-only capabilities, top-level window filtering, duplicate control reordering/rebuilding, and real Notepad input. See the [follow-up report](docs/RUNTIME-FOLLOWUP.md) for 50 native records and five scripted decision/action checks.
-- **P4 evaluation underway:** OpenRouter Jev is configured. Five saved native cases matched, and five live Windows tasks passed, including a two-step dropdown selection. Four native hard cases also passed. Bounded context improved repeated scale development runs to 12/12; three additional live clicks in a 1,000-control tree passed. See the [P4 report](docs/P4-REPORT.md). The P5 loop passed a seven-action cross-app task, repeated recovery, pause/resume and app restart checks; see the [P5 follow-up](docs/P5-FOLLOWUP.md). Recording, workflows, and visual fallback remain pending.
+- **P4 evaluation underway:** OpenRouter Jev is configured. Five saved native cases matched, and five live Windows tasks passed, including a two-step dropdown selection. Four native hard cases also passed. Bounded context improved repeated scale development runs to 12/12; three additional live clicks in a 1,000-control tree passed. See the [P4 report](docs/P4-REPORT.md). The P5 loop passed a seven-action cross-app task, repeated recovery, pause/resume and app restart checks; see the [P5 follow-up](docs/P5-FOLLOWUP.md). P6 recording and replay are now implemented; visual fallback remains P7 work.
 
 - **P5 stage recovery and file prerequisites:** Completed intermediate steps now retain full execution receipts. A real Planner/Jev test resumed after stage two with only the remaining write. Three deterministic native Notepad save/reopen runs passed. Seven Office apps have since been installed and passed native startup reads; activation and mail setup remain pending. See the [installation report](docs/WINDOWS-OFFICE-SETUP.md) and [prerequisite report](docs/P5-OFFICE-PREREQUISITES.md).
 - **P5 partial-exposure checks:** Two real Planner/Jev flows passed in a native paginated app exposing only 25 UIA rows at a time, including navigation to Row 997 followed by Notepad input. Old row refs return `stale_ref`; native and model call timings are recorded. See the [pagination report](docs/P5-PAGED.md).
+
+**P6 Windows acceptance is complete; P7 can start:** Final code passed **3/3** unchanged recording replays and **3/3** real-trace save/reopen replays. One seven-step cross-app template passed **3/3** parameter cases. Restart/resume dispatched only the remaining action; native structure recovery and real model repair passed. Host and Windows each pass **292 isolated tests**. See the [P6 acceptance report](docs/P6-CLOSURE.md).
+
+**Mac native follow-up (2026-10-06):** Controls and live model cross-app tasks each pass 3/3. Recorded and compiled workflows each replay 3/3. Two-axis scrolling, actual control reorder and pause/resume pass. The Mac table-row capability fix passes 293 host tests. See the [Mac report](docs/MACOS-FOLLOWUP.md).
+
+**Mac Office interactive pilot (2026-10-07):** Excel calculations, Word/PPT summaries, an Outlook draft with attachments, revisions and document reopening completed. Six saved files pass independent checks; the total changes from 320 to 370 and all three v1 hashes remain unchanged. CUA operated the UI; Bokkio performed read-only diagnostics. Editor metadata, Excel cell observation and Outlook traversal still need integration before Bokkio Agent/Workflow Office acceptance. See the [Office report](docs/MACOS-OFFICE-REPORT.md).
 
 The current implementation uses **Python + xa11y 0.15.x**, with comtypes for native Windows ValuePattern and ScrollPattern support. Verified Win32 edit messages commit text in classic dialogs. Rust is the preferred direction for the future core runtime. The element model draws on CUP (Computer Use Protocol); full CUP protocol adaptation is not implemented. Jev uses `typesafe/jev-1.13` through OpenRouter Decisions, with a direct TypeSafe option. These small development samples do not establish general desktop success rates.
 
@@ -250,7 +279,7 @@ Execution trace → Recorder → Workflow → Deterministic replay
 Insufficient accessibility data → OCR / Vision / coordinate action fallback
 ```
 
-**macOS element reads, the basic data model, and core native actions** are implemented and verified. The first planning loop is implemented. Recording, replay, and visual fallback belong to later phases.
+Native reads/actions, real Jev decisions, the P5 planning loop and P6 semantic recording, parameterization and resumable deterministic replay are available. Mac native fixture reads/actions, model tasks and workflow comparison now pass; broader Mac file flows remain pending. Visual fallback belongs to P7.
 
 ### Installation and permissions
 
@@ -324,25 +353,27 @@ Refs describe the current structure. Consecutive snapshots retained identical re
 | P2 | Unified elements, selectors, and macOS actions | Core actions and three scroll runs passed; broader stability coverage pending |
 | P3 | Windows UIA reads and actions | Five app reads, three action runs, and four scale benchmarks passed |
 | P4 | Jev local decisions and evaluation | Five live tasks and hard cases passed; scale samples 12/12, three additional live large-tree clicks passed |
-| P5 | LLM planning and execution loop | First version implemented; Windows seven-action, recovery and partial-exposure checks passed; macOS comparison pending |
-| P6 | Recording and deterministic workflow replay | Not started |
-| P7 | Vision / CUA fallback and reliability | Not started |
+| P5 | LLM planning and execution loop | First version implemented; Windows seven-action, recovery and partial-exposure checks passed; three Mac model comparison tasks pass; broader applications pending |
+| P6 | Recording and deterministic workflow replay | Windows acceptance complete; parameters, file versions, resume and model repair passed |
+| P7 | Vision / CUA fallback and reliability | Ready to start with window capture and a custom-drawn fixture |
 
 The fixed native WAA trio passed two consecutive rounds at **3/3**, including persistence, fresh-process reopening and unchanged input hashes. Recovery verifies writable patterns and RuntimeIds, commits classic-dialog edits, derives native word counts, plans after newly observed data and checks missing deliverables. See the [diagnosis and results](docs/P5-WAA-RECOVERY.md).
 
-**Latest P5 checks:** Each of six new fixtures has a passing attempt across rounds: full v5 was 5/6, targeted v6 was 3/3, and final PNG v8 was 1/1. Final requirement changes passed 2/2, delivering 7 then 5 while preserving prior files and history. Host and Windows each pass 195 isolated tests. Full source-path constraints, versioned requirements and artifact hashes accompany native menu and same-named Open-button fixes. See the [complete round-by-round report](docs/P5-NATIVE-VARIATIONS.md).
+**Earlier native variation checks:** Each of six new fixtures has a passing attempt across rounds: full v5 was 5/6, targeted v6 was 3/3, and final PNG v8 was 1/1. Final requirement changes passed 2/2, delivering 7 then 5 while preserving prior files and history. Host and Windows each passed 195 isolated tests at that stage. Full source-path constraints, versioned requirements and artifact hashes accompany native menu and same-named Open-button fixes. See the [complete round-by-round report](docs/P5-NATIVE-VARIATIONS.md).
 
-### Immediate plan
+**Fixed five-task pilot:** Final consecutive full rounds v26 and v27 each scored 4/5, with all five agents completed and intermediate/native artifact checks passed. Navigation reached the correct folder; the unchanged title metric remains zero because of an environment suffix. Native rectangle acquisition, Settings readiness and same-named control verification were repaired. Three separate Settings confirmations each passed 1/1. All failures and denominators remain in the [pilot report](docs/P5-WAA-PILOT.md).
 
-The project is in **P5 acceptance and stability work after the first implementation**. Continue primarily in the existing Windows 11 VM; retain macOS native-read failures as pending platform acceptance.
+### Current phase and further work
 
-1. **Expand Windows native multi-step acceptance.** Office activation is paused. The fixed WAA Explorer/Notepad trio passed two consecutive rounds at 3/3. Six new input variations cover recovery and full source-path constraints; see the [native variation report](docs/P5-NATIVE-VARIATIONS.md). Next, adapt official setup, step-by-step execution and evaluation, then run the original five-task pilot.
-2. **Complete Windows P5 acceptance.** Follow OSWorld 2 patterns for planning after new source data is read, facts, constraints, artifact versions, changing requirements and recovery. Continue genuine virtualization coverage, timing and sensitive-action policy. See the [P5 follow-up](docs/P5-FOLLOWUP.md). Resume Microsoft Office workflows when a usable license is available; see the [office plan](docs/WINDOWS-OFFICE-PLAN.md).
-3. **External benchmarks and Windows P6.** The full upstream runner adapter and the original five-task pilot remain pending. Preserve official setup and evaluation, expose every native action to the runner and run that pilot; then proceed with recording, workflows and deterministic replay. Visual coverage follows in P7; macOS comparison remains pending.
+**P6 Windows acceptance is complete; P7 can start.** Recording, completed-trace compilation, parameters, file versions, process resume, structure recovery and actual model repair have native evidence. See the [acceptance report](docs/P6-CLOSURE.md).
+
+1. Follow the [P7 plan](docs/P7-PLAN.md): native Windows capture, DPI/coordinate mapping and a custom-drawn fixture, then OCR/visual targets and bounded coordinate actions.
+2. Preserve the native-first path and add permission, cancellation, rate, confirmation and crash-recovery controls. Visual paths retain screenshots, receipts and fresh verification.
+3. Expand Mac file delivery, virtualization and workflow contracts/process recovery. Paused Windows Office activation, Mac Office Bokkio execution integration, full benchmark integration and optional recording remain in the [Pending list](docs/PENDING.md). Original WAA scores remain unchanged.
 
 ### Computer Use benchmarks
 
-WindowsAgentArena preparation includes a pinned revision, 154 task files and a proposed five-task native pilot. Three additional Explorer/Notepad tasks have now run through the real Planner → Jev → UIA loop in the ARM64 VM, with independent checks using pinned evaluator functions. The [report](docs/P5-WAA-LONGCHAIN.md) preserves every attempt. These development runs adapt the environment and paths and do not provide official leaderboard scores. The original five-task pilot has not run; WindowsWorld and OSWorld 2 inform the design. See the [integration plan](docs/BENCHMARK-PLAN.md).
+WindowsAgentArena preparation includes a pinned revision, 154 task files and a proposed five-task native pilot. Three additional Explorer/Notepad tasks have now run through the real Planner → Jev → UIA loop in the ARM64 VM, with independent checks using pinned evaluator functions. The [report](docs/P5-WAA-LONGCHAIN.md) preserves every attempt. These development runs adapt the environment and paths and do not provide official leaderboard scores. The original five-task pilot has run; its [report](docs/P5-WAA-PILOT.md) records steps, intermediate checks, scoring and failures. WindowsWorld and OSWorld 2 inform the design. See the [integration plan](docs/BENCHMARK-PLAN.md).
 
 ### Jev decision entry point
 
@@ -379,13 +410,26 @@ Repeat `--require-source` to require native acquisition of full source paths bef
 
 To change requirements, combine `--resume`, a new `--goal` and `--amend-reason` at a paused or completed checkpoint. Keep the app allowlist; cumulative budgets still apply. Old receipts remain in history and the new revision starts with fresh observations and planning. Verified `--require-file` deliveries record paths, byte counts and SHA-256 in `artifact_versions`. These identify persisted bytes; task-specific checks still determine content correctness.
 
+### P6 recording and replay
+
+Start a disposable native app and bind its PID explicitly. Replay calls the native Runtime without model requests.
+
+```powershell
+bokkio workflow record --actions fixtures/workflows/interactions.actions.json --bind fixture=1234 --name "Native interactions" --output workflow.json
+bokkio workflow replay --workflow workflow.json --bind fixture=5678 --output replay.json
+```
+
+`workflow compile` converts a completed trace. `workflow parameterize` adds reviewed text/path/hash parameters and file-version contracts. `workflow replay --parameters values.json --resume paused.json` resumes with rebound applications; `--window-bind alias=hwnd:0x...` scopes the native window.
+
+`workflow repair --model-repair` asks the model to choose a native selector and creates a parent-linked version. Replay itself calls no model. Native client receipts can enter `Recorder.capture_receipt` without dispatching the captured action again. See the [P6 guide](docs/P6-WORKFLOW.md) for initial states, contracts, conditions and complete commands.
+
 ### Development and documentation
 
 ```bash
 uv run --group test pytest -q
 ```
 
-The 195 isolated tests cover fields, tree structure, refs, queries, window filters, actions, scrolling, dynamic labels, and errors. Live desktop verification uses `scripts/verify_native.py`. Launch the fixed native app as `BokkioTest` and the matrix apps, create a blank TextEdit window, then run:
+The 220 isolated tests cover fields, tree structure, refs, queries, window filters, actions, scrolling, dynamic labels, and errors. Live desktop verification uses `scripts/verify_native.py`. Launch the fixed native app as `BokkioTest` and the matrix apps, create a blank TextEdit window, then run:
 
 ```bash
 uv run python scripts/verify_native.py --output /tmp/bokkio-evidence

@@ -1,0 +1,79 @@
+{
+  "archive_hashes": 91,
+  "workflow_content_hashes": 11,
+  "checkpoint_content_hashes": 19,
+  "archived_text_artifacts": 14,
+  "final_source_hashes_match": true,
+  "artifact_versions": [
+    {
+      "path": "p6-complete-v2/baseline/source-baseline.txt.gz",
+      "bytes": 15,
+      "sha256": "a7f63783ec4b4f1f9b4b7246ffe7dea337e3c58dc125591eaf1fc0da5c47072c"
+    },
+    {
+      "path": "p6-complete-v2/baseline/report-baseline.txt.gz",
+      "bytes": 19,
+      "sha256": "0396df630ee13f66e0da1520381e387cd91eca058155d55f96b580b5d5769f02"
+    },
+    {
+      "path": "p6-complete-v2/alpha/source-alpha.txt.gz",
+      "bytes": 12,
+      "sha256": "42d7d6baff2b6546401c922d3fc4670cc895835bcc6b91339ff34b01cf1889c1"
+    },
+    {
+      "path": "p6-complete-v3/beta space/report-beta space.txt.gz",
+      "bytes": 21,
+      "sha256": "2ff7a5ce495ebf89b4007401a54977c4dde7b66075579e5b01fd75e5f1f586da"
+    },
+    {
+      "path": "p6-complete-v3/beta space/source-beta space.txt.gz",
+      "bytes": 17,
+      "sha256": "59bad7052e5deacfae0685c3c87782d5fd60384917be70afde440632cd749596"
+    },
+    {
+      "path": "p6-complete-v3/resume/report-resume.txt.gz",
+      "bytes": 17,
+      "sha256": "8b4db908d4fce6a0771da04694f55c7308514fd44d61ac070a5cc306c5209a98"
+    },
+    {
+      "path": "p6-complete-v3/resume/source-resume.txt.gz",
+      "bytes": 13,
+      "sha256": "6b92f189f1f641d9963a332941aa043e7e402c9ce19b1cfbf851238594957ecf"
+    },
+    {
+      "path": "p6-complete-v3/baseline/source-baseline.txt.gz",
+      "bytes": 15,
+      "sha256": "a7f63783ec4b4f1f9b4b7246ffe7dea337e3c58dc125591eaf1fc0da5c47072c"
+    },
+    {
+      "path": "p6-complete-v3/baseline/report-baseline.txt.gz",
+      "bytes": 19,
+      "sha256": "0396df630ee13f66e0da1520381e387cd91eca058155d55f96b580b5d5769f02"
+    },
+    {
+      "path": "p6-complete-v3/gamma-punctuation/report-gamma-punctuation.txt.gz",
+      "bytes": 28,
+      "sha256": "b869cacd648ba928c5f2ff078c053fa010c53069fbbdd5bc1c2db42b0bd1a9ec"
+    },
+    {
+      "path": "p6-complete-v3/gamma-punctuation/source-gamma-punctuation.txt.gz",
+      "bytes": 24,
+      "sha256": "aaa290403c58800ef091241bb57c0ef55fdeeb70f4e5d685a5c33c9e616b8601"
+    },
+    {
+      "path": "p6-complete-v3/alpha/report-alpha.txt.gz",
+      "bytes": 16,
+      "sha256": "7accb3a30576be37d650f65c955fcedfc2e4a1b7f2af94234ec628da679b2372"
+    },
+    {
+      "path": "p6-complete-v3/alpha/source-alpha.txt.gz",
+      "bytes": 12,
+      "sha256": "42d7d6baff2b6546401c922d3fc4670cc895835bcc6b91339ff34b01cf1889c1"
+    },
+    {
+      "path": "p6-complete-v1/baseline/source-baseline.txt.gz",
+      "bytes": 15,
+      "sha256": "a7f63783ec4b4f1f9b4b7246ffe7dea337e3c58dc125591eaf1fc0da5c47072c"
+    }
+  ]
+}

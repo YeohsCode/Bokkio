@@ -1,0 +1,24 @@
+{
+  "workflow": "C:\\BokkioTasks\\p6-complete-v3\\report-workflow.json",
+  "bindings": {
+    "explorer": "1864",
+    "notepad": "8984"
+  },
+  "windows": {
+    "explorer": "hwnd:0x5205f0"
+  },
+  "parameters": {
+    "source_name": "source-alpha.txt",
+    "report_name": "report-alpha.txt",
+    "folder_title": "alpha - File Explorer",
+    "folder_name": "alpha",
+    "body": "P6 report alpha.",
+    "save_path": "C:\\BokkioTasks\\p6-complete-v3\\alpha\\report-alpha.txt",
+    "source_path": "C:\\BokkioTasks\\p6-complete-v3\\alpha\\source-alpha.txt",
+    "source_hash": "42d7d6baff2b6546401c922d3fc4670cc895835bcc6b91339ff34b01cf1889c1",
+    "output_hash": "7accb3a30576be37d650f65c955fcedfc2e4a1b7f2af94234ec628da679b2372"
+  },
+  "output": "C:\\BokkioTasks\\p6-complete-v3\\alpha.json",
+  "pause_after": null,
+  "resume": null
+}

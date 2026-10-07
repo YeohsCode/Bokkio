@@ -1,0 +1,32 @@
+[
+  {
+    "lane": "uia",
+    "method": "snapshot",
+    "seconds": 5.562000000005355
+  },
+  {
+    "lane": "planner",
+    "method": "plan",
+    "seconds": 2.9219999999913853
+  },
+  {
+    "lane": "uia",
+    "method": "snapshot",
+    "seconds": 5.6560000000026776
+  },
+  {
+    "lane": "jev",
+    "method": "ask",
+    "seconds": 2.2809999999881256
+  },
+  {
+    "lane": "uia",
+    "method": "perform",
+    "seconds": 13.156000000002678
+  },
+  {
+    "lane": "uia",
+    "method": "snapshot",
+    "seconds": 7.796999999991385
+  }
+]

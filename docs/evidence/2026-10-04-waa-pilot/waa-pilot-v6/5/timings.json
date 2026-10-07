@@ -1,0 +1,62 @@
+[
+  {
+    "lane": "uia",
+    "method": "snapshot",
+    "seconds": 0.75
+  },
+  {
+    "lane": "planner",
+    "method": "plan",
+    "seconds": 3.4839999999967404
+  },
+  {
+    "lane": "uia",
+    "method": "snapshot",
+    "seconds": 0.7970000000059372
+  },
+  {
+    "lane": "uia",
+    "method": "snapshot",
+    "seconds": 0.7809999999881256
+  },
+  {
+    "lane": "planner",
+    "method": "plan",
+    "seconds": 3.639999999999418
+  },
+  {
+    "lane": "uia",
+    "method": "snapshot",
+    "seconds": 0.7649999999994179
+  },
+  {
+    "lane": "uia",
+    "method": "snapshot",
+    "seconds": 0.7810000000026776
+  },
+  {
+    "lane": "planner",
+    "method": "plan",
+    "seconds": 3.375
+  },
+  {
+    "lane": "uia",
+    "method": "snapshot",
+    "seconds": 0.7810000000026776
+  },
+  {
+    "lane": "jev",
+    "method": "ask",
+    "seconds": 1.2969999999913853
+  },
+  {
+    "lane": "uia",
+    "method": "perform",
+    "seconds": 1.6719999999913853
+  },
+  {
+    "lane": "uia",
+    "method": "snapshot",
+    "seconds": 0.6560000000026776
+  }
+]

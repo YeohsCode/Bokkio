@@ -1,0 +1,24 @@
+{
+  "workflow": "C:\\BokkioTasks\\p6-complete-v3\\report-workflow.json",
+  "bindings": {
+    "explorer": "6472",
+    "notepad": "4036"
+  },
+  "windows": {
+    "explorer": "hwnd:0x4d0690"
+  },
+  "parameters": {
+    "source_name": "source-gamma-punctuation.txt",
+    "report_name": "report-gamma-punctuation.txt",
+    "folder_title": "gamma-punctuation - File Explorer",
+    "folder_name": "gamma-punctuation",
+    "body": "P6 report gamma-punctuation.",
+    "save_path": "C:\\BokkioTasks\\p6-complete-v3\\gamma-punctuation\\report-gamma-punctuation.txt",
+    "source_path": "C:\\BokkioTasks\\p6-complete-v3\\gamma-punctuation\\source-gamma-punctuation.txt",
+    "source_hash": "aaa290403c58800ef091241bb57c0ef55fdeeb70f4e5d685a5c33c9e616b8601",
+    "output_hash": "b869cacd648ba928c5f2ff078c053fa010c53069fbbdd5bc1c2db42b0bd1a9ec"
+  },
+  "output": "C:\\BokkioTasks\\p6-complete-v3\\gamma-punctuation.json",
+  "pause_after": null,
+  "resume": null
+}

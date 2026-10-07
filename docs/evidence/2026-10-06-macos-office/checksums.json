@@ -1,0 +1,12 @@
+{
+  "README.md": "8281fef479cd0f97dbe4ecacf7a9fa46bd0f2fcdf20c8a6948596c9742922455",
+  "artifact-verification.json": "8311acc8a8a1b42f0b178cf82716251ae03ca4ce78f0daa53f2bd1f719a1126b",
+  "baseline-hashes.json": "efbe031b66846315b0182af760da02bea3d3b2475f42c8a70c56207abf3ce83b",
+  "case-results.json": "83b5e5290dbe052374c10dc1745adfa6a104002c53ed1db1d5d0fafe1393c312",
+  "diagnostics.json": "5066c59fd31b969937bfc904438dbf44456b7f5744daefa2a6e2d37d96885e15",
+  "native-matrix.json": "af89cb3421f0e1ee7f39d960bf58a48d41284363bc262636b0d6aac3489cb0c7",
+  "powerpoint-reopened-editors.json": "e241d31871075735c50ed86393f4e28f2b7119bb46793bfe5ec7c8a6e2f5a042",
+  "source-hashes.json": "f2a504a239206927f6a285923b8fc020929e4068c4d46e5c68b50bd9a993290b",
+  "verifier-validation.json": "36b839ac22a4644bd612bc1650d14f54a900552beaede12b59f8bbe88141e932",
+  "word-reopened-editors.json": "c170fced4d08ae48da3bd06684b28f2992d2123e62fb7b6c30721fc7b973185c"
+}

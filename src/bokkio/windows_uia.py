@@ -28,10 +28,19 @@ class WindowsUIA:
             if scope_hwnd is None:
                 return None
             root = self.automation.ElementFromHandle(scope_hwnd)
+            process_id = element.pid
+            if root.CurrentProcessId != process_id:
+                # Settings' CoreWindow is hosted inside ApplicationFrameHost.
+                # xa11y reports the host PID for its descendants. Accept the
+                # provider PID only while its Win32 top-level owner is that host.
+                if (root.CurrentClassName != 'Windows.UI.Core.CoreWindow'
+                        or self._root_process_id(scope_hwnd) != process_id):
+                    raise BokkioError('Native scope is outside the observed application process')
+                process_id = root.CurrentProcessId
             raw = element.raw
             # AutomationId is not globally unique. Resolve inside the observed
             # native window, with process/type/name/class and exact bounds.
-            properties = [(self.types.UIA_ProcessIdPropertyId, element.pid),
+            properties = [(self.types.UIA_ProcessIdPropertyId, process_id),
                           (self.types.UIA_ControlTypePropertyId, raw.get("control_type_id")),
                           (self.types.UIA_NamePropertyId, raw.get("uia_name", element.name or ""))]
             for key, prop in [("automation_id", self.types.UIA_AutomationIdPropertyId),
@@ -44,10 +53,21 @@ class WindowsUIA:
             matches = root.FindAll(self.types.TreeScope_Subtree, condition)
             bounds = element.bounds
             candidates = []
-            for i in range(matches.Length):
+            count = matches.Length
+            if not 0 <= count <= 4096:
+                raise BokkioError('UIA candidate collection exceeds the bounded native lookup')
+            for i in range(count):
                 candidate = matches.GetElement(i)
-                rect = candidate.CurrentBoundingRectangle
-                if bounds is not None and (rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top) == (bounds.x, bounds.y, bounds.width, bounds.height):
+                # Use the VARIANT property transport (left, top, width, height).
+                # The struct-return getter was the active frame in an ARM64
+                # guest's x64-provider access violation. No alternate candidate
+                # is accepted when the property is malformed or unavailable.
+                rect = candidate.GetCurrentPropertyValue(self.types.UIA_BoundingRectanglePropertyId)
+                import math
+                if (not isinstance(rect, (tuple, list)) or len(rect) != 4
+                        or any(type(v) not in {int, float} or not math.isfinite(v) for v in rect)):
+                    raise BokkioError('UIA candidate has invalid bounding rectangle data')
+                if bounds is not None and tuple(rect) == (bounds.x, bounds.y, bounds.width, bounds.height):
                     candidates.append(candidate)
             return candidates[0] if len(candidates) == 1 else None
         hwnd = int(stable[5:], 0)
@@ -71,6 +91,17 @@ class WindowsUIA:
         if raw.get("class_name") and raw["class_name"] != native.CurrentClassName:
             raise BokkioError("UIA HWND class changed; take a new snapshot")
         return native
+
+    def _root_process_id(self, hwnd):
+        import ctypes
+        from ctypes import wintypes
+        user=ctypes.WinDLL('user32')
+        user.GetAncestor.argtypes=[wintypes.HWND,wintypes.UINT]
+        user.GetAncestor.restype=wintypes.HWND
+        user.GetWindowThreadProcessId.argtypes=[wintypes.HWND,ctypes.POINTER(wintypes.DWORD)]
+        pid=wintypes.DWORD()
+        user.GetWindowThreadProcessId(user.GetAncestor(hwnd,2),ctypes.byref(pid))
+        return pid.value
 
     def _pattern(self, native, kind):
         available = getattr(self.types, f"UIA_Is{kind}PatternAvailablePropertyId")
@@ -97,8 +128,11 @@ class WindowsUIA:
         if expand is not None and expand.CurrentExpandCollapseState != 3:
             actions.extend(['expand','collapse'])
             state['expanded'] = expand.CurrentExpandCollapseState in {1,2}
-        if selection is not None: actions.append('select')
-        return {'runtime_id':list(native.GetRuntimeId()), 'actions':actions, 'state':state}
+        if selection is not None:
+            actions.append('select')
+            state['selected']=bool(selection.CurrentIsSelected)
+        return {'runtime_id':list(native.GetRuntimeId()), 'process_id':native.CurrentProcessId,
+                'actions':actions, 'state':state}
 
     def perform_action(self, element, action, scope_hwnd, expected_runtime_id):
         native = self._element(element, scope_hwnd)
@@ -128,7 +162,64 @@ class WindowsUIA:
             return {"available": False}
         return {"available": True, "value": pattern.CurrentValue,
                 "readonly": bool(pattern.CurrentIsReadOnly), "source": "UIA.ValuePattern",
+                "submit_available": bool(scope_hwnd is not None and not pattern.CurrentIsReadOnly
+                    and native.CurrentIsKeyboardFocusable
+                    and self.automation.ElementFromHandle(scope_hwnd).CurrentClassName in {'CabinetWClass','ExploreWClass'}
+                    and native.CurrentClassName in {'TextBox','Edit','UIRenameTextElement'}),
                 "runtime_id": list(native.GetRuntimeId())}
+
+    def submit(self, element, scope_hwnd, expected_runtime_id, expected_value):
+        """Commit an Explorer address/inline edit with one focus-bound Enter."""
+        import ctypes
+        from ctypes import wintypes
+        root=self.automation.ElementFromHandle(scope_hwnd)
+        if root.CurrentClassName not in {'CabinetWClass','ExploreWClass'} or root.CurrentProcessId!=element.pid:
+            raise BokkioError('Enter submission requires the observed Explorer window')
+        native=self._element(element,scope_hwnd)
+        if native is None:raise BokkioError('Enter target is unavailable')
+        pattern=self._pattern(native,'Value')
+        if pattern is None or pattern.CurrentIsReadOnly or native.CurrentClassName not in {'TextBox','Edit','UIRenameTextElement'}:
+            raise BokkioError('Enter target must be a writable Explorer edit')
+        user=ctypes.WinDLL('user32',use_last_error=True)
+        user.GetAncestor.argtypes=[wintypes.HWND,wintypes.UINT];user.GetAncestor.restype=wintypes.HWND
+        user.GetForegroundWindow.restype=wintypes.HWND
+        user.SetForegroundWindow.argtypes=[wintypes.HWND];user.SetForegroundWindow.restype=wintypes.BOOL
+        top=user.GetAncestor(scope_hwnd,2)
+        def identity():
+            if (list(native.GetRuntimeId())!=expected_runtime_id or not native.CurrentIsEnabled
+                    or native.CurrentProcessId!=element.pid or pattern.CurrentValue!=expected_value):
+                raise BokkioError('Enter target identity/value changed before submission')
+        identity()
+        user.SetForegroundWindow(top)
+        native.SetFocus()
+        identity()
+        focused=self.automation.GetFocusedElement()
+        if (user.GetForegroundWindow()!=top or focused.CurrentProcessId!=element.pid
+                or list(focused.GetRuntimeId())!=expected_runtime_id):
+            raise BokkioError('Enter target is not the foreground focused native edit')
+        class Keyboard(ctypes.Structure):
+            _fields_=[('vk',wintypes.WORD),('scan',wintypes.WORD),('flags',wintypes.DWORD),
+                      ('time',wintypes.DWORD),('extra',ctypes.c_size_t)]
+        class Mouse(ctypes.Structure):
+            _fields_=[('x',wintypes.LONG),('y',wintypes.LONG),('data',wintypes.DWORD),
+                      ('flags',wintypes.DWORD),('time',wintypes.DWORD),('extra',ctypes.c_size_t)]
+        class Payload(ctypes.Union):
+            _fields_=[('keyboard',Keyboard),('mouse',Mouse)]
+        class Input(ctypes.Structure):
+            _fields_=[('kind',wintypes.DWORD),('payload',Payload)]
+        events=(Input*2)()
+        for i,flags in enumerate([0,2]):
+            events[i].kind=1;events[i].payload.keyboard=Keyboard(13,0,flags,0,0)
+        user.SendInput.argtypes=[wintypes.UINT,ctypes.POINTER(Input),ctypes.c_int]
+        user.SendInput.restype=wintypes.UINT
+        identity()
+        if user.GetForegroundWindow()!=top or list(self.automation.GetFocusedElement().GetRuntimeId())!=expected_runtime_id:
+            raise BokkioError('Foreground focus changed before Enter dispatch')
+        sent=user.SendInput(2,events,ctypes.sizeof(Input))
+        if sent!=2:
+            if sent==1:user.SendInput(1,ctypes.byref(events[1]),ctypes.sizeof(Input))
+            raise BokkioError('Enter dispatch was incomplete; completion must be observed')
+        return {'action_source':'Win32.SendInput.VK_RETURN'}
 
     def set_value(self, element, value, scope_hwnd=None, expected_runtime_id=None):
         native = self._element(element, scope_hwnd)

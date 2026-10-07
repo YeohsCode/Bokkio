@@ -73,6 +73,32 @@ def build_parser() -> argparse.ArgumentParser:
     run.add_argument("--control-file", help='JSON file containing {"action":"pause"} or {"action":"cancel"}')
     run.add_argument("--resume", help="Resume a JSON checkpoint with the same goal and app allowlist")
     run.add_argument("--amend-reason", help="Explicit reason for a changed goal at a paused/completed checkpoint; keep the app allowlist")
+    workflow = subparsers.add_parser("workflow", help="Record, compile and replay native semantic workflows")
+    commands = workflow.add_subparsers(dest="workflow_command", required=True)
+    for command in ("record", "compile", "parameterize", "replay", "repair"):
+        item = commands.add_parser(command)
+        item.add_argument("--output", required=True)
+        if command in {"record", "compile", "replay"}:
+            item.add_argument("--bind", action="append", required=True, help="Explicit left=right binding; alias=app for record/replay, trace-app=alias for compile")
+        if command in {"record", "compile"}:
+            item.add_argument("--name", required=True)
+        if command == "record": item.add_argument("--actions", required=True, help="JSON list of semantic actions with explicit verification")
+        if command == "compile": item.add_argument("--trace", required=True)
+        if command == "parameterize": item.add_argument("--spec", required=True, help="JSON parameters, literal slots and file contracts")
+        if command in {"parameterize", "replay", "repair"}: item.add_argument("--workflow", required=True)
+        if command == "replay":
+            item.add_argument("--timeout", type=float, default=5)
+            item.add_argument("--control-file")
+            item.add_argument("--parameters", help="JSON literal parameter values")
+            item.add_argument("--resume", help="Atomic workflow checkpoint to resume with rebound apps")
+            item.add_argument("--window-bind", action="append", default=[], help="alias=native-window scope; rebind after restart")
+        if command == "repair":
+            item.add_argument("--run", required=True)
+            repair_source=item.add_mutually_exclusive_group(required=True)
+            repair_source.add_argument("--steps", help="JSON list of caller-reviewed replacement steps")
+            repair_source.add_argument("--model-repair", action="store_true", help="Ask the model to choose a native selector; never execute it")
+            item.add_argument("--planner-model")
+            item.add_argument("--reason", required=True)
     return parser
 
 
@@ -89,6 +115,60 @@ def render_tree(node: dict[str, Any], indent: int = 0) -> str:
 
 
 def execute(args: argparse.Namespace, backend: Xa11yBackend) -> Any:
+    if args.command == "workflow":
+        from pathlib import Path
+        from .workflow import Recorder, WorkflowReplay, from_agent_trace, repair_version, request_repair, parameterize, WorkflowScope, save_json
+        from .agent import file_control
+        def load(path): return json.loads(Path(path).read_text(encoding="utf-8"))
+        bindings = {}
+        for value in getattr(args, "bind", []):
+            left, sep, right = value.partition("=")
+            if not sep or not left or not right or left in bindings:
+                raise BokkioError("Workflow bindings must be unique nonempty left=right pairs")
+            bindings[left] = right
+        if args.workflow_command == "compile":
+            result = from_agent_trace(load(args.trace), args.name, bindings)
+        elif args.workflow_command == "parameterize":
+            spec=load(args.spec)
+            if not isinstance(spec,dict) or set(spec)!={"parameters","slots","inputs","deliveries"}:raise BokkioError("Invalid parameterization spec")
+            result=parameterize(load(args.workflow),**spec)
+        elif args.workflow_command == "record":
+            recorder = Recorder(backend, bindings)
+            actions = load(args.actions)
+            if not isinstance(actions, list) or not 0 < len(actions) <= 200:
+                raise BokkioError("Recording requires 1..200 explicit semantic actions")
+            # Validate action shape before any dispatch; the Recorder validates
+            # each target against the native state immediately before its action.
+            for action in actions:
+                if not isinstance(action, dict) or set(action) != {"app", "action", "intent", "target", "arguments", "wait", "verify"}:
+                    raise BokkioError("Invalid recording action fields")
+                if not isinstance(action["target"], dict) or set(action["target"]) - {"ref", "role", "name", "parent"}:
+                    raise BokkioError("Invalid recording target")
+                if not isinstance(action["arguments"], dict) or set(action["arguments"]) & set(action["target"]):
+                    raise BokkioError("Invalid recording arguments")
+            for action in actions:
+                recorder.perform(action["app"], action["action"], intent=action["intent"],
+                    wait=action["wait"], verify=action["verify"], **action["target"], **action["arguments"])
+            result = recorder.export(args.name)
+            save_json(str(args.output) + ".recording.json", recorder.events)
+        elif args.workflow_command == "replay":
+            windows={}
+            for value in args.window_bind:
+                alias,sep,window=value.partition('=')
+                if not sep or not window or alias in windows:raise BokkioError('Window bindings must be unique alias=window pairs')
+                windows[alias]=window
+            return WorkflowReplay(WorkflowScope(backend,bindings,windows), timeout=args.timeout, control=file_control(args.control_file)).run(
+                load(args.workflow), bindings, args.output,
+                parameters=load(args.parameters) if args.parameters else None,
+                resume=load(args.resume) if args.resume else None)
+        else:
+            if args.model_repair:
+                from .workflow_repair import OpenRouterWorkflowRepair
+                result=request_repair(load(args.workflow),load(args.run),OpenRouterWorkflowRepair(model=args.planner_model),args.reason)
+            else:result = repair_version(load(args.workflow), load(args.run), load(args.steps), args.reason)
+        save_json(args.output, result)
+        return {"schema":result["schema"], "sha256":result["sha256"], "revision":result["revision"],
+                "steps":len(result["steps"]), "output":str(Path(args.output).resolve())}
     if args.command == "apps":
         return backend.apps()
     if args.command == "windows":
@@ -155,7 +235,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     try:
-        result = execute(args, Xa11yBackend())
+        offline = args.command == "workflow" and args.workflow_command in {"compile", "parameterize", "repair"}
+        result = execute(args, None if offline else Xa11yBackend())
         if args.command == "run":
             from pathlib import Path
             summary = {k: result[k] for k in ("status", "actions", "replans", "completed_steps")}
@@ -164,6 +245,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             print(json.dumps(summary, ensure_ascii=False, indent=2))
         elif args.command == "snapshot" and not args.json:
             print("\n\n".join(render_tree(tree) for tree in result["windows"]))
+        elif args.command == "workflow":
+            print(json.dumps({k:v for k,v in result.items() if k!='steps'} if args.workflow_command=='replay' else result,
+                             ensure_ascii=False, indent=2))
         elif getattr(args, "json", False) or args.command in {"snapshot", "find", "get", "act", "decide", "run"}:
             print(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True))
         else:
@@ -179,7 +263,8 @@ def main(argv: Sequence[str] | None = None) -> int:
                         else ""
                     )
                     print(f"{item['ref']}\t{item['role']}\t{item['name'] or '-'}{rectangle}")
-        return 1 if args.command == "run" and result["status"] in {"blocked", "failed", "cancelled"} else 0
+        failed = args.command == "run" or (args.command == "workflow" and args.workflow_command == "replay")
+        return 1 if failed and result["status"] in {"blocked", "failed", "cancelled"} else 0
     except BokkioLookupError as error:
         print(json.dumps(error.as_dict(), ensure_ascii=False, indent=2), file=sys.stderr)
         return 1

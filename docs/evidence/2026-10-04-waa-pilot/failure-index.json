@@ -1,0 +1,1019 @@
+[
+  {
+    "run": "v1",
+    "index": 1,
+    "status": "interrupted_unscored",
+    "native_steps": 5,
+    "planned": 5,
+    "unstarted": [
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "run": "v2",
+    "index": 2,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/2b0c0844-bd4f-42ba-a25e-afb4267d51e2-WOS.json",
+    "task_sha256": "184af77704fa2095a331ab4e21a0218ed417972d28c12e0693c249633a5105e4",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 0,
+    "metric_score": null,
+    "error": "Owned Explorer window did not appear",
+    "seconds": 30.188,
+    "component_seconds": {
+      "uia": 0,
+      "planner": 0,
+      "jev": 0
+    }
+  },
+  {
+    "run": "v2",
+    "index": 3,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/34a4fee9-e52e-4a4a-96d2-68d35091504a-WOS.json",
+    "task_sha256": "39e14dec1246f61112b5d6059c8549b9a3f332a7f651e9496fd0cf8a196f6349",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 0,
+    "metric_score": null,
+    "error": "Owned Explorer window did not appear",
+    "seconds": 30.172,
+    "component_seconds": {
+      "uia": 0,
+      "planner": 0,
+      "jev": 0
+    }
+  },
+  {
+    "run": "v2",
+    "index": 4,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/b8ab0ae1-d2b4-4e6f-b609-df7d76b456d7-WOS.json",
+    "task_sha256": "0505246631e539f397d2b3d481f0a9b88b49acd4acaa704ffd6e02a56447efd3",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 0,
+    "metric_score": null,
+    "error": "Owned Explorer window did not appear",
+    "seconds": 30.187,
+    "component_seconds": {
+      "uia": 0,
+      "planner": 0,
+      "jev": 0
+    }
+  },
+  {
+    "run": "v2",
+    "index": 5,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/settings/37e10fc4-b4c5-4b02-a65c-bfae8bc51d3f-wos.json",
+    "task_sha256": "680d36fc18cfcd59964e7d1efc8d59971a07579be7e5351b66a3882f6ff42741",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 1,
+    "metric_score": 0,
+    "agent_status": "blocked",
+    "action_budget_used": 1,
+    "replans": 3,
+    "intermediate_checks": {
+      "one_action_per_runner_step": true,
+      "successful_dispatches_match_trace": true,
+      "native_observation_after_each_success": true
+    },
+    "artifacts": {},
+    "notification_registry_restored": true,
+    "seconds": 54.078,
+    "component_seconds": {
+      "uia": 14.829,
+      "planner": 22.686,
+      "jev": 11.296
+    }
+  },
+  {
+    "run": "v3",
+    "index": 2,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/2b0c0844-bd4f-42ba-a25e-afb4267d51e2-WOS.json",
+    "task_sha256": "184af77704fa2095a331ab4e21a0218ed417972d28c12e0693c249633a5105e4",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 2,
+    "metric_score": null,
+    "agent_status": "blocked",
+    "action_budget_used": 2,
+    "replans": 3,
+    "intermediate_checks": {
+      "one_action_per_runner_step": true,
+      "successful_dispatches_match_trace": true,
+      "native_observation_after_each_success": true
+    },
+    "error": "Postconfig requires one owned matching window",
+    "seconds": 143.656,
+    "component_seconds": {
+      "uia": 98.357,
+      "planner": 16.876,
+      "jev": 11.015
+    }
+  },
+  {
+    "run": "v3",
+    "index": 4,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/b8ab0ae1-d2b4-4e6f-b609-df7d76b456d7-WOS.json",
+    "task_sha256": "0505246631e539f397d2b3d481f0a9b88b49acd4acaa704ffd6e02a56447efd3",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 3,
+    "metric_score": 0,
+    "agent_status": "blocked",
+    "action_budget_used": 3,
+    "replans": 3,
+    "intermediate_checks": {
+      "one_action_per_runner_step": true,
+      "successful_dispatches_match_trace": true,
+      "native_observation_after_each_success": true
+    },
+    "artifacts": {
+      "Desktop\\example.txt": {
+        "sha256": "95a2f1edb08a76120b82cec7c93ca477618639f04beac7d2aeba2dc039d43715",
+        "bytes": 6
+      }
+    },
+    "input_bytes_preserved": true,
+    "seconds": 216.735,
+    "component_seconds": {
+      "uia": 160.957,
+      "planner": 21.251,
+      "jev": 10.485
+    }
+  },
+  {
+    "run": "v3",
+    "index": 5,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/settings/37e10fc4-b4c5-4b02-a65c-bfae8bc51d3f-wos.json",
+    "task_sha256": "680d36fc18cfcd59964e7d1efc8d59971a07579be7e5351b66a3882f6ff42741",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 1,
+    "metric_score": 0,
+    "agent_status": "blocked",
+    "action_budget_used": 1,
+    "replans": 3,
+    "intermediate_checks": {
+      "one_action_per_runner_step": true,
+      "successful_dispatches_match_trace": true,
+      "native_observation_after_each_success": true
+    },
+    "artifacts": {},
+    "input_bytes_preserved": true,
+    "notification_registry_restored": true,
+    "seconds": 41.844,
+    "component_seconds": {
+      "uia": 10.265,
+      "planner": 19.264,
+      "jev": 6.953
+    }
+  },
+  {
+    "run": "v4",
+    "index": 2,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/2b0c0844-bd4f-42ba-a25e-afb4267d51e2-WOS.json",
+    "task_sha256": "184af77704fa2095a331ab4e21a0218ed417972d28c12e0693c249633a5105e4",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 2,
+    "metric_score": null,
+    "agent_status": "blocked",
+    "action_budget_used": 2,
+    "replans": 3,
+    "intermediate_checks": {
+      "one_action_per_runner_step": true,
+      "successful_dispatches_match_trace": true,
+      "native_observation_after_each_success": true
+    },
+    "error": "Postconfig requires one owned matching window",
+    "seconds": 98.859,
+    "component_seconds": {
+      "uia": 63.25,
+      "planner": 12.938,
+      "jev": 10.171
+    }
+  },
+  {
+    "run": "v4",
+    "index": 4,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/b8ab0ae1-d2b4-4e6f-b609-df7d76b456d7-WOS.json",
+    "task_sha256": "0505246631e539f397d2b3d481f0a9b88b49acd4acaa704ffd6e02a56447efd3",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 16,
+    "metric_score": 0,
+    "agent_status": "blocked",
+    "action_budget_used": 16,
+    "replans": 3,
+    "intermediate_checks": {
+      "one_action_per_runner_step": true,
+      "successful_dispatches_match_trace": true,
+      "native_observation_after_each_success": true
+    },
+    "artifacts": {
+      "Desktop\\example.txt": {
+        "sha256": "95a2f1edb08a76120b82cec7c93ca477618639f04beac7d2aeba2dc039d43715",
+        "bytes": 6
+      }
+    },
+    "input_bytes_preserved": true,
+    "seconds": 450.437,
+    "component_seconds": {
+      "uia": 352.187,
+      "planner": 20.718,
+      "jev": 25.092
+    }
+  },
+  {
+    "run": "v5",
+    "index": 2,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/2b0c0844-bd4f-42ba-a25e-afb4267d51e2-WOS.json",
+    "task_sha256": "184af77704fa2095a331ab4e21a0218ed417972d28c12e0693c249633a5105e4",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 3,
+    "metric_score": null,
+    "agent_status": "blocked",
+    "action_budget_used": 3,
+    "replans": 3,
+    "intermediate_checks": {
+      "one_action_per_runner_step": true,
+      "successful_dispatches_match_trace": true,
+      "native_observation_after_each_success": true
+    },
+    "error": "Postconfig requires one owned matching window",
+    "seconds": 125.234,
+    "component_seconds": {
+      "uia": 84.656,
+      "planner": 15.53,
+      "jev": 10.875
+    }
+  },
+  {
+    "run": "v5",
+    "index": 4,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/b8ab0ae1-d2b4-4e6f-b609-df7d76b456d7-WOS.json",
+    "task_sha256": "0505246631e539f397d2b3d481f0a9b88b49acd4acaa704ffd6e02a56447efd3",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 24,
+    "metric_score": 0,
+    "agent_status": "blocked",
+    "action_budget_used": 24,
+    "replans": 0,
+    "intermediate_checks": {
+      "one_action_per_runner_step": true,
+      "successful_dispatches_match_trace": true,
+      "native_observation_after_each_success": true
+    },
+    "artifacts": {
+      "Desktop\\example.txt": {
+        "sha256": "95a2f1edb08a76120b82cec7c93ca477618639f04beac7d2aeba2dc039d43715",
+        "bytes": 6
+      }
+    },
+    "input_bytes_preserved": true,
+    "seconds": 498.015,
+    "component_seconds": {
+      "uia": 393.441,
+      "planner": 4.312,
+      "jev": 43.531
+    }
+  },
+  {
+    "run": "v5",
+    "index": 5,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/settings/37e10fc4-b4c5-4b02-a65c-bfae8bc51d3f-wos.json",
+    "task_sha256": "680d36fc18cfcd59964e7d1efc8d59971a07579be7e5351b66a3882f6ff42741",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 0,
+    "metric_score": 0,
+    "agent_status": "blocked",
+    "action_budget_used": 0,
+    "replans": 3,
+    "intermediate_checks": {
+      "one_action_per_runner_step": true,
+      "successful_dispatches_match_trace": true,
+      "native_observation_after_each_success": true
+    },
+    "artifacts": {},
+    "input_bytes_preserved": true,
+    "notification_registry_restored": true,
+    "seconds": 43.203,
+    "component_seconds": {
+      "uia": 5.594,
+      "planner": 26.046,
+      "jev": 8.28
+    }
+  },
+  {
+    "run": "v6",
+    "index": 2,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/2b0c0844-bd4f-42ba-a25e-afb4267d51e2-WOS.json",
+    "task_sha256": "184af77704fa2095a331ab4e21a0218ed417972d28c12e0693c249633a5105e4",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 3,
+    "metric_score": 0.0,
+    "agent_status": "completed",
+    "action_budget_used": 3,
+    "replans": 0,
+    "intermediate_checks": {
+      "one_action_per_runner_step": true,
+      "successful_dispatches_match_trace": true,
+      "native_observation_after_each_success": true
+    },
+    "artifacts": {},
+    "input_bytes_preserved": true,
+    "seconds": 85.547,
+    "component_seconds": {
+      "uia": 59.438,
+      "planner": 8.328,
+      "jev": 4.343
+    }
+  },
+  {
+    "run": "v6",
+    "index": 4,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/b8ab0ae1-d2b4-4e6f-b609-df7d76b456d7-WOS.json",
+    "task_sha256": "0505246631e539f397d2b3d481f0a9b88b49acd4acaa704ffd6e02a56447efd3",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 14,
+    "metric_score": 0,
+    "agent_status": "failed",
+    "action_budget_used": 14,
+    "replans": 0,
+    "intermediate_checks": {
+      "one_action_per_runner_step": true,
+      "successful_dispatches_match_trace": true,
+      "native_observation_after_each_success": true
+    },
+    "artifacts": {
+      "Desktop\\example.txt": {
+        "sha256": "95a2f1edb08a76120b82cec7c93ca477618639f04beac7d2aeba2dc039d43715",
+        "bytes": 6
+      }
+    },
+    "input_bytes_preserved": true,
+    "seconds": 312.437,
+    "component_seconds": {
+      "uia": 246.589,
+      "planner": 4.484,
+      "jev": 29.234
+    }
+  },
+  {
+    "run": "v6",
+    "index": 5,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/settings/37e10fc4-b4c5-4b02-a65c-bfae8bc51d3f-wos.json",
+    "task_sha256": "680d36fc18cfcd59964e7d1efc8d59971a07579be7e5351b66a3882f6ff42741",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 1,
+    "metric_score": 0.0,
+    "agent_status": "completed",
+    "action_budget_used": 1,
+    "replans": 0,
+    "intermediate_checks": {
+      "one_action_per_runner_step": true,
+      "successful_dispatches_match_trace": true,
+      "native_observation_after_each_success": true
+    },
+    "artifacts": {},
+    "input_bytes_preserved": true,
+    "notification_registry_restored": true,
+    "seconds": 22.64,
+    "component_seconds": {
+      "uia": 6.983,
+      "planner": 10.499,
+      "jev": 1.297
+    }
+  },
+  {
+    "run": "v7",
+    "index": 1,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/notepad/366de66e-cbae-4d72-b042-26390db2b145-WOS.json",
+    "task_sha256": "838b34719a839790926e0301ee990e0ffaecf664728620e535a74d6d2393c2ff",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 4,
+    "metric_score": 0.0,
+    "agent_status": "blocked",
+    "action_budget_used": 4,
+    "replans": 3,
+    "intermediate_checks": {
+      "one_action_per_runner_step": true,
+      "successful_dispatches_match_trace": true,
+      "native_observation_after_each_success": true
+    },
+    "evaluation_error": "Evaluator postconfig artifact does not exist",
+    "artifacts": {},
+    "input_bytes_preserved": true,
+    "seconds": 152.766,
+    "component_seconds": {
+      "uia": 105.331,
+      "planner": 17.579,
+      "jev": 18.516
+    }
+  },
+  {
+    "run": "v7",
+    "index": 2,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/2b0c0844-bd4f-42ba-a25e-afb4267d51e2-WOS.json",
+    "task_sha256": "184af77704fa2095a331ab4e21a0218ed417972d28c12e0693c249633a5105e4",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 3,
+    "metric_score": 0.0,
+    "agent_status": "completed",
+    "action_budget_used": 3,
+    "replans": 0,
+    "intermediate_checks": {
+      "one_action_per_runner_step": true,
+      "successful_dispatches_match_trace": true,
+      "native_observation_after_each_success": true
+    },
+    "business_checks": {
+      "getter": "Shell COM owned HWND folder path",
+      "observed_folder": "C:\\BokkioTasks\\waa-pilot-v7\\2\\task\\Documents",
+      "expected_folder": "C:\\BokkioTasks\\waa-pilot-v7\\2\\task\\Documents",
+      "destination_folder_matches": true
+    },
+    "artifacts": {},
+    "input_bytes_preserved": true,
+    "seconds": 85.531,
+    "component_seconds": {
+      "uia": 59.939,
+      "planner": 7.984,
+      "jev": 4.749
+    }
+  },
+  {
+    "run": "v7",
+    "index": 4,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/b8ab0ae1-d2b4-4e6f-b609-df7d76b456d7-WOS.json",
+    "task_sha256": "0505246631e539f397d2b3d481f0a9b88b49acd4acaa704ffd6e02a56447efd3",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 10,
+    "metric_score": 0,
+    "agent_status": "blocked",
+    "action_budget_used": 10,
+    "replans": 3,
+    "intermediate_checks": {
+      "one_action_per_runner_step": true,
+      "successful_dispatches_match_trace": true,
+      "native_observation_after_each_success": true
+    },
+    "artifacts": {
+      "Desktop\\example.txt": {
+        "sha256": "95a2f1edb08a76120b82cec7c93ca477618639f04beac7d2aeba2dc039d43715",
+        "bytes": 6
+      },
+      "Documents\\example.txt": {
+        "sha256": "95a2f1edb08a76120b82cec7c93ca477618639f04beac7d2aeba2dc039d43715",
+        "bytes": 6
+      }
+    },
+    "input_bytes_preserved": true,
+    "seconds": 320.093,
+    "component_seconds": {
+      "uia": 224.67,
+      "planner": 33.89,
+      "jev": 29.017
+    }
+  },
+  {
+    "run": "v7",
+    "index": 5,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/settings/37e10fc4-b4c5-4b02-a65c-bfae8bc51d3f-wos.json",
+    "task_sha256": "680d36fc18cfcd59964e7d1efc8d59971a07579be7e5351b66a3882f6ff42741",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 0,
+    "metric_score": 0,
+    "agent_status": "blocked",
+    "action_budget_used": 0,
+    "replans": 3,
+    "intermediate_checks": {
+      "one_action_per_runner_step": true,
+      "successful_dispatches_match_trace": true,
+      "native_observation_after_each_success": true
+    },
+    "artifacts": {},
+    "input_bytes_preserved": true,
+    "notification_native_restored": true,
+    "notification_registry_restored": true,
+    "seconds": 38.953,
+    "component_seconds": {
+      "uia": 5.578,
+      "planner": 14.11,
+      "jev": 7.858
+    }
+  },
+  {
+    "run": "v8",
+    "index": 2,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/2b0c0844-bd4f-42ba-a25e-afb4267d51e2-WOS.json",
+    "task_sha256": "184af77704fa2095a331ab4e21a0218ed417972d28c12e0693c249633a5105e4",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 5,
+    "metric_score": 0,
+    "agent_status": "blocked",
+    "action_budget_used": 5,
+    "replans": 3,
+    "intermediate_checks": {
+      "one_action_per_runner_step": true,
+      "successful_dispatches_match_trace": true,
+      "native_observation_after_each_success": true
+    },
+    "business_checks": {
+      "getter": "Shell COM owned HWND folder path",
+      "observed_folder": "C:\\BokkioTasks\\waa-pilot-v8\\2\\task\\Documents",
+      "expected_folder": "C:\\BokkioTasks\\waa-pilot-v8\\2\\task\\Documents",
+      "destination_folder_matches": true
+    },
+    "artifacts": {},
+    "input_bytes_preserved": true,
+    "seconds": 182.047,
+    "component_seconds": {
+      "uia": 120.188,
+      "planner": 19.5,
+      "jev": 23.187
+    }
+  },
+  {
+    "run": "v8",
+    "index": 4,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/b8ab0ae1-d2b4-4e6f-b609-df7d76b456d7-WOS.json",
+    "task_sha256": "0505246631e539f397d2b3d481f0a9b88b49acd4acaa704ffd6e02a56447efd3",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 13,
+    "metric_score": 0,
+    "agent_status": "blocked",
+    "action_budget_used": 13,
+    "replans": 3,
+    "intermediate_checks": {
+      "one_action_per_runner_step": true,
+      "successful_dispatches_match_trace": true,
+      "native_observation_after_each_success": true
+    },
+    "artifacts": {
+      "Desktop\\example.txt": {
+        "sha256": "95a2f1edb08a76120b82cec7c93ca477618639f04beac7d2aeba2dc039d43715",
+        "bytes": 6
+      },
+      "Documents\\example_renamed.txt": {
+        "sha256": "95a2f1edb08a76120b82cec7c93ca477618639f04beac7d2aeba2dc039d43715",
+        "bytes": 6
+      }
+    },
+    "input_bytes_preserved": true,
+    "seconds": 390.422,
+    "component_seconds": {
+      "uia": 272.874,
+      "planner": 41.578,
+      "jev": 35.434
+    }
+  },
+  {
+    "run": "v9",
+    "planned": 2,
+    "selection": [
+      2,
+      4
+    ],
+    "attempted": 0,
+    "passed": null,
+    "native_started": 0,
+    "unstarted": [
+      2,
+      4
+    ],
+    "stage": "regression_precheck_failed",
+    "log": "logs/pilot-v9-tests.log.gz"
+  },
+  {
+    "run": "v10",
+    "index": 2,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/2b0c0844-bd4f-42ba-a25e-afb4267d51e2-WOS.json",
+    "task_sha256": "184af77704fa2095a331ab4e21a0218ed417972d28c12e0693c249633a5105e4",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 0,
+    "metric_score": null,
+    "error": "Action budget must be 1–100 and replan budget 0–3",
+    "seconds": 5.296,
+    "input_bytes_preserved": true,
+    "component_seconds": {
+      "uia": 0,
+      "planner": 0,
+      "jev": 0
+    }
+  },
+  {
+    "run": "v10",
+    "index": 4,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/b8ab0ae1-d2b4-4e6f-b609-df7d76b456d7-WOS.json",
+    "task_sha256": "0505246631e539f397d2b3d481f0a9b88b49acd4acaa704ffd6e02a56447efd3",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 0,
+    "metric_score": null,
+    "error": "Action budget must be 1–100 and replan budget 0–3",
+    "seconds": 5.234,
+    "input_bytes_preserved": true,
+    "component_seconds": {
+      "uia": 0,
+      "planner": 0,
+      "jev": 0
+    }
+  },
+  {
+    "run": "v11",
+    "index": 2,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/2b0c0844-bd4f-42ba-a25e-afb4267d51e2-WOS.json",
+    "task_sha256": "184af77704fa2095a331ab4e21a0218ed417972d28c12e0693c249633a5105e4",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 3,
+    "metric_score": 0.0,
+    "agent_status": "completed",
+    "action_budget_used": 3,
+    "replans": 0,
+    "intermediate_checks": {
+      "one_action_per_runner_step": true,
+      "successful_dispatches_match_trace": true,
+      "native_observation_after_each_success": true
+    },
+    "business_checks": {
+      "getter": "Shell COM owned HWND folder path",
+      "observed_folder": "C:\\BokkioTasks\\waa-pilot-v11\\2\\task\\Documents",
+      "expected_folder": "C:\\BokkioTasks\\waa-pilot-v11\\2\\task\\Documents",
+      "destination_folder_matches": true
+    },
+    "artifacts": {},
+    "input_bytes_preserved": true,
+    "seconds": 71.203,
+    "component_seconds": {
+      "uia": 50.766,
+      "planner": 3.39,
+      "jev": 5.062
+    }
+  },
+  {
+    "run": "v11",
+    "index": 4,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/b8ab0ae1-d2b4-4e6f-b609-df7d76b456d7-WOS.json",
+    "task_sha256": "0505246631e539f397d2b3d481f0a9b88b49acd4acaa704ffd6e02a56447efd3",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 9,
+    "metric_score": 0,
+    "agent_status": "blocked",
+    "action_budget_used": 9,
+    "replans": 3,
+    "intermediate_checks": {
+      "one_action_per_runner_step": true,
+      "successful_dispatches_match_trace": true,
+      "native_observation_after_each_success": true
+    },
+    "artifacts": {
+      "Desktop\\example.txt": {
+        "sha256": "95a2f1edb08a76120b82cec7c93ca477618639f04beac7d2aeba2dc039d43715",
+        "bytes": 6
+      },
+      "Documents\\example.txt": {
+        "sha256": "95a2f1edb08a76120b82cec7c93ca477618639f04beac7d2aeba2dc039d43715",
+        "bytes": 6
+      }
+    },
+    "input_bytes_preserved": true,
+    "seconds": 265.203,
+    "component_seconds": {
+      "uia": 197.062,
+      "planner": 20.14,
+      "jev": 21.033
+    }
+  },
+  {
+    "run": "v12",
+    "planned": 1,
+    "selection": [
+      4
+    ],
+    "attempted": 0,
+    "passed": null,
+    "native_started": 0,
+    "unstarted": [
+      4
+    ],
+    "stage": "regression_precheck_failed",
+    "log": "logs/pilot-v12-tests.log.gz"
+  },
+  {
+    "run": "v14",
+    "index": 2,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/2b0c0844-bd4f-42ba-a25e-afb4267d51e2-WOS.json",
+    "task_sha256": "184af77704fa2095a331ab4e21a0218ed417972d28c12e0693c249633a5105e4",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 3,
+    "metric_score": 0.0,
+    "agent_status": "completed",
+    "action_budget_used": 3,
+    "replans": 0,
+    "intermediate_checks": {
+      "one_action_per_runner_step": true,
+      "successful_dispatches_match_trace": true,
+      "native_observation_after_each_success": true
+    },
+    "business_checks": {
+      "getter": "Shell COM owned HWND folder path",
+      "observed_folder": "C:\\BokkioTasks\\waa-pilot-v14\\2\\task\\Documents",
+      "expected_folder": "C:\\BokkioTasks\\waa-pilot-v14\\2\\task\\Documents",
+      "destination_folder_matches": true
+    },
+    "artifacts": {},
+    "input_bytes_preserved": true,
+    "seconds": 84.656,
+    "component_seconds": {
+      "uia": 60.924,
+      "planner": 6.36,
+      "jev": 4.016
+    }
+  },
+  {
+    "run": "v15",
+    "index": 2,
+    "status": "interrupted_unscored",
+    "native_steps": 1,
+    "exit_code": -1073741819,
+    "stage": "native_provider_process_crash",
+    "unstarted": [
+      3,
+      4,
+      5
+    ],
+    "diagnostic": "logs/waa-pilot-v15-stacks.log.gz"
+  },
+  {
+    "run": "v16",
+    "index": 2,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/2b0c0844-bd4f-42ba-a25e-afb4267d51e2-WOS.json",
+    "task_sha256": "184af77704fa2095a331ab4e21a0218ed417972d28c12e0693c249633a5105e4",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 3,
+    "metric_score": 0.0,
+    "agent_status": "completed",
+    "action_budget_used": 3,
+    "replans": 0,
+    "intermediate_checks": {
+      "one_action_per_runner_step": true,
+      "successful_dispatches_match_trace": true,
+      "native_observation_after_each_success": true
+    },
+    "business_checks": {
+      "getter": "Shell COM owned HWND folder path",
+      "observed_folder": "C:\\BokkioTasks\\waa-pilot-v16\\2\\task\\Documents",
+      "expected_folder": "C:\\BokkioTasks\\waa-pilot-v16\\2\\task\\Documents",
+      "destination_folder_matches": true
+    },
+    "artifacts": {},
+    "input_bytes_preserved": true,
+    "seconds": 90.125,
+    "component_seconds": {
+      "uia": 65.439,
+      "planner": 6.906,
+      "jev": 4.109
+    }
+  },
+  {
+    "run": "v17",
+    "index": 2,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/2b0c0844-bd4f-42ba-a25e-afb4267d51e2-WOS.json",
+    "task_sha256": "184af77704fa2095a331ab4e21a0218ed417972d28c12e0693c249633a5105e4",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 5,
+    "metric_score": 0.0,
+    "agent_status": "completed",
+    "action_budget_used": 5,
+    "replans": 1,
+    "intermediate_checks": {
+      "one_action_per_runner_step": true,
+      "successful_dispatches_match_trace": true,
+      "native_observation_after_each_success": true
+    },
+    "business_checks": {
+      "getter": "Shell COM owned HWND folder path",
+      "observed_folder": "C:\\BokkioTasks\\waa-pilot-v17\\2\\task\\Documents",
+      "expected_folder": "C:\\BokkioTasks\\waa-pilot-v17\\2\\task\\Documents",
+      "destination_folder_matches": true
+    },
+    "artifacts": {},
+    "input_bytes_preserved": true,
+    "seconds": 138.282,
+    "component_seconds": {
+      "uia": 108.782,
+      "planner": 6.672,
+      "jev": 6.657
+    }
+  },
+  {
+    "run": "v17",
+    "index": 5,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/settings/37e10fc4-b4c5-4b02-a65c-bfae8bc51d3f-wos.json",
+    "task_sha256": "680d36fc18cfcd59964e7d1efc8d59971a07579be7e5351b66a3882f6ff42741",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 0,
+    "metric_score": null,
+    "error": "No element matched selector: application[pid=8348]; waiting for: application discovery; last observed: no top-level UIA element owned by the process yet; candidates: [unrelated application inventory omitted]",
+    "notification_registry_restored": true,
+    "seconds": 0.531,
+    "input_bytes_preserved": true,
+    "component_seconds": {
+      "uia": 0,
+      "planner": 0,
+      "jev": 0
+    }
+  },
+  {
+    "run": "v18",
+    "index": 5,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/settings/37e10fc4-b4c5-4b02-a65c-bfae8bc51d3f-wos.json",
+    "task_sha256": "680d36fc18cfcd59964e7d1efc8d59971a07579be7e5351b66a3882f6ff42741",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 0,
+    "metric_score": null,
+    "error": "Settings did not expose one live UIA application within the startup deadline",
+    "notification_registry_restored": true,
+    "seconds": 30.156,
+    "input_bytes_preserved": true,
+    "component_seconds": {
+      "uia": 0,
+      "planner": 0,
+      "jev": 0
+    }
+  },
+  {
+    "run": "v19",
+    "index": 5,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/settings/37e10fc4-b4c5-4b02-a65c-bfae8bc51d3f-wos.json",
+    "task_sha256": "680d36fc18cfcd59964e7d1efc8d59971a07579be7e5351b66a3882f6ff42741",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 0,
+    "metric_score": null,
+    "error": "Need one native system notifications toggle",
+    "notification_registry_restored": true,
+    "seconds": 16.187,
+    "input_bytes_preserved": true,
+    "component_seconds": {
+      "uia": 0,
+      "planner": 0,
+      "jev": 0
+    }
+  },
+  {
+    "run": "v20",
+    "index": 5,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/settings/37e10fc4-b4c5-4b02-a65c-bfae8bc51d3f-wos.json",
+    "task_sha256": "680d36fc18cfcd59964e7d1efc8d59971a07579be7e5351b66a3882f6ff42741",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 0,
+    "metric_score": null,
+    "error": "Native Notifications page did not expose one toggle within the setup deadline",
+    "notification_registry_restored": true,
+    "seconds": 25.437,
+    "input_bytes_preserved": true,
+    "component_seconds": {
+      "uia": 0,
+      "planner": 0,
+      "jev": 0
+    }
+  },
+  {
+    "run": "v21",
+    "index": 5,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/settings/37e10fc4-b4c5-4b02-a65c-bfae8bc51d3f-wos.json",
+    "task_sha256": "680d36fc18cfcd59964e7d1efc8d59971a07579be7e5351b66a3882f6ff42741",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 0,
+    "metric_score": null,
+    "error": "Native Notifications page did not expose one toggle within the setup deadline",
+    "notification_registry_restored": true,
+    "seconds": 25.953,
+    "input_bytes_preserved": true,
+    "component_seconds": {
+      "uia": 0,
+      "planner": 0,
+      "jev": 0
+    }
+  },
+  {
+    "run": "v22",
+    "index": 5,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/settings/37e10fc4-b4c5-4b02-a65c-bfae8bc51d3f-wos.json",
+    "task_sha256": "680d36fc18cfcd59964e7d1efc8d59971a07579be7e5351b66a3882f6ff42741",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 2,
+    "metric_score": 0,
+    "agent_status": "blocked",
+    "action_budget_used": 2,
+    "replans": 3,
+    "intermediate_checks": {
+      "one_action_per_runner_step": true,
+      "successful_dispatches_match_trace": true,
+      "native_observation_after_each_success": true
+    },
+    "artifacts": {},
+    "input_bytes_preserved": true,
+    "notification_native_restored": true,
+    "notification_registry_restored": true,
+    "seconds": 42.859,
+    "component_seconds": {
+      "uia": 11.796,
+      "planner": 12.969,
+      "jev": 5.982
+    }
+  },
+  {
+    "run": "v26",
+    "index": 2,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/2b0c0844-bd4f-42ba-a25e-afb4267d51e2-WOS.json",
+    "task_sha256": "184af77704fa2095a331ab4e21a0218ed417972d28c12e0693c249633a5105e4",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 3,
+    "metric_score": 0.0,
+    "agent_status": "completed",
+    "action_budget_used": 3,
+    "replans": 0,
+    "intermediate_checks": {
+      "one_action_per_runner_step": true,
+      "successful_dispatches_match_trace": true,
+      "native_observation_after_each_success": true
+    },
+    "business_checks": {
+      "getter": "Shell COM owned HWND folder path",
+      "observed_folder": "C:\\BokkioTasks\\waa-pilot-v26\\2\\task\\Documents",
+      "expected_folder": "C:\\BokkioTasks\\waa-pilot-v26\\2\\task\\Documents",
+      "destination_folder_matches": true
+    },
+    "artifacts": {},
+    "input_bytes_preserved": true,
+    "seconds": 90.125,
+    "component_seconds": {
+      "uia": 65.204,
+      "planner": 6.828,
+      "jev": 4.5
+    }
+  },
+  {
+    "run": "v27",
+    "index": 2,
+    "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/2b0c0844-bd4f-42ba-a25e-afb4267d51e2-WOS.json",
+    "task_sha256": "184af77704fa2095a331ab4e21a0218ed417972d28c12e0693c249633a5105e4",
+    "passed": false,
+    "scope": "adapted_development_run",
+    "native_steps": 3,
+    "metric_score": 0.0,
+    "agent_status": "completed",
+    "action_budget_used": 3,
+    "replans": 1,
+    "intermediate_checks": {
+      "one_action_per_runner_step": true,
+      "successful_dispatches_match_trace": true,
+      "native_observation_after_each_success": true
+    },
+    "business_checks": {
+      "getter": "Shell COM owned HWND folder path",
+      "observed_folder": "C:\\BokkioTasks\\waa-pilot-v27\\2\\task\\Documents",
+      "expected_folder": "C:\\BokkioTasks\\waa-pilot-v27\\2\\task\\Documents",
+      "destination_folder_matches": true
+    },
+    "artifacts": {},
+    "input_bytes_preserved": true,
+    "seconds": 93.547,
+    "component_seconds": {
+      "uia": 65.408,
+      "planner": 9.968,
+      "jev": 4.188
+    }
+  }
+]

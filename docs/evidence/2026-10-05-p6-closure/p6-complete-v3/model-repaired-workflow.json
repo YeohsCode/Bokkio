@@ -1,0 +1,80 @@
+{
+  "schema": "bokkio.workflow.v1",
+  "name": "Write Search",
+  "revision": 2,
+  "parent_sha256": "198a858843dbbdd9d715b8aca3eeee649442e4830f5716617406c358488f6a70",
+  "source": "semantic_recording",
+  "metadata": {
+    "repair": {
+      "reason": "Recover the observed Search field after a selector change",
+      "failed_run_sha256": "f9dd6d1baa8b4c5f5c9eb6d7dce8a1cb6e559b331565f146c45ba0c115632971",
+      "model_call": {
+        "model": "openai/gpt-4.1",
+        "usage": {
+          "prompt_tokens": 319,
+          "completion_tokens": 7,
+          "total_tokens": 326,
+          "cost": 0.000694,
+          "is_byok": false,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0,
+            "audio_tokens": 0,
+            "video_tokens": 0
+          },
+          "cost_details": {
+            "upstream_inference_cost": 0.000694,
+            "upstream_inference_prompt_cost": 0.000638,
+            "upstream_inference_completions_cost": 5.6e-05
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 0,
+            "image_tokens": 0,
+            "audio_tokens": 0
+          }
+        },
+        "candidate": "c1",
+        "elapsed_seconds": 2.172
+      }
+    }
+  },
+  "steps": [
+    {
+      "id": "s1",
+      "app": "fixture",
+      "intent": "Write the Search field",
+      "action": "set_value",
+      "target": {
+        "ref": "5f3be06e44041dca1beb",
+        "role": "text_field",
+        "name": "Search",
+        "ancestors": [
+          {
+            "role": "group",
+            "name": null
+          },
+          {
+            "role": "window",
+            "name": "Bokkio interactions"
+          }
+        ]
+      },
+      "arguments": {
+        "value": "wrapper proof"
+      },
+      "wait": [],
+      "verify": [
+        {
+          "role": "text_field",
+          "name": "Search",
+          "parent_name": null,
+          "field": "value",
+          "equals": "wrapper proof"
+        }
+      ],
+      "depends_on": [],
+      "risk": "local_write"
+    }
+  ],
+  "sha256": "437e4a8a31a2f5404b9650d65728b39abd3ad12d75dcf4270c82a2da138593e6"
+}

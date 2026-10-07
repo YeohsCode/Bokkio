@@ -6,17 +6,17 @@ from bokkio.scroll import axis
 from bokkio.xa11y_backend import Xa11yBackend
 
 
-def verify(output):
+def verify(output, app="BokkioInteractions"):
     b = Xa11yBackend()
     trace = []
     for coordinate, forward, backward in [("x", "right", "left"), ("y", "down", "up")]:
-        bars = [n for n in b.find("BokkioInteractions", "scroll_bar") if axis(n) == coordinate]
+        bars = [n for n in b.find(app, "scroll_bar") if axis(n) == coordinate]
         assert len(bars) == 1
         ref = bars[0]["ref"]
-        b.perform("BokkioInteractions", "scroll", ref=ref, direction=backward, amount=1)
+        b.perform(app, "scroll", ref=ref, direction=backward, amount=1)
         for _ in range(3):
             for direction in (forward, backward):
-                result = b.perform("BokkioInteractions", "scroll", ref=ref, direction=direction, amount=0.25)
+                result = b.perform(app, "scroll", ref=ref, direction=direction, amount=0.25)
                 trace.append(result)
                 output.parent.mkdir(parents=True, exist_ok=True)
                 output.write_text(json.dumps(trace, indent=2), encoding="utf-8")
@@ -27,4 +27,6 @@ def verify(output):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
-    verify(parser.parse_args().output)
+    parser.add_argument("--app", default="BokkioInteractions", help="Owned fixture PID or application name")
+    args = parser.parse_args()
+    verify(args.output, args.app)

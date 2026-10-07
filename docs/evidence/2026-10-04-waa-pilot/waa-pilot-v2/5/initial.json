@@ -1,0 +1,393 @@
+{
+  "8348": {
+    "app": {
+      "pid": 8348,
+      "name": "ApplicationFrameHost",
+      "is_foreground": false,
+      "role": "application"
+    },
+    "ref_strategy": "structural-v3",
+    "window_filter": null,
+    "windows": [
+      {
+        "ref": "f30c509e04bfe74d72e9",
+        "platform": "windows",
+        "role": "application",
+        "name": "ApplicationFrameHost",
+        "value": null,
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": false,
+          "active": false,
+          "selected": false,
+          "editable": false,
+          "focusable": false,
+          "checked": null,
+          "expanded": null,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": null,
+        "parent": null,
+        "children": [
+          {
+            "ref": "d4b79f3b9ed39bc8b27d",
+            "platform": "windows",
+            "role": "window",
+            "name": "Settings",
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": true,
+              "checked": null,
+              "expanded": null,
+              "minimized": false,
+              "maximized": false,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 40,
+              "y": 32,
+              "width": 816,
+              "height": 641
+            },
+            "parent": "f30c509e04bfe74d72e9",
+            "children": [
+              {
+                "ref": "e078c81fde98dfabf18c",
+                "platform": "windows",
+                "role": "window",
+                "name": "Settings",
+                "value": "Settings",
+                "state": {
+                  "enabled": true,
+                  "visible": true,
+                  "focused": false,
+                  "active": false,
+                  "selected": false,
+                  "editable": false,
+                  "focusable": false,
+                  "checked": null,
+                  "expanded": null,
+                  "minimized": null,
+                  "maximized": null,
+                  "fullscreen": null
+                },
+                "bounds": {
+                  "x": 48,
+                  "y": 33,
+                  "width": 800,
+                  "height": 32
+                },
+                "parent": "d4b79f3b9ed39bc8b27d",
+                "children": [
+                  {
+                    "ref": "d720aad412a6480ca03b",
+                    "platform": "windows",
+                    "role": "menu_bar",
+                    "name": "System",
+                    "value": null,
+                    "state": {
+                      "enabled": true,
+                      "visible": true,
+                      "focused": false,
+                      "active": false,
+                      "selected": false,
+                      "editable": false,
+                      "focusable": true,
+                      "checked": null,
+                      "expanded": null,
+                      "minimized": null,
+                      "maximized": null,
+                      "fullscreen": null
+                    },
+                    "bounds": null,
+                    "parent": "e078c81fde98dfabf18c",
+                    "children": [
+                      {
+                        "ref": "85229cdfb9e962085296",
+                        "platform": "windows",
+                        "role": "menu_item",
+                        "name": "System",
+                        "value": null,
+                        "state": {
+                          "enabled": true,
+                          "visible": true,
+                          "focused": false,
+                          "active": false,
+                          "selected": false,
+                          "editable": false,
+                          "focusable": true,
+                          "checked": null,
+                          "expanded": false,
+                          "minimized": null,
+                          "maximized": null,
+                          "fullscreen": null
+                        },
+                        "bounds": null,
+                        "parent": "d720aad412a6480ca03b",
+                        "children": [],
+                        "actions": [
+                          "collapse",
+                          "expand",
+                          "focus"
+                        ],
+                        "platform_data": {
+                          "control_type_id": 50011,
+                          "uia_name": "System",
+                          "description": null,
+                          "actions": [
+                            "expand",
+                            "collapse",
+                            "focus"
+                          ],
+                          "native_stable_id": null
+                        }
+                      }
+                    ],
+                    "actions": [
+                      "focus"
+                    ],
+                    "platform_data": {
+                      "automation_id": "SystemMenuBar",
+                      "control_type_id": 50010,
+                      "uia_name": "System",
+                      "description": null,
+                      "actions": [
+                        "focus"
+                      ],
+                      "native_stable_id": "SystemMenuBar"
+                    }
+                  },
+                  {
+                    "ref": "2347e8a734083bc0a12b",
+                    "platform": "windows",
+                    "role": "button",
+                    "name": "Minimize Settings",
+                    "value": null,
+                    "state": {
+                      "enabled": true,
+                      "visible": true,
+                      "focused": false,
+                      "active": false,
+                      "selected": false,
+                      "editable": false,
+                      "focusable": false,
+                      "checked": null,
+                      "expanded": null,
+                      "minimized": null,
+                      "maximized": null,
+                      "fullscreen": null
+                    },
+                    "bounds": {
+                      "x": 710,
+                      "y": 33,
+                      "width": 46,
+                      "height": 32
+                    },
+                    "parent": "e078c81fde98dfabf18c",
+                    "children": [],
+                    "actions": [
+                      "click"
+                    ],
+                    "platform_data": {
+                      "uia_name": "Minimize Settings",
+                      "control_type_id": 50000,
+                      "automation_id": "Minimize",
+                      "description": null,
+                      "actions": [
+                        "press"
+                      ],
+                      "native_stable_id": "Minimize"
+                    }
+                  },
+                  {
+                    "ref": "7d56d426f8879565711c",
+                    "platform": "windows",
+                    "role": "button",
+                    "name": "Maximize Settings",
+                    "value": null,
+                    "state": {
+                      "enabled": true,
+                      "visible": true,
+                      "focused": false,
+                      "active": false,
+                      "selected": false,
+                      "editable": false,
+                      "focusable": false,
+                      "checked": null,
+                      "expanded": null,
+                      "minimized": null,
+                      "maximized": null,
+                      "fullscreen": null
+                    },
+                    "bounds": {
+                      "x": 756,
+                      "y": 33,
+                      "width": 46,
+                      "height": 32
+                    },
+                    "parent": "e078c81fde98dfabf18c",
+                    "children": [],
+                    "actions": [
+                      "click"
+                    ],
+                    "platform_data": {
+                      "control_type_id": 50000,
+                      "uia_name": "Maximize Settings",
+                      "automation_id": "Maximize",
+                      "description": null,
+                      "actions": [
+                        "press"
+                      ],
+                      "native_stable_id": "Maximize"
+                    }
+                  },
+                  {
+                    "ref": "735581cbbe2ed5abefbc",
+                    "platform": "windows",
+                    "role": "button",
+                    "name": "Close Settings",
+                    "value": null,
+                    "state": {
+                      "enabled": true,
+                      "visible": true,
+                      "focused": false,
+                      "active": false,
+                      "selected": false,
+                      "editable": false,
+                      "focusable": false,
+                      "checked": null,
+                      "expanded": null,
+                      "minimized": null,
+                      "maximized": null,
+                      "fullscreen": null
+                    },
+                    "bounds": {
+                      "x": 802,
+                      "y": 33,
+                      "width": 46,
+                      "height": 32
+                    },
+                    "parent": "e078c81fde98dfabf18c",
+                    "children": [],
+                    "actions": [
+                      "click"
+                    ],
+                    "platform_data": {
+                      "control_type_id": 50000,
+                      "automation_id": "Close",
+                      "uia_name": "Close Settings",
+                      "description": null,
+                      "actions": [
+                        "press"
+                      ],
+                      "native_stable_id": "Close"
+                    }
+                  }
+                ],
+                "actions": [],
+                "platform_data": {
+                  "control_type_id": 50032,
+                  "class_name": "ApplicationFrameTitleBarWindow",
+                  "uia_name": "Settings",
+                  "uia_value": "Settings",
+                  "automation_id": "TitleBar",
+                  "description": null,
+                  "actions": [
+                    "set_value",
+                    "activate"
+                  ],
+                  "native_stable_id": "hwnd:0x1a05bc",
+                  "value_source": "UIA.ValuePattern",
+                  "value_scope_hwnd": 1705404,
+                  "value_runtime_id": [
+                    42,
+                    1705404
+                  ]
+                }
+              },
+              {
+                "ref": "654cb5f07b75459d15f8",
+                "platform": "windows",
+                "role": "group",
+                "name": null,
+                "value": null,
+                "state": {
+                  "enabled": true,
+                  "visible": true,
+                  "focused": false,
+                  "active": false,
+                  "selected": false,
+                  "editable": false,
+                  "focusable": true,
+                  "checked": null,
+                  "expanded": null,
+                  "minimized": null,
+                  "maximized": null,
+                  "fullscreen": null
+                },
+                "bounds": {
+                  "x": 48,
+                  "y": 65,
+                  "width": 800,
+                  "height": 600
+                },
+                "parent": "d4b79f3b9ed39bc8b27d",
+                "children": [],
+                "actions": [
+                  "focus"
+                ],
+                "platform_data": {
+                  "control_type_id": 50033,
+                  "class_name": "ApplicationFrameInputSinkWindow",
+                  "description": null,
+                  "actions": [
+                    "focus"
+                  ],
+                  "native_stable_id": "hwnd:0x505c4"
+                }
+              }
+            ],
+            "actions": [
+              "focus"
+            ],
+            "platform_data": {
+              "uia_name": "Settings",
+              "class_name": "ApplicationFrameWindow",
+              "control_type_id": 50032,
+              "description": null,
+              "actions": [
+                "focus",
+                "close",
+                "minimize",
+                "maximize",
+                "restore",
+                "move_to",
+                "resize_to",
+                "activate"
+              ],
+              "native_stable_id": "hwnd:0x5b03a8"
+            }
+          }
+        ],
+        "actions": [],
+        "platform_data": {
+          "uia_synthesized": true,
+          "uia_name_source": "process",
+          "uia_process_name": "C:\\Windows\\System32\\ApplicationFrameHost.exe",
+          "description": null,
+          "actions": [],
+          "native_stable_id": null
+        }
+      }
+    ]
+  }
+}

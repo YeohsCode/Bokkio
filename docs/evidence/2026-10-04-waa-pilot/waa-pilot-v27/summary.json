@@ -1,0 +1,187 @@
+{
+  "scope": "adapted_development_run",
+  "revision": "6d39ed88c545a0d40a7a02e39b928e278df7332b",
+  "planned": 5,
+  "budgets": {
+    "max_actions": 24,
+    "max_replans": 3,
+    "max_phases": 8
+  },
+  "selection": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "attempted": 5,
+  "passed": 4,
+  "results": [
+    {
+      "index": 1,
+      "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/notepad/366de66e-cbae-4d72-b042-26390db2b145-WOS.json",
+      "task_sha256": "838b34719a839790926e0301ee990e0ffaecf664728620e535a74d6d2393c2ff",
+      "passed": true,
+      "scope": "adapted_development_run",
+      "native_steps": 5,
+      "metric_score": 1.0,
+      "agent_status": "completed",
+      "action_budget_used": 5,
+      "replans": 0,
+      "intermediate_checks": {
+        "one_action_per_runner_step": true,
+        "successful_dispatches_match_trace": true,
+        "native_observation_after_each_success": true
+      },
+      "artifacts": {
+        "Documents\\draft.txt": {
+          "sha256": "fc6f50fbceffdc50e2f7bb20bf1b308a10cd876c9e97e9c512785f6eeb6fb4c8",
+          "bytes": 16
+        }
+      },
+      "input_bytes_preserved": true,
+      "seconds": 89.484,
+      "component_seconds": {
+        "uia": 72.907,
+        "planner": 6.297,
+        "jev": 6.36
+      }
+    },
+    {
+      "index": 2,
+      "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/2b0c0844-bd4f-42ba-a25e-afb4267d51e2-WOS.json",
+      "task_sha256": "184af77704fa2095a331ab4e21a0218ed417972d28c12e0693c249633a5105e4",
+      "passed": false,
+      "scope": "adapted_development_run",
+      "native_steps": 3,
+      "metric_score": 0.0,
+      "agent_status": "completed",
+      "action_budget_used": 3,
+      "replans": 1,
+      "intermediate_checks": {
+        "one_action_per_runner_step": true,
+        "successful_dispatches_match_trace": true,
+        "native_observation_after_each_success": true
+      },
+      "business_checks": {
+        "getter": "Shell COM owned HWND folder path",
+        "observed_folder": "C:\\BokkioTasks\\waa-pilot-v27\\2\\task\\Documents",
+        "expected_folder": "C:\\BokkioTasks\\waa-pilot-v27\\2\\task\\Documents",
+        "destination_folder_matches": true
+      },
+      "artifacts": {},
+      "input_bytes_preserved": true,
+      "seconds": 93.547,
+      "component_seconds": {
+        "uia": 65.408,
+        "planner": 9.968,
+        "jev": 4.188
+      }
+    },
+    {
+      "index": 3,
+      "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/34a4fee9-e52e-4a4a-96d2-68d35091504a-WOS.json",
+      "task_sha256": "39e14dec1246f61112b5d6059c8549b9a3f332a7f651e9496fd0cf8a196f6349",
+      "passed": true,
+      "scope": "adapted_development_run",
+      "native_steps": 1,
+      "metric_score": 1.0,
+      "agent_status": "completed",
+      "action_budget_used": 1,
+      "replans": 0,
+      "intermediate_checks": {
+        "one_action_per_runner_step": true,
+        "successful_dispatches_match_trace": true,
+        "native_observation_after_each_success": true
+      },
+      "artifacts": {},
+      "input_bytes_preserved": true,
+      "seconds": 34.734,
+      "component_seconds": {
+        "uia": 18.172,
+        "planner": 3.031,
+        "jev": 1.235
+      }
+    },
+    {
+      "index": 4,
+      "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/b8ab0ae1-d2b4-4e6f-b609-df7d76b456d7-WOS.json",
+      "task_sha256": "0505246631e539f397d2b3d481f0a9b88b49acd4acaa704ffd6e02a56447efd3",
+      "passed": true,
+      "scope": "adapted_development_run",
+      "native_steps": 12,
+      "metric_score": 1.0,
+      "agent_status": "completed",
+      "action_budget_used": 12,
+      "replans": 1,
+      "intermediate_checks": {
+        "one_action_per_runner_step": true,
+        "successful_dispatches_match_trace": true,
+        "native_observation_after_each_success": true
+      },
+      "artifacts": {
+        "Desktop\\example.txt": {
+          "sha256": "95a2f1edb08a76120b82cec7c93ca477618639f04beac7d2aeba2dc039d43715",
+          "bytes": 6
+        },
+        "Documents\\example_renamed.txt": {
+          "sha256": "95a2f1edb08a76120b82cec7c93ca477618639f04beac7d2aeba2dc039d43715",
+          "bytes": 6
+        }
+      },
+      "input_bytes_preserved": true,
+      "seconds": 331.094,
+      "component_seconds": {
+        "uia": 261.764,
+        "planner": 21.092,
+        "jev": 16.202
+      }
+    },
+    {
+      "index": 5,
+      "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/settings/37e10fc4-b4c5-4b02-a65c-bfae8bc51d3f-wos.json",
+      "task_sha256": "680d36fc18cfcd59964e7d1efc8d59971a07579be7e5351b66a3882f6ff42741",
+      "passed": true,
+      "scope": "adapted_development_run",
+      "native_steps": 2,
+      "metric_score": 1.0,
+      "agent_status": "completed",
+      "action_budget_used": 2,
+      "replans": 1,
+      "intermediate_checks": {
+        "one_action_per_runner_step": true,
+        "successful_dispatches_match_trace": true,
+        "native_observation_after_each_success": true
+      },
+      "artifacts": {},
+      "input_bytes_preserved": true,
+      "notification_native_restored": true,
+      "notification_registry_restored": true,
+      "seconds": 29.391,
+      "component_seconds": {
+        "uia": 8.811,
+        "planner": 6.156,
+        "jev": 3.406
+      }
+    }
+  ],
+  "environment": {
+    "platform": "Windows-11-10.0.26100-SP0",
+    "machine": "ARM64",
+    "python": "3.12.13"
+  },
+  "models": {
+    "planner": "openai/gpt-4.1",
+    "jev": "typesafe/jev-1.13"
+  },
+  "evaluator_sha256": "c340c602905fda043021421dac28023c246dae64398df8200d9dd2f056f152fa",
+  "source_sha256": {
+    "verify_waa_pilot.py": "a138358894881cebb3dce05ca2f81a3a577e63a7803dc395654be775cfa54c93",
+    "arena.py": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f",
+    "agent.py": "a5be6420adf3c2c980eccac8ffc5318e2d007534e60e79b607554442d4894c5d",
+    "planner.py": "7fd8de14f51bae52bb7f1c761b08fc4560d09320f2d11edb8b089bbbd662edff",
+    "decision.py": "60dc62a24a1b1d3347afa1165980d041e0319aa253dc8d6b1240b02245e9728e",
+    "xa11y_backend.py": "23b02329c4cdeed6245ee2828c4528f12374cd000371b6b8b6d0fb6c0837395c",
+    "windows_uia.py": "0f3eaf5140133c3b550de44665c10f8389003bfb21cf957b6048e889fe273468"
+  }
+}

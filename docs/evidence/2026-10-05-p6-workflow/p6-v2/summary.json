@@ -1,0 +1,95 @@
+{
+  "scope": "native_p6_development",
+  "recorded_replays": [
+    {
+      "iteration": 1,
+      "status": "completed",
+      "native_dispatches": 6,
+      "fallback_steps": 6,
+      "independent_checks": [
+        true,
+        true,
+        true
+      ],
+      "passed": true
+    },
+    {
+      "iteration": 2,
+      "status": "completed",
+      "native_dispatches": 6,
+      "fallback_steps": 6,
+      "independent_checks": [
+        true,
+        true,
+        true
+      ],
+      "passed": true
+    },
+    {
+      "iteration": 3,
+      "status": "completed",
+      "native_dispatches": 6,
+      "fallback_steps": 6,
+      "independent_checks": [
+        true,
+        true,
+        true
+      ],
+      "passed": true
+    }
+  ],
+  "agent_trace_replays": [
+    {
+      "iteration": 1,
+      "status": "completed",
+      "native_dispatches": 5,
+      "artifact_bytes": 16,
+      "artifact_sha256": "fc6f50fbceffdc50e2f7bb20bf1b308a10cd876c9e97e9c512785f6eeb6fb4c8",
+      "reopened_native_text_matches": true,
+      "passed": true
+    },
+    {
+      "iteration": 2,
+      "status": "completed",
+      "native_dispatches": 5,
+      "artifact_bytes": 16,
+      "artifact_sha256": "fc6f50fbceffdc50e2f7bb20bf1b308a10cd876c9e97e9c512785f6eeb6fb4c8",
+      "reopened_native_text_matches": true,
+      "passed": true
+    },
+    {
+      "iteration": 3,
+      "status": "completed",
+      "native_dispatches": 5,
+      "artifact_bytes": 16,
+      "artifact_sha256": "fc6f50fbceffdc50e2f7bb20bf1b308a10cd876c9e97e9c512785f6eeb6fb4c8",
+      "reopened_native_text_matches": true,
+      "passed": true
+    }
+  ],
+  "repair": {
+    "failed_status": "failed",
+    "failed_dispatches": 0,
+    "revision": 2,
+    "parent_sha256": "86760e144191fbad49ee478a2a0ff9eef717979044c84e4783caa61e0750415e",
+    "replay_status": "completed",
+    "original_version_preserved": true,
+    "passed": true
+  },
+  "planned": {
+    "recorded_replays": 3,
+    "agent_trace_replays": 3,
+    "repair_replays": 1
+  },
+  "source_sha256": {
+    "verify_p6_windows.py": "826e53c385a3143e9caa2d97dc37e348dc7045056c1e4dfc8f939596dcffa324",
+    "workflow.py": "0ef292198bf43c1c49015442c3e05f9a2d666a6bcfb902deba2478d35a671716",
+    "cli.py": "726589d00219685a11e79e65ad2af10294ebe1763032f5098f276d578b087f35",
+    "agent.py": "9c0faf2c786f934877e9fe45b5ef4e30b7e03f99518b07e9e77657dc748ccd03",
+    "xa11y_backend.py": "23b02329c4cdeed6245ee2828c4528f12374cd000371b6b8b6d0fb6c0837395c",
+    "windows_uia.py": "54018f5e1a808ad2cefa259d081915875e662c5c5caadb2b950ff600b01b8492"
+  },
+  "fixture_sha256": "275e5f13633ffb56b47196acd09c62db325474fc720e7e70b12b79047941797d",
+  "agent_trace_sha256": "ad57653798a5e82ccbc741f799b56c0367b1a9846b3e9b3682d0d9dda7a48cd0",
+  "passed": true
+}

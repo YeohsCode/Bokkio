@@ -1,0 +1,44 @@
+{
+  "schema": "bokkio.workflow.v1",
+  "name": "Write Search",
+  "revision": 1,
+  "parent_sha256": null,
+  "source": "semantic_recording",
+  "metadata": {},
+  "steps": [
+    {
+      "id": "s1",
+      "app": "fixture",
+      "intent": "Write the Search field",
+      "action": "set_value",
+      "target": {
+        "ref": "524e595b8e46c73abaf0",
+        "role": "text_field",
+        "name": "Missing Search",
+        "ancestors": [
+          {
+            "role": "window",
+            "name": "Bokkio interactions"
+          }
+        ],
+        "fallback": "named_context"
+      },
+      "arguments": {
+        "value": "wrapper proof"
+      },
+      "wait": [],
+      "verify": [
+        {
+          "role": "text_field",
+          "name": "Search",
+          "parent_name": null,
+          "field": "value",
+          "equals": "wrapper proof"
+        }
+      ],
+      "depends_on": [],
+      "risk": "local_write"
+    }
+  ],
+  "sha256": "198a858843dbbdd9d715b8aca3eeee649442e4830f5716617406c358488f6a70"
+}

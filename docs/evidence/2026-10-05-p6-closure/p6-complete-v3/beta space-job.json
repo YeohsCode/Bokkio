@@ -1,0 +1,24 @@
+{
+  "workflow": "C:\\BokkioTasks\\p6-complete-v3\\report-workflow.json",
+  "bindings": {
+    "explorer": "7692",
+    "notepad": "704"
+  },
+  "windows": {
+    "explorer": "hwnd:0x60067a"
+  },
+  "parameters": {
+    "source_name": "source-beta space.txt",
+    "report_name": "report-beta space.txt",
+    "folder_title": "beta space - File Explorer",
+    "folder_name": "beta space",
+    "body": "P6 report beta space.",
+    "save_path": "C:\\BokkioTasks\\p6-complete-v3\\beta space\\report-beta space.txt",
+    "source_path": "C:\\BokkioTasks\\p6-complete-v3\\beta space\\source-beta space.txt",
+    "source_hash": "59bad7052e5deacfae0685c3c87782d5fd60384917be70afde440632cd749596",
+    "output_hash": "2ff7a5ce495ebf89b4007401a54977c4dde7b66075579e5b01fd75e5f1f586da"
+  },
+  "output": "C:\\BokkioTasks\\p6-complete-v3\\beta space.json",
+  "pause_after": null,
+  "resume": null
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "entry": {
+      "type": "activate_window",
+      "parameters": {
+        "window_name": "Documents",
+        "strict": true
+      }
+    },
+    "phase": "official_evaluator_postconfig",
+    "foreground_requested": true
+  },
+  {
+    "entry": {
+      "type": "sleep",
+      "parameters": {
+        "seconds": 0.5
+      }
+    },
+    "phase": "official_evaluator_postconfig"
+  }
+]

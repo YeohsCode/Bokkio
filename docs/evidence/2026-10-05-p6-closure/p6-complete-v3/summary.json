@@ -1,0 +1,143 @@
+{
+  "scope": "native_p6_closure",
+  "planned": {
+    "parameter_cases": 3,
+    "resume_cases": 1,
+    "wrapper_cases": 1,
+    "model_repairs": 1,
+    "client_receipts": 2
+  },
+  "parameters": [
+    {
+      "name": "alpha",
+      "status": "completed",
+      "dispatched": 7,
+      "template_sha256": "38cbc0a6d4747ac14cbdecf1a1b01802095c6971d264e3b05b0b505c5aea482d",
+      "checks": {
+        "output": {
+          "path": "C:\\BokkioTasks\\p6-complete-v3\\alpha\\report-alpha.txt",
+          "sha256": "7accb3a30576be37d650f65c955fcedfc2e4a1b7f2af94234ec628da679b2372",
+          "bytes": 16
+        },
+        "artifact_matches": true,
+        "source_preserved": true,
+        "explorer_report_selected": true,
+        "reopened_native_text_matches": true
+      },
+      "passed": true
+    },
+    {
+      "name": "beta space",
+      "status": "completed",
+      "dispatched": 7,
+      "template_sha256": "38cbc0a6d4747ac14cbdecf1a1b01802095c6971d264e3b05b0b505c5aea482d",
+      "checks": {
+        "output": {
+          "path": "C:\\BokkioTasks\\p6-complete-v3\\beta space\\report-beta space.txt",
+          "sha256": "2ff7a5ce495ebf89b4007401a54977c4dde7b66075579e5b01fd75e5f1f586da",
+          "bytes": 21
+        },
+        "artifact_matches": true,
+        "source_preserved": true,
+        "explorer_report_selected": true,
+        "reopened_native_text_matches": true
+      },
+      "passed": true
+    },
+    {
+      "name": "gamma-punctuation",
+      "status": "completed",
+      "dispatched": 7,
+      "template_sha256": "38cbc0a6d4747ac14cbdecf1a1b01802095c6971d264e3b05b0b505c5aea482d",
+      "checks": {
+        "output": {
+          "path": "C:\\BokkioTasks\\p6-complete-v3\\gamma-punctuation\\report-gamma-punctuation.txt",
+          "sha256": "b869cacd648ba928c5f2ff078c053fa010c53069fbbdd5bc1c2db42b0bd1a9ec",
+          "bytes": 28
+        },
+        "artifact_matches": true,
+        "source_preserved": true,
+        "explorer_report_selected": true,
+        "reopened_native_text_matches": true
+      },
+      "passed": true
+    }
+  ],
+  "resume": {
+    "paused_status": "paused",
+    "resumed_status": "completed",
+    "previous_pid": 2600,
+    "new_pid": 1500,
+    "new_dispatches": 1,
+    "checks": {
+      "output": {
+        "path": "C:\\BokkioTasks\\p6-complete-v3\\resume\\report-resume.txt",
+        "sha256": "8b4db908d4fce6a0771da04694f55c7308514fd44d61ac070a5cc306c5209a98",
+        "bytes": 17
+      },
+      "artifact_matches": true,
+      "source_preserved": true,
+      "explorer_report_selected": true,
+      "reopened_native_text_matches": true
+    },
+    "passed": true
+  },
+  "wrapper": {
+    "status": "completed",
+    "lane": "named_context",
+    "passed": true
+  },
+  "model_repair": {
+    "failed_dispatches": 0,
+    "model_call": {
+      "model": "openai/gpt-4.1",
+      "usage": {
+        "prompt_tokens": 319,
+        "completion_tokens": 7,
+        "total_tokens": 326,
+        "cost": 0.000694,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.000694,
+          "upstream_inference_prompt_cost": 0.000638,
+          "upstream_inference_completions_cost": 5.6e-05
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "candidate": "c1",
+      "elapsed_seconds": 2.172
+    },
+    "parent_sha256": "198a858843dbbdd9d715b8aca3eeee649442e4830f5716617406c358488f6a70",
+    "original_sha256": "198a858843dbbdd9d715b8aca3eeee649442e4830f5716617406c358488f6a70",
+    "replay_status": "completed",
+    "passed": true
+  },
+  "source_sha256": {
+    "verify_p6_complete.py": "86c7cc983053f27d879076e66a0912f12057f8fec23a08a20f11a95786b7a84e",
+    "workflow.py": "b03fd75023d10b4a1d316a628803dbecb04be51c16a98384b0076a9fdd3c892a",
+    "workflow_inputs.py": "4025033f62d3008d0ac6b922ab21f9746ccffccfc0e192fd319a4dc03a9b803e",
+    "workflow_repair.py": "91129cef36aeccdd9d9835a78c171868e28a1215ed6cadc77548a834c319de3c",
+    "cli.py": "f90aa92d4b244078ae7c8e2496dbe6e9d23921b92b53da3826aee539de2cb319",
+    "agent.py": "a5be6420adf3c2c980eccac8ffc5318e2d007534e60e79b607554442d4894c5d",
+    "planner.py": "7fd8de14f51bae52bb7f1c761b08fc4560d09320f2d11edb8b089bbbd662edff",
+    "xa11y_backend.py": "9ddfbb0331a0676200baae7ce34d4e49651bf2a917fc65fdae16bdc27983e658",
+    "windows_uia.py": "0f3eaf5140133c3b550de44665c10f8389003bfb21cf957b6048e889fe273468"
+  },
+  "fixture_sha256": "275e5f13633ffb56b47196acd09c62db325474fc720e7e70b12b79047941797d",
+  "input_trace_sha256": "6fc83cc61d1f830d51afbf4fa96f2cf62e10a75356ef9d287ac16fd9e5e6556c",
+  "baseline": {
+    "passed": true,
+    "client_receipts": 2
+  },
+  "passed": true
+}

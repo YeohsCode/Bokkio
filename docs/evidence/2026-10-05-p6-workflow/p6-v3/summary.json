@@ -1,0 +1,53 @@
+{
+  "scope": "native_p6_development",
+  "recorded_replays": [
+    {
+      "iteration": 1,
+      "status": "completed",
+      "native_dispatches": 6,
+      "fallback_steps": 6,
+      "independent_checks": [
+        true,
+        true,
+        true
+      ],
+      "passed": true
+    }
+  ],
+  "agent_trace_replays": [
+    {
+      "iteration": 1,
+      "status": "completed",
+      "native_dispatches": 5,
+      "artifact_bytes": 16,
+      "artifact_sha256": "fc6f50fbceffdc50e2f7bb20bf1b308a10cd876c9e97e9c512785f6eeb6fb4c8",
+      "reopened_native_text_matches": true,
+      "passed": true
+    }
+  ],
+  "repair": {
+    "failed_status": "failed",
+    "failed_dispatches": 0,
+    "revision": 2,
+    "parent_sha256": "29157b2aa3c671399db80175f372f611c7d9ddf710e7a7415feb91015c8ec32a",
+    "replay_status": "completed",
+    "original_version_preserved": true,
+    "passed": true
+  },
+  "planned": {
+    "recorded_replays": 1,
+    "agent_trace_replays": 1,
+    "repair_replays": 1
+  },
+  "source_sha256": {
+    "verify_p6_windows.py": "0068290ce108511d88fcd28f8cc5c42f6ef0bbbc674dee6d46a19de50412d398",
+    "workflow.py": "640f93658b33357624858fee02a72cd945e64e4a79832b9eae37158eccc81fa6",
+    "cli.py": "726589d00219685a11e79e65ad2af10294ebe1763032f5098f276d578b087f35",
+    "agent.py": "9c0faf2c786f934877e9fe45b5ef4e30b7e03f99518b07e9e77657dc748ccd03",
+    "xa11y_backend.py": "23b02329c4cdeed6245ee2828c4528f12374cd000371b6b8b6d0fb6c0837395c",
+    "windows_uia.py": "0f3eaf5140133c3b550de44665c10f8389003bfb21cf957b6048e889fe273468"
+  },
+  "fixture_sha256": "275e5f13633ffb56b47196acd09c62db325474fc720e7e70b12b79047941797d",
+  "agent_trace_sha256": "6fc83cc61d1f830d51afbf4fa96f2cf62e10a75356ef9d287ac16fd9e5e6556c",
+  "passed": true
+}

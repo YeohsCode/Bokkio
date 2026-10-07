@@ -20,6 +20,7 @@ ACTION_METHODS = {
     "scroll": "set_numeric_value",
     "expand": "expand",
     "collapse": "collapse",
+    "submit": "submit",
 }
 
 NORMALIZED_ACTIONS = {
@@ -50,6 +51,8 @@ def _call(function, *args, **kwargs):
 
 class Xa11yBackend:
     """Adapter around xa11y's Python element API."""
+
+    supports_action_observation = True
 
     def __init__(self, module: Any | None = None, platform: str | None = None, native: Any | None = None) -> None:
         real_provider = module is None
@@ -132,6 +135,7 @@ class Xa11yBackend:
         expected_value: str | None = None,
         expected_snapshot: str | None = None,
         window: str | None = None,
+        capture_observation: bool = False,
     ) -> dict[str, Any]:
         if action not in ACTION_METHODS:
             raise BokkioActionError(f"Unsupported action: {action}")
@@ -158,7 +162,7 @@ class Xa11yBackend:
         if expected_snapshot is not None and tree_digest(before_scope) != expected_snapshot:
             raise BokkioActionError("Snapshot changed since decision; observe and decide again")
         before = choose(before_scope, ref=ref, role=role, name=name, parent=parent)
-        native_value_write = action == "set_value" and before["platform_data"].get("value_runtime_id") and hasattr(self._native, "set_value")
+        native_value_write = action in {"set_value","submit"} and before["platform_data"].get("value_runtime_id") and hasattr(self._native, "submit" if action=='submit' else "set_value")
         native_action = (action in before['platform_data'].get('verified_native_actions', [])
                          and before['platform_data'].get('action_runtime_id') and hasattr(self._native,'perform_action'))
         if expected_snapshot is not None and before["platform_data"].get("ambiguous_ref_identity") and not (native_value_write or native_action):
@@ -188,7 +192,14 @@ class Xa11yBackend:
                     else:
                         _call(live[scroll_plan["bar_ref"]].set_numeric_value, scroll_plan["requested_position"])
             else:
-                if action == "set_value" and before["platform_data"].get("value_source") == "UIA.ValuePattern" and hasattr(self._native, "set_value"):
+                if action=='submit':
+                    data=before['platform_data']
+                    if not data.get('submit_available') or not hasattr(self._native,'submit'):
+                        raise BokkioActionError('Native Enter submission is not available for this field')
+                    submission=_call(self._native.submit,element,data['value_scope_hwnd'],
+                                     data['value_runtime_id'],before['value'])
+                    action_source=submission['action_source']
+                elif action == "set_value" and before["platform_data"].get("value_source") == "UIA.ValuePattern" and hasattr(self._native, "set_value"):
                     identity = before["platform_data"].get("value_runtime_id")
                     write = _call(self._native.set_value, element, value, before["platform_data"].get("value_scope_hwnd"),
                           **({"expected_runtime_id":identity} if identity else {}))
@@ -252,6 +263,13 @@ class Xa11yBackend:
         if scroll_plan is not None:
             result["scroll"], changed = observe_scroll(before_tree, after_tree, scroll_plan)
             result["verification"] = "confirmed" if changed else "unconfirmed"
+        if capture_observation:
+            # This tree was read after dispatch. Reuse it for the caller's first
+            # verification; later polls must still request fresh observations.
+            trees = ([after_tree] if window is None else
+                     [{**n, "parent": None} for n in self._select_windows(self._window_nodes(after_tree), window)])
+            result['observation'] = {'app':self._app_info(native_app),
+                'ref_strategy':'structural-v3','window_filter':window,'windows':trees}
         return result
 
     def find(self, app: str, role: str, name: str | None = None) -> list[dict[str, Any]]:
@@ -313,9 +331,25 @@ class Xa11yBackend:
     def _app_tree(self, app: Any, live: dict[str, Any] | None = None) -> dict[str, Any]:
         identity = self._app_identity(app)
         element = _call(app.as_element)
+        live = {} if live is None else live
         tree = self._walk(element, identity, [], parent_ref=None, occurrence=0, live=live)
         if self._platform == "windows":
             nodes = {n["ref"]: n for n in flatten([tree])}
+            aliases = {}
+            for node in nodes.values():
+                data=node['platform_data']
+                if (node['bounds'] is not None and data.get('native_action_scope_hwnd') is not None
+                        and set(node['actions']) & {'click','select','expand','collapse'}):
+                    key=(node['role'],node['name'],tuple(node['bounds'].values()),
+                         data.get('class_name'),data.get('control_type_id'))
+                    aliases.setdefault(key,[]).append(node)
+            # WinUI can expose one physical control through two HWND islands.
+            # Obtain identity for both aliases; never infer it from bounds alone.
+            for group in aliases.values():
+                if len(group)>1:
+                    for node in group:
+                        node['platform_data']['ambiguous_ref_identity']=True
+                        self._capture_action(node,live[node['ref']],node['platform_data']['native_action_scope_hwnd'])
             for node in nodes.values():
                 if node["role"] != "scroll_bar":
                     continue
@@ -326,6 +360,20 @@ class Xa11yBackend:
                 if scope is not None and coordinate and scope["platform_data"]["scroll"][coordinate]["scrollable"]:
                     node["actions"] = sorted(set(node["actions"]) | {"scroll"})
         return tree
+
+    def _capture_action(self, node, element, scope):
+        if (scope is None or self._native is None or not hasattr(self._native,'action_capabilities')
+                or not hasattr(self._native,'perform_action')):return
+        try:
+            capability=self._native.action_capabilities(element,scope)
+            if capability and capability.get('runtime_id'):
+                data=node['platform_data']
+                data.update(action_runtime_id=capability['runtime_id'],action_scope_hwnd=scope,
+                            action_process_id=capability.get('process_id'),
+                            verified_native_actions=sorted(set(node['actions']) & set(capability['actions'])))
+                node['state'].update(capability.get('state',{}))
+        except Exception as error:
+            node['platform_data']['action_identity_error']=str(error)
 
     def _window_nodes(self, app_tree: dict[str, Any]) -> list[dict[str, Any]]:
         result = []
@@ -379,11 +427,14 @@ class Xa11yBackend:
         native_identity: str | None = None,
         ambiguous_identity: bool = False,
         native_window: int | None = None,
+        native_action_scope: int | None = None,
     ) -> dict[str, Any]:
         if len(signature_path) >= 64:
             raise BokkioError("Accessibility tree exceeds 64 levels; provider may contain a cycle")
         role = self._role(element)
         stable = _call(lambda: element.stable_id)
+        if self._platform=='windows' and stable and stable.startswith('hwnd:'):
+            native_action_scope=int(stable[5:],0)
         if self._platform == "windows" and role in {"window", "dialog"} and stable and stable.startswith("hwnd:"):
             native_window = int(stable[5:], 0)
         name = _call(lambda: element.name)
@@ -425,6 +476,7 @@ class Xa11yBackend:
                               stable_label=stable_label,
                               native_identity=hwnd_identity,
                               native_window=native_window,
+                              native_action_scope=native_action_scope,
                               ambiguous_identity=ambiguous_identity or (
                                   signature_counts[signature] > 1 and hwnd_identity is None))
             children.append(node)
@@ -445,20 +497,12 @@ class Xa11yBackend:
         )
         if ambiguous_identity:
             node["platform_data"]["ambiguous_ref_identity"] = True
+        if self._platform=='windows' and native_action_scope is not None:
+            node['platform_data']['native_action_scope_hwnd']=native_action_scope
         needs_toggle_state = 'toggle' in [a.casefold() for a in node['platform_data'].get('actions', [])]
         if ambiguous_identity or needs_toggle_state:
-            if (native_window is not None and self._native is not None
-                    and hasattr(self._native,'action_capabilities') and hasattr(self._native,'perform_action')
-                    and set(node['actions']) & {'click','expand','collapse','select'}):
-                try:
-                    capability = self._native.action_capabilities(element, native_window)
-                    if capability and capability.get('runtime_id'):
-                        data=node['platform_data']
-                        data.update(action_runtime_id=capability['runtime_id'], action_scope_hwnd=native_window,
-                                    verified_native_actions=sorted(set(node['actions']) & set(capability['actions'])))
-                        node['state'].update(capability.get('state',{}))
-                except Exception as error:
-                    node['platform_data']['action_identity_error']=str(error)
+            if set(node['actions']) & {'click','expand','collapse','select'}:
+                self._capture_action(node,element,native_action_scope or native_window)
         return node
 
     def _node(
@@ -504,6 +548,10 @@ class Xa11yBackend:
                     platform_data["value_scope_hwnd"] = native_window
                     if pattern.get("runtime_id"):
                         platform_data["value_runtime_id"] = pattern["runtime_id"]
+                    if (role=='text_field' and pattern.get('submit_available') and pattern.get('runtime_id')
+                            and hasattr(self._native,'submit')):
+                        actions=sorted(set(actions)|{'submit'})
+                        platform_data['submit_available']=True
                     if pattern["readonly"]:
                         actions = [a for a in actions if a not in {"type", "set_value"}]
                     elif role in {"text_field", "text_area"}:
@@ -526,7 +574,7 @@ class Xa11yBackend:
         if state.get("focusable"):
             actions = sorted(set(actions) | {"focus"})
         # xa11y's macOS select() writes AXSelected for these native roles.
-        if self._platform == "macos" and role in {"row", "list_item", "tree_item"} and state.get("selected") is not None:
+        if self._platform == "macos" and role in {"row", "table_row", "list_item", "tree_item"} and state.get("selected") is not None:
             actions = sorted(set(actions) | {"select"})
         if self._native is not None and role in {"group", "list", "table", "tree", "text_area", "scroll_area", "pane"}:
             try:

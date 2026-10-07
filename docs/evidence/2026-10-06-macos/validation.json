@@ -1,0 +1,8 @@
+{
+  "archive_files": 52,
+  "workflow_hashes": 8,
+  "checkpoint_hashes": 21,
+  "final_p6_sources_match": true,
+  "additional_sensitive_pattern_findings": 0,
+  "host_tests": 293
+}

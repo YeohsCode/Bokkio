@@ -1,0 +1,29 @@
+[
+  {
+    "app": "fixture", "action": "focus", "intent": "Focus Search",
+    "target": {"role": "text_field", "name": "Search"}, "arguments": {}, "wait": [],
+    "verify": [{"role": "text_field", "name": "Search", "field": "focused", "equals": true}]
+  },
+  {
+    "app": "fixture", "action": "type", "intent": "Insert P6 repeatable",
+    "target": {"role": "text_field", "name": "Search"},
+    "arguments": {"value": "P6 repeatable", "expected_value": "P6 repeatable"},
+    "wait": [{"role": "text_field", "name": "Search", "field": "value", "equals": ""}],
+    "verify": [{"role": "text_field", "name": "Search", "field": "value", "equals": "P6 repeatable"}]
+  },
+  {
+    "app": "fixture", "action": "click", "intent": "Submit Search",
+    "target": {"role": "button", "name": "Submit"}, "arguments": {}, "wait": [],
+    "verify": [{"role": "static_text", "name": "Submitted: P6 repeatable", "field": "present", "equals": true}]
+  },
+  {
+    "app": "fixture", "action": "expand", "intent": "Open Mode",
+    "target": {"role": "combo_box", "name": "Mode"}, "arguments": {}, "wait": [],
+    "verify": [{"role": "combo_box", "name": "Mode", "field": "expanded", "equals": true}]
+  },
+  {
+    "app": "fixture", "action": "select", "intent": "Select Second",
+    "target": {"role": "list_item", "name": "Second"}, "arguments": {}, "wait": [],
+    "verify": [{"role": "combo_box", "name": "Mode", "field": "value", "equals": "Second"}]
+  }
+]

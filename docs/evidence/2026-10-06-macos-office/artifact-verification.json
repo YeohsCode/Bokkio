@@ -1,0 +1,121 @@
+{
+  "scope": "macos_office_interactive_cua_pilot",
+  "source_sha256": "52affa91fdf82243806f9e28ac552970cf7b6454a4642a48e0e84d29f4cff4b3",
+  "artifacts": [
+    {
+      "version": "v1",
+      "file": "orders.xlsx",
+      "bytes": 9465,
+      "sha256": "9e900f12fa2a2d0d9a3ce166807ec6c2e368c3ece632c54db2744ab79fadeafd",
+      "expected_count": 2,
+      "expected_total": 320,
+      "checks": {
+        "input_rows": true,
+        "headers": true,
+        "formula_contract": true,
+        "cached_count": true,
+        "cached_total": true
+      },
+      "passed": true
+    },
+    {
+      "version": "v1",
+      "file": "weekly-report.docx",
+      "bytes": 13592,
+      "sha256": "861504220ee1065d962b9a539b1bee3ea7ad218a1491366aa4dc7ed58a45ad8f",
+      "paragraphs": [
+        "Bokkio weekly report v1",
+        "Region: East",
+        "Status: Complete",
+        "Order count: 2",
+        "Total amount: 320",
+        "Source: orders.xlsx",
+        "Synthetic computer-use acceptance data."
+      ],
+      "checks": {
+        "exact_report": true
+      },
+      "passed": true
+    },
+    {
+      "version": "v1",
+      "file": "weekly-summary.pptx",
+      "bytes": 36220,
+      "sha256": "12459f27c759d488a2018169cdb587bfc44c697f7f8625e004e7da514dcc4ebb",
+      "text": [
+        "Bokkio weekly summary v1",
+        "East / Complete",
+        "Order count: 2",
+        "Total amount: 320",
+        "Source: orders.xlsx"
+      ],
+      "checks": {
+        "one_slide": true,
+        "exact_summary": true
+      },
+      "passed": true
+    },
+    {
+      "version": "v2",
+      "file": "orders.xlsx",
+      "bytes": 9462,
+      "sha256": "be1ea0aaf47bb2addc616c2fb059039c39e5e98e39d1052a9f63cc5b26f6aece",
+      "expected_count": 2,
+      "expected_total": 370,
+      "checks": {
+        "input_rows": true,
+        "headers": true,
+        "formula_contract": true,
+        "cached_count": true,
+        "cached_total": true
+      },
+      "passed": true
+    },
+    {
+      "version": "v2",
+      "file": "weekly-report.docx",
+      "bytes": 13640,
+      "sha256": "d575c3b5e8a0f51d0a7917ca44db72daaada19ca8f4a11b453491132630b771b",
+      "paragraphs": [
+        "Bokkio weekly report v2",
+        "Region: East",
+        "Status: Complete",
+        "Order count: 2",
+        "Total amount: 370",
+        "Revision: order 1004 amount changed from 200 to 250.",
+        "Source: orders.xlsx",
+        "Synthetic computer-use acceptance data."
+      ],
+      "checks": {
+        "exact_report": true
+      },
+      "passed": true
+    },
+    {
+      "version": "v2",
+      "file": "weekly-summary.pptx",
+      "bytes": 36012,
+      "sha256": "e640d28665e2ad25e6d3f67cec34cce9892cf73693d33f8bbdbccf231deda832",
+      "text": [
+        "Bokkio weekly summary v2",
+        "East / Complete",
+        "Order count: 2",
+        "Total amount: 370",
+        "Revision: order 1004 +50",
+        "Source: orders.xlsx"
+      ],
+      "checks": {
+        "one_slide": true,
+        "exact_summary": true
+      },
+      "passed": true
+    }
+  ],
+  "v1_preservation": {
+    "orders.xlsx": true,
+    "weekly-report.docx": true,
+    "weekly-summary.pptx": true
+  },
+  "passed": true,
+  "bokkio_agent_end_to_end": false
+}

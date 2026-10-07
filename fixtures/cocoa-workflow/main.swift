@@ -16,9 +16,11 @@ final class Delegate: NSObject, NSApplicationDelegate {
         let submit = NSButton(title: "Submit", target: self, action: #selector(submitValue))
         submit.frame = NSRect(x: 360, y: 98, width: 130, height: 32)
         submit.setAccessibilityLabel("Submit")
-        window.contentView!.addSubview(search)
-        window.contentView!.addSubview(submit)
-        window.contentView!.addSubview(result)
+        let controls: [NSView] = [search, submit, result]
+        let reorder = ProcessInfo.processInfo.environment["BOKKIO_FIXTURE_REORDER"] == "1"
+        for control in reorder ? Array(controls.reversed()) : controls {
+            window.contentView!.addSubview(control)
+        }
         window.center()
         window.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)

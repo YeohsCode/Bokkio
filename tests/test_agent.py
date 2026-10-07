@@ -21,6 +21,58 @@ class Planner:
         return copy.deepcopy(self.result), {"model": "offline"}
 
 
+def test_required_command_cannot_be_skipped_by_an_already_true_predicate(tmp_path):
+    backend,window,button=backend_with_button()
+    button.value='pressed'
+    calls=[]
+    original=button.press
+    def press():
+        calls.append('native_command');original()
+    button.press=press
+    p=plan();p['steps'][0]['requires_action']=True
+    result=DesktopAgent(backend,Planner(p),Provider(satisfied=1.0)).run('Click Save',['TextEdit'],tmp_path/'trace.json')
+    assert result['status']=='completed' and result['actions']==1 and calls==['native_command']
+    assert next(e['subtask'] for e in result['events'] if e['kind']=='action')==p['steps'][0]
+    p['steps'][0]['requires_action']='yes'
+    with pytest.raises(BokkioError,match='requires_action'):
+        validate_plan(p,['TextEdit'])
+    from bokkio.planner import plan_schema
+    schema=plan_schema({'TextEdit':{'windows':[{'name':'Untitled'}]}})
+    variant=schema['properties']['steps']['items']['anyOf'][0]
+    assert variant['properties']['requires_action']=={'type':'boolean'}
+    assert 'requires_action' in variant['required']
+
+
+@pytest.mark.parametrize("reject_duplicate",[False,True])
+def test_rename_editor_triggers_a_fresh_plan_instead_of_reinvoking_rename(tmp_path,reject_duplicate):
+    from test_cli import Element
+    backend,window,button=backend_with_button();button.name='Rename'
+    editor=Element('text_field','Name','old.txt');editor.editable=True;editor.actions=['set_value']
+    button.press=lambda:window.children_values.append(editor)
+    opening={'id':'rename','app':'TextEdit','window':None,'goal':'Click Rename','allowed_values':[],
+             'requires_action':True,'risk':'local_write',
+             'success':[{'role':'text_field','name':'Name','field':'present','equals':True}]}
+    writing={'id':'name','app':'TextEdit','window':None,'goal':'Set Name to new.txt','allowed_values':['new.txt'],
+             'risk':'local_write','success':[{'role':'text_field','name':'Name','field':'value','equals':'new.txt'}]}
+    class RenamePlanner(Planner):
+        def plan(self,goal,observations,progress=None):
+            self.calls.append(progress)
+            if progress is None:steps=[opening];continuing=True
+            else:
+                assert progress['native_inline_editor_opened']=='Rename'
+                assert progress['new_editors'][0]['name']=='Name'
+                if reject_duplicate and len(self.calls)==2:
+                    return {'goal':goal,'steps':[opening],'continue_after_steps':True},{}
+                steps=[writing];continuing=False
+            return {'goal':goal,'steps':steps,'continue_after_steps':continuing},{}
+    planner=RenamePlanner()
+    trace=DesktopAgent(backend,planner,Provider()).run('Rename',['TextEdit'],tmp_path/'trace.json')
+    assert trace['status']=='completed' and trace['actions']==2 and trace['phases']==1
+    assert editor.value=='new.txt' and len(planner.calls)==(3 if reject_duplicate else 2)
+    assert trace['replans']==int(reject_duplicate)
+    assert any(e.get('reason')=='native_inline_editor_opened' for e in trace['events'])
+
+
 @pytest.mark.parametrize('sources', ['C:\\Task\\a.txt',['relative.txt'],['\\a.txt'],['C:\\Task\\a\0.txt']])
 def test_source_constraints_require_full_paths(sources):
     backend,_,_=backend_with_button()
@@ -885,3 +937,97 @@ def test_native_ui_cycle_is_repaired_before_exhausting_actions(tmp_path):
         'Click Save',['TextEdit'],tmp_path/'trace.json')
     assert result['status']=='blocked' and result['actions']==2
     assert 'earlier state' in result['events'][-1]['reason']
+
+
+def test_address_submit_replans_after_native_window_changes_with_stale_entry_predicate(tmp_path,monkeypatch):
+    from bokkio.decision import Decision
+    from test_cli import Element
+    backend,window,_=backend_with_button()
+    address=Element('text_field','Address Bar',r'C:\Task\Desktop')
+    address.editable=True;address.actions=['set_value'];window.children_values=[address]
+    initial={'id':'navigate','app':'TextEdit','window':None,'goal':'Submit address bar',
+             'allowed_values':[],'requires_action':True,'risk':'read',
+             'success':[{'role':'text_field','name':'Address Bar','field':'value','equals':r'C:\Task\Desktop'},
+                        {'role':'window','name':'Start','field':'present','equals':True}]}
+    class NavigationPlanner(Planner):
+        def plan(self,goal,observations,progress=None):
+            self.calls.append(progress)
+            if progress is None:return {'goal':goal,'steps':[initial]},{}
+            assert progress['native_address_submitted']=='Address Bar'
+            assert progress['navigation_result']=={'submitted_address':r'C:\Task\Desktop','window_names':['Desktop'],'command_dispatched':True}
+            step={**initial,'requires_action':False,'success':[{'role':'window','name':'Desktop','field':'present','equals':True}]}
+            return {'goal':goal,'steps':[step]},{}
+    def decide(*args,**kwargs):
+        from bokkio.selector import flatten
+        ref=next(n['ref'] for n in flatten(args[2]['windows']) if n['name']=='Address Bar')
+        return Decision('submit',ref,None,1.0,'unused'),{}
+    calls=[]
+    def execute(*args):
+        calls.append('Enter');window.name='Desktop';address.value=''
+        return {'tree_changed':True}
+    monkeypatch.setattr('bokkio.agent.decide',decide)
+    monkeypatch.setattr('bokkio.agent.execute_decision',execute)
+    result=DesktopAgent(backend,NavigationPlanner(),Provider()).run('Navigate',['TextEdit'],tmp_path/'trace.json')
+    assert result['status']=='completed' and result['actions']==1 and result['phases']==1
+    assert calls==['Enter'] and any(e.get('reason')=='native_address_submitted' for e in result['events'])
+
+
+def test_navigation_success_cannot_use_window_keyboard_focus():
+    p=plan();p['steps'][0].update(window=None,goal='Submit the address to navigate to Documents folder')
+    p['steps'][0]['success']=[{'role':'window','name':'Documents','field':'focused','equals':True}]
+    with pytest.raises(BokkioError,match='keyboard focus cannot prove'):
+        validate_plan(p,['TextEdit'])
+    p['steps'][0]['success'][0].update(field='present')
+    assert validate_plan(p,['TextEdit'])==p
+
+
+def test_inline_editor_context_survives_a_runtime_error_and_rejects_reopening(tmp_path):
+    from test_cli import Element
+    backend,window,button=backend_with_button();button.name='Rename'
+    field=Element('text_field','old.txt','old.txt');field.editable=True;field.actions=['set_value']
+    field.raw={'class_name':'UIRenameTextElement'}
+    window.children_values=[field,button]
+    writing={'id':'write','app':'TextEdit','window':None,'goal':'Set old.txt to new.txt',
+             'allowed_values':['new.txt'],'risk':'local_write',
+             'success':[{'role':'text_field','name':'old.txt','field':'value','equals':'new.txt'}]}
+    class Repairing(Planner):
+        def plan(self,goal,observations,progress=None):
+            self.calls.append(progress)
+            assert progress['native_inline_editor_opened']=='Rename'
+            if len(self.calls)==2:
+                bad={**writing,'goal':'Click Rename to open editor'}
+                return {'goal':goal,'steps':[bad]},{}
+            return {'goal':goal,'steps':[writing]},{}
+    original=backend.perform;calls=[]
+    def perform(*args,**kwargs):
+        calls.append(args[1])
+        if len(calls)==1:raise BokkioError('Native field temporarily unavailable')
+        return original(*args,**kwargs)
+    backend.perform=perform
+    trace=DesktopAgent(backend,Repairing(),Provider(),max_replans=3).run('Rename',['TextEdit'],tmp_path/'trace.json')
+    assert trace['status']=='completed' and field.value=='new.txt'
+    assert calls==['set_value','set_value'] and trace['replans']==2
+    assert any(e.get('stage')=='plan_validation' and 'already open' in e.get('error','') for e in trace['events'])
+
+
+def test_ambiguous_checked_outcome_replans_before_dispatching_or_toggling_again(tmp_path):
+    from test_cli import Element
+    backend,window,_=backend_with_button()
+    breadcrumb=Element('button','Notifications');breadcrumb.checked=None
+    toggle=Element('button','Notifications');toggle.checked=False
+    parent=Element('button','Show more settings',children=[toggle])
+    toggle.parent_value=parent;parent.parent_value=window;breadcrumb.parent_value=window
+    window.children_values=[breadcrumb,parent]
+    p=plan();p['steps'][0]['success']=[{'role':'button','name':'Notifications','field':'checked','equals':False,'parent_name':None}]
+    class RepairPlanner(Planner):
+        def plan(self,goal,observations,progress=None):
+            self.calls.append(progress)
+            fixed=copy.deepcopy(p)
+            if progress is not None:fixed['steps'][0]['success'][0]['parent_name']='Show more settings'
+            return fixed,{}
+    class NoCalls:
+        def ask(self,*args):raise AssertionError('Already correct toggle must not be dispatched')
+    planner=RepairPlanner()
+    result=DesktopAgent(backend,planner,NoCalls()).run('Turn off notifications',['TextEdit'],tmp_path/'trace.json')
+    assert result['status']=='completed' and result['actions']==0 and result['replans']==1
+    assert 'ambiguous' in next(e['error'] for e in result['events'] if e['kind']=='error')

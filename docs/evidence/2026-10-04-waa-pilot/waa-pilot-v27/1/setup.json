@@ -1,0 +1,12 @@
+{
+  "original_config": [],
+  "path_bindings": {
+    "C:\\Users\\Docker\\Documents": "C:\\BokkioTasks\\waa-pilot-v27\\1\\task\\Documents",
+    "C:\\Users\\Docker\\Desktop": "C:\\BokkioTasks\\waa-pilot-v27\\1\\task\\Desktop"
+  },
+  "additional_fixture": "fresh owned app; disposable folders; Details starts in icons; notifications starts enabled",
+  "settings_reset": null,
+  "notifications_before": null,
+  "notifications_native_setup": null,
+  "input_hashes": {}
+}

@@ -1,14 +1,115 @@
 {
   "benchmark": "WindowsAgentArena",
   "revision": "6d39ed88c545a0d40a7a02e39b928e278df7332b",
-  "selection_status": "proposed_before_execution",
-  "purpose": "Native UIA integration pilot after Windows P5 acceptance",
+  "selection_status": "selected_before_execution",
+  "purpose": "Fixed native UIA development pilot during Windows P5 acceptance",
   "task_count": 5,
   "tasks": [
-    {"path": "src/win-arena-container/client/evaluation_examples_windows/examples/notepad/366de66e-cbae-4d72-b042-26390db2b145-WOS.json", "execution_status": "not_run"},
-    {"path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/2b0c0844-bd4f-42ba-a25e-afb4267d51e2-WOS.json", "execution_status": "not_run"},
-    {"path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/34a4fee9-e52e-4a4a-96d2-68d35091504a-WOS.json", "execution_status": "not_run"},
-    {"path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/b8ab0ae1-d2b4-4e6f-b609-df7d76b456d7-WOS.json", "execution_status": "not_run"},
-    {"path": "src/win-arena-container/client/evaluation_examples_windows/examples/settings/37e10fc4-b4c5-4b02-a65c-bfae8bc51d3f-wos.json", "execution_status": "not_run"}
-  ]
+    {
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/notepad/366de66e-cbae-4d72-b042-26390db2b145-WOS.json",
+      "execution_status": "executed_adapted_development_run",
+      "index": 1,
+      "latest_run": "v27",
+      "agent_status": "completed",
+      "metric_score": 1.0,
+      "passed": true
+    },
+    {
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/2b0c0844-bd4f-42ba-a25e-afb4267d51e2-WOS.json",
+      "execution_status": "executed_adapted_development_run",
+      "index": 2,
+      "latest_run": "v27",
+      "agent_status": "completed",
+      "metric_score": 0.0,
+      "passed": false,
+      "environment_difference": "expected title Documents; observed Documents - File Explorer",
+      "destination_path_verified": true
+    },
+    {
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/34a4fee9-e52e-4a4a-96d2-68d35091504a-WOS.json",
+      "execution_status": "executed_adapted_development_run",
+      "index": 3,
+      "latest_run": "v27",
+      "agent_status": "completed",
+      "metric_score": 1.0,
+      "passed": true
+    },
+    {
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/b8ab0ae1-d2b4-4e6f-b609-df7d76b456d7-WOS.json",
+      "execution_status": "executed_adapted_development_run",
+      "index": 4,
+      "latest_run": "v27",
+      "agent_status": "completed",
+      "metric_score": 1.0,
+      "passed": true
+    },
+    {
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/settings/37e10fc4-b4c5-4b02-a65c-bfae8bc51d3f-wos.json",
+      "execution_status": "executed_adapted_development_run",
+      "index": 5,
+      "latest_run": "v27",
+      "agent_status": "completed",
+      "metric_score": 1.0,
+      "passed": true
+    }
+  ],
+  "report": "docs/P5-WAA-PILOT.md",
+  "latest_complete_run": "v27",
+  "latest_complete_score": {
+    "passed": 4,
+    "planned": 5
+  },
+  "latest_targeted_runs": [
+    {
+      "run": "v11",
+      "selection": [
+        2,
+        4
+      ],
+      "passed": 0,
+      "planned": 2
+    },
+    {
+      "run": "v13",
+      "selection": [
+        4
+      ],
+      "passed": 1,
+      "planned": 1
+    },
+    {
+      "run": "v23",
+      "selection": [
+        5
+      ],
+      "passed": 1,
+      "planned": 1
+    },
+    {
+      "run": "v24",
+      "selection": [
+        5
+      ],
+      "passed": 1,
+      "planned": 1
+    },
+    {
+      "run": "v25",
+      "selection": [
+        5
+      ],
+      "passed": 1,
+      "planned": 1
+    }
+  ],
+  "phase": "P6 recorder and deterministic workflow implementation",
+  "consecutive_confirmation": {
+    "runs": [
+      "v26",
+      "v27"
+    ],
+    "status": "completed",
+    "all_agents_completed": true,
+    "original_title_metric_unchanged": true
+  }
 }

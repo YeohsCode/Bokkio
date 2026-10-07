@@ -1,0 +1,107 @@
+{
+  "benchmark": "WindowsAgentArena",
+  "revision": "6d39ed88c545a0d40a7a02e39b928e278df7332b",
+  "scope": "adapted_development_run",
+  "tasks": [
+    {
+      "index": 1,
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/notepad/366de66e-cbae-4d72-b042-26390db2b145-WOS.json",
+      "sha256": "838b34719a839790926e0301ee990e0ffaecf664728620e535a74d6d2393c2ff",
+      "assets": [
+        {
+          "kind": "gold",
+          "url": "https://raw.githubusercontent.com/rogeriobonatti/winarenafiles/main/task_files/notepad/366de66e-cbae-4d72-b042-26390db2b145-WOS/eval/draft.txt",
+          "file": "draft_gold.txt",
+          "sha256": "fc6f50fbceffdc50e2f7bb20bf1b308a10cd876c9e97e9c512785f6eeb6fb4c8"
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/2b0c0844-bd4f-42ba-a25e-afb4267d51e2-WOS.json",
+      "sha256": "184af77704fa2095a331ab4e21a0218ed417972d28c12e0693c249633a5105e4",
+      "assets": []
+    },
+    {
+      "index": 3,
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/34a4fee9-e52e-4a4a-96d2-68d35091504a-WOS.json",
+      "sha256": "39e14dec1246f61112b5d6059c8549b9a3f332a7f651e9496fd0cf8a196f6349",
+      "assets": []
+    },
+    {
+      "index": 4,
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/b8ab0ae1-d2b4-4e6f-b609-df7d76b456d7-WOS.json",
+      "sha256": "0505246631e539f397d2b3d481f0a9b88b49acd4acaa704ffd6e02a56447efd3",
+      "assets": [
+        {
+          "kind": "input",
+          "url": "https://raw.githubusercontent.com/rogeriobonatti/winarenafiles/main/task_files/file_explorer/b8ab0ae1-d2b4-4e6f-b609-df7d76b456d7-WOS/config/SampleText.txt",
+          "original_path": "C:\\Users\\Docker\\Desktop\\example.txt",
+          "file": "input-0.bin",
+          "sha256": "95a2f1edb08a76120b82cec7c93ca477618639f04beac7d2aeba2dc039d43715"
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "path": "src/win-arena-container/client/evaluation_examples_windows/examples/settings/37e10fc4-b4c5-4b02-a65c-bfae8bc51d3f-wos.json",
+      "sha256": "680d36fc18cfcd59964e7d1efc8d59971a07579be7e5351b66a3882f6ff42741",
+      "assets": []
+    }
+  ],
+  "sources": [
+    {
+      "path": "src/win-arena-container/client/desktop_env/evaluators/metrics/general.py",
+      "sha256": "e3f75e5d601626ecd09ae0cd7a0727b8b8bf1687924bd039faf2529a6682ab9e",
+      "functions": [
+        "exact_match"
+      ]
+    },
+    {
+      "path": "src/win-arena-container/client/desktop_env/evaluators/metrics/vscode.py",
+      "sha256": "73e5ed8c975758598624bd05fa69d4db73c67d0197734386b2feeced8ccb2b75",
+      "functions": [
+        "compare_text_file"
+      ]
+    },
+    {
+      "path": "src/win-arena-container/client/desktop_env/evaluators/getters/file.py",
+      "sha256": "3d7654c33f3821d286e3a9defac1592aa36439620a7b7585a43a9ff090e1780c",
+      "functions": [
+        "get_vm_file",
+        "get_cloud_file",
+        "get_vm_file_exists_in_vm_folder"
+      ]
+    },
+    {
+      "path": "src/win-arena-container/client/desktop_env/evaluators/getters/fileexplorer.py",
+      "sha256": "d1e8121d0bd941ea51111eb81e5940cd4f0ec22141af6759d9753faf8995f2c1",
+      "functions": [
+        "get_is_details_view",
+        "get_vm_active_window_title"
+      ]
+    },
+    {
+      "path": "src/win-arena-container/client/desktop_env/evaluators/getters/settings.py",
+      "sha256": "83ceafde9d3059d727dc9f90a929f797d1ce9e017c0c37c4e34bcfc0021aaf61",
+      "functions": [
+        "get_system_notifications"
+      ]
+    },
+    {
+      "path": "src/win-arena-container/client/desktop_env/evaluators/getters/misc.py",
+      "sha256": "bcc3e7e5ae06f4519dae446fba81ba6de3e775932e8f0ad3f25639b2da64e2ef",
+      "functions": [
+        "get_rule"
+      ]
+    },
+    {
+      "path": "src/win-arena-container/client/desktop_env/envs/desktop_env.py",
+      "sha256": "5304728103586889b7b5834d4f27777932def447197180cc222c0e4eb6021332",
+      "functions": [
+        "evaluate"
+      ]
+    }
+  ],
+  "evaluator_sha256": "c340c602905fda043021421dac28023c246dae64398df8200d9dd2f056f152fa"
+}

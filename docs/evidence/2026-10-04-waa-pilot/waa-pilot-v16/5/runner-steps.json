@@ -1,0 +1,639 @@
+[
+  {
+    "step": 1,
+    "request": {
+      "type": "bokkio_native",
+      "token": "f46324a724864eec837cb5ea6bdf8a1f",
+      "app": "8348",
+      "action": "click",
+      "arguments": {
+        "ref": "27b065576eef67c58e1a",
+        "value": null,
+        "direction": null,
+        "amount": null,
+        "expected_snapshot": "66b6873b4243721497d7",
+        "window": "Settings"
+      }
+    },
+    "dispatched": true,
+    "passed": true,
+    "seconds": 1.952999999979511,
+    "result": {
+      "action": "click",
+      "target_ref": "27b065576eef67c58e1a",
+      "before": {
+        "ref": "27b065576eef67c58e1a",
+        "platform": "windows",
+        "role": "list_item",
+        "name": "Notifications",
+        "value": null,
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": false,
+          "active": false,
+          "selected": false,
+          "editable": false,
+          "focusable": true,
+          "checked": null,
+          "expanded": null,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": {
+          "x": 374,
+          "y": 435,
+          "width": 453,
+          "height": 72
+        },
+        "parent": "3da306754540f822192a",
+        "children": [
+          {
+            "ref": "9d94d4e85a3c70e9293c",
+            "platform": "windows",
+            "role": "group",
+            "name": "Notifications",
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 375,
+              "y": 436,
+              "width": 448,
+              "height": 69
+            },
+            "parent": "27b065576eef67c58e1a",
+            "children": [
+              {
+                "ref": "148c3781f05de87e8077",
+                "platform": "windows",
+                "role": "static_text",
+                "name": "",
+                "value": null,
+                "state": {
+                  "enabled": true,
+                  "visible": true,
+                  "focused": false,
+                  "active": false,
+                  "selected": false,
+                  "editable": false,
+                  "focusable": false,
+                  "checked": null,
+                  "expanded": null,
+                  "minimized": null,
+                  "maximized": null,
+                  "fullscreen": null
+                },
+                "bounds": {
+                  "x": 399,
+                  "y": 461,
+                  "width": 24,
+                  "height": 20
+                },
+                "parent": "9d94d4e85a3c70e9293c",
+                "children": [],
+                "actions": [],
+                "platform_data": {
+                  "control_type_id": 50020,
+                  "uia_name": "",
+                  "class_name": "TextBlock",
+                  "description": null,
+                  "actions": [],
+                  "native_stable_id": null,
+                  "ambiguous_ref_identity": true,
+                  "native_action_scope_hwnd": 5375482
+                }
+              },
+              {
+                "ref": "0e2d6ddd7e28ba41ad0f",
+                "platform": "windows",
+                "role": "static_text",
+                "name": "Notifications",
+                "value": null,
+                "state": {
+                  "enabled": true,
+                  "visible": true,
+                  "focused": false,
+                  "active": false,
+                  "selected": false,
+                  "editable": false,
+                  "focusable": false,
+                  "checked": null,
+                  "expanded": null,
+                  "minimized": null,
+                  "maximized": null,
+                  "fullscreen": null
+                },
+                "bounds": {
+                  "x": 441,
+                  "y": 462,
+                  "width": 79,
+                  "height": 19
+                },
+                "parent": "9d94d4e85a3c70e9293c",
+                "children": [],
+                "actions": [],
+                "platform_data": {
+                  "class_name": "TextBlock",
+                  "uia_name": "Notifications",
+                  "control_type_id": 50020,
+                  "description": null,
+                  "actions": [],
+                  "native_stable_id": null,
+                  "ambiguous_ref_identity": true,
+                  "native_action_scope_hwnd": 5375482
+                }
+              },
+              {
+                "ref": "a2c4bb451d2dac13cb99",
+                "platform": "windows",
+                "role": "static_text",
+                "name": "",
+                "value": null,
+                "state": {
+                  "enabled": true,
+                  "visible": true,
+                  "focused": false,
+                  "active": false,
+                  "selected": false,
+                  "editable": false,
+                  "focusable": false,
+                  "checked": null,
+                  "expanded": null,
+                  "minimized": null,
+                  "maximized": null,
+                  "fullscreen": null
+                },
+                "bounds": {
+                  "x": 783,
+                  "y": 464,
+                  "width": 16,
+                  "height": 14
+                },
+                "parent": "9d94d4e85a3c70e9293c",
+                "children": [],
+                "actions": [],
+                "platform_data": {
+                  "uia_name": "",
+                  "control_type_id": 50020,
+                  "class_name": "TextBlock",
+                  "description": null,
+                  "actions": [],
+                  "native_stable_id": null,
+                  "ambiguous_ref_identity": true,
+                  "native_action_scope_hwnd": 5375482
+                }
+              }
+            ],
+            "actions": [],
+            "platform_data": {
+              "uia_name": "Notifications",
+              "control_type_id": 50026,
+              "uia_help_text": "Alerts from apps and system, do not disturb",
+              "class_name": "NamedContainerAutomationPeer",
+              "description": "Alerts from apps and system, do not disturb",
+              "actions": [],
+              "native_stable_id": null,
+              "ambiguous_ref_identity": true,
+              "native_action_scope_hwnd": 5375482
+            }
+          }
+        ],
+        "actions": [
+          "click",
+          "focus"
+        ],
+        "platform_data": {
+          "uia_name": "Notifications",
+          "class_name": "ListViewItem",
+          "control_type_id": 50007,
+          "description": null,
+          "actions": [
+            "press",
+            "focus"
+          ],
+          "native_stable_id": null,
+          "ambiguous_ref_identity": true,
+          "native_action_scope_hwnd": 5375482,
+          "action_runtime_id": [
+            42,
+            5375482,
+            4,
+            181
+          ],
+          "action_scope_hwnd": 5375482,
+          "action_process_id": 8284,
+          "verified_native_actions": [
+            "click"
+          ]
+        }
+      },
+      "after": null,
+      "verification": "observed",
+      "tree_changed": true,
+      "action_source": "UIA.InvokePattern"
+    }
+  },
+  {
+    "step": 2,
+    "request": {
+      "type": "bokkio_native",
+      "token": "d521d1db0dd04653ac31f7adb356c146",
+      "app": "8348",
+      "action": "click",
+      "arguments": {
+        "ref": "236ccc36665d3ca33160",
+        "value": null,
+        "direction": null,
+        "amount": null,
+        "expected_snapshot": "276715e34a402697d44e",
+        "window": "Settings"
+      }
+    },
+    "dispatched": true,
+    "passed": true,
+    "seconds": 1.6559999999881256,
+    "result": {
+      "action": "click",
+      "target_ref": "236ccc36665d3ca33160",
+      "before": {
+        "ref": "236ccc36665d3ca33160",
+        "platform": "windows",
+        "role": "button",
+        "name": "Notifications",
+        "value": null,
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": true,
+          "active": false,
+          "selected": false,
+          "editable": false,
+          "focusable": true,
+          "checked": true,
+          "expanded": null,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": {
+          "x": 707,
+          "y": 159,
+          "width": 72,
+          "height": 40
+        },
+        "parent": "875b2004b0bbc75d400f",
+        "children": [
+          {
+            "ref": "cfd5a0d64ad5e7053db3",
+            "platform": "windows",
+            "role": "static_text",
+            "name": "Off",
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 707,
+              "y": 170,
+              "width": 20,
+              "height": 19
+            },
+            "parent": "236ccc36665d3ca33160",
+            "children": [],
+            "actions": [],
+            "platform_data": {
+              "class_name": "TextBlock",
+              "uia_name": "Off",
+              "control_type_id": 50020,
+              "description": null,
+              "actions": [],
+              "native_stable_id": null,
+              "ambiguous_ref_identity": true,
+              "native_action_scope_hwnd": 5375482
+            }
+          },
+          {
+            "ref": "4683066ba6c6abcae31f",
+            "platform": "windows",
+            "role": "static_text",
+            "name": "On",
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 707,
+              "y": 170,
+              "width": 19,
+              "height": 19
+            },
+            "parent": "236ccc36665d3ca33160",
+            "children": [],
+            "actions": [],
+            "platform_data": {
+              "uia_name": "On",
+              "control_type_id": 50020,
+              "class_name": "TextBlock",
+              "description": null,
+              "actions": [],
+              "native_stable_id": null,
+              "ambiguous_ref_identity": true,
+              "native_action_scope_hwnd": 5375482
+            }
+          },
+          {
+            "ref": "9dfbf7e69799fce8ae89",
+            "platform": "windows",
+            "role": "scroll_thumb",
+            "name": null,
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 707,
+              "y": 159,
+              "width": 72,
+              "height": 40
+            },
+            "parent": "236ccc36665d3ca33160",
+            "children": [],
+            "actions": [],
+            "platform_data": {
+              "class_name": "Thumb",
+              "control_type_id": 50027,
+              "automation_id": "SwitchThumb",
+              "description": null,
+              "actions": [],
+              "native_stable_id": "SwitchThumb",
+              "ambiguous_ref_identity": true,
+              "native_action_scope_hwnd": 5375482
+            }
+          }
+        ],
+        "actions": [
+          "click",
+          "focus"
+        ],
+        "platform_data": {
+          "automation_id": "SystemSettings_Notifications_ShowAppNotifications_ToggleSwitch",
+          "uia_name": "Notifications",
+          "uia_help_text": "Get notifications from apps and other senders",
+          "control_type_id": 50000,
+          "class_name": "ToggleSwitch",
+          "description": "Get notifications from apps and other senders",
+          "actions": [
+            "press",
+            "toggle",
+            "focus"
+          ],
+          "native_stable_id": "SystemSettings_Notifications_ShowAppNotifications_ToggleSwitch",
+          "ambiguous_ref_identity": true,
+          "native_action_scope_hwnd": 5375482,
+          "action_runtime_id": [
+            42,
+            5375482,
+            4,
+            303
+          ],
+          "action_scope_hwnd": 5375482,
+          "action_process_id": 8284,
+          "verified_native_actions": [
+            "click"
+          ]
+        }
+      },
+      "after": {
+        "ref": "236ccc36665d3ca33160",
+        "platform": "windows",
+        "role": "button",
+        "name": "Notifications",
+        "value": null,
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": true,
+          "active": false,
+          "selected": false,
+          "editable": false,
+          "focusable": true,
+          "checked": false,
+          "expanded": null,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": {
+          "x": 707,
+          "y": 159,
+          "width": 72,
+          "height": 40
+        },
+        "parent": "875b2004b0bbc75d400f",
+        "children": [
+          {
+            "ref": "cfd5a0d64ad5e7053db3",
+            "platform": "windows",
+            "role": "static_text",
+            "name": "Off",
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 707,
+              "y": 170,
+              "width": 20,
+              "height": 19
+            },
+            "parent": "236ccc36665d3ca33160",
+            "children": [],
+            "actions": [],
+            "platform_data": {
+              "class_name": "TextBlock",
+              "control_type_id": 50020,
+              "uia_name": "Off",
+              "description": null,
+              "actions": [],
+              "native_stable_id": null,
+              "ambiguous_ref_identity": true,
+              "native_action_scope_hwnd": 5375482
+            }
+          },
+          {
+            "ref": "4683066ba6c6abcae31f",
+            "platform": "windows",
+            "role": "static_text",
+            "name": "On",
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 707,
+              "y": 170,
+              "width": 19,
+              "height": 19
+            },
+            "parent": "236ccc36665d3ca33160",
+            "children": [],
+            "actions": [],
+            "platform_data": {
+              "class_name": "TextBlock",
+              "uia_name": "On",
+              "control_type_id": 50020,
+              "description": null,
+              "actions": [],
+              "native_stable_id": null,
+              "ambiguous_ref_identity": true,
+              "native_action_scope_hwnd": 5375482
+            }
+          },
+          {
+            "ref": "9dfbf7e69799fce8ae89",
+            "platform": "windows",
+            "role": "scroll_thumb",
+            "name": null,
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 707,
+              "y": 159,
+              "width": 72,
+              "height": 40
+            },
+            "parent": "236ccc36665d3ca33160",
+            "children": [],
+            "actions": [],
+            "platform_data": {
+              "control_type_id": 50027,
+              "automation_id": "SwitchThumb",
+              "class_name": "Thumb",
+              "description": null,
+              "actions": [],
+              "native_stable_id": "SwitchThumb",
+              "ambiguous_ref_identity": true,
+              "native_action_scope_hwnd": 5375482
+            }
+          }
+        ],
+        "actions": [
+          "click",
+          "focus"
+        ],
+        "platform_data": {
+          "control_type_id": 50000,
+          "automation_id": "SystemSettings_Notifications_ShowAppNotifications_ToggleSwitch",
+          "class_name": "ToggleSwitch",
+          "uia_help_text": "Get notifications from apps and other senders",
+          "uia_name": "Notifications",
+          "description": "Get notifications from apps and other senders",
+          "actions": [
+            "press",
+            "toggle",
+            "focus"
+          ],
+          "native_stable_id": "SystemSettings_Notifications_ShowAppNotifications_ToggleSwitch",
+          "ambiguous_ref_identity": true,
+          "native_action_scope_hwnd": 5375482,
+          "action_runtime_id": [
+            42,
+            5375482,
+            4,
+            303
+          ],
+          "action_scope_hwnd": 5375482,
+          "action_process_id": 8284,
+          "verified_native_actions": [
+            "click"
+          ]
+        }
+      },
+      "verification": "observed",
+      "tree_changed": true,
+      "action_source": "UIA.TogglePattern"
+    }
+  }
+]

@@ -486,9 +486,9 @@ Native Apps
 
 ### 当前阶段与平台优先级
 
-当前处于 **P5：LLM 高层规划与原生跨应用执行循环**。首版已经实现，Windows 跨应用、恢复与暂停/继续已通过实测，正在扩大验收覆盖并补齐稳定性。P4 核心决策已验证，部分可见 provider 等扩展评测继续进行。P6 Recorder/Workflow 与 P7 视觉兜底尚未开始。
+**P6 已完成 Windows 原生验收，P7 启动条件已满足。** 最终代码完成六步录制重放 3/3、真实 trace 保存重开 3/3，以及三组参数化跨应用重放、应用/执行进程重启恢复、结构变化和真实模型修复。见 [P6 验收](docs/P6-CLOSURE.md)。P7 实现尚未开始，首项为 Windows 原生窗口截图与自绘 fixture，见 [P7 计划](docs/P7-PLAN.md)。
 
-按用户最新要求，后续优先在现有 Windows 11 虚机推进。macOS 原生读取仍异常，保留对照验收待办；代码与隔离测试继续维护。总体 P5 的跨平台验收尚未完成，Windows 阶段验收与 macOS 对照结果分别记录。
+Windows 11 虚机继续可用；2026-10-06 已恢复 Mac 原生对照，见 [Mac 续测](docs/MACOS-FOLLOWUP.md)。原 P6 标准接受 macOS 或 Windows，本轮采用 Windows；macOS AX provider 对照、Office 激活和完整上游 benchmark 集成继续保留为平台/扩展工作。P5 的 Windows 原生规划、跨应用、恢复和交付已有实测；跨平台及已激活 Office 流程仍需分别验收。
 
 ### 本次续执行
 
@@ -501,7 +501,8 @@ Native Apps
 - [x] Jev OpenRouter / TypeSafe transport、闭集 action/ref/value、置信度检查和快照检查。
 - [x] 五种脚本化决策通过真实 Windows 操作链路；这是 Runtime 接口验证。
 - [x] macOS 横纵滚动专用 Cocoa fixture 已编译；树循环改为有界错误。
-- [ ] macOS 真实横向滚动、结构重排与虚拟化实测：当前 macOS 锁屏。
+- [x] macOS 横纵滚动 12 次确认、真实 Cocoa 子节点重排后同一 Workflow 重放通过。
+- [ ] macOS 真正可见节点虚拟化、更多独立应用与结构变化实测。
 - [ ] 仅暴露可见节点的原生虚拟化 provider：当前 Windows UIA 仍暴露全部 1,000 行。
 - [x] 从本地 Jev 工程找到 OpenRouter key，配置 Mac 与 Windows 私有文件；key 不入仓库。
 - [x] 真实 Jev 五样本离线评测 5/5；Windows 五个实时任务 5/5，实际下拉选择使用两步。
@@ -520,12 +521,12 @@ Native Apps
 - [x] 七步真实跨应用流程与原生动作顺序验证通过，1,015 节点规划观察保留 13 节点。
 - [x] Windows 检查点临时文件锁：有限重试及原生句柄占用复现实测通过。
 - [x] 分页跨应用任务的模型、snapshot、窗口枚举与原生执行分项计时；检查点细分计时仍待补。
-- [x] 外部 benchmark 准备：固定 WindowsAgentArena 源码版本，读取 154 份配置并记录哈希，预列五项原生 pilot；完整官方 runner 与这五项任务仍待执行。
+- [x] 外部 benchmark 准备：固定 WindowsAgentArena 源码版本，读取 154 份配置并记录哈希，预列五项原生 pilot，现已实现逐步派发与固定 evaluator 并执行；完整上游环境与服务端 runner 对齐仍待完成。
 - [x] 三项 WAA 多步开发试跑：Explorer/Notepad 真实 Planner/Jev/UIA，复用固定版本 metric 函数，独立检查中间步骤、文件与新进程重开；保留所有失败及复测，详见 [报告](docs/P5-WAA-LONGCHAIN.md)。
 - [x] 固定 WAA 三题修复后连续两轮各 3/3；两端 152 项隔离测试通过，仍在 P5 扩大验收阶段。
 - [x] 原生 ValuePattern/RuntimeId 写入校验与搜索别名去重；绑定进程后获取新快照；阶段续规划、对话框 presence 条件与缺少交付文件时的补救；见 [修复报告](docs/P5-WAA-RECOVERY.md)。
 - [x] 预选六种 WAA 派生输入：混合扩展名与十文件清单、严格 5 MiB 边界、多文件大小报告、标点大小写与零命中计数。原生暂停后用新 Runtime 恢复，独立核验源哈希、内容、保存与新进程重开；所有轮次保留，见 [续测报告](docs/P5-NATIVE-VARIATIONS.md)。
-- [x] 最终 PNG 复测 1/1；需求变更最终两版 2/2，原文/旧交付/旧历史保持与新进程重开通过；最新两端各 195 项隔离测试通过。
+- [x] 最终 PNG 复测 1/1；需求变更最终两版 2/2，原文/旧交付/旧历史保持与新进程重开通过；当时两端各 195 项隔离测试通过。
 - [x] 显式需求修订、按版本隔离完成记录与源事实、产物路径/大小/哈希版本记录；Windows 经典 Open 完整源路径约束，拒绝历史目录里的同名文件。
 - [x] Explorer 原生菜单动作能力/RuntimeId 与勾选状态验证、Popup 导航保留、菜单变化后的阶段重读；统一有界计划校验，阻止旧窗口标题和矛盾条件。
 - [x] Planner 推理强度可配置；成功条件支持父级名称约束；决策名称匹配排除验收 JSON 键名和 Windows 目标路径。
@@ -535,13 +536,41 @@ Native Apps
 - [x] 安装 Microsoft 365 七款桌面应用，版本 16.0.20430.20140，安装器退出码 0；安装后原生启动窗口读取 7/7 通过，初次 PowerPoint 超时保留并复查通过。
 - [ ] Office 激活与 Outlook 设置：按用户要求暂缓，待可用微软许可证后恢复。
 - [ ] Office 与邮件客户端 UIA 操作能力矩阵、三项办公参考任务、需求变更与阶段恢复实测。
-- [ ] macOS 原生横纵滚动与三条真实模型跨应用任务：实际原生读取失败，系统 AX 将应用自身返回为窗口；已记录诊断，前台 loginwindow 不再单独触发阻断。
+- [x] macOS 原生横纵滚动与三条真实 Planner/Jev 跨应用任务 3/3；第三条旧快照在派发前拒绝并重规划恢复，见 [Mac 续测](docs/MACOS-FOLLOWUP.md)。
 
-证据和命令见 `docs/RUNTIME-FOLLOWUP.md`、`docs/P4-REPORT.md`、`docs/P5-REPORT.md` 、`docs/P5-FOLLOWUP.md` 、`docs/P5-PAGED.md` 、`docs/P5-OFFICE-PREREQUISITES.md` 与 `docs/WINDOWS-OFFICE-SETUP.md`。最新 195 项隔离测试在 macOS 和 Windows 通过；本轮新增测试与原生变体验收见 [续测报告](docs/P5-NATIVE-VARIATIONS.md)，WAA 开发试跑见 [长链路实测](docs/P5-WAA-LONGCHAIN.md)。
+证据和命令见 `docs/RUNTIME-FOLLOWUP.md`、`docs/P4-REPORT.md`、`docs/P5-REPORT.md` 、`docs/P5-FOLLOWUP.md` 、`docs/P5-PAGED.md` 、`docs/P5-OFFICE-PREREQUISITES.md` 与 `docs/WINDOWS-OFFICE-SETUP.md`。最新 292 项隔离测试在 macOS 主机和 Windows 通过；固定五项 pilot 见 [报告](docs/P5-WAA-PILOT.md)。本轮新增测试与原生变体验收见 [续测报告](docs/P5-NATIVE-VARIATIONS.md)，WAA 开发试跑见 [长链路实测](docs/P5-WAA-LONGCHAIN.md)。
 
-### 下一步
+P5 Windows 最终确认：v26、v27 各 4/5，五项 Agent completed；原始标题评分差异保留。Settings 三次定向复测各 1/1，七个执行源码哈希匹配该轮验收代码。
 
-1. **扩大 WAA 原生多步验收。** 固定三题已连续两轮各 3/3，包含原生中间证据、metric、保存/重开和输入哈希保持；见 [修复报告](docs/P5-WAA-RECOVERY.md)。本轮新增六种输入、暂停恢复与源路径约束；具体分轮结果见 [变体验收](docs/P5-NATIVE-VARIATIONS.md)。下一步增加独立原生任务并接入官方初始化、逐步执行和 evaluator，保留分母、环境差异与失败记录。
-2. **Windows P5 阶段执行与验收。** 已实现事实/约束与产物版本记录及显式需求修订；继续扩大多应用与需求变化验收，中间业务状态与最终产物分别验证。Office 七款应用已安装，激活和办公任务按用户要求暂缓；可用许可证后恢复 [办公流程计划](docs/WINDOWS-OFFICE-PLAN.md)。
-3. **扩展外部测试集并进入 P6。** 本轮三题稳定后，完成官方初始化、逐步执行与 evaluator 适配，跑原先五项 pilot，再扩大子集；随后推进 Recorder 与 Workflow v1。P7 扩展视觉任务。环境差异见 [测试集接入计划](docs/BENCHMARK-PLAN.md)。
-4. **后补 macOS 对照验收。** 原生窗口与控件读取恢复后，运行横纵滚动及 `scripts/verify_p5_macos.py`；锁屏状态与 AX 异常的因果关系仍需对照确认。
+### P6 已完成的 Windows 验收
+
+- [x] 语义 Recorder：目标、前后快照、原生回执与条件；Workflow v1 含 intent/action/target/value、wait/verify、依赖及版本哈希。
+- [x] 完成 Agent trace 的观察/决策/回执校验及固化；未完成、无验证或依赖未知光标位置的动作拒绝固化。
+- [x] 确定性重放、ref 与完整语义上下文核验、歧义拒绝、失败点定位、有界观察重试；未知派发结果不重复动作。
+- [x] 失败 Workflow 生成保留父版本的新版本；可向 Jev/Planner 适配器交出修复上下文，提案验证后单独重放。
+- [x] Windows click/type/select 与跨应用写入录制；同一 JSON 在新进程三次重放并独立核验通过。
+- [x] 真实 P5 成功 Notepad trace 固化后的五步 Workflow 三次保存/重开通过；0 派发的失败版本与 revision 2 修复重放通过。
+- [x] 一份七步 Explorer → Notepad → Explorer 模板，三组参数全部通过；源文件与交付物 SHA-256、保存重开和不同 PID/执行进程恢复通过，仅派发剩余一步。
+- [x] 原生客户端语义回执入口 `capture_receipt`，实际捕获两次 Explorer 选择，不重复派发；成功 Agent trace 固化继续可用。
+- [x] 无名容器结构变化的 named-context 恢复，以及真实 GPT-4.1 selector 修复；原失败版本零派发，新版本保留 parent hash 并重放通过。
+- [x] 常规重放复用动作后新观察，遍历由四次降为三次；执行前快照校验和等待期间新观察保留。
+- [x] 主机与 Windows 隔离回归各 292/292；输入/产物变化、检查点篡改、未知完成、应用范围和歧义均有拒绝用例。
+
+### 平台与可选扩展
+
+- [ ] 可选录制扩展：全局人工键鼠监听。当前已满足原计划“人工录制或成功 Agent trace”的来源要求。
+- [x] macOS 原生 AX 对照恢复；动作 3/3、录制重放 3/3、成功 trace 重放 3/3、结构重排、零派发失败/版本修复与暂停恢复通过。
+- [ ] macOS 文件交付、参数化文件合约、跨执行进程/PID 恢复、真实模型修复扩展对照。
+
+实现与原生结果见 [P6 文档](docs/P6-WORKFLOW.md)。WAA 的完整上游 runner 和环境对齐继续作为 benchmark 集成工作；Office 激活仍按既有要求暂缓。扩展原生结果见 [P6 验收](docs/P6-CLOSURE.md)，最终 v5 的三次录制与三次成功 trace 重放均通过；P7 已可开始，后续按 [P7 计划](docs/P7-PLAN.md) 推进窗口截图、自绘目标与视觉兜底。
+
+## Mac Office 实测（2026-10-07）
+
+- [x] 四应用 CUA 交互：Excel/Word/PowerPoint/Outlook 基线、修订、草稿附件及文档重开；六份文件独立校验，v1 字节保留。
+- [ ] Bokkio Agent/Workflow Office 验收：disabled 编辑区能力、Excel 单元格读写、Outlook 窗口遍历、未知 AXPress 完成、三轮重复与进程恢复仍待实现/验收。
+
+详见 [Office 报告](docs/MACOS-OFFICE-REPORT.md)。CUA pilot 不计作 Bokkio P7 兜底实现；Windows Office 暂缓状态保留。
+
+## 当前 Pending
+
+完整剩余项及优先级见 [Pending 清单](docs/PENDING.md)。2026-10-06 主机隔离回归为 293/293；Windows 292/292 为前一轮结果，Mac 角色修正后尚未重跑 Windows 原生验收。

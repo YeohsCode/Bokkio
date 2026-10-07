@@ -1,0 +1,24 @@
+{
+  "workflow": "C:\\BokkioTasks\\p6-complete-v3\\report-workflow.json",
+  "bindings": {
+    "explorer": "10092",
+    "notepad": "2600"
+  },
+  "windows": {
+    "explorer": "hwnd:0x600734"
+  },
+  "parameters": {
+    "source_name": "source-resume.txt",
+    "report_name": "report-resume.txt",
+    "folder_title": "resume - File Explorer",
+    "folder_name": "resume",
+    "body": "P6 report resume.",
+    "save_path": "C:\\BokkioTasks\\p6-complete-v3\\resume\\report-resume.txt",
+    "source_path": "C:\\BokkioTasks\\p6-complete-v3\\resume\\source-resume.txt",
+    "source_hash": "6b92f189f1f641d9963a332941aa043e7e402c9ce19b1cfbf851238594957ecf",
+    "output_hash": "8b4db908d4fce6a0771da04694f55c7308514fd44d61ac070a5cc306c5209a98"
+  },
+  "output": "C:\\BokkioTasks\\p6-complete-v3\\paused.json",
+  "pause_after": 6,
+  "resume": null
+}

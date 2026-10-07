@@ -2,6 +2,7 @@
 from __future__ import annotations
 import json
 import os
+import re
 from pathlib import Path
 import ssl
 import time
@@ -11,7 +12,7 @@ from .jev import config_path
 from .model import BokkioError
 
 
-FIELDS = {"name", "value", "selected", "expanded", "focused", "checked", "present"}
+FIELDS = {"name", "value", "selected", "expanded", "focused", "checked", "enabled", "present"}
 
 
 def validate_plan(plan, apps, observations=None):
@@ -26,8 +27,11 @@ def validate_plan(plan, apps, observations=None):
         raise BokkioError("Plan must contain 1–20 subtasks")
     ids = set()
     for step in steps:
-        if not isinstance(step, dict) or set(step) != {"id", "app", "window", "goal", "allowed_values", "success", "risk"}:
+        required_fields={"id", "app", "window", "goal", "allowed_values", "success", "risk"}
+        if not isinstance(step, dict) or set(step) not in (required_fields,required_fields|{'requires_action'}):
             raise BokkioError("Invalid subtask fields; refs, actions and coordinates belong to the runtime")
+        if 'requires_action' in step and type(step['requires_action']) is not bool:
+            raise BokkioError('requires_action must be boolean')
         if not isinstance(step["id"], str) or not step["id"] or step["id"] in ids:
             raise BokkioError("Subtask ids must be unique nonempty strings")
         ids.add(step["id"])
@@ -52,6 +56,10 @@ def validate_plan(plan, apps, observations=None):
         if (any(c.get('role')=='menu_item' and c.get('field')=='checked' for c in checks if isinstance(c,dict))
                 and any(c.get('role')=='menu_item' and c.get('field')=='expanded' and c.get('equals') is False for c in checks if isinstance(c,dict))):
             raise BokkioError('Verify menu checked state while the submenu is open; closing it may remove that target. Use separate subtasks for checked readback and menu closure.')
+        if (re.search(r'\b(?:navigate|navigation|submit|open)\b',step['goal'],re.I)
+                and re.search(r'\b(?:address|folder|directory|path)\b',step['goal'],re.I)
+                and any(c.get('role')=='window' and c.get('field')=='focused' for c in checks if isinstance(c,dict))):
+            raise BokkioError('Window keyboard focus cannot prove folder navigation. Use the observed destination window title or folder contents; if navigation_result already shows that destination, verify it with requires_action=false instead of resubmitting.')
         required = {}
         for check in checks:
             if not isinstance(check, dict) or set(check) not in ({"role", "name", "field", "equals"}, {"role", "name", "parent_name", "field", "equals"}):
@@ -63,7 +71,7 @@ def validate_plan(plan, apps, observations=None):
             if check.get("parent_name") is not None and (not isinstance(check["parent_name"], str) or not check["parent_name"].strip()):
                 raise BokkioError("Success parent_name must be a nonempty string or null")
             wanted = check["equals"]
-            if check["field"] in {"selected", "expanded", "focused", "checked", "present"}:
+            if check["field"] in {"selected", "expanded", "focused", "checked", "enabled", "present"}:
                 if not isinstance(wanted, bool): raise BokkioError("State success checks require booleans")
                 if check["field"] == "present" and check["name"] is None:
                     raise BokkioError("Presence checks require an exact element name")
@@ -80,9 +88,13 @@ def validate_plan(plan, apps, observations=None):
 
 SYSTEM = '''You plan native desktop subtasks for Bokkio. Return only a JSON object with goal, steps and continue_after_steps (boolean).
 Each step has exactly: id, app, window (exact observed window title or null), goal, allowed_values (literal strings), success (list), risk.
+An optional requires_action boolean requires at least one dispatched native action before this subtask can complete. Set it true for Copy, Paste and other requested commands whose UI predicate may already hold. For Copy, use a command intent such as "Click Copy to copy the selected file" and verify an observed resulting state, for example Paste enabled=true. An unchanged selected source alone does not prove Copy. A window being focused does not prove folder navigation, and typing an address does not prove it was opened. End the address-entry phase and observe native suggestion/submit controls before navigation. Set window=null for navigation because the main title changes. After submitting an address, Explorer can clear its editable Address Bar value; navigation success must use the new window title or folder contents, never an entered value combined with window.focused=true. After an address submit changes the native window, navigation_result records the dispatched address and new observed title. Replan from that folder. If it is already the requested destination, verify its exact observed window title or contents with requires_action=false; do not submit that same address again. Do not plan Paste or Rename until the destination is natively observed. A menu named System in window chrome controls the window; it is not the Settings navigation category. Use actionable content list items for Settings navigation. If the main Notifications button has an observed checked boolean, its page is already open: target that boolean toggle directly and verify checked=false, without a prior navigation button or window-focus requirement. Breadcrumb buttons with the same name have no checked state. They still make a role/name condition ambiguous: set parent_name to the toggle's exact observed immediate parent (for example Show more settings when observed), never null when same-named breadcrumbs are present.
+After an observed Rename command opens an inline editable field, use that actual field to enter the new name. Do not invoke Rename again while its editor is open. Commit the entry with its advertised submit action and verify the new file row. If submit is unavailable, use an observed native commit control. Native inline editor appearance triggers a fresh planning phase; honor native_inline_editor_opened progress. A selected row with the old name is not evidence of successful renaming. After a runtime error, first inspect the latest native state: SetValue or focus changes may have committed the rename even though Enter was refused. If the requested new filename is already the observed list_item and the old filename is absent, plan a read-only verification of that exact row with requires_action=false; never repeat Rename on the vanished old file.
+Explorer edit fields may advertise submit, a native Enter action bound to that field's current value, foreground window and RuntimeId. Use it to commit an entered address or inline filename. Selecting an address suggestion alone does not prove navigation. For inline filename submission, target the focused editable field; verify the new row after the edit closes. Keep textual entry and submission as separate subtasks. Do not use a "Rename" button intent to describe editing an already-open inline field.
+requires_action is normally false for reaching a page, selecting an item or setting a toggle to an already-observed desired state. Use true for explicit command execution such as Copy, Paste, or committing an entered address/name; those commands cannot be proved by a pre-existing static predicate. Do not force a toggle just because its desired state already holds.
 id is a unique string such as "step-1", never a number. app is the exact string dictionary key from observations, often a numeric PID string, never the display name unless that is the supplied key.
 Each success entry has role, name (observed name or null to match any name), parent_name (observed immediate parent name or null), field, equals.
-Fields: name/value are exact strings; selected/expanded/focused/checked/present are booleans. All success entries are AND conditions. Verify a menu item checked state while its submenu is open. Closing that submenu removes its children; check closure in a separate subtask, never AND checked readback with submenu expanded=false. A condition must identify one unique native element. Never encode LF and CRLF as two alternative success entries or allowed values. Use one LF literal for editor text; the runtime compares native editor line endings consistently. present=true verifies exactly one matching element exists; present=false verifies no matching element exists. Presence checks need an exact name.
+Fields: name/value are exact strings; selected/expanded/focused/checked/enabled/present are booleans. All success entries are AND conditions. Verify a menu item checked state while its submenu is open. Closing that submenu removes its children; check closure in a separate subtask, never AND checked readback with submenu expanded=false. A condition must identify one unique native element. Never encode LF and CRLF as two alternative success entries or allowed values. Use one LF literal for editor text; the runtime compares native editor line endings consistently. present=true verifies exactly one matching element exists; present=false verifies no matching element exists. Presence checks need an exact name.
 Observation scopes may omit nodes; truncated_nodes is not evidence that a control is absent. Use window_name and parent_name to distinguish targets. For repeated fields such as Size, set parent_name to the observed file row name; a value match alone does not make an ambiguous field unique. Use observed roles and element labels. A changing status label can be checked with name=null, field=name, equals=expected new label, if its role is unique in the scope; otherwise use the expected new name. Set window=null for steps that open a dialog or rename the main window so subsequent observations include the new native context. For saving files, include the full destination path in allowed_values.
 Risk is read/local_write/external/destructive. External means send, publish, pay or transfer; destructive means delete or irreversible overwrite.
 Generate task intent and verifiable outcomes, not element refs, actions, coordinates, scripts or shell commands.
@@ -119,9 +131,10 @@ def plan_schema(observations):
             "properties": {"id": {"type": "string"}, "app": {"type": "string"},
                            "window": {"type": ["string", "null"]}, "goal": {"type": "string"},
                            "allowed_values": {"type": "array", "items": {"type": "string"}},
+                           "requires_action": {"type": "boolean"},
                            "success": {"type": "array", "minItems":1, "maxItems":4, "items":{"anyOf":checks}},
                            "risk": {"type": "string", "enum": ["read", "local_write", "external", "destructive"]}},
-            "required": ["id", "app", "window", "goal", "allowed_values", "success", "risk"]}
+            "required": ["id", "app", "window", "goal", "allowed_values", "success", "risk", "requires_action"]}
     variants = []
     for app, observation in observations.items():
         properties = {**step["properties"], "app": {"type": "string", "enum": [app]},

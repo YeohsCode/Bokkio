@@ -1,0 +1,6 @@
+Order	Region	Status	Amount
+1001	East	Complete	120
+1002	West	Complete	80
+1003	East	Pending	60
+1004	East	Complete	200
+1005	West	Complete	40

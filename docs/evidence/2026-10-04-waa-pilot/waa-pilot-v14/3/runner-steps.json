@@ -1,0 +1,142 @@
+[
+  {
+    "step": 1,
+    "request": {
+      "type": "bokkio_native",
+      "token": "350849fbadf04711b8f8def2c2e423da",
+      "app": "5764",
+      "action": "click",
+      "arguments": {
+        "ref": "dcb7ab5847f71b806f21",
+        "value": null,
+        "direction": null,
+        "amount": null,
+        "expected_snapshot": "9d95847a1cebd9deaa1c",
+        "window": "hwnd:0x2506ca"
+      }
+    },
+    "dispatched": true,
+    "passed": true,
+    "seconds": 7.1560000000172295,
+    "result": {
+      "action": "click",
+      "target_ref": "dcb7ab5847f71b806f21",
+      "before": {
+        "ref": "dcb7ab5847f71b806f21",
+        "platform": "windows",
+        "role": "radio_button",
+        "name": "Details",
+        "value": "",
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": false,
+          "active": false,
+          "selected": false,
+          "editable": false,
+          "focusable": true,
+          "checked": "off",
+          "expanded": null,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": {
+          "x": 888,
+          "y": 664,
+          "width": 24,
+          "height": 24
+        },
+        "parent": "34db9fc1a8c735846c0c",
+        "children": [],
+        "actions": [
+          "click",
+          "focus",
+          "select"
+        ],
+        "platform_data": {
+          "automation_id": "ViewMode_Details",
+          "control_type_id": 50013,
+          "class_name": "SelectorButton",
+          "uia_name": "Details",
+          "uia_help_text": "Displays information about each item in the window.  (Ctrl+Shift+6)",
+          "description": "Displays information about each item in the window.  (Ctrl+Shift+6)",
+          "actions": [
+            "set_value",
+            "press",
+            "select",
+            "focus"
+          ],
+          "native_stable_id": "ViewMode_Details",
+          "value_source": "UIA.ValuePattern",
+          "value_scope_hwnd": 2426570,
+          "value_runtime_id": [
+            5764,
+            28203536,
+            0
+          ],
+          "native_action_scope_hwnd": 1312466
+        }
+      },
+      "after": {
+        "ref": "dcb7ab5847f71b806f21",
+        "platform": "windows",
+        "role": "radio_button",
+        "name": "Details",
+        "value": "",
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": true,
+          "active": false,
+          "selected": true,
+          "editable": false,
+          "focusable": true,
+          "checked": "on",
+          "expanded": null,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": {
+          "x": 888,
+          "y": 664,
+          "width": 24,
+          "height": 24
+        },
+        "parent": "34db9fc1a8c735846c0c",
+        "children": [],
+        "actions": [
+          "click",
+          "focus",
+          "select"
+        ],
+        "platform_data": {
+          "automation_id": "ViewMode_Details",
+          "control_type_id": 50013,
+          "class_name": "SelectorButton",
+          "uia_name": "Details",
+          "uia_help_text": "Displays information about each item in the window.  (Ctrl+Shift+6)",
+          "description": "Displays information about each item in the window.  (Ctrl+Shift+6)",
+          "actions": [
+            "set_value",
+            "press",
+            "select",
+            "focus"
+          ],
+          "native_stable_id": "ViewMode_Details",
+          "value_source": "UIA.ValuePattern",
+          "value_scope_hwnd": 2426570,
+          "value_runtime_id": [
+            5764,
+            28203536,
+            0
+          ],
+          "native_action_scope_hwnd": 1312466
+        }
+      },
+      "verification": "observed",
+      "tree_changed": true
+    }
+  }
+]

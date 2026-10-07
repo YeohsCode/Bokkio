@@ -1,0 +1,122 @@
+[
+  {
+    "lane": "uia",
+    "method": "snapshot",
+    "seconds": 0.125
+  },
+  {
+    "lane": "planner",
+    "method": "plan",
+    "seconds": 3.0
+  },
+  {
+    "lane": "uia",
+    "method": "snapshot",
+    "seconds": 0.10999999998603016
+  },
+  {
+    "lane": "jev",
+    "method": "ask",
+    "seconds": 1.4849999999860302
+  },
+  {
+    "lane": "uia",
+    "method": "perform",
+    "seconds": 0.25
+  },
+  {
+    "lane": "uia",
+    "method": "snapshot",
+    "seconds": 0.1090000000258442
+  },
+  {
+    "lane": "uia",
+    "method": "snapshot",
+    "seconds": 0.1090000000258442
+  },
+  {
+    "lane": "jev",
+    "method": "ask",
+    "seconds": 1.5150000000139698
+  },
+  {
+    "lane": "uia",
+    "method": "perform",
+    "seconds": 0.3129999999946449
+  },
+  {
+    "lane": "uia",
+    "method": "snapshot",
+    "seconds": 0.17100000000209548
+  },
+  {
+    "lane": "uia",
+    "method": "snapshot",
+    "seconds": 0.15599999998812564
+  },
+  {
+    "lane": "jev",
+    "method": "ask",
+    "seconds": 0.9219999999913853
+  },
+  {
+    "lane": "uia",
+    "method": "perform",
+    "seconds": 8.719000000011874
+  },
+  {
+    "lane": "uia",
+    "method": "snapshot",
+    "seconds": 7.75
+  },
+  {
+    "lane": "uia",
+    "method": "snapshot",
+    "seconds": 7.7810000000172295
+  },
+  {
+    "lane": "planner",
+    "method": "plan",
+    "seconds": 3.2969999999913853
+  },
+  {
+    "lane": "uia",
+    "method": "snapshot",
+    "seconds": 7.812999999994645
+  },
+  {
+    "lane": "jev",
+    "method": "ask",
+    "seconds": 1.2190000000118744
+  },
+  {
+    "lane": "uia",
+    "method": "perform",
+    "seconds": 15.578000000008615
+  },
+  {
+    "lane": "uia",
+    "method": "snapshot",
+    "seconds": 7.812999999994645
+  },
+  {
+    "lane": "uia",
+    "method": "snapshot",
+    "seconds": 7.7810000000172295
+  },
+  {
+    "lane": "jev",
+    "method": "ask",
+    "seconds": 1.2190000000118744
+  },
+  {
+    "lane": "uia",
+    "method": "perform",
+    "seconds": 8.219000000011874
+  },
+  {
+    "lane": "uia",
+    "method": "snapshot",
+    "seconds": 0.10999999998603016
+  }
+]

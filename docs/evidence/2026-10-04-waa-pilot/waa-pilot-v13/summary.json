@@ -1,0 +1,70 @@
+{
+  "scope": "adapted_development_run",
+  "revision": "6d39ed88c545a0d40a7a02e39b928e278df7332b",
+  "planned": 1,
+  "budgets": {
+    "max_actions": 24,
+    "max_replans": 3,
+    "max_phases": 8
+  },
+  "selection": [
+    4
+  ],
+  "attempted": 1,
+  "passed": 1,
+  "results": [
+    {
+      "index": 4,
+      "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/b8ab0ae1-d2b4-4e6f-b609-df7d76b456d7-WOS.json",
+      "task_sha256": "0505246631e539f397d2b3d481f0a9b88b49acd4acaa704ffd6e02a56447efd3",
+      "passed": true,
+      "scope": "adapted_development_run",
+      "native_steps": 12,
+      "metric_score": 1.0,
+      "agent_status": "completed",
+      "action_budget_used": 12,
+      "replans": 1,
+      "intermediate_checks": {
+        "one_action_per_runner_step": true,
+        "successful_dispatches_match_trace": true,
+        "native_observation_after_each_success": true
+      },
+      "artifacts": {
+        "Desktop\\example.txt": {
+          "sha256": "95a2f1edb08a76120b82cec7c93ca477618639f04beac7d2aeba2dc039d43715",
+          "bytes": 6
+        },
+        "Documents\\example_renamed.txt": {
+          "sha256": "95a2f1edb08a76120b82cec7c93ca477618639f04beac7d2aeba2dc039d43715",
+          "bytes": 6
+        }
+      },
+      "input_bytes_preserved": true,
+      "seconds": 320.906,
+      "component_seconds": {
+        "uia": 238.996,
+        "planner": 22.828,
+        "jev": 28.532
+      }
+    }
+  ],
+  "environment": {
+    "platform": "Windows-11-10.0.26100-SP0",
+    "machine": "ARM64",
+    "python": "3.12.13"
+  },
+  "models": {
+    "planner": "openai/gpt-4.1",
+    "jev": "typesafe/jev-1.13"
+  },
+  "evaluator_sha256": "c340c602905fda043021421dac28023c246dae64398df8200d9dd2f056f152fa",
+  "source_sha256": {
+    "verify_waa_pilot.py": "4d4900682382f017a3afd842cfa8e7d5f9524263f4a4b7337111cb93514e64f8",
+    "arena.py": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f",
+    "agent.py": "9c0faf2c786f934877e9fe45b5ef4e30b7e03f99518b07e9e77657dc748ccd03",
+    "planner.py": "afd10464582ea1ea0c50d5959a8edb1c8796ae279b7f92e19d08b33bf3f32251",
+    "decision.py": "60dc62a24a1b1d3347afa1165980d041e0319aa253dc8d6b1240b02245e9728e",
+    "xa11y_backend.py": "23b02329c4cdeed6245ee2828c4528f12374cd000371b6b8b6d0fb6c0837395c",
+    "windows_uia.py": "54018f5e1a808ad2cefa259d081915875e662c5c5caadb2b950ff600b01b8492"
+  }
+}

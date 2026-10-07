@@ -1,0 +1,220 @@
+{
+  "schema": "bokkio.workflow.v1",
+  "name": "WAA draft from successful Agent trace",
+  "revision": 1,
+  "parent_sha256": null,
+  "source": "completed_agent_trace",
+  "metadata": {
+    "goal_revision": 1,
+    "requirements": [
+      {
+        "revision": 1,
+        "goal": "Please open Notepad, create a new file named \"draft.txt\", type \"This is a draft.\", and save it to the Documents folder.\nFor this disposable task, Documents means \"C:\\BokkioTasks\\waa-pilot-v14\\1\\task\\Documents\" and Desktop means \"C:\\BokkioTasks\\waa-pilot-v14\\1\\task\\Desktop\". Use these full paths in native address/file fields. \nOperate through native controls. Do not use scripts, terminals or shell commands.",
+        "required_sources": []
+      }
+    ],
+    "deliveries": [],
+    "trace_sha256": "5a152870cfc8cd49180515498b9231bd099faf42787375150c3ed1586034093e"
+  },
+  "steps": [
+    {
+      "id": "s1",
+      "app": "notepad",
+      "intent": "Type the text 'This is a draft.' into the Notepad editor.",
+      "action": "set_value",
+      "target": {
+        "ref": "fb442943a096549e8780",
+        "role": "text_area",
+        "name": "Text Editor",
+        "ancestors": [
+          {
+            "role": "window",
+            "name": "Untitled - Notepad"
+          }
+        ]
+      },
+      "arguments": {
+        "value": "This is a draft."
+      },
+      "wait": [],
+      "verify": [
+        {
+          "role": "text_area",
+          "name": "Text Editor",
+          "parent_name": "Untitled - Notepad",
+          "field": "value",
+          "equals": "This is a draft."
+        }
+      ],
+      "depends_on": [],
+      "risk": "local_write"
+    },
+    {
+      "id": "s2",
+      "app": "notepad",
+      "intent": "Expand the File menu and invoke Save As... to open the Save As dialog.",
+      "action": "expand",
+      "target": {
+        "ref": "f3cbbf8bc8c838e9602a",
+        "role": "menu_item",
+        "name": "File",
+        "ancestors": [
+          {
+            "role": "menu_bar",
+            "name": "Application"
+          },
+          {
+            "role": "window",
+            "name": "Untitled - Notepad"
+          }
+        ]
+      },
+      "arguments": {},
+      "wait": [],
+      "verify": [
+        {
+          "role": "menu_item",
+          "name": "File",
+          "parent_name": null,
+          "field": "expanded",
+          "equals": true
+        }
+      ],
+      "depends_on": [
+        "s1"
+      ],
+      "risk": "local_write"
+    },
+    {
+      "id": "s3",
+      "app": "notepad",
+      "intent": "Expand the File menu and invoke Save As... to open the Save As dialog.",
+      "action": "click",
+      "target": {
+        "ref": "d445404ef3572e9943d9",
+        "role": "menu_item",
+        "name": "Save As...",
+        "ancestors": [
+          {
+            "role": "menu",
+            "name": "File"
+          },
+          {
+            "role": "window",
+            "name": "Untitled - Notepad"
+          }
+        ]
+      },
+      "arguments": {},
+      "wait": [],
+      "verify": [
+        {
+          "role": "dialog",
+          "name": "Save As",
+          "parent_name": null,
+          "field": "present",
+          "equals": true
+        }
+      ],
+      "depends_on": [
+        "s2"
+      ],
+      "risk": "local_write"
+    },
+    {
+      "id": "s4",
+      "app": "notepad",
+      "intent": "Set the File name: field in the Save As dialog to the full path C:\\BokkioTasks\\waa-pilot-v14\\1\\task\\Documents\\draft.txt.",
+      "action": "set_value",
+      "target": {
+        "ref": "2dc572d7288e3b2a73f3",
+        "role": "text_field",
+        "name": "File name:",
+        "ancestors": [
+          {
+            "role": "combo_box",
+            "name": "File name:"
+          },
+          {
+            "role": "group",
+            "name": "Details Pane"
+          },
+          {
+            "role": "group",
+            "name": "Folder Layout Pane"
+          },
+          {
+            "role": "group",
+            "name": "Explorer Pane"
+          },
+          {
+            "role": "group",
+            "name": null
+          },
+          {
+            "role": "dialog",
+            "name": "Save As"
+          },
+          {
+            "role": "window",
+            "name": "Untitled - Notepad"
+          }
+        ]
+      },
+      "arguments": {
+        "value": "C:\\BokkioTasks\\waa-pilot-v14\\1\\task\\Documents\\draft.txt"
+      },
+      "wait": [],
+      "verify": [
+        {
+          "role": "text_field",
+          "name": "File name:",
+          "parent_name": "File name:",
+          "field": "value",
+          "equals": "C:\\BokkioTasks\\waa-pilot-v14\\1\\task\\Documents\\draft.txt"
+        }
+      ],
+      "depends_on": [
+        "s3"
+      ],
+      "risk": "local_write"
+    },
+    {
+      "id": "s5",
+      "app": "notepad",
+      "intent": "Click the Save button in the Save As dialog to save the file.",
+      "action": "click",
+      "target": {
+        "ref": "1e957b6280b5689e3e2c",
+        "role": "button",
+        "name": "Save",
+        "ancestors": [
+          {
+            "role": "dialog",
+            "name": "Save As"
+          },
+          {
+            "role": "window",
+            "name": "Untitled - Notepad"
+          }
+        ]
+      },
+      "arguments": {},
+      "wait": [],
+      "verify": [
+        {
+          "role": "dialog",
+          "name": "Save As",
+          "parent_name": null,
+          "field": "present",
+          "equals": false
+        }
+      ],
+      "depends_on": [
+        "s4"
+      ],
+      "risk": "local_write"
+    }
+  ],
+  "sha256": "0b0653e735322bc33aaa72caa6c9c6c3331844da2afbe102d088e2fdb3853a3a"
+}

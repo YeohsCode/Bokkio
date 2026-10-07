@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from dataclasses import asdict, dataclass
 import math
+import ntpath
 import re
 from typing import Any, Protocol
 from .model import BokkioActionError, BokkioError, tree_digest
@@ -34,7 +35,7 @@ def _probability(value, label):
     return float(value)
 
 
-def options(snapshot, values):
+def options(snapshot, values, *, include_selected=False):
     """Text values come from the caller; the provider only chooses a token."""
     choices = {"done": {"action": "done", "ref": None, "value": None}}
     value_targets = set()
@@ -48,8 +49,8 @@ def options(snapshot, values):
         if ambiguous and not identity and not verified_actions:
             continue
         for action in node["actions"]:
-            if ambiguous and not (action == "set_value" and identity) and action not in verified_actions: continue
-            if action not in {"click", "focus", "select", "expand", "collapse", "type", "set_value", "scroll"}:
+            if ambiguous and not (action in {"set_value","submit"} and identity) and action not in verified_actions: continue
+            if action not in {"click", "focus", "select", "expand", "collapse", "type", "set_value", "scroll", "submit"}:
                 continue
             if action == "expand" and node["state"].get("expanded") is True:
                 continue
@@ -57,15 +58,15 @@ def options(snapshot, values):
                 continue
             if action == "focus" and node["state"].get("focused") is True:
                 continue
-            if action == "select" and node["state"].get("selected") is True:
+            if action == "select" and node["state"].get("selected") is True and not include_selected:
                 continue
             variants = [{"value": v} for v in values] if action in {"type", "set_value"} else [{"value": None}]
-            if action == "set_value" and identity:
-                key = (node["platform_data"].get("value_scope_hwnd"), tuple(identity))
+            if action in {"set_value","submit"} and identity:
+                key = (action,node["platform_data"].get("value_scope_hwnd"), tuple(identity))
                 if key in value_targets: continue
                 value_targets.add(key)
             if action in verified_actions:
-                key=(node['platform_data'].get('action_scope_hwnd'), tuple(node['platform_data']['action_runtime_id']), action)
+                key=(node['platform_data'].get('action_process_id'), tuple(node['platform_data']['action_runtime_id']), action)
                 if key in native_targets: continue
                 native_targets.add(key)
             if action == "scroll":
@@ -92,6 +93,7 @@ def options(snapshot, values):
 
 
 ACTION_DESCRIPTIONS = {
+    "submit": "Commit the current Explorer address or inline rename field using a foreground-focus-bound Enter key. Use only when the goal requests submitting/confirming the entered value; it does not replace text.",
     "click": "Activate a button or invoke a control. For opening an expandable control prefer expand.",
     "focus": "Give keyboard focus when the goal explicitly requests focus. Native value replacement does not require a focus step.",
     "set_value": "Replace the entire field value directly with an allowed literal using native ValuePattern/AX. This works without prior focus. Use this when the goal specifies what a field should contain.",
@@ -162,6 +164,43 @@ def bounded_observation(goal, snapshot):
     """Exact observed names bound context; preserve all duplicate candidates."""
     nodes = {n["ref"]: n for n in flatten(snapshot["windows"])}
     intent, marker, encoded_checks = goal.partition("\nRequired observable outcome: ")
+    address_refs, submission_refs = set(), set()
+    inline_refs=set()
+    if re.search(r'\b(?:submit|commit|confirm)\b',intent,re.I) and re.search(r'\b(?:filename|name|rename|renaming)\b',intent,re.I):
+        inline=[n for n in nodes.values() if n['platform']=='windows' and n['role']=='text_field'
+                and n['platform_data'].get('class_name')=='UIRenameTextElement'
+                and n['platform_data'].get('submit_available') and n['platform_data'].get('value_runtime_id')
+                and isinstance(n['value'],str) and n['value'] and n['state'].get('editable')
+                and 'submit' in n['actions'] and n['value'].casefold() in goal.casefold()]
+        if len(inline)==1:inline_refs={inline[0]['ref']}
+    if (re.search(r'\b(submit|navigate|go to|open|confirm)\b',intent,re.I)
+            and re.search(r'\b(address|folder|directory|path)\b',intent,re.I)):
+        fields=[n for n in nodes.values() if n['platform']=='windows' and n['role']=='text_field'
+                and (n['name'] or '').casefold()=='address bar'
+                and n['platform_data'].get('value_source')=='UIA.ValuePattern'
+                and isinstance(n['value'],str) and ntpath.splitdrive(n['value'])[0]
+                and ntpath.isabs(n['value']) and n['state'].get('editable')]
+        values={ntpath.normcase(ntpath.normpath(n['value'])) for n in fields}
+        if len(values)==1:
+            current=next(iter(values))
+            explicit=bool(re.search(r'[A-Za-z]:[\\/]',intent))
+            wanted=(current in ntpath.normcase(intent) if explicit else
+                    bool(re.search(r'(?<!\w)'+re.escape(ntpath.basename(current))+r'(?!\w)',intent,re.I)))
+            if wanted:
+                if any('submit' in n['actions'] and n['platform_data'].get('submit_available') for n in fields):
+                    address_refs={n['ref'] for n in fields}
+                for node in nodes.values():
+                    data=node['platform_data']
+                    if (node['role']!='list_item' or not isinstance(node['name'],str)
+                            or ntpath.normcase(ntpath.normpath(node['name']))!=current
+                            or 'click' not in data.get('verified_native_actions',[])
+                            or not data.get('action_runtime_id')):continue
+                    ancestor=node
+                    while ancestor['parent'] in nodes:
+                        ancestor=nodes[ancestor['parent']]
+                        if ancestor['role']=='window' and ancestor['name']=='Popup':
+                            submission_refs.add(node['ref']);break
+                if submission_refs:address_refs={n['ref'] for n in fields}
     target_text = goal
     if marker:
         try:
@@ -190,9 +229,14 @@ def bounded_observation(goal, snapshot):
         not any(other != ref and start <= a and b <= end and (start, end) != (a, b)
                 for other, others in spans.items() for start, end in others)
         for a, b in hits)}
+    if inline_refs:
+        matches=inline_refs
+    elif address_refs:
+        matches=address_refs if any('submit' in nodes[r]['actions'] for r in address_refs) else submission_refs
     if not matches or len(matches) > 32:
         return snapshot
     keep = set(matches)
+    keep.update(address_refs)
     # An open native popup can contain the submenu needed to reach a requested
     # setting. A matched toolbar button does not replace this navigation path.
     navigation = {child['ref'] for node in nodes.values()
@@ -217,10 +261,13 @@ def bounded_observation(goal, snapshot):
             "observation_scope": {"strategy": "exact_observed_names", "original_nodes": len(nodes),
                                   "retained_nodes": len(keep), "matched_refs": sorted(matches),
                                   'navigation_refs':sorted(navigation),
+                                  'address_submission_refs':sorted(submission_refs),
+                                  'inline_enter_refs':sorted(inline_refs),
+                                  'address_enter_refs':sorted(address_refs if any('submit' in nodes[r]['actions'] for r in address_refs) else []),
                                   "candidate_refs": sorted(candidate_refs)}}
 
 
-def decide(provider: DecisionProvider, goal: str, snapshot: dict[str, Any], values=(), threshold=0.7, *, narrow=True, allow_done=True):
+def decide(provider: DecisionProvider, goal: str, snapshot: dict[str, Any], values=(), threshold=0.7, *, narrow=True, allow_done=True, require_action=False):
     threshold = _probability(threshold, "confidence threshold")
     if not goal.strip():
         raise BokkioError("Goal must not be empty")
@@ -230,7 +277,7 @@ def decide(provider: DecisionProvider, goal: str, snapshot: dict[str, Any], valu
     full_snapshot = snapshot
     if narrow:
         snapshot = bounded_observation(goal, snapshot)
-    choices = options(snapshot, values)
+    choices = options(snapshot, values, include_selected=bool(require_action and re.match(r'^\s*select\b',goal,re.I)))
     if not allow_done:
         choices = {k:c for k,c in choices.items() if c['action']!='done'}
     if "observation_scope" in snapshot:
@@ -241,6 +288,14 @@ def decide(provider: DecisionProvider, goal: str, snapshot: dict[str, Any], valu
         choices = {k: choice for k, choice in choices.items()
                    if choice["action"] == "done" or choice["ref"] in candidates
                    or choice["action"] in context_actions}
+        submission=set(snapshot['observation_scope'].get('address_submission_refs',[]))
+        entering=set(snapshot['observation_scope'].get('address_enter_refs',[])) | set(snapshot['observation_scope'].get('inline_enter_refs',[]))
+        if entering:
+            choices={k:c for k,c in choices.items() if c['action']=='done'
+                     or c['action']=='submit' and c['ref'] in entering}
+        elif submission:
+            choices={k:c for k,c in choices.items() if c['action']=='done'
+                     or c['action']=='click' and c['ref'] in submission}
         matched = set(snapshot["observation_scope"]["matched_refs"])
         if "scroll" not in context_actions and any(c["action"] == "click" and c["ref"] in matched for c in choices.values()):
             # A named container can describe where a button is, without asking
@@ -267,14 +322,36 @@ def decide(provider: DecisionProvider, goal: str, snapshot: dict[str, Any], valu
                     and parent['platform_data'].get('class_name')=='#32770'):
                 direct.append(token)
         if len(direct)==1:
-            choices={k:c for k,c in choices.items() if c['action']!='click'
-                     or observed[c['ref']]['name']!=name or k==direct[0]}
+            command=re.search(r'\b(?:click|press|invoke)\s+(?:the\s+)?(?:open|save)\s+button\b',
+                              goal.split('Required observable outcome:')[0],re.I)
+            if command:
+                choices={k:c for k,c in choices.items() if k==direct[0] or c['action']=='done'}
+            else:
+                choices={k:c for k,c in choices.items() if c['action']!='click'
+                         or observed[c['ref']]['name']!=name or k==direct[0]}
+    intent, marker, encoded = goal.partition('\nRequired observable outcome: ')
+    if marker and re.match(r'^\s*select\b',intent,re.I):
+        try: checks=json.loads(encoded)
+        except ValueError: checks=[]
+        selected=[c for c in checks if isinstance(c,dict) and c.get('field')=='selected'
+                  and c.get('equals') is True and c.get('role')=='list_item' and isinstance(c.get('name'),str)]
+        if len(selected)==1:
+            condition=selected[0];observed={n['ref']:n for n in flatten(snapshot['windows'])}
+            direct=[]
+            for token,choice in choices.items():
+                node=observed.get(choice.get('ref'),{})
+                if (choice['action']=='select' and node.get('role')=='list_item' and node.get('name')==condition['name']
+                        and (condition.get('parent_name') is None or observed.get(node.get('parent'),{}).get('name')==condition['parent_name'])):
+                    direct.append(token)
+            if len(direct)!=1:
+                raise BokkioError('Selection requires one uniquely actionable native row matching its explicit success condition')
+            choices={k:c for k,c in choices.items() if k==direct[0] or c['action']=='done'}
     if not choices:
         if narrow:
             # A short name such as Name can match the requested setting text
             # while hiding the menu needed to reach its absent child. Retry the
             # same native scope once, retaining all capability/identity guards.
-            return decide(provider, goal, full_snapshot, values, threshold, narrow=False, allow_done=allow_done)
+            return decide(provider, goal, full_snapshot, values, threshold, narrow=False, allow_done=allow_done, require_action=require_action)
         raise BokkioError("No native action candidates for the unverified subtask")
     nodes = {n["ref"]: n for n in flatten(snapshot["windows"])}
     operations = {choice["action"] for choice in choices.values()}
@@ -284,6 +361,8 @@ def decide(provider: DecisionProvider, goal: str, snapshot: dict[str, Any], valu
     state = compact_state(goal, snapshot["app"], nodes, labels)
     if not allow_done:
         state['native_success_verified'] = False
+    if require_action:
+        state['required_native_action']=True
     if "observation_scope" in snapshot:
         scope = snapshot["observation_scope"]
         state["observation_scope"] = {k: scope[k] for k in ("strategy", "original_nodes", "retained_nodes")}
@@ -337,7 +416,7 @@ def decide(provider: DecisionProvider, goal: str, snapshot: dict[str, Any], valu
                 raise BokkioError("Completion is unconfirmed or contradicts the chosen action")
             choice = choices["done"]
         else:
-            if goal_score > 0.5:
+            if goal_score > 0.5 and not require_action:
                 raise BokkioError("Goal satisfaction contradicts the chosen action")
             head = operation + "_target"
             if deferred_targets:

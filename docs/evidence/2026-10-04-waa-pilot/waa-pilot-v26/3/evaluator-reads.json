@@ -1,0 +1,7 @@
+[
+  {
+    "getter": "details_view",
+    "transport": "Shell COM CurrentViewMode",
+    "value": 4
+  }
+]

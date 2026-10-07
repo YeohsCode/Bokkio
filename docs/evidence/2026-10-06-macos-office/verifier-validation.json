@@ -1,0 +1,20 @@
+{
+  "positive_passed": true,
+  "negative_checks": [
+    {
+      "scenario": "cached_total",
+      "rejected": true,
+      "specific_check_failed": true
+    },
+    {
+      "scenario": "v1_bytes",
+      "rejected": true,
+      "specific_check_failed": true
+    }
+  ],
+  "original_v1_preserved": {
+    "orders.xlsx": true,
+    "weekly-report.docx": true,
+    "weekly-summary.pptx": true
+  }
+}

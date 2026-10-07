@@ -1,0 +1,7 @@
+[
+  {
+    "getter": "active_window_title",
+    "transport": "Win32 GetForegroundWindow/GetWindowTextW",
+    "value": "Documents - File Explorer"
+  }
+]

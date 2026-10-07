@@ -1,0 +1,26 @@
+{
+  "original_config": [
+    {
+      "type": "launch",
+      "parameters": {
+        "command": [
+          "explorer",
+          "C:\\Users\\Docker\\Documents"
+        ]
+      }
+    },
+    {
+      "type": "sleep",
+      "parameters": {
+        "seconds": 0.5
+      }
+    }
+  ],
+  "path_bindings": {
+    "C:\\Users\\Docker\\Documents": "C:\\BokkioTasks\\waa-pilot-v4\\3\\task\\Documents",
+    "C:\\Users\\Docker\\Desktop": "C:\\BokkioTasks\\waa-pilot-v4\\3\\task\\Desktop"
+  },
+  "additional_fixture": "fresh owned app; disposable folders; Details starts in icons; notifications starts enabled",
+  "notifications_before": null,
+  "input_hashes": {}
+}

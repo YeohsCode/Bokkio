@@ -1,0 +1,59 @@
+{
+  "app": "Microsoft PowerPoint",
+  "window_filter": "weekly-summary",
+  "observation": "after_document_reopen_same_process",
+  "editors": [
+    {
+      "ref": "6306aeef8aa933da0057",
+      "role": "text_area",
+      "name": null,
+      "value": "Bokkio weekly summary v2",
+      "state": {
+        "enabled": false,
+        "visible": true,
+        "focused": false,
+        "active": false,
+        "selected": false,
+        "editable": true,
+        "focusable": true,
+        "checked": null,
+        "expanded": false,
+        "minimized": null,
+        "maximized": null,
+        "fullscreen": null
+      },
+      "actions": [
+        "click",
+        "focus",
+        "set_value",
+        "type"
+      ]
+    },
+    {
+      "ref": "cfe9c9090fba89ba3148",
+      "role": "text_area",
+      "name": null,
+      "value": "East / Complete\rOrder count: 2\rTotal amount: 370\rRevision: order 1004 +50\rSource: orders.xlsx",
+      "state": {
+        "enabled": false,
+        "visible": true,
+        "focused": false,
+        "active": false,
+        "selected": false,
+        "editable": true,
+        "focusable": true,
+        "checked": null,
+        "expanded": false,
+        "minimized": null,
+        "maximized": null,
+        "fullscreen": null
+      },
+      "actions": [
+        "click",
+        "focus",
+        "set_value",
+        "type"
+      ]
+    }
+  ]
+}

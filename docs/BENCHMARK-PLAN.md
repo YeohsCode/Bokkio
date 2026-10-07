@@ -2,7 +2,7 @@
 
 ## 结论
 
-**Windows P5 阶段验收后，可以开始外部测试集的原生 UIA 子集；不必等待 P6 Recorder。** P7 增加视觉能力后再扩大覆盖。当前仍处于 P5 验收阶段，没有外部 benchmark 得分。
+**Windows P5 阶段验收后，可以开始外部测试集的原生 UIA 子集；不必等待 P6 Recorder。** P7 增加视觉能力后再扩大覆盖。当前已实际进入 P6 录制/重放，WAA 开发评分与完整官方环境验收分别记录，未取得可比较的官方榜单成绩。
 
 现有研究文档第 20 节是自定义 MVP 任务。Windows 外部 runner 接入先准备 **WindowsAgentArena（WAA）**；按用户最新要求，同时采用 **WindowsWorld** 的职业办公跨应用任务和中间/最终验收设计，以及 **OSWorld 2** 的长流程设计。三条开发参考任务见 [Windows 办公流程计划](WINDOWS-OFFICE-PLAN.md)。WAA 提供自定义 agent 的 `predict()` / `reset()` 接口；OSWorld 也提供可访问性观察入口。[WAA 接口](https://github.com/microsoft/WindowsAgentArena/blob/main/docs/Develop-Agent.md)、[OSWorld agent](https://github.com/xlang-ai/OSWorld/blob/main/mm_agents/agent.py)。
 
@@ -12,9 +12,9 @@
 - 新增只读清单工具 [inspect_windows_arena.py](../scripts/inspect_windows_arena.py)。通过 Git 读取指定版本的 JSON，记录每份文件的 SHA-256、初始化类型、结果读取器与 metric；不会执行配置中的命令、下载或导入上游 Python。
 - 生成 [完整清单](benchmarks/windows-arena-catalog.json)：154 份任务配置、12 个领域；该版本的 `test_all.json` 列出 154 项。
 - 检出两组重复的配置内 ID，共 152 个唯一 `domain + id`。清单保留所有文件，后续 runner 使用 `revision + path` 作为身份，避免覆盖结果。
-- 预先列出 [五项原生 pilot](benchmarks/windows-arena-pilot.json)，全部状态为 `not_run`。任务覆盖 Notepad、File Explorer 与系统设置。
+- 预先列出 [五项原生 pilot](benchmarks/windows-arena-pilot.json)，保留执行前的选择身份，现已逐项执行开发试跑。任务覆盖 Notepad、File Explorer 与系统设置。
 
-原先五项 pilot 仍未执行。Office 激活暂缓后，另外固定三项 Explorer/Notepad 多步任务，实际运行 Planner/Jev/UIA 并保留失败与复测；复用指定版本的 metric/getter 函数，但完整官方 runner 适配仍待完成。详见 [首次实测](P5-WAA-LONGCHAIN.md)、[诊断修复续测](P5-WAA-RECOVERY.md) 与 [六种输入及需求版本验收](P5-NATIVE-VARIATIONS.md)。
+原先五项 pilot 已执行，逐步原生派发和固定版本 evaluator 见 [pilot 报告](P5-WAA-PILOT.md)。Office 激活暂缓后，另外固定三项 Explorer/Notepad 多步任务，实际运行 Planner/Jev/UIA 并保留失败与复测；复用指定版本的 metric/getter 函数，但完整官方 runner 适配仍待完成。详见 [首次实测](P5-WAA-LONGCHAIN.md)、[诊断修复续测](P5-WAA-RECOVERY.md) 与 [六种输入及需求版本验收](P5-NATIVE-VARIATIONS.md)。
 
 ## 接入顺序与验收
 
@@ -50,12 +50,24 @@ python3 scripts/inspect_windows_arena.py \
 
 ## English
 
-After **Windows P5 acceptance**, Bokkio can start an accessibility subset of an external Computer Use benchmark. P6 recording is not a prerequisite. P7 will expand coverage for tasks requiring visual interaction. P5 acceptance and the full upstream runner adapter are still pending. Three additional Explorer/Notepad tasks have run as documented adaptations; see the [report](P5-WAA-LONGCHAIN.md) and [native input/requirement variations](P5-NATIVE-VARIATIONS.md).
+During **Windows P5 acceptance**, Bokkio has started an accessibility subset of an external Computer Use benchmark. P6 recording is not a prerequisite. P7 will expand coverage for tasks requiring visual interaction. P6 recording/replay is implemented and exercised. Broader P5 platform acceptance and full upstream environment integration remain pending; development scores are kept separate from official leaderboard results. Three additional Explorer/Notepad tasks have run as documented adaptations; see the [report](P5-WAA-LONGCHAIN.md) and [native input/requirement variations](P5-NATIVE-VARIATIONS.md).
 
 WindowsAgentArena remains the first external runner candidate. WindowsWorld now informs professional office workflows and intermediate/final evaluation; OSWorld 2 informs long-running state and changing requirements. See the [Windows office plan](WINDOWS-OFFICE-PLAN.md) for three proposed development tasks, which have not run.
 
-The pinned catalog contains 154 task files across 12 domains. Two pairs share declared IDs; retain file paths and hashes to distinguish all tasks. The five-task native pilot is proposed and **has not run**.
+The pinned catalog contains 154 task files across 12 domains. Two pairs share declared IDs; retain file paths and hashes to distinguish all tasks. The five-task native pilot was selected before execution and has now run as a documented adaptation; see the [pilot report](P5-WAA-PILOT.md).
 
-Next, preserve task setup and official evaluation, expose each native action to the benchmark runner, and run the fixed pilot. Report task coverage and completion separately, with explicit denominators and failure reasons. Internal LLM success predicates cannot replace official scoring.
+The native adapter exposes each dispatch as a separate runner step and preserves the pinned evaluator body. Native failures are repaired and retested while P6 proceeds; align the full upstream server runner before claiming comparable benchmark results. Report task coverage and completion separately, with explicit denominators and failure reasons. Internal LLM success predicates cannot replace official scoring.
 
 The current ARM64 IoT LTSC VM differs from the upstream x64 environment and hard-coded user paths. Use it for documented adaptation runs first; claim comparable benchmark results only after environment and evaluator alignment.
+
+## 逐步原生适配 / Stepwise native adapter
+
+`src/bokkio/arena.py` 提供 `NativeArenaAgent`、上游四元组 `predict()` 的 `WAAAgentAdapter` 与 `WAAEnvironmentBridge`。`predict()` 只交出一个待执行请求；`step()` 核验完整请求后才派发，拒绝改写和重放。Worker 保留 P5 的阶段规划与恢复，不把整题隐藏为一步。Bridge 将原生请求接入上游 env 的 step/history/evaluate；完整 HTTP/VM server runner 尚未运行，已验证其协议与开发 harness。
+
+```powershell
+.venv\Scripts\python.exe scripts\verify_waa_pilot.py --bundle fixtures\waa-pilot --output C:\BokkioTasks\pilot-new-run
+```
+
+仅在可丢弃 Windows 测试环境运行。脚本创建独立文件夹、启动测试窗口并重启 Settings；测试后恢复通知注册表值。每轮目录必须是新目录。默认五题，`--select` 的定向复测需独立报告分母。初始化和评分的 Shell COM/注册表读取属于 harness；Planner/Jev 只能派发原生 UI 动作。
+
+The adapter implements the upstream four-value prediction contract and a native environment bridge. Predictions do not dispatch; validated steps release one native action and retain phase/recovery state. The pinned evaluator runs independently. Full upstream HTTP/VM server execution remains pending; current results use the Fusion development harness. Setup and scoring can use reviewed Shell COM/registry reads, while the agent executes through native controls.

@@ -1,0 +1,16 @@
+{
+  "index": 2,
+  "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/2b0c0844-bd4f-42ba-a25e-afb4267d51e2-WOS.json",
+  "task_sha256": "184af77704fa2095a331ab4e21a0218ed417972d28c12e0693c249633a5105e4",
+  "passed": false,
+  "scope": "adapted_development_run",
+  "native_steps": 0,
+  "metric_score": null,
+  "error": "Owned Explorer window did not appear",
+  "seconds": 30.188,
+  "component_seconds": {
+    "uia": 0,
+    "planner": 0,
+    "jev": 0
+  }
+}

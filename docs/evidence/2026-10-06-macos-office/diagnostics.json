@@ -1,0 +1,44 @@
+{
+  "scope": "Bokkio read-only Office diagnostics and initial Word AXPress",
+  "runtime_fully_passed": false,
+  "observations": [
+    {
+      "app": "Word",
+      "issue": "AXPress returned -25205 after Blank Document opened",
+      "status": "dispatch completion initially unknown; fresh UI confirmed document; no repeat",
+      "complete_receipt_saved": false
+    },
+    {
+      "app": "Word and PowerPoint",
+      "issue": "text_area enabled=false with editable action declarations; actual keyboard edit succeeded",
+      "status": "Bokkio disabled guard requires integration work"
+    },
+    {
+      "app": "Excel",
+      "issue": "Content Area lacks complete cell tree; formula bar value null, content in name",
+      "status": "cell-addressing/readback integration pending"
+    },
+    {
+      "app": "Outlook",
+      "issue": "scoped draft snapshot raises Accessibility tree exceeds 64 levels; provider may contain a cycle",
+      "status": "window scoping before full traversal and cycle/depth diagnostics pending",
+      "root_cause_confirmed": false
+    },
+    {
+      "app": "Excel CUA",
+      "issue": "two paste calls timed out but input completed",
+      "status": "fresh AX/screenshot inspected; no repeat"
+    },
+    {
+      "app": "Excel attachment",
+      "issue": "first open explicitly refused same-name workbook; original closed then attachment opened",
+      "status": "recovered by scoped UI actions"
+    },
+    {
+      "app": "Outlook cache file probe",
+      "issue": "read-only cache-file probe did not return",
+      "status": "owned probe terminated; attachment byte proof unavailable",
+      "root_cause_confirmed": false
+    }
+  ]
+}

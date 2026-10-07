@@ -1,0 +1,29 @@
+{
+  "scope": "native_p6_closure",
+  "planned": {
+    "parameter_cases": 3,
+    "resume_cases": 1,
+    "wrapper_cases": 1,
+    "model_repairs": 1,
+    "client_receipts": 2
+  },
+  "parameters": [],
+  "resume": null,
+  "wrapper": null,
+  "model_repair": null,
+  "source_sha256": {
+    "verify_p6_complete.py": "09bf8b56b2b61f9a08f9d0780394ecf61f6715335bf73e4414a1df958cd90e4c",
+    "workflow.py": "b3aab6a69b26d638d37f9b08e53f132a840673e84cf2db954c2105a8dbc70467",
+    "workflow_inputs.py": "4025033f62d3008d0ac6b922ab21f9746ccffccfc0e192fd319a4dc03a9b803e",
+    "workflow_repair.py": "91129cef36aeccdd9d9835a78c171868e28a1215ed6cadc77548a834c319de3c",
+    "cli.py": "f90aa92d4b244078ae7c8e2496dbe6e9d23921b92b53da3826aee539de2cb319",
+    "agent.py": "a5be6420adf3c2c980eccac8ffc5318e2d007534e60e79b607554442d4894c5d",
+    "planner.py": "7fd8de14f51bae52bb7f1c761b08fc4560d09320f2d11edb8b089bbbd662edff",
+    "xa11y_backend.py": "23b02329c4cdeed6245ee2828c4528f12374cd000371b6b8b6d0fb6c0837395c",
+    "windows_uia.py": "0f3eaf5140133c3b550de44665c10f8389003bfb21cf957b6048e889fe273468"
+  },
+  "fixture_sha256": "275e5f13633ffb56b47196acd09c62db325474fc720e7e70b12b79047941797d",
+  "input_trace_sha256": "6fc83cc61d1f830d51afbf4fa96f2cf62e10a75356ef9d287ac16fd9e5e6556c",
+  "passed": false,
+  "error": "Parameter requires an absolute path: path"
+}

@@ -1,0 +1,429 @@
+[
+  {
+    "step": 1,
+    "request": {
+      "type": "bokkio_native",
+      "token": "05b997954aa640da9e067dd81fab6718",
+      "app": "9524",
+      "action": "set_value",
+      "arguments": {
+        "ref": "994592561980843df36e",
+        "value": "C:\\BokkioTasks\\waa-pilot-v15\\2\\task\\Documents",
+        "direction": null,
+        "amount": null,
+        "expected_snapshot": "ba5898bd61624b989ba1",
+        "window": "hwnd:0xa60426"
+      }
+    },
+    "dispatched": true,
+    "passed": true,
+    "seconds": 8.312000000005355,
+    "result": {
+      "action": "set_value",
+      "target_ref": "994592561980843df36e",
+      "before": {
+        "ref": "994592561980843df36e",
+        "platform": "windows",
+        "role": "text_field",
+        "name": "Address Bar",
+        "value": "",
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": false,
+          "active": false,
+          "selected": false,
+          "editable": true,
+          "focusable": true,
+          "checked": null,
+          "expanded": null,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": {
+          "x": 357,
+          "y": 144,
+          "width": 406,
+          "height": 32
+        },
+        "parent": "66a2e086ee4768f86264",
+        "children": [
+          {
+            "ref": "36a1188812ad2dc8bc4e",
+            "platform": "windows",
+            "role": "text_field",
+            "name": "Address Bar",
+            "value": "",
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": true,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 357,
+              "y": 144,
+              "width": 406,
+              "height": 32
+            },
+            "parent": "994592561980843df36e",
+            "children": [],
+            "actions": [
+              "set_value",
+              "submit",
+              "type"
+            ],
+            "platform_data": {
+              "uia_name": "Address Bar",
+              "control_type_id": 50004,
+              "description": null,
+              "actions": [
+                "set_value"
+              ],
+              "native_stable_id": null,
+              "value_source": "UIA.ValuePattern",
+              "value_scope_hwnd": 10880038,
+              "value_runtime_id": [
+                42,
+                3671576,
+                4,
+                21
+              ],
+              "submit_available": true,
+              "ambiguous_ref_identity": true,
+              "native_action_scope_hwnd": 3671576
+            }
+          },
+          {
+            "ref": "cdcb25d1cc2937253f71",
+            "platform": "windows",
+            "role": "group",
+            "name": null,
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 358,
+              "y": 145,
+              "width": 400,
+              "height": 30
+            },
+            "parent": "994592561980843df36e",
+            "children": [],
+            "actions": [],
+            "platform_data": {
+              "control_type_id": 50033,
+              "automation_id": "ContentElement",
+              "class_name": "ScrollViewer",
+              "description": null,
+              "actions": [],
+              "native_stable_id": "ContentElement",
+              "ambiguous_ref_identity": true,
+              "native_action_scope_hwnd": 3671576
+            }
+          }
+        ],
+        "actions": [
+          "focus",
+          "set_value",
+          "submit",
+          "type"
+        ],
+        "platform_data": {
+          "class_name": "TextBox",
+          "control_type_id": 50004,
+          "uia_name": "Address Bar",
+          "automation_id": "TextBox",
+          "description": null,
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "native_stable_id": "TextBox",
+          "value_source": "UIA.ValuePattern",
+          "value_scope_hwnd": 10880038,
+          "value_runtime_id": [
+            42,
+            3671576,
+            4,
+            21
+          ],
+          "submit_available": true,
+          "ambiguous_ref_identity": true,
+          "native_action_scope_hwnd": 3671576
+        }
+      },
+      "after": {
+        "ref": "994592561980843df36e",
+        "platform": "windows",
+        "role": "text_field",
+        "name": "Address Bar",
+        "value": "C:\\BokkioTasks\\waa-pilot-v15\\2\\task\\Start",
+        "state": {
+          "enabled": true,
+          "visible": true,
+          "focused": true,
+          "active": false,
+          "selected": false,
+          "editable": true,
+          "focusable": true,
+          "checked": null,
+          "expanded": null,
+          "minimized": null,
+          "maximized": null,
+          "fullscreen": null
+        },
+        "bounds": {
+          "x": 357,
+          "y": 144,
+          "width": 406,
+          "height": 32
+        },
+        "parent": "66a2e086ee4768f86264",
+        "children": [
+          {
+            "ref": "36a1188812ad2dc8bc4e",
+            "platform": "windows",
+            "role": "text_field",
+            "name": "Address Bar",
+            "value": "C:\\BokkioTasks\\waa-pilot-v15\\2\\task\\Start",
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": true,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 357,
+              "y": 144,
+              "width": 406,
+              "height": 32
+            },
+            "parent": "994592561980843df36e",
+            "children": [],
+            "actions": [
+              "set_value",
+              "submit",
+              "type"
+            ],
+            "platform_data": {
+              "uia_value": "C:\\BokkioTasks\\waa-pilot-v15\\2\\task\\Start",
+              "control_type_id": 50004,
+              "uia_name": "Address Bar",
+              "description": null,
+              "actions": [
+                "set_value"
+              ],
+              "native_stable_id": null,
+              "value_source": "UIA.ValuePattern",
+              "value_scope_hwnd": 10880038,
+              "value_runtime_id": [
+                42,
+                3671576,
+                4,
+                21
+              ],
+              "submit_available": true,
+              "ambiguous_ref_identity": true,
+              "native_action_scope_hwnd": 3671576
+            }
+          },
+          {
+            "ref": "cdcb25d1cc2937253f71",
+            "platform": "windows",
+            "role": "group",
+            "name": null,
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 358,
+              "y": 145,
+              "width": 368,
+              "height": 30
+            },
+            "parent": "994592561980843df36e",
+            "children": [],
+            "actions": [],
+            "platform_data": {
+              "automation_id": "ContentElement",
+              "control_type_id": 50033,
+              "class_name": "ScrollViewer",
+              "description": null,
+              "actions": [],
+              "native_stable_id": "ContentElement",
+              "ambiguous_ref_identity": true,
+              "native_action_scope_hwnd": 3671576
+            }
+          },
+          {
+            "ref": "f7b257d8a8154e2cc770",
+            "platform": "windows",
+            "role": "button",
+            "name": "Delete",
+            "value": null,
+            "state": {
+              "enabled": true,
+              "visible": true,
+              "focused": false,
+              "active": false,
+              "selected": false,
+              "editable": false,
+              "focusable": false,
+              "checked": null,
+              "expanded": null,
+              "minimized": null,
+              "maximized": null,
+              "fullscreen": null
+            },
+            "bounds": {
+              "x": 727,
+              "y": 148,
+              "width": 32,
+              "height": 24
+            },
+            "parent": "994592561980843df36e",
+            "children": [
+              {
+                "ref": "170caed77ea4235de6eb",
+                "platform": "windows",
+                "role": "static_text",
+                "name": "",
+                "value": null,
+                "state": {
+                  "enabled": true,
+                  "visible": true,
+                  "focused": false,
+                  "active": false,
+                  "selected": false,
+                  "editable": false,
+                  "focusable": false,
+                  "checked": null,
+                  "expanded": null,
+                  "minimized": null,
+                  "maximized": null,
+                  "fullscreen": null
+                },
+                "bounds": {
+                  "x": 737,
+                  "y": 154,
+                  "width": 12,
+                  "height": 12
+                },
+                "parent": "f7b257d8a8154e2cc770",
+                "children": [],
+                "actions": [],
+                "platform_data": {
+                  "class_name": "TextBlock",
+                  "control_type_id": 50020,
+                  "automation_id": "GlyphElement",
+                  "uia_name": "",
+                  "description": null,
+                  "actions": [],
+                  "native_stable_id": "GlyphElement",
+                  "ambiguous_ref_identity": true,
+                  "native_action_scope_hwnd": 3671576
+                }
+              }
+            ],
+            "actions": [
+              "click"
+            ],
+            "platform_data": {
+              "control_type_id": 50000,
+              "automation_id": "DeleteButton",
+              "class_name": "Button",
+              "uia_name": "Delete",
+              "description": null,
+              "actions": [
+                "press"
+              ],
+              "native_stable_id": "DeleteButton",
+              "ambiguous_ref_identity": true,
+              "native_action_scope_hwnd": 3671576
+            }
+          }
+        ],
+        "actions": [
+          "focus",
+          "set_value",
+          "submit",
+          "type"
+        ],
+        "platform_data": {
+          "uia_value": "C:\\BokkioTasks\\waa-pilot-v15\\2\\task\\Start",
+          "uia_name": "Address Bar",
+          "class_name": "TextBox",
+          "automation_id": "TextBox",
+          "control_type_id": 50004,
+          "description": null,
+          "actions": [
+            "set_value",
+            "focus"
+          ],
+          "native_stable_id": "TextBox",
+          "value_source": "UIA.ValuePattern",
+          "value_scope_hwnd": 10880038,
+          "value_runtime_id": [
+            42,
+            3671576,
+            4,
+            21
+          ],
+          "submit_available": true,
+          "ambiguous_ref_identity": true,
+          "native_action_scope_hwnd": 3671576
+        }
+      },
+      "verification": "unconfirmed",
+      "tree_changed": true,
+      "postcondition": {
+        "check": "value",
+        "expected": "C:\\BokkioTasks\\waa-pilot-v15\\2\\task\\Documents",
+        "actual": "C:\\BokkioTasks\\waa-pilot-v15\\2\\task\\Start"
+      },
+      "write_source": "UIA.ValuePattern"
+    }
+  }
+]

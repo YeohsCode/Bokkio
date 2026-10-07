@@ -1,0 +1,431 @@
+[
+  {
+    "run": "v1",
+    "planned": 5,
+    "attempted": 0,
+    "passed": 0,
+    "summary": "waa-pilot-v1/summary.json",
+    "source_sha256": {
+      "verify_waa_pilot.py": "81fc97b3c72b880e512def2a2ac22e3cedd292a2116c872c7d8536588e9793a8",
+      "arena.py": "e2eb070402e34272bfb7856010a40fa47a5b6da2f31773b6382f08eea5b8e5d3",
+      "agent.py": "a564e5347a684ca9ebb136946b682c5d023c26db709e9d467dc3ef9b9ac722b8"
+    },
+    "started": 1,
+    "interrupted": 1,
+    "unstarted": 4,
+    "scored": 0
+  },
+  {
+    "run": "v2",
+    "planned": 5,
+    "attempted": 5,
+    "passed": 1,
+    "summary": "waa-pilot-v2/summary.json",
+    "source_sha256": {
+      "verify_waa_pilot.py": "c4de331a3408c03bf0b956209b470aa571b0782c3eb528b27f40386cba782cf8",
+      "arena.py": "c3358d923afb9b194b754b8d4b0388c07c3c2d01fe638a2cb3b31fe32bf67bc9",
+      "agent.py": "a564e5347a684ca9ebb136946b682c5d023c26db709e9d467dc3ef9b9ac722b8"
+    }
+  },
+  {
+    "run": "v3",
+    "planned": 5,
+    "attempted": 5,
+    "passed": 2,
+    "summary": "waa-pilot-v3/summary.json",
+    "source_sha256": {
+      "verify_waa_pilot.py": "27eba098460b786a83aa51cb4ae3f6afa5226456885f40fda5a4ce57ce4446cb",
+      "arena.py": "fa3983715bcf642739bab424f42c15d765bc42460e16426e4d073ebc26cc52fb",
+      "agent.py": "06ffe7db61687c503167f3bc6ae04b39a5d4cd18ec69c0edfd6f6bccd1eaa1f3"
+    }
+  },
+  {
+    "run": "v4",
+    "planned": 5,
+    "attempted": 5,
+    "passed": 3,
+    "summary": "waa-pilot-v4/summary.json",
+    "source_sha256": {
+      "verify_waa_pilot.py": "18c550c06a5c1e6b501383610ec447203e645867b9ee2d638169d7195e4e9f0c",
+      "arena.py": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f",
+      "agent.py": "22e4bbdced412a6d21d76d6323d781e8ac89f18f1d9575d12ec89945dd435a7f"
+    }
+  },
+  {
+    "run": "v5",
+    "planned": 5,
+    "attempted": 5,
+    "passed": 2,
+    "summary": "waa-pilot-v5/summary.json",
+    "source_sha256": {
+      "verify_waa_pilot.py": "8495a29548a6fd75d662356a70307e290f02dcec80977414c5470f3a2dee314d",
+      "arena.py": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f",
+      "agent.py": "08af32636d8d90c3dcf1aef9fb594c79411d72bc44c8fa5249d0a61f95444e5b",
+      "planner.py": "717ed69c9dca45218128a1f3bcd140e7a0b241ec184f6b37e1551a092023bbc3",
+      "decision.py": "2945dab600ba7fa5063046db609b4a8dfcdc26b7222e03fdb6e44cba419e2749",
+      "xa11y_backend.py": "8145ce3543edd762f4e71c969389f4d58c3587ced2bd7d186cfd828f5b065ee1",
+      "windows_uia.py": "cf63b2df3c01561557d12487ac36d77d22bc2063f44f6c4666ee79b74d56858e"
+    }
+  },
+  {
+    "run": "v6",
+    "planned": 5,
+    "attempted": 5,
+    "passed": 2,
+    "summary": "waa-pilot-v6/summary.json",
+    "source_sha256": {
+      "verify_waa_pilot.py": "a4fc25605d181a7fb56a1f54ee13660c8ecec2ffd774cf85225aa81056e04187",
+      "arena.py": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f",
+      "agent.py": "b6e5ccdd1caa59b599e50e1332ed750d874b1fe9bf2c1bb5a1d08e9dda5b8d48",
+      "planner.py": "57ed5c4252d70bf297e56722691d985331baa3119435276a0d571eba88afa79b",
+      "decision.py": "1a2732fb5d85a85fe54c796b032601094c1b224a2a4587a2cefaa162ad4f1023",
+      "xa11y_backend.py": "23b02329c4cdeed6245ee2828c4528f12374cd000371b6b8b6d0fb6c0837395c",
+      "windows_uia.py": "9d7a5d499255020685a672e48e66b1d906d8264e7636753940401528b1aecb4f"
+    }
+  },
+  {
+    "run": "v7",
+    "planned": 5,
+    "attempted": 5,
+    "passed": 1,
+    "summary": "waa-pilot-v7/summary.json",
+    "source_sha256": {
+      "verify_waa_pilot.py": "a956c07248af722b395971f3d30c292c28ca2489e1d81ddcc7a6b9308432a5f1",
+      "arena.py": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f",
+      "agent.py": "215ea3d553e030d52f705da22fd8abc04038769421e59e43a4650feb76c24520",
+      "planner.py": "755c65c9bddbcbb8c76ed3961be3bb0a6f79e96e6b927bd5b4ae381c6575e7b8",
+      "decision.py": "1a2732fb5d85a85fe54c796b032601094c1b224a2a4587a2cefaa162ad4f1023",
+      "xa11y_backend.py": "23b02329c4cdeed6245ee2828c4528f12374cd000371b6b8b6d0fb6c0837395c",
+      "windows_uia.py": "9d7a5d499255020685a672e48e66b1d906d8264e7636753940401528b1aecb4f"
+    }
+  },
+  {
+    "run": "v8",
+    "planned": 5,
+    "attempted": 5,
+    "passed": 3,
+    "summary": "waa-pilot-v8/summary.json",
+    "source_sha256": {
+      "verify_waa_pilot.py": "7b5dabb1e658110a0c223a670de8fbefb8331f2834b6eb8c8ad5d78b0228dc60",
+      "arena.py": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f",
+      "agent.py": "68c59a80189a76586db45767557d1a3a1dc75cf8071c08b75bd1b8ce3a649095",
+      "planner.py": "1f56a29743bba2a90597ca23ae8da589c74ea4ff4d22c36230f2785de30bcffd",
+      "decision.py": "587fc59f267b0d8e3a3f4ac15a7d18125288b9c03fee0eaccdf15e7d23522950",
+      "xa11y_backend.py": "23b02329c4cdeed6245ee2828c4528f12374cd000371b6b8b6d0fb6c0837395c",
+      "windows_uia.py": "54018f5e1a808ad2cefa259d081915875e662c5c5caadb2b950ff600b01b8492"
+    }
+  },
+  {
+    "run": "v9",
+    "planned": 2,
+    "selection": [
+      2,
+      4
+    ],
+    "attempted": 0,
+    "passed": null,
+    "native_started": 0,
+    "unstarted": [
+      2,
+      4
+    ],
+    "stage": "regression_precheck_failed",
+    "log": "logs/pilot-v9-tests.log.gz"
+  },
+  {
+    "run": "v10",
+    "planned": 2,
+    "attempted": 2,
+    "passed": 0,
+    "summary": "waa-pilot-v10/summary.json",
+    "source_sha256": {
+      "verify_waa_pilot.py": "9a9225def8859bfb6a1be043e9e562323d25bd260f01c601aa5694db1dbcb6f7",
+      "arena.py": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f",
+      "agent.py": "9c0faf2c786f934877e9fe45b5ef4e30b7e03f99518b07e9e77657dc748ccd03",
+      "planner.py": "afd10464582ea1ea0c50d5959a8edb1c8796ae279b7f92e19d08b33bf3f32251",
+      "decision.py": "97ea51468a404e8054a704a4d538cd75728a49884202d0740c516c2471486c25",
+      "xa11y_backend.py": "23b02329c4cdeed6245ee2828c4528f12374cd000371b6b8b6d0fb6c0837395c",
+      "windows_uia.py": "54018f5e1a808ad2cefa259d081915875e662c5c5caadb2b950ff600b01b8492"
+    }
+  },
+  {
+    "run": "v11",
+    "planned": 2,
+    "attempted": 2,
+    "passed": 0,
+    "summary": "waa-pilot-v11/summary.json",
+    "source_sha256": {
+      "verify_waa_pilot.py": "4d4900682382f017a3afd842cfa8e7d5f9524263f4a4b7337111cb93514e64f8",
+      "arena.py": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f",
+      "agent.py": "9c0faf2c786f934877e9fe45b5ef4e30b7e03f99518b07e9e77657dc748ccd03",
+      "planner.py": "afd10464582ea1ea0c50d5959a8edb1c8796ae279b7f92e19d08b33bf3f32251",
+      "decision.py": "97ea51468a404e8054a704a4d538cd75728a49884202d0740c516c2471486c25",
+      "xa11y_backend.py": "23b02329c4cdeed6245ee2828c4528f12374cd000371b6b8b6d0fb6c0837395c",
+      "windows_uia.py": "54018f5e1a808ad2cefa259d081915875e662c5c5caadb2b950ff600b01b8492"
+    }
+  },
+  {
+    "run": "v12",
+    "planned": 1,
+    "selection": [
+      4
+    ],
+    "attempted": 0,
+    "passed": null,
+    "native_started": 0,
+    "unstarted": [
+      4
+    ],
+    "stage": "regression_precheck_failed",
+    "log": "logs/pilot-v12-tests.log.gz"
+  },
+  {
+    "run": "v13",
+    "planned": 1,
+    "attempted": 1,
+    "passed": 1,
+    "summary": "waa-pilot-v13/summary.json",
+    "source_sha256": {
+      "verify_waa_pilot.py": "4d4900682382f017a3afd842cfa8e7d5f9524263f4a4b7337111cb93514e64f8",
+      "arena.py": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f",
+      "agent.py": "9c0faf2c786f934877e9fe45b5ef4e30b7e03f99518b07e9e77657dc748ccd03",
+      "planner.py": "afd10464582ea1ea0c50d5959a8edb1c8796ae279b7f92e19d08b33bf3f32251",
+      "decision.py": "60dc62a24a1b1d3347afa1165980d041e0319aa253dc8d6b1240b02245e9728e",
+      "xa11y_backend.py": "23b02329c4cdeed6245ee2828c4528f12374cd000371b6b8b6d0fb6c0837395c",
+      "windows_uia.py": "54018f5e1a808ad2cefa259d081915875e662c5c5caadb2b950ff600b01b8492"
+    }
+  },
+  {
+    "run": "v14",
+    "planned": 5,
+    "attempted": 5,
+    "passed": 4,
+    "summary": "waa-pilot-v14/summary.json",
+    "source_sha256": {
+      "verify_waa_pilot.py": "4d4900682382f017a3afd842cfa8e7d5f9524263f4a4b7337111cb93514e64f8",
+      "arena.py": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f",
+      "agent.py": "9c0faf2c786f934877e9fe45b5ef4e30b7e03f99518b07e9e77657dc748ccd03",
+      "planner.py": "afd10464582ea1ea0c50d5959a8edb1c8796ae279b7f92e19d08b33bf3f32251",
+      "decision.py": "60dc62a24a1b1d3347afa1165980d041e0319aa253dc8d6b1240b02245e9728e",
+      "xa11y_backend.py": "23b02329c4cdeed6245ee2828c4528f12374cd000371b6b8b6d0fb6c0837395c",
+      "windows_uia.py": "54018f5e1a808ad2cefa259d081915875e662c5c5caadb2b950ff600b01b8492"
+    }
+  },
+  {
+    "run": "v15",
+    "planned": 5,
+    "attempted": 1,
+    "passed": 1,
+    "summary": "waa-pilot-v15/summary.json",
+    "source_sha256": {
+      "verify_waa_pilot.py": "4d4900682382f017a3afd842cfa8e7d5f9524263f4a4b7337111cb93514e64f8",
+      "arena.py": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f",
+      "agent.py": "9c0faf2c786f934877e9fe45b5ef4e30b7e03f99518b07e9e77657dc748ccd03",
+      "planner.py": "afd10464582ea1ea0c50d5959a8edb1c8796ae279b7f92e19d08b33bf3f32251",
+      "decision.py": "60dc62a24a1b1d3347afa1165980d041e0319aa253dc8d6b1240b02245e9728e",
+      "xa11y_backend.py": "23b02329c4cdeed6245ee2828c4528f12374cd000371b6b8b6d0fb6c0837395c",
+      "windows_uia.py": "54018f5e1a808ad2cefa259d081915875e662c5c5caadb2b950ff600b01b8492"
+    },
+    "started": 2,
+    "scored": 1,
+    "interrupted": 1,
+    "unstarted": [
+      3,
+      4,
+      5
+    ],
+    "stage": "native_provider_process_crash"
+  },
+  {
+    "run": "v16",
+    "planned": 5,
+    "attempted": 5,
+    "passed": 4,
+    "summary": "waa-pilot-v16/summary.json",
+    "source_sha256": {
+      "verify_waa_pilot.py": "4d4900682382f017a3afd842cfa8e7d5f9524263f4a4b7337111cb93514e64f8",
+      "arena.py": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f",
+      "agent.py": "9c0faf2c786f934877e9fe45b5ef4e30b7e03f99518b07e9e77657dc748ccd03",
+      "planner.py": "afd10464582ea1ea0c50d5959a8edb1c8796ae279b7f92e19d08b33bf3f32251",
+      "decision.py": "60dc62a24a1b1d3347afa1165980d041e0319aa253dc8d6b1240b02245e9728e",
+      "xa11y_backend.py": "23b02329c4cdeed6245ee2828c4528f12374cd000371b6b8b6d0fb6c0837395c",
+      "windows_uia.py": "0f3eaf5140133c3b550de44665c10f8389003bfb21cf957b6048e889fe273468"
+    }
+  },
+  {
+    "run": "v17",
+    "planned": 5,
+    "attempted": 5,
+    "passed": 3,
+    "summary": "waa-pilot-v17/summary.json",
+    "source_sha256": {
+      "verify_waa_pilot.py": "4d4900682382f017a3afd842cfa8e7d5f9524263f4a4b7337111cb93514e64f8",
+      "arena.py": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f",
+      "agent.py": "9c0faf2c786f934877e9fe45b5ef4e30b7e03f99518b07e9e77657dc748ccd03",
+      "planner.py": "afd10464582ea1ea0c50d5959a8edb1c8796ae279b7f92e19d08b33bf3f32251",
+      "decision.py": "60dc62a24a1b1d3347afa1165980d041e0319aa253dc8d6b1240b02245e9728e",
+      "xa11y_backend.py": "23b02329c4cdeed6245ee2828c4528f12374cd000371b6b8b6d0fb6c0837395c",
+      "windows_uia.py": "0f3eaf5140133c3b550de44665c10f8389003bfb21cf957b6048e889fe273468"
+    }
+  },
+  {
+    "run": "v18",
+    "planned": 1,
+    "attempted": 1,
+    "passed": 0,
+    "summary": "waa-pilot-v18/summary.json",
+    "source_sha256": {
+      "verify_waa_pilot.py": "7e0a6a26fc9e5152a9e286f7fd99ed51f7d2de0aa3fbd676b1ca69ed02d4a17f",
+      "arena.py": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f",
+      "agent.py": "9c0faf2c786f934877e9fe45b5ef4e30b7e03f99518b07e9e77657dc748ccd03",
+      "planner.py": "afd10464582ea1ea0c50d5959a8edb1c8796ae279b7f92e19d08b33bf3f32251",
+      "decision.py": "60dc62a24a1b1d3347afa1165980d041e0319aa253dc8d6b1240b02245e9728e",
+      "xa11y_backend.py": "23b02329c4cdeed6245ee2828c4528f12374cd000371b6b8b6d0fb6c0837395c",
+      "windows_uia.py": "0f3eaf5140133c3b550de44665c10f8389003bfb21cf957b6048e889fe273468"
+    }
+  },
+  {
+    "run": "v19",
+    "planned": 1,
+    "attempted": 1,
+    "passed": 0,
+    "summary": "waa-pilot-v19/summary.json",
+    "source_sha256": {
+      "verify_waa_pilot.py": "54813f4b2c51b6116ebc1df06a174e85900a2fea2b0e5eacd7dc20d8ccd41eda",
+      "arena.py": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f",
+      "agent.py": "9c0faf2c786f934877e9fe45b5ef4e30b7e03f99518b07e9e77657dc748ccd03",
+      "planner.py": "afd10464582ea1ea0c50d5959a8edb1c8796ae279b7f92e19d08b33bf3f32251",
+      "decision.py": "60dc62a24a1b1d3347afa1165980d041e0319aa253dc8d6b1240b02245e9728e",
+      "xa11y_backend.py": "23b02329c4cdeed6245ee2828c4528f12374cd000371b6b8b6d0fb6c0837395c",
+      "windows_uia.py": "0f3eaf5140133c3b550de44665c10f8389003bfb21cf957b6048e889fe273468"
+    }
+  },
+  {
+    "run": "v20",
+    "planned": 1,
+    "attempted": 1,
+    "passed": 0,
+    "summary": "waa-pilot-v20/summary.json",
+    "source_sha256": {
+      "verify_waa_pilot.py": "e4cb3e01da40e3d8136c7a71cd0194d0a06c54e3cbbde490641ad1053bdfbcbe",
+      "arena.py": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f",
+      "agent.py": "9c0faf2c786f934877e9fe45b5ef4e30b7e03f99518b07e9e77657dc748ccd03",
+      "planner.py": "afd10464582ea1ea0c50d5959a8edb1c8796ae279b7f92e19d08b33bf3f32251",
+      "decision.py": "60dc62a24a1b1d3347afa1165980d041e0319aa253dc8d6b1240b02245e9728e",
+      "xa11y_backend.py": "23b02329c4cdeed6245ee2828c4528f12374cd000371b6b8b6d0fb6c0837395c",
+      "windows_uia.py": "0f3eaf5140133c3b550de44665c10f8389003bfb21cf957b6048e889fe273468"
+    }
+  },
+  {
+    "run": "v21",
+    "planned": 1,
+    "attempted": 1,
+    "passed": 0,
+    "summary": "waa-pilot-v21/summary.json",
+    "source_sha256": {
+      "verify_waa_pilot.py": "959a9250100af323fc262d94590e590d5098d3ec15acd1cc4d4d809967fd8d3f",
+      "arena.py": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f",
+      "agent.py": "9c0faf2c786f934877e9fe45b5ef4e30b7e03f99518b07e9e77657dc748ccd03",
+      "planner.py": "afd10464582ea1ea0c50d5959a8edb1c8796ae279b7f92e19d08b33bf3f32251",
+      "decision.py": "60dc62a24a1b1d3347afa1165980d041e0319aa253dc8d6b1240b02245e9728e",
+      "xa11y_backend.py": "23b02329c4cdeed6245ee2828c4528f12374cd000371b6b8b6d0fb6c0837395c",
+      "windows_uia.py": "0f3eaf5140133c3b550de44665c10f8389003bfb21cf957b6048e889fe273468"
+    }
+  },
+  {
+    "run": "v22",
+    "planned": 1,
+    "attempted": 1,
+    "passed": 0,
+    "summary": "waa-pilot-v22/summary.json",
+    "source_sha256": {
+      "verify_waa_pilot.py": "a138358894881cebb3dce05ca2f81a3a577e63a7803dc395654be775cfa54c93",
+      "arena.py": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f",
+      "agent.py": "9c0faf2c786f934877e9fe45b5ef4e30b7e03f99518b07e9e77657dc748ccd03",
+      "planner.py": "afd10464582ea1ea0c50d5959a8edb1c8796ae279b7f92e19d08b33bf3f32251",
+      "decision.py": "60dc62a24a1b1d3347afa1165980d041e0319aa253dc8d6b1240b02245e9728e",
+      "xa11y_backend.py": "23b02329c4cdeed6245ee2828c4528f12374cd000371b6b8b6d0fb6c0837395c",
+      "windows_uia.py": "0f3eaf5140133c3b550de44665c10f8389003bfb21cf957b6048e889fe273468"
+    }
+  },
+  {
+    "run": "v23",
+    "planned": 1,
+    "attempted": 1,
+    "passed": 1,
+    "summary": "waa-pilot-v23/summary.json",
+    "source_sha256": {
+      "verify_waa_pilot.py": "a138358894881cebb3dce05ca2f81a3a577e63a7803dc395654be775cfa54c93",
+      "arena.py": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f",
+      "agent.py": "a5be6420adf3c2c980eccac8ffc5318e2d007534e60e79b607554442d4894c5d",
+      "planner.py": "7fd8de14f51bae52bb7f1c761b08fc4560d09320f2d11edb8b089bbbd662edff",
+      "decision.py": "60dc62a24a1b1d3347afa1165980d041e0319aa253dc8d6b1240b02245e9728e",
+      "xa11y_backend.py": "23b02329c4cdeed6245ee2828c4528f12374cd000371b6b8b6d0fb6c0837395c",
+      "windows_uia.py": "0f3eaf5140133c3b550de44665c10f8389003bfb21cf957b6048e889fe273468"
+    }
+  },
+  {
+    "run": "v24",
+    "planned": 1,
+    "attempted": 1,
+    "passed": 1,
+    "summary": "waa-pilot-v24/summary.json",
+    "source_sha256": {
+      "verify_waa_pilot.py": "a138358894881cebb3dce05ca2f81a3a577e63a7803dc395654be775cfa54c93",
+      "arena.py": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f",
+      "agent.py": "a5be6420adf3c2c980eccac8ffc5318e2d007534e60e79b607554442d4894c5d",
+      "planner.py": "7fd8de14f51bae52bb7f1c761b08fc4560d09320f2d11edb8b089bbbd662edff",
+      "decision.py": "60dc62a24a1b1d3347afa1165980d041e0319aa253dc8d6b1240b02245e9728e",
+      "xa11y_backend.py": "23b02329c4cdeed6245ee2828c4528f12374cd000371b6b8b6d0fb6c0837395c",
+      "windows_uia.py": "0f3eaf5140133c3b550de44665c10f8389003bfb21cf957b6048e889fe273468"
+    }
+  },
+  {
+    "run": "v25",
+    "planned": 1,
+    "attempted": 1,
+    "passed": 1,
+    "summary": "waa-pilot-v25/summary.json",
+    "source_sha256": {
+      "verify_waa_pilot.py": "a138358894881cebb3dce05ca2f81a3a577e63a7803dc395654be775cfa54c93",
+      "arena.py": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f",
+      "agent.py": "a5be6420adf3c2c980eccac8ffc5318e2d007534e60e79b607554442d4894c5d",
+      "planner.py": "7fd8de14f51bae52bb7f1c761b08fc4560d09320f2d11edb8b089bbbd662edff",
+      "decision.py": "60dc62a24a1b1d3347afa1165980d041e0319aa253dc8d6b1240b02245e9728e",
+      "xa11y_backend.py": "23b02329c4cdeed6245ee2828c4528f12374cd000371b6b8b6d0fb6c0837395c",
+      "windows_uia.py": "0f3eaf5140133c3b550de44665c10f8389003bfb21cf957b6048e889fe273468"
+    }
+  },
+  {
+    "run": "v26",
+    "planned": 5,
+    "attempted": 5,
+    "passed": 4,
+    "summary": "waa-pilot-v26/summary.json",
+    "source_sha256": {
+      "verify_waa_pilot.py": "a138358894881cebb3dce05ca2f81a3a577e63a7803dc395654be775cfa54c93",
+      "arena.py": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f",
+      "agent.py": "a5be6420adf3c2c980eccac8ffc5318e2d007534e60e79b607554442d4894c5d",
+      "planner.py": "7fd8de14f51bae52bb7f1c761b08fc4560d09320f2d11edb8b089bbbd662edff",
+      "decision.py": "60dc62a24a1b1d3347afa1165980d041e0319aa253dc8d6b1240b02245e9728e",
+      "xa11y_backend.py": "23b02329c4cdeed6245ee2828c4528f12374cd000371b6b8b6d0fb6c0837395c",
+      "windows_uia.py": "0f3eaf5140133c3b550de44665c10f8389003bfb21cf957b6048e889fe273468"
+    }
+  },
+  {
+    "run": "v27",
+    "planned": 5,
+    "attempted": 5,
+    "passed": 4,
+    "summary": "waa-pilot-v27/summary.json",
+    "source_sha256": {
+      "verify_waa_pilot.py": "a138358894881cebb3dce05ca2f81a3a577e63a7803dc395654be775cfa54c93",
+      "arena.py": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f",
+      "agent.py": "a5be6420adf3c2c980eccac8ffc5318e2d007534e60e79b607554442d4894c5d",
+      "planner.py": "7fd8de14f51bae52bb7f1c761b08fc4560d09320f2d11edb8b089bbbd662edff",
+      "decision.py": "60dc62a24a1b1d3347afa1165980d041e0319aa253dc8d6b1240b02245e9728e",
+      "xa11y_backend.py": "23b02329c4cdeed6245ee2828c4528f12374cd000371b6b8b6d0fb6c0837395c",
+      "windows_uia.py": "0f3eaf5140133c3b550de44665c10f8389003bfb21cf957b6048e889fe273468"
+    }
+  }
+]

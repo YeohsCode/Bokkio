@@ -1,0 +1,3 @@
+{
+  "instruction": "Please open Notepad, create a new file named \"draft.txt\", type \"This is a draft.\", and save it to the Documents folder.\nFor this disposable task, Documents means \"C:\\BokkioTasks\\waa-pilot-v8\\1\\task\\Documents\" and Desktop means \"C:\\BokkioTasks\\waa-pilot-v8\\1\\task\\Desktop\". Use these full paths in native address/file fields. \nOperate through native controls. Do not use scripts, terminals or shell commands."
+}

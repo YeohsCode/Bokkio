@@ -1,0 +1,90 @@
+{
+  "started_date": "2026-10-06",
+  "report_date": "2026-10-07",
+  "timezone": "Asia/Shanghai",
+  "scope": "single_interactive_cua_office_pilot",
+  "apps": {
+    "Word": "16.95.4",
+    "Excel": "16.95.4",
+    "PowerPoint": "16.95.4",
+    "Outlook": "16.95.3"
+  },
+  "checks": [
+    {
+      "id": "excel_baseline",
+      "passed": true,
+      "detail": "COUNTIFS=2; SUMIFS=320",
+      "evidence_kind": "operator_summary_of_native_UI_observation"
+    },
+    {
+      "id": "word_baseline",
+      "passed": true,
+      "detail": "v1 report matches workbook",
+      "evidence_kind": "operator_summary_of_native_UI_observation"
+    },
+    {
+      "id": "powerpoint_baseline",
+      "passed": true,
+      "detail": "one-slide v1 summary matches workbook",
+      "evidence_kind": "operator_summary_of_native_UI_observation"
+    },
+    {
+      "id": "outlook_baseline",
+      "passed": true,
+      "detail": "draft with three v1 attachments",
+      "evidence_kind": "operator_summary_of_native_UI_observation"
+    },
+    {
+      "id": "revision",
+      "passed": true,
+      "detail": "order 1004: 200 to 250; total 370; all downstream content and attachments updated",
+      "evidence_kind": "operator_summary_of_native_UI_observation"
+    },
+    {
+      "id": "documents_reopen",
+      "passed": true,
+      "detail": "Word, Excel, PowerPoint v2 closed and reopened in same application processes",
+      "evidence_kind": "operator_summary_of_native_UI_observation"
+    },
+    {
+      "id": "draft_reopen",
+      "passed": true,
+      "detail": "draft reopened from Drafts; subject/body and three attachments retained",
+      "evidence_kind": "operator_summary_of_native_UI_observation"
+    },
+    {
+      "id": "excel_attachment_open",
+      "passed": true,
+      "detail": "read-only attachment shows amount 250, count 2, total 370",
+      "evidence_kind": "operator_summary_of_native_UI_observation"
+    },
+    {
+      "id": "files_independent",
+      "passed": true,
+      "detail": "six file checks pass; three v1 SHA-256 hashes preserved",
+      "evidence_kind": "independent_OOXML"
+    }
+  ],
+  "draft": {
+    "recipient_empty": true,
+    "send_disabled": true,
+    "sent": false,
+    "attachment_names": [
+      "orders.xlsx",
+      "weekly-report.docx",
+      "weekly-summary.pptx"
+    ]
+  },
+  "bokkio_agent_end_to_end": false,
+  "application_process_restart_tested": false,
+  "complete_bokkio_trace_archived": false,
+  "attachment_byte_hashes_verified": false,
+  "independent_initial_state_runs": 1,
+  "limitations": [
+    "No chart or complex formatting acceptance",
+    "No incoming-mail requirement reading or Finder delivery",
+    "No Bokkio Planner/Jev or Workflow execution",
+    "No process restart/recovery",
+    "UI checks summarized; complete CUA action log not exported"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "index": 2,
+  "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/file_explorer/2b0c0844-bd4f-42ba-a25e-afb4267d51e2-WOS.json",
+  "task_sha256": "184af77704fa2095a331ab4e21a0218ed417972d28c12e0693c249633a5105e4",
+  "passed": false,
+  "scope": "adapted_development_run",
+  "native_steps": 3,
+  "metric_score": null,
+  "agent_status": "blocked",
+  "action_budget_used": 3,
+  "replans": 3,
+  "intermediate_checks": {
+    "one_action_per_runner_step": true,
+    "successful_dispatches_match_trace": true,
+    "native_observation_after_each_success": true
+  },
+  "error": "Postconfig requires one owned matching window",
+  "seconds": 125.234,
+  "component_seconds": {
+    "uia": 84.656,
+    "planner": 15.53,
+    "jev": 10.875
+  }
+}

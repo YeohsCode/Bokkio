@@ -45,7 +45,7 @@ def verify_conditions(snapshot, checks):
             data = candidate['platform_data']
             identity = data.get("value_runtime_id") or data.get('action_runtime_id')
             actual = candidate[field] if field in {"name", "value"} else candidate["state"].get(field)
-            key = ((data.get("value_scope_hwnd") or data.get('action_scope_hwnd'), tuple(identity), actual)
+            key = ((data.get('action_process_id') if data.get('action_runtime_id') else data.get('value_scope_hwnd'), tuple(identity), actual)
                    if identity else (candidate["ref"],))
             if key not in seen:
                 unique_candidates.append(candidate); seen.add(key)
@@ -123,11 +123,11 @@ def planner_observation(goal, snapshot, windows, limit=240):
         data = node['platform_data']
         if data.get('ambiguous_ref_identity'):
             actions = [a for a in actions if a in data.get('verified_native_actions', [])
-                       or (a=='set_value' and data.get('value_runtime_id'))]
+                       or (a in {'set_value','submit'} and data.get('value_runtime_id'))]
         parent = node
         while parent["role"] not in {"window", "dialog"} and parent["parent"] in by_ref:
             parent = by_ref[parent["parent"]]
-        rows.append({"role": node["role"], "name": node["name"], "value": node["value"], "actions": actions,
+        rows.append({**({"native_inline_editor":True} if data.get("class_name")=="UIRenameTextElement" else {}), "role": node["role"], "name": node["name"], "value": node["value"], "actions": actions,
                      "parent_name": by_ref.get(node["parent"], {}).get("name"),
                      "window_name": parent["name"] if parent["role"] in {"window", "dialog"} else None,
                      "state": {k: v for k, v in node["state"].items() if v is not None and k in
@@ -179,7 +179,15 @@ class DesktopAgent:
         observations = {}
         for app in apps:
             snapshot = self.backend.snapshot(app)
-            windows = self.backend.windows(app)
+            # Window names and nodes must describe the same native observation.
+            # windows() previously traversed the complete UIA tree a second time.
+            windows = []
+            def visit(node):
+                if node['role'] in {'window','dialog'}:
+                    windows.append({'name':node['name'], 'ref':node['ref']})
+                else:
+                    for child in node['children']:visit(child)
+            for root in snapshot['windows']:visit(root)
             observations[app] = planner_observation(goal, snapshot, windows)
         return observations
 
@@ -256,6 +264,10 @@ class DesktopAgent:
                        and e.get("goal_revision", 1) == trace["goal_revision"]
                        for e in trace["events"])
 
+        def dispatched(step):
+            return any(e.get('kind')=='action' and e.get('subtask')==step
+                       and e.get('goal_revision',1)==trace['goal_revision'] for e in trace['events'])
+
         def receipts():
             return [e["subtask"] for e in trace["events"] if e.get("kind") == "subtask_completed"
                     and "subtask" in e and e.get("goal_revision", 1) == trace["goal_revision"]]
@@ -289,6 +301,10 @@ class DesktopAgent:
                 trace["completed_steps"].append(step["id"])
             event("subtask_completed", step=step["id"], subtask=step)
         def make_plan(observations, progress):
+            inline=[{'app':app,**node} for app,obs in observations.items() for node in obs['nodes']
+                    if node.get('native_inline_editor') and node['state'].get('editable')]
+            if inline:
+                progress={**(progress or {}),'native_inline_editor_opened':'Rename','new_editors':inline}
             if self.required_sources:
                 source_facts={e['path']:{k:e[k] for k in ['path','app','native_text_sha256','text_facts'] if k in e}
                               for e in trace['events'] if e.get('kind')=='source_acquired'
@@ -299,7 +315,12 @@ class DesktopAgent:
                 plan, metadata = self.planner.plan(goal, observations, progress)
                 event("plan_proposal", plan=plan, model=metadata)
                 try:
-                    return validate_plan(plan, apps, observations), metadata
+                    validated=validate_plan(plan, apps, observations)
+                    if progress and progress.get('native_inline_editor_opened') and validated['steps']:
+                        first=validated['steps'][0]
+                        if re.search(r"\b(?:click|press|invoke)\s+(?:the\s+)?['\"]?rename\b",first['goal'],re.I):
+                            raise BokkioError('Inline rename editor is already open. Use the observed new editor to write the filename, then submit and verify the renamed row. Do not invoke Rename again.')
+                    return validated, metadata
                 except BokkioError as error:
                     event("error", error=str(error), stage="plan_validation")
                     if trace["replans"] >= self.max_replans:
@@ -357,9 +378,18 @@ class DesktopAgent:
                             snapshot = self.backend.snapshot(step["app"], step["window"])
                             passed, checks = verify_conditions(snapshot, step["success"])
                             event("observation", step=step["id"], snapshot=snapshot, checks=checks)
-                            if passed:
+                            if passed and (not step.get('requires_action',False) or dispatched(step)):
                                 complete(step)
                                 break
+                            for check_result in checks:
+                                condition=check_result['condition']
+                                if condition['field']=='checked' and check_result['candidates']>1:
+                                    by_ref={n['ref']:n for n in flatten(snapshot['windows'])}
+                                    observed=[{'parent_name':by_ref.get(n['parent'],{}).get('name'),
+                                               'checked':n['state'].get('checked')}
+                                              for n in by_ref.values() if n['role']==condition['role']
+                                              and (condition['name'] is None or n['name']==condition['name'])]
+                                    raise BokkioError('Checked success condition is ambiguous; replan using the observed immediate parent_name. Candidates: '+json.dumps(observed,ensure_ascii=False))
                             digest=tree_digest(snapshot['windows'])
                             previous_actions=seen_states.get(digest)
                             if previous_actions is not None and trace['actions']-previous_actions >= 2:
@@ -382,7 +412,8 @@ class DesktopAgent:
                                     calls.append(response)
                                     return response
                             decision_goal = step["goal"] + "\nRequired observable outcome: " + json.dumps(step["success"], ensure_ascii=False)
-                            decision, response = decide(Capture(), decision_goal, snapshot, step["allowed_values"], allow_done=False)
+                            decision, response = decide(Capture(), decision_goal, snapshot, step["allowed_values"], allow_done=False,
+                                                        require_action=step.get('requires_action',False) and not dispatched(step))
                             event("decision", step=step["id"], decision=decision.as_dict(), model_calls=calls)
                             control = self._control()
                             if control: return stop("paused" if control == "pause" else "cancelled")
@@ -395,7 +426,7 @@ class DesktopAgent:
                                 return stop("blocked", "Sensitive native target requires explicit approval")
                             trace["actions"] += 1
                             result = execute_decision(self.backend, step["app"], decision)
-                            event("action", step=step["id"], result=result)
+                            event("action", step=step["id"], subtask=step, result=result)
                             fresh = self.backend.snapshot(step["app"], step["window"])
                             if source_path:
                                 current=flatten(fresh['windows'])
@@ -414,17 +445,39 @@ class DesktopAgent:
                             menu_changed=(decision.action=='click' and target['role']=='menu_item'
                                           and 'toggle' in [a.casefold() for a in target['platform_data'].get('actions',[])]
                                           and target['state'].get('checked') is not None and result['tree_changed'])
-                            if menu_changed:
+                            def editors(state):
+                                return {tuple(n['platform_data'].get('value_runtime_id') or [n['ref']])
+                                        for n in flatten(state['windows']) if n['role']=='text_field'
+                                        and n['state'].get('editable') and n['state'].get('visible') is not False}
+                            rename_editor_opened=(decision.action=='click' and target['role']=='button'
+                                                  and (target['name'] or '').casefold()=='rename'
+                                                  and bool(editors(fresh)-editors(snapshot)))
+                            address_submitted=(decision.action=='submit' and (target['name'] or '').casefold()=='address bar'
+                                               and not passed and
+                                               {w.get('name') for w in flatten(fresh['windows']) if w['role']=='window'}!=
+                                               {w.get('name') for w in flatten(snapshot['windows']) if w['role']=='window'})
+                            if menu_changed or rename_editor_opened or address_submitted:
                                 if trace['phases'] >= self.max_phases:
                                     return stop('blocked','Native menu phase budget exhausted')
                                 observations=self._observations(apps,goal)
                                 event('planner_observations',observations=observations)
-                                progress={'native_menu_changed':target['name'], 'completed_steps':trace['completed_steps'],
+                                reason=('native_inline_editor_opened' if rename_editor_opened else
+                                        'native_address_submitted' if address_submitted else 'native_menu_changed')
+                                progress={reason:target['name'], 'completed_steps':trace['completed_steps'],
                                           'completed_subtasks':receipts()}
+                                if address_submitted:
+                                    progress['navigation_result']={'submitted_address':target['value'],
+                                        'window_names':[n['name'] for n in flatten(fresh['windows']) if n['role']=='window'],
+                                        'command_dispatched':True}
+                                if rename_editor_opened:
+                                    progress['new_editors']=[{'name':n['name'],'value':n['value'],'actions':n['actions'],
+                                        'parent_name':None,'state':n['state']} for n in flatten(fresh['windows'])
+                                        if n['role']=='text_field' and n['state'].get('editable')
+                                        and tuple(n['platform_data'].get('value_runtime_id') or [n['ref']]) in editors(fresh)-editors(snapshot)]
                                 plan,metadata=make_plan(observations,progress)
                                 if plan is None:return stop('blocked',metadata)
                                 trace['plan']=plan;trace['phases']+=1
-                                event('phase_plan',plan=plan,model=metadata,phase=trace['phases'],reason='native_menu_changed')
+                                event('phase_plan',plan=plan,model=metadata,phase=trace['phases'],reason=reason)
                                 restarted=True
                                 break
                             if passed:

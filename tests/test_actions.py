@@ -151,3 +151,22 @@ def test_radio_selection_uses_press_and_checks_checked_state():
     result = backend.perform("TextEdit", "select", role="radio_button", name="Save")
     assert result["verification"] == "confirmed"
     assert result["after"]["state"]["checked"] == "on"
+
+
+def test_normalized_macos_table_row_selection_reads_back_and_keeps_platform_gate():
+    backend, _, row = backend_with_button()
+    backend._platform = "macos"
+    row.role = "table_row"
+    row.actions = []
+    row.selected = False
+    result = backend.perform("TextEdit", "select", role="table_row", name="Save")
+    assert result["verification"] == "confirmed"
+    assert result["after"]["state"]["selected"] is True
+    row.selected = None
+    with pytest.raises(BokkioActionError, match="not advertised"):
+        backend.perform("TextEdit", "select", role="table_row", name="Save")
+    backend._platform = "windows"
+    row.selected = False
+    with pytest.raises(BokkioActionError, match="not advertised"):
+        backend.perform("TextEdit", "select", role="table_row", name="Save")
+    assert row.selected is False

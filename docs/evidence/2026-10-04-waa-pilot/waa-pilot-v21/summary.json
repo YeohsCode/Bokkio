@@ -1,0 +1,54 @@
+{
+  "scope": "adapted_development_run",
+  "revision": "6d39ed88c545a0d40a7a02e39b928e278df7332b",
+  "planned": 1,
+  "budgets": {
+    "max_actions": 24,
+    "max_replans": 3,
+    "max_phases": 8
+  },
+  "selection": [
+    5
+  ],
+  "attempted": 1,
+  "passed": 0,
+  "results": [
+    {
+      "index": 5,
+      "task_path": "src/win-arena-container/client/evaluation_examples_windows/examples/settings/37e10fc4-b4c5-4b02-a65c-bfae8bc51d3f-wos.json",
+      "task_sha256": "680d36fc18cfcd59964e7d1efc8d59971a07579be7e5351b66a3882f6ff42741",
+      "passed": false,
+      "scope": "adapted_development_run",
+      "native_steps": 0,
+      "metric_score": null,
+      "error": "Native Notifications page did not expose one toggle within the setup deadline",
+      "notification_registry_restored": true,
+      "seconds": 25.953,
+      "input_bytes_preserved": true,
+      "component_seconds": {
+        "uia": 0,
+        "planner": 0,
+        "jev": 0
+      }
+    }
+  ],
+  "environment": {
+    "platform": "Windows-11-10.0.26100-SP0",
+    "machine": "ARM64",
+    "python": "3.12.13"
+  },
+  "models": {
+    "planner": "openai/gpt-4.1",
+    "jev": "typesafe/jev-1.13"
+  },
+  "evaluator_sha256": "c340c602905fda043021421dac28023c246dae64398df8200d9dd2f056f152fa",
+  "source_sha256": {
+    "verify_waa_pilot.py": "959a9250100af323fc262d94590e590d5098d3ec15acd1cc4d4d809967fd8d3f",
+    "arena.py": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f",
+    "agent.py": "9c0faf2c786f934877e9fe45b5ef4e30b7e03f99518b07e9e77657dc748ccd03",
+    "planner.py": "afd10464582ea1ea0c50d5959a8edb1c8796ae279b7f92e19d08b33bf3f32251",
+    "decision.py": "60dc62a24a1b1d3347afa1165980d041e0319aa253dc8d6b1240b02245e9728e",
+    "xa11y_backend.py": "23b02329c4cdeed6245ee2828c4528f12374cd000371b6b8b6d0fb6c0837395c",
+    "windows_uia.py": "0f3eaf5140133c3b550de44665c10f8389003bfb21cf957b6048e889fe273468"
+  }
+}
