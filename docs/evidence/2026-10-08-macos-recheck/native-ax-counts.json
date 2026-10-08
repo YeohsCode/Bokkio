@@ -1,0 +1,13 @@
+{
+  "pid": 29809,
+  "direct_AX": {
+    "AXWindows": {
+      "result_code": 0,
+      "array_count": 1
+    },
+    "AXChildren": {
+      "result_code": 0,
+      "array_count": 2
+    }
+  }
+}

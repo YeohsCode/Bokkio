@@ -1,0 +1,8 @@
+{
+  "src/bokkio/office_benchmark.py": "48de06fefedefee91cfcbefa2850703e2d9d8df6dc3065a86225a3fccaa3c6f5",
+  "src/bokkio/office_runner.py": "53c12d0952c1a7ab20688368862295d2fd1beab6fe9eb57e493bc9e9c804e5c1",
+  "src/bokkio/office_judge.py": "8682d047ab635b8e63c863181b45ea89792bb6161b6c75462a1c76320eeab58e",
+  "scripts/office_pilot.py": "6f45310d8a893408ae48b6cb70b6c252a27086b37f97ce30775a4b07541e9ab1",
+  "tests/test_office_benchmark.py": "6afa5e4762e0753dec37b77b9299032dc1e38dbc6587621f7f51dd9430a17292",
+  "tests/test_office_judge.py": "94b7631b33d9dfb0791e767240bb5752276cce8cf1aabaf36732a65f80093702"
+}

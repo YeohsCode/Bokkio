@@ -1,0 +1,27 @@
+{
+  "capture_returncode": 0,
+  "find_returncode": 0,
+  "candidate": {
+    "action_authorized": false,
+    "bounds": {
+      "height": 30.31538391113284,
+      "width": 104.09053802490233,
+      "x": 73.95473202796877,
+      "y": 215.8423079075895
+    },
+    "center_image": {
+      "x": 126.00000104041993,
+      "y": 230.9999998631559
+    },
+    "center_screen": {
+      "x": 306.00000104041993,
+      "y": 1102.9999998631558
+    },
+    "confidence": 1,
+    "image_sha256": "22a2f3a5a6bc16939b36216cbf9f66bc518a198b09a7d51fe288f2b527f56116",
+    "pid": 40643,
+    "source": "OCR",
+    "text": "Run check",
+    "window_id": 1201
+  }
+}

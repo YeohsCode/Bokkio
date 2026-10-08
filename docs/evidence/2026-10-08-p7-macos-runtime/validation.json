@@ -1,0 +1,11 @@
+{
+  "final_source_hashes_match": true,
+  "guest_source_hashes_match": true,
+  "packaged_native_source_matches": true,
+  "wheel_sha256": "053f62d4ef3096a8da4b80aa3fc88079a3b9d06ccc86c8b962cc051fc3b9d2e5",
+  "host_tests": 355,
+  "windows_tests": 355,
+  "normal_runs_passed": 3,
+  "rejections_passed": 8,
+  "input_dispatches": 0
+}

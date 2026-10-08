@@ -1,0 +1,11 @@
+{
+  "transport": "CGEventPostToPid",
+  "owned_pid": 53071,
+  "returncode": 0,
+  "stdout": "posted_to_owned_pid\n",
+  "state": {
+    "input": "",
+    "clicks": 0,
+    "pid": 53071
+  }
+}

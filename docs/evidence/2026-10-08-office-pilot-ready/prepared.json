@@ -1,0 +1,74 @@
+{
+  "schema": "bokkio.office_pilot.v1",
+  "scope": "adapted_macos_microsoft_office_pilot",
+  "revision": "fbccd464f94fec9e284e139f97bf96d0b192f580",
+  "bundle_manifest_sha256": "3a0f6eb909771a6337316f6715139c1b904734eee47a37f2331458c65de79eed",
+  "bundle": "PROJECT_ROOT/fixtures/windowsworld-office",
+  "workspace": "/private/tmp/bokkio-office-pilot-2026-10-08-final",
+  "tasks": [
+    {
+      "task_id": "win_adm_l1_003",
+      "app": "Microsoft Word",
+      "desktop": "/private/tmp/bokkio-office-pilot-2026-10-08-final/win_adm_l1_003/desktop",
+      "artifact": "/private/tmp/bokkio-office-pilot-2026-10-08-final/win_adm_l1_003/desktop/季度报告草稿.docx",
+      "source": "/private/tmp/bokkio-office-pilot-2026-10-08-final/win_adm_l1_003/desktop/季度报告草稿.docx",
+      "initial_inputs": {
+        "季度报告草稿.docx": {
+          "sha256": "d07ffb0a87381e9d2243bf2c5d50460dc9694069566afca4e8aaadbe1501714b",
+          "bytes": 5568,
+          "validate": "Validation passed: no errors found.\n",
+          "issues": "Found 4 issue(s):\n\nFormat Issues (4):\n  [F1] /body/p[@paraId=00100000]: Body paragraph missing first-line indent\n       Suggestion: Set first-line indent to 2 characters\n  [F2] /body/p[@paraId=00100002]: Body paragraph missing first-line indent\n       Suggestion: Set first-line indent to 2 characters\n  [F3] /body/p[@paraId=00100004]: Body paragraph missing first-line indent\n       Suggestion: Set first-line indent to 2 characters\n  [F4] /body/p[@paraId=00100006]: Body paragraph missing first-line indent\n       Suggestion: Set first-line indent to 2 characters\n",
+          "html_preview": "/private/tmp/bokkio-office-pilot-2026-10-08-final/win_adm_l1_003/季度报告草稿.docx.setup.html",
+          "html_sha256": "953f160591ba07798b377da4d3b823fde2670c4f97a48af9dee2a42230cff904"
+        }
+      },
+      "initial_output_exists": null,
+      "goal": "Open the quarterly report draft in Word, apply 'Heading 1' style to the main title, set the body text to Calibri 11pt with 1.15 line spacing, and save the document.\nEnvironment adaptation: the isolated desktop is /private/tmp/bokkio-office-pilot-2026-10-08-final/win_adm_l1_003/desktop. The initial source is /private/tmp/bokkio-office-pilot-2026-10-08-final/win_adm_l1_003/desktop/季度报告草稿.docx. Use Microsoft desktop Word. Preserve source content and save the specified output at /private/tmp/bokkio-office-pilot-2026-10-08-final/win_adm_l1_003/desktop/季度报告草稿.docx. Do not use file-editing scripts.",
+      "max_steps": 15
+    },
+    {
+      "task_id": "win_acc_l1_001",
+      "app": "Microsoft Excel",
+      "desktop": "/private/tmp/bokkio-office-pilot-2026-10-08-final/win_acc_l1_001/desktop",
+      "artifact": "/private/tmp/bokkio-office-pilot-2026-10-08-final/win_acc_l1_001/desktop/monthly_expenses.xlsx",
+      "source": "/private/tmp/bokkio-office-pilot-2026-10-08-final/win_acc_l1_001/desktop/monthly_expenses.xlsx",
+      "initial_inputs": {
+        "monthly_expenses.xlsx": {
+          "sha256": "0ba6f516fc9f1e907eb74a7391b96113e1a5a450dc9c3e29ad70fed708933077",
+          "bytes": 4607,
+          "validate": "Validation passed: no errors found.\n",
+          "issues": "Found 0 issue(s):\n",
+          "html_preview": "/private/tmp/bokkio-office-pilot-2026-10-08-final/win_acc_l1_001/monthly_expenses.xlsx.setup.html",
+          "html_sha256": "96c2a87966d6738fc85ef9b9b12c5700b77a8b7bb66bf0470ead70c5f68845c6"
+        }
+      },
+      "initial_output_exists": null,
+      "goal": "Open the Excel file 'monthly_expenses.xlsx' from the desktop, apply currency formatting to all cells in column D, and save the file.\nEnvironment adaptation: the isolated desktop is /private/tmp/bokkio-office-pilot-2026-10-08-final/win_acc_l1_001/desktop. The initial source is /private/tmp/bokkio-office-pilot-2026-10-08-final/win_acc_l1_001/desktop/monthly_expenses.xlsx. Use Microsoft desktop Excel. Preserve source content and save the specified output at /private/tmp/bokkio-office-pilot-2026-10-08-final/win_acc_l1_001/desktop/monthly_expenses.xlsx. Do not use file-editing scripts.",
+      "max_steps": 15
+    },
+    {
+      "task_id": "win_pro_l1_003",
+      "app": "Microsoft PowerPoint",
+      "desktop": "/private/tmp/bokkio-office-pilot-2026-10-08-final/win_pro_l1_003/desktop",
+      "artifact": "/private/tmp/bokkio-office-pilot-2026-10-08-final/win_pro_l1_003/desktop/Q2项目总结.pptx",
+      "source": "/private/tmp/bokkio-office-pilot-2026-10-08-final/win_pro_l1_003/Bokkio_blank.pptx",
+      "initial_inputs": {
+        "Bokkio_blank.pptx": {
+          "sha256": "3dfe5411f7d091fa9744ae84caac2539ef3856d206d09b772a323ad9f5b30cd8",
+          "bytes": 8949,
+          "validate": "Validation passed: no errors found.\n",
+          "issues": "Found 0 issue(s):\n",
+          "html_preview": "/private/tmp/bokkio-office-pilot-2026-10-08-final/win_pro_l1_003/Bokkio_blank.pptx.setup.html",
+          "html_sha256": "368ae994c071276c9face483a7316620aed3cc7521033d702e5bf7c10749fafd"
+        }
+      },
+      "initial_output_exists": false,
+      "goal": "Open PowerPoint and create a new presentation titled 'Q2 Project Summary', add a title slide with the project name 'Alpha Initiative', then save it to the desktop as 'Q2项目总结.pptx'.\nEnvironment adaptation: the isolated desktop is /private/tmp/bokkio-office-pilot-2026-10-08-final/win_pro_l1_003/desktop. The initial source is /private/tmp/bokkio-office-pilot-2026-10-08-final/win_pro_l1_003/Bokkio_blank.pptx. Use Microsoft desktop PowerPoint. Preserve source content and save the specified output at /private/tmp/bokkio-office-pilot-2026-10-08-final/win_pro_l1_003/desktop/Q2项目总结.pptx. Do not use file-editing scripts.",
+      "max_steps": 15
+    }
+  ],
+  "setup_completed": true,
+  "task_execution_started": false,
+  "official_score": false,
+  "archive_path_normalization": "The original local bundle path is replaced with PROJECT_ROOT; execution used the private workspace record."
+}

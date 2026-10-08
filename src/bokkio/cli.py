@@ -16,6 +16,22 @@ def build_parser() -> argparse.ArgumentParser:
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
+    capture = subparsers.add_parser("capture", help="Capture one authorized native window")
+    capture.add_argument("--pid", type=int, required=True)
+    capture.add_argument("--hwnd", type=lambda value: int(value, 0))
+    capture.add_argument("--window-id", type=int)
+    capture.add_argument("--title")
+    capture.add_argument("--ocr", action="store_true", help="Run local macOS Vision OCR")
+    capture.add_argument("--output", required=True, help="New PNG path; metadata is saved as PATH.json")
+    capture.add_argument("--timeout", type=float, default=5.0)
+
+    visual = subparsers.add_parser("visual-find", help="Find a unique OCR text region in a saved capture")
+    visual.add_argument("--image", required=True)
+    visual.add_argument("--metadata", required=True)
+    visual.add_argument("--text", required=True)
+    visual.add_argument("--confidence", type=float, default=0.8)
+    visual.add_argument("--max-age", type=float, default=15)
+
     apps = subparsers.add_parser("apps", help="List visible applications")
     apps.add_argument("--json", action="store_true")
 
@@ -115,6 +131,27 @@ def render_tree(node: dict[str, Any], indent: int = 0) -> str:
 
 
 def execute(args: argparse.Namespace, backend: Xa11yBackend) -> Any:
+    if args.command == "capture":
+        from .windows_capture import CaptureError, save_capture
+        if sys.platform == 'darwin':
+            from .macos_capture import capture_window
+            if args.hwnd is not None: raise CaptureError('invalid_scope','Use window-id on macOS')
+            metadata, png = capture_window(args.pid,window_id=args.window_id,title=args.title,ocr=args.ocr,timeout=args.timeout)
+        else:
+            from .windows_capture import capture_window
+            if args.window_id is not None or args.title is not None or args.ocr:
+                raise CaptureError('unsupported_capture_options','Mac capture options are not available here')
+            metadata, png = capture_window(args.pid, args.hwnd, timeout=args.timeout)
+        return save_capture(metadata, png, args.output)
+    if args.command == 'visual-find':
+        from pathlib import Path
+        from .visual import find_text
+        try:
+            metadata=json.loads(Path(args.metadata).read_text(encoding='utf-8'))
+            png=Path(args.image).read_bytes()
+        except (OSError,ValueError) as error:
+            raise BokkioError('Could not read capture image/metadata') from error
+        return find_text(metadata,png,args.text,confidence=args.confidence,max_age=args.max_age)
     if args.command == "workflow":
         from pathlib import Path
         from .workflow import Recorder, WorkflowReplay, from_agent_trace, repair_version, request_repair, parameterize, WorkflowScope, save_json
@@ -235,7 +272,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     try:
-        offline = args.command == "workflow" and args.workflow_command in {"compile", "parameterize", "repair"}
+        offline = args.command in {"capture","visual-find"} or (args.command == "workflow" and args.workflow_command in {"compile", "parameterize", "repair"})
         result = execute(args, None if offline else Xa11yBackend())
         if args.command == "run":
             from pathlib import Path
@@ -248,7 +285,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         elif args.command == "workflow":
             print(json.dumps({k:v for k,v in result.items() if k!='steps'} if args.workflow_command=='replay' else result,
                              ensure_ascii=False, indent=2))
-        elif getattr(args, "json", False) or args.command in {"snapshot", "find", "get", "act", "decide", "run"}:
+        elif getattr(args, "json", False) or args.command in {"snapshot", "find", "get", "act", "decide", "run", "capture", "visual-find"}:
             print(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True))
         else:
             for item in result:
@@ -269,6 +306,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(json.dumps(error.as_dict(), ensure_ascii=False, indent=2), file=sys.stderr)
         return 1
     except BokkioError as error:
+        if args.command in {"capture","visual-find"} and hasattr(error, "as_dict"):
+            print(json.dumps(error.as_dict()), file=sys.stderr)
+            return 1
         print(f"bokkio: {error}", file=sys.stderr)
         return 1
 

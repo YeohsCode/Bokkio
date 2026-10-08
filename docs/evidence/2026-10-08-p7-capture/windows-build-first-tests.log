@@ -1,0 +1,21 @@
+  Determining projects to restore...
+  Restored C:\BokkioWorkspace\Bokkio\fixtures\windows-visual\windows-visual.csproj (in 45 ms).
+  windows-visual -> C:\BokkioWorkspace\P7Visual\bokkio-visual-fixture.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:03.21
+........................................................................ [ 22%]
+........................................................................ [ 45%]
+........................................................................ [ 68%]
+........................................................................ [ 91%]
+..........................                                               [100%]
+============================== warnings summary ===============================
+.venv\Lib\site-packages\_pytest\cacheprovider.py:469
+  C:\BokkioWorkspace\Bokkio\.venv\Lib\site-packages\_pytest\cacheprovider.py:469: PytestCacheWarning: cache could not write path C:\BokkioWorkspace\Bokkio\.pytest_cache\v\cache\nodeids: [Errno 13] Permission denied: 'C:\\BokkioWorkspace\\Bokkio\\.pytest_cache\\v\\cache\\nodeids'
+    config.cache.set("cache/nodeids", sorted(self.cached_nodeids))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+314 passed, 1 warning in 5.26s

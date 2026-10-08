@@ -1,0 +1,32 @@
+[
+  {
+    "run": 1,
+    "pid": 29616,
+    "returncode": 0,
+    "stdout": "{\"height\":188,\"pid\":29616,\"point_pixel_scale\":1,\"source_height\":188,\"source_width\":520,\"width\":520,\"window_id\":1144}\n",
+    "stderr": "",
+    "image_exists": true,
+    "image_sha256": "ce23ec590d987c7f9ee0e2011590307a106b35c8b16f65ebfd423aef4f05ac8e",
+    "image_bytes": 7682
+  },
+  {
+    "run": 2,
+    "pid": 29622,
+    "returncode": 0,
+    "stdout": "{\"height\":188,\"pid\":29622,\"point_pixel_scale\":1,\"source_height\":188,\"source_width\":520,\"width\":520,\"window_id\":1146}\n",
+    "stderr": "",
+    "image_exists": true,
+    "image_sha256": "ce23ec590d987c7f9ee0e2011590307a106b35c8b16f65ebfd423aef4f05ac8e",
+    "image_bytes": 7682
+  },
+  {
+    "run": 3,
+    "pid": 29625,
+    "returncode": 0,
+    "stdout": "{\"height\":188,\"pid\":29625,\"point_pixel_scale\":1,\"source_height\":188,\"source_width\":520,\"width\":520,\"window_id\":1149}\n",
+    "stderr": "",
+    "image_exists": true,
+    "image_sha256": "7c258177e1f839545d1e3a047de52f6cd290c19fb46afa799aec2e9ff5bd94f6",
+    "image_bytes": 7721
+  }
+]

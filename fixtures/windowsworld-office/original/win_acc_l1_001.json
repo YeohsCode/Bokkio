@@ -1,0 +1,61 @@
+{
+  "task_id": "win_acc_l1_001",
+  "instruction": "Open the Excel file 'monthly_expenses.xlsx' from the desktop, apply currency formatting to all cells in column D, and save the file.",
+  "instruction_cn": "打开桌面上的Excel文件“monthly_expenses.xlsx”，将D列单元格设置为货币格式，并保存文件。",
+  "task_category": "L1",
+  "persona": "Accountant",
+  "involved_apps": [
+    "Excel"
+  ],
+  "pre_conditions": [
+    "文件 'monthly_expenses.xlsx' 存在于桌面路径且可访问",
+    "Excel 应用已安装并可正常启动",
+    "Excel 应用已打开并处于活动状态"
+  ],
+  "environment_setup": {
+    "files_to_create": [
+      {
+        "filename": "monthly_expenses.xlsx",
+        "file_path": "C:\\Users\\User\\Desktop\\",
+        "file_type": "xlsx",
+        "content_generation_prompt": "生成包含5行数据的月度支出表，A列为日期，B列为类别，C列为说明，D列为金额（数字）"
+      }
+    ],
+    "urls_to_mock": [],
+    "downloadable_resources": []
+  },
+  "evaluation_metrics": {
+    "success_criterion": "文件 monthly_expenses.xlsx 已保存，且列 D 中所有单元格均以货币格式显示",
+    "intermediate_checks": [
+      "monthly_expenses.xlsx 文件已在 Excel 中成功打开",
+      "列 D 中所有非空单元格已应用货币格式",
+      "文件已成功保存"
+    ],
+    "expected_final_state": "Excel 应用中打开的 monthly_expenses.xlsx 文件已关闭或仍打开但已保存，桌面文件路径下的该文件包含列 D 的货币格式设置，且文件最后修改时间晚于任务开始时间。"
+  },
+  "validity_info": {
+    "is_valid": true,
+    "validity_note": null,
+    "checked_urls": [],
+    "checked_files": [
+      {
+        "filename": "monthly_expenses.xlsx",
+        "defined_in_setup": true,
+        "note": "Input file will be created in environment setup"
+      },
+      {
+        "filename": "xlsx",
+        "defined_in_setup": true,
+        "note": "Input file will be created in environment setup"
+      }
+    ]
+  },
+  "is_duplicate": false,
+  "duplicate_of": null,
+  "similarity_score": null,
+  "created_at": "2025-12-20T14:52:46.263522",
+  "refined_at": "2025-12-20T16:43:52.865838",
+  "reviewed_at": "2025-12-20T17:30:04.697883",
+  "review_status": "approved",
+  "reviewer_notes": null
+}

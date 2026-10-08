@@ -1,0 +1,6 @@
+{
+  "returncode": 1,
+  "stdout": "{\"count\":2,\"error\":\"owned_window_count\"}\n",
+  "stderr": "",
+  "image_exists": false
+}

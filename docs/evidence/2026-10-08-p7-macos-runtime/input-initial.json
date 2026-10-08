@@ -1,0 +1,7 @@
+{
+  "error": "input_desktop_unavailable",
+  "message": "Current input session reports a lock",
+  "details": {
+    "dispatched": 0
+  }
+}

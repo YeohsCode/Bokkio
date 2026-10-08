@@ -58,3 +58,12 @@ Gitleaks also scanned the decompressed 2026-10-06 Mac evidence and returned zero
 - 本轮主机隔离回归 293/293；Office 六份文件检查通过，两个复制文件反例均被拒绝。Windows 292/292 是前一轮结果；本次没有重跑 Windows 原生验收。
 
 The candidate scan covered 2,253 files and 876,457,346 decompressed bytes. All 257 Gitleaks matches were verified as random dispatch UUIDs in runner steps. Additional matches were 14 generic benchmark Docker paths and four Windows version strings, with no unresolved privacy findings. Office evidence excludes account/inbox/recent-file data, author metadata and lock files. Host regression passes 293 tests; all six Office files pass and two disposable-copy mutations are rejected. The Windows 292-test result is historical. Detailed scanner reports and private configuration remain outside the repository.
+
+## 2026-10-08 P7 / Office pilot 提交复核
+
+- 扫描新增/修改候选的 185 个源码、文档、证据及 Office 文件解包项，共 891,172 字节；Gitleaks 未检出密钥。附加证据检查未发现个人主目录、邮件、密钥前缀、Bearer 凭证或私钥。
+- 四个 2026-10-08 证据目录的 100 项归档字节哈希全部通过。截图仅自有合成窗口；Office 输入仅合成报告、支出与空白文件。原始题目里的通用 Windows User 路径保留，归档中的本机项目绝对路径规范化为 PROJECT_ROOT。
+- 本轮提交前主机回归 373/373；Windows 最新同轮回归 373/373。Mac 输入零派发拒绝、Office 三题未开始及历史失败均保留，没有将单元测试/初始化计为 GUI 成功。
+- API 配置、VM 凭据、编译缓存及详细扫描报告留在仓库外。WindowsWorld 原始三题、judge 参考与 Apache-2.0 许可随代码保留。
+
+The P7/Office candidate review scanned 185 source/document/evidence entries, including extracted Office XML, totaling 891,172 bytes. Gitleaks and additional evidence patterns found no credential or unresolved personal-data matches. All 100 archive byte hashes passed. Screenshots and inputs are owned synthetic fixtures; the local project path is normalized in published preparation metadata. Host and Windows regressions each pass 373 tests, with zero-dispatch/blocked outcomes kept separate from GUI success. Private configuration, VM credentials, caches and detailed reports stay outside Git; pinned upstream task records, judge reference and license remain included.

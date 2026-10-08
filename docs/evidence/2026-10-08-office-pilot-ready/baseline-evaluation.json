@@ -1,0 +1,36 @@
+[
+  {
+    "task_id": "win_adm_l1_003",
+    "artifact_exists": true,
+    "sha256": "d07ffb0a87381e9d2243bf2c5d50460dc9694069566afca4e8aaadbe1501714b",
+    "bytes": 5568,
+    "checks": {
+      "preserved_content": true,
+      "heading1": false,
+      "body_font_size_spacing": false
+    },
+    "passed": false,
+    "official_score": false,
+    "evaluator": "independent_OOXML_adaptation"
+  },
+  {
+    "task_id": "win_acc_l1_001",
+    "artifact_exists": true,
+    "sha256": "0ba6f516fc9f1e907eb74a7391b96113e1a5a450dc9c3e29ad70fed708933077",
+    "bytes": 4607,
+    "checks": {
+      "preserved_values": true,
+      "currency_nonempty_D": false
+    },
+    "passed": false,
+    "official_score": false,
+    "evaluator": "independent_OOXML_adaptation"
+  },
+  {
+    "task_id": "win_pro_l1_003",
+    "artifact_exists": false,
+    "passed": false,
+    "checks": {},
+    "official_score": false
+  }
+]

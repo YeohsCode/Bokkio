@@ -1,0 +1,42 @@
+{
+  "date": "2026-10-08",
+  "phase": "P7.1",
+  "status": "implemented_pending_interactive_acceptance",
+  "host_tests": {
+    "passed": 314
+  },
+  "windows_tests": {
+    "first_passed": 314,
+    "first_warnings": 1,
+    "final_passed": 314,
+    "final_warnings": 0,
+    "final_exit": 0
+  },
+  "fixture_build": {
+    "passed": true,
+    "errors": 0,
+    "warnings": 0
+  },
+  "capture_preflight": {
+    "owned_fixture_ready": true,
+    "error": "desktop_unavailable",
+    "image_created": false
+  },
+  "native_pixel_runs": {
+    "planned": 3,
+    "started": 0,
+    "passed": 0
+  },
+  "native_fault_cases": {
+    "planned": 6,
+    "started": 0,
+    "passed": 0
+  },
+  "mac_cua": {
+    "error": "Mac locked; automatic unlock failed"
+  },
+  "ocr_implemented": false,
+  "input_dispatch_implemented": false,
+  "security_policy_changed": false,
+  "guest_source_hashes_match": true
+}

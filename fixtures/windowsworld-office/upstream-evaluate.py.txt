@@ -1,0 +1,102 @@
+def evaluate(task: dict | None = None,
+             actions: list[str] | None = None,
+             screenshots: list[bytes] | None = None,
+             user_content = None) -> str:
+    if task["task_category"] == "L4":
+        # Check if actions list is empty or last action indicates FAIL
+        # Support both string "FAIL" and computer_13 dict format {"action_type": "FAIL"}
+        is_fail = False
+        if not actions:
+            is_fail = True
+        else:
+            last_action = actions[-1]
+            if isinstance(last_action, str):
+                is_fail = "fail" in last_action.lower()
+            elif isinstance(last_action, dict):
+                is_fail = last_action.get("action_type", "").lower() == "fail"
+
+        if is_fail:
+            return """
+{
+    "intermediate_results": { },
+    "final_result": {
+        "result": true,
+        "reason": ""
+    }
+}
+"""
+        else:
+            return """
+{
+    "intermediate_results": { },
+    "final_result": {
+        "result": false,
+        "reason": ""
+    }
+}
+"""
+
+    system_prompt = """
+你是一个任务执行评估器。
+
+你的职责是：根据给定的任务指令、模型执行过程、子任务定义以及截图证据，
+判断：
+1. 每一个 intermediate_check 是否已经达成
+2. 最终的 success_state 是否已经达成
+
+请遵循以下评估规则：
+
+【评估规则】
+1. success_state 与 intermediate_checks 描述的是最终或中间状态，而不是动作本身
+2. actions 仅作为参考执行过程，不能单独作为成功依据
+3. 如果截图中没有足够信息支持已达成，则判定为未达成
+4. 如果 intermediate_checks 未全部达成，但 success_state 明确已达成，允许 success_state 判定为 true
+5. 如果没有打开要求的软件而打开了相同类型的软件（比如Edge/Chrome，Outlook/Thunderbird等），判定为正确行动
+
+【输出要求】
+仅以 JSON 格式输出，示例如下：
+{
+    "intermediate_results": {
+        "中间状态": {
+            "result": true/false,
+            "reason": "简要说明判断依据"
+        }
+        ...
+    }
+    "final_result": {
+        "result": true/false,
+        "reason": "简要说明判断依据"
+    }
+}
+    """
+
+    if user_content is None:
+        user_prompt_text = "【输入信息】\n"
+        user_prompt_text += "instruction:\n" + task['instruction'] + "\n\n"
+        user_prompt_text += "actions（按时间顺序）:\n" + str(actions) + "\n\n"
+        user_prompt_text += "intermediate_checks（需要逐项判断）:\n" + str(task['evaluation_metrics']['intermediate_checks']) + "\n\n"
+        user_prompt_text += "success_state（最终任务目标）:\n" + task['evaluation_metrics']['success_criterion'] + "\n\n"
+        user_prompt_text += "screenshots（时间顺序）:"
+        user_content = [ { "type": "text", "text": user_prompt_text } ]
+        for ss in screenshots:
+            user_content.append({
+                "type": "image_url",
+                "image_url": { "url": f"data:image/png;base64,{base64.b64encode(ss).decode('utf-8')}" } })
+
+    from openai import OpenAI
+    client = OpenAI(base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+                    api_key=os.environ.get("QWEN_API_KEY"))
+
+    # noinspection PyTypeChecker
+    response = client.chat.completions.create(
+        model="qwen3-vl-plus",
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_content}
+        ],
+        max_tokens=4096,
+        top_p=0.9,
+        temperature=0.3
+    )
+
+    return response.choices[0].message.content

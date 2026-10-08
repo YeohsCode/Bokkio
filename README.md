@@ -22,7 +22,11 @@ Bokkio 源于一个具体需求：在 Windows 和 macOS 上，通过统一接口
 
 ### 当前进展
 
-截至 **2026-10-07**：
+截至 **2026-10-08**：
+
+**总体位置：P6 Windows 验收完成，P7 部分实现。** Mac 截图/OCR Runtime 3/3、拒绝 8/8；真实输入与自动 Agent 降级尚未通过。WindowsWorld Office 原题三题的软件链路已准备，实际 started 0、blocked 3，评分为空。最新主机与 Windows 隔离回归各 **373/373**。
+
+完整阶段位置见 [总体进度](docs/STATUS.md)，按优先级执行的剩余项见 [Pending](docs/PENDING.md)。以下保留各阶段的历史验收与对应分母：
 
 - **P0：macOS 环境与授权已验证。** xa11y 构建、Python 绑定和原生 Cocoa 测试应用可用；Fusion 与 Windows 11 ARM 虚机已配置，Windows 已安装，账户已验证。
 - **P1：实机读取已验证。** TextEdit、Finder、系统设置和固定原生应用的 AX 树均可读取；Safari 本地页面作为兼容性样本。本轮枚举到 35 个应用，元素查询、窗口筛选和 ref 查找通过验证。
@@ -41,11 +45,19 @@ Bokkio 源于一个具体需求：在 Windows 和 macOS 上，通过统一接口
 
 **固定五题 pilot：** 最终同代码 v26、v27 完整复测各 4/5，五项 Agent 全部 completed，中间步骤与独立产物验收通过。导航路径正确，原始精确标题评分因环境后缀差异仍为 0。修复原生边界读取崩溃、Settings 准备和同名控件验收；Settings 三次定向复测各 1/1。保留全部失败与真实分母，见 [pilot 报告](docs/P5-WAA-PILOT.md)。
 
-**P6 已完成 Windows 验收，P7 可开始：** 最终代码的六步录制重放 **3/3**、真实 Notepad trace 保存/重开 **3/3**；一份七步跨应用模板换三组参数 **3/3**，重启恢复仅执行剩余一步，结构变化与真实模型修复通过。主机和 Windows 各 **292 项隔离测试通过**；见 [P6 验收](docs/P6-CLOSURE.md)。
+**P6 历史 Windows 验收（2026-10-05）：** 最终代码的六步录制重放 **3/3**、真实 Notepad trace 保存/重开 **3/3**；一份七步跨应用模板换三组参数 **3/3**，重启恢复仅执行剩余一步，结构变化与真实模型修复通过。主机和 Windows 各 **292 项隔离测试通过**；见 [P6 验收](docs/P6-CLOSURE.md)。
 
 **Mac 原生续测（2026-10-06）：** 动作与真实模型跨应用各 3/3；录制及成功 trace 重放各 3/3，双轴滚动、结构重排与暂停恢复通过。修正 `table_row` 选择能力，主机回归 293/293；见 [报告](docs/MACOS-FOLLOWUP.md)。
 
 **Mac Office 交互测试（2026-10-07）：** Excel 计算、Word/PPT 摘要、Outlook 草稿附件、需求修订与关闭后重开完成；六份保存文件独立校验通过，金额 320 → 370，三份 v1 哈希保持不变。UI 由 CUA 操作，Bokkio 仅作读取诊断；Office 编辑区元数据、Excel 单元格观察与 Outlook 遍历仍需适配，尚未完成 Bokkio Agent/Workflow 办公验收。见 [Office 报告](docs/MACOS-OFFICE-REPORT.md)。
+
+**P7.1 已开始实现（2026-10-08）：** Windows 客户区截图 CLI、窗口身份/DPI/物理坐标元数据、自绘 fixture 和验收脚本已实现；主机与 Windows 各 314 项隔离测试通过。guest 捕获前置检查返回 `desktop_unavailable`，三轮交互像素验收待可用 Windows 桌面。见 [P7.1 报告](docs/P7-CAPTURE.md)。
+
+**Mac 路径复查（同日）：** 独立 ScreenCaptureKit 自有窗口截图诊断 3/3；当前 AX 前置检查失败。可继续 Mac 截图与视觉研发，生产 Runtime 接入和动作验收待完成，见 [复查报告](docs/MACOS-CAPTURE-PROBE.md)。
+
+**Mac P7 Runtime（同日）：** 截图已接入包与 CLI，本机 Vision OCR 和目标候选定位三轮 3/3、八类拒绝 8/8；两端隔离回归各 355/355。有界输入执行器已实现，但实机前置检查零派发拒绝，点击/输入与自动 Agent 降级尚未验收。见 [报告](docs/P7-MACOS-VISUAL.md)。
+
+**微软 Office 原题 pilot（同日）：** 固定 WindowsWorld 的 Word/Excel/PowerPoint 三道 L1 原题，输入初始化、原生 runner、只读 OOXML 评分和原始 VLM judge 入口已实现；两端回归各 373/373。实际运行在会话前置检查处阻断：三题均未开始、评分为空；原生 Office 编辑与视觉自动降级仍需实测。见 [准备报告](docs/OFFICE-PILOT-READINESS.md)。
 
 当前实现为 **Python + xa11y 0.15.x**，Windows 额外使用 comtypes 读取原生 UIA ValuePattern 与 ScrollPattern；经典对话框 Edit 的文本提交使用已验证的 Win32 编辑消息。后续核心 Runtime 优先考虑 Rust；统一元素模型参考 CUP（Computer Use Protocol），目前尚未实现完整 CUP 协议适配。Jev 使用 OpenRouter Decisions API 的 `typesafe/jev-1.13`，也保留 TypeSafe 直连选项。当前小样本结果不能代表通用桌面成功率。
 
@@ -66,7 +78,7 @@ Windows UIA / macOS AX         访问原生应用
 Accessibility 信息不足 → OCR / Vision / 坐标操作兜底
 ```
 
-当前已实现 **原生读取与动作、真实 Jev、P5 规划循环、P6 语义录制、参数化与可恢复确定性重放**。视觉兜底属于 P7。
+当前已实现 **原生读取与动作、真实 Jev、P5 规划循环、P6 语义录制、参数化与可恢复确定性重放**，P7 已增加 Mac 窗口捕获/OCR；完整视觉执行链路待完成。
 
 ### 安装与权限
 
@@ -142,19 +154,21 @@ ref 是基于当前结构的引用。TextEdit、系统设置和固定应用的�
 | P4 | Jev 局部决策与评测 | 真实五任务及难例通过；大树开发样本 12/12，三例实时大树点击通过 |
 | P5 | LLM 任务规划与执行循环 | 首版已实现；Windows 七步流程、恢复及分页部分暴露通过，macOS 三条模型对照通过；独立应用继续扩展 |
 | P6 | Recorder 与确定性 Workflow 重放 | Windows 验收完成；参数、文件版本、恢复与模型修复通过 |
-| P7 | Vision / CUA 兜底与可靠性加固 | 启动条件满足；首项为窗口截图与自绘 fixture |
+| P7 | Vision / CUA 兜底与可靠性加固 | Mac 采集/OCR 已验收；Windows 像素、真实输入、自动降级与完整可靠性待完成 |
 
 ### 当前阶段与后续工作
 
-**P6 已完成 Windows 验收，当前可以开始 P7。** 录制、成功 trace 固化、参数化重放、文件版本、跨进程恢复、结构变化及真实模型修复均有原生证据，见 [验收报告](docs/P6-CLOSURE.md)。
+**P6 完成，P7 当前为部分实现与验收。** Mac 捕获/OCR 已通过；输入正向、自动降级和 Windows 实机视觉仍待完成，Office 原题试跑在环境前置检查处阻断。
 
-1. 按 [P7 计划](docs/P7-PLAN.md) 实现 Windows 窗口截图、DPI/坐标映射和自绘测试应用，再接 OCR/视觉定位与有界坐标动作。
-2. 保留原生优先路径，完善权限、取消、限速、确认和崩溃恢复；每条视觉路径都保留截图、回执与新观察验证。
-3. 扩展 Mac 文件交付、虚拟化和 Workflow 文件合约/跨进程恢复；Windows Office 激活、Mac Office 的 Bokkio 执行适配、完整 benchmark runner 和可选录制仍待完成，见 [完整 Pending 清单](docs/PENDING.md)。
+1. 恢复输入会话后，使用新工作区实际运行固定三题 Office pilot，独立核验保存文件和全部失败。
+2. 修复真实 Office 原生覆盖，接入 Planner/Jev/Workflow 视觉降级并完成 click/type 正向验收。
+3. 扩展 Windows 视觉、Mac 文件/进程恢复、多显示器/比例和可靠性，随后对齐完整上游测试环境。
+
+详见 [总体进度](docs/STATUS.md)、[P7 计划](docs/P7-PLAN.md) 和 [Pending](docs/PENDING.md)。
 
 ### Computer Use 测试集
 
-已固定 WindowsAgentArena 源码版本、154 份任务配置及五项原生 pilot。另选三项 Explorer/Notepad 多步任务，已在 ARM64 虚机实际运行 Planner → Jev → UIA，并复用指定版本的 evaluator 函数独立校验；所有尝试见 [实测报告](docs/P5-WAA-LONGCHAIN.md)。这些是明确改动环境与路径的开发试跑，不能作为官方榜单得分。原先五项 pilot 已执行，逐次派发、中间检查、独立评分和失败记录见 [pilot 报告](docs/P5-WAA-PILOT.md)。WindowsWorld/OSWorld 2 是设计参考。接入边界见 [测试集接入计划](docs/BENCHMARK-PLAN.md)。
+已固定 WindowsAgentArena 源码版本、154 份任务配置及五项原生 pilot。另选三项 Explorer/Notepad 多步任务，已在 ARM64 虚机实际运行 Planner → Jev → UIA，并复用指定版本的 evaluator 函数独立校验；所有尝试见 [实测报告](docs/P5-WAA-LONGCHAIN.md)。这些是明确改动环境与路径的开发试跑，不能作为官方榜单得分。原先五项 pilot 已执行，逐次派发、中间检查、独立评分和失败记录见 [pilot 报告](docs/P5-WAA-PILOT.md)。WindowsWorld 的微软 Office 原始三题已导入，实际任务未开始；OSWorld 2 仍为长流程设计参考。接入边界见 [测试集接入计划](docs/BENCHMARK-PLAN.md)。
 
 ### Jev 决策入口
 
@@ -241,7 +255,11 @@ The [research proposal](docs/RESEARCH.md) defines the requirements, and the [pha
 
 ### Current status
 
-As of **2026-10-07**:
+As of **2026-10-08**:
+
+**Overall position: Windows P6 acceptance is complete; P7 is partial.** Mac capture/OCR Runtime passes 3/3 with 8/8 rejections. Positive input and automatic Agent fallback remain pending. The three-task WindowsWorld Office software pilot is prepared, but actual execution has started 0 tasks, blocked 3, and null scores. Latest host and Windows regressions each pass **373/373**.
+
+See [overall status](docs/STATUS.md) and the prioritized [pending list](docs/PENDING.md). Historical acceptance below retains its original dates and denominators.
 
 - **P0: macOS environment and permissions verified.** xa11y builds, Python bindings, and the native Cocoa test app work. Fusion and a Windows 11 ARM VM are configured; Windows and its local account are ready.
 - **P1: live reads verified.** AX trees from TextEdit, Finder, System Settings, and the fixed native app are readable. Safari serves as a local compatibility sample. The follow-up enumerated 35 applications; element queries, window filters, and ref lookup passed.
@@ -254,11 +272,19 @@ As of **2026-10-07**:
 - **P5 stage recovery and file prerequisites:** Completed intermediate steps now retain full execution receipts. A real Planner/Jev test resumed after stage two with only the remaining write. Three deterministic native Notepad save/reopen runs passed. Seven Office apps have since been installed and passed native startup reads; activation and mail setup remain pending. See the [installation report](docs/WINDOWS-OFFICE-SETUP.md) and [prerequisite report](docs/P5-OFFICE-PREREQUISITES.md).
 - **P5 partial-exposure checks:** Two real Planner/Jev flows passed in a native paginated app exposing only 25 UIA rows at a time, including navigation to Row 997 followed by Notepad input. Old row refs return `stale_ref`; native and model call timings are recorded. See the [pagination report](docs/P5-PAGED.md).
 
-**P6 Windows acceptance is complete; P7 can start:** Final code passed **3/3** unchanged recording replays and **3/3** real-trace save/reopen replays. One seven-step cross-app template passed **3/3** parameter cases. Restart/resume dispatched only the remaining action; native structure recovery and real model repair passed. Host and Windows each pass **292 isolated tests**. See the [P6 acceptance report](docs/P6-CLOSURE.md).
+**Historical Windows P6 acceptance (2026-10-05):** Final code passed **3/3** unchanged recording replays and **3/3** real-trace save/reopen replays. One seven-step cross-app template passed **3/3** parameter cases. Restart/resume dispatched only the remaining action; native structure recovery and real model repair passed. Host and Windows each pass **292 isolated tests**. See the [P6 acceptance report](docs/P6-CLOSURE.md).
 
 **Mac native follow-up (2026-10-06):** Controls and live model cross-app tasks each pass 3/3. Recorded and compiled workflows each replay 3/3. Two-axis scrolling, actual control reorder and pause/resume pass. The Mac table-row capability fix passes 293 host tests. See the [Mac report](docs/MACOS-FOLLOWUP.md).
 
 **Mac Office interactive pilot (2026-10-07):** Excel calculations, Word/PPT summaries, an Outlook draft with attachments, revisions and document reopening completed. Six saved files pass independent checks; the total changes from 320 to 370 and all three v1 hashes remain unchanged. CUA operated the UI; Bokkio performed read-only diagnostics. Editor metadata, Excel cell observation and Outlook traversal still need integration before Bokkio Agent/Workflow Office acceptance. See the [Office report](docs/MACOS-OFFICE-REPORT.md).
+
+**P7.1 implementation started (2026-10-08):** Scoped Windows client-area capture, identity/DPI/physical-coordinate metadata, a custom-drawn fixture and acceptance runner are implemented. Host and Windows each pass 314 isolated tests. The guest capture preflight returns `desktop_unavailable`; three native pixel runs await an interactive Windows desktop. See the [P7.1 report](docs/P7-CAPTURE.md).
+
+**Mac path recheck (same day):** Scoped ScreenCaptureKit diagnostics pass 3/3 on owned windows while current AX preflight fails. Mac capture/vision development can continue; Runtime integration and input acceptance remain pending. See the [recheck report](docs/MACOS-CAPTURE-PROBE.md).
+
+**Mac P7 Runtime (same day):** Package/CLI capture and local Vision OCR candidate selection pass 3/3 native runs and 8/8 rejection cases. Host and Windows each pass 355 tests. Bounded input is implemented but real preflight rejects with zero dispatch; positive input and automatic Agent fallback remain pending. See the [report](docs/P7-MACOS-VISUAL.md).
+
+**Microsoft Office original-task pilot (same day):** Three WindowsWorld L1 tasks, isolated initialization, a native runner, independent OOXML grading and original VLM judge entry are implemented. Host/Windows each pass 373 tests. Actual run is blocked at session preflight: zero tasks started and scores are null. See the [readiness report](docs/OFFICE-PILOT-READINESS.md).
 
 The current implementation uses **Python + xa11y 0.15.x**, with comtypes for native Windows ValuePattern and ScrollPattern support. Verified Win32 edit messages commit text in classic dialogs. Rust is the preferred direction for the future core runtime. The element model draws on CUP (Computer Use Protocol); full CUP protocol adaptation is not implemented. Jev uses `typesafe/jev-1.13` through OpenRouter Decisions, with a direct TypeSafe option. These small development samples do not establish general desktop success rates.
 
@@ -279,7 +305,7 @@ Execution trace → Recorder → Workflow → Deterministic replay
 Insufficient accessibility data → OCR / Vision / coordinate action fallback
 ```
 
-Native reads/actions, real Jev decisions, the P5 planning loop and P6 semantic recording, parameterization and resumable deterministic replay are available. Mac native fixture reads/actions, model tasks and workflow comparison now pass; broader Mac file flows remain pending. Visual fallback belongs to P7.
+Native reads/actions, real Jev decisions, P5 planning and P6 recording/parameterized resumable replay are available. P7 adds verified Mac capture/OCR; the complete visual execution loop is pending. Historical Mac native fixture results remain separate from current AX preflight failures.
 
 ### Installation and permissions
 
@@ -355,7 +381,7 @@ Refs describe the current structure. Consecutive snapshots retained identical re
 | P4 | Jev local decisions and evaluation | Five live tasks and hard cases passed; scale samples 12/12, three additional live large-tree clicks passed |
 | P5 | LLM planning and execution loop | First version implemented; Windows seven-action, recovery and partial-exposure checks passed; three Mac model comparison tasks pass; broader applications pending |
 | P6 | Recording and deterministic workflow replay | Windows acceptance complete; parameters, file versions, resume and model repair passed |
-| P7 | Vision / CUA fallback and reliability | Ready to start with window capture and a custom-drawn fixture |
+| P7 | Vision / CUA fallback and reliability | Mac capture/OCR verified; Windows live pixels, positive input, automatic fallback and reliability pending |
 
 The fixed native WAA trio passed two consecutive rounds at **3/3**, including persistence, fresh-process reopening and unchanged input hashes. Recovery verifies writable patterns and RuntimeIds, commits classic-dialog edits, derives native word counts, plans after newly observed data and checks missing deliverables. See the [diagnosis and results](docs/P5-WAA-RECOVERY.md).
 
@@ -365,11 +391,13 @@ The fixed native WAA trio passed two consecutive rounds at **3/3**, including pe
 
 ### Current phase and further work
 
-**P6 Windows acceptance is complete; P7 can start.** Recording, completed-trace compilation, parameters, file versions, process resume, structure recovery and actual model repair have native evidence. See the [acceptance report](docs/P6-CLOSURE.md).
+**P6 is complete; P7 is partially implemented and under validation.** Mac capture/OCR passes; positive input, automatic fallback and Windows live visual acceptance remain pending. The Office original-task pilot is blocked at environment preflight.
 
-1. Follow the [P7 plan](docs/P7-PLAN.md): native Windows capture, DPI/coordinate mapping and a custom-drawn fixture, then OCR/visual targets and bounded coordinate actions.
-2. Preserve the native-first path and add permission, cancellation, rate, confirmation and crash-recovery controls. Visual paths retain screenshots, receipts and fresh verification.
-3. Expand Mac file delivery, virtualization and workflow contracts/process recovery. Paused Windows Office activation, Mac Office Bokkio execution integration, full benchmark integration and optional recording remain in the [Pending list](docs/PENDING.md). Original WAA scores remain unchanged.
+1. Restore input availability and run the fixed three-task Office pilot in a fresh workspace, independently verifying saved artifacts and retaining every failure.
+2. Repair Office native coverage, connect Planner/Jev/Workflow visual fallback, and validate click/type.
+3. Expand Windows vision, Mac file/process recovery, multi-display/DPI and reliability, then align full upstream benchmark environments.
+
+See [overall status](docs/STATUS.md), the [P7 plan](docs/P7-PLAN.md) and the [pending list](docs/PENDING.md).
 
 ### Computer Use benchmarks
 

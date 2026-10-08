@@ -1,6 +1,6 @@
 # P7：原生桌面视觉兜底与可靠性
 
-P6 的 Windows 原生验收闭合后，P7 可以开始。项目继续围绕 **Computer Use**：操作系统窗口、原生应用和跨应用任务。
+P6 的 Windows 原生验收已闭合，P7 当前为部分实现与验收。Mac 捕获/OCR Runtime 已通过，Windows 截图代码已落地但实机像素验收待完成；有界输入正向及自动 Agent 降级仍待完成。两端最新隔离回归各 373/373，阶段位置见 [总体进度](STATUS.md)。项目继续围绕 **Computer Use**：操作系统窗口、原生应用和跨应用任务。
 
 ## 顺序与交付
 
@@ -12,9 +12,17 @@ P6 的 Windows 原生验收闭合后，P7 可以开始。项目继续围绕 **Co
 | P7.4 | 取消、限速、确认与崩溃恢复 | 每次输入受执行预算和取消信号约束；敏感操作经明确策略确认；未知完成停止且不重复派发 |
 | P7.5 | 持续回归与平台对照 | 原生路径、确定性 Workflow、Jev/Planner 和视觉路径分别统计；保存每次失败、耗时、中间检查与最终产物 |
 
-**第一项实现**：Windows 窗口截图接口与自绘 fixture。fixture 只暴露窗口，不暴露内部按钮/输入框，迫使验收真正走视觉定位。先校验截图和 DPI，再增加 OCR 与坐标动作。2026-10-06 Mac AX 原生读取、动作和 Workflow 对照已恢复，见 [Mac 续测](MACOS-FOLLOWUP.md)；Mac 窗口采集与视觉路径仍需分别验收。Windows Office 激活继续暂缓。
+**第一项实现**：Windows 窗口截图接口与自绘 fixture。fixture 只暴露窗口，不暴露内部按钮/输入框，迫使验收真正走视觉定位。先校验截图和 DPI，再增加 OCR 与坐标动作。2026-10-06 Mac AX 原生读取、动作和 Workflow 对照已恢复，见 [Mac 续测](MACOS-FOLLOWUP.md)；Mac 基础窗口采集/OCR 已验收，后续输入、平台扩展及视觉链路仍需分别验收。Windows Office 激活继续暂缓。
 
 **Mac Office 实测输入（2026-10-07）**：四应用 CUA 交互和六份文件校验通过，见 [报告](MACOS-OFFICE-REPORT.md)。Bokkio 需补齐 Word/PPT disabled 元数据下的编辑能力判断、Excel 单元格寻址/公式回读、Outlook 窗口限定后遍历，以及 AXPress 报错但 UI 已变化的未知完成处理。现有 CUA 能力不计作 Bokkio P7 实现；所有兜底仍需有界派发与操作后验证。
+
+## 可继续的 Mac 路径（2026-10-08）
+
+[独立窗口截图诊断](MACOS-CAPTURE-PROBE.md) 已通过 3/3，可推进 Mac 采集接口和视觉候选开发；当前 AX 前置检查失败。Windows 交互截图暂不能验收时，先完成 Mac 窗口图像/身份/坐标合约的 Runtime 接入。CUA 锁定错误不作为全部 Mac 开发停止的条件；后续动作仍按各平台实际能力独立验收。
+
+## Mac Runtime 进展（同日）
+
+[Mac Runtime 报告](P7-MACOS-VISUAL.md)：截图已接入包/CLI，Vision OCR 与候选定位正常流程 3/3、拒绝用例 8/8。有界输入代码已实现并实测派发前拒绝；P7.3 真实点击/输入与 P7.2 自动 Agent 降级仍待验收/接入。两端隔离回归各 355/355。
 
 ## 降级边界
 
@@ -34,8 +42,14 @@ P6 的 Windows 原生验收闭合后，P7 可以开始。项目继续围绕 **Co
 
 ## English
 
-P7 starts after Windows P6 acceptance closes. The first implementation is scoped native-window capture and a custom-drawn fixture, followed by OCR/visual candidates, bounded coordinate actions, post-action verification and reliability controls. Captures carry the authorized PID/HWND, time, dimensions, DPI mapping and content hash.
+P7.1 implementation has started after Windows P6 acceptance. Capture and the fixture are implemented; native pixel acceptance awaits an interactive desktop. See the [capture report](P7-CAPTURE.md). The first implementation is scoped native-window capture and a custom-drawn fixture, followed by OCR/visual candidates, bounded coordinate actions, post-action verification and reliability controls. Captures carry the authorized PID/HWND, time, dimensions, DPI mapping and content hash.
 
 Visual fallback is allowed when accessibility cannot expose a target or action. Unknown dispatch completion stops execution; it cannot trigger a second coordinate action. Ambiguity needs fresh distinguishing evidence. Window changes invalidate the previous capture. Coordinate operations retain the semantic intent, screenshot region and receipt, with fresh verification before replay.
 
 Acceptance covers a real click/type visual task, unchanged P6 native workflows and explicit fault cases. Regression reports separate native, deterministic, Jev/Planner and visual paths, with intermediate checks and independently verified deliverables. Mac AX fixture acceptance passes as recorded in the [Mac follow-up](MACOS-FOLLOWUP.md). The [Office CUA pilot](MACOS-OFFICE-REPORT.md) identifies editor metadata, cell readback, scoped traversal and unknown-dispatch gaps; it does not implement Bokkio fallback. Mac capture/visual acceptance, Windows Office activation and upstream benchmark integration remain pending.
+
+## 当前退出条件与 Office 入口
+
+P7 尚未整体完成。首先恢复实际输入条件并运行固定的三道 Office 原题，保留每题失败与独立产物结果；再修复 Office 覆盖和自动视觉降级。原始VLM评分、跨应用长流程和完整上游环境仍待完成，见 [Office准备报告](OFFICE-PILOT-READINESS.md) 与 [Pending](PENDING.md)。
+
+P7 remains incomplete. Mac capture/OCR is verified, but positive input, automatic fallback, Windows live vision and full reliability remain pending. The fixed Office pilot is blocked before execution; run it after input is available, then repair coverage and align judging/upstream environments.

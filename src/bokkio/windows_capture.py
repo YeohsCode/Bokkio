@@ -1,0 +1,260 @@
+"""Scoped Win32 client-area capture, isolated from blocking PrintWindow calls.
+
+No desktop-wide capture or input dispatch. Coordinates are physical pixels in
+the captured client area; the screen origin and window DPI are explicit.
+"""
+from __future__ import annotations
+
+import base64
+import hashlib
+import json
+import math
+from pathlib import Path
+import struct
+import subprocess
+import sys
+import time
+import zlib
+
+from .model import BokkioError
+
+MAX_PIXELS = 16_000_000
+
+
+class CaptureError(BokkioError):
+    def __init__(self, code, message, **details):
+        self.code, self.details = code, details
+        super().__init__(message)
+
+    def as_dict(self):
+        return {"error": self.code, "message": str(self), "details": self.details}
+
+
+def _validate_scope(pid, hwnd):
+    if type(pid) is not int or not 0 < pid <= 0xFFFFFFFF:
+        raise CaptureError("invalid_scope", "Capture requires an explicit positive PID")
+    if hwnd is not None and (type(hwnd) is not int or not 0 < hwnd < 2**64):
+        raise CaptureError("invalid_scope", "HWND must be a positive native handle")
+
+
+def _png(width, height, bgra):
+    if (type(width) is not int or type(height) is not int or width <= 0 or height <= 0
+            or width * height > MAX_PIXELS or len(bgra) != width * height * 4):
+        raise CaptureError("invalid_image", "Invalid capture dimensions or pixel buffer")
+    rgb = bytearray(width * height * 3)
+    rgb[0::3], rgb[1::3], rgb[2::3] = bgra[2::4], bgra[1::4], bgra[0::4]
+    rows = b"".join(b"\0" + rgb[y*width*3:(y+1)*width*3] for y in range(height))
+    def chunk(kind, data):
+        return struct.pack(">I", len(data)) + kind + data + struct.pack(">I", zlib.crc32(kind + data))
+    return (b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", width, height, 8, 2, 0, 0, 0))
+            + chunk(b"IDAT", zlib.compress(rows)) + chunk(b"IEND", b""))
+
+
+def screen_point(metadata, x, y):
+    """Map a validated image-pixel point to physical screen coordinates.
+
+    This does not authorize or dispatch input. Freshness/identity checks are
+    required by a future action executor immediately before dispatch.
+    """
+    if any(type(v) not in {int, float} or not math.isfinite(v) for v in (x, y)):
+        raise CaptureError("invalid_coordinates", "Coordinates must be finite numbers")
+    if not (0 <= x < metadata["width"] and 0 <= y < metadata["height"]):
+        raise CaptureError("invalid_coordinates", "Point is outside the captured client area")
+    return {"x": metadata["client_screen_origin"]["x"] + math.floor(x),
+            "y": metadata["client_screen_origin"]["y"] + math.floor(y)}
+
+
+def _capture_in_worker(pid, hwnd):
+    import ctypes as c
+    from ctypes import wintypes as w
+    user = c.WinDLL("user32", use_last_error=True)
+    gdi = c.WinDLL("gdi32", use_last_error=True)
+    kernel = c.WinDLL("kernel32", use_last_error=True)
+    def api(dll, name, result, *args):
+        function = getattr(dll, name)
+        function.restype, function.argtypes = result, args
+        return function
+    is_window = api(user, "IsWindow", w.BOOL, w.HWND)
+    is_visible = api(user, "IsWindowVisible", w.BOOL, w.HWND)
+    is_iconic = api(user, "IsIconic", w.BOOL, w.HWND)
+    get_pid = api(user, "GetWindowThreadProcessId", w.DWORD, w.HWND, c.POINTER(w.DWORD))
+    get_ancestor = api(user, "GetAncestor", w.HWND, w.HWND, w.UINT)
+    get_rect = api(user, "GetWindowRect", w.BOOL, w.HWND, c.POINTER(w.RECT))
+    get_client = api(user, "GetClientRect", w.BOOL, w.HWND, c.POINTER(w.RECT))
+    to_screen = api(user, "ClientToScreen", w.BOOL, w.HWND, c.POINTER(w.POINT))
+    get_dpi = api(user, "GetDpiForWindow", w.UINT, w.HWND)
+    set_dpi = api(user, "SetThreadDpiAwarenessContext", w.HANDLE, w.HANDLE)
+    get_class = api(user, "GetClassNameW", c.c_int, w.HWND, w.LPWSTR, c.c_int)
+    open_process = api(kernel, "OpenProcess", w.HANDLE, w.DWORD, w.BOOL, w.DWORD)
+    get_times = api(kernel, "GetProcessTimes", w.BOOL, w.HANDLE, *([c.POINTER(w.FILETIME)] * 4))
+    close_handle = api(kernel, "CloseHandle", w.BOOL, w.HANDLE)
+    affinity = api(user, "GetWindowDisplayAffinity", w.BOOL, w.HWND, c.POINTER(w.DWORD))
+    def native_error(operation):
+        code = c.get_last_error()
+        raise CaptureError("permission_denied" if code == 5 else "capture_failed",
+                           "Native window capture failed", operation=operation, native_error=code)
+    desktop = api(user, "OpenInputDesktop", w.HANDLE, w.DWORD, w.BOOL, w.DWORD)(0, False, 1)
+    if not desktop:
+        raise CaptureError("desktop_unavailable", "An interactive input desktop is required")
+    try:
+        name = c.create_unicode_buffer(256); needed = w.DWORD()
+        query = api(user, "GetUserObjectInformationW", w.BOOL, w.HANDLE, c.c_int, w.LPVOID, w.DWORD, c.POINTER(w.DWORD))
+        if not query(desktop, 2, name, c.sizeof(name), c.byref(needed)) or name.value != "Default":
+            raise CaptureError("desktop_unavailable", "The normal interactive desktop is not active")
+    finally:
+        api(user, "CloseDesktop", w.BOOL, w.HANDLE)(desktop)
+    previous = set_dpi(w.HANDLE(-4))  # DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2
+    if not previous:
+        native_error("SetThreadDpiAwarenessContext")
+    try:
+        if hwnd is None:
+            matches = []
+            callback_type = c.WINFUNCTYPE(w.BOOL, w.HWND, w.LPARAM)
+            @callback_type
+            def visit(handle, _):
+                actual = w.DWORD(); get_pid(handle, c.byref(actual))
+                if actual.value == pid and is_visible(handle): matches.append(int(handle))
+                return True
+            if not api(user, "EnumWindows", w.BOOL, callback_type, w.LPARAM)(visit, 0):
+                native_error("EnumWindows")
+            if not matches:
+                raise CaptureError("window_missing", "No visible top-level window in the authorized PID")
+            if len(matches) != 1:
+                raise CaptureError("window_ambiguous", "Specify HWND when the PID has multiple visible windows",
+                                   candidates=matches[:20])
+            hwnd = matches[0]
+        def observe():
+            if not is_window(hwnd):
+                raise CaptureError("window_missing", "The authorized window no longer exists")
+            actual = w.DWORD(); get_pid(hwnd, c.byref(actual))
+            if actual.value != pid or get_ancestor(hwnd, 2) != hwnd:
+                raise CaptureError("scope_mismatch", "HWND is outside the authorized top-level PID scope")
+            if is_iconic(hwnd): raise CaptureError("window_minimized", "Minimized windows require restoration before capture")
+            if not is_visible(hwnd): raise CaptureError("window_hidden", "Hidden windows are not captured")
+            process = open_process(0x1000, False, pid)
+            if not process: native_error("OpenProcess")
+            try:
+                created, exited, system, elapsed = (w.FILETIME() for _ in range(4))
+                if not get_times(process, c.byref(created), c.byref(exited), c.byref(system), c.byref(elapsed)):
+                    native_error("GetProcessTimes")
+                born = (created.dwHighDateTime << 32) | created.dwLowDateTime
+            finally: close_handle(process)
+            rect, client, origin = w.RECT(), w.RECT(), w.POINT(0, 0)
+            if not get_rect(hwnd, c.byref(rect)) or not get_client(hwnd, c.byref(client)) or not to_screen(hwnd, c.byref(origin)):
+                native_error("WindowGeometry")
+            width, height = client.right-client.left, client.bottom-client.top
+            if width <= 0 or height <= 0 or width * height > MAX_PIXELS:
+                raise CaptureError("invalid_geometry", "Window client area exceeds the capture budget")
+            dpi = get_dpi(hwnd)
+            if not dpi: native_error("GetDpiForWindow")
+            class_name = c.create_unicode_buffer(256)
+            if not get_class(hwnd, class_name, 256): native_error("GetClassNameW")
+            policy = w.DWORD(); known = bool(affinity(hwnd, c.byref(policy)))
+            if not known and c.get_last_error() == 5:
+                native_error("GetWindowDisplayAffinity")
+            if known and policy.value:
+                raise CaptureError("capture_protected", "Window display affinity excludes capture")
+            return {"pid": pid, "hwnd": hwnd, "process_created_filetime": born,
+                    "window_class": class_name.value, "width": width, "height": height,
+                    "window_bounds": {"x":rect.left,"y":rect.top,"width":rect.right-rect.left,"height":rect.bottom-rect.top},
+                    "client_screen_origin": {"x":origin.x,"y":origin.y}, "window_dpi":dpi,
+                    "logical_to_physical_scale":dpi/96, "display_affinity_query": "known" if known else "unavailable"}
+        before = observe()
+        dc = api(user, "GetDC", w.HDC, w.HWND)(hwnd)
+        if not dc: native_error("GetDC")
+        memory = bitmap = old = None
+        try:
+            memory = api(gdi, "CreateCompatibleDC", w.HDC, w.HDC)(dc)
+            if not memory: native_error("CreateCompatibleDC")
+            class Header(c.Structure):
+                _fields_ = [("size",w.DWORD),("width",w.LONG),("height",w.LONG),("planes",w.WORD),("bits",w.WORD),
+                            ("compression",w.DWORD),("image_size",w.DWORD),("xppm",w.LONG),("yppm",w.LONG),
+                            ("used",w.DWORD),("important",w.DWORD)]
+            class Info(c.Structure):
+                _fields_ = [("header",Header),("colors",w.DWORD*3)]
+            info = Info(); info.header = Header(c.sizeof(Header),before["width"],-before["height"],1,32,0,0,0,0,0,0)
+            pixels = c.c_void_p()
+            bitmap = api(gdi, "CreateDIBSection", w.HBITMAP, w.HDC, c.POINTER(Info), w.UINT, c.POINTER(c.c_void_p), w.HANDLE, w.DWORD)(dc,c.byref(info),0,c.byref(pixels),None,0)
+            if not bitmap or not pixels.value: native_error("CreateDIBSection")
+            old = api(gdi, "SelectObject", w.HANDLE, w.HDC, w.HANDLE)(memory, bitmap)
+            if not old or old == c.c_void_p(-1).value: native_error("SelectObject")
+            start = time.time_ns()
+            if not api(user, "PrintWindow", w.BOOL, w.HWND, w.HDC, w.UINT)(hwnd, memory, 1):
+                native_error("PrintWindow")
+            api(gdi, "GdiFlush", w.BOOL)()
+            raw = c.string_at(pixels, before["width"]*before["height"]*4)
+            end = time.time_ns()
+            if observe() != before:
+                raise CaptureError("window_changed", "Window identity, geometry or DPI changed during capture")
+            png = _png(before["width"], before["height"], raw)
+            metadata = {**before, "schema":"bokkio.window_capture.v1", "platform":"windows",
+                        "method":"PrintWindow.PW_CLIENTONLY", "coordinate_space":"physical_client_pixels",
+                        "captured_at_unix_ns":end, "capture_duration_ms":(end-start)/1_000_000,
+                        "image_sha256":hashlib.sha256(png).hexdigest(), "image_bytes":len(png),
+                        "capabilities":{"capture":True,"coordinate_mapping":True,"input_dispatch":False},
+                        "content_verified":False}
+            return {"metadata":metadata,"png_base64":base64.b64encode(png).decode("ascii")}
+        finally:
+            if old and memory: gdi.SelectObject(memory, old)
+            if bitmap: api(gdi,"DeleteObject",w.BOOL,w.HANDLE)(bitmap)
+            if memory: api(gdi,"DeleteDC",w.BOOL,w.HDC)(memory)
+            api(user,"ReleaseDC",c.c_int,w.HWND,w.HDC)(hwnd,dc)
+    finally:
+        set_dpi(previous)
+
+
+def capture_window(pid, hwnd=None, *, timeout=5.0):
+    """Return (metadata, PNG bytes) for one explicitly scoped native window."""
+    _validate_scope(pid, hwnd)
+    if type(timeout) not in {int,float} or not math.isfinite(timeout) or not 0.1 <= timeout <= 15:
+        raise CaptureError("invalid_budget", "Capture timeout must be between 0.1 and 15 seconds")
+    if sys.platform != "win32":
+        raise CaptureError("unsupported_platform", "Native Windows capture must run inside Windows")
+    command = [sys.executable,"-m","bokkio.windows_capture","--worker",str(pid),str(hwnd or 0)]
+    try:
+        completed = subprocess.run(command, capture_output=True, timeout=timeout, creationflags=subprocess.CREATE_NO_WINDOW)
+    except subprocess.TimeoutExpired as error:
+        raise CaptureError("capture_timeout", "Isolated capture worker exceeded its budget", timeout=timeout) from error
+    except OSError as error:
+        raise CaptureError("worker_failed", "Could not start the native capture worker") from error
+    try:
+        payload = json.loads(completed.stdout)
+        if "error" in payload:
+            raise CaptureError(payload["error"],payload["message"],**payload.get("details",{}))
+        if completed.returncode:
+            raise ValueError("worker exited without a valid error")
+        metadata = payload["metadata"]; png = base64.b64decode(payload["png_base64"],validate=True)
+        if (metadata["pid"] != pid or (hwnd is not None and metadata["hwnd"] != hwnd)
+                or hashlib.sha256(png).hexdigest() != metadata["image_sha256"]
+                or len(png) != metadata["image_bytes"]):
+            raise ValueError("capture identity or image hash mismatch")
+        return metadata, png
+    except CaptureError: raise
+    except (ValueError,KeyError,TypeError) as error:
+        raise CaptureError("worker_failed", "Invalid or incomplete native capture result") from error
+
+
+def save_capture(metadata, png, output):
+    """Save a new capture pair without overwriting existing files."""
+    path = Path(output); sidecar = Path(str(path)+".json")
+    if path.exists() or sidecar.exists():
+        raise CaptureError("output_exists", "Capture output or metadata already exists")
+    if hashlib.sha256(png).hexdigest() != metadata["image_sha256"]:
+        raise CaptureError("invalid_image", "Image bytes do not match capture metadata")
+    try:
+        with path.open("xb") as stream: stream.write(png)
+        with sidecar.open("x",encoding="utf-8") as stream: stream.write(json.dumps(metadata,indent=2)+"\n")
+    except OSError as error:
+        raise CaptureError("output_failed", "Could not save the capture pair") from error
+    return {**metadata,"image_path":str(path.resolve()),"metadata_path":str(sidecar.resolve())}
+
+
+if __name__ == "__main__":
+    try:
+        if len(sys.argv) != 4 or sys.argv[1] != "--worker" or sys.platform != "win32":
+            raise CaptureError("invalid_worker", "Capture worker requires Windows and an explicit scope")
+        worker_pid, worker_hwnd = int(sys.argv[2]), int(sys.argv[3]) or None
+        _validate_scope(worker_pid, worker_hwnd)
+        print(json.dumps(_capture_in_worker(worker_pid, worker_hwnd)))
+    except CaptureError as error:
+        print(json.dumps(error.as_dict())); raise SystemExit(1)

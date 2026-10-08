@@ -1,0 +1,54 @@
+{
+  "task_id": "win_pro_l1_003",
+  "instruction": "Open PowerPoint and create a new presentation titled 'Q2 Project Summary', add a title slide with the project name 'Alpha Initiative', then save it to the desktop as 'Q2项目总结.pptx'.",
+  "instruction_cn": "打开PowerPoint，创建一个名为“Q2项目总结”的新演示文稿，添加一张标题幻灯片，项目名称为“Alpha Initiative”，然后将其保存到桌面，文件名为“Q2项目总结.pptx”。",
+  "task_category": "L1",
+  "persona": "Project Manager",
+  "involved_apps": [
+    "PowerPoint"
+  ],
+  "pre_conditions": [
+    "PowerPoint应用已安装且可正常启动",
+    "桌面路径存在且具有写入权限"
+  ],
+  "environment_setup": {
+    "files_to_create": [],
+    "urls_to_mock": [],
+    "downloadable_resources": []
+  },
+  "evaluation_metrics": {
+    "success_criterion": "桌面存在文件“Q2项目总结.pptx”，且该文件包含一张标题为“Alpha Initiative”的标题幻灯片",
+    "intermediate_checks": [
+      "PowerPoint 已启动并创建了新的空白演示文稿",
+      "已向演示文稿中添加了标题幻灯片版式",
+      "标题幻灯片的主标题文本已设置为“Alpha Initiative”",
+      "演示文稿已成功保存至桌面，文件名为“Q2项目总结.pptx”"
+    ],
+    "expected_final_state": "PowerPoint 应用可能仍处于打开状态或已关闭，但桌面路径下必须存在名为“Q2项目总结.pptx”的有效 PowerPoint 文件，该文件包含恰好一张幻灯片，且该幻灯片为标题幻灯片，其标题文本为“Alpha Initiative”"
+  },
+  "validity_info": {
+    "is_valid": true,
+    "validity_note": null,
+    "checked_urls": [],
+    "checked_files": [
+      {
+        "filename": "Q2项目总结.pptx",
+        "defined_in_setup": true,
+        "note": "Output file to be created by task"
+      },
+      {
+        "filename": "pptx",
+        "defined_in_setup": true,
+        "note": "Output file to be created by task"
+      }
+    ]
+  },
+  "is_duplicate": false,
+  "duplicate_of": null,
+  "similarity_score": null,
+  "created_at": "2025-12-20T14:42:42.140529",
+  "refined_at": "2025-12-20T16:43:52.865666",
+  "reviewed_at": "2025-12-20T17:30:04.243572",
+  "review_status": "approved",
+  "reviewer_notes": null
+}

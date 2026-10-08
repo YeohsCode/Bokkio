@@ -1,0 +1,54 @@
+"""Optional original WindowsWorld rubric/model through its documented endpoint.
+
+Called only with explicit benchmark screenshot files. This is a Mac environment
+adaptation even when the original model/prompt are preserved.
+"""
+import base64
+import json
+import os
+from pathlib import Path
+import ssl
+import urllib.request
+import urllib.error
+
+from .model import BokkioError
+from .office_benchmark import load_bundle,digest
+
+
+def judge(bundle,task_id,actions,screenshots,*,opener=None):
+    manifest,tasks=load_bundle(bundle);task=next((t for t in tasks if t['task_id']==task_id),None)
+    if task is None:raise BokkioError('Judge task is outside the pinned selection')
+    if not isinstance(actions,list) or len(actions)>15 or not isinstance(screenshots,list) or not 1<=len(screenshots)<=16:
+        raise BokkioError('Judge requires 1..16 scoped screenshots and at most 15 actions')
+    paths=[Path(p) for p in screenshots]
+    if any(not p.is_file() or p.stat().st_size>8*1024*1024 for p in paths):raise BokkioError('Judge screenshot exceeds the input budget')
+    rubric=json.loads((Path(bundle)/'judge-rubric.json').read_text(encoding='utf-8'))
+    key=os.environ.get('QWEN_API_KEY')
+    if not key:raise BokkioError('Original VLM judge requires QWEN_API_KEY; local artifact evaluation remains available')
+    text='【输入信息】\ninstruction:\n'+task['instruction']+'\n\nactions（按时间顺序）:\n'+str(actions)+'\n\nintermediate_checks（需要逐项判断）:\n'+str(task['evaluation_metrics']['intermediate_checks'])+'\n\nsuccess_state（最终任务目标）:\n'+task['evaluation_metrics']['success_criterion']+'\n\nscreenshots（时间顺序）:'
+    content=[{'type':'text','text':text}]
+    for path in paths:
+        raw=path.read_bytes()
+        if raw[:8]!=b'\x89PNG\r\n\x1a\n':raise BokkioError('Judge accepts PNG screenshots only')
+        content.append({'type':'image_url','image_url':{'url':'data:image/png;base64,'+base64.b64encode(raw).decode()}})
+    payload={'model':rubric['model'],'messages':[{'role':'system','content':rubric['system_prompt']},{'role':'user','content':content}],
+             'max_tokens':4096,'top_p':0.9,'temperature':0.3}
+    request=urllib.request.Request(rubric['base_url']+'/chat/completions',data=json.dumps(payload,ensure_ascii=False).encode(),
+                headers={'Authorization':'Bearer '+key,'Content-Type':'application/json'},method='POST')
+    if opener is None:
+        import certifi
+        opener=lambda req,timeout:urllib.request.urlopen(req,timeout=timeout,context=ssl.create_default_context(cafile=certifi.where()))
+    try:
+        with opener(request,timeout=90) as response:
+            data=response.read(1024*1024+1)
+            if len(data)>1024*1024:raise BokkioError('Judge response exceeds its budget')
+            answer=json.loads(json.loads(data)['choices'][0]['message']['content'])
+    except (OSError,urllib.error.URLError,ValueError,KeyError,IndexError) as error:raise BokkioError('Original VLM judge failed or returned invalid JSON') from None
+    expected=task['evaluation_metrics']['intermediate_checks']
+    intermediate=answer.get('intermediate_results');final=answer.get('final_result')
+    if (type(intermediate) is not dict or set(intermediate)!=set(expected) or type(final) is not dict
+            or any(type(row) is not dict or type(row.get('result')) is not bool for row in [*intermediate.values(),final])):
+        raise BokkioError('Judge response omitted/changed pinned checks')
+    return {'task_id':task_id,'revision':manifest['revision'],'model':rubric['model'],'rubric_sha256':digest(Path(bundle)/'judge-rubric.json'),
+            'screenshots_sha256':[digest(p) for p in paths],'results':answer,'intermediate_score':sum(v['result'] for v in intermediate.values())/len(expected),
+            'final_passed':final['result'],'official_score':False,'scope':'adapted_macos_original_rubric_and_model'}

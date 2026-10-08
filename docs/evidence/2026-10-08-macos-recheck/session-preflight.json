@@ -1,0 +1,8 @@
+{
+  "AXIsProcessTrusted": true,
+  "CGPreflightScreenCaptureAccess": true,
+  "CGSSessionScreenIsLocked": true,
+  "lock_flag_is_CFBoolean": true,
+  "security_policy_changed": false,
+  "interpretation": "state reported to current test process; not a physical-screen inspection"
+}

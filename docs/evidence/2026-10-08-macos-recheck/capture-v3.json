@@ -1,0 +1,74 @@
+{
+  "scope": "owned_macos_screencapturekit_diagnostic",
+  "planned_runs": 3,
+  "runs": [
+    {
+      "run": 1,
+      "pid": 30197,
+      "returncode": 0,
+      "stdout": "{\"height\":188,\"pid\":30197,\"point_pixel_scale\":1,\"source_height\":188,\"source_width\":520,\"width\":520,\"window_id\":1156}\n",
+      "stderr": "",
+      "image_exists": true,
+      "metadata": {
+        "height": 188,
+        "pid": 30197,
+        "point_pixel_scale": 1,
+        "source_height": 188,
+        "source_width": 520,
+        "width": 520,
+        "window_id": 1156
+      },
+      "image_sha256": "ab7b00b1c6ad0790b401e8ca67771e665fd9c4402b50dd103fb51f7de175879e",
+      "image_bytes": 7706,
+      "passed": true
+    },
+    {
+      "run": 2,
+      "pid": 30235,
+      "returncode": 0,
+      "stdout": "{\"height\":188,\"pid\":30235,\"point_pixel_scale\":1,\"source_height\":188,\"source_width\":520,\"width\":520,\"window_id\":1159}\n",
+      "stderr": "",
+      "image_exists": true,
+      "metadata": {
+        "height": 188,
+        "pid": 30235,
+        "point_pixel_scale": 1,
+        "source_height": 188,
+        "source_width": 520,
+        "width": 520,
+        "window_id": 1159
+      },
+      "image_sha256": "4e4c9920a67da26a256335434351010abe19b2b33cde008cb27fd2d3fe7989a1",
+      "image_bytes": 7678,
+      "passed": true
+    },
+    {
+      "run": 3,
+      "pid": 30239,
+      "returncode": 0,
+      "stdout": "{\"height\":188,\"pid\":30239,\"point_pixel_scale\":1,\"source_height\":188,\"source_width\":520,\"width\":520,\"window_id\":1162}\n",
+      "stderr": "",
+      "image_exists": true,
+      "metadata": {
+        "height": 188,
+        "pid": 30239,
+        "point_pixel_scale": 1,
+        "source_height": 188,
+        "source_width": 520,
+        "width": 520,
+        "window_id": 1162
+      },
+      "image_sha256": "4e4c9920a67da26a256335434351010abe19b2b33cde008cb27fd2d3fe7989a1",
+      "image_bytes": 7678,
+      "passed": true
+    }
+  ],
+  "source_sha256": {
+    "probe_macos_capture.py": "0faf4c938e9aa916daa6111ea6d910ac1d3dfa7d70d84372b23cfc98c4d54ecc",
+    "macos_capture_probe.swift": "77966ff3da6e79a98c20288cf5ff31e418b4fe5211d41f9281321bda8ec0943a"
+  },
+  "fixture_sha256": "c3e1863d6ed4e75041cf480a7aa5ded6d253a7f303f25539eb3f955b9bfd140b",
+  "bokkio_runtime_integrated": false,
+  "input_dispatched": false,
+  "passed": true
+}

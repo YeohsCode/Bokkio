@@ -1,0 +1,9 @@
+{
+  "status": "capture_rejected",
+  "error": {
+    "error": "desktop_unavailable",
+    "message": "An interactive input desktop is required",
+    "details": {}
+  },
+  "fixture_ready": true
+}

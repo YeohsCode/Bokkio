@@ -1,0 +1,109 @@
+{
+  "capabilities": {
+    "capture": true,
+    "coordinate_mapping": true,
+    "input_dispatch": false
+  },
+  "capture_duration_ms": 73.58002662658691,
+  "captured_at_unix_ns": 1791428309819515904,
+  "content_rect": {
+    "height": 388,
+    "width": 640,
+    "x": 180,
+    "y": 872
+  },
+  "content_verified": false,
+  "coordinate_space": "image_pixels_to_screen_points",
+  "height": 388,
+  "image_bytes": 18980,
+  "image_sha256": "c2405c3cc7f20ad514bde229a9f3df8f90cfc2d3d95edd22b56948841ed54b2c",
+  "is_on_screen": true,
+  "method": "ScreenCaptureKit.desktopIndependentWindow",
+  "ocr": {
+    "duration_ms": 213.97900581359863,
+    "engine": "Apple.Vision",
+    "image_sha256": "c2405c3cc7f20ad514bde229a9f3df8f90cfc2d3d95edd22b56948841ed54b2c",
+    "observations": [
+      {
+        "bounds": {
+          "height": 12,
+          "width": 86,
+          "x": 278.000001075,
+          "y": 7.999999900000019
+        },
+        "confidence": 1,
+        "coordinate_space": "image_pixels_top_left",
+        "text": "BokkioVisual|"
+      },
+      {
+        "bounds": {
+          "height": 19.99999999999997,
+          "width": 159.99999999999997,
+          "x": 57.99999919999999,
+          "y": 65.99999980000004
+        },
+        "confidence": 1,
+        "coordinate_space": "image_pixels_top_left",
+        "text": "Bokkio visual task"
+      },
+      {
+        "bounds": {
+          "height": 20.00000000000003,
+          "width": 98,
+          "x": 67.99999902000002,
+          "y": 142.00000007999998
+        },
+        "confidence": 1,
+        "coordinate_space": "image_pixels_top_left",
+        "text": "Enter code"
+      },
+      {
+        "bounds": {
+          "height": 26,
+          "width": 103.99999999999997,
+          "x": 74.00000094999999,
+          "y": 220.000000325
+        },
+        "confidence": 1,
+        "coordinate_space": "image_pixels_top_left",
+        "text": "Run check"
+      },
+      {
+        "bounds": {
+          "height": 22.662086486816406,
+          "width": 56.256778717041016,
+          "x": 59.871611238178446,
+          "y": 297.66895703868283
+        },
+        "confidence": 1,
+        "coordinate_space": "image_pixels_top_left",
+        "text": "Ready"
+      },
+      {
+        "bounds": {
+          "height": 18,
+          "width": 96,
+          "x": 343.99999904,
+          "y": 290.00000009999997
+        },
+        "confidence": 1,
+        "coordinate_space": "image_pixels_top_left",
+        "text": "Run check"
+      }
+    ],
+    "revision": 3
+  },
+  "pid": 39557,
+  "platform": "macos",
+  "point_pixel_scale": 1,
+  "process_started_seconds_microseconds": "1791428309:552595",
+  "schema": "bokkio.window_capture.v1",
+  "width": 640,
+  "window_bounds": {
+    "height": 388,
+    "width": 640,
+    "x": 180,
+    "y": 872
+  },
+  "window_id": 1180
+}

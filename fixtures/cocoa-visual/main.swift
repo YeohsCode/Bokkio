@@ -1,0 +1,92 @@
+import Cocoa
+
+// The app paints the business UI. No NSButton/NSTextField child controls or
+// accessibility business labels are exposed; OCR must read the actual pixels.
+final class Canvas: NSView {
+    let duplicate = ProcessInfo.processInfo.environment["BOKKIO_VISUAL_DUPLICATE"] == "1"
+    var input=""
+    var clicks=0
+    var focused=false
+    var changed:(()->Void)?
+    override var acceptsFirstResponder:Bool { true }
+    override var isFlipped: Bool { true }
+    override func isAccessibilityElement() -> Bool { false }
+    override func accessibilityChildren() -> [Any]? { [] }
+    override func mouseDown(with event:NSEvent) {
+        let point=convert(event.locationInWindow,from:nil)
+        focused=NSRect(x:60,y:100,width:340,height:48).contains(point)
+        if NSRect(x:60,y:175,width:210,height:52).contains(point) { clicks+=1 }
+        window?.makeFirstResponder(self); needsDisplay=true; changed?()
+    }
+    override func keyDown(with event:NSEvent) {
+        if focused, let value=event.characters { input+=value; needsDisplay=true; changed?() }
+    }
+    override func draw(_ dirtyRect: NSRect) {
+        NSColor.white.setFill(); bounds.fill()
+        func text(_ value: String, _ x: CGFloat, _ y: CGFloat, color: NSColor = .black) {
+            value.draw(at: NSPoint(x:x,y:y),withAttributes:[.font:NSFont.systemFont(ofSize:20),.foregroundColor:color])
+        }
+        text("Bokkio visual task",60,35)
+        NSColor(calibratedRed:0.94,green:0.97,blue:1,alpha:1).setFill()
+        NSRect(x:60,y:100,width:340,height:48).fill()
+        text(input.isEmpty ? "Enter code" : input,70,110)
+        NSColor(calibratedRed:0.15,green:0.3,blue:0.85,alpha:1).setFill()
+        NSRect(x:60,y:175,width:210,height:52).fill()
+        text("Run check",75,188,color:.white)
+        text("Ready",60,265)
+        text("Clicks: \(clicks)",330,110)
+        if duplicate {
+            NSColor(calibratedRed:0.15,green:0.3,blue:0.85,alpha:1).setFill()
+            NSRect(x:330,y:245,width:210,height:52).fill()
+            text("Run check",345,258,color:.white)
+        }
+        let marks: [(NSColor,NSRect)] = [
+            (NSColor(calibratedRed:161/255,green:11/255,blue:206/255,alpha:1),NSRect(x:8,y:8,width:16,height:16)),
+            (NSColor(calibratedRed:19/255,green:203/255,blue:101/255,alpha:1),NSRect(x:bounds.width-24,y:8,width:16,height:16)),
+            (NSColor(calibratedRed:211/255,green:50/255,blue:33/255,alpha:1),NSRect(x:8,y:bounds.height-24,width:16,height:16)),
+            (NSColor(calibratedRed:36/255,green:104/255,blue:172/255,alpha:1),NSRect(x:bounds.width-24,y:bounds.height-24,width:16,height:16))]
+        for (color,area) in marks { color.setFill(); area.fill() }
+    }
+}
+
+final class Delegate: NSObject, NSApplicationDelegate {
+    var windows: [NSWindow] = []
+    func applicationDidFinishLaunching(_ note: Notification) {
+        let count = ProcessInfo.processInfo.environment["BOKKIO_VISUAL_WINDOWS"] == "2" ? 2 : 1
+        for index in 0..<count {
+            let window = NSWindow(contentRect:NSRect(x:180+index*650,y:180,width:640,height:360),
+                                  styleMask:[.titled,.closable,.miniaturizable],backing:.buffered,defer:false)
+            window.title = "BokkioVisual"
+            let canvas=Canvas(frame:NSRect(x:0,y:0,width:640,height:360))
+            window.contentView=canvas; window.makeKeyAndOrderFront(nil); windows.append(window)
+            if let path=ProcessInfo.processInfo.environment["BOKKIO_VISUAL_RESULT"] {
+                canvas.changed = {
+                    let result:[String:Any] = ["pid":ProcessInfo.processInfo.processIdentifier,"input":canvas.input,"clicks":canvas.clicks]
+                    if let data=try? JSONSerialization.data(withJSONObject:result) { try? data.write(to:URL(fileURLWithPath:path)) }
+                }
+                canvas.changed?()
+            }
+        }
+        NSApp.activate(ignoringOtherApps:true)
+        let environment=ProcessInfo.processInfo.environment
+        if let path=environment["BOKKIO_VISUAL_STATE"] {
+            let window=windows[0]
+            let screen=NSScreen.screens[0]
+            let state:[String:Any] = ["pid":ProcessInfo.processInfo.processIdentifier,
+                "window_id":window.windowNumber,"subviews":window.contentView!.subviews.count,
+                "window_count":windows.count,"duplicate":environment["BOKKIO_VISUAL_DUPLICATE"] == "1",
+                "expected_content_rect":["x":window.frame.minX,"y":screen.frame.maxY-window.frame.maxY,
+                                         "width":window.frame.width,"height":window.frame.height],
+                "client_width":window.contentView!.bounds.width,"client_height":window.contentView!.bounds.height]
+            if let data=try? JSONSerialization.data(withJSONObject:state,options:[.sortedKeys]) {
+                try? data.write(to:URL(fileURLWithPath:path))
+            }
+        }
+        if environment["BOKKIO_VISUAL_MINIMIZE"] == "1" { windows[0].miniaturize(nil) }
+    }
+    func applicationShouldTerminateAfterLastWindowClosed(_ app:NSApplication)->Bool { true }
+}
+let delegate=Delegate()
+NSApplication.shared.delegate=delegate
+NSApplication.shared.setActivationPolicy(.regular)
+NSApplication.shared.run()

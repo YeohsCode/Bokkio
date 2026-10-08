@@ -1,0 +1,50 @@
+{
+  "task_id": "win_adm_l1_003",
+  "instruction": "Open the quarterly report draft in Word, apply 'Heading 1' style to the main title, set the body text to Calibri 11pt with 1.15 line spacing, and save the document.",
+  "instruction_cn": "在桌面中打开季度报告草稿.docx，将主标题应用‘标题1’样式，正文设置为 Calibri 字体、11号字、1.15倍行距，并保存文档。",
+  "task_category": "L1",
+  "persona": "Useristrative Assistant",
+  "involved_apps": [
+    "Word"
+  ],
+  "pre_conditions": [
+    "季度报告草稿.docx 文件存在于桌面且可访问",
+    "Microsoft Word 应用已安装并可正常启动"
+  ],
+  "environment_setup": {
+    "files_to_create": [
+      {
+        "filename": "季度报告草稿.docx",
+        "file_path": "C:\\Users\\User\\Desktop\\",
+        "file_type": "docx",
+        "content_generation_prompt": "生成一份包含主标题‘2024年第一季度工作总结’和三段正文的Word文档，正文内容为通用工作汇报文本"
+      }
+    ],
+    "urls_to_mock": [],
+    "downloadable_resources": []
+  },
+  "evaluation_metrics": {
+    "success_criterion": "季度报告草稿.docx 已按要求格式化并保存：主标题使用‘标题1’样式，正文为 Calibri 11pt、1.15倍行距",
+    "intermediate_checks": [
+      "季度报告草稿.docx 文件已在 Word 中打开",
+      "主标题段落已应用‘标题1’样式",
+      "正文段落已设置为 Calibri 字体、11号字、1.15倍行距",
+      "文档已保存"
+    ],
+    "expected_final_state": "Word 应用中打开了 '季度报告草稿.docx'，文档的首段应用了 'Heading 1' 样式，其余正文段落使用 Calibri 字体、11pt 字号和 1.15 倍行距，并且文档已保存，磁盘上的文件反映上述格式更改。"
+  },
+  "validity_info": {
+    "is_valid": true,
+    "validity_note": null,
+    "checked_urls": [],
+    "checked_files": []
+  },
+  "is_duplicate": false,
+  "duplicate_of": null,
+  "similarity_score": null,
+  "created_at": "2025-12-20T14:59:49.054475",
+  "refined_at": "2025-12-20T16:43:52.865964",
+  "reviewed_at": "2025-12-20T17:30:04.990512",
+  "review_status": "approved",
+  "reviewer_notes": null
+}

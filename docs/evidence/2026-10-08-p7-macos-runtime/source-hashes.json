@@ -1,0 +1,11 @@
+{
+  "src/bokkio/macos_capture.py": "cc605e631bd3834819337007b46dde09e1ead679fcd1b6d3d9d7217434db765f",
+  "src/bokkio/native/macos_capture.swift": "823c041309a3e97535f2a9a1ac229cd41f09f3cea7901c3afcf7e77505b42161",
+  "src/bokkio/visual.py": "d9d73f7c720dca5dfac33503def6d914b3c12af2e76711942be330e35422892c",
+  "src/bokkio/windows_capture.py": "cfa9f52c6cc2a20edf6fdf3de7271c86f80d0f251354761b35569cc18a248c82",
+  "src/bokkio/cli.py": "dd5a586a514d8f03b1e9e84488b4d532b0a7cb9dfc25eb7b5aad75f47cefe9de",
+  "scripts/verify_macos_visual.py": "b2e2889771c0af6f1f67e054a6f8edf1484651c6d2ee1ea06e32e287cd1524f5",
+  "fixtures/cocoa-visual/main.swift": "fd9b4b2b4a28ca4af5349b1aa7760049208277cccfc9df6d46095799bc37ae5c",
+  "src/bokkio/visual_input.py": "91163a20667cc6599eab8fff07fc0fb892f250e289da1be79554fd59f83c5ed4",
+  "pyproject.toml": "a3a9fff79cdc818dbbf5ba7f05af769a1b8e0815e3850f407f61c22face94941"
+}

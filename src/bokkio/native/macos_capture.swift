@@ -1,0 +1,191 @@
+import Cocoa
+import ScreenCaptureKit
+import Vision
+import CryptoKit
+import Foundation
+import Darwin
+
+// Establish the WindowServer/AppKit connection before asynchronous capture.
+_ = NSApplication.shared
+func emit(_ data: [String: Any], code: Int32 = 0) -> Never {
+    if let encoded = try? JSONSerialization.data(withJSONObject: data, options: [.sortedKeys]),
+       let text = String(data: encoded, encoding: .utf8) { print(text) }
+    exit(code)
+}
+func fail(_ code: String, _ message: String, _ details: [String: Any] = [:]) -> Never {
+    emit(["error": code, "message": message, "details": details], code: 1)
+}
+func rect(_ value: CGRect) -> [String: Double] {
+    ["x": value.minX, "y": value.minY, "width": value.width, "height": value.height]
+}
+let input = FileHandle.standardInput.readDataToEndOfFile()
+guard input.count <= 16384,
+      let args = try? JSONSerialization.jsonObject(with: input) as? [String: Any],
+      let number = args["pid"] as? Int, number > 0, number <= Int(Int32.max),
+      let output = args["output"] as? String else { fail("invalid_scope", "Invalid capture request") }
+let pid = pid_t(number)
+if !CGPreflightScreenCaptureAccess() { fail("permission_denied", "Screen recording permission is required") }
+Task { @MainActor in
+    do {
+        func processIdentity() -> String {
+            var info = proc_bsdinfo()
+            let count = proc_pidinfo(pid, PROC_PIDTBSDINFO, 0, &info, Int32(MemoryLayout<proc_bsdinfo>.size))
+            guard count == MemoryLayout<proc_bsdinfo>.size, info.pbi_pid == UInt32(pid) else {
+                fail(errno == EPERM ? "permission_denied" : "process_missing", "Authorized process identity is unavailable")
+            }
+            return "\(info.pbi_start_tvsec):\(info.pbi_start_tvusec)"
+        }
+        let born = processIdentity()
+        let requestedID = args["window_id"] as? UInt32
+        let title = args["title"] as? String
+        func findWindow() async throws -> SCWindow {
+            let content = try await SCShareableContent.excludingDesktopWindows(true, onScreenWindowsOnly: false)
+            let matches = content.windows.filter {
+                $0.owningApplication?.processID == pid &&
+                (requestedID == nil || $0.windowID == requestedID!) &&
+                (title == nil || $0.title == title!)
+            }
+            if matches.isEmpty { fail("window_missing", "No window matches the authorized scope") }
+            if matches.count != 1 { fail("window_ambiguous", "Specify an exact window title or ID", ["count": matches.count]) }
+            return matches[0]
+        }
+        let window = try await findWindow()
+        guard window.isOnScreen else { fail("window_not_visible", "Hidden or minimized windows cannot be targeted") }
+        let filter = SCContentFilter(desktopIndependentWindow: window)
+        let contentRect = filter.contentRect
+        let scale = Double(filter.pointPixelScale)
+        let width = Int((contentRect.width * scale).rounded(.up))
+        let height = Int((contentRect.height * scale).rounded(.up))
+        guard width > 0, height > 0, width <= 16384, height <= 16384,
+              width * height <= 16000000, scale.isFinite, scale > 0 else {
+            fail("invalid_geometry", "Window dimensions exceed the capture budget")
+        }
+        let config = SCStreamConfiguration()
+        config.width = width; config.height = height
+        config.showsCursor = false; config.ignoreShadowsSingleWindow = true
+        let started = Date().timeIntervalSince1970
+        let image = try await SCScreenshotManager.captureImage(contentFilter: filter, configuration: config)
+        let captured = Date().timeIntervalSince1970
+        let fresh = try await findWindow()
+        let freshFilter = SCContentFilter(desktopIndependentWindow: fresh)
+        let freshRect = freshFilter.contentRect
+        guard fresh.windowID == window.windowID, fresh.frame == window.frame,
+              freshRect == contentRect, Double(freshFilter.pointPixelScale) == scale, processIdentity() == born else {
+            fail("window_changed", "Window identity or geometry changed during capture")
+        }
+        let rep = NSBitmapImageRep(cgImage: image)
+        guard let png = rep.representation(using: .png, properties: [:]) else {
+            fail("invalid_image", "Could not encode capture PNG")
+        }
+        let digest = SHA256.hash(data: png).map { String(format: "%02x", $0) }.joined()
+        if args["operation"] as? String == "input" {
+            let session = CGSessionCopyCurrentDictionary() as? [String: Any]
+            guard session != nil, session?["CGSSessionScreenIsLocked"] as? Bool != true else {
+                fail("input_desktop_unavailable", "Current input session reports a lock", ["dispatched": 0])
+            }
+            guard args["expected_birth"] as? String == born,
+                  args["image_sha256"] as? String == digest,
+                  args["expected_content_rect"] as? [String:Double] == rect(contentRect),
+                  args["expected_window_bounds"] as? [String:Double] == rect(window.frame) else {
+                fail("capture_changed", "Window identity or pixels changed before input", ["dispatched": 0])
+            }
+            guard let point = args["point"] as? [String: Double], let x = point["x"], let y = point["y"],
+                  x.isFinite, y.isFinite, contentRect.contains(CGPoint(x:x,y:y)),
+                  let action = args["action"] as? String, ["click","type"].contains(action),
+                  let captured = args["captured_at_unix_ns"] as? Int64,
+                  Date().timeIntervalSince1970 * 1e9 - Double(captured) <= 15000000000,
+                  Double(captured) <= Date().timeIntervalSince1970 * 1e9 else {
+                fail("invalid_input", "Input point, budget or action is invalid", ["dispatched": 0])
+            }
+            func foregroundIsScoped() -> Bool {
+                guard NSWorkspace.shared.frontmostApplication?.processIdentifier == pid,
+                      let info = CGWindowListCopyWindowInfo([.optionOnScreenOnly,.excludeDesktopElements], kCGNullWindowID) as? [[String:Any]],
+                      let top = info.first(where: { ($0[kCGWindowLayer as String] as? Int) == 0 }) else { return false }
+                return top[kCGWindowOwnerPID as String] as? Int == number &&
+                       top[kCGWindowNumber as String] as? UInt32 == window.windowID
+            }
+            guard foregroundIsScoped(), CGPreflightPostEventAccess() else {
+                fail("input_unavailable", "Authorized window must own foreground input and event permission", ["dispatched": 0])
+            }
+            let text = args["text"] as? String ?? ""
+            if action == "type" && (text.isEmpty || text.utf16.count > 1000 || text.unicodeScalars.contains(where: { CharacterSet.controlCharacters.contains($0) })) {
+                fail("invalid_input", "Typed text must be bounded literal text without control characters", ["dispatched": 0])
+            }
+            var events: [CGEvent] = []
+            let location=CGPoint(x:x,y:y)
+            guard let down=CGEvent(mouseEventSource:nil,mouseType:.leftMouseDown,mouseCursorPosition:location,mouseButton:.left),
+                  let up=CGEvent(mouseEventSource:nil,mouseType:.leftMouseUp,mouseCursorPosition:location,mouseButton:.left) else {
+                fail("input_unavailable", "Could not construct input events", ["dispatched": 0])
+            }
+            events=[down,up]
+            if action == "type" {
+                let units=Array(text.utf16)
+                guard let keyDown=CGEvent(keyboardEventSource:nil,virtualKey:0,keyDown:true),
+                      let keyUp=CGEvent(keyboardEventSource:nil,virtualKey:0,keyDown:false) else {
+                    fail("input_unavailable", "Could not construct keyboard events", ["dispatched": 0])
+                }
+                keyDown.keyboardSetUnicodeString(stringLength:units.count,unicodeString:units)
+                keyUp.keyboardSetUnicodeString(stringLength:units.count,unicodeString:units)
+                events.append(contentsOf:[keyDown,keyUp])
+            }
+            guard foregroundIsScoped(), processIdentity()==born else {
+                fail("capture_changed", "Input scope changed before dispatch", ["dispatched": 0])
+            }
+            // CGEventPost has no delivery acknowledgement. Once posting starts,
+            // a lost scope is unknown completion and must never trigger retry.
+            for (index,event) in events.enumerated() {
+                if index>0 && !foregroundIsScoped() {
+                    let release = index==1 || (action == "type" && index==3)
+                    if release { events[index].post(tap:.cghidEventTap) }
+                    fail("input_completion_unknown", "Foreground changed after dispatch began", ["events_posted":index+(release ? 1 : 0),"release_posted":release,"dispatched":true])
+                }
+                event.post(tap:.cghidEventTap)
+            }
+            emit(["pid":number,"window_id":window.windowID,"events_posted":events.count,
+                  "status":"posted_unverified","dispatched":true])
+        }
+        var metadata: [String: Any] = [
+            "schema": "bokkio.window_capture.v1", "platform": "macos",
+            "pid": number, "window_id": window.windowID, "process_started_seconds_microseconds": born,
+            "window_bounds": rect(window.frame), "content_rect": rect(contentRect),
+            "width": image.width, "height": image.height, "point_pixel_scale": scale,
+            "coordinate_space": "image_pixels_to_screen_points", "is_on_screen": window.isOnScreen,
+            "captured_at_unix_ns": Int64(captured * 1000000000),
+            "capture_duration_ms": (captured - started) * 1000,
+            "image_sha256": digest, "image_bytes": png.count,
+            "method": "ScreenCaptureKit.desktopIndependentWindow", "content_verified": false,
+            "capabilities": ["capture": true, "coordinate_mapping": true, "input_dispatch": false]
+        ]
+        if args["ocr"] as? Bool == true {
+            let request = VNRecognizeTextRequest()
+            request.revision = VNRecognizeTextRequestRevision3
+            request.recognitionLevel = .accurate
+            request.recognitionLanguages = ["en-US", "zh-Hans"]
+            request.usesLanguageCorrection = false
+            let ocrStart = Date().timeIntervalSince1970
+            try VNImageRequestHandler(cgImage: image, orientation: .up).perform([request])
+            guard (request.results ?? []).count <= 2048 else { fail("ocr_budget", "OCR result count exceeds the budget") }
+            let observations: [[String: Any]] = (request.results ?? []).compactMap { item in
+                guard let best = item.topCandidates(1).first else { return nil }
+                let box = item.boundingBox
+                let pixelRect = CGRect(x: box.minX * Double(image.width),
+                                       y: (1 - box.maxY) * Double(image.height),
+                                       width: box.width * Double(image.width),
+                                       height: box.height * Double(image.height)).intersection(
+                                        CGRect(x: 0, y: 0, width: image.width, height: image.height))
+                guard !pixelRect.isNull, pixelRect.width > 0, pixelRect.height > 0 else { return nil }
+                return ["text": best.string, "confidence": best.confidence,
+                        "bounds": rect(pixelRect), "coordinate_space": "image_pixels_top_left"]
+            }
+            metadata["ocr"] = ["engine": "Apple.Vision", "revision": 3,
+                               "image_sha256": digest, "observations": observations,
+                               "duration_ms": (Date().timeIntervalSince1970 - ocrStart) * 1000]
+        }
+        try png.write(to: URL(fileURLWithPath: output), options: .withoutOverwriting)
+        emit(["metadata": metadata])
+    } catch {
+        let error = error as NSError
+        fail("native_capture_failed", "Native capture or OCR failed", ["domain": error.domain, "code": error.code])
+    }
+}
+dispatchMain()

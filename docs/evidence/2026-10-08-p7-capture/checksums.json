@@ -1,0 +1,10 @@
+{
+  "README.md": "b92696a3b0bd8d10b5da9b136b38d61c4ed962d5d8b24b6aef73d7627ef9af6d",
+  "desktop-preflight.json": "33d8f47b9c12b357c09c52f19b5f8c6f71bd4a7c049b8d1e29a62d406fd84a0d",
+  "guest-source-hashes.json": "1f690c19d9c3b0c6c526fcbafabf56f1cf500aba60353fc81264e85c7fa0e7c1",
+  "host-tests.log": "c7394da416f3d6db862416e4fabbedce18d5e1e32f07d5c25cbf01bc31eff79e",
+  "source-hashes.json": "1c8fab92b6dfb79e187a97b86280897a62d9c0cf1f426319bb2c3714f14b8c66",
+  "summary.json": "fd2158ef29a51518c10a28ea6176751afa396339f6fe1add5aad13db54650d6a",
+  "windows-build-first-tests.log": "ec4e99f31cce14b24308c687aec075088c042adf673d552fcf6277aef7bf168e",
+  "windows-final-tests.log": "11a8225bf1d9839efd83fc9cdb3f8766e3eff9976547a74bd2b59f97c029a175"
+}

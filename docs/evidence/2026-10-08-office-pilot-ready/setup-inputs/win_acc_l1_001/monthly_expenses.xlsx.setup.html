@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>monthly_expenses.xlsx</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f0f0f0;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.file-title {
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    background: #217346;
+    color: #fff;
+}
+.sheet-tabs {
+    display: flex;
+    background: #e0e0e0;
+    border-top: 1px solid #ccc;
+    overflow-x: auto;
+    padding: 0 8px;
+    flex-shrink: 0;
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+}
+.sheet-tab {
+    --tab-color: #e8e8e8;
+    padding: 8px 16px;
+    font-size: 12px;
+    cursor: pointer;
+    border: 1px solid #bbb;
+    border-top: none;
+    background: var(--tab-color);
+    color: #fff;
+    margin-bottom: 0;
+    border-radius: 0 0 3px 3px;
+    white-space: nowrap;
+    user-select: none;
+    position: relative;
+    transition: background 0.15s, color 0.15s;
+}
+.sheet-tab[style*="--tab-color:#e8e8e8"], .sheet-tab:not([style*="--tab-color"]) {
+    color: #333;
+}
+.sheet-tab:hover { opacity: 0.85; }
+.sheet-tab.active {
+    background: linear-gradient(to bottom, #fff 60%, color-mix(in srgb, var(--tab-color) 30%, #fff)) !important;
+    color: #333 !important;
+    border-color: #aaa;
+    border-bottom: 3px solid var(--tab-color);
+    font-weight: 600;
+}
+.sheet-slider { flex: 1; position: relative; overflow: hidden; display: flex; flex-direction: column; min-height: 0; }
+.sheet-content { background: #fff; display: none; flex: 1; min-height: 0; }
+.sheet-content.active { display: flex; flex-direction: column; }
+.table-wrapper {
+    flex: 1;
+    overflow: auto;
+    min-height: 0;
+    background: #fff;
+}
+table {
+    border-collapse: collapse;
+    font-size: 11px;
+    font-family: 'Calibri', 'Segoe UI', sans-serif;
+    table-layout: fixed;
+}
+.row-header-col { width: 30pt; }
+th {
+    background: #f8f8f8;
+    border: 1px solid #e0e0e0;
+    font-weight: normal;
+    color: #666;
+    font-size: 10px;
+    text-align: center;
+    padding: 2px 4px;
+}
+.corner-cell { background: #f0f0f0; z-index: 4; }
+.col-header {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background: #f8f8f8;
+    min-width: 50px;
+    cursor: s-resize;
+}
+.row-header {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: #f8f8f8;
+    min-width: 40px;
+    cursor: e-resize;
+    /* Drop right border so the data cell's own (often darker) left border shows through.
+       Otherwise, with border-collapse, the row-header's light grey right border can win
+       the collapse contest and erase the merged-cell left border (rowspan cells especially). */
+    border-right: none;
+}
+td {
+    /* Default gridlines are painted with inset box-shadow instead of
+       border, so they do NOT participate in border-collapse tie-breaking.
+       Explicit OOXML borders (rendered as inline border styles on cells
+       with an OOXML style) always win at cell boundaries; missing cells
+       / style-0 cells no longer erase neighbours' black borders via the
+       CSS position-based tie-break. Right+bottom gridlines are owned by
+       each cell; first-row top and first-col left gridlines are added
+       via the :first-child rules below. Scoped to table:not(.no-grid) so
+       sheets with showGridLines=false suppress the default gridlines while
+       still honouring explicit OOXML cell borders (inline styles). */
+    padding: 1px 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+    max-width: 500px;
+    word-break: break-all; /* CJK text wrapping support */
+}
+table:not(.no-grid) td { box-shadow: inset -1px -1px 0 #e0e0e0; }
+/* Text spill: a left/general text cell with empty right-neighbours paints
+   its overflow across them (Excel fidelity). The td stays 1 column wide so
+   borders/gridlines/merges are unaffected; overflow:visible lets the inner
+   span bleed into the (empty) neighbour cells. The span clips at max-width =
+   own width + summed empty-neighbour widths, stopping before the first
+   occupied cell — matching real Excel. */
+td.spill { overflow: visible; }
+td.spill .spill-text {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+    vertical-align: bottom;
+}
+/* Shrink-to-fit: the font is compressed (inline font-size) so the whole
+   string fits the column. Keep it inline-block + clip (never ellipsis) so
+   the full text shows; the td's ellipsis rule must not re-truncate it. */
+.shrink-fit {
+    display: inline-block;
+    white-space: nowrap;
+    text-overflow: clip;
+    overflow: visible;
+}
+table:not(.no-grid) tbody tr:first-child td { box-shadow: inset -1px -1px 0 #e0e0e0, inset 0 1px 0 #e0e0e0; }
+table:not(.no-grid) tr td:first-of-type { box-shadow: inset -1px -1px 0 #e0e0e0, inset 1px 0 0 #e0e0e0; }
+table:not(.no-grid) tbody tr:first-child td:first-of-type { box-shadow: inset -1px -1px 0 #e0e0e0, inset 1px 1px 0 #e0e0e0; }
+.empty-sheet {
+    padding: 40px;
+    text-align: center;
+    color: #999;
+    font-size: 14px;
+}
+/* Chart containers */
+.chart-container {
+    /* No margin: charts are absolutely positioned inside their anchor box,
+       so any margin offsets the visible card off its cell anchor (it landed
+       a row low) and overflows the box bottom. */
+    margin: 0;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.chart-container svg { display: block; }
+/* Truncation warning */
+.truncation-warning {
+    padding: 8px 16px;
+    background: #FFF3CD;
+    color: #856404;
+    border: 1px solid #FFEEBA;
+    font-size: 12px;
+    text-align: center;
+    margin: 4px 0;
+}
+/* Screen reader only */
+.sr-only { position:absolute; clip:rect(0 0 0 0); width:1px; height:1px; overflow:hidden; }
+/* Print styles */
+@media print {
+    .file-title, .sheet-tabs { display: none !important; }
+    .table-wrapper { max-height: none !important; overflow: visible !important; flex: none !important; }
+    body { background: #fff !important; min-height: auto !important; }
+    .sheet-content { display: block !important; flex: none !important; }
+    td { max-width: none !important; white-space: normal !important; overflow: visible !important; }
+}
+</style>
+</head>
+<body>
+<div class="file-title">monthly_expenses.xlsx</div>
+<div class="sheet-slider">
+<div class="sheet-content active" data-sheet="0">
+<div class="table-wrapper" style="position:relative">
+<table style="width:492.11pt">
+<caption class="sr-only">Sheet1</caption>
+<colgroup><col class="row-header-col"><col style="width:115.53pt"><col style="width:115.53pt"><col style="width:115.53pt"><col style="width:115.53pt"></colgroup>
+<thead><tr><th class="corner-cell"></th><th class="col-header" data-path="/Sheet1/col[A]">A</th><th class="col-header" data-path="/Sheet1/col[B]">B</th><th class="col-header" data-path="/Sheet1/col[C]">C</th><th class="col-header" data-path="/Sheet1/col[D]">D</th></tr></thead>
+<tbody>
+<tr data-row="0-1" style="height:15pt"><th class="row-header" data-path="/Sheet1/row[1]">1</th><td data-path="/Sheet1/A1" style="font-size:11pt;font-family:'Calibri'">Date</td><td data-path="/Sheet1/B1" style="font-size:11pt;font-family:'Calibri'">Category</td><td data-path="/Sheet1/C1" style="font-size:11pt;font-family:'Calibri'">Description</td><td data-path="/Sheet1/D1" style="font-size:11pt;font-family:'Calibri'">Amount</td></tr>
+<tr data-row="0-2" style="height:15pt"><th class="row-header" data-path="/Sheet1/row[2]">2</th><td data-path="/Sheet1/A2" style="font-size:11pt;font-family:'Calibri'">2024-01-02</td><td data-path="/Sheet1/B2" style="font-size:11pt;font-family:'Calibri'">Travel</td><td data-path="/Sheet1/C2" style="font-size:11pt;font-family:'Calibri'">Train ticket</td><td data-path="/Sheet1/D2" style="font-size:11pt;font-family:'Calibri';text-align:right">125.5</td></tr>
+<tr data-row="0-3" style="height:15pt"><th class="row-header" data-path="/Sheet1/row[3]">3</th><td data-path="/Sheet1/A3" style="font-size:11pt;font-family:'Calibri'">2024-01-04</td><td data-path="/Sheet1/B3" style="font-size:11pt;font-family:'Calibri'">Office</td><td data-path="/Sheet1/C3" style="font-size:11pt;font-family:'Calibri'">Paper</td><td data-path="/Sheet1/D3" style="font-size:11pt;font-family:'Calibri';text-align:right">28.75</td></tr>
+<tr data-row="0-4" style="height:15pt"><th class="row-header" data-path="/Sheet1/row[4]">4</th><td data-path="/Sheet1/A4" style="font-size:11pt;font-family:'Calibri'">2024-01-06</td><td data-path="/Sheet1/B4" style="font-size:11pt;font-family:'Calibri'">Software</td><td data-path="/Sheet1/C4" style="font-size:11pt;font-family:'Calibri'">Subscription</td><td data-path="/Sheet1/D4" style="font-size:11pt;font-family:'Calibri';text-align:right">49.99</td></tr>
+<tr data-row="0-5" style="height:15pt"><th class="row-header" data-path="/Sheet1/row[5]">5</th><td data-path="/Sheet1/A5" style="font-size:11pt;font-family:'Calibri'">2024-01-08</td><td data-path="/Sheet1/B5" style="font-size:11pt;font-family:'Calibri'">Travel</td><td data-path="/Sheet1/C5" style="font-size:11pt;font-family:'Calibri'">Taxi</td><td data-path="/Sheet1/D5" style="font-size:11pt;font-family:'Calibri';text-align:right">18.2</td></tr>
+<tr data-row="0-6" style="height:15pt"><th class="row-header" data-path="/Sheet1/row[6]">6</th><td data-path="/Sheet1/A6" style="font-size:11pt;font-family:'Calibri'">2024-01-10</td><td data-path="/Sheet1/B6" style="font-size:11pt;font-family:'Calibri'">Office</td><td data-path="/Sheet1/C6" style="font-size:11pt;font-family:'Calibri'">Equipment</td><td data-path="/Sheet1/D6" style="font-size:11pt;font-family:'Calibri';text-align:right">235</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sheet-tabs" role="tablist">
+  <div class="sheet-tab active" data-sheet="0" role="tab" tabindex="0" onclick="switchSheet(0)" onkeydown="if(event.key==='Enter'||event.key===' ')switchSheet(0)">Sheet1</div>
+</div>
+<script>
+function switchSheet(idx) {
+    document.querySelectorAll('.sheet-tab').forEach(function(t) {
+        t.classList.toggle('active', parseInt(t.getAttribute('data-sheet')) === idx);
+    });
+    document.querySelectorAll('.sheet-content').forEach(function(c) {
+        c.classList.toggle('active', parseInt(c.getAttribute('data-sheet')) === idx);
+    });
+    window.scrollTo(0, 0);
+}
+// Fix frozen row sticky top values using actual rendered heights
+document.querySelectorAll('.table-wrapper table').forEach(function(table) {
+    var thead = table.querySelector('thead');
+    if (!thead) return;
+    var theadH = thead.offsetHeight;
+    var cumTop = theadH;
+    var frozen = table.querySelectorAll('tr[data-frozen]');
+    frozen.forEach(function(tr) {
+        tr.querySelectorAll('th, td').forEach(function(cell) {
+            if (cell.style.position === 'sticky') cell.style.top = cumTop + 'px';
+        });
+        cumTop += tr.offsetHeight;
+    });
+});
+</script>
+</body>
+</html>

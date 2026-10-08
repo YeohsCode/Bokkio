@@ -1,0 +1,7 @@
+{
+  "kind": "operator_summary_of_initializer_error",
+  "run": "prepare-v1",
+  "error": "colwidth unsupported at sheet level",
+  "corrected": "Use column width through /Sheet1/col[A..D]",
+  "task_input_only": true
+}

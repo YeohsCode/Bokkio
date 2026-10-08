@@ -1,0 +1,11 @@
+{
+  "action_runs": [],
+  "scroll_actions": 0,
+  "scope": "owned_macos_native",
+  "fixture_sha256": {
+    "BokkioTest": "06a8697bd75550ae1a4995e72bf53c0d5b9664e849bd51f490811b5e15273e0c",
+    "BokkioInteractions": "35a5f73659dee789b95ebb48292bff370942468a746871317221d44e1ed485c4"
+  },
+  "passed": false,
+  "error": "Invalid macOS Accessibility tree: application node nested below its root"
+}

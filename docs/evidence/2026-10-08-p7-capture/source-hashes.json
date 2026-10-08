@@ -1,0 +1,8 @@
+{
+  "src/bokkio/windows_capture.py": "cfa9f52c6cc2a20edf6fdf3de7271c86f80d0f251354761b35569cc18a248c82",
+  "src/bokkio/cli.py": "3d379f0738a71d01203328952dfb5387301a71aad01d7fd1282e5b5d4de49cfc",
+  "scripts/verify_p7_capture.py": "52e30ad69e3daaaa6c10f6020c1c01fd8e28b51d8e03d8130a33eaa646931e99",
+  "tests/test_windows_capture.py": "555659ffbfc553078b0952caed9f9dfdbe8b89e91175b822f079208db23f9d41",
+  "fixtures/windows-visual/Program.cs": "59635f742e48e56d1013c7f87f36076e285885a418d8ed341ebe259cd1e144bc",
+  "fixtures/windows-visual/windows-visual.csproj": "4526355bfdd7a31a8b335ae2ef7e7178dfe256ef475c2b858db36b5f0ae4f3f6"
+}

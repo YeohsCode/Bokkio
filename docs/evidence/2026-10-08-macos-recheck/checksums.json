@@ -1,0 +1,15 @@
+{
+  "native-ax-counts.json": "ef6a164cc61f995cc020c89fe91ba15de308d07b5f95c243dd1f5ce5f879e490",
+  "native-ax-roles.json": "571e7c4a585035821e7a973f29357de8992f698bbf03a55ed5de8ac745b61d88",
+  "session-preflight.json": "be7bc7f27b807ad621d4dbb6d1b2327e8d61e21f1aa52de5b283fc8191f314e9",
+  "capture-v2.json": "8ae48ebd3b3922d96c99d226c240f30aa2722ac3eb9dfbf6c4811465194e8def",
+  "controls-preflight.json": "c03cbf1abaf3fcc05746a1b4790e362ac92da308502c6cfc93a13ecb7293f0f6",
+  "capture-v3.json": "42378eb428fd0b22396047ff07ed4671d793b4f60104ca1c540548181cdf5eb0",
+  "README.md": "a0e6d5c571b436bd854fbaa0846e492ece3a08526bbdc2222d06444669eb749b",
+  "capture-v1.json": "679d17d2834f7e4415e4c019b93d44b4bbf0f4a1ae4d2eb438252a3c7896b01b",
+  "owned-window-1.png": "ab7b00b1c6ad0790b401e8ca67771e665fd9c4402b50dd103fb51f7de175879e",
+  "capture-pid-only.json": "32b93da57e458e4b49458b1cda02fcd5dceb122be71d504ebb9e8170844ffe25",
+  "owned-window-2.png": "4e4c9920a67da26a256335434351010abe19b2b33cde008cb27fd2d3fe7989a1",
+  "owned-window-3.png": "4e4c9920a67da26a256335434351010abe19b2b33cde008cb27fd2d3fe7989a1",
+  "xa11y-preflight.json": "fe7f061bee57b13d830ccb51993b265cd0ef8f9bac92e285707491b5772f85ff"
+}

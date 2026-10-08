@@ -1,0 +1,400 @@
+{
+  "scope": "p7_macos_capture_ocr_native",
+  "normal_runs": [
+    {
+      "run": 1,
+      "pid": 39524,
+      "window_id": 1173,
+      "checks": {
+        "identity": true,
+        "geometry": true,
+        "png_dimensions": true,
+        "painted_marks": true,
+        "button_center": true,
+        "input_label_center": true,
+        "screen_coordinate_mapping": true,
+        "no_internal_controls": true,
+        "not_action_authorized": true
+      },
+      "passed": true,
+      "candidates": {
+        "Run check": {
+          "source": "OCR",
+          "text": "Run check",
+          "confidence": 1,
+          "bounds": {
+            "height": 35.98651123046875,
+            "width": 112.58696746826172,
+            "x": 73.70651738320214,
+            "y": 213.00674422486887
+          },
+          "center_image": {
+            "x": 130.000001117333,
+            "y": 230.99999984010324
+          },
+          "center_screen": {
+            "x": 310.000001117333,
+            "y": 1102.9999998401033
+          },
+          "pid": 39524,
+          "window_id": 1173,
+          "image_sha256": "d52a7422441280b9ec0ef797f26ee77af17200981a3aacbe76e58d79fc85c413",
+          "action_authorized": false
+        },
+        "Enter code": {
+          "source": "OCR",
+          "text": "Enter code",
+          "confidence": 1,
+          "bounds": {
+            "height": 21.32119369506836,
+            "width": 98.26107025146484,
+            "x": 67.86946389543692,
+            "y": 141.33940324568871
+          },
+          "center_image": {
+            "x": 116.99999902116934,
+            "y": 152.0000000932229
+          },
+          "center_screen": {
+            "x": 296.99999902116934,
+            "y": 1024.000000093223
+          },
+          "pid": 39524,
+          "window_id": 1173,
+          "image_sha256": "d52a7422441280b9ec0ef797f26ee77af17200981a3aacbe76e58d79fc85c413",
+          "action_authorized": false
+        },
+        "Ready": {
+          "source": "OCR",
+          "text": "Ready",
+          "confidence": 1,
+          "bounds": {
+            "height": 24.68564796447754,
+            "width": 58.280342102050795,
+            "x": 59.85982939657289,
+            "y": 295.65717622307994
+          },
+          "center_image": {
+            "x": 89.0000004475983,
+            "y": 308.0000002053187
+          },
+          "center_screen": {
+            "x": 269.00000044759827,
+            "y": 1180.0000002053187
+          },
+          "pid": 39524,
+          "window_id": 1173,
+          "image_sha256": "d52a7422441280b9ec0ef797f26ee77af17200981a3aacbe76e58d79fc85c413",
+          "action_authorized": false
+        }
+      }
+    },
+    {
+      "run": 2,
+      "pid": 39552,
+      "window_id": 1176,
+      "checks": {
+        "identity": true,
+        "geometry": true,
+        "png_dimensions": true,
+        "painted_marks": true,
+        "button_center": true,
+        "input_label_center": true,
+        "screen_coordinate_mapping": true,
+        "no_internal_controls": true,
+        "not_action_authorized": true
+      },
+      "passed": true,
+      "candidates": {
+        "Run check": {
+          "source": "OCR",
+          "text": "Run check",
+          "confidence": 1,
+          "bounds": {
+            "height": 35.950942993164034,
+            "width": 110.5872802734375,
+            "x": 73.70636096061742,
+            "y": 213.0245283438769
+          },
+          "center_image": {
+            "x": 129.00000109733617,
+            "y": 230.99999984045894
+          },
+          "center_screen": {
+            "x": 309.00000109733617,
+            "y": 1102.999999840459
+          },
+          "pid": 39552,
+          "window_id": 1176,
+          "image_sha256": "d13590a4b892c9bdd759f656db5741bb2de242afaef9db953b98462594f2f033",
+          "action_authorized": false
+        },
+        "Enter code": {
+          "source": "OCR",
+          "text": "Enter code",
+          "confidence": 1,
+          "bounds": {
+            "height": 21.32119369506836,
+            "width": 98.26107025146484,
+            "x": 67.86946389543692,
+            "y": 141.33940324568871
+          },
+          "center_image": {
+            "x": 116.99999902116934,
+            "y": 152.0000000932229
+          },
+          "center_screen": {
+            "x": 296.99999902116934,
+            "y": 1024.000000093223
+          },
+          "pid": 39552,
+          "window_id": 1176,
+          "image_sha256": "d13590a4b892c9bdd759f656db5741bb2de242afaef9db953b98462594f2f033",
+          "action_authorized": false
+        },
+        "Ready": {
+          "source": "OCR",
+          "text": "Ready",
+          "confidence": 1,
+          "bounds": {
+            "height": 24.68564796447754,
+            "width": 58.280342102050795,
+            "x": 59.85982939657289,
+            "y": 295.65717622307994
+          },
+          "center_image": {
+            "x": 89.0000004475983,
+            "y": 308.0000002053187
+          },
+          "center_screen": {
+            "x": 269.00000044759827,
+            "y": 1180.0000002053187
+          },
+          "pid": 39552,
+          "window_id": 1176,
+          "image_sha256": "d13590a4b892c9bdd759f656db5741bb2de242afaef9db953b98462594f2f033",
+          "action_authorized": false
+        }
+      }
+    },
+    {
+      "run": 3,
+      "pid": 39554,
+      "window_id": 1178,
+      "checks": {
+        "identity": true,
+        "geometry": true,
+        "png_dimensions": true,
+        "painted_marks": true,
+        "button_center": true,
+        "input_label_center": true,
+        "screen_coordinate_mapping": true,
+        "no_internal_controls": true,
+        "not_action_authorized": true
+      },
+      "passed": true,
+      "candidates": {
+        "Run check": {
+          "source": "OCR",
+          "text": "Run check",
+          "confidence": 1,
+          "bounds": {
+            "height": 35.950942993164034,
+            "width": 110.5872802734375,
+            "x": 73.70636096061742,
+            "y": 213.0245283438769
+          },
+          "center_image": {
+            "x": 129.00000109733617,
+            "y": 230.99999984045894
+          },
+          "center_screen": {
+            "x": 309.00000109733617,
+            "y": 1102.999999840459
+          },
+          "pid": 39554,
+          "window_id": 1178,
+          "image_sha256": "d13590a4b892c9bdd759f656db5741bb2de242afaef9db953b98462594f2f033",
+          "action_authorized": false
+        },
+        "Enter code": {
+          "source": "OCR",
+          "text": "Enter code",
+          "confidence": 1,
+          "bounds": {
+            "height": 21.32119369506836,
+            "width": 98.26107025146484,
+            "x": 67.86946389543692,
+            "y": 141.33940324568871
+          },
+          "center_image": {
+            "x": 116.99999902116934,
+            "y": 152.0000000932229
+          },
+          "center_screen": {
+            "x": 296.99999902116934,
+            "y": 1024.000000093223
+          },
+          "pid": 39554,
+          "window_id": 1178,
+          "image_sha256": "d13590a4b892c9bdd759f656db5741bb2de242afaef9db953b98462594f2f033",
+          "action_authorized": false
+        },
+        "Ready": {
+          "source": "OCR",
+          "text": "Ready",
+          "confidence": 1,
+          "bounds": {
+            "height": 24.68564796447754,
+            "width": 58.280342102050795,
+            "x": 59.85982939657289,
+            "y": 295.65717622307994
+          },
+          "center_image": {
+            "x": 89.0000004475983,
+            "y": 308.0000002053187
+          },
+          "center_screen": {
+            "x": 269.00000044759827,
+            "y": 1180.0000002053187
+          },
+          "pid": 39554,
+          "window_id": 1178,
+          "image_sha256": "d13590a4b892c9bdd759f656db5741bb2de242afaef9db953b98462594f2f033",
+          "action_authorized": false
+        }
+      }
+    }
+  ],
+  "rejections": [
+    {
+      "case": "unknown_text",
+      "expected": "visual_missing",
+      "actual": {
+        "error": "visual_missing",
+        "message": "OCR target was not found",
+        "details": {
+          "count": 0
+        }
+      },
+      "passed": true
+    },
+    {
+      "case": "tampered_image",
+      "expected": "image_mismatch",
+      "actual": {
+        "error": "image_mismatch",
+        "message": "Image bytes differ from the capture contract",
+        "details": {}
+      },
+      "passed": true
+    },
+    {
+      "case": "stale_image",
+      "expected": "capture_stale",
+      "actual": {
+        "error": "capture_stale",
+        "message": "Capture has expired or has a future timestamp",
+        "details": {}
+      },
+      "passed": true
+    },
+    {
+      "case": "wrong_window_id",
+      "expected": "window_missing",
+      "actual": {
+        "error": "window_missing",
+        "message": "No window matches the authorized scope",
+        "details": {}
+      },
+      "passed": true
+    },
+    {
+      "case": "closed_process",
+      "expected": "process_missing",
+      "actual": {
+        "error": "process_missing",
+        "message": "Authorized process identity is unavailable",
+        "details": {}
+      },
+      "passed": true
+    },
+    {
+      "case": "duplicate_text",
+      "expected": "visual_ambiguous",
+      "actual": {
+        "error": "visual_ambiguous",
+        "message": "OCR target is ambiguous",
+        "details": {
+          "count": 2
+        }
+      },
+      "passed": true
+    },
+    {
+      "case": "duplicate_window_titles",
+      "expected": "window_ambiguous",
+      "actual": {
+        "error": "window_ambiguous",
+        "message": "Specify an exact window title or ID",
+        "details": {
+          "count": 2
+        }
+      },
+      "passed": true
+    },
+    {
+      "case": "minimized",
+      "actual": {
+        "error": "window_not_visible",
+        "message": "Hidden or minimized windows cannot be targeted",
+        "details": {}
+      },
+      "passed": true
+    }
+  ],
+  "planned": {
+    "normal_runs": 3
+  },
+  "input_dispatched": false,
+  "source_sha256": {
+    "src/bokkio/macos_capture.py": "cc605e631bd3834819337007b46dde09e1ead679fcd1b6d3d9d7217434db765f",
+    "src/bokkio/native/macos_capture.swift": "7d498fa9f6a72f3b45e886c725776081c6db0a2bcf2dcd032b8bce15a0397c4b",
+    "src/bokkio/visual.py": "9ab340178854b2b77f0499382529100f5a9faf7098a8663aa89cff26e4214cf8",
+    "src/bokkio/windows_capture.py": "cfa9f52c6cc2a20edf6fdf3de7271c86f80d0f251354761b35569cc18a248c82",
+    "src/bokkio/cli.py": "dd5a586a514d8f03b1e9e84488b4d532b0a7cb9dfc25eb7b5aad75f47cefe9de",
+    "scripts/verify_macos_visual.py": "b2e2889771c0af6f1f67e054a6f8edf1484651c6d2ee1ea06e32e287cd1524f5",
+    "fixtures/cocoa-visual/main.swift": "8b765f06066cf375ee46a96d171a49a2bd3f13f94c451094914a02aaf9e1c8bf"
+  },
+  "fixture_sha256": "77a1cd78094b79bfcb1e4aeb3ce63b2ed79a066b81bf73d2d8247c57e635e512",
+  "duplicate_region": {
+    "candidate": {
+      "source": "OCR",
+      "text": "Run check",
+      "confidence": 1,
+      "bounds": {
+        "height": 26,
+        "width": 103.99999999999997,
+        "x": 74.00000094999999,
+        "y": 220.000000325
+      },
+      "center_image": {
+        "x": 126.00000094999997,
+        "y": 233.000000325
+      },
+      "center_screen": {
+        "x": 306.00000094999996,
+        "y": 1105.000000325
+      },
+      "pid": 39557,
+      "window_id": 1180,
+      "image_sha256": "c2405c3cc7f20ad514bde229a9f3df8f90cfc2d3d95edd22b56948841ed54b2c",
+      "action_authorized": false
+    },
+    "passed": true
+  },
+  "explicit_window": {
+    "passed": true
+  },
+  "passed": true
+}

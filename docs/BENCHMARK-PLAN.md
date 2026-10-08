@@ -71,3 +71,7 @@ The current ARM64 IoT LTSC VM differs from the upstream x64 environment and hard
 仅在可丢弃 Windows 测试环境运行。脚本创建独立文件夹、启动测试窗口并重启 Settings；测试后恢复通知注册表值。每轮目录必须是新目录。默认五题，`--select` 的定向复测需独立报告分母。初始化和评分的 Shell COM/注册表读取属于 harness；Planner/Jev 只能派发原生 UI 动作。
 
 The adapter implements the upstream four-value prediction contract and a native environment bridge. Predictions do not dispatch; validated steps release one native action and retain phase/recovery state. The pinned evaluator runs independently. Full upstream HTTP/VM server execution remains pending; current results use the Fusion development harness. Setup and scoring can use reviewed Shell COM/registry reads, while the agent executes through native controls.
+
+## WindowsWorld Office 原题接入（2026-10-08）
+
+固定版本 `fbccd464f94fec9e284e139f97bf96d0b192f580`，源清单181题，首批三道微软Office L1原题（Word/Excel/PowerPoint）已导入，原始prompt与judge/model保留。Mac初始化、native runner和OOXML补充验收属于adapted run；三题当前在交互环境检查处未开始，不能计为题库通过。原始VLM未运行，自动视觉降级和官方VM/server环境仍待接入。见 [准备报告](OFFICE-PILOT-READINESS.md)。

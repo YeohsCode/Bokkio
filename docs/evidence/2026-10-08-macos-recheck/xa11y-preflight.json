@@ -1,0 +1,9 @@
+{
+  "pid": 29176,
+  "root_role": "application",
+  "child_roles": [
+    "application"
+  ],
+  "window_count": 0,
+  "snapshot_error": "Invalid macOS Accessibility tree: application node nested below its root"
+}

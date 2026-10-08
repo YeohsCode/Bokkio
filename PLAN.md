@@ -3,6 +3,12 @@
 > 需求来源：`docs/RESEARCH.md`，信息核验时间为 2026-09-23。  
 > 本计划只拆解研究方案中已明确的目标架构、能力与验证问题，不引入新业务需求。
 
+## 当前总体位置（2026-10-08）
+
+P6 的 Windows 原计划验收完成，P7 已进入部分实现与验收。Mac 包/CLI 截图与 OCR 正常流程 3/3、拒绝 8/8；真实输入、自动 Agent 降级和 Windows 实机视觉仍待完成。三道微软 Office 原题已完成软件准备，实机 started 0 / blocked 3，评分为空。两端最新隔离回归各 373/373。
+
+阶段位置与证据见 [总体进度](docs/STATUS.md)，下一步及所有待办见 [Pending](docs/PENDING.md)。下文保留原计划和按日期记录的历史验收。
+
 ## 1. 计划总览
 
 目标架构按研究方案第 1.1 节与第 13.1 节组织：
@@ -486,7 +492,7 @@ Native Apps
 
 ### 当前阶段与平台优先级
 
-**P6 已完成 Windows 原生验收，P7 启动条件已满足。** 最终代码完成六步录制重放 3/3、真实 trace 保存重开 3/3，以及三组参数化跨应用重放、应用/执行进程重启恢复、结构变化和真实模型修复。见 [P6 验收](docs/P6-CLOSURE.md)。P7 实现尚未开始，首项为 Windows 原生窗口截图与自绘 fixture，见 [P7 计划](docs/P7-PLAN.md)。
+**P6 已完成 Windows 原生验收，P7 启动条件已满足。** 最终代码完成六步录制重放 3/3、真实 trace 保存重开 3/3，以及三组参数化跨应用重放、应用/执行进程重启恢复、结构变化和真实模型修复。见 [P6 验收](docs/P6-CLOSURE.md)。P7 已实现 Windows 截图接口、自绘 fixture 和 Mac 截图/OCR Runtime；Windows 像素验收、真实输入与自动视觉降级待完成，见 [P7 计划](docs/P7-PLAN.md)。
 
 Windows 11 虚机继续可用；2026-10-06 已恢复 Mac 原生对照，见 [Mac 续测](docs/MACOS-FOLLOWUP.md)。原 P6 标准接受 macOS 或 Windows，本轮采用 Windows；macOS AX provider 对照、Office 激活和完整上游 benchmark 集成继续保留为平台/扩展工作。P5 的 Windows 原生规划、跨应用、恢复和交付已有实测；跨平台及已激活 Office 流程仍需分别验收。
 
@@ -573,4 +579,29 @@ P5 Windows 最终确认：v26、v27 各 4/5，五项 Agent completed；原始标
 
 ## 当前 Pending
 
-完整剩余项及优先级见 [Pending 清单](docs/PENDING.md)。2026-10-06 主机隔离回归为 293/293；Windows 292/292 为前一轮结果，Mac 角色修正后尚未重跑 Windows 原生验收。
+完整剩余项及优先级见 [Pending 清单](docs/PENDING.md)。最新主机与 Windows 隔离回归各 373/373；这不代替 Windows 新截图和 Office GUI 的实机验收。
+
+## P7.1 实现进展（2026-10-08）
+
+- [x] Windows 原生客户区捕获 API/CLI，窗口身份、时间、图像哈希、DPI 与物理坐标映射；隔离 PrintWindow 超时。
+- [x] 自绘 fixture 构建与只读像素/移动/故障验收脚本；主机和 Windows 各 314 项隔离测试通过。
+- [ ] 三轮交互窗口像素/坐标和六类窗口故障实测：guest 前置检查返回 `desktop_unavailable`，Mac CUA 报锁定，交互桌面尚不可用。
+- [ ] P7.2 OCR/视觉候选、P7.3 有界输入与后续可靠性。
+
+P7 已进入实现，P7.1 尚未满足实机退出条件，详见 [报告](docs/P7-CAPTURE.md)。
+
+### 同日 Mac 路径复查
+
+ScreenCaptureKit 自有窗口截图诊断 3/3，可继续 Mac 捕获/视觉研发；当前 AX 返回 application 代理，元素操作前置检查失败。诊断尚未接入 Runtime，不计作 P7.1 全部通过。见 [报告](docs/MACOS-CAPTURE-PROBE.md)。
+
+### Mac P7 Runtime 进展（同日）
+
+- [x] 生产包/CLI Mac 窗口采集、内核进程身份、图像/坐标合约及本机 Vision OCR；正常流程 3/3，拒绝用例 8/8，CLI 实机通过。
+- [x] 有界输入代码、单次回执、操作后 OCR 验证与未知完成不重试；实机输入前置拒绝为零派发。
+- [ ] 正向点击/输入、自动 Planner/Jev/Workflow 降级、更多可靠性故障及 Windows OCR。
+
+两端隔离回归 355/355；详情见 [报告](docs/P7-MACOS-VISUAL.md)。
+
+## Office 原题 pilot 准备（2026-10-08）
+
+固定 WindowsWorld 提交与三道微软 Office L1 原题；初始化、原生 runner、独立文件评分与原始 VLM 入口已落地。两端回归各 373/373。实机试跑planned 3、started 0、blocked 3，未取得任务成绩；交互会话恢复后继续原生编辑和视觉降级覆盖。详见 [报告](docs/OFFICE-PILOT-READINESS.md)。

@@ -15,6 +15,9 @@ bokkio = "bokkio.cli:main"
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+bokkio = ["native/*.swift"]
+
 [dependency-groups]
 test = ["pytest>=8"]
 
