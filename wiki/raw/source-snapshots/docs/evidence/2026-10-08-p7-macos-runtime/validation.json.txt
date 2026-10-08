@@ -1,0 +1,17 @@
+---
+source_path: docs/evidence/2026-10-08-p7-macos-runtime/validation.json
+source_commit: abe38acdfd308379bcdf4dbb597e96f672926b0d
+ingested: 2026-10-08
+sha256: 2cf6276aa3bfb4c4665ba5241e3c33835515c9c3ac6b77b8e5f5fd1f216163d8
+---
+{
+  "final_source_hashes_match": true,
+  "guest_source_hashes_match": true,
+  "packaged_native_source_matches": true,
+  "wheel_sha256": "053f62d4ef3096a8da4b80aa3fc88079a3b9d06ccc86c8b962cc051fc3b9d2e5",
+  "host_tests": 355,
+  "windows_tests": 355,
+  "normal_runs_passed": 3,
+  "rejections_passed": 8,
+  "input_dispatches": 0
+}

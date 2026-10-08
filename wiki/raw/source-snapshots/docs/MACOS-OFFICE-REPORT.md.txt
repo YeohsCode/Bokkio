@@ -1,0 +1,69 @@
+---
+source_path: docs/MACOS-OFFICE-REPORT.md
+source_commit: abe38acdfd308379bcdf4dbb597e96f672926b0d
+ingested: 2026-10-08
+sha256: 1c51724c63a010afb3621dfe11e5330ec0017dc0c904bd7e763a680ffc8f28af
+---
+# Mac Microsoft Office 交互测试 / Mac Office interactive test
+
+执行开始：2026-10-06；报告完成：2026-10-07（Asia/Shanghai）。**一轮四应用流程完成，六份保存文件独立校验通过；Bokkio Agent 的 Office 端到端验收仍待完成。**
+
+## 范围与方法
+
+实际使用 Microsoft Excel、Word、PowerPoint 和 Outlook 的原生窗口，完成输入、计算、编辑、Save As、草稿附件、修订和关闭文档后重开。Word/Excel/PowerPoint 版本 16.95.4，Outlook 16.95.3；本轮编辑、保存未遇到激活拦截，未单独核验许可证权益。
+
+UI 动作由当前 Codex 会话的 CUA 工具执行。Bokkio/xa11y 仅用于原生读取与兼容性诊断；独立 Python evaluator 只读检查 Office 保存的 OOXML 文件。没有使用脚本生成交付文档，也没有运行 Bokkio Planner/Jev 办公流程或固化 Workflow。
+
+专用文件位于 `/tmp/bokkio-mac-office-2026-10-06/artifacts/{v1,v2}/`，均为合成数据。Outlook 保存一份无收件人的测试草稿，最后 Send 按钮禁用，未执行发送。未修改用户已有业务文档或邮件。
+
+## 中间与最终结果
+
+| 检查 | 实际结果 |
+|---|---|
+| Excel 输入与汇总 | 五条固定订单；COUNTIFS / SUMIFS 计算 East、Complete 的订单数 2、金额 320 |
+| Word 基线 | 报告含同一统计范围、订单数、金额和来源文件，保存 v1 |
+| PowerPoint 基线 | 一张标题与摘要页，指标一致，保存 v1 |
+| Outlook 基线 | 保存合成正文与三份 v1 附件的草稿 |
+| 需求修订 | 订单 1004 金额 200 → 250；Excel 重算为 370，Word/PPT/草稿正文及附件同步更新为 v2 |
+| 持久化 | 三份 v2 文档关闭后通过 Open 重开，内容正确；草稿窗口关闭后从 Drafts 重开，正文和三份附件保留 |
+| 附件抽查 | 从草稿打开 Excel 附件，只读窗口显示订单 1004 为 250、数量 2、总额 370 |
+| 独立验收 | 六份 OOXML 文件的输入、公式、缓存值、报告与幻灯片文本符合固定输入；三份 v1 字节哈希不变 |
+
+Excel 数据实际位于 A2:D7，汇总位于 F2:G4。第一次名称框写值未提交，随后按实际位置建立公式。两个粘贴调用超时，但新观察确认输入已经完成，没有重复粘贴。附件首次打开被 Excel 的同名工作簿限制明确拒绝；关闭原工作簿后再次打开成功。
+
+重开的是文档/草稿窗口，**没有重启应用进程**。附件的独立字节哈希未取得：读取 Outlook 缓存文件的辅助探针未返回，已终止；Excel 附件通过 UI 核验，Word/PPT 附件通过选取准确 v2 路径、附件列表及草稿重开核验。完整动作回执没有导出为 Bokkio trace，归档的 UI 检查记录是本次会话的结果摘要。
+
+## Bokkio 原生兼容性缺口
+
+1. **Word/PPT 编辑区状态**：原生树可读出测试文本并声明编辑动作，但 `enabled=false`；实际键盘编辑有效，Bokkio Runtime 的 disabled 检查会拒绝这些节点。需要区分 AX 元数据与实际编辑能力，再用有界键盘/视觉路径验证。
+2. **Excel 表格观察**：工作表仅暴露 Content Area，未获得完整单元格树；公式栏值出现在名称中，`value=null`。需要单元格寻址、公式栏读回与独立业务验证。
+3. **Outlook 窗口范围**：限定草稿名称的 Bokkio snapshot 仍在完整应用树遍历中触发 64 层保护，错误提示 provider 可能存在循环；不能据此确定循环根因。需要先限定窗口，再处理深度/循环诊断。
+4. **派发结果未知**：初次 Word Blank Document 的 AXPress 返回 `-25205`，界面却已经打开文档。不能自动重试或将该调用判为零派发，需要新观察确认状态。
+
+CUA 当前能操作 Office，不代表上述能力已集成到 Bokkio。下一步将这些实际缺口纳入 [P7](P7-PLAN.md)，并补充 Bokkio 执行、独立初始状态重复运行及阶段/进程恢复。
+
+本轮只覆盖办公参考任务的计算、报告摘要和修订子集。未覆盖图表页、复杂格式、从邮件读取修订要求、Finder 整理、三次独立运行、进程重启、真实 Planner/Jev、Workflow 重放或官方 benchmark 评分。Windows Office 激活与实测继续暂缓。
+
+## 证据与复现
+
+- [证据目录](evidence/2026-10-06-macos-office/README.md)：文件校验、基线哈希、原生编辑区摘要、结果记录、验证器正反例及归档校验和。
+- 固定输入：`fixtures/mac-office/orders.tsv`；只读验证器：`scripts/verify_macos_office_artifacts.py`。
+- 验证器对复制的文件分别篡改 v2 缓存总额与 v1 字节，两种情况均拒绝；原始文件再次校验通过。
+- 原始 Office 文件保留在本机测试目录；归档只含合成内容、哈希和范围受限的诊断。账户、收件箱、最近文件列表、作者元数据和 Office 锁文件未归档。
+
+```sh
+uv run python scripts/verify_macos_office_artifacts.py \
+  --artifacts /tmp/bokkio-mac-office-2026-10-06/artifacts \
+  --baseline-hashes docs/evidence/2026-10-06-macos-office/baseline-hashes.json \
+  --output /tmp/bokkio-mac-office-verification.json
+```
+
+## English
+
+One native four-application Office pilot completed on macOS. CUA operated Excel, Word, PowerPoint and Outlook; Bokkio/xa11y performed read-only diagnostics, and a separate evaluator checked saved OOXML. This is not Bokkio Agent or official benchmark acceptance.
+
+Five synthetic orders produced a count of 2 and total of 320. Changing order 1004 from 200 to 250 recalculated the total to 370. Word, the single-slide PowerPoint summary, and the saved Outlook draft were updated with three v2 attachments. All three v2 documents and the draft were closed and reopened successfully within the same application processes. The Excel attachment also opened read-only and showed the updated values. Six files passed independent content/formula/cache checks; all three v1 byte hashes were preserved. Two disposable-copy mutations were correctly rejected by the evaluator.
+
+The draft has no recipient and was not sent. Attachment byte hashes were not independently obtained; the Excel attachment was checked in the UI, while Word/PPT attachment validation used exact source-path selection and the reopened attachment list. Complete Bokkio action receipts were not recorded. Office editing and saving worked without activation interception; license entitlement was not separately audited.
+
+Bokkio still needs Office integration: Word/PPT expose editable content with disabled AX metadata, Excel lacks a complete cell tree, Outlook traversal reaches the 64-level guard before scoped reading completes, and Word AXPress can report an error after a successful UI transition. These are inputs to P7, not completed fallback features. Charts, complex formatting, incoming-mail requirements, Finder delivery, three independent runs, process recovery, Planner/Jev execution and Workflow replay remain pending. Windows Office activation remains paused. Public evidence excludes account details, inbox content, recent files, author metadata and lock files.

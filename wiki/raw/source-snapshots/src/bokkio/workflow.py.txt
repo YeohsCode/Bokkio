@@ -1,0 +1,536 @@
+---
+source_path: src/bokkio/workflow.py
+source_commit: abe38acdfd308379bcdf4dbb597e96f672926b0d
+ingested: 2026-10-08
+sha256: b03fd75023d10b4a1d316a628803dbecb04be51c16a98384b0076a9fdd3c892a
+---
+"""Versioned semantic recordings and bounded deterministic native replay.
+
+No model, shell or coordinate actions are used by the replay engine. Application
+aliases must be explicitly bound to the authorized native apps for each run.
+"""
+from __future__ import annotations
+
+import copy
+import hashlib
+import json
+import math
+from pathlib import Path
+import re
+import time
+
+from .agent import verify_conditions
+from .model import BokkioError, BokkioLookupError, tree_digest
+from .selector import flatten
+from .xa11y_backend import ACTION_METHODS
+from .workflow_inputs import (SCHEMA_V2, declarations_valid, materialize,
+                              validate_contracts, check_files, file_version, parameterize)
+
+SCHEMA = 'bokkio.workflow.v1'
+SENSITIVE = re.compile(r'\b(send|delete|pay|purchase|transfer|publish)\b|发送|删除|支付|转账|发布', re.I)
+
+
+def digest(value):
+    return hashlib.sha256(json.dumps(value,sort_keys=True,ensure_ascii=False,
+                                    separators=(',',':')).encode()).hexdigest()
+
+
+def save_json(path, value):
+    path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
+    # POSIX files use mode 0600; Windows inherits the destination directory ACL.
+    import os, tempfile
+    from .agent import replace_checkpoint
+    fd, temporary = tempfile.mkstemp(prefix='.' + path.name + '.', dir=path.parent)
+    try:
+        with os.fdopen(fd, 'w', encoding='utf-8') as stream:
+            json.dump(value, stream, ensure_ascii=False, indent=2); stream.write('\n')
+            stream.flush(); os.fsync(stream.fileno())
+        replace_checkpoint(temporary, path)
+    finally:
+        if os.path.exists(temporary):os.unlink(temporary)
+
+
+def selector_for(snapshot, node):
+    by_ref={n['ref']:n for n in flatten(snapshot['windows'])}
+    ancestors=[];current=node;seen=set()
+    while current.get('parent') in by_ref:
+        current=by_ref[current['parent']]
+        if current['ref'] in seen:raise BokkioError('Cyclic native parent context')
+        seen.add(current['ref'])
+        if current['role']=='application':break
+        ancestors.append({'role':current['role'],'name':current['name']})
+    return {'ref':node['ref'],'role':node['role'],'name':node['name'],
+            'ancestors':ancestors}
+
+
+def resolve(snapshot, selector, action):
+    """An exact ref must still match its semantic context; ambiguity never picks first."""
+    nodes=flatten(snapshot['windows']);by_ref={n['ref']:n for n in nodes}
+    def matches(node):
+        if node['role']!=selector['role'] or node['name']!=selector['name']:return False
+        actual=selector_for(snapshot,node)['ancestors']
+        if actual!=selector['ancestors']:
+            if selector.get('fallback')!='named_context':return False
+            named=lambda rows:[a for a in rows if a['name'] is not None]
+            if named(actual)!=named(selector['ancestors']):return False
+        capability = 'click' if action == 'invoke' else action
+        return capability in node['actions'] and node['state'].get('enabled') is not False
+    candidates=[n for n in nodes if matches(n)]
+    # A remembered ref cannot disambiguate newly indistinguishable duplicates.
+    if len(candidates)!=1:
+        code='ambiguous_element' if candidates else 'element_not_found'
+        raise BokkioLookupError(code,selector,candidates)
+    node=candidates[0]
+    lane=('named_context' if selector_for(snapshot,node)['ancestors']!=selector['ancestors'] else
+          'exact_ref' if node['ref']==selector['ref'] else 'role_name_context')
+    return node,lane
+
+
+def auto_checks(result):
+    node=result.get('after');action=result['action']
+    if not node:return []
+    fields={'set_value':'value','type':'value','focus':'focused','select':'selected',
+            'expand':'expanded','collapse':'expanded'}
+    field=fields.get(action)
+    if action=='select' and node['role']=='radio_button':field='checked'
+    if field is None:return []
+    wanted=(result.get('postcondition',{}).get('expected',node.get('value'))
+            if field=='value' else action!='collapse')
+    if wanted in {'on','off'} and field=='checked':wanted=wanted=='on'
+    if wanted is None:return []
+    return [{'role':node['role'],'name':node['name'],'parent_name':None,
+             'field':field,'equals':wanted}]
+
+
+def make_workflow(name, steps, source, *, revision=1, parent=None, metadata=None):
+    workflow={'schema':SCHEMA,'name':name,'revision':revision,'parent_sha256':parent,
+              'source':source,'metadata':metadata or {},'steps':copy.deepcopy(steps)}
+    workflow['sha256']=digest(workflow)
+    validate_workflow(workflow)
+    return workflow
+
+
+def validate_checks(checks):
+    if not isinstance(checks,list):raise BokkioError('Workflow checks must be a list')
+    for c in checks:
+        if not isinstance(c,dict) or set(c)-{'role','name','parent_name','field','equals'}:
+            raise BokkioError('Invalid workflow condition')
+        if not isinstance(c.get('role'),str) or c.get('field') not in {
+                'present','name','value','checked','selected','focused','expanded','enabled','active'}:
+            raise BokkioError('Invalid workflow condition field')
+        if 'equals' not in c or 'name' not in c:raise BokkioError('Incomplete workflow condition')
+        if c['field'] in {'name','value'} and not isinstance(c['equals'],str):raise BokkioError('Workflow text conditions require strings')
+        if c['field'] not in {'name','value'} and type(c['equals']) is not bool:
+            raise BokkioError('Workflow state conditions require boolean values')
+        if c.get('name') is not None and not isinstance(c['name'],str):raise BokkioError('Invalid condition name')
+        if c.get('parent_name') is not None and not isinstance(c['parent_name'],str):raise BokkioError('Invalid condition parent')
+
+
+def _validate_literal(workflow):
+    if not isinstance(workflow,dict) or workflow.get('schema') not in {SCHEMA, SCHEMA_V2}:
+        raise BokkioError('Unsupported workflow schema')
+    data={k:v for k,v in workflow.items() if k!='sha256'}
+    if workflow.get('sha256')!=digest(data):raise BokkioError('Workflow content hash mismatch')
+    if type(workflow.get('revision')) is not int or workflow['revision']<1:
+        raise BokkioError('Invalid workflow revision')
+    if not isinstance(workflow.get('name'),str) or not workflow['name']:
+        raise BokkioError('Workflow name is required')
+    steps=workflow.get('steps')
+    if not isinstance(steps,list) or not 0<len(steps)<=200:
+        raise BokkioError('Workflow requires 1..200 semantic steps')
+    ids=set()
+    for s in steps:
+        if not isinstance(s,dict) or set(s)!={'id','app','intent','action','target','arguments','wait','verify','depends_on','risk'}:
+            raise BokkioError('Invalid workflow step fields')
+        if not isinstance(s['id'],str) or s['id'] in ids or not s['id']:raise BokkioError('Duplicate/invalid workflow step id')
+        if not isinstance(s['depends_on'],list) or any(x not in ids for x in s['depends_on']):
+            raise BokkioError('Workflow dependency must precede its step')
+        ids.add(s['id'])
+        if not isinstance(s['app'],str) or not s['app'] or not isinstance(s['intent'],str):raise BokkioError('Invalid app/intent')
+        if s['risk'] not in {'read','local_write'}:raise BokkioError('Sensitive workflow steps require a separate approval policy')
+        if s['action'] not in ACTION_METHODS:raise BokkioError('Unsupported semantic action')
+        t=s['target']
+        if not isinstance(t,dict) or set(t) not in ({'ref','role','name','ancestors'}, {'ref','role','name','ancestors','fallback'}):
+            raise BokkioError('Invalid workflow selector')
+        if not isinstance(t['ref'],str) or not isinstance(t['role'],str) or (t['name'] is not None and not isinstance(t['name'],str)):
+            raise BokkioError('Invalid workflow selector identity')
+        if not isinstance(t['ancestors'],list) or any(not isinstance(a,dict) or set(a)!={'role','name'} or not isinstance(a['role'],str) or (a['name'] is not None and not isinstance(a['name'],str)) for a in t['ancestors']):
+            raise BokkioError('Invalid workflow parent/window context')
+        if t.get('fallback') not in {None,'named_context'}:raise BokkioError('Invalid selector fallback')
+        if t.get('fallback')=='named_context' and not any(a['role'] in {'window','dialog'} and a['name'] for a in t['ancestors']):raise BokkioError('Named-context fallback requires a named window anchor')
+        if SENSITIVE.search(t['name'] or ''):raise BokkioError('Sensitive native target cannot be replayed')
+        args=s['arguments'];allowed={'value','expected_value'} if s['action'] in {'type','set_value'} else ({'direction','amount'} if s['action']=='scroll' else set())
+        if not isinstance(args,dict) or set(args)-allowed:raise BokkioError('Invalid workflow action arguments')
+        if s['action'] in {'type','set_value'} and not isinstance(args.get('value'),str):raise BokkioError('Text action requires literal value')
+        if 'expected_value' in args and (s['action']!='type' or not isinstance(args['expected_value'],str)):raise BokkioError('Invalid type readback')
+        if s['action']=='scroll':
+            amount=args.get('amount',0.25)
+            if args.get('direction') not in {'up','down','left','right'} or type(amount) not in {int,float} or not math.isfinite(amount) or not 0<amount<=1:raise BokkioError('Invalid scroll arguments')
+        validate_checks(s['wait']);validate_checks(s['verify'])
+        if not s['verify']:raise BokkioError('Each workflow step requires an observable verification condition')
+    return workflow
+
+
+def validate_workflow(workflow):
+    if not isinstance(workflow, dict):raise BokkioError('Unsupported workflow schema')
+    if workflow.get('schema') != SCHEMA_V2:return _validate_literal(workflow)
+    if workflow.get('sha256') != digest({k:v for k,v in workflow.items() if k!='sha256'}):
+        raise BokkioError('Workflow content hash mismatch')
+    if set(workflow) != {'schema','name','revision','parent_sha256','source','metadata','steps','sha256','parameters','inputs','deliveries'}:
+        raise BokkioError('Invalid workflow v2 fields')
+    declarations_valid(workflow['parameters'])
+    # Validate template shape with inert literals; actual values are checked again before any native read.
+    samples={name:('C:\\'+chr(65+i) if spec['type']=='path' else ('0'*64 if spec['type']=='sha256' else 'x'))
+             for i,(name,spec) in enumerate(workflow['parameters'].items())}
+    bound=materialize(workflow,samples)
+    _validate_literal(bound);validate_contracts(bound)
+    return workflow
+
+
+def bind_parameters(workflow, parameters=None):
+    validate_workflow(workflow)
+    if workflow['schema']==SCHEMA:
+        if parameters:raise BokkioError('Literal workflow does not declare parameters')
+        return copy.deepcopy(workflow)
+    bound=materialize(workflow,parameters if parameters is not None else {})
+    _validate_literal(bound);validate_contracts(bound)
+    return bound
+
+
+class WorkflowScope:
+    """Explicit per-alias native window scope, rebound with the app each run."""
+    def __init__(self, backend, bindings, windows=None):
+        windows=windows or {}
+        if not isinstance(windows,dict) or set(windows)-set(bindings) or any(not isinstance(v,str) or not v for v in windows.values()):
+            raise BokkioError('Window bindings must use authorized workflow aliases')
+        self.backend=backend
+        self.windows={bindings[alias]:window for alias,window in windows.items()}
+        if len(self.windows)!=len(windows):raise BokkioError('Conflicting window scopes share one app binding')
+    def snapshot(self,app):return self.backend.snapshot(app,self.windows.get(app))
+    def perform(self,app,action,**arguments):return self.backend.perform(app,action,window=self.windows.get(app),**arguments)
+    @property
+    def supports_action_observation(self):return getattr(self.backend,'supports_action_observation',False)
+
+
+class Recorder:
+    """Explicit semantic-action recording; does not install a global key/mouse hook."""
+    def __init__(self, backend, bindings):
+        self.backend=backend;self.bindings=dict(bindings);self.steps=[];self.events=[]
+
+    def perform(self, app, action, *, intent, verify=None, wait=None, risk='local_write', **arguments):
+        if app not in self.bindings:raise BokkioError('Recording app is not authorized')
+        if verify is not None and (not isinstance(verify,list) or not verify):
+            raise BokkioError('Recording verification must contain explicit conditions')
+        allowed={'ref','role','name','parent','value','direction','amount','expected_value'}
+        if set(arguments)-allowed:raise BokkioError('Unsupported recording arguments')
+        if action not in {'type','set_value','select','focus','expand','collapse'} and not verify:
+            raise BokkioError('Recording requires explicit business verification for this action')
+        native=self.bindings[app];before=self.backend.snapshot(native)
+        from .selector import choose
+        node=choose(before['windows'],**{k:arguments.get(k) for k in ['ref','role','name','parent']})
+        if action=='type':
+            if node['value']!='':raise BokkioError('Repeatable type recording requires an empty field; use explicit set_value for replacement')
+            seed={'role':node['role'],'name':node['name'],'field':'value','equals':node['value']}
+            wait=[*(wait or []),seed]
+        params={k:v for k,v in arguments.items() if k not in {'ref','role','name','parent','window','expected_snapshot'} and v is not None}
+        if action=='type':params.setdefault('expected_value',params.get('value'))
+        step={'id':f's{len(self.steps)+1}','app':app,'intent':intent,'action':action,
+              'target':selector_for(before,node),'arguments':params,'wait':wait or [],
+              'verify':verify or [{'role':node['role'],'name':node['name'],'field':'present','equals':True}],
+              'depends_on':[self.steps[-1]['id']] if self.steps else [],'risk':risk}
+        # Reject unsupported or sensitive input before dispatch.
+        make_workflow('recording-preflight',[{**step,'id':'s1','depends_on':[]}],'recording')
+        if wait:
+            passed,_=verify_conditions(before,wait)
+            if not passed:raise BokkioError('Recording wait conditions are unsatisfied')
+        result=self.backend.perform(native,action,ref=node['ref'],expected_snapshot=tree_digest(before['windows']),**params)
+        after=self.backend.snapshot(native)
+        checks=verify if verify is not None else auto_checks(result)
+        if not checks:raise BokkioError('Recording requires explicit business verification for this action')
+        passed,details=verify_conditions(after,checks)
+        self.events.append({'before':before,'result':result,'after':after,'checks':details,'passed':passed})
+        if not passed:raise BokkioError('Recording action verification failed')
+        step['verify']=copy.deepcopy(checks);self.steps.append(step)
+        return result
+
+    def capture_receipt(self, app, *, intent, before, result, after, verify=None, risk='local_write'):
+        """Adopt a native SDK/client action already executed; never dispatch it again."""
+        if app not in self.bindings:raise BokkioError('Recording app is not authorized')
+        nodes=[n for n in flatten(before['windows']) if n['ref']==result.get('target_ref')]
+        if len(nodes)!=1 or nodes[0]!=result.get('before'):
+            raise BokkioError('Captured receipt does not match its native before observation')
+        if tree_digest(self.backend.snapshot(self.bindings[app])['windows'])!=tree_digest(after['windows']):
+            raise BokkioError('Captured outcome is no longer the current native observation')
+        action=result.get('action');checks=verify if verify is not None else auto_checks(result)
+        if not checks:raise BokkioError('Captured action requires explicit business verification')
+        passed,details=verify_conditions(after,checks)
+        self.events.append({'before':before,'result':result,'after':after,'checks':details,'passed':passed,'source':'native_client_receipt'})
+        if not passed:raise BokkioError('Captured action verification failed')
+        args={};wait=[]
+        if action in {'type','set_value'}:
+            expected=result.get('postcondition',{}).get('expected')
+            if not isinstance(expected,str):raise BokkioError('Captured text action lacks a verified requested value')
+            args={'value':expected}
+            if action=='type':
+                if nodes[0]['value']!='':raise BokkioError('Captured type requires an empty field')
+                args['expected_value']=expected
+                wait=[{'role':nodes[0]['role'],'name':nodes[0]['name'],'field':'value','equals':''}]
+        if action=='scroll':raise BokkioError('Capture scrolling through explicit semantic recording')
+        step={'id':f's{len(self.steps)+1}','app':app,'intent':intent,'action':action,
+              'target':selector_for(before,nodes[0]),'arguments':args,'wait':wait,'verify':copy.deepcopy(checks),
+              'depends_on':[self.steps[-1]['id']] if self.steps else [],'risk':risk}
+        proposed=[*self.steps,step]
+        make_workflow('capture-validation',proposed,'native_client_receipts')
+        self.steps.append(step)
+        return result
+
+    def export(self, name):
+        return make_workflow(name,self.steps,'semantic_recording')
+
+
+def from_agent_trace(trace, name, app_aliases):
+    """Compile only a completed, receipt-backed current-requirement trace."""
+    if trace.get('status')!='completed':raise BokkioError('Only completed Agent traces can become workflows')
+    steps=[];observation=None;decision=None;outcome=None;pending=None
+    revision=trace.get('goal_revision',1)
+    def flush():
+        nonlocal pending
+        if pending is None:return
+        if outcome is None or not isinstance(outcome.get('snapshot'),dict):raise BokkioError('Agent action lacks a fresh outcome')
+        checks=auto_checks(pending['result'])
+        if outcome.get('passed'):
+            checks=[c['condition'] for c in outcome.get('checks',[]) if c.get('passed')]
+        if not checks:raise BokkioError('Action lacks reusable verification; record an explicit condition')
+        passed,_=verify_conditions(outcome['snapshot'],checks)
+        if not passed:raise BokkioError('Trace verification is inconsistent with its fresh native outcome')
+        s=pending['step'];s['verify']=copy.deepcopy(checks);steps.append(s);pending=None
+    for e in trace.get('events',[]):
+        if e.get('goal_revision',1)!=revision:continue
+        kind=e.get('kind')
+        if kind=='observation':
+            flush();observation=e['snapshot'];decision=None;outcome=None
+        elif kind=='decision':decision=e['decision']
+        elif kind=='action':
+            if pending is not None:raise BokkioError('Unpaired action events')
+            task=e['subtask'];native=task['app']
+            if native not in app_aliases:raise BokkioError('Trace app is not bound to an authorized alias')
+            if observation is None or decision is None:raise BokkioError('Action lacks observation/decision')
+            result=e['result'];node=result['before']
+            observed=[n for n in flatten(observation['windows']) if n['ref']==node['ref']]
+            if len(observed)!=1 or result['action']!=decision['action'] or node['ref']!=decision['ref'] or decision['snapshot_id']!=tree_digest(observation['windows']):
+                raise BokkioError('Trace action identity does not match its decision')
+            if result['action']=='type' and node['value']!='':
+                raise BokkioError('Caret-dependent type trace cannot be replayed deterministically')
+            args={k:decision[k] for k in ['value','direction','amount'] if decision.get(k) is not None}
+            if result['action']=='type' and result.get('after'):args['expected_value']=result['after']['value']
+            s={'id':f's{len(steps)+1}','app':app_aliases[native],'intent':task['goal'],
+               'action':result['action'],'target':selector_for(observation,observed[0]),'arguments':args,
+               'wait':([{'role':node['role'],'name':node['name'],'field':'value','equals':node['value']}] if result['action']=='type' else []),'verify':[],'depends_on':[steps[-1]['id']] if steps else [],'risk':task['risk']}
+            pending={'step':s,'result':result};outcome=None
+        elif kind=='outcome':outcome=e
+    flush()
+    metadata={'goal_revision':revision,'requirements':trace.get('requirements',[]),
+              'deliveries':[e for e in trace.get('events',[]) if e['kind']=='delivery_verification'],
+              'trace_sha256':digest(trace)}
+    return make_workflow(name,steps,'completed_agent_trace',metadata=metadata)
+
+
+class WorkflowReplay:
+    def __init__(self, backend, *, timeout=5, poll_interval=0.1, control=None):
+        if not math.isfinite(timeout) or not 0<=timeout<=30 or not 0<poll_interval<=1:
+            raise BokkioError('Invalid bounded workflow wait')
+        self.backend=backend;self.timeout=timeout;self.poll_interval=poll_interval;self.control=control
+
+    def run(self, workflow, bindings, output=None, *, parameters=None, resume=None):
+        bound=bind_parameters(workflow,parameters)
+        aliases={s['app'] for s in bound['steps']}
+        if set(bindings)!=aliases or any(not isinstance(v,str) or not v for v in bindings.values()):
+            raise BokkioError('Bind each workflow app alias explicitly; no additional apps')
+        values=parameters or {}
+        report={'schema':'bokkio.workflow-run.v2','workflow_sha256':workflow['sha256'],
+                'bound_sha256':bound['sha256'],'parameters_sha256':digest(values),'parameters':copy.deepcopy(values),
+                'revision':workflow['revision'],'status':'running','steps':[],'bindings':dict(bindings),
+                'inputs':[],'output_versions':[],'deliveries':[],'resume_history':[]}
+        if resume is not None:
+            if not isinstance(resume,dict) or resume.get('schema')!='bokkio.workflow-run.v2' or resume.get('checkpoint_sha256')!=digest({k:v for k,v in resume.items() if k!='checkpoint_sha256'}):
+                raise BokkioError('Invalid or modified workflow checkpoint')
+            if (resume.get('workflow_sha256')!=workflow['sha256'] or resume.get('bound_sha256')!=bound['sha256'] or resume.get('parameters_sha256')!=digest(values)):
+                raise BokkioError('Resume must preserve workflow version and parameters')
+            if resume.get('status') not in {'paused','running'}:raise BokkioError('Only paused or interrupted checkpoints can resume')
+            if set(resume.get('bindings',{}))!=aliases:raise BokkioError('Checkpoint application scope changed')
+            report=copy.deepcopy(resume)
+            report['resume_history'].append({'previous_bindings':report['bindings'],'bindings':dict(bindings)})
+            report['bindings']=dict(bindings);report['status']='running';report.pop('reason',None)
+        def persist():
+            report['checkpoint_sha256']=digest({k:v for k,v in report.items() if k!='checkpoint_sha256'})
+            if output:save_json(output,report)
+        def stop(status, reason=None):
+            report['status']=status
+            if reason:report['reason']=reason
+            persist();return report
+        def observe_outputs():
+            versions=[]
+            for contract in bound.get('deliveries',[]):
+                if Path(contract['path']).is_file():versions.append({'id':contract['id'],**file_version(contract['path'])})
+            report['output_versions']=versions
+        try:
+            report['inputs']=check_files(bound.get('inputs',[]))
+            if resume is None:
+                if any(Path(c['path']).exists() for c in bound.get('deliveries',[])):
+                    raise BokkioError('Workflow output already exists; use a new output path')
+            else:
+                for version in report.get('output_versions',[]):
+                    if file_version(version['path'])!={k:version[k] for k in ('path','sha256','bytes')}:
+                        raise BokkioError('Completed output changed since the checkpoint')
+                known={v['path'] for v in report.get('output_versions',[])}
+                if any(Path(c['path']).exists() and c['path'] not in known for c in bound.get('deliveries',[])):
+                    raise BokkioError('An unrecorded output appeared after the checkpoint')
+                if len(report['steps'])>len(bound['steps']):raise BokkioError('Checkpoint has excess steps')
+                latest={}
+                for index,entry in enumerate(report['steps']):
+                    step=bound['steps'][index]
+                    if entry.get('id')!=step['id'] or entry.get('app')!=step['app']:
+                        raise BokkioError('Checkpoint steps do not match workflow order')
+                    if entry.get('dispatched') and 'result' not in entry:
+                        raise BokkioError('Dispatch completion is unknown; repair without repeating the action')
+                    if entry.get('status') not in {'waiting','dispatching','verifying','completed'} or not isinstance(entry.get('observations'),list):raise BokkioError('Invalid checkpoint step state')
+                    if entry.get('status')=='completed' and (not entry.get('dispatched') or 'result' not in entry or not entry['observations']):raise BokkioError('Completed checkpoint step lacks evidence')
+                    if entry.get('dispatched') and entry.get('result',{}).get('action')!=step['action']:raise BokkioError('Checkpoint action receipt changed')
+                    if entry['status']=='completed':latest[entry['app']]=entry
+                    elif index!=len(report['steps'])-1:raise BokkioError('Checkpoint has unfinished intermediate steps')
+                current={app:self.backend.snapshot(bindings[app]) for app in latest}
+                guards=[]
+                for index,entry in enumerate(report['steps']):
+                    if entry['status']!='completed':continue
+                    step=bound['steps'][index]
+                    # Historical transient UI (closed menus/dialogs, overwritten labels)
+                    # is retained by verified receipts. Outcomes still true at the
+                    # checkpoint frontier must also hold in the rebound native app.
+                    frontier=latest[entry['app']]['observations'][-1]
+                    for condition in step['verify']:
+                        relevant=verify_conditions(frontier,[condition])[0]
+                        key=lambda c:(c['role'],c['name'],c.get('parent_name'),c['field'])
+                        # A received action may have already superseded this field
+                        # before its verification checkpoint was written.
+                        for later_index in range(index+1,len(report['steps'])):
+                            later=report['steps'][later_index];later_step=bound['steps'][later_index]
+                            if later['app']!=entry['app'] or not later.get('dispatched') or 'result' not in later:continue
+                            for next_condition in later_step['verify']:
+                                if key(next_condition)==key(condition) and verify_conditions(current[entry['app']],[next_condition])[0]:relevant=False
+                        passed=not relevant or verify_conditions(current[entry['app']],[condition])[0]
+                        guards.append({'id':entry['id'],'condition':condition,'frontier_current':relevant,'passed':passed})
+                        if not passed:raise BokkioError('Completed native outcome changed; restore state before resuming')
+                report['resume_checks']=guards
+        except (BokkioError,OSError,ValueError) as error:
+            return stop('failed',str(error))
+        persist()
+        for index,s in enumerate(bound['steps']):
+            if index<len(report['steps']):
+                entry=report['steps'][index]
+                if entry['status']=='completed':continue
+            else:
+                entry={'id':s['id'],'app':s['app'],'status':'waiting','observations':[],'dispatched':False}
+                report['steps'].append(entry)
+            persist()
+            try:
+                check_files(bound.get('inputs',[]))
+                if entry.get('dispatched'):
+                    # A receipt was durably stored but verification was interrupted.
+                    after=self.backend.snapshot(bindings[s['app']])
+                    passed,checks=verify_conditions(after,s['verify']);entry['observations'].append(after)
+                    if not passed:raise BokkioError('Interrupted action outcome changed; repair before replay')
+                    entry['verification']=checks;entry['status']='completed';observe_outputs();persist();continue
+                deadline=time.monotonic()+self.timeout
+                while True:
+                    signal=self.control() if self.control else None
+                    if signal in {'pause','cancel'}:return stop('paused' if signal=='pause' else 'cancelled')
+                    if signal is not None:raise BokkioError('Invalid workflow control')
+                    before=self.backend.snapshot(bindings[s['app']]);entry['observations'].append(before)
+                    ready=not s['wait'] or verify_conditions(before,s['wait'])[0]
+                    try:node,lane=resolve(before,s['target'],s['action']);lookup_error=None
+                    except BokkioLookupError as error:lookup_error=error;ready=False
+                    if ready:break
+                    if time.monotonic()>=deadline:
+                        if lookup_error:raise lookup_error
+                        raise BokkioError('Workflow wait condition timeout')
+                    time.sleep(self.poll_interval)
+                entry['selector']={'lane':lane,'target_ref':node['ref'],'target':s['target']}
+                if SENSITIVE.search(node['name'] or ''):raise BokkioError('Sensitive native target cannot be replayed')
+                entry['status']='dispatching';entry['dispatched']=True;persist()
+                capture=getattr(self.backend,'supports_action_observation',False)
+                result=self.backend.perform(bindings[s['app']],s['action'],ref=node['ref'],
+                    expected_snapshot=tree_digest(before['windows']),**s['arguments'],
+                    **({'capture_observation':True} if capture else {}))
+                receipt_observation=result.pop('observation',None) if capture else None
+                entry['result']=result;entry['status']='verifying';observe_outputs();persist()
+                deadline=time.monotonic()+self.timeout
+                while True:
+                    signal=self.control() if self.control else None
+                    if signal in {'pause','cancel'}:return stop('paused' if signal=='pause' else 'cancelled')
+                    if signal is not None:raise BokkioError('Invalid workflow control')
+                    if receipt_observation is not None:
+                        after=receipt_observation;receipt_observation=None
+                        entry['verification_observation']='native_action_receipt'
+                    else:after=self.backend.snapshot(bindings[s['app']])
+                    entry['observations'].append(after)
+                    passed,checks=verify_conditions(after,s['verify']);entry['verification']=checks
+                    if passed:break
+                    if time.monotonic()>=deadline:raise BokkioError('Workflow verification timeout')
+                    time.sleep(self.poll_interval)
+                entry['status']='completed';observe_outputs();persist()
+            except (BokkioError,OSError,ValueError) as error:
+                entry['status']='failed';entry['error']=error.as_dict() if isinstance(error,BokkioLookupError) else {'error':str(error)}
+                entry['completion_unknown']=entry['dispatched'] and 'result' not in entry
+                return stop('failed',f"Step {s['id']} failed")
+        try:
+            report['inputs']=check_files(bound.get('inputs',[]))
+            report['deliveries']=check_files(bound.get('deliveries',[]))
+            observe_outputs()
+        except (BokkioError,OSError,ValueError) as error:return stop('failed',str(error))
+        return stop('completed')
+
+
+def repair_version(workflow, report, replacement_steps, reason):
+    """Store a caller-proposed repair as a new immutable version; replay separately."""
+    validate_workflow(workflow)
+    if report.get('status')!='failed' or report.get('workflow_sha256')!=workflow['sha256']:
+        raise BokkioError('Repair requires a failed run of this workflow version')
+    if not isinstance(reason,str) or not reason.strip():raise BokkioError('Repair reason is required')
+    metadata=copy.deepcopy(workflow['metadata'])
+    metadata['repair']={'reason':reason,'failed_run_sha256':digest(report)}
+    repaired=copy.deepcopy(workflow)
+    repaired.update(steps=copy.deepcopy(replacement_steps),revision=workflow['revision']+1,parent_sha256=workflow['sha256'],metadata=metadata)
+    repaired['sha256']=digest({k:v for k,v in repaired.items() if k!='sha256'})
+    validate_workflow(repaired)
+    return repaired
+
+
+def request_repair(workflow, report, provider, reason):
+    """Hand a bounded failure context to an optional Jev/Planner repair adapter.
+
+    The provider implements repair(context) -> {steps: [...]}. A proposal is
+    validated and versioned without dispatch; callers choose when to replay it.
+    """
+    validate_workflow(workflow)
+    if report.get('status')!='failed' or report.get('workflow_sha256')!=workflow['sha256']:
+        raise BokkioError('Repair requires a failed run of this workflow version')
+    failed=[s for s in report.get('steps',[]) if s.get('status')=='failed']
+    if len(failed)!=1:raise BokkioError('Repair requires one located failed step')
+    entry=failed[0]
+    context={'workflow':copy.deepcopy(workflow),'failed_step':entry['id'],
+             'error':copy.deepcopy(entry.get('error')),
+             'completion_unknown':entry.get('completion_unknown',False),
+             'snapshot':copy.deepcopy(entry.get('observations',[])[-1]) if entry.get('observations') else None,
+             'instruction':'Return replacement semantic steps. Do not dispatch actions. Preserve application aliases; verify fresh native outcomes.'}
+    proposal=provider.repair(context)
+    if not isinstance(proposal,dict) or set(proposal)!={'steps'}:raise BokkioError('Invalid workflow repair proposal')
+    if not isinstance(proposal['steps'],list):raise BokkioError('Invalid workflow repair steps')
+    original_apps={s['app'] for s in workflow['steps']}
+    if any(not isinstance(s,dict) or s.get('app') not in original_apps for s in proposal['steps']):
+        raise BokkioError('Repair cannot expand the authorized application scope')
+    repaired=repair_version(workflow,report,proposal['steps'],reason)
+    if getattr(provider,'last_call',None) is not None:
+        repaired['metadata']['repair']['model_call']=copy.deepcopy(provider.last_call)
+        repaired['sha256']=digest({k:v for k,v in repaired.items() if k!='sha256'})
+        validate_workflow(repaired)
+    return repaired

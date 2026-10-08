@@ -1,3 +1,9 @@
+---
+source_path: docs/PENDING.md
+source_commit: abe38acdfd308379bcdf4dbb597e96f672926b0d
+ingested: 2026-10-08
+sha256: 781893cc76e34433f21b5c7bae92e93d5f11452ddc3f796c8f0e6785b4aa3c40
+---
 # 当前待办 / Pending work
 
 更新：2026-10-08。总体位置：**P6 Windows 验收完成，P7 部分实现；Office 原题三题未开始**。当前能力、证据与下一步顺序见 [总体进度](STATUS.md)。
@@ -6,7 +12,6 @@
 
 | 顺序 | 待办 | 完成条件 / 当前状态 |
 |---|---|---|
-| 0 | Office executor 接口修复 | Wiki 编译发现：office_runner._native_run 传 required_files，但 DesktopAgent 构造器仅有 final_verifier / required_sources；补齐真实构造路径测试并修复后才能试跑。详见 [代码核对](../wiki/entities/office-pilot.md) |
 | 1 | 恢复实际任务的输入环境 | 最近前置检查确认 Mac 控制台处于 loginwindow，Windows guest 无可用输入桌面；权限预检查通过。恢复后重查 AX 与输入；截图/OCR和离线开发可继续 |
 | 2 | 真正运行三道 Office 原题 | WindowsWorld Word/Excel/PowerPoint L1 的原题、初始化、原生 runner、独立评分已准备；新工作区按 15 步预算实跑，保留中间证据、保存/产物与失败。当前 planned 3 / started 0 / blocked 3，score null |
 | 3 | Office 原生覆盖修复 | Word/PPT disabled 编辑区、Excel 单元格/格式对话框、Outlook 窗口遍历及未知 AXPress 处理；不能把 CUA 兼容性流程算作 Bokkio 任务通过 |

@@ -1,3 +1,9 @@
+---
+source_path: README.md
+source_commit: abe38acdfd308379bcdf4dbb597e96f672926b0d
+ingested: 2026-10-08
+sha256: 88d1333f2016cc6d0597385c973dceacae4605302215a726357af579bbce351f
+---
 # Bokkio
 
 面向 Windows 与 macOS 的原生桌面自动化项目，探索确定性 Workflow、Jev 局部决策与 LLM 全局规划的协作。
@@ -7,8 +13,6 @@ A native desktop automation project for Windows and macOS, exploring how determi
 **当前版本 / Current release:** `0.1.0` — Windows UIA / macOS Accessibility CLI，已接入真实 Jev / Windows UIA and macOS Accessibility CLI with real Jev integration.
 
 [中文](#中文) · [English](#english)
-
-**项目知识库 / Project knowledge base:** [LLM Wiki](wiki/index.md) · [维护规则 / Maintenance schema](wiki/SCHEMA.md) · [维护日志 / Change log](wiki/log.md)
 
 ## 中文
 

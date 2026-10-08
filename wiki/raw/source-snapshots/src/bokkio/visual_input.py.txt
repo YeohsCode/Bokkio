@@ -1,0 +1,66 @@
+---
+source_path: src/bokkio/visual_input.py
+source_commit: abe38acdfd308379bcdf4dbb597e96f672926b0d
+ingested: 2026-10-08
+sha256: 91163a20667cc6599eab8fff07fc0fb892f250e289da1be79554fd59f83c5ed4
+---
+"""Bounded Mac visual input, with no automatic retries after event posting."""
+import json
+import subprocess
+import sys
+
+from .macos_capture import _helper, capture_window
+from .visual import find_text
+from .windows_capture import CaptureError
+
+
+def perform(metadata,png,text,action,*,value=None,region=None,expect_text=None,control=None):
+    if action not in {'click','type'}:
+        raise CaptureError('invalid_input','Only click/type are available',dispatched=0)
+    if not isinstance(expect_text,str) or not expect_text:
+        raise CaptureError('verification_required','Visual input requires explicit post-action text',dispatched=0)
+    if action=='type' and (not isinstance(value,str) or not value or len(value.encode('utf-16-le'))//2>1000
+                           or any(ord(c)<32 or ord(c)==127 for c in value)):
+        raise CaptureError('invalid_input','Type requires bounded literal text',dispatched=0)
+    if action=='click' and value is not None:
+        raise CaptureError('invalid_input','Click does not accept text',dispatched=0)
+    if control is not None:
+        if control() not in {'continue',None}:
+            raise CaptureError('input_cancelled','Input was paused/cancelled before dispatch',dispatched=0)
+    candidate=find_text(metadata,png,text,max_age=15,region=region)
+    if not isinstance(metadata.get('process_started_seconds_microseconds'),str) or not isinstance(metadata.get('window_bounds'),dict):
+        raise CaptureError('invalid_capture','Input requires a complete native identity contract',dispatched=0)
+    if sys.platform!='darwin':raise CaptureError('unsupported_platform','Visual input is currently Mac-only',dispatched=0)
+    request={'operation':'input','pid':metadata['pid'],'window_id':metadata['window_id'],
+             'output':'unused','expected_birth':metadata['process_started_seconds_microseconds'],
+             'expected_content_rect':metadata['content_rect'],'expected_window_bounds':metadata['window_bounds'],
+             'image_sha256':metadata['image_sha256'],'captured_at_unix_ns':metadata['captured_at_unix_ns'],
+             'point':candidate['center_screen'],'action':action,'text':value or ''}
+    helper=_helper()
+    if control is not None and control() not in {'continue',None}:
+        raise CaptureError('input_cancelled','Input was cancelled before native dispatch',dispatched=0)
+    try:
+        result=subprocess.run([str(helper)],input=json.dumps(request).encode(),capture_output=True,timeout=10)
+    except (subprocess.TimeoutExpired,OSError) as error:
+        # A missing receipt cannot establish whether the helper posted events.
+        raise CaptureError('input_completion_unknown','Native input receipt is unavailable',dispatched='unknown') from error
+    try:
+        receipt=json.loads(result.stdout)
+        if 'error' in receipt:raise CaptureError(receipt['error'],receipt['message'],**receipt.get('details',{}))
+        if (result.returncode or receipt.get('status')!='posted_unverified' or receipt.get('pid')!=metadata['pid']
+                or receipt.get('window_id')!=metadata['window_id'] or receipt.get('dispatched') is not True):
+            raise ValueError('invalid input receipt')
+    except CaptureError:raise
+    except (ValueError,TypeError) as error:
+        raise CaptureError('input_completion_unknown','Native input receipt is invalid',dispatched='unknown') from error
+    # One new observation confirms business output. Any failure after posting
+    # remains unknown/unverified; callers must inspect rather than repeat.
+    try:
+        after,image=capture_window(metadata['pid'],window_id=metadata['window_id'],ocr=True,timeout=15)
+        if after['process_started_seconds_microseconds']!=metadata['process_started_seconds_microseconds']:
+            raise CaptureError('process_changed','Process changed after input')
+        verified=find_text(after,image,expect_text,max_age=15)
+    except CaptureError as error:
+        raise CaptureError('input_completion_unknown','Posted input did not pass explicit text verification',
+                           dispatched=True,cause=error.code) from error
+    return {'status':'confirmed','receipt':receipt,'verification':verified,'observation':after}

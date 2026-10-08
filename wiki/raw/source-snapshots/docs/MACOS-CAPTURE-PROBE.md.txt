@@ -1,0 +1,52 @@
+---
+source_path: docs/MACOS-CAPTURE-PROBE.md
+source_commit: abe38acdfd308379bcdf4dbb597e96f672926b0d
+ingested: 2026-10-08
+sha256: 7b49f9b4c6720469b27dd1b8fc0b11334fff60336727e020ef7fd6ba02b9e125
+---
+# Mac 可执行路径复查 / Mac path recheck
+
+日期：2026-10-08。**Mac 仍可以推进窗口截图及视觉能力测试；当前 AX 元素操作路径的前置检查失败。** 将全部 Mac 开发和测试判为受阻是不准确的。
+
+后续截图/OCR 已接入 Runtime，最新结果见 [Runtime 报告](P7-MACOS-VISUAL.md)。本页保留最初诊断的独立分母。
+
+## 实测结果
+
+| 路径 | 结果 |
+|---|---|
+| 辅助功能权限预检查 | `AXIsProcessTrusted=true` |
+| 屏幕录制权限预检查 | `CGPreflightScreenCaptureAccess=true` |
+| 当前会话标志 | `CGSSessionScreenIsLocked=true`，值类型确认为 CFBoolean；这是当前测试进程观察到的会话状态，不能代替用户对物理屏幕的描述 |
+| Bokkio/xa11y AX 读取 | 自有测试进程返回 application → application，窗口列表为空；Bokkio 在任何动作前拒绝遍历 |
+| 直接原生 AX 复核 | AXWindows 返回成功且有一个条目，但该条目的 AXRole 为 AXApplication，未取得真实窗口；因此不能仅归因于 xa11y |
+| ScreenCaptureKit 窗口截图 | 最终可复现脚本三次独立进程 **3/3**，PNG 尺寸、PID 及哈希检查通过；图像为 520×188，检查样图可见 Search、Submit、Ready |
+| 生产 Runtime / 坐标输入 | 尚未接入；本轮没有派发输入，也不代表 P7 全部验收通过 |
+
+截图按刚创建的测试 PID 和准确窗口标题过滤，唯一匹配后使用 `SCContentFilter(desktopIndependentWindow:)` 和 `SCScreenshotManager`。没有全屏捕获、无关应用截图、授权变更或自动登录修改。权限预检查通过，但当前 AX 没有返回业务控件；两者不能互相替代。
+
+## 失败及修正
+
+- 原有 Mac 原生 controls 续测在滚动读取前失败：没有完成滚动动作或三条控件用例，保留前置失败记录。
+- 初次截图只限定 PID，发现两条窗口记录，因此拒绝匹配，没有选第一项。之后增加准确标题限定。
+- 第一次三轮截图在图形初始化阶段崩溃（CGS_REQUIRE_INIT），**0/3**；初始化 `NSApplication.shared` 并将异步任务放到 MainActor 后修正。
+- 修正后的诊断 v2 三轮生成完整窗口图像；固化到仓库脚本后的 v3 三轮也通过。两轮分开保存，不合并为通用桌面成功率。
+
+目前能独立推进 Mac 窗口捕获、图像检查和 OCR/视觉候选开发。AX/Workflow/Office 元素操作与有界坐标派发仍需各自验收，不自动继承截图结果。Windows guest 的 `desktop_unavailable` 也不代表 Mac 截图不可用。
+
+## 复现
+
+先用 `scripts/build_native_fixture.py` 构建自有 `BokkioWorkflowA.app`，然后：
+
+```sh
+uv run python scripts/probe_macos_capture.py \
+  --fixture /tmp/BokkioWorkflowA.app \
+  --output /tmp/bokkio-mac-capture-new
+```
+
+该工具仅做诊断，输出目录拒绝覆盖。证据见 [归档](evidence/2026-10-08-macos-recheck/README.md)。
+
+## English
+
+Mac window-capture development can continue without treating CUA availability as the sole gate. Both AX and screen-recording permission preflights pass. The current process sees a true session-lock flag; this does not replace the user's description of the physical screen. AX returns application proxies instead of the owned window, including through a direct native API check. Element action acceptance remains blocked at preflight.
+
+Scoped ScreenCaptureKit capture works: the final diagnostic independently launches three owned fixture processes and captures their exact-title windows, passing 3/3 PID/PNG-dimension/hash checks. A sample image shows the complete Search/Submit/Ready UI. An earlier three-run graphics initialization crash remains recorded as 0/3. Initializing Cocoa and using MainActor resolved it; corrected v2 and reproducible v3 runs are archived separately. No input or permission/security change occurred. Product Runtime integration, broader visual acceptance, AX workflows and Office execution remain pending.

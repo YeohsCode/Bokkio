@@ -1,0 +1,86 @@
+---
+source_path: src/bokkio/visual.py
+source_commit: abe38acdfd308379bcdf4dbb597e96f672926b0d
+ingested: 2026-10-08
+sha256: d9d73f7c720dca5dfac33503def6d914b3c12af2e76711942be330e35422892c
+---
+"""Read-only OCR candidate selection, bound to an explicit capture contract."""
+from __future__ import annotations
+
+import hashlib
+import math
+import time
+
+from .windows_capture import CaptureError
+
+
+def validate_capture(metadata, png, *, max_age=15, now_ns=None):
+    if type(max_age) not in {int,float} or not math.isfinite(max_age) or not 0 < max_age <= 60:
+        raise CaptureError('invalid_budget', 'Image freshness must be within 60 seconds')
+    if (type(metadata) is not dict or metadata.get('schema')!='bokkio.window_capture.v1'
+            or type(metadata.get('pid')) is not int or metadata['pid']<=0
+            or type(metadata.get('window_id')) is not int or metadata['window_id']<=0
+            or any(type(metadata.get(k)) is not int or metadata[k]<=0 for k in ['width','height'])):
+        raise CaptureError('invalid_capture','Capture identity/dimensions are invalid')
+    rect=metadata.get('content_rect')
+    if (type(rect) is not dict or set(rect)!={'x','y','width','height'}
+            or any(type(v) not in {int,float} or not math.isfinite(v) for v in rect.values())
+            or rect['width']<=0 or rect['height']<=0):
+        raise CaptureError('invalid_capture','Capture screen-point geometry is invalid')
+    if hashlib.sha256(png).hexdigest() != metadata.get('image_sha256'):
+        raise CaptureError('image_mismatch', 'Image bytes differ from the capture contract')
+    now_ns = time.time_ns() if now_ns is None else now_ns
+    captured = metadata.get('captured_at_unix_ns')
+    if type(captured) is not int or captured > now_ns or (now_ns-captured)/1e9 > max_age:
+        raise CaptureError('capture_stale', 'Capture has expired or has a future timestamp')
+    if metadata.get('platform') != 'macos':
+        raise CaptureError('unsupported_ocr', 'The current local OCR provider is macOS Vision')
+    ocr = metadata.get('ocr', {})
+    if type(ocr) is not dict or type(ocr.get('observations')) is not list or len(ocr['observations'])>2048:
+        raise CaptureError('invalid_ocr','OCR observations exceed the contract')
+    if ocr.get('image_sha256') != metadata['image_sha256']:
+        raise CaptureError('ocr_mismatch', 'OCR is not bound to these image bytes')
+    return ocr
+
+
+def find_text(metadata, png, text, *, confidence=0.8, max_age=15, region=None, now_ns=None):
+    """Return exactly one OCR text region, or reject absence/ambiguity.
+
+    OCR cannot prove a region is a button or authorize an input action.
+    A later executor must revalidate window identity, geometry and freshness.
+    """
+    if type(text) is not str or not text or len(text)>1024:
+        raise CaptureError('invalid_target', 'Target text must be a bounded nonempty string')
+    if type(confidence) not in {int,float} or not math.isfinite(confidence) or not 0 <= confidence <= 1:
+        raise CaptureError('invalid_confidence', 'Confidence must be between zero and one')
+    ocr = validate_capture(metadata,png,max_age=max_age,now_ns=now_ns)
+    if region is not None:
+        if (type(region) is not dict or set(region)!={'x','y','width','height'}
+                or any(type(v) not in {int,float} or not math.isfinite(v) for v in region.values())
+                or region['x']<0 or region['y']<0 or region['width']<=0 or region['height']<=0
+                or region['x']+region['width']>metadata['width'] or region['y']+region['height']>metadata['height']):
+            raise CaptureError('invalid_region', 'Target region must be inside the image')
+    matches=[]
+    for item in ocr.get('observations', []):
+        if type(item) is not dict or type(item.get('bounds')) is not dict:
+            raise CaptureError('invalid_ocr','OCR observation has invalid fields')
+        box=item.get('bounds',{}); score=item.get('confidence')
+        if (set(box)!={'x','y','width','height'} or any(type(v) not in {int,float} or not math.isfinite(v) for v in box.values())
+                or type(score) not in {int,float} or not math.isfinite(score) or not 0<=score<=1
+                or box['x']<0 or box['y']<0 or box['width']<=0 or box['height']<=0
+                or box['x']+box['width']>metadata['width']+0.01 or box['y']+box['height']>metadata['height']+0.01):
+            raise CaptureError('invalid_ocr', 'OCR returned invalid bounds/confidence')
+        if item.get('text')!=text or score<confidence: continue
+        if region and not (region['x']<=box['x'] and region['y']<=box['y']
+                           and box['x']+box['width']<=region['x']+region['width']
+                           and box['y']+box['height']<=region['y']+region['height']):continue
+        matches.append(item)
+    if len(matches)!=1:
+        raise CaptureError('visual_ambiguous' if matches else 'visual_missing',
+                           'OCR target is ambiguous' if matches else 'OCR target was not found', count=len(matches))
+    item=matches[0];box=item['bounds'];x=box['x']+box['width']/2;y=box['y']+box['height']/2
+    from .macos_capture import screen_point
+    return {'source':'OCR','text':item['text'],'confidence':item['confidence'],'bounds':box,
+            'center_image':{'x':x,'y':y},'center_screen':screen_point(metadata,x,y),
+            'pid':metadata['pid'],'window_id':metadata['window_id'],
+            'image_sha256':metadata['image_sha256'],'action_authorized':False}

@@ -1,0 +1,70 @@
+---
+source_path: docs/MACOS-FOLLOWUP.md
+source_commit: abe38acdfd308379bcdf4dbb597e96f672926b0d
+ingested: 2026-10-08
+sha256: 2f9e99827ba6527cb5b054091b35881eb3bf1436bb73cc5185d49e3420618922
+---
+# macOS 原生续测 / macOS native follow-up
+
+日期：2026-10-06。运行环境：当前 Mac，Python + xa11y，原生 AX。只操作测试脚本创建的 Cocoa 应用，通过 PID 授权和关闭进程。
+
+## 结果
+
+| 测试 | 最终结果 | 范围 |
+|---|---|---|
+| 原生读取预检查 | 通过 | 真实 window、Search text_field、Submit button 可读；本轮没有复现嵌套 application |
+| 原生动作 | 3/3 | 每轮清空、focus、type、Submit、表格行 select；输入、状态变化和 selected 回读通过 |
+| 横纵滚动 | 12/12 | 每个轴前进/后退三轮，原生位置与内容变化确认；两次复核分别保存 |
+| 真实 Planner/Jev 跨应用 | 3/3 | 两个独立 Cocoa 应用；每个输入并提交，独立 AX 读取检查；最终用 GPT-4.1 与 Jev 1.13 |
+| 五步录制 Workflow | 3/3 | 同一 JSON，三个新应用进程对，每轮五次语义派发，两个应用状态独立核验 |
+| 成功 Agent trace 固化 | 3/3 | 固化最终第三条模型任务，四步 Workflow，每轮四次派发；重放不调用模型 |
+| 原生控件结构重排 | 1/1 | AX 子节点顺序从 Search/Submit/Ready 变为 Ready/Submit/Search；原 Workflow 哈希保持，重放通过 |
+| selector 失败与版本修复 | 1/1 | 原失败版本零派发；基于验证过的录制生成 parent-linked 新版本，原生重放通过 |
+| Workflow 暂停恢复 | 1/1 | 前三步已完成；保留同一应用进程恢复，仅执行最后两步 |
+| 主机隔离回归 | 293/293 | 包含 table_row 选择回读与平台/缺少选择状态时的拒绝 |
+
+### 本轮发现与修正
+
+统一角色已经使用 `table_row`，Mac 选择能力分支仍只识别旧的 `row`、list_item、tree_item，导致真实 NSTableView 行被拒绝。补入 `table_row` 后通过三轮原生 select。能力仍限于 Mac 且要求可读选择状态，执行后检查 selected；Windows 的能力判断保持自身路径。
+
+最终 P5 三条任务耗时为 16.980、11.323、18.405 秒，动作尝试数为 4、4、5；成功原生 action 回执均为 4。第三条在 Submit 前遇到快照变化，旧决策在派发前被拒绝，真实 Planner 重规划一次后完成。一次拒绝不能算作一次成功原生派发。
+
+## 轮次与证据
+
+[证据目录](evidence/2026-10-06-macos/README.md) 保存所有轮次，不能将不同轮次混成一个成功率。
+
+- 最初 preflight 及独立 scroll 通过。
+- P5 v1：旧 fixture 与修正前 backend，3/3，通过；P6 v1：录制 3/3、trace 3/3、暂停/修复通过。
+- controls v1：双轴滚动通过；第一轮已有四次输入/点击调用，表格 select 在派发前被拒绝，完整动作轮次未完成。该轮保存错误摘要和滚动记录，四次动作的完整回执未独立归档。
+- controls v2：修正后原生动作 3/3，双轴滚动通过。
+- P5 v2：重建的 Cocoa fixture、修正后 backend，3/3；P6 v2：录制 3/3、trace 3/3、结构重排、暂停恢复及修复均通过。最终执行源码哈希与当前代码匹配。
+
+共 52 份压缩归档，8 份 Workflow 内容哈希、21 份检查点内容哈希通过校验。新增证据敏感模式扫描未发现个人目录、邮箱或凭据。API key 与私有配置不在仓库。
+
+## 尚未覆盖
+
+本轮跨应用使用自有 Cocoa fixture，尚未验收 Finder/TextEdit 文件交付、Mac 输入/产物哈希合约、跨执行进程/PID 恢复、真实模型修复、真正可见节点虚拟化或视觉兜底。历史 Windows 验收保留原始版本；Mac 角色修正后的 Windows 原生回归尚未重跑，最新历史 Windows 隔离结果为 292/292。
+
+下一步：扩大 Mac 独立原生应用及文件流程；P7 接入原生窗口截图、权限/DPI/坐标映射，随后自绘 fixture 与 OCR/视觉路径。完整清单见 [Pending](PENDING.md)。
+
+## 复现
+
+```bash
+uv run python scripts/build_native_fixture.py --source fixtures/cocoa-workflow/main.swift --name BokkioWorkflowA --output /tmp/BokkioWorkflowA.app
+uv run python scripts/build_native_fixture.py --source fixtures/cocoa-workflow/main.swift --name BokkioWorkflowB --output /tmp/BokkioWorkflowB.app
+uv run python scripts/build_native_fixture.py --source fixtures/cocoa-interactions/main.swift --name BokkioInteractions --output /tmp/BokkioInteractions.app
+uv run python scripts/build_native_fixture.py --name BokkioTest --output /tmp/BokkioTest.app
+uv run python scripts/verify_macos_controls.py --output /tmp/bokkio-mac-controls-new
+uv run python scripts/verify_p5_macos.py --output /tmp/bokkio-mac-p5-new
+uv run python scripts/verify_p6_macos.py --agent-trace /tmp/bokkio-mac-p5-new/task-3.json --output /tmp/bokkio-mac-p6-new
+```
+
+每次使用新输出目录，已有记录拒绝覆盖。原生测试串行执行，辅助功能权限需已授权给实际运行宿主。
+
+## English
+
+Mac native AX reads now work on owned Cocoa fixtures. Final native controls passed 3/3, with 12 confirmed two-axis scroll actions. Real GPT-4.1/Jev tasks across two native applications passed 3/3. The third task rejected a stale snapshot before dispatch and recovered with one replan; it had five attempts and four successful native action receipts.
+
+One unchanged five-action recorded workflow replayed 3/3 across new application processes. A four-action workflow compiled from a successful model trace replayed 3/3 without model calls. Actual sibling reordering retained the workflow version and passed. A zero-dispatch selector failure was repaired in a parent-linked version. Pause/resume executed only the two remaining actions in the same application processes.
+
+A Mac role mismatch was fixed: native table rows normalize to table_row, which must receive the existing Mac selection capability when selected state is readable. Native selection/readback passed three runs; 293 host tests passed. All earlier attempts remain separate, including the initial selection rejection. This does not establish Mac file-delivery, artifact-contract, process-recovery, real-model-repair or visual-fallback acceptance. Windows results remain historical and are not counted as Mac results.

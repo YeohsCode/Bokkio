@@ -1,0 +1,323 @@
+---
+source_path: src/bokkio/cli.py
+source_commit: abe38acdfd308379bcdf4dbb597e96f672926b0d
+ingested: 2026-10-08
+sha256: dd5a586a514d8f03b1e9e84488b4d532b0a7cb9dfc25eb7b5aad75f47cefe9de
+---
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from typing import Any, Sequence
+
+from .model import BokkioError, BokkioLookupError
+from .xa11y_backend import ACTION_METHODS, Xa11yBackend
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog="bokkio",
+        description="Native desktop accessibility inspector, actions and decisions.",
+    )
+    subparsers = parser.add_subparsers(dest="command", required=True)
+
+    capture = subparsers.add_parser("capture", help="Capture one authorized native window")
+    capture.add_argument("--pid", type=int, required=True)
+    capture.add_argument("--hwnd", type=lambda value: int(value, 0))
+    capture.add_argument("--window-id", type=int)
+    capture.add_argument("--title")
+    capture.add_argument("--ocr", action="store_true", help="Run local macOS Vision OCR")
+    capture.add_argument("--output", required=True, help="New PNG path; metadata is saved as PATH.json")
+    capture.add_argument("--timeout", type=float, default=5.0)
+
+    visual = subparsers.add_parser("visual-find", help="Find a unique OCR text region in a saved capture")
+    visual.add_argument("--image", required=True)
+    visual.add_argument("--metadata", required=True)
+    visual.add_argument("--text", required=True)
+    visual.add_argument("--confidence", type=float, default=0.8)
+    visual.add_argument("--max-age", type=float, default=15)
+
+    apps = subparsers.add_parser("apps", help="List visible applications")
+    apps.add_argument("--json", action="store_true")
+
+    windows = subparsers.add_parser("windows", help="List application windows")
+    windows.add_argument("--app", required=True)
+    windows.add_argument("--json", action="store_true")
+
+    snapshot = subparsers.add_parser("snapshot", help="Capture a native accessibility tree")
+    snapshot.add_argument("--app", required=True)
+    snapshot.add_argument("--window")
+    output = snapshot.add_mutually_exclusive_group()
+    output.add_argument("--json", action="store_true")
+    output.add_argument("--tree", action="store_true")
+
+    find = subparsers.add_parser("find", help="Find elements by role and optional name")
+    find.add_argument("--app", required=True)
+    find.add_argument("--role", required=True)
+    find.add_argument("--name")
+    find.add_argument("--json", action="store_true")
+
+    get = subparsers.add_parser("get", help="Read one element by ref")
+    get.add_argument("ref")
+    get.add_argument("--app")
+    get.add_argument("--json", action="store_true")
+
+    act = subparsers.add_parser("act", help="Perform a semantic action on an AX element")
+    act.add_argument("--app", required=True)
+    act.add_argument("--action", required=True, choices=sorted(ACTION_METHODS))
+    act.add_argument("--ref")
+    act.add_argument("--role")
+    act.add_argument("--name")
+    act.add_argument("--parent")
+    act.add_argument("--value")
+    act.add_argument("--direction", choices=["up", "down", "left", "right"])
+    act.add_argument("--amount", type=float, help="Scroll fraction of the full range (0 < amount <= 1; default 0.25)")
+    act.add_argument("--expect-value", help="Expected text after a type action")
+    decide = subparsers.add_parser("decide", help="Ask Jev for one native desktop decision")
+    decide.add_argument("--app", required=True)
+    decide.add_argument("--goal", required=True)
+    decide.add_argument("--window", help="Restrict decisions and snapshot validation to one native window")
+    decide.add_argument("--allow-value", action="append", default=[], help="Literal text the decision may choose; repeat for multiple values")
+    decide.add_argument("--confidence", type=float, default=0.7)
+    decide.add_argument("--execute", action="store_true", help="Execute one accepted decision after validating a fresh snapshot")
+    run = subparsers.add_parser("run", help="Plan and execute a bounded native desktop task")
+    run.add_argument("--goal", required=True)
+    run.add_argument("--allow-app", action="append", required=True, help="Authorized native app name or PID; repeat for cross-app tasks")
+    run.add_argument("--trace", required=True, help="JSON trace and pause/resume checkpoint")
+    run.add_argument("--max-actions", type=int, default=20)
+    run.add_argument("--max-replans", type=int, default=1)
+    run.add_argument("--max-phases", type=int, default=4)
+    run.add_argument("--require-file", action="append", default=[], help="Deliverable that must exist before completion; repeat for multiple files")
+    run.add_argument("--require-source", action="append", default=[], help="Source that must be opened by full path in a Windows native Open dialog before editor output")
+    run.add_argument("--planner-model")
+    run.add_argument("--plan-only", action="store_true")
+    run.add_argument("--control-file", help='JSON file containing {"action":"pause"} or {"action":"cancel"}')
+    run.add_argument("--resume", help="Resume a JSON checkpoint with the same goal and app allowlist")
+    run.add_argument("--amend-reason", help="Explicit reason for a changed goal at a paused/completed checkpoint; keep the app allowlist")
+    workflow = subparsers.add_parser("workflow", help="Record, compile and replay native semantic workflows")
+    commands = workflow.add_subparsers(dest="workflow_command", required=True)
+    for command in ("record", "compile", "parameterize", "replay", "repair"):
+        item = commands.add_parser(command)
+        item.add_argument("--output", required=True)
+        if command in {"record", "compile", "replay"}:
+            item.add_argument("--bind", action="append", required=True, help="Explicit left=right binding; alias=app for record/replay, trace-app=alias for compile")
+        if command in {"record", "compile"}:
+            item.add_argument("--name", required=True)
+        if command == "record": item.add_argument("--actions", required=True, help="JSON list of semantic actions with explicit verification")
+        if command == "compile": item.add_argument("--trace", required=True)
+        if command == "parameterize": item.add_argument("--spec", required=True, help="JSON parameters, literal slots and file contracts")
+        if command in {"parameterize", "replay", "repair"}: item.add_argument("--workflow", required=True)
+        if command == "replay":
+            item.add_argument("--timeout", type=float, default=5)
+            item.add_argument("--control-file")
+            item.add_argument("--parameters", help="JSON literal parameter values")
+            item.add_argument("--resume", help="Atomic workflow checkpoint to resume with rebound apps")
+            item.add_argument("--window-bind", action="append", default=[], help="alias=native-window scope; rebind after restart")
+        if command == "repair":
+            item.add_argument("--run", required=True)
+            repair_source=item.add_mutually_exclusive_group(required=True)
+            repair_source.add_argument("--steps", help="JSON list of caller-reviewed replacement steps")
+            repair_source.add_argument("--model-repair", action="store_true", help="Ask the model to choose a native selector; never execute it")
+            item.add_argument("--planner-model")
+            item.add_argument("--reason", required=True)
+    return parser
+
+
+def render_tree(node: dict[str, Any], indent: int = 0) -> str:
+    title = node.get("name") or node.get("value")
+    line = "  " * indent + f"{node['role']}[{node['ref'][:8]}]"
+    if title:
+        line += f" {title!r}"
+    lines = [line]
+    for child in node.get("children") or []:
+        if isinstance(child, dict):
+            lines.append(render_tree(child, indent + 1))
+    return "\n".join(lines)
+
+
+def execute(args: argparse.Namespace, backend: Xa11yBackend) -> Any:
+    if args.command == "capture":
+        from .windows_capture import CaptureError, save_capture
+        if sys.platform == 'darwin':
+            from .macos_capture import capture_window
+            if args.hwnd is not None: raise CaptureError('invalid_scope','Use window-id on macOS')
+            metadata, png = capture_window(args.pid,window_id=args.window_id,title=args.title,ocr=args.ocr,timeout=args.timeout)
+        else:
+            from .windows_capture import capture_window
+            if args.window_id is not None or args.title is not None or args.ocr:
+                raise CaptureError('unsupported_capture_options','Mac capture options are not available here')
+            metadata, png = capture_window(args.pid, args.hwnd, timeout=args.timeout)
+        return save_capture(metadata, png, args.output)
+    if args.command == 'visual-find':
+        from pathlib import Path
+        from .visual import find_text
+        try:
+            metadata=json.loads(Path(args.metadata).read_text(encoding='utf-8'))
+            png=Path(args.image).read_bytes()
+        except (OSError,ValueError) as error:
+            raise BokkioError('Could not read capture image/metadata') from error
+        return find_text(metadata,png,args.text,confidence=args.confidence,max_age=args.max_age)
+    if args.command == "workflow":
+        from pathlib import Path
+        from .workflow import Recorder, WorkflowReplay, from_agent_trace, repair_version, request_repair, parameterize, WorkflowScope, save_json
+        from .agent import file_control
+        def load(path): return json.loads(Path(path).read_text(encoding="utf-8"))
+        bindings = {}
+        for value in getattr(args, "bind", []):
+            left, sep, right = value.partition("=")
+            if not sep or not left or not right or left in bindings:
+                raise BokkioError("Workflow bindings must be unique nonempty left=right pairs")
+            bindings[left] = right
+        if args.workflow_command == "compile":
+            result = from_agent_trace(load(args.trace), args.name, bindings)
+        elif args.workflow_command == "parameterize":
+            spec=load(args.spec)
+            if not isinstance(spec,dict) or set(spec)!={"parameters","slots","inputs","deliveries"}:raise BokkioError("Invalid parameterization spec")
+            result=parameterize(load(args.workflow),**spec)
+        elif args.workflow_command == "record":
+            recorder = Recorder(backend, bindings)
+            actions = load(args.actions)
+            if not isinstance(actions, list) or not 0 < len(actions) <= 200:
+                raise BokkioError("Recording requires 1..200 explicit semantic actions")
+            # Validate action shape before any dispatch; the Recorder validates
+            # each target against the native state immediately before its action.
+            for action in actions:
+                if not isinstance(action, dict) or set(action) != {"app", "action", "intent", "target", "arguments", "wait", "verify"}:
+                    raise BokkioError("Invalid recording action fields")
+                if not isinstance(action["target"], dict) or set(action["target"]) - {"ref", "role", "name", "parent"}:
+                    raise BokkioError("Invalid recording target")
+                if not isinstance(action["arguments"], dict) or set(action["arguments"]) & set(action["target"]):
+                    raise BokkioError("Invalid recording arguments")
+            for action in actions:
+                recorder.perform(action["app"], action["action"], intent=action["intent"],
+                    wait=action["wait"], verify=action["verify"], **action["target"], **action["arguments"])
+            result = recorder.export(args.name)
+            save_json(str(args.output) + ".recording.json", recorder.events)
+        elif args.workflow_command == "replay":
+            windows={}
+            for value in args.window_bind:
+                alias,sep,window=value.partition('=')
+                if not sep or not window or alias in windows:raise BokkioError('Window bindings must be unique alias=window pairs')
+                windows[alias]=window
+            return WorkflowReplay(WorkflowScope(backend,bindings,windows), timeout=args.timeout, control=file_control(args.control_file)).run(
+                load(args.workflow), bindings, args.output,
+                parameters=load(args.parameters) if args.parameters else None,
+                resume=load(args.resume) if args.resume else None)
+        else:
+            if args.model_repair:
+                from .workflow_repair import OpenRouterWorkflowRepair
+                result=request_repair(load(args.workflow),load(args.run),OpenRouterWorkflowRepair(model=args.planner_model),args.reason)
+            else:result = repair_version(load(args.workflow), load(args.run), load(args.steps), args.reason)
+        save_json(args.output, result)
+        return {"schema":result["schema"], "sha256":result["sha256"], "revision":result["revision"],
+                "steps":len(result["steps"]), "output":str(Path(args.output).resolve())}
+    if args.command == "apps":
+        return backend.apps()
+    if args.command == "windows":
+        return backend.windows(args.app)
+    if args.command == "snapshot":
+        return backend.snapshot(args.app, args.window)
+    if args.command == "find":
+        return backend.find(args.app, args.role, args.name)
+    if args.command == "get":
+        return backend.get(args.ref, args.app)
+    if args.command == "act":
+        return backend.perform(
+            args.app, args.action, ref=args.ref, role=args.role, name=args.name,
+            parent=args.parent, value=args.value,
+            direction=args.direction, amount=args.amount, expected_value=args.expect_value,
+        )
+    if args.command == "decide":
+        from .decision import decide, execute_decision
+        from .jev import JevProvider
+        provider = JevProvider()
+        snapshot = backend.snapshot(args.app, args.window)
+        decision, response = decide(provider, args.goal, snapshot, args.allow_value, args.confidence)
+        result = {"decision": decision.as_dict(), "model": response.get("model"),
+                  "usage": response.get("usage"), "elapsed_seconds": response.get("elapsed_seconds"),
+                  "executed": args.execute}
+        if args.execute:
+            result["result"] = execute_decision(backend, args.app, decision, args.confidence)
+        return result
+    if args.command == "run":
+        from .agent import DesktopAgent, file_control
+        from .planner import OpenRouterPlanner
+        from .jev import JevProvider
+        from pathlib import Path
+        required = sorted({str(Path(p).expanduser().resolve()) for p in args.require_file})
+        sources = sorted({str(Path(p).expanduser().resolve()) for p in args.require_source})
+        goal = args.goal
+        if sources:
+            goal += '\nRequired native source paths: ' + json.dumps(sources, ensure_ascii=False)
+        verifier = None
+        if required:
+            goal += '\nRequired deliverable files: ' + json.dumps(required, ensure_ascii=False)
+            def verifier(trace):
+                import hashlib
+                files = []
+                for p in required:
+                    file = Path(p)
+                    info = {'path':p, 'exists':file.is_file()}
+                    if info['exists']:
+                        digest = hashlib.sha256()
+                        with file.open('rb') as stream:
+                            for chunk in iter(lambda:stream.read(1024*1024), b''):
+                                digest.update(chunk)
+                        info.update(bytes=file.stat().st_size, sha256=digest.hexdigest())
+                    files.append(info)
+                return all(f['exists'] for f in files), {'required_files':files}
+        agent = DesktopAgent(backend, OpenRouterPlanner(model=args.planner_model), None if args.plan_only else JevProvider(),
+                             max_actions=args.max_actions, max_replans=args.max_replans, max_phases=args.max_phases, control=file_control(args.control_file), final_verifier=verifier, required_sources=sources)
+        return agent.run(goal, args.allow_app, args.trace, resume=args.resume, plan_only=args.plan_only,
+                         amend_reason=args.amend_reason)
+    raise BokkioError(f"Unsupported command: {args.command}")
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    parser = build_parser()
+    args = parser.parse_args(argv)
+    try:
+        offline = args.command in {"capture","visual-find"} or (args.command == "workflow" and args.workflow_command in {"compile", "parameterize", "repair"})
+        result = execute(args, None if offline else Xa11yBackend())
+        if args.command == "run":
+            from pathlib import Path
+            summary = {k: result[k] for k in ("status", "actions", "replans", "completed_steps")}
+            summary["trace"] = str(Path(args.trace).resolve())
+            summary["reason"] = result["events"][-1].get("reason")
+            print(json.dumps(summary, ensure_ascii=False, indent=2))
+        elif args.command == "snapshot" and not args.json:
+            print("\n\n".join(render_tree(tree) for tree in result["windows"]))
+        elif args.command == "workflow":
+            print(json.dumps({k:v for k,v in result.items() if k!='steps'} if args.workflow_command=='replay' else result,
+                             ensure_ascii=False, indent=2))
+        elif getattr(args, "json", False) or args.command in {"snapshot", "find", "get", "act", "decide", "run", "capture", "visual-find"}:
+            print(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True))
+        else:
+            for item in result:
+                if args.command == "apps":
+                    foreground = " foreground" if item["is_foreground"] else ""
+                    print(f"{item['pid'] or '-'}\t{item['name']}{foreground}")
+                else:
+                    bounds = item.get("bounds") or {}
+                    rectangle = (
+                        f" {bounds['x']},{bounds['y']} {bounds['width']}x{bounds['height']}"
+                        if bounds
+                        else ""
+                    )
+                    print(f"{item['ref']}\t{item['role']}\t{item['name'] or '-'}{rectangle}")
+        failed = args.command == "run" or (args.command == "workflow" and args.workflow_command == "replay")
+        return 1 if failed and result["status"] in {"blocked", "failed", "cancelled"} else 0
+    except BokkioLookupError as error:
+        print(json.dumps(error.as_dict(), ensure_ascii=False, indent=2), file=sys.stderr)
+        return 1
+    except BokkioError as error:
+        if args.command in {"capture","visual-find"} and hasattr(error, "as_dict"):
+            print(json.dumps(error.as_dict()), file=sys.stderr)
+            return 1
+        print(f"bokkio: {error}", file=sys.stderr)
+        return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

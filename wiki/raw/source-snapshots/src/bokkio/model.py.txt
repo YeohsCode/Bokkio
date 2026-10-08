@@ -1,0 +1,98 @@
+---
+source_path: src/bokkio/model.py
+source_commit: abe38acdfd308379bcdf4dbb597e96f672926b0d
+ingested: 2026-10-08
+sha256: 133789f227103ebf575fb5a891477e510ffab61e7489076ce49afade3dc84a9f
+---
+from __future__ import annotations
+
+import hashlib
+import json
+from dataclasses import dataclass
+from typing import Any
+
+
+class BokkioError(RuntimeError):
+    pass
+
+
+class BokkioLookupError(BokkioError):
+    def __init__(self, code: str, selector: dict[str, Any], candidates: list[dict[str, Any]]):
+        self.code = code
+        self.selector = selector
+        self.candidates = [
+            {key: node.get(key) for key in ("ref", "role", "name", "parent")}
+            for node in candidates[:10]
+        ]
+        super().__init__(f"{code}: {selector}; candidates={self.candidates}")
+
+    def as_dict(self) -> dict[str, Any]:
+        return {"error": self.code, "selector": self.selector, "candidates": self.candidates}
+
+
+class BokkioActionError(BokkioError):
+    pass
+
+
+class BokkioPermissionError(BokkioError):
+    MESSAGE = (
+        "macOS Accessibility permission is required. "
+        "Grant it to the host application or resolved Python binary in "
+        "System Settings > Privacy & Security > Accessibility, then restart "
+        "the terminal and retry. macOS may also require Screen Recording to "
+        "read window content."
+    )
+
+    @classmethod
+    def from_platform(cls, error: Exception) -> "BokkioPermissionError":
+        result = cls(cls.MESSAGE)
+        result.__cause__ = error
+        return result
+
+
+def stable_hash(value: Any) -> str:
+    encoded = json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(encoded.encode("utf-8")).hexdigest()[:20]
+
+
+def path_signature(role: str, name: str | None, occurrence: int) -> list[Any]:
+    return [role, name, occurrence]
+
+
+def tree_digest(trees: Any) -> str:
+    """Bind a decision to the complete observed tree, including current state."""
+    return stable_hash(trees)
+
+
+@dataclass(frozen=True)
+class RefResolver:
+    """Resolves a ref by regenerating deterministic structural identities."""
+
+    nodes: Any
+
+    def get(self, ref: str) -> dict[str, Any] | None:
+        if not ref:
+            raise BokkioError("Element ref must not be empty")
+        found = _find_ref(self.nodes, ref)
+        if found is None:
+            raise BokkioError(
+                f"Element ref does not match the current snapshot: {ref}. "
+                "Take a new snapshot after the application UI changes."
+            )
+        return found
+
+
+def _find_ref(nodes: Any, ref: str) -> dict[str, Any] | None:
+    if isinstance(nodes, dict):
+        if nodes.get("ref") == ref:
+            return nodes
+        for child in nodes.get("children") or []:
+            found = _find_ref(child, ref)
+            if found is not None:
+                return found
+    elif isinstance(nodes, list):
+        for child in nodes:
+            found = _find_ref(child, ref)
+            if found is not None:
+                return found
+    return None

@@ -1,0 +1,77 @@
+---
+source_path: tests/test_visual_input.py
+source_commit: abe38acdfd308379bcdf4dbb597e96f672926b0d
+ingested: 2026-10-08
+sha256: 95b7a82c135294a96f411c1905d3f1f66230bad90585618bea8dfee492512485
+---
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+import time
+from types import SimpleNamespace
+
+import pytest
+
+from bokkio import visual_input as inputs
+from bokkio.windows_capture import CaptureError
+
+
+@pytest.fixture
+def sample(monkeypatch):
+    png=b'input source contract';digest=hashlib.sha256(png).hexdigest()
+    meta={'schema':'bokkio.window_capture.v1','platform':'macos','pid':10,'window_id':20,'width':100,'height':100,
+          'image_sha256':digest,'captured_at_unix_ns':time.time_ns(),'process_started_seconds_microseconds':'123:456',
+          'content_rect':{'x':20,'y':30,'width':100,'height':100},'window_bounds':{'x':20,'y':30,'width':100,'height':100},
+          'ocr':{'image_sha256':digest,'observations':[{'text':'Run check','confidence':1.,'bounds':{'x':10,'y':10,'width':30,'height':20}}]}}
+    monkeypatch.setattr(inputs.sys,'platform','darwin');monkeypatch.setattr(inputs,'_helper',lambda:Path('/fake/helper'))
+    return meta,png
+
+
+def test_cancel_before_native_dispatch(sample,monkeypatch):
+    monkeypatch.setattr(subprocess,'run',lambda *a,**k:pytest.fail('must not dispatch'))
+    with pytest.raises(CaptureError) as caught:inputs.perform(*sample,'Run check','click',expect_text='Done',control=lambda:'cancel')
+    assert caught.value.code=='input_cancelled' and caught.value.details['dispatched']==0
+
+
+@pytest.mark.parametrize('action,value,expected',[('drag',None,'invalid_input'),('type','\n','invalid_input'),
+                                                ('type','x'*1001,'invalid_input'),('click','x','invalid_input'),
+                                                ('click',None,'verification_required')])
+def test_invalid_action_literal_or_missing_verification_rejected(sample,monkeypatch,action,value,expected):
+    monkeypatch.setattr(subprocess,'run',lambda *a,**k:pytest.fail('must not dispatch'))
+    with pytest.raises(CaptureError) as caught:
+        inputs.perform(*sample,'Run check',action,value=value,expect_text=None if expected=='verification_required' else 'Done')
+    assert caught.value.code==expected
+
+
+def test_native_scene_refusal_preserves_zero_dispatch(sample,monkeypatch):
+    receipt={'error':'input_desktop_unavailable','message':'Input scene unavailable','details':{'dispatched':0}}
+    monkeypatch.setattr(subprocess,'run',lambda *a,**k:SimpleNamespace(stdout=json.dumps(receipt).encode(),returncode=1))
+    with pytest.raises(CaptureError) as caught:inputs.perform(*sample,'Run check','click',expect_text='Done')
+    assert caught.value.code=='input_desktop_unavailable' and caught.value.details['dispatched']==0
+
+
+def test_missing_receipt_never_retries_input(sample,monkeypatch):
+    calls=[]
+    def timeout(*args,**kwargs):calls.append(args);raise subprocess.TimeoutExpired('helper',10)
+    monkeypatch.setattr(subprocess,'run',timeout)
+    with pytest.raises(CaptureError) as caught:inputs.perform(*sample,'Run check','click',expect_text='Done')
+    assert len(calls)==1 and caught.value.code=='input_completion_unknown'
+
+
+def test_posted_without_verified_output_remains_unknown(sample,monkeypatch):
+    receipt={'pid':10,'window_id':20,'status':'posted_unverified','dispatched':True,'events_posted':2}
+    calls=[]
+    def run(*a,**k):calls.append(json.loads(k['input']));return SimpleNamespace(stdout=json.dumps(receipt).encode(),returncode=0)
+    monkeypatch.setattr(subprocess,'run',run)
+    monkeypatch.setattr(inputs,'capture_window',lambda *a,**k:sample)
+    with pytest.raises(CaptureError) as caught:inputs.perform(*sample,'Run check','click',expect_text='Done')
+    assert caught.value.code=='input_completion_unknown' and len(calls)==1
+    assert calls[0]['expected_content_rect']==sample[0]['content_rect']
+
+
+def test_literal_validation_with_explicit_verification(sample,monkeypatch):
+    monkeypatch.setattr(subprocess,'run',lambda *a,**k:pytest.fail('must not dispatch'))
+    for value in ['\n','x'*1001,'']:
+        with pytest.raises(CaptureError) as caught:inputs.perform(*sample,'Run check','type',value=value,expect_text='Done')
+        assert caught.value.code=='invalid_input'

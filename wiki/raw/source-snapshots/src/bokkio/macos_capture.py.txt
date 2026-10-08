@@ -1,0 +1,96 @@
+---
+source_path: src/bokkio/macos_capture.py
+source_commit: abe38acdfd308379bcdf4dbb597e96f672926b0d
+ingested: 2026-10-08
+sha256: cc605e631bd3834819337007b46dde09e1ead679fcd1b6d3d9d7217434db765f
+---
+"""Scoped ScreenCaptureKit capture and local Vision OCR via a bundled helper."""
+from __future__ import annotations
+
+import hashlib
+import json
+import math
+import os
+from pathlib import Path
+import struct
+import subprocess
+import sys
+import tempfile
+
+from .windows_capture import CaptureError
+
+
+def _helper():
+    source = Path(__file__).parent / 'native/macos_capture.swift'
+    if not source.is_file(): raise CaptureError('helper_missing', 'Bundled native capture source is missing')
+    digest = hashlib.sha256(source.read_bytes()).hexdigest()
+    cache = Path.home() / 'Library/Caches/Bokkio/native' / digest
+    cache.mkdir(parents=True, exist_ok=True, mode=0o700)
+    target = cache / 'capture'
+    if not target.is_file():
+        # Compile to a unique temporary file; replace only the matching-source
+        # cache entry after success. Concurrent callers never see half a binary.
+        fd, name = tempfile.mkstemp(prefix='build-', dir=cache); os.close(fd)
+        try:
+            result = subprocess.run(['xcrun', 'swiftc', '-framework', 'Cocoa', '-framework', 'ScreenCaptureKit',
+                                     '-framework', 'Vision', str(source), '-o', name], capture_output=True, timeout=60)
+            if result.returncode:
+                raise CaptureError('helper_build_failed', 'Native helper compilation failed')
+            os.chmod(name, 0o700); os.replace(name, target)
+        except (OSError, subprocess.TimeoutExpired) as error:
+            raise CaptureError('helper_build_failed', 'Apple Command Line Tools are required') from error
+        finally:
+            Path(name).unlink(missing_ok=True)
+    return target
+
+
+def capture_window(pid, *, window_id=None, title=None, ocr=False, timeout=10.0):
+    if type(pid) is not int or not 0 < pid <= 0x7fffffff:
+        raise CaptureError('invalid_scope', 'Capture requires a positive native PID')
+    if window_id is not None and (type(window_id) is not int or not 0 < window_id <= 0xffffffff):
+        raise CaptureError('invalid_scope', 'Window ID must be a positive CGWindowID')
+    if title is not None and (type(title) is not str or not title or len(title) > 1024):
+        raise CaptureError('invalid_scope', 'Window title must be a nonempty bounded string')
+    if type(ocr) is not bool: raise CaptureError('invalid_scope', 'OCR flag must be boolean')
+    if type(timeout) not in {int, float} or not math.isfinite(timeout) or not 0.1 <= timeout <= 15:
+        raise CaptureError('invalid_budget', 'Capture timeout must be between 0.1 and 15 seconds')
+    if sys.platform != 'darwin': raise CaptureError('unsupported_platform', 'Run Mac capture on macOS')
+    helper = _helper()
+    with tempfile.TemporaryDirectory(prefix='bokkio-window-') as directory:
+        image = Path(directory) / 'capture.png'
+        request = {'pid':pid,'output':str(image),'ocr':ocr}
+        if window_id is not None: request['window_id'] = window_id
+        if title is not None: request['title'] = title
+        try:
+            result = subprocess.run([str(helper)], input=json.dumps(request).encode(), capture_output=True, timeout=timeout)
+        except subprocess.TimeoutExpired as error:
+            raise CaptureError('capture_timeout', 'Native capture/OCR exceeded its budget', timeout=timeout) from error
+        except OSError as error: raise CaptureError('worker_failed', 'Could not start the capture helper') from error
+        try:
+            payload = json.loads(result.stdout)
+            if 'error' in payload:
+                raise CaptureError(payload['error'], payload['message'], **payload.get('details', {}))
+            if result.returncode: raise ValueError('native helper exited unexpectedly')
+            metadata = payload['metadata']; png = image.read_bytes()
+            width, height = struct.unpack('>II', png[16:24])
+            if (metadata['pid'] != pid or (window_id is not None and metadata['window_id'] != window_id)
+                    or png[:8] != b'\x89PNG\r\n\x1a\n' or len(png) != metadata['image_bytes']
+                    or hashlib.sha256(png).hexdigest() != metadata['image_sha256']
+                    or (width, height) != (metadata['width'], metadata['height'])
+                    or width <= 0 or height <= 0 or width*height > 16_000_000
+                    or (ocr and metadata['ocr']['image_sha256'] != metadata['image_sha256'])):
+                raise ValueError('native image scope, dimensions or digest mismatch')
+            return metadata, png
+        except CaptureError: raise
+        except (ValueError, KeyError, TypeError, OSError, struct.error) as error:
+            raise CaptureError('worker_failed', 'Invalid native capture result') from error
+
+
+def screen_point(metadata, x, y):
+    if any(type(v) not in {int, float} or not math.isfinite(v) for v in (x,y)):
+        raise CaptureError('invalid_coordinates', 'Coordinates must be finite numbers')
+    if not (0 <= x < metadata['width'] and 0 <= y < metadata['height']):
+        raise CaptureError('invalid_coordinates', 'Point is outside the capture')
+    rect = metadata['content_rect']
+    return {'x':rect['x'] + x*rect['width']/metadata['width'],
+            'y':rect['y'] + y*rect['height']/metadata['height']}

@@ -1,0 +1,53 @@
+---
+source_path: fixtures/windowsworld-office/manifest.json
+source_commit: abe38acdfd308379bcdf4dbb597e96f672926b0d
+ingested: 2026-10-08
+sha256: 3a0f6eb909771a6337316f6715139c1b904734eee47a37f2331458c65de79eed
+---
+{
+  "source": "WindowsWorld",
+  "repository": "https://github.com/HITsz-TMG/WindowsWorld",
+  "revision": "fbccd464f94fec9e284e139f97bf96d0b192f580",
+  "source_path": "benchmark.json",
+  "benchmark_sha256": "c894bbce218db9fad5f8c54b9fcdb0e77f15622efc8d14890c20aafbb4a4c551",
+  "source_task_count": 181,
+  "tasks": [
+    {
+      "task_id": "win_adm_l1_003",
+      "path": "original/win_adm_l1_003.json",
+      "sha256": "2e473b184950605bc7b13ac823d230be45fe127d03c93495bbc12253a7878a2f",
+      "apps": [
+        "Word"
+      ],
+      "max_steps": 15
+    },
+    {
+      "task_id": "win_acc_l1_001",
+      "path": "original/win_acc_l1_001.json",
+      "sha256": "62e45e80e44729bd40b02cae5d52d57b9cf83e98084d9f9a4036e3383eb13d51",
+      "apps": [
+        "Excel"
+      ],
+      "max_steps": 15
+    },
+    {
+      "task_id": "win_pro_l1_003",
+      "path": "original/win_pro_l1_003.json",
+      "sha256": "479033565acb7f3066ff8b5537faf312153e456d6b4587b1baf367f5cdcfbce4",
+      "apps": [
+        "PowerPoint"
+      ],
+      "max_steps": 15
+    }
+  ],
+  "scope": "adapted_macos_microsoft_office_pilot",
+  "adaptations": [
+    "Windows desktop paths map to an isolated Mac task directory",
+    "Initial files use deterministic content satisfying the upstream generation prompts",
+    "Bokkio native/visual actions replace upstream PyAutoGUI action space",
+    "Independent OOXML checks supplement the unchanged source rubric; no official score claim",
+    "Synthetic inputs and an empty PowerPoint scratch file are opened during setup; opening/setup checkpoints are recorded separately from Agent actions"
+  ],
+  "external_communication": false,
+  "judge_rubric_sha256": "2922cbdae9da81d4a202ee114748cc1166b54c23d0d7f117b4e8025c9e79a4ef"
+}

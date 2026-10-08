@@ -1,0 +1,214 @@
+---
+source_path: src/bokkio/office_benchmark.py
+source_commit: abe38acdfd308379bcdf4dbb597e96f672926b0d
+ingested: 2026-10-08
+sha256: 48de06fefedefee91cfcbefa2850703e2d9d8df6dc3065a86225a3fccaa3c6f5
+---
+"""Pinned Microsoft Office pilot: isolated setup and read-only artifact scoring.
+
+Initialization may generate inputs; task execution must use native app actions.
+The artifact checks are a documented adaptation, not official WindowsWorld VLM
+scores. No mail task or external communication is included.
+"""
+from __future__ import annotations
+
+import copy
+import hashlib
+import json
+import re
+import posixpath
+from pathlib import Path
+import subprocess
+import xml.etree.ElementTree as ET
+import zipfile
+
+from .model import BokkioError
+
+W={'w':'http://schemas.openxmlformats.org/wordprocessingml/2006/main'}
+S={'s':'http://schemas.openxmlformats.org/spreadsheetml/2006/main'}
+P={'p':'http://schemas.openxmlformats.org/presentationml/2006/main','a':'http://schemas.openxmlformats.org/drawingml/2006/main'}
+TITLE='2024年第一季度工作总结'
+BODY=['本季度各项工作按计划推进，团队完成了既定项目里程碑。',
+      '通过流程优化和跨部门协作，交付效率和服务质量得到改善。',
+      '下一季度将继续跟踪关键指标，并落实已确定的改进措施。']
+EXPENSES=[['2024-01-02','Travel','Train ticket',125.5],['2024-01-04','Office','Paper',28.75],
+          ['2024-01-06','Software','Subscription',49.99],['2024-01-08','Travel','Taxi',18.2],
+          ['2024-01-10','Office','Equipment',235]]
+TASKS={
+    'win_adm_l1_003':{'app':'Microsoft Word','file':'季度报告草稿.docx','kind':'word'},
+    'win_acc_l1_001':{'app':'Microsoft Excel','file':'monthly_expenses.xlsx','kind':'excel'},
+    'win_pro_l1_003':{'app':'Microsoft PowerPoint','file':'Q2项目总结.pptx','kind':'powerpoint'},
+}
+
+
+def digest(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def load_bundle(bundle):
+    bundle=Path(bundle).resolve()
+    manifest=json.loads((bundle/'manifest.json').read_text(encoding='utf-8'))
+    if manifest.get('revision')!='fbccd464f94fec9e284e139f97bf96d0b192f580' or len(manifest.get('tasks',[]))!=3:
+        raise BokkioError('Office pilot must retain the pinned three-task selection')
+    if digest(bundle/'judge-rubric.json')!=manifest.get('judge_rubric_sha256'):
+        raise BokkioError('Pinned Office judge rubric changed')
+    tasks=[]
+    for entry in manifest['tasks']:
+        path=(bundle/entry['path']).resolve()
+        if not path.is_relative_to(bundle) or digest(path)!=entry['sha256']:
+            raise BokkioError('Pinned Office task content/path changed')
+        task=json.loads(path.read_text(encoding='utf-8'))
+        if task['task_id'] not in TASKS or task['task_id']!=entry['task_id'] or entry['max_steps']!=15:
+            raise BokkioError('Unexpected Office task or step budget')
+        setup=task['environment_setup']
+        if setup['urls_to_mock'] or setup['downloadable_resources'] or task['involved_apps'] not in [['Word'],['Excel'],['PowerPoint']]:
+            raise BokkioError('Pilot must remain local Microsoft Office tasks')
+        tasks.append(task)
+    if {t['task_id'] for t in tasks}!=set(TASKS):raise BokkioError('Pilot selection contains duplicates')
+    return manifest,tasks
+
+
+def prepare(bundle,workspace):
+    manifest,tasks=load_bundle(bundle);workspace=Path(workspace).resolve()
+    workspace.mkdir(parents=True,exist_ok=False)
+    records=[]
+    def command(*args):
+        try:r=subprocess.run(['officecli',*map(str,args)],capture_output=True,text=True,timeout=40)
+        except (OSError,subprocess.TimeoutExpired) as error:raise BokkioError('Office input initializer is unavailable') from error
+        if r.returncode:raise BokkioError('Office input initializer rejected a command: '+r.stderr[:200])
+        return r.stdout
+    for task in tasks:
+        id=task['task_id'];spec=TASKS[id];folder=workspace/id;folder.mkdir();desktop=folder/'desktop';desktop.mkdir()
+        file=desktop/spec['file'];initial=[]
+        if spec['kind']=='word':
+            command('create',file)
+            batch=[{'command':'add','parent':'/body','type':'paragraph','props':{'text':text,'style':'Normal','font':'Arial','size':'12pt','lineSpacing':'1x'}} for text in [TITLE,*BODY]]
+            command('batch',file,'--commands',json.dumps(batch,ensure_ascii=False))
+            command('close',file);initial.append(file)
+        elif spec['kind']=='excel':
+            command('create',file);batch=[]
+            for row,values in enumerate([['Date','Category','Description','Amount'],*EXPENSES],1):
+                for col,value in zip('ABCD',values):
+                    batch.append({'command':'set','path':f'/Sheet1/{col}{row}','props':{'value':str(value),'type':'number' if col=='D' and row>1 else 'string'}})
+            command('batch',file,'--commands',json.dumps(batch))
+            for col in 'ABCD':command('set',file,f'/Sheet1/col[{col}]','--prop','width=22')
+            command('close',file);initial.append(file)
+        else:
+            # A blank scratch document avoids exposing the user's recent files.
+            # The requested output and answer slide are still absent at setup.
+            scratch=folder/'Bokkio_blank.pptx'
+            command('create',scratch);command('close',scratch);initial.append(scratch)
+        qa={}
+        for p in initial:
+            html=command('view',p,'html');preview=folder/(p.name+'.setup.html');preview.write_text(html,encoding='utf-8')
+            validation=command('validate',p);issues=command('view',p,'issues');command('close',p)
+            qa[p.name]={'sha256':digest(p),'bytes':p.stat().st_size,'validate':validation,
+                        'issues':issues,'html_preview':str(preview),'html_sha256':digest(preview)}
+        record={'task_id':id,'app':spec['app'],'desktop':str(desktop),'artifact':str(file),'source':str(initial[0]),
+                'initial_inputs':qa,'initial_output_exists':file.exists() if spec['kind']=='powerpoint' else None,
+                'goal':task['instruction']+'\nEnvironment adaptation: the isolated desktop is '+str(desktop)+'. The initial source is '+str(initial[0])+'. Use Microsoft desktop '+task['involved_apps'][0]+'. Preserve source content and save the specified output at '+str(file)+'. Do not use file-editing scripts.',
+                'max_steps':15}
+        records.append(record)
+    state={'schema':'bokkio.office_pilot.v1','scope':manifest['scope'],'revision':manifest['revision'],
+           'bundle_manifest_sha256':digest(Path(bundle)/'manifest.json'),'bundle':str(Path(bundle).resolve()),'workspace':str(workspace),'tasks':records,
+           'setup_completed':True,'task_execution_started':False,'official_score':False}
+    (workspace/'prepared.json').write_text(json.dumps(state,ensure_ascii=False,indent=2)+'\n')
+    return state
+
+
+def _style_chain(styles,id):
+    result=[];seen=set()
+    while id:
+        if id in seen or len(result)>=32:raise BokkioError('Word style inheritance contains a cycle')
+        seen.add(id);style=styles.get(id)
+        if style is None:break
+        result.append(style);base=style.find('w:basedOn',W);id=base.get('{'+W['w']+'}val') if base is not None else None
+    return result
+
+
+def _attr(elements,tag,name):
+    for properties in elements:
+        if properties is None:continue
+        element=properties.find('w:'+tag,W)
+        if element is not None and element.get('{'+W['w']+'}'+name) is not None:return element.get('{'+W['w']+'}'+name)
+    return None
+
+
+def score_word(file):
+    with zipfile.ZipFile(file) as z:
+        body=ET.fromstring(z.read('word/document.xml'));style_root=ET.fromstring(z.read('word/styles.xml'))
+    styles={s.get('{'+W['w']+'}styleId'):s for s in style_root.findall('w:style',W)}
+    paras=body.findall('.//w:body/w:p',W)
+    texts=[''.join(t.text or '' for t in p.findall('.//w:t',W)) for p in paras]
+    checks={'preserved_content':texts==[TITLE,*BODY],'heading1':False,'body_font_size_spacing':False}
+    if len(paras)!=4:return checks
+    title_style=_attr([paras[0].find('w:pPr',W)],'pStyle','val');chain=_style_chain(styles,title_style)
+    names=[_attr([s],'name','val') for s in chain]
+    checks['heading1']=(title_style or '').casefold()=='heading1' or any((n or '').casefold() in {'heading 1','标题 1','标题1'} for n in names[:1])
+    normal_defaults=style_root.find('w:docDefaults/w:rPrDefault/w:rPr',W)
+    p_defaults=style_root.find('w:docDefaults/w:pPrDefault/w:pPr',W)
+    valid=[]
+    for paragraph in paras[1:]:
+        ppr=paragraph.find('w:pPr',W);style_id=_attr([ppr],'pStyle','val') or 'Normal';chain=_style_chain(styles,style_id)
+        spacing=[ppr,*[s.find('w:pPr',W) for s in chain],p_defaults]
+        line=_attr(spacing,'spacing','line');rule=_attr(spacing,'spacing','lineRule') or 'auto'
+        runs=[r for r in paragraph.findall('.//w:r',W) if r.findall('w:t',W)]
+        run_checks=[]
+        for run in runs:
+            props=run.find('w:rPr',W);char=_attr([props],'rStyle','val');char_chain=_style_chain(styles,char)
+            inheritance=[props,*[s.find('w:rPr',W) for s in char_chain],ppr.find('w:rPr',W) if ppr is not None else None,*[s.find('w:rPr',W) for s in chain],normal_defaults]
+            font=_attr(inheritance,'rFonts','ascii') or _attr(inheritance,'rFonts','hAnsi')
+            size=_attr(inheritance,'sz','val')
+            run_checks.append(font=='Calibri' and size=='22')
+        valid.append(bool(run_checks) and all(run_checks) and line=='276' and rule=='auto')
+    checks['body_font_size_spacing']=all(valid);return checks
+
+
+def score_excel(file):
+    with zipfile.ZipFile(file) as z:
+        sheet=ET.fromstring(z.read('xl/worksheets/sheet1.xml'));styles=ET.fromstring(z.read('xl/styles.xml'))
+        strings=[''.join(si.itertext()) for si in ET.fromstring(z.read('xl/sharedStrings.xml')).findall('s:si',S)] if 'xl/sharedStrings.xml' in z.namelist() else []
+    numfmts={int(n.get('numFmtId')):n.get('formatCode') for n in styles.findall('s:numFmts/s:numFmt',S)}
+    formats=list(styles.find('s:cellXfs',S));cells={c.get('r'):c for c in sheet.findall('.//s:c',S)}
+    def value(c):
+        text=c.findtext('s:v',namespaces=S)
+        if c.get('t')=='s':return strings[int(text)]
+        if c.get('t')=='inlineStr':return ''.join(c.find('s:is',S).itertext())
+        return text
+    def currency(c):
+        index=c.get('s')
+        if index is None:
+            columns=[n for n in sheet.findall('s:cols/s:col',S) if int(n.get('min'))<=4<=int(n.get('max'))];index=columns[0].get('style','0') if columns else '0'
+        id=int(formats[int(index)].get('numFmtId','0'))
+        code=numfmts.get(id,'')
+        code=re.sub(r'\[\$-[^\]]+\]','',code)
+        return id in {5,6,7,8,42,44} or any(symbol in code for symbol in ['$','€','£','¥','￥'])
+    values_ok=all(str(value(cells[f'{col}{row}']))==str(expected)
+                  for row,record in enumerate(EXPENSES,2) for col,expected in zip('ABC',record[:3]))
+    amounts=all(abs(float(value(cells[f'D{i}']))-r[3])<1e-9 for i,r in enumerate(EXPENSES,2))
+    return {'preserved_values':values_ok and amounts,'currency_nonempty_D':all(currency(cells[f'D{i}']) for i in range(1,7))}
+
+
+def score_powerpoint(file):
+    with zipfile.ZipFile(file) as z:
+        names=[n for n in z.namelist() if n.startswith('ppt/slides/slide') and n.endswith('.xml') and '/_rels/' not in n]
+        if len(names)!=1:return {'one_slide':False,'title_placeholder':False}
+        slide=ET.fromstring(z.read(names[0]));titles=[]
+        relationships=ET.fromstring(z.read('ppt/slides/_rels/'+Path(names[0]).name+'.rels'))
+        layout_paths=[posixpath.normpath(posixpath.join('ppt/slides',r.get('Target'))) for r in relationships if r.get('Type','').endswith('/slideLayout')]
+        title_layout=len(layout_paths)==1 and ET.fromstring(z.read(layout_paths[0])).get('type')=='title'
+        for shape in slide.findall('.//p:sp',P):
+            placeholder=shape.find('p:nvSpPr/p:nvPr/p:ph',P)
+            if placeholder is not None and placeholder.get('type') in {'title','ctrTitle'}:
+                titles.append(''.join(t.text or '' for t in shape.findall('.//a:t',P)))
+    return {'one_slide':True,'title_placeholder':titles==['Alpha Initiative'],'title_layout':title_layout}
+
+
+def evaluate(task_id,file):
+    if task_id not in TASKS:raise BokkioError('Unknown Office pilot task')
+    file=Path(file)
+    if not file.is_file():return {'task_id':task_id,'artifact_exists':False,'passed':False,'checks':{},'official_score':False}
+    try:checks={'word':score_word,'excel':score_excel,'powerpoint':score_powerpoint}[TASKS[task_id]['kind']](file)
+    except (OSError,ValueError,KeyError,IndexError,TypeError,ET.ParseError,zipfile.BadZipFile) as error:
+        return {'task_id':task_id,'artifact_exists':True,'passed':False,'checks':{},'error':'Invalid Office artifact','official_score':False}
+    return {'task_id':task_id,'artifact_exists':True,'sha256':digest(file),'bytes':file.stat().st_size,
+            'checks':checks,'passed':all(checks.values()),'official_score':False,'evaluator':'independent_OOXML_adaptation'}

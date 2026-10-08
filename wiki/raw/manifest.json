@@ -1,0 +1,302 @@
+{
+  "schema": "bokkio.wiki.sources.v1",
+  "created": "2026-10-08",
+  "basis_commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d",
+  "source_count": 42,
+  "records": [
+    {
+      "path": "README.md",
+      "snapshot": "raw/source-snapshots/README.md.txt",
+      "sha256": "88d1333f2016cc6d0597385c973dceacae4605302215a726357af579bbce351f",
+      "bytes": 48088,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "PLAN.md",
+      "snapshot": "raw/source-snapshots/PLAN.md.txt",
+      "sha256": "3f443c9b6572769986ad05ad89ba74734e3b3cd3cb9ea9b18603152fb5f8c886",
+      "bytes": 38389,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "pyproject.toml",
+      "snapshot": "raw/source-snapshots/pyproject.toml.txt",
+      "sha256": "a3a9fff79cdc818dbbf5ba7f05af769a1b8e0815e3850f407f61c22face94941",
+      "bytes": 589,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "docs/STATUS.md",
+      "snapshot": "raw/source-snapshots/docs/STATUS.md.txt",
+      "sha256": "3dac74d540760bfae16744c6e9c04933ccfe588face08c9f39659f901960ddd9",
+      "bytes": 4017,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "docs/PENDING.md",
+      "snapshot": "raw/source-snapshots/docs/PENDING.md.txt",
+      "sha256": "781893cc76e34433f21b5c7bae92e93d5f11452ddc3f796c8f0e6785b4aa3c40",
+      "bytes": 4332,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "docs/RESEARCH.md",
+      "snapshot": "raw/source-snapshots/docs/RESEARCH.md.txt",
+      "sha256": "a8ae7462a8c1374f54c0a9b29a2c5de037923288a8dd6af0bb2ab2a09858840e",
+      "bytes": 28413,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "docs/P6-CLOSURE.md",
+      "snapshot": "raw/source-snapshots/docs/P6-CLOSURE.md.txt",
+      "sha256": "83f3fd7dd186921ed045b9cd3e6453e7bc92ada923fe7753080608e100893501",
+      "bytes": 5402,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "docs/MACOS-FOLLOWUP.md",
+      "snapshot": "raw/source-snapshots/docs/MACOS-FOLLOWUP.md.txt",
+      "sha256": "2f9e99827ba6527cb5b054091b35881eb3bf1436bb73cc5185d49e3420618922",
+      "bytes": 6102,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "docs/MACOS-OFFICE-REPORT.md",
+      "snapshot": "raw/source-snapshots/docs/MACOS-OFFICE-REPORT.md.txt",
+      "sha256": "1c51724c63a010afb3621dfe11e5330ec0017dc0c904bd7e763a680ffc8f28af",
+      "bytes": 7124,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "docs/MACOS-CAPTURE-PROBE.md",
+      "snapshot": "raw/source-snapshots/docs/MACOS-CAPTURE-PROBE.md.txt",
+      "sha256": "7b49f9b4c6720469b27dd1b8fc0b11334fff60336727e020ef7fd6ba02b9e125",
+      "bytes": 3977,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "docs/P7-MACOS-VISUAL.md",
+      "snapshot": "raw/source-snapshots/docs/P7-MACOS-VISUAL.md.txt",
+      "sha256": "24aea87eca05ff81406a9ae231393f3cf8d4247e9287580ed4aac25afc8d1301",
+      "bytes": 6431,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "docs/OFFICE-PILOT-READINESS.md",
+      "snapshot": "raw/source-snapshots/docs/OFFICE-PILOT-READINESS.md.txt",
+      "sha256": "f56060ee94171b517cac31cf990dd20d24e22ab9e3a5842164578f0e56fb81a2",
+      "bytes": 5852,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "docs/BENCHMARK-PLAN.md",
+      "snapshot": "raw/source-snapshots/docs/BENCHMARK-PLAN.md.txt",
+      "sha256": "3d6cfd40fbf29ad8cde0347493c903bc4fe18f5f3a39f33cbc004f3bd60c240b",
+      "bytes": 9105,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "docs/SECURITY-REVIEW.md",
+      "snapshot": "raw/source-snapshots/docs/SECURITY-REVIEW.md.txt",
+      "sha256": "31f89aecfc9ffef89f657f3b92869ec733f8a2f252a85889ae94ec72311d1e63",
+      "bytes": 11240,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "fixtures/windowsworld-office/manifest.json",
+      "snapshot": "raw/source-snapshots/fixtures/windowsworld-office/manifest.json.txt",
+      "sha256": "3a0f6eb909771a6337316f6715139c1b904734eee47a37f2331458c65de79eed",
+      "bytes": 1733,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "docs/evidence/2026-10-08-office-pilot-ready/run.json",
+      "snapshot": "raw/source-snapshots/docs/evidence/2026-10-08-office-pilot-ready/run.json.txt",
+      "sha256": "849cf045c90b4968fb5d87750f1d4603aff6fa859e976c88861d7e247e7fa965",
+      "bytes": 1404,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "docs/evidence/2026-10-08-p7-macos-runtime/validation.json",
+      "snapshot": "raw/source-snapshots/docs/evidence/2026-10-08-p7-macos-runtime/validation.json.txt",
+      "sha256": "2cf6276aa3bfb4c4665ba5241e3c33835515c9c3ac6b77b8e5f5fd1f216163d8",
+      "bytes": 328,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "src/bokkio/agent.py",
+      "snapshot": "raw/source-snapshots/src/bokkio/agent.py.txt",
+      "sha256": "a5be6420adf3c2c980eccac8ffc5318e2d007534e60e79b607554442d4894c5d",
+      "bytes": 37939,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "src/bokkio/arena.py",
+      "snapshot": "raw/source-snapshots/src/bokkio/arena.py.txt",
+      "sha256": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f",
+      "bytes": 8653,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "src/bokkio/cli.py",
+      "snapshot": "raw/source-snapshots/src/bokkio/cli.py.txt",
+      "sha256": "dd5a586a514d8f03b1e9e84488b4d532b0a7cb9dfc25eb7b5aad75f47cefe9de",
+      "bytes": 18817,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "src/bokkio/decision.py",
+      "snapshot": "raw/source-snapshots/src/bokkio/decision.py.txt",
+      "sha256": "60dc62a24a1b1d3347afa1165980d041e0319aa253dc8d6b1240b02245e9728e",
+      "bytes": 29822,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "src/bokkio/jev.py",
+      "snapshot": "raw/source-snapshots/src/bokkio/jev.py.txt",
+      "sha256": "637bc696117c59439bf8944d10bf4c9c34a45b9499cb5aef36326ae4596c0a59",
+      "bytes": 4152,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "src/bokkio/macos_capture.py",
+      "snapshot": "raw/source-snapshots/src/bokkio/macos_capture.py.txt",
+      "sha256": "cc605e631bd3834819337007b46dde09e1ead679fcd1b6d3d9d7217434db765f",
+      "bytes": 5205,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "src/bokkio/model.py",
+      "snapshot": "raw/source-snapshots/src/bokkio/model.py.txt",
+      "sha256": "133789f227103ebf575fb5a891477e510ffab61e7489076ce49afade3dc84a9f",
+      "bytes": 2856,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "src/bokkio/office_benchmark.py",
+      "snapshot": "raw/source-snapshots/src/bokkio/office_benchmark.py.txt",
+      "sha256": "48de06fefedefee91cfcbefa2850703e2d9d8df6dc3065a86225a3fccaa3c6f5",
+      "bytes": 12929,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "src/bokkio/office_judge.py",
+      "snapshot": "raw/source-snapshots/src/bokkio/office_judge.py.txt",
+      "sha256": "8682d047ab635b8e63c863181b45ea89792bb6161b6c75462a1c76320eeab58e",
+      "bytes": 3910,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "src/bokkio/office_runner.py",
+      "snapshot": "raw/source-snapshots/src/bokkio/office_runner.py.txt",
+      "sha256": "53c12d0952c1a7ab20688368862295d2fd1beab6fe9eb57e493bc9e9c804e5c1",
+      "bytes": 9555,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "src/bokkio/planner.py",
+      "snapshot": "raw/source-snapshots/src/bokkio/planner.py.txt",
+      "sha256": "7fd8de14f51bae52bb7f1c761b08fc4560d09320f2d11edb8b089bbbd662edff",
+      "bytes": 24911,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "src/bokkio/scroll.py",
+      "snapshot": "raw/source-snapshots/src/bokkio/scroll.py.txt",
+      "sha256": "8852a17321ecf1039c4d2dbd2f5fde92ea7d63576dd5b591afe58ffa36842579",
+      "bytes": 5766,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "src/bokkio/selector.py",
+      "snapshot": "raw/source-snapshots/src/bokkio/selector.py.txt",
+      "sha256": "277eb64ce00888d255daa4bd0dc78d91efcfd510b69b17d5022d2428104d446c",
+      "bytes": 2016,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "src/bokkio/visual.py",
+      "snapshot": "raw/source-snapshots/src/bokkio/visual.py.txt",
+      "sha256": "d9d73f7c720dca5dfac33503def6d914b3c12af2e76711942be330e35422892c",
+      "bytes": 5298,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "src/bokkio/visual_input.py",
+      "snapshot": "raw/source-snapshots/src/bokkio/visual_input.py.txt",
+      "sha256": "91163a20667cc6599eab8fff07fc0fb892f250e289da1be79554fd59f83c5ed4",
+      "bytes": 4209,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "src/bokkio/windows_capture.py",
+      "snapshot": "raw/source-snapshots/src/bokkio/windows_capture.py.txt",
+      "sha256": "cfa9f52c6cc2a20edf6fdf3de7271c86f80d0f251354761b35569cc18a248c82",
+      "bytes": 14895,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "src/bokkio/windows_uia.py",
+      "snapshot": "raw/source-snapshots/src/bokkio/windows_uia.py.txt",
+      "sha256": "0f3eaf5140133c3b550de44665c10f8389003bfb21cf957b6048e889fe273468",
+      "bytes": 16868,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "src/bokkio/workflow.py",
+      "snapshot": "raw/source-snapshots/src/bokkio/workflow.py.txt",
+      "sha256": "b03fd75023d10b4a1d316a628803dbecb04be51c16a98384b0076a9fdd3c892a",
+      "bytes": 35400,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "src/bokkio/workflow_inputs.py",
+      "snapshot": "raw/source-snapshots/src/bokkio/workflow_inputs.py.txt",
+      "sha256": "4025033f62d3008d0ac6b922ab21f9746ccffccfc0e192fd319a4dc03a9b803e",
+      "bytes": 7305,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "src/bokkio/workflow_repair.py",
+      "snapshot": "raw/source-snapshots/src/bokkio/workflow_repair.py.txt",
+      "sha256": "91129cef36aeccdd9d9835a78c171868e28a1215ed6cadc77548a834c319de3c",
+      "bytes": 4453,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "src/bokkio/xa11y_backend.py",
+      "snapshot": "raw/source-snapshots/src/bokkio/xa11y_backend.py.txt",
+      "sha256": "79ee902597b75e48e93455923adb1da12f3a2f883e3e90230af04b017466fe61",
+      "bytes": 31695,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "src/bokkio/native/macos_capture.swift",
+      "snapshot": "raw/source-snapshots/src/bokkio/native/macos_capture.swift.txt",
+      "sha256": "823c041309a3e97535f2a9a1ac229cd41f09f3cea7901c3afcf7e77505b42161",
+      "bytes": 12157,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "tests/test_office_benchmark.py",
+      "snapshot": "raw/source-snapshots/tests/test_office_benchmark.py.txt",
+      "sha256": "6afa5e4762e0753dec37b77b9299032dc1e38dbc6587621f7f51dd9430a17292",
+      "bytes": 6513,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "tests/test_visual_input.py",
+      "snapshot": "raw/source-snapshots/tests/test_visual_input.py.txt",
+      "sha256": "95b7a82c135294a96f411c1905d3f1f66230bad90585618bea8dfee492512485",
+      "bytes": 4094,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "tests/test_workflow_extended.py",
+      "snapshot": "raw/source-snapshots/tests/test_workflow_extended.py.txt",
+      "sha256": "2424195166f7ead0d69c712f12c6cb0b70860dbe3a242e0594cc6a0638f9ad05",
+      "bytes": 16579,
+      "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    }
+  ]
+}

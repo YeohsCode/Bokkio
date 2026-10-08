@@ -1,0 +1,1762 @@
+---
+source_path: docs/RESEARCH.md
+source_commit: abe38acdfd308379bcdf4dbb597e96f672926b0d
+ingested: 2026-10-08
+sha256: a8ae7462a8c1374f54c0a9b29a2c5de037923288a8dd6af0bb2ab2a09858840e
+---
+# Windows + macOS 跨平台 AI Computer Use / RPA 研究方案
+
+> 研究目标：寻找或构建一个同时支持 **Windows + macOS** 的桌面自动化工具，具备类似 UiPath 的 Native UI Element Tree 能力，并进一步引入 **Jev 快速决策 + LLM 全局规划 / Computer Use**，最终形成“确定性 RPA + AI Agent”的混合执行体系。
+>
+> 信息核验时间：2026-09-23
+
+---
+
+## 1. 我的目标与需求
+
+### 1.1 核心目标
+
+希望得到一个类似下面形态的工具：
+
+```text
+                    用户
+                     │
+            自然语言 / 录制操作
+                     │
+                     ▼
+             ┌──────────────┐
+             │ LLM / Agent  │
+             │ 高层规划      │
+             └──────┬───────┘
+                    │
+              Task / Subtask
+                    │
+                    ▼
+             ┌──────────────┐
+             │     Jev      │
+             │ 快速决策      │
+             └──────┬───────┘
+                    │
+            Element + Action
+                    │
+                    ▼
+        ┌────────────────────────┐
+        │ Native Accessibility   │
+        │ Element Runtime        │
+        └───────────┬────────────┘
+                    │
+           ┌────────┴────────┐
+           ▼                 ▼
+       Windows UIA       macOS AXUIElement
+           │                 │
+           └────────┬────────┘
+                    ▼
+               Native Apps
+```
+
+### 1.2 必须满足的能力
+
+#### A. Windows + macOS 双平台
+
+不是“Windows 有完整能力、macOS 只能截图”，而是两边都应该尽可能使用原生 Accessibility/UI Automation：
+
+- Windows → Microsoft UI Automation / UIA
+- macOS → Accessibility API / AXUIElement
+
+#### B. Native UI Element Tree
+
+类似 UiPath 的核心能力：
+
+```text
+Application
+ └── Window
+      ├── Menu
+      ├── Toolbar
+      ├── Button
+      ├── TextBox
+      ├── ComboBox
+      ├── Table
+      │    ├── Row
+      │    └── Cell
+      └── Dialog
+```
+
+每个 Element 应尽可能具有：
+
+- id / ref
+- role / control type
+- name
+- value
+- state
+- bounds
+- parent / children
+- supported actions
+- platform-specific raw properties
+
+重点不是“看截图猜按钮”，而是读取 OS 暴露的真实 UI 结构。
+
+#### C. Element-based 操作
+
+至少支持：
+
+- Click / Invoke
+- Type
+- Set Value
+- Select
+- Toggle
+- Expand / Collapse
+- Focus
+- Scroll
+- Keyboard
+- Drag
+- Window management
+
+优先通过 Element API 操作，而不是：
+
+```text
+move mouse to x=532,y=271
+click
+```
+
+#### D. Recorder / Workflow
+
+希望进一步支持：
+
+```text
+用户操作
+   ↓
+读取当前 Element
+   ↓
+记录 Element + Action
+   ↓
+形成 Workflow
+   ↓
+保存
+   ↓
+后续 deterministic replay
+```
+
+例如：
+
+```json
+{
+  "action": "click",
+  "target": {
+    "role": "button",
+    "name": "Submit"
+  }
+}
+```
+
+最终可以形成：
+
+```text
+Open App
+  ↓
+Find Window
+  ↓
+Click Element
+  ↓
+Type Text
+  ↓
+Select Item
+  ↓
+Click Save
+  ↓
+Wait
+  ↓
+Verify
+```
+
+#### E. Jev 快速决策
+
+希望把 Jev 放在 Element Tree 和高层 LLM 之间：
+
+```text
+Accessibility Tree
+        ↓
+       Jev
+        ↓
+Action + Target Element
+```
+
+Jev 不负责“理解整个企业任务”，而主要负责：
+
+- 当前应该操作哪个 Element
+- 当前应该执行什么 Action
+- 是否需要继续观察
+- 是否已经完成
+- 是否应该停止
+- 低置信度时不要盲目执行
+
+这样可以避免每一个 Click / Type 都调用大型 LLM。
+
+#### F. LLM / Agent 全局控制
+
+LLM 负责更高层：
+
+```text
+“把这个 Excel 清理后保存成 PDF”
+```
+
+拆解成：
+
+```text
+1. 找到 Excel
+2. 打开文件
+3. 清理数据
+4. 导出 PDF
+5. 验证文件
+6. 返回结果
+```
+
+每一个子任务再交给：
+
+```text
+Jev
+  ↓
+Element Tree
+  ↓
+Action
+```
+
+#### G. Computer Use 兜底
+
+不是所有 UI 都能很好地暴露 Accessibility Tree。
+
+因此需要 fallback：
+
+```text
+Native Element Tree
+        ↓
+找不到 / 不确定
+        ↓
+OCR / Screenshot / Vision
+        ↓
+CUA / VLM
+        ↓
+Mouse / Keyboard / Coordinate
+```
+
+最终形成：
+
+```text
+Deterministic Element Automation
+          ↓
+        Jev
+          ↓
+       LLM Agent
+          ↓
+     Vision / CUA
+```
+
+---
+
+# 2. 与传统 UiPath 的区别
+
+目标并不是简单复制 UiPath。
+
+## 传统 RPA
+
+```text
+Recorder
+   ↓
+Element Selector
+   ↓
+Workflow
+   ↓
+Deterministic Replay
+```
+
+优势：
+
+- 快
+- 稳定
+- 可审计
+- 可重复
+
+问题：
+
+- UI 改变后 Selector 容易失效
+- 复杂任务需要人工配置
+- 对未知环境适应性有限
+
+## 目标架构
+
+```text
+                  ┌──────────────┐
+                  │ LLM / Agent  │
+                  └──────┬───────┘
+                         │
+                    高层任务规划
+                         │
+                         ▼
+                  ┌──────────────┐
+                  │     Jev      │
+                  └──────┬───────┘
+                         │
+                  Element + Action
+                         │
+                         ▼
+              Native Accessibility
+                         │
+                ┌────────┴────────┐
+                ▼                 ▼
+              UIA                AX
+                │                 │
+                └────────┬────────┘
+                         ▼
+                    Native App
+```
+
+核心思想：
+
+> **能确定性执行的事情，就不要让大模型每次重新推理。**
+
+---
+
+# 3. 当前调研得到的项目
+
+## 3.1 xa11y —— 最值得研究的跨平台 Element Runtime
+
+GitHub：
+
+https://github.com/xa11y/xa11y
+
+定位：
+
+> Cross-platform desktop accessibility library for driving native desktop apps.
+
+当前明确支持：
+
+| 能力 | Windows | macOS | Linux |
+|---|---:|---:|---:|
+| Accessibility Tree | ✅ | ✅ | ✅ |
+| Native backend | UI Automation | AXUIElement | AT-SPI2 |
+| Selector | ✅ | ✅ | ✅ |
+| Element 操作 | ✅ | ✅ | ✅ |
+| Python | ✅ | ✅ | ✅ |
+| Rust | ✅ | ✅ | ✅ |
+| JavaScript | ✅ | ✅ | ✅ |
+
+它提供类似 CSS 的 Selector：
+
+```text
+button
+button[name='OK']
+text_field[name^='Search']
+group > button
+window button
+button:nth(2)
+```
+
+Action 包括：
+
+```text
+press
+focus
+blur
+toggle
+expand
+collapse
+select
+set_value
+type_text
+increment
+decrement
+show_menu
+```
+
+### 为什么重要
+
+它非常接近“UiPath Element Engine 的底座”：
+
+```text
+OS UI
+  ↓
+Accessibility Tree
+  ↓
+Unified Element API
+  ↓
+Selector
+  ↓
+Action
+```
+
+而且它本身不是一个完整 Agent，这反而是优点：
+
+> 可以把 Jev、LLM、Workflow Engine 接到上面。
+
+---
+
+# 4. CUP / Computer Use Protocol —— 值得重点关注的统一 Element Schema
+
+GitHub：
+
+https://github.com/computeruseprotocol/computeruseprotocol
+
+定位：
+
+> Universal schema for AI agents to perceive and interact with any desktop UI.
+
+它试图解决一个关键问题：
+
+```text
+Windows UIA
+macOS AXUIElement
+Linux AT-SPI2
+Web ARIA
+Android
+iOS
+```
+
+每个平台的 UI Tree 都不一样。
+
+CUP 把它们转换成统一 Schema。
+
+例如：
+
+```json
+{
+  "version": "0.1.0",
+  "platform": "windows",
+  "app": {
+    "name": "Spotify"
+  },
+  "tree": [
+    {
+      "id": "e0",
+      "role": "window",
+      "name": "Spotify",
+      "actions": ["click"]
+    }
+  ]
+}
+```
+
+同时提供针对 LLM 的 Compact Representation。
+
+### 对本项目的意义
+
+可以考虑：
+
+```text
+Windows UIA
+      │
+      ▼
+   xa11y
+      │
+      ▼
+CUP Unified Element Model
+      │
+      ├── Jev
+      ├── LLM
+      ├── Recorder
+      └── Workflow Engine
+```
+
+这可以避免以后所有 Agent 逻辑都写死 Windows / macOS。
+
+---
+
+# 5. agent-desktop —— 很好的 Agent ↔ Desktop Runtime 参考
+
+GitHub：
+
+https://github.com/lahfir/agent-desktop
+
+项目当前核心是：
+
+> Agent 通过 OS Accessibility Tree 查看和操作桌面。
+
+技术：
+
+- Rust
+- Native CLI
+- FFI
+- Accessibility Tree
+- Stable refs
+- Structured JSON
+- Session
+- Workflow-oriented interaction
+- Chromium CDP interop
+
+它强调：
+
+> 不是猜像素，而是读取真实 UI 结构。
+
+它目前基于 xa11y。
+
+### 重要限制
+
+截至 2026-09：
+
+| 平台 | 状态 |
+|---|---|
+| macOS | ✅ |
+| Windows | Planned |
+| Linux | Planned |
+
+所以它**不能直接作为当前 Windows + macOS 成品底座**。
+
+但它的架构非常值得借鉴。
+
+---
+
+# 6. jev-desktop —— Jev + Accessibility Tree 的关键参考
+
+GitHub：
+
+https://github.com/lahfir/agent-desktop/tree/main/skills/jev-desktop
+
+它实现的核心 Loop：
+
+```text
+Goal
+ ↓
+Read Accessibility Tree
+ ↓
+Jev 决策
+ ↓
+选择 Action + Target
+ ↓
+执行
+ ↓
+重新读取 Tree
+ ↓
+Jev 再决策
+ ↓
+...
+```
+
+关键点：
+
+> Tree 不需要全部暴露给调用 Agent。
+
+它通过：
+
+```text
+snapshot
+ ↓
+compact refs
+ ↓
+Jev
+```
+
+减少上下文消耗。
+
+### 当前能力
+
+Jev 可以选择：
+
+```text
+CLICK
+TYPE_TEXT
+CHECK
+UNCHECK
+EXPAND
+COLLAPSE
+SCROLL
+DRILL
+WIDEN
+WAIT
+DONE
+BLOCKED
+```
+
+这正符合：
+
+> **Jev 做局部快速决策，LLM 做全局任务规划。**
+
+---
+
+# 7. computer-use-jev —— 最直接的 Jev Computer Use 原型
+
+GitHub：
+
+https://github.com/paulsmith/computer-use-jev
+
+它当前是 macOS。
+
+架构：
+
+```text
+macOS Accessibility API
+        ↓
+apps / windows / snapshot
+        ↓
+Element Tokens
+a1 / w2 / e5
+        ↓
+Jev
+        ↓
+Action + Target
+        ↓
+执行
+        ↓
+重新 snapshot
+```
+
+特别值得学习的一点：
+
+> Jev 只能从当前真实存在的 Element token 中选择目标。
+
+因此不是：
+
+```text
+Jev:
+click x=532 y=271
+```
+
+而是：
+
+```text
+snapshot:
+e1 = Search
+e2 = Save
+e3 = Cancel
+
+Jev:
+CLICK e2
+```
+
+这让决策空间天然受到约束。
+
+---
+
+# 8. NomiFun —— 当前最值得实际运行验证的完整跨平台产品之一
+
+GitHub：
+
+https://github.com/nomifun/nomifun-desktop
+
+它是一个完整的本地 AI workstation，而不是单纯 RPA library。
+
+技术架构：
+
+```text
+React
+ +
+Rust
+ +
+Tauri
+```
+
+Native Computer Use：
+
+```text
+Accessibility Tree
++
+Set-of-Marks
++
+OCR
+```
+
+当前项目资料明确写明：
+
+```text
+macOS → AXUIElement + Vision OCR
+Windows → UI Automation
+Linux → AT-SPI2 partial
+```
+
+因此它目前在“Windows + macOS Computer Use”这个目标上，比 agent-desktop 更接近可直接验证的产品。
+
+### 值得研究的地方
+
+- Windows UI Automation
+- macOS AXUIElement
+- Element Tree
+- Set-of-Marks
+- OCR
+- Computer Use
+- Browser Use
+- MCP
+- Agent Runtime
+- 本地执行
+
+### 与目标的差距
+
+它目前不是：
+
+```text
+LLM
+ ↓
+Jev
+ ↓
+Element
+```
+
+而更接近：
+
+```text
+Agent / LLM
+ ↓
+Computer Use
+ ↓
+Accessibility + Vision
+```
+
+因此可以把它作为完整产品参考，而不是 Jev Runtime 的直接答案。
+
+---
+
+# 9. CrossMacro —— 跨平台 Recorder 参考
+
+GitHub：
+
+https://github.com/alper-han/CrossMacro
+
+明确支持：
+
+- Windows
+- macOS
+- Linux
+
+核心能力：
+
+```text
+Record
+ ↓
+Mouse / Keyboard
+ ↓
+Workflow
+ ↓
+Replay
+```
+
+并支持：
+
+- Scheduling
+- CLI
+- MCP
+- Screen-aware automation
+- Window management
+
+### 但是它不是核心候选
+
+原因：
+
+它更偏：
+
+```text
+Macro / Input Automation
+```
+
+而不是：
+
+```text
+Native Accessibility Element Automation
+```
+
+因此：
+
+> 可以研究它的 Recorder / Workflow UX，但不应该把它作为 Native Element Runtime 的核心技术参考。
+
+---
+
+# 10. 传统 RPA：OpenRPA / RPA.Windows
+
+## OpenRPA
+
+适合研究：
+
+- Recorder
+- Workflow Designer
+- Selector
+- RPA 流程
+- Enterprise RPA
+
+但主要是 Windows 路线。
+
+## RPA.Windows
+
+适合研究：
+
+- Windows UI Automation
+- Windows Element
+- Locator
+- Recorder
+- Robot Framework
+
+它的价值主要是：
+
+> 研究传统 RPA 如何把 Windows UI Element 转换为可复现的 Robot/Workflow 操作。
+
+但它无法解决 macOS 跨平台问题。
+
+---
+
+# 11. 项目横向比较
+
+| 项目 | Win | macOS | Native Element | Recorder | Workflow | Jev | LLM/Agent | 主要价值 |
+|---|---:|---:|---:|---:|---:|---:|---:|---|
+| **xa11y** | ✅ | ✅ | ⭐⭐⭐⭐⭐ | △ | △ | ❌ | ❌ | 跨平台 Element Runtime |
+| **CUP** | ✅* | ✅* | ⭐⭐⭐⭐⭐ | ❌ | ❌ | ❌ | ⭐⭐⭐ | 统一 Element Schema |
+| **agent-desktop** | 🟡 | ✅ | ⭐⭐⭐⭐⭐ | ❌ | △ | ✅ | Agent调用 | Agent Desktop Runtime |
+| **jev-desktop** | 🟡 | ✅ | ⭐⭐⭐⭐⭐ | ❌ | △ | ⭐⭐⭐⭐⭐ | ❌ | Jev Decision Loop |
+| **computer-use-jev** | ❌ | ✅ | ⭐⭐⭐⭐⭐ | ❌ | ❌ | ⭐⭐⭐⭐⭐ | ❌ | Jev + Native CUA 原型 |
+| **NomiFun** | ✅ | ✅ | ⭐⭐⭐⭐ | △ | △ | ❌ | ⭐⭐⭐⭐ | 完整跨平台 Computer Use 产品 |
+| **CrossMacro** | ✅ | ✅ | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ❌ | △ | 跨平台 Recorder |
+| **OpenRPA** | ✅ | ❌ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ❌ | △ | 传统 RPA |
+| **RPA.Windows** | ✅ | ❌ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ❌ | ❌ | Windows RPA |
+
+\* CUP 是协议/Schema，不等于完整的 OS Driver。
+
+---
+
+# 12. 当前最重要的判断
+
+没有必要继续单纯搜索：
+
+> “有没有一个开源的 UiPath，Windows + macOS + Recorder + Element Tree + AI？”
+
+目前更现实的结论是：
+
+> **没有一个成熟开源项目完整覆盖全部目标。**
+
+但已经存在足够好的组件，可以组合成目标架构。
+
+---
+
+# 13. 推荐的目标架构
+
+## 13.1 四层模型
+
+```text
+┌─────────────────────────────────────────────┐
+│              LLM / Agent Layer              │
+│                                             │
+│ Goal / Planning / Reasoning / Verification  │
+└──────────────────────┬──────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────┐
+│                 Jev Layer                   │
+│                                             │
+│ Fast Action + Element Decision              │
+│ Local UI reasoning                          │
+└──────────────────────┬──────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────┐
+│            Unified Element Layer             │
+│                                             │
+│ CUP-like representation / Element refs      │
+└──────────────────────┬──────────────────────┘
+                       │
+              ┌────────┴─────────┐
+              ▼                  ▼
+       Windows UIA          macOS AXUIElement
+              │                  │
+              └────────┬─────────┘
+                       ▼
+┌─────────────────────────────────────────────┐
+│             Native Applications             │
+└─────────────────────────────────────────────┘
+```
+
+旁边再挂：
+
+```text
+Recorder
+   ↓
+Element + Action
+   ↓
+Workflow JSON
+   ↓
+Deterministic Replay
+```
+
+以及：
+
+```text
+Element Tree Failure
+        ↓
+       Jev
+        ↓
+     LLM Agent
+        ↓
+    Vision / CUA
+```
+
+---
+
+# 14. 最终执行策略：四级 Fallback
+
+## Level 0：Deterministic RPA
+
+```text
+Workflow
+ ↓
+Selector
+ ↓
+Element
+ ↓
+Action
+```
+
+适合重复任务。
+
+优点：
+
+- 最快
+- 最便宜
+- 最稳定
+- 可审计
+
+---
+
+## Level 1：Jev
+
+```text
+Accessibility Tree
+ ↓
+Jev
+ ↓
+Element + Action
+```
+
+适合：
+
+- UI 有轻微变化
+- 不想每一步调用 LLM
+- 当前页面的操作空间比较明确
+
+---
+
+## Level 2：LLM Agent
+
+```text
+User Goal
+ ↓
+LLM
+ ↓
+Task decomposition
+ ↓
+Jev / Desktop Tools
+```
+
+适合：
+
+- 多 App
+- 多页面
+- 复杂任务
+- 未知 Workflow
+
+---
+
+## Level 3：Vision / CUA
+
+```text
+Accessibility unavailable
+       ↓
+Screenshot
+       ↓
+OCR / VLM / CUA
+       ↓
+Mouse / Keyboard
+```
+
+适合：
+
+- Canvas
+- 游戏
+- Remote Desktop
+- 自绘 UI
+- Accessibility Tree 不完整的应用
+- 非标准控件
+
+---
+
+# 15. Recorder 应该怎么设计
+
+目标不是单纯录：
+
+```text
+Mouse(x,y)
+Keyboard("hello")
+Click()
+```
+
+而应该录：
+
+```json
+{
+  "action": "click",
+  "target": {
+    "role": "button",
+    "name": "Submit",
+    "window": "Order Management"
+  },
+  "fallback": {
+    "vision": true
+  }
+}
+```
+
+再加入 Selector 的多级稳定性：
+
+```text
+1. Stable element reference
+2. Accessibility properties
+3. Parent-child relationship
+4. Window / application context
+5. Visual fallback
+6. LLM re-grounding
+```
+
+例如：
+
+```text
+Exact ref
+   ↓ fail
+role + name
+   ↓ fail
+role + name + parent
+   ↓ fail
+fuzzy accessibility match
+   ↓ fail
+OCR / Vision
+   ↓ fail
+LLM / CUA
+```
+
+---
+
+# 16. Workflow 不应该只是“录制脚本”
+
+建议 Workflow 本身就是一种可执行计划：
+
+```json
+{
+  "name": "Create Purchase Order",
+  "steps": [
+    {
+      "id": "s1",
+      "intent": "open purchase order",
+      "action": "click",
+      "target": {
+        "role": "button",
+        "name": "Purchase Order"
+      }
+    },
+    {
+      "id": "s2",
+      "intent": "enter supplier",
+      "action": "set_value",
+      "target": {
+        "role": "combobox",
+        "name": "Supplier"
+      },
+      "value": "{{supplier}}"
+    }
+  ]
+}
+```
+
+这样：
+
+> Recorder 只是生成 Workflow 的一种方式。
+
+Workflow 也可以由：
+
+- 人工创建
+- LLM 生成
+- Jev 执行后自动固化
+- 录制后由 LLM 优化
+
+---
+
+# 17. 一个更有价值的模式：Agent → Workflow 固化
+
+这是整个项目非常值得做的能力。
+
+第一次：
+
+```text
+用户：
+“帮我在系统里创建一个采购订单”
+```
+
+Agent：
+
+```text
+LLM
+ ↓
+Jev
+ ↓
+Element Tree
+ ↓
+完成任务
+```
+
+系统自动记录：
+
+```text
+Observe
+ ↓
+Action
+ ↓
+Observe
+ ↓
+Action
+ ↓
+...
+```
+
+然后生成：
+
+```text
+Workflow v1
+```
+
+以后重复任务：
+
+```text
+Workflow
+ ↓
+Deterministic Replay
+```
+
+只有失败时：
+
+```text
+Workflow
+ ↓ fail
+Jev
+ ↓ fail
+LLM
+```
+
+于是系统会逐渐从：
+
+> AI Agent
+
+变成：
+
+> **AI Agent + 自学习式 RPA Workflow Library**
+
+这比单纯做一个 CUA Agent 更有产品价值。
+
+---
+
+# 18. 建议的技术栈
+
+## Desktop Runtime
+
+优先：
+
+**Rust**
+
+原因：
+
+- Windows/macOS 双平台
+- 原生 API
+- 性能
+- 单二进制
+- 易于提供 Python / Node / Go FFI
+- 适合做长期驻留 Desktop Runtime
+
+参考：
+
+```text
+Rust
+ ├── Windows UIA
+ ├── macOS AXUIElement
+ ├── Unified Element Model
+ ├── Input
+ ├── Window Management
+ ├── Screenshot
+ └── Workflow Runtime
+```
+
+## Element Schema
+
+优先研究：
+
+**CUP**
+
+并考虑自己定义：
+
+```text
+UnifiedElement
+```
+
+例如：
+
+```json
+{
+  "id": "e17",
+  "platform": "windows",
+  "role": "button",
+  "name": "Submit",
+  "value": null,
+  "state": ["enabled"],
+  "bounds": [100, 200, 120, 40],
+  "actions": ["click"],
+  "parent": "e3",
+  "platform_data": {}
+}
+```
+
+## Cross-platform native driver
+
+第一选择：
+
+**xa11y**
+
+先不要重复造轮子。
+
+## Agent Desktop Interface
+
+参考：
+
+**agent-desktop**
+
+采用：
+
+```text
+snapshot
+find
+get
+click
+type
+select
+toggle
+scroll
+keyboard
+window
+```
+
+这种 Agent-friendly API。
+
+## Fast Decision
+
+接：
+
+**Jev**
+
+原则：
+
+```text
+LLM = What / Why
+Jev = Which Element / Which Action
+Runtime = How
+```
+
+## High-level Agent
+
+可以支持：
+
+- OpenAI
+- Claude
+- Gemini
+- 本地模型
+- MCP Agent
+
+不要把模型写死。
+
+## Vision fallback
+
+支持：
+
+- Screenshot
+- OCR
+- VLM
+- CUA
+
+只有 Accessibility Tree 不足时才启用。
+
+---
+
+# 19. 推荐的 MVP
+
+不要一开始做完整 UiPath。
+
+第一阶段只做：
+
+```text
+Windows + macOS
+       ↓
+Native Accessibility Tree
+       ↓
+统一 Element Schema
+       ↓
+snapshot
+       ↓
+click
+       ↓
+type
+       ↓
+select
+       ↓
+keyboard
+```
+
+然后：
+
+```text
+Jev
+ ↓
+选择 Element
+ ↓
+执行 Action
+```
+
+最后：
+
+```text
+LLM
+ ↓
+Goal
+ ↓
+Jev Loop
+ ↓
+完成任务
+```
+
+---
+
+# 20. MVP 验证任务
+
+建议准备 10 个跨平台任务：
+
+### 简单
+
+1. 打开 Finder / Explorer
+2. 打开应用
+3. 点击按钮
+4. 输入文本
+5. 选择下拉框
+
+### 中等
+
+6. 创建一个文本文件
+7. 在浏览器搜索
+8. 在系统设置修改一个选项
+9. 在 Excel / Numbers 修改单元格
+
+### 复杂
+
+10. 跨 App 完成一个完整业务流程
+
+要求：
+
+```text
+同一个 Agent API
+        ↓
+Windows
+        +
+macOS
+```
+
+业务层完全不感知底层平台。
+
+---
+
+# 21. 最值得验证的技术问题
+
+## P0
+
+### 1. Windows UIA 与 macOS AXUIElement 能否形成统一 Element Model？
+
+这是第一关键问题。
+
+### 2. xa11y 是否已经足够作为底层 Runtime？
+
+不要先开发，先 benchmark。
+
+### 3. Jev 在 Element Tree 上的速度 / 成功率
+
+重点测试：
+
+```text
+50 elements
+100 elements
+300 elements
+1000 elements
+```
+
+以及：
+
+- 正确 Element
+- 多个相似 Element
+- 动态列表
+- 深层 Tree
+- Tree 发生变化
+
+### 4. Jev 是否适合做 Local Action Policy？
+
+即：
+
+```text
+LLM → Task
+Jev → Action
+```
+
+而不是：
+
+```text
+LLM → 每一步 Action
+```
+
+---
+
+# 22. P1
+
+### 5. Recorder 如何生成稳定 Selector？
+
+### 6. Workflow 如何处理 UI 变化？
+
+### 7. Element Tree 与 Screenshot 如何融合？
+
+### 8. Accessibility 失败时什么时候切换 Vision？
+
+### 9. LLM 如何恢复失败 Workflow？
+
+---
+
+# 23. P2
+
+### 10. Agent → Workflow 自动固化
+
+### 11. Workflow → Agent 自动修复
+
+### 12. 多 Agent 并发控制
+
+### 13. 权限 / Approval / Security
+
+### 14. 企业级 Audit Log
+
+---
+
+# 24. 最终产品形态
+
+如果最终做成产品，我认为可以不是：
+
+> “另一个 UiPath”
+
+而是：
+
+## AI Native RPA / Computer Use Platform
+
+```text
+                   ┌─────────────────┐
+                   │      User       │
+                   └────────┬────────┘
+                            │
+                   Natural Language
+                            │
+                            ▼
+                  ┌──────────────────┐
+                  │  LLM / Planner   │
+                  └────────┬─────────┘
+                           │
+                     Task / Subtask
+                           │
+                           ▼
+                  ┌──────────────────┐
+                  │       Jev        │
+                  │ Fast UI Decision │
+                  └────────┬─────────┘
+                           │
+                     Element + Action
+                           │
+                           ▼
+                  ┌──────────────────┐
+                  │ Unified Desktop  │
+                  │ Runtime          │
+                  └────────┬─────────┘
+                           │
+               ┌───────────┴───────────┐
+               ▼                       ▼
+          Windows UIA             macOS AX
+               │                       │
+               └───────────┬───────────┘
+                           ▼
+                      Native Apps
+```
+
+旁边：
+
+```text
+             Recorder
+                 │
+                 ▼
+             Workflow
+                 │
+        ┌────────┴────────┐
+        ▼                 ▼
+ Deterministic         Agent
+ Replay                Repair
+```
+
+底层再加：
+
+```text
+Accessibility
+      ↓
+OCR
+      ↓
+Vision / CUA
+```
+
+---
+
+# 25. 当前推荐路线
+
+## 第一优先级：直接验证
+
+### ① NomiFun
+
+目的：
+
+> 看完整 Windows + macOS Computer Use 的实际体验。
+
+重点观察：
+
+- Windows UIA
+- macOS AX
+- Element Tree
+- OCR
+- Agent
+- MCP
+- Rust Runtime
+
+---
+
+## 第二优先级：拆底层
+
+### ② xa11y
+
+目的：
+
+> 判断它能不能成为自己的 Native Desktop Runtime。
+
+重点：
+
+- Tree extraction
+- Selector
+- Actions
+- Element identity
+- Windows/macOS 差异
+- 性能
+
+---
+
+## 第三优先级：研究 Jev
+
+### ③ computer-use-jev / jev-desktop
+
+目的：
+
+> 把 Jev 变成“局部 UI Action Policy”。
+
+核心验证：
+
+```text
+Element Tree
+ ↓
+Jev
+ ↓
+Action + Element
+```
+
+而不是让 Jev 负责整个 Agent。
+
+---
+
+## 第四优先级：研究统一协议
+
+### ④ CUP
+
+目的：
+
+> 解决 Windows/macOS/Linux/Web 的 Element representation。
+
+---
+
+## 第五优先级：研究传统 RPA
+
+### ⑤ OpenRPA / RPA.Windows
+
+目的：
+
+> 只借鉴 Recorder、Selector、Workflow、Replay。
+
+不要把整个架构照搬过来。
+
+---
+
+# 26. 最终判断
+
+目前最合理的技术路线不是：
+
+```text
+寻找一个开源 UiPath
+```
+
+而是：
+
+```text
+                  NomiFun
+                    │
+              产品 / UX 参考
+                    │
+                    ▼
+             ┌────────────┐
+             │  xa11y     │
+             │ Element    │
+             │ Runtime    │
+             └─────┬──────┘
+                   │
+                   ▼
+                  CUP
+             Unified Schema
+                   │
+                   ▼
+                  Jev
+            Fast UI Decision
+                   │
+                   ▼
+              LLM / Agent
+           Global Planning
+                   │
+                   ▼
+            Vision / CUA
+              Final Fallback
+```
+
+同时吸收：
+
+```text
+OpenRPA / RPA.Windows
+        ↓
+Recorder + Workflow + Replay
+```
+
+最终形成：
+
+> **Native Element-first + Jev-fast-decision + LLM-global-planning + Vision/CUA-fallback + Workflow-replay**
+
+这是目前最符合目标的架构方向。
+
+---
+
+# 27. 下一步建议
+
+### Step 1：先不写代码
+
+先把下面 5 个项目实际跑起来 / 阅读源码：
+
+1. `xa11y`
+2. `NomiFun`
+3. `agent-desktop`
+4. `computer-use-jev`
+5. `computeruseprotocol`
+
+### Step 2：做一个最小 benchmark
+
+统一测试：
+
+```text
+打开 App
+读取 Tree
+找到 Button
+Click
+输入文字
+选择菜单
+读取结果
+```
+
+分别测试：
+
+```text
+Windows
+macOS
+```
+
+### Step 3：验证 Jev
+
+让 Jev 只做：
+
+```text
+Input:
+Accessibility Tree
+
+Output:
+{
+  action,
+  target,
+  confidence,
+  done
+}
+```
+
+不要让它负责整个任务。
+
+### Step 4：接 LLM
+
+变成：
+
+```text
+LLM:
+“完成采购订单”
+
+       ↓
+
+Plan
+
+       ↓
+
+Jev:
+“下一步点哪个 Element？”
+
+       ↓
+
+Runtime:
+执行
+
+       ↓
+
+Observation
+
+       ↓
+
+Jev
+
+       ↓
+
+...
+```
+
+### Step 5：最后做 Recorder
+
+将成功的 Agent Trace：
+
+```text
+Observation
+Action
+Observation
+Action
+...
+```
+
+固化成：
+
+```text
+Workflow
+```
+
+于是系统天然拥有：
+
+```text
+Record
+→ Learn
+→ Replay
+→ Repair
+→ Agent fallback
+```
+
+这会是整个项目最有价值的一层。

@@ -1,0 +1,12 @@
+{
+  "compiled_pages": 22,
+  "source_snapshots_verified": 42,
+  "referenced_source_files": 39,
+  "errors": [],
+  "review_pages": [
+    "entities/office-pilot.md"
+  ],
+  "office_constructor_unsupported_kwargs": [
+    "required_files"
+  ]
+}
