@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-09",
+  "host_regression": {
+    "passed": 435,
+    "failed": 0
+  },
+  "visual_runtime_tests": 24,
+  "mac_read_only_rounds_passed": 3,
+  "mac_read_only_rounds_planned": 3,
+  "actual_Jev_decisions": 3,
+  "Jev_confidences": [
+    1.0,
+    1.0,
+    1.0
+  ],
+  "provider_reported_decision_cost_total": 0.000126966,
+  "live_input_dispatched": false,
+  "live_input_acceptance": "pending_locked_session",
+  "locked_input_guard_rejected": true,
+  "simulated_Agent_click_type_business_checks_passed": true,
+  "native_paths_regression_passed": true,
+  "wheel_verified": true,
+  "windows_tested": false,
+  "office_score_unchanged": "historical_latest_0_of_3",
+  "latest_source_hashes": {
+    "src/bokkio/visual_runtime.py": "22f3cab99c73597b6439ba6948ff21fe0f0ee5403592709695b288b958b0367e",
+    "src/bokkio/visual.py": "614deaf749fb0360ac0c6614e23798fd0bb4eab821f515eb19f337d9dc33056b",
+    "src/bokkio/decision.py": "55dabd11f0e8f897f253462939e77e451ed5dee712688559898521e3c3924631",
+    "src/bokkio/native/macos_capture.swift": "31ad21f85c1b0d9904e483d9f04a0d8979fa36b97d724a6bf55a2ef985bf274b",
+    "scripts/verify_macos_visual_bridge.py": "352d9efb5682cfa20f2bf15547844d5907cc47235ccadeb215a1461f2956373a"
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "scope": "macos_public_visual_bridge_read_only",
+  "input_dispatched": false,
+  "agent_task_score": null,
+  "environment": {
+    "ready": false,
+    "session_available": true,
+    "session_locked": true,
+    "permissions": {
+      "ax": true,
+      "capture": true,
+      "events": true
+    },
+    "reason": "interactive_session_unavailable"
+  },
+  "rounds": [
+    {
+      "round": 1,
+      "checks": {
+        "window_id_matches": true,
+        "text_targets_present": true,
+        "click_capability": true,
+        "declared_input_capability": true,
+        "hybrid_observation": true,
+        "business_unchanged": true
+      },
+      "passed": true,
+      "image_sha256": "c0d764044d0a59e9028470f97241cae64e3027a00aa6d42d4e3ecd9252966be0",
+      "ocr_engine": "Apple.Vision",
+      "candidate_count": 5,
+      "recognized_texts": [
+        "BokkioVisual|",
+        "Bokkio visual task",
+        "Enter code",
+        "Run check",
+        "Ready"
+      ],
+      "initial_counter_text_exact": false
+    },
+    {
+      "round": 2,
+      "checks": {
+        "window_id_matches": true,
+        "text_targets_present": true,
+        "click_capability": true,
+        "declared_input_capability": true,
+        "hybrid_observation": true,
+        "business_unchanged": true
+      },
+      "passed": true,
+      "image_sha256": "c0d764044d0a59e9028470f97241cae64e3027a00aa6d42d4e3ecd9252966be0",
+      "ocr_engine": "Apple.Vision",
+      "candidate_count": 5,
+      "recognized_texts": [
+        "BokkioVisual|",
+        "Bokkio visual task",
+        "Enter code",
+        "Run check",
+        "Ready"
+      ],
+      "initial_counter_text_exact": false
+    },
+    {
+      "round": 3,
+      "checks": {
+        "window_id_matches": true,
+        "text_targets_present": true,
+        "click_capability": true,
+        "declared_input_capability": true,
+        "hybrid_observation": true,
+        "business_unchanged": true
+      },
+      "passed": true,
+      "image_sha256": "bce8283ee9c283dad3443bc183f7d0270e23e1bc2ce55cc9d42303820f876b30",
+      "ocr_engine": "Apple.Vision",
+      "candidate_count": 5,
+      "recognized_texts": [
+        "BokkioVisual|",
+        "Bokkio visual task",
+        "Enter code",
+        "Run check",
+        "Ready"
+      ],
+      "initial_counter_text_exact": false
+    }
+  ],
+  "model_probes": [
+    {
+      "round": 1,
+      "action": "visual_click",
+      "confidence": 1.0,
+      "threshold": 0.7,
+      "input_dispatched": false
+    },
+    {
+      "round": 2,
+      "action": "visual_click",
+      "confidence": 1.0,
+      "threshold": 0.7,
+      "input_dispatched": false
+    },
+    {
+      "round": 3,
+      "action": "visual_click",
+      "confidence": 1.0,
+      "threshold": 0.7,
+      "input_dispatched": false
+    }
+  ],
+  "passed": 3,
+  "planned": 3,
+  "source_sha256": {
+    "src/bokkio/visual_runtime.py": "e47e3b4572523924ce56ffd51ecd1dca2156be33672a115a9429a255bf946c79",
+    "src/bokkio/visual.py": "614deaf749fb0360ac0c6614e23798fd0bb4eab821f515eb19f337d9dc33056b",
+    "src/bokkio/decision.py": "55dabd11f0e8f897f253462939e77e451ed5dee712688559898521e3c3924631",
+    "src/bokkio/native/macos_capture.swift": "31ad21f85c1b0d9904e483d9f04a0d8979fa36b97d724a6bf55a2ef985bf274b",
+    "scripts/verify_macos_visual_bridge.py": "7c541c7af5c3fa1a36b99cb782fe870f97272fd3cf2cabea3ab193806224f96d"
+  }
+}

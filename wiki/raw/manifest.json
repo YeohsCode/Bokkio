@@ -2,7 +2,7 @@
   "schema": "bokkio.wiki.sources.v1",
   "created": "2026-10-08",
   "basis_commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d",
-  "source_count": 82,
+  "source_count": 103,
   "records": [
     {
       "path": "README.md",
@@ -617,6 +617,174 @@
       "bytes": 14138,
       "commit": null,
       "version": "working-tree-office-fix"
+    },
+    {
+      "path": "README.md",
+      "snapshot": "raw/source-snapshots/visual-bridge/README.md.txt",
+      "sha256": "cccc614f9baad60d80c0d8060cb30331884c0bdf4f05c93e7905e1aa1b3575f8",
+      "bytes": 49127,
+      "commit": null,
+      "version": "working-tree-visual-bridge"
+    },
+    {
+      "path": "PLAN.md",
+      "snapshot": "raw/source-snapshots/visual-bridge/PLAN.md.txt",
+      "sha256": "9614c9a70223914d4d7ed6fd4ad0ace8ba4e73b9592500e17eac47cbd74cdd0e",
+      "bytes": 38759,
+      "commit": null,
+      "version": "working-tree-visual-bridge"
+    },
+    {
+      "path": "docs/STATUS.md",
+      "snapshot": "raw/source-snapshots/visual-bridge/docs/STATUS.md.txt",
+      "sha256": "64cda5e4edecda1e2418c5607478c6b3ac11112c21ca8d8ec7f037462ec7ea14",
+      "bytes": 5590,
+      "commit": null,
+      "version": "working-tree-visual-bridge"
+    },
+    {
+      "path": "docs/PENDING.md",
+      "snapshot": "raw/source-snapshots/visual-bridge/docs/PENDING.md.txt",
+      "sha256": "3f2e235ef369a24fc47b253f6b981ee4cf4076a5428398b1414877aa126d9e79",
+      "bytes": 4550,
+      "commit": null,
+      "version": "working-tree-visual-bridge"
+    },
+    {
+      "path": "docs/OFFICE-PILOT-READINESS.md",
+      "snapshot": "raw/source-snapshots/visual-bridge/docs/OFFICE-PILOT-READINESS.md.txt",
+      "sha256": "24ff43c5cf26bbdc171bd7dffd5e6da514dfc7a8359bfb8d716a14290c66af6d",
+      "bytes": 4951,
+      "commit": null,
+      "version": "working-tree-visual-bridge"
+    },
+    {
+      "path": "docs/P7-PLAN.md",
+      "snapshot": "raw/source-snapshots/visual-bridge/docs/P7-PLAN.md.txt",
+      "sha256": "8ab861714e3d4a9fed71147494e3609b30f661bbf028bb95021638e52b277606",
+      "bytes": 6812,
+      "commit": null,
+      "version": "working-tree-visual-bridge"
+    },
+    {
+      "path": "docs/P7-VISUAL-BRIDGE.md",
+      "snapshot": "raw/source-snapshots/visual-bridge/docs/P7-VISUAL-BRIDGE.md.txt",
+      "sha256": "8d24f1c8919f56607ef1ea8f019bafe6d8c469decb05b237498fefdbda646fc7",
+      "bytes": 5961,
+      "commit": null,
+      "version": "working-tree-visual-bridge"
+    },
+    {
+      "path": "docs/evidence/2026-10-09-visual-bridge/README.md",
+      "snapshot": "raw/source-snapshots/visual-bridge/docs/evidence/2026-10-09-visual-bridge/README.md.txt",
+      "sha256": "ceb87760da97b66ab25bc37442275e7859535844a10955d629a76d8f49594c33",
+      "bytes": 2607,
+      "commit": null,
+      "version": "working-tree-visual-bridge"
+    },
+    {
+      "path": "docs/evidence/2026-10-09-visual-bridge/validation.json",
+      "snapshot": "raw/source-snapshots/visual-bridge/docs/evidence/2026-10-09-visual-bridge/validation.json.txt",
+      "sha256": "36132c20526930677895761a1cf0362018ae2eaf9bcf0ddd5b759e70c52650de",
+      "bytes": 1226,
+      "commit": null,
+      "version": "working-tree-visual-bridge"
+    },
+    {
+      "path": "docs/evidence/2026-10-09-visual-bridge/round-4.json",
+      "snapshot": "raw/source-snapshots/visual-bridge/docs/evidence/2026-10-09-visual-bridge/round-4.json.txt",
+      "sha256": "96d46f1585fe1390d05f3a70bcc3c622ff344da7fdf01bd060689d84c2b4a3f7",
+      "bytes": 3953,
+      "commit": null,
+      "version": "working-tree-visual-bridge"
+    },
+    {
+      "path": "src/bokkio/visual_runtime.py",
+      "snapshot": "raw/source-snapshots/visual-bridge/src/bokkio/visual_runtime.py.txt",
+      "sha256": "22f3cab99c73597b6439ba6948ff21fe0f0ee5403592709695b288b958b0367e",
+      "bytes": 23855,
+      "commit": null,
+      "version": "working-tree-visual-bridge"
+    },
+    {
+      "path": "src/bokkio/agent.py",
+      "snapshot": "raw/source-snapshots/visual-bridge/src/bokkio/agent.py.txt",
+      "sha256": "45aa4faab3041fbdc10df732e4930d490fa1e13898db6b3dfa8b1aca538fc66d",
+      "bytes": 45656,
+      "commit": null,
+      "version": "working-tree-visual-bridge"
+    },
+    {
+      "path": "src/bokkio/cli.py",
+      "snapshot": "raw/source-snapshots/visual-bridge/src/bokkio/cli.py.txt",
+      "sha256": "2d510c07bbbbb1cfd90acc255b9dd71808ef263dda4756401d410cc6bd3920f5",
+      "bytes": 19720,
+      "commit": null,
+      "version": "working-tree-visual-bridge"
+    },
+    {
+      "path": "src/bokkio/decision.py",
+      "snapshot": "raw/source-snapshots/visual-bridge/src/bokkio/decision.py.txt",
+      "sha256": "55dabd11f0e8f897f253462939e77e451ed5dee712688559898521e3c3924631",
+      "bytes": 34506,
+      "commit": null,
+      "version": "working-tree-visual-bridge"
+    },
+    {
+      "path": "src/bokkio/planner.py",
+      "snapshot": "raw/source-snapshots/visual-bridge/src/bokkio/planner.py.txt",
+      "sha256": "530e21f656d1583162dbb71fd56adc2e7c92df6db05085cf3e5432c8fd55ab3c",
+      "bytes": 29687,
+      "commit": null,
+      "version": "working-tree-visual-bridge"
+    },
+    {
+      "path": "src/bokkio/visual.py",
+      "snapshot": "raw/source-snapshots/visual-bridge/src/bokkio/visual.py.txt",
+      "sha256": "614deaf749fb0360ac0c6614e23798fd0bb4eab821f515eb19f337d9dc33056b",
+      "bytes": 5532,
+      "commit": null,
+      "version": "working-tree-visual-bridge"
+    },
+    {
+      "path": "src/bokkio/visual_input.py",
+      "snapshot": "raw/source-snapshots/visual-bridge/src/bokkio/visual_input.py.txt",
+      "sha256": "d78eb17685b3baba939d3d4a6326f4e3f71e1cf5778cf3911d8b8bfb0f96b8b4",
+      "bytes": 6807,
+      "commit": null,
+      "version": "working-tree-visual-bridge"
+    },
+    {
+      "path": "src/bokkio/native/macos_capture.swift",
+      "snapshot": "raw/source-snapshots/visual-bridge/src/bokkio/native/macos_capture.swift.txt",
+      "sha256": "31ad21f85c1b0d9904e483d9f04a0d8979fa36b97d724a6bf55a2ef985bf274b",
+      "bytes": 14361,
+      "commit": null,
+      "version": "working-tree-visual-bridge"
+    },
+    {
+      "path": "fixtures/cocoa-visual/main.swift",
+      "snapshot": "raw/source-snapshots/visual-bridge/fixtures/cocoa-visual/main.swift.txt",
+      "sha256": "780407a50f715cc3b1e75c88c30f0763ee0292c9c802f7e1eec8e6201b8936d6",
+      "bytes": 5270,
+      "commit": null,
+      "version": "working-tree-visual-bridge"
+    },
+    {
+      "path": "scripts/verify_macos_visual_bridge.py",
+      "snapshot": "raw/source-snapshots/visual-bridge/scripts/verify_macos_visual_bridge.py.txt",
+      "sha256": "352d9efb5682cfa20f2bf15547844d5907cc47235ccadeb215a1461f2956373a",
+      "bytes": 5547,
+      "commit": null,
+      "version": "working-tree-visual-bridge"
+    },
+    {
+      "path": "tests/test_visual_runtime.py",
+      "snapshot": "raw/source-snapshots/visual-bridge/tests/test_visual_runtime.py.txt",
+      "sha256": "13f8bf58059e225f31841fb46890be103850ff6c5ae131652108c879aa2cc5a6",
+      "bytes": 18190,
+      "commit": null,
+      "version": "working-tree-visual-bridge"
     }
   ]
 }

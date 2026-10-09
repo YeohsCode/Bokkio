@@ -1,0 +1,81 @@
+# P7：Mac 与公共视觉接口 / Mac and shared visual interface
+
+更新：2026-10-09。**公共OCR协议、Mac provider、Agent/Jev路由和CLI已实现。主机435/435；实机截图/OCR/观察与决策3/3；真实输入仍待可用交互会话。** Windows开发按用户要求暂缓。
+
+## 公共接口
+
+`src/bokkio/visual_runtime.py`提供：
+
+- `WindowScope`：明确platform/PID/title及可选window_id。每个PID绑定一个固定标题窗口。
+- `VisualObservation`：截图字节、OCR、窗口与进程创建身份。字节只在本机执行器内流转，不进入trace。
+- `VisualPolicy`：默认每app最多12次OCR观察（包括输入后的验证）、64个候选、置信度至少0.8；输入标签需显式声明。
+- `VisualProvider`：capture / prepare_input / execute协议；Windows后续可实现相同协议，本轮没有Windows OCR或输入实现。
+- `MacVisionProvider`：复用ScreenCaptureKit、Apple Vision和现有有界输入helper，不新增模型依赖。
+- `HybridBackend`：封装现有原生backend，提供planner观察、step准备和动作执行hook。
+
+公共OCR文字/边界/置信度验证允许Mac/Windows规范化数据；Windows测试仅为模拟协议数据，不代表真实Windows支持。
+
+## Agent接入
+
+1. 原生观察具有与意图匹配的可执行目标时继续原生路径，无OCR调用。
+2. 无目标/能力时，在显式授权窗口生成`visual_text`候选。无效AX树或AX权限不足可独立只读采集，输入仍受Mac会话/权限/前台守卫约束。
+3. Planner看到文字、来源、置信度及广告动作；Jev只选择候选token。OCR文字不推断为按钮或可写原生控件。窗口外的原生树不会进入这个观察。
+4. `visual_click`点击唯一文字；`visual_type`只作用于声明输入标签，文字来自allowed_values。有重复标签、已知禁用/只读/原生能力或歧义的同名目标时不通过OCR绕过。
+5. 捕获哈希、窗口/进程身份、几何、时效、前台与事件权限由既有helper复查；派发后重新观察并核对整个subtask success。
+6. 已经为真的静态条件不能证明一次视觉命令；错误原生success角色在输入前要求重规划为真实OCR角色。外部/破坏性风险和敏感文字目标拒绝。
+7. 未知完成停止，不换路径重试。明确零派发的过期/变化截图可在现有Agent预算内重新观察。
+
+视觉观察缓存只在有效截图合约内复用。恢复时窗口、输入标签与策略必须保持相同，已使用的OCR预算随trace保存。关闭进程/窗口和标题变化需要重新授权/绑定；本版不自动扩大范围。
+
+## 使用
+
+将例子中的123替换为真实fixture PID；输入标签是调用者提供的字段声明。
+
+```sh
+uv run bokkio run --allow-app 123 \
+  --visual-window '123=BokkioVisual' \
+  --visual-input-label '123=Enter code' \
+  --max-visual-captures 12 \
+  --goal 'Click Run check, verify Checked appears, then type ABCD into Enter code and verify ABCD appears.' \
+  --trace /tmp/bokkio-visual-run.json
+```
+
+默认run保持原生路径。视觉开关目前绑定数字PID和精确标题，不能使用模糊应用别名。跨窗口弹窗、标题变化、无标签输入、图标检测、replace/复杂键盘组合及视觉Workflow录制重放仍待扩展。现有Workflow不会把这些新动作当成已验收原生重放。
+
+Python调用示例：
+
+```python
+from bokkio.visual_runtime import HybridBackend, MacVisionProvider, VisualPolicy, WindowScope
+from bokkio.xa11y_backend import Xa11yBackend
+
+backend = HybridBackend(
+    Xa11yBackend(), MacVisionProvider(),
+    {"123": WindowScope("macos", 123, "BokkioVisual")},
+    policies={"123": VisualPolicy(input_labels=("Enter code",))},
+)
+# 将backend传给现有DesktopAgent；Planner/Jev继续接收文字和闭合选项。
+```
+
+## 验证结果
+
+- 主机回归435/435，新增模块24项，涵盖原生零OCR、模拟click/type、原生与视觉混合、角色修复、范围/歧义、取消/预算、未知完成和恢复约束。
+- 最新3次独立自绘Mac进程：窗口身份、OCR目标、公共候选与Hybrid观察3/3；真实Jev visual_click三次置信度1.0。fixture计数OCR未通过高置信筛选，单独保留这一限制。
+- 当前锁屏；activation helper真实拒绝，业务状态未改变。模拟输入闭环不能替代真实鼠标/键盘验收，Office历史0/3仍是最新任务分数。
+- wheel构建与公共模块/Swift helper源码一致性检查通过。无新运行依赖，OCR本地执行；现有Jev/Planner仍按调用产生费用。
+
+命令：
+
+```sh
+uv run python scripts/verify_macos_visual_bridge.py \
+  --fixture /path/to/BokkioVisual.app --output /tmp/new-bridge-evidence --model
+```
+
+这条验收命令是只读截图/决策，不派发输入。详见[各轮证据](evidence/2026-10-09-visual-bridge/README.md)。
+
+## English
+
+Shared WindowScope/VisualObservation/VisualPolicy/VisualProvider interfaces and a MacVisionProvider are implemented. HybridBackend routes missing native targets to scoped OCR text candidates, with explicit input-label declarations, closed Jev choices and independent post-action conditions. Native targets retain their existing path. Resume preserves scope/policy and observation budgets; unknown completion never retries.
+
+The optional run CLI binds exact PID=TITLE windows and declared PID=TEXT input labels. OCR remains local, while existing text-model calls are still billed. Windows providers, visual Workflow replay, icons, unlabeled fields and changing-window/dialog flows remain pending.
+
+Host regression passes 435 tests. Native read-only Mac capture/OCR/Hybrid observation and real Jev decision acceptance passes 3/3; simulated click/type is separate. Counter OCR is not accepted. Locked-session activation rejects actual input, so no live-input or new Office score is claimed. Wheel source checks pass. See the [evidence](evidence/2026-10-09-visual-bridge/README.md).

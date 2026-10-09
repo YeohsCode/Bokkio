@@ -33,8 +33,8 @@ final class Canvas: NSView {
         NSColor(calibratedRed:0.15,green:0.3,blue:0.85,alpha:1).setFill()
         NSRect(x:60,y:175,width:210,height:52).fill()
         text("Run check",75,188,color:.white)
-        text("Ready",60,265)
-        text("Clicks: \(clicks)",330,110)
+        text(clicks == 0 ? "Ready" : "Checked",60,265)
+        text("Clicks: \(clicks)",60,305)
         if duplicate {
             NSColor(calibratedRed:0.15,green:0.3,blue:0.85,alpha:1).setFill()
             NSRect(x:330,y:245,width:210,height:52).fill()

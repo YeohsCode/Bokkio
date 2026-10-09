@@ -11,7 +11,7 @@ from .windows_capture import CaptureError
 
 
 def perform(metadata,png,text,action,*,value=None,region=None,expect_text=None,verification_region=None,control=None,
-            _native_target=None,_post_verify=None):
+            _native_target=None,_post_verify=None,_return_image=False):
     if action not in {'click','type','replace'}:
         raise CaptureError('invalid_input','Only click/type/replace are available',dispatched=0)
     if not isinstance(expect_text,str) or not expect_text:
@@ -87,4 +87,6 @@ def perform(metadata,png,text,action,*,value=None,region=None,expect_text=None,v
         raise CaptureError('input_completion_unknown','Posted input did not pass explicit text verification',
                            dispatched=True,cause=getattr(error,'code','native_readback_failed'),
                            verification=getattr(error,'details',{}).get('verification'),receipt=receipt) from error
-    return {'status':'confirmed','receipt':receipt,'target':candidate,'verification':verified,'observation':after}
+    result={'status':'confirmed','receipt':receipt,'target':candidate,'verification':verified,'observation':after}
+    if _return_image:result['_observation_image']=image
+    return result

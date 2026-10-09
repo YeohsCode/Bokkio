@@ -27,14 +27,26 @@ def validate_capture(metadata, png, *, max_age=15, now_ns=None):
     captured = metadata.get('captured_at_unix_ns')
     if type(captured) is not int or captured > now_ns or (now_ns-captured)/1e9 > max_age:
         raise CaptureError('capture_stale', 'Capture has expired or has a future timestamp')
-    if metadata.get('platform') != 'macos':
-        raise CaptureError('unsupported_ocr', 'The current local OCR provider is macOS Vision')
+    if metadata.get('platform') not in {'macos','windows'}:
+        raise CaptureError('unsupported_ocr', 'OCR requires a supported desktop platform')
     ocr = metadata.get('ocr', {})
     if type(ocr) is not dict or type(ocr.get('observations')) is not list or len(ocr['observations'])>2048:
         raise CaptureError('invalid_ocr','OCR observations exceed the contract')
     if ocr.get('image_sha256') != metadata['image_sha256']:
         raise CaptureError('ocr_mismatch', 'OCR is not bound to these image bytes')
     return ocr
+
+
+def validate_ocr_item(metadata, item):
+    """Common text/confidence/pixel-box contract for platform OCR providers."""
+    if type(item) is not dict or type(item.get('bounds')) is not dict or type(item.get('text')) is not str:
+        raise CaptureError('invalid_ocr','OCR observation has invalid fields')
+    box=item['bounds'];score=item.get('confidence')
+    if (set(box)!={'x','y','width','height'} or any(type(v) not in {int,float} or not math.isfinite(v) for v in box.values())
+            or type(score) not in {int,float} or not math.isfinite(score) or not 0<=score<=1
+            or box['x']<0 or box['y']<0 or box['width']<=0 or box['height']<=0
+            or box['x']+box['width']>metadata['width']+0.01 or box['y']+box['height']>metadata['height']+0.01):
+        raise CaptureError('invalid_ocr', 'OCR returned invalid bounds/confidence')
 
 
 def find_text(metadata, png, text, *, confidence=0.8, max_age=15, region=None, now_ns=None):
@@ -56,14 +68,8 @@ def find_text(metadata, png, text, *, confidence=0.8, max_age=15, region=None, n
             raise CaptureError('invalid_region', 'Target region must be inside the image')
     matches=[]
     for item in ocr.get('observations', []):
-        if type(item) is not dict or type(item.get('bounds')) is not dict:
-            raise CaptureError('invalid_ocr','OCR observation has invalid fields')
+        validate_ocr_item(metadata,item)
         box=item.get('bounds',{}); score=item.get('confidence')
-        if (set(box)!={'x','y','width','height'} or any(type(v) not in {int,float} or not math.isfinite(v) for v in box.values())
-                or type(score) not in {int,float} or not math.isfinite(score) or not 0<=score<=1
-                or box['x']<0 or box['y']<0 or box['width']<=0 or box['height']<=0
-                or box['x']+box['width']>metadata['width']+0.01 or box['y']+box['height']>metadata['height']+0.01):
-            raise CaptureError('invalid_ocr', 'OCR returned invalid bounds/confidence')
         if item.get('text')!=text or score<confidence: continue
         if region and not (region['x']<=box['x'] and region['y']<=box['y']
                            and box['x']+box['width']<=region['x']+region['width']

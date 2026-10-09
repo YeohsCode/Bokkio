@@ -577,6 +577,10 @@ P5 Windows 最终确认：v26、v27 各 4/5，五项 Agent completed；原始标
 
 详见 [Office 报告](docs/MACOS-OFFICE-REPORT.md)。CUA pilot 不计作 Bokkio P7 兜底实现；Windows Office 暂缓状态保留。
 
+## 2026-10-09更新
+
+Mac公共视觉协议、Apple Vision provider、Agent/Jev/CLI文字降级已实现；主机435/435，最新原生只读观察/决策3/3，实际输入待交互会话。Office历史十轮各0/3保留；Windows工作暂缓。见[视觉接入](docs/P7-VISUAL-BRIDGE.md)与[当前进度](docs/STATUS.md)。以下历史阶段记录保留当时证据。
+
 ## 当前 Pending
 
 完整剩余项及优先级见 [Pending 清单](docs/PENDING.md)。最新主机与 Windows 隔离回归各 373/373；这不代替 Windows 新截图和 Office GUI 的实机验收。

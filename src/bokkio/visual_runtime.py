@@ -1,0 +1,384 @@
+"""Provider-independent OCR observations and scoped native/visual routing.
+
+OCR nodes describe visible text, not native controls. Visual input is opt-in
+for exact windows; typing additionally requires declared input labels.
+"""
+from __future__ import annotations
+
+import copy
+import re
+from collections import Counter
+from dataclasses import asdict, dataclass
+from typing import Callable, Protocol
+
+from .model import BokkioActionError, BokkioCompletionUnknown, BokkioError, BokkioPermissionError, BokkioStaleSnapshot, stable_hash, tree_digest
+from .selector import flatten
+from .visual import find_text, validate_capture
+from .windows_capture import CaptureError
+
+
+@dataclass(frozen=True)
+class WindowScope:
+    platform: str
+    pid: int
+    title: str
+    window_id: int | None = None
+
+    def __post_init__(self):
+        if (self.platform not in {'macos', 'windows'} or type(self.pid) is not int or not 0 < self.pid <= 0x7fffffff
+                or not isinstance(self.title, str) or not self.title or len(self.title) > 1024
+                or (self.window_id is not None and (type(self.window_id) is not int or not 0 < self.window_id <= 0xffffffff))):
+            raise BokkioError('Visual scope requires an exact platform/PID/window title and optional native window ID')
+
+
+@dataclass(frozen=True)
+class VisualPolicy:
+    max_captures: int = 12
+    max_candidates: int = 64
+    confidence: float = .8
+    input_labels: tuple[str, ...] = ()
+
+    def __post_init__(self):
+        if (type(self.max_captures) is not int or not 1 <= self.max_captures <= 100
+                or type(self.max_candidates) is not int or not 1 <= self.max_candidates <= 128
+                or type(self.confidence) not in {int, float} or not .8 <= self.confidence <= 1
+                or not isinstance(self.input_labels, tuple) or len(self.input_labels) > 16
+                or any(not isinstance(s, str) or not s or len(s) > 1024 for s in self.input_labels)
+                or len(set(self.input_labels)) != len(self.input_labels)):
+            raise BokkioError('Invalid visual observation budget, confidence or input-label policy')
+
+
+@dataclass(frozen=True)
+class VisualObservation:
+    scope: WindowScope
+    metadata: dict
+    image: bytes
+
+    def validate(self):
+        validate_capture(self.metadata, self.image)
+        identity=self.metadata.get('process_identity',self.metadata.get('process_started_seconds_microseconds'))
+        if not isinstance(identity,str) or not identity:
+            raise CaptureError('invalid_capture','Visual observation requires a native process creation identity')
+        if (self.metadata['platform'] != self.scope.platform or self.metadata['pid'] != self.scope.pid
+                or self.metadata.get('window_title') != self.scope.title
+                or (self.scope.window_id is not None and self.metadata['window_id'] != self.scope.window_id)):
+            raise CaptureError('capture_scope_mismatch', 'OCR observation is outside its authorized window')
+        return self
+
+
+class VisualProvider(Protocol):
+    def capture(self, scope: WindowScope) -> VisualObservation: ...
+    def prepare_input(self, scope: WindowScope) -> None: ...
+    def execute(self, observation: VisualObservation, text: str, action: str, *, value: str | None,
+                verify: Callable, control: Callable | None) -> tuple[dict, VisualObservation]: ...
+
+
+class MacVisionProvider:
+    """ScreenCaptureKit + Apple Vision + the existing single-dispatch helper."""
+
+    def capture(self, scope):
+        if scope.platform != 'macos':
+            raise CaptureError('unsupported_platform', 'This provider implements macOS only')
+        from .macos_capture import capture_window
+        metadata, image = capture_window(scope.pid, window_id=scope.window_id, title=scope.title, ocr=True, timeout=15)
+        return VisualObservation(scope, metadata, image).validate()
+
+    def prepare_input(self, scope):
+        if scope.platform!='macos':raise CaptureError('unsupported_platform','This provider implements macOS only',dispatched=0)
+        from .macos_activation import activate_window
+        activate_window(scope.pid, scope.title)
+
+    def execute(self, observation, text, action, *, value, verify, control):
+        if observation.scope.platform!='macos':raise CaptureError('unsupported_platform','This provider implements macOS only',dispatched=0)
+        from .visual_input import perform
+        # The private image is handed back in-process and removed before any
+        # receipt/trace serialization. Verification uses the new observation.
+        def post_verify(metadata, image):
+            return verify(VisualObservation(observation.scope, metadata, image).validate())
+        receipt = perform(observation.metadata, observation.image, text, action, value=value,
+                          expect_text=value or text, _post_verify=post_verify, control=control, _return_image=True)
+        image = receipt.pop('_observation_image')
+        after = VisualObservation(observation.scope, receipt['observation'], image).validate()
+        return receipt, after
+
+
+def ocr_nodes(observation, policy, parent, native_nodes=(), mode=None):
+    """Bounded text nodes; never infer a button role or editable AX capability."""
+    observation.validate()
+    meta = observation.metadata
+    rows = meta['ocr']['observations']
+    # Validate every OCR item even when the candidate cap would omit it.
+    from .visual import validate_ocr_item
+    for row in rows: validate_ocr_item(meta, row)
+    rows = [row for row in rows if row['confidence'] >= policy.confidence and row['text'] and len(row['text']) <= 1024]
+    if len(rows) > policy.max_candidates:
+        raise CaptureError('visual_candidate_budget', 'OCR candidate count exceeds the configured limit', count=len(rows))
+    counts = Counter(row['text'] for row in rows)
+    nodes = []
+    for index, row in enumerate(rows):
+        text = row['text']; box = row['bounds']; rect = meta['content_rect']
+        same = [n for n in native_nodes if n.get('name') == text and n.get('role') not in {'application', 'window', 'dialog'}]
+        # Known disabled controls, native ambiguity and advertised native
+        # capabilities cannot be bypassed by relabeling pixels as controls.
+        native_gated = any(n['state'].get('enabled') is False or n['actions']
+                           or (n['role'] in {'text_field','text_area','combo_box'} and n['state'].get('editable') is False)
+                           or n['platform_data'].get('ambiguous_ref_identity') for n in same)
+        actions = []
+        if counts[text] == 1 and not native_gated:
+            if mode in {None, 'click'}: actions.append('visual_click')
+            if text in policy.input_labels and mode in {None, 'type'}: actions.append('visual_type')
+        data = {'source': 'OCR', 'ocr_engine': meta['ocr'].get('engine'), 'ocr_confidence': row['confidence'],
+                'image_sha256': meta['image_sha256'], 'window_id': meta['window_id'], 'pid': meta['pid'],
+                'process_identity': meta.get('process_identity',meta.get('process_started_seconds_microseconds')),
+                'ambiguous_ref_identity': counts[text] != 1}
+        ref = stable_hash(['visual', meta['pid'], meta['window_id'], meta['image_sha256'], index, text, box])
+        bounds = {'x': rect['x'] + box['x'] * rect['width'] / meta['width'],
+                  'y': rect['y'] + box['y'] * rect['height'] / meta['height'],
+                  'width': box['width'] * rect['width'] / meta['width'],
+                  'height': box['height'] * rect['height'] / meta['height']}
+        nodes.append({'ref': ref, 'role': 'visual_text', 'name': text, 'value': text, 'bounds': bounds,
+                      'state': {'visible': True}, 'actions': actions, 'parent': parent, 'children': [],
+                      'platform': meta['platform'], 'platform_data': data})
+    return nodes
+
+
+class HybridBackend:
+    """Native backend with explicit-window OCR fallback and bounded input.
+
+    The wrapper preserves native behavior by default. Agent hooks acquire
+    visual candidates when no named actionable native target is available.
+    """
+    supports_stale_refresh = True
+    supports_action_observation = True
+
+    def __init__(self, native, provider, scopes, *, policies=None, control=None):
+        self.native, self.provider, self.control = native, provider, control
+        if not scopes or any(key != str(scope.pid) for key, scope in scopes.items()):
+            raise BokkioError('Visual scopes must be keyed by their explicit PID strings')
+        self.scopes = dict(scopes); self.policies = dict(policies or {})
+        if set(self.policies) - set(self.scopes): raise BokkioError('Visual policy app is outside the scope allowlist')
+        self._observations = {}; self._contexts = {}; self._captures = 0; self._active = set()
+
+    @property
+    def visual_captures(self): return self._captures
+
+    @property
+    def execution_contract(self):
+        return {'visual_scopes':{app:asdict(scope) for app,scope in self.scopes.items()},
+                'visual_policies':{app:asdict(self._policy(app)) for app in self.scopes}}
+
+    @property
+    def visual_capture_counts(self):
+        return {app:getattr(self,'_per_app_captures',{}).get(app,0) for app in self.scopes}
+
+    def begin_run(self, counts=None):
+        counts=counts if counts is not None else {app:0 for app in self.scopes}
+        if (not isinstance(counts,dict) or set(counts)!=set(self.scopes)
+                or any(type(count) is not int or not 0<=count<=self._policy(app).max_captures for app,count in counts.items())):
+            raise BokkioError('Invalid visual capture budget checkpoint')
+        self._per_app_captures=dict(counts);self._captures=sum(counts.values())
+        self._observations.clear();self._contexts.clear();self._active.clear()
+
+    def __getattr__(self, name): return getattr(self.native, name)
+
+    def _policy(self, app): return self.policies.get(app, VisualPolicy())
+
+    def _reserve(self, app):
+        limit = self._policy(app).max_captures
+        used = getattr(self, '_per_app_captures', {}).get(app, 0)
+        if used >= limit: raise CaptureError('visual_capture_budget', 'Visual observation budget exhausted', dispatched=0)
+        if not hasattr(self, '_per_app_captures'): self._per_app_captures = {}
+        self._per_app_captures[app] = used + 1; self._captures += 1
+
+    def _capture(self, app, force=False):
+        observation = self._observations.get(app)
+        if observation is not None and not force:
+            try: return observation.validate()
+            except CaptureError as error:
+                if error.code != 'capture_stale': raise
+        self._reserve(app)
+        observation = self.provider.capture(self.scopes[app]).validate()
+        if observation.scope != self.scopes[app]: raise CaptureError('capture_scope_mismatch', 'Provider returned another scope')
+        self._observations[app] = observation
+        return observation
+
+    def _native_snapshot(self, app, window=None):
+        scope=self.scopes.get(app)
+        if scope is not None:
+            if window is not None and window!=scope.title:
+                raise CaptureError('capture_scope_mismatch','Native/visual observation is outside its configured window')
+            window=scope.title
+        def restrict(snapshot):
+            if scope is None:return snapshot
+            exact=[n for n in flatten(snapshot['windows']) if n['role'] in {'window','dialog'} and n['name']==scope.title]
+            def local(node):
+                return {**node,'children':[local(child) for child in node['children'] if child['role'] not in {'window','dialog'}]}
+            return {**snapshot,'windows':[{**local(n),'parent':None} for n in exact],'window_filter':scope.title}
+        try: return restrict(self.native.snapshot(app, window))
+        except BokkioError as error:
+            if scope is not None and (isinstance(error,BokkioPermissionError)
+                                      or str(error).startswith('Invalid macOS Accessibility tree:')):
+                # Exact capture scope remains independently observable. This
+                # supplies no native capabilities and cannot bypass input
+                # activation/session guards in the Mac provider.
+                return {'app':{'pid':scope.pid,'name':f'PID {scope.pid}','role':'application','is_foreground':None},
+                        'windows':[],'window_filter':window,'native_observation_unavailable':str(error)}
+            if scope is not None and window == scope.title and str(error).startswith('Window not found:'):
+                try:return restrict(self.native.snapshot(app))
+                except BokkioError as fallback:
+                    if not isinstance(fallback,BokkioPermissionError) and not str(fallback).startswith('Invalid macOS Accessibility tree:'):raise
+                    return {'app':{'pid':scope.pid,'name':f'PID {scope.pid}','role':'application','is_foreground':None},
+                            'windows':[],'window_filter':window,'native_observation_unavailable':str(fallback)}
+            raise
+
+    def _merge(self, app, native, observation):
+        observation.validate(); result = copy.deepcopy(native); nodes = flatten(result['windows'])
+        windows = [n for n in nodes if n['role'] in {'window', 'dialog'} and n['name'] == observation.scope.title]
+        if len(windows) > 1: raise CaptureError('window_ambiguous', 'Native windows do not identify one OCR scope')
+        if windows: window = windows[0]
+        else:
+            window = {'ref': stable_hash(['visual-window', app, observation.metadata['window_id']]),
+                      'role': 'window', 'name': observation.scope.title, 'value': None,
+                      'bounds': observation.metadata['content_rect'], 'state': {'visible': True}, 'actions': [],
+                      'parent': None, 'children': [], 'platform': observation.scope.platform,
+                      'platform_data': {'source': observation.metadata.get('method','window_capture'), 'window_id': observation.metadata['window_id']}}
+            result['windows'].append(window)
+        context = self._contexts.get(app)
+        mode = 'type' if context and context['allowed_values'] else 'click' if context else None
+        window['children'].extend(ocr_nodes(observation, self._policy(app), window['ref'], nodes, mode))
+        result['visual_observation'] = {'image_sha256': observation.metadata['image_sha256'],
+                                        'window_id': observation.metadata['window_id'], 'captures': self._captures}
+        result['visual_fallback']=True
+        return result
+
+    def snapshot(self, app, window=None):
+        native = self._native_snapshot(app, window)
+        if app not in self._active: return native
+        scope = self.scopes[app]
+        if window is not None and window != scope.title:
+            raise CaptureError('capture_scope_mismatch', 'Visual action window is outside its authorized scope')
+        return self._merge(app, native, self._capture(app))
+
+    @staticmethod
+    def _has_native_target(goal, snapshot):
+        from .decision import bounded_observation, options
+        narrowed = bounded_observation(goal, snapshot)
+        matched = set(narrowed.get('observation_scope', {}).get('matched_refs', []))
+        # Probe write capabilities without exposing a fabricated value to the
+        # planner/provider or dispatching it.
+        return any(choice['ref'] in matched for choice in options(narrowed, ('capability-probe',)).values() if choice['action'] != 'done')
+
+    def observe_for_planner(self, app, goal):
+        retain_visual=app in self._active
+        self._contexts.pop(app, None)
+        native = self._native_snapshot(app)
+        if app not in self.scopes or (not retain_visual and self._has_native_target(goal, native)):
+            self._active.discard(app); return native
+        self._active.add(app)
+        return self._merge(app, native, self._capture(app))
+
+    def prepare_step(self, app, snapshot, step):
+        if app not in self.scopes: return snapshot
+        native = self._native_snapshot(app, step['window'])
+        visual_check = any(c['role'] == 'visual_text' for c in step['success'])
+        if not visual_check and self._has_native_target(step['goal'], native):
+            self._active.discard(app); self._contexts.pop(app, None); return native
+        if step['window'] not in {None, self.scopes[app].title}:
+            raise CaptureError('capture_scope_mismatch', 'Visual fallback requires an authorized exact window')
+        self._contexts[app] = copy.deepcopy(step); self._active.add(app)
+        self.provider.prepare_input(self.scopes[app])
+        merged=self._merge(app, native, self._capture(app, force=True))
+        native_nodes=flatten(native['windows'])
+        for check in step['success']:
+            if check['role']=='visual_text':continue
+            existing=[n for n in native_nodes if n['role']==check['role']
+                      and (check['name'] is None or n['name']==check['name'])]
+            if not existing:
+                raise BokkioActionError('Visual fallback requires role=visual_text for OCR outcomes; native success roles must describe existing observed native targets')
+        return merged
+
+    def perform(self, app, action, *, ref=None, value=None, expected_snapshot=None, window=None, **kwargs):
+        if not action.startswith('visual_'):
+            if app in self._active:
+                current=self.snapshot(app,window)
+                if expected_snapshot != tree_digest(current['windows']):
+                    raise BokkioStaleSnapshot('Native/visual decision changed before input')
+                expected_snapshot=tree_digest(self._native_snapshot(app,window)['windows'])
+            self._active.discard(app); self._contexts.pop(app, None)
+            return self.native.perform(app, action, ref=ref, value=value, expected_snapshot=expected_snapshot, window=window, **kwargs)
+        if app not in self._active or app not in self._contexts: raise BokkioActionError('Visual action has no current subtask contract')
+        step = self._contexts[app]
+        if step['risk'] not in {'read', 'local_write'}: raise BokkioActionError('Visual action risk is outside the local task scope')
+        snapshot = self.snapshot(app, window)
+        if expected_snapshot is None or tree_digest(snapshot['windows']) != expected_snapshot:
+            raise BokkioStaleSnapshot('Visual decision snapshot changed before input')
+        targets = [n for n in flatten(snapshot['windows']) if n['ref'] == ref and n['role'] == 'visual_text']
+        if len(targets) != 1 or action not in targets[0]['actions']: raise BokkioActionError('Visual target/action is not uniquely advertised')
+        target = targets[0]; observation = self._capture(app)
+        if re.search(r'\b(send|delete|pay|purchase|transfer|publish)\b|发送|删除|支付|转账|发布',target['name'],re.I):
+            raise BokkioActionError('Sensitive visual target requires explicit approval outside this loop')
+        if kwargs.get('direction') is not None or kwargs.get('amount') is not None:
+            raise BokkioActionError('Visual text input does not support scrolling arguments')
+        if action == 'visual_type' and value not in step['allowed_values']: raise BokkioActionError('Visual literal is outside the subtask allowlist')
+        if action == 'visual_type' and (not isinstance(value,str) or not value
+                or len(value.encode('utf-16-le'))//2>1000 or any(ord(c)<32 or 127<=ord(c)<=159 for c in value)):
+            raise BokkioActionError('Visual typing requires bounded literal text without control characters')
+        if action == 'visual_click' and value is not None: raise BokkioActionError('Visual click does not accept text')
+        if action not in {'visual_click', 'visual_type'}: raise BokkioActionError('Unsupported visual action')
+        from .agent import verify_conditions
+        already,_=verify_conditions(snapshot,step['success'])
+        if already:
+            raise BokkioActionError('Visual command needs an observable outcome that is not already true')
+        # One verification observation is reserved before any input begins.
+        self._reserve(app)
+        def verify(after):
+            after.validate()
+            if (after.scope!=observation.scope or after.metadata['window_id']!=observation.metadata['window_id']
+                    or after.metadata.get('process_identity',after.metadata.get('process_started_seconds_microseconds'))
+                    !=observation.metadata.get('process_identity',observation.metadata.get('process_started_seconds_microseconds'))):
+                raise CaptureError('capture_scope_mismatch','Visual verification changed its native window/process identity')
+            self._observations[app] = after.validate()
+            from .agent import verify_conditions
+            fresh = self._merge(app, self._native_snapshot(app, window), after)
+            passed, checks = verify_conditions(fresh, step['success'])
+            return {'passed': passed, 'source': 'fresh_native_and_OCR_conditions', 'checks': checks}
+        try:
+            receipt, after = self.provider.execute(observation, target['name'], action.removeprefix('visual_'),
+                                                   value=value, verify=verify, control=self.control)
+        except CaptureError as error:
+            if error.details.get('dispatched') != 0:
+                raise BokkioCompletionUnknown('Visual input completion requires inspection: '+error.code) from error
+            self._observations.pop(app, None)
+            if error.code in {'capture_changed', 'capture_stale', 'window_changed'}:
+                raise BokkioStaleSnapshot('Visual input rejected before dispatch: '+error.code) from error
+            raise
+        except Exception as error:
+            raise BokkioCompletionUnknown('Visual provider lost its input completion receipt') from error
+        try:
+            after.validate()
+            if after.scope != observation.scope: raise BokkioError('Visual provider returned another window after dispatch')
+            if receipt.get('status') != 'confirmed' or not verify(after)['passed']:
+                raise BokkioError('Visual provider did not confirm the independent subtask conditions')
+            self._observations[app] = after
+            fresh = self._merge(app, self._native_snapshot(app, window), after)
+        except Exception as error:
+            raise BokkioCompletionUnknown('Visual post-input observation requires inspection: '+str(error)) from error
+        return {'action': action, 'before': target, 'after': None, 'verification': 'confirmed',
+                'action_source': 'bounded_OCR_input', 'visual_receipt': receipt, 'observation': fresh}
+
+
+def mac_visual_backend(native, windows, input_labels, allowed_apps, *, max_captures=12, control=None):
+    """Build the explicit CLI binding; no app-name guessing or window inference."""
+    scopes={}; labels={}
+    for spec in windows:
+        app,sep,title=spec.partition('=')
+        if not sep or not app.isdecimal() or app not in allowed_apps or app in scopes:
+            raise BokkioError('Visual windows require unique allowed PID=TITLE bindings')
+        scopes[app]=WindowScope('macos',int(app),title)
+    for spec in input_labels:
+        app,sep,label=spec.partition('=')
+        if not sep or app not in scopes or not label:
+            raise BokkioError('Visual input labels require a configured PID=TEXT binding')
+        labels.setdefault(app,[]).append(label)
+    policies={app:VisualPolicy(max_captures=max_captures,input_labels=tuple(labels.get(app,[]))) for app in scopes}
+    return HybridBackend(native,MacVisionProvider(),scopes,policies=policies,control=control)

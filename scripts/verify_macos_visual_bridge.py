@@ -1,0 +1,87 @@
+"""Read-only production OCR/Agent observation acceptance on owned Mac windows.
+
+Three independent fixture processes are captured; optional Jev calls select a
+closed OCR candidate without dispatching input. Locked-session input is not
+attempted. Public summaries contain only owned-fixture facts and hashes.
+"""
+import argparse
+import hashlib
+import json
+import os
+from pathlib import Path
+import subprocess
+import time
+
+from bokkio.decision import decide
+from bokkio.office_runner import input_environment
+from bokkio.visual_runtime import HybridBackend, MacVisionProvider, VisualPolicy, WindowScope, ocr_nodes
+from bokkio.xa11y_backend import Xa11yBackend
+
+
+def run(fixture, output, *, model=False):
+    output.mkdir(parents=True,exist_ok=False)
+    report={'scope':'macos_public_visual_bridge_read_only','input_dispatched':False,'agent_task_score':None,
+            'environment':input_environment(),'rounds':[],'model_probes':[]}
+    def persist():(output/'summary.json').write_text(json.dumps(report,indent=2)+'\n')
+    persist()
+    for index in range(1,4):
+        env=dict(os.environ)
+        for key in ['BOKKIO_VISUAL_DUPLICATE','BOKKIO_VISUAL_WINDOWS','BOKKIO_VISUAL_MINIMIZE']:env.pop(key,None)
+        state_file=output/f'round-{index}.state.json';business_file=output/f'round-{index}.business.json'
+        env.update(BOKKIO_VISUAL_STATE=str(state_file),BOKKIO_VISUAL_RESULT=str(business_file))
+        process=subprocess.Popen([str(fixture/'Contents/MacOS'/fixture.stem)],env=env,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+        try:
+            until=time.monotonic()+10
+            while not state_file.exists() and time.monotonic()<until:
+                if process.poll() is not None:raise RuntimeError('Owned fixture exited before readiness')
+                time.sleep(.1)
+            state=json.loads(state_file.read_text());scope=WindowScope('macos',state['pid'],'BokkioVisual',state['window_id'])
+            policy=VisualPolicy(input_labels=('Enter code',));provider=MacVisionProvider()
+            observed=provider.capture(scope);nodes=ocr_nodes(observed,policy,'owned-window')
+            names={n['name']:n for n in nodes}
+            checks={'window_id_matches':observed.metadata['window_id']==state['window_id'],
+                    'text_targets_present':{'Run check','Enter code','Ready'}<=set(names),
+                    'click_capability':names.get('Run check',{}).get('actions')==['visual_click'],
+                    'declared_input_capability':names.get('Enter code',{}).get('actions')==['visual_click','visual_type']}
+            if index==1 and report['environment']['session_locked'] is True:
+                try:
+                    provider.prepare_input(scope)
+                    report['locked_input_guard']={'rejected':False,'reason':'Activation unexpectedly succeeded; no input dispatched'}
+                except Exception as error:
+                    report['locked_input_guard']={'rejected':True,'reason':str(error),'input_dispatched':False}
+            backend=HybridBackend(Xa11yBackend(),provider,{str(scope.pid):scope},policies={str(scope.pid):policy})
+            try:
+                snapshot=backend.observe_for_planner(str(scope.pid),'Click Run check')
+                checks['hybrid_observation']=snapshot.get('visual_fallback') is True
+                if model:
+                    from bokkio.jev import JevProvider
+                    decision,response=decide(JevProvider(),'Click Run check',snapshot,allow_done=False,require_action=True)
+                    report['model_probes'].append({'round':index,'action':decision.action,'confidence':decision.confidence,'threshold':.7,'input_dispatched':False,
+                                                   'elapsed_seconds':response.get('elapsed_seconds'),'usage':response.get('usage')})
+            except Exception as error:
+                checks['hybrid_observation']=False
+                report.setdefault('hybrid_errors',[]).append({'round':index,'reason':str(error)})
+            business=json.loads(business_file.read_text())
+            checks['business_unchanged']=business['clicks']==0 and business['input']==''
+            report['rounds'].append({'round':index,'checks':checks,'passed':all(checks.values()),
+                                     'image_sha256':observed.metadata['image_sha256'],'ocr_engine':observed.metadata['ocr']['engine'],
+                                     'candidate_count':len(nodes),'recognized_texts':list(names),
+                                     'initial_counter_text_exact':'Clicks: 0' in names})
+            persist()
+        finally:
+            if process.poll() is None:process.terminate();process.wait(timeout=10)
+    report['passed']=sum(row['passed'] for row in report['rounds'])
+    report['planned']=3
+    report['source_sha256']={str(path):hashlib.sha256(path.read_bytes()).hexdigest() for path in [
+        Path('src/bokkio/visual_runtime.py'),Path('src/bokkio/visual.py'),Path('src/bokkio/decision.py'),
+        Path('src/bokkio/native/macos_capture.swift'),Path('scripts/verify_macos_visual_bridge.py')]}
+    persist();return report
+
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--fixture',type=Path,required=True);parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--model',action='store_true');args=parser.parse_args()
+    report=run(args.fixture,args.output,model=args.model)
+    print(json.dumps(report,indent=2))
+    raise SystemExit(0 if report['passed']==3 else 1)

@@ -1,0 +1,142 @@
+{
+  "scope": "macos_public_visual_bridge_read_only",
+  "input_dispatched": false,
+  "agent_task_score": null,
+  "environment": {
+    "ready": false,
+    "session_available": true,
+    "session_locked": true,
+    "permissions": {
+      "ax": true,
+      "capture": true,
+      "events": true
+    },
+    "reason": "interactive_session_unavailable"
+  },
+  "rounds": [
+    {
+      "round": 1,
+      "checks": {
+        "window_id_matches": true,
+        "text_targets_present": true,
+        "click_capability": true,
+        "declared_input_capability": true,
+        "hybrid_observation": true,
+        "business_unchanged": true
+      },
+      "passed": true,
+      "image_sha256": "7fc290b134c92a986ce5d771e2da3e7c8e9c366185dfbb063a21d32e157256e9",
+      "ocr_engine": "Apple.Vision",
+      "candidate_count": 5,
+      "recognized_texts": [
+        "BokkioVisual|",
+        "Bokkio visual task",
+        "Enter code",
+        "Run check",
+        "Ready"
+      ],
+      "initial_counter_text_exact": false
+    },
+    {
+      "round": 2,
+      "checks": {
+        "window_id_matches": true,
+        "text_targets_present": true,
+        "click_capability": true,
+        "declared_input_capability": true,
+        "hybrid_observation": true,
+        "business_unchanged": true
+      },
+      "passed": true,
+      "image_sha256": "3078dc9eca726dd4f0224f868f9cc73da39950c66863d47d4a2fec14027ed3a1",
+      "ocr_engine": "Apple.Vision",
+      "candidate_count": 5,
+      "recognized_texts": [
+        "BokkioVisual|",
+        "Bokkio visual task",
+        "Enter code",
+        "Run check",
+        "Ready"
+      ],
+      "initial_counter_text_exact": false
+    },
+    {
+      "round": 3,
+      "checks": {
+        "window_id_matches": true,
+        "text_targets_present": true,
+        "click_capability": true,
+        "declared_input_capability": true,
+        "hybrid_observation": true,
+        "business_unchanged": true
+      },
+      "passed": true,
+      "image_sha256": "3078dc9eca726dd4f0224f868f9cc73da39950c66863d47d4a2fec14027ed3a1",
+      "ocr_engine": "Apple.Vision",
+      "candidate_count": 5,
+      "recognized_texts": [
+        "BokkioVisual|",
+        "Bokkio visual task",
+        "Enter code",
+        "Run check",
+        "Ready"
+      ],
+      "initial_counter_text_exact": false
+    }
+  ],
+  "model_probes": [
+    {
+      "round": 1,
+      "action": "visual_click",
+      "confidence": 1.0,
+      "threshold": 0.7,
+      "input_dispatched": false,
+      "elapsed_seconds": 2.704438,
+      "usage": {
+        "input_tokens": 991,
+        "output_tokens": 70,
+        "cost": 4.1622e-05
+      }
+    },
+    {
+      "round": 2,
+      "action": "visual_click",
+      "confidence": 1.0,
+      "threshold": 0.7,
+      "input_dispatched": false,
+      "elapsed_seconds": 1.604606,
+      "usage": {
+        "input_tokens": 1025,
+        "output_tokens": 70,
+        "cost": 4.305e-05
+      }
+    },
+    {
+      "round": 3,
+      "action": "visual_click",
+      "confidence": 1.0,
+      "threshold": 0.7,
+      "input_dispatched": false,
+      "elapsed_seconds": 1.658794,
+      "usage": {
+        "input_tokens": 1025,
+        "output_tokens": 70,
+        "cost": 4.305e-05
+      }
+    }
+  ],
+  "locked_input_guard": {
+    "rejected": true,
+    "reason": "Mac foreground activation failed: interactive_session_unavailable",
+    "input_dispatched": false
+  },
+  "passed": 3,
+  "planned": 3,
+  "source_sha256": {
+    "src/bokkio/visual_runtime.py": "64719cf6506df309b391810fde834996a16cc99f07b47e2e96f3980f4c9afd01",
+    "src/bokkio/visual.py": "614deaf749fb0360ac0c6614e23798fd0bb4eab821f515eb19f337d9dc33056b",
+    "src/bokkio/decision.py": "55dabd11f0e8f897f253462939e77e451ed5dee712688559898521e3c3924631",
+    "src/bokkio/native/macos_capture.swift": "31ad21f85c1b0d9904e483d9f04a0d8979fa36b97d724a6bf55a2ef985bf274b",
+    "scripts/verify_macos_visual_bridge.py": "352d9efb5682cfa20f2bf15547844d5907cc47235ccadeb215a1461f2956373a"
+  }
+}

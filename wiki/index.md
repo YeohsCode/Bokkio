@@ -25,7 +25,7 @@ confidence: high
 - [[entities/native-runtime|原生 Runtime：xa11y 适配层]] — `Xa11yBackend` 是原生应用发现、树读取、元素查找与动作派发入口；Windows UIA 补充不替代整套树模型。
 - [[entities/office-pilot|微软 Office 原题 pilot]] — 首批固定 WindowsWorld 三道 L1 原题，Mac 环境适配：Word 标题/正文格式、Excel D 列货币格式、PowerPoint 标题页。
 - [[entities/planner-and-jev|Planner 与 Jev 的职责分工]] — Planner 规划阶段和成功条件；Jev 在当前观察的有限选项中选择动作与目标。
-- [[entities/visual-input|有界视觉输入：代码与验收边界]] — Mac click/type/replace和限定Office字段输入已实现；较早OCR脚本探针通过，最新Agent路径尚未通过。
+- [[entities/visual-input|有界视觉输入：代码与验收边界]] — Mac公共provider/Agent/CLI文字降级已实现；实机只读观察与Jev决策3/3，真实输入及视觉Workflow待验收/实现。
 - [[entities/workflow-engine|Recorder 与 Workflow 引擎]] — Workflow 将成功语义执行固化为有依赖、前置条件、验证条件与版本哈希的可重放步骤；它不是无条件键鼠宏。
 
 ## Concepts
@@ -50,7 +50,7 @@ confidence: high
 ## Summaries
 
 - [[summaries/architecture-map|架构与代码导航]] — 从入口到执行按模块职责阅读，比按提交时间浏览更容易定位改动。
-- [[summaries/current-status|当前阶段与证据快照]] — 2026-10-09快照：P7部分验收、Office十轮实跑与411项主机回归。
+- [[summaries/current-status|当前阶段与证据快照]] — 2026-10-09快照：P7部分验收、Office十轮实跑与435项主机回归。
 - [[summaries/pending-and-known-gaps|Pending 与已知集成缺口]] — 按先修复可复现代码问题、再获取真实执行证据的顺序推进；环境恢复不是所有缺口的唯一条件。
 
 ## Raw sources

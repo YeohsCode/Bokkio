@@ -26,7 +26,9 @@ Bokkio 源于一个具体需求：在 Windows 和 macOS 上，通过统一接口
 
 截至 **2026-10-09**：
 
-**总体位置：P6 Windows 验收完成，P7 部分实现。** Office 原题已实跑十轮，各轮独立评分 **0/3**；最新失败为 Word 输入后确认、Excel 输入前窗口/前台拒绝与 PowerPoint 决策置信度不足。独立 Excel 脚本探针完成字段替换和保存校验，完整 Agent 任务与最新字段 transport 尚未通过。主机回归 **411/411**，Windows 历史 **373/373**。见 [实跑报告](docs/evidence/2026-10-08-office-live/README.md)。
+**总体位置：P6 Windows 验收完成，P7 部分实现。** Office 原题已实跑十轮，各轮独立评分 **0/3**；最新失败为 Word 输入后确认、Excel 输入前窗口/前台拒绝与 PowerPoint 决策置信度不足。独立 Excel 脚本探针完成字段替换和保存校验，完整 Agent 任务与最新字段 transport 尚未通过。主机回归 **435/435**，Windows 历史 **373/373**。见 [实跑报告](docs/evidence/2026-10-08-office-live/README.md)。
+
+Mac公共视觉接口和Agent/CLI OCR降级已落地；最新自绘窗口只读观察与真实Jev决策3/3，真实输入仍待验收。见[视觉接入](docs/P7-VISUAL-BRIDGE.md)。
 
 完整阶段位置见 [总体进度](docs/STATUS.md)，按优先级执行的剩余项见 [Pending](docs/PENDING.md)。以下保留各阶段的历史验收与对应分母：
 
@@ -259,7 +261,9 @@ The [research proposal](docs/RESEARCH.md) defines the requirements, and the [pha
 
 As of **2026-10-09**:
 
-**Overall position: Windows P6 acceptance is complete; P7 is partial.** Ten Office development rounds each scored **0/3** on independent artifacts. Latest blockers: Word verification after input, Excel pre-input foreground/window refusal and PowerPoint decision confidence. A separate scripted Excel probe passed field replacement and saved-artifact checks; full Agent tasks and the latest field transport remain unvalidated. Host regression: **411/411**; historical Windows: **373/373**. See the [live report](docs/evidence/2026-10-08-office-live/README.md).
+**Overall position: Windows P6 acceptance is complete; P7 is partial.** Ten Office development rounds each scored **0/3** on independent artifacts. Latest blockers: Word verification after input, Excel pre-input foreground/window refusal and PowerPoint decision confidence. A separate scripted Excel probe passed field replacement and saved-artifact checks; full Agent tasks and the latest field transport remain unvalidated. Host regression: **435/435**; historical Windows: **373/373**. See the [live report](docs/evidence/2026-10-08-office-live/README.md).
+
+Mac shared visual interfaces and opt-in Agent/CLI OCR fallback are implemented. Latest native read-only observations and real Jev choices pass 3/3; live input remains pending. See the [visual bridge](docs/P7-VISUAL-BRIDGE.md).
 
 See [overall status](docs/STATUS.md) and the prioritized [pending list](docs/PENDING.md). Historical acceptance below retains its original dates and denominators.
 

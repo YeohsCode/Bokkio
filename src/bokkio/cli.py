@@ -87,6 +87,9 @@ def build_parser() -> argparse.ArgumentParser:
     run.add_argument("--planner-model")
     run.add_argument("--plan-only", action="store_true")
     run.add_argument("--control-file", help='JSON file containing {"action":"pause"} or {"action":"cancel"}')
+    run.add_argument('--visual-window',action='append',default=[],metavar='PID=TITLE',help='Opt in to local OCR fallback for an exact allowed Mac window')
+    run.add_argument('--visual-input-label',action='append',default=[],metavar='PID=TEXT',help='Declare an OCR label as an input target in that visual window')
+    run.add_argument('--max-visual-captures',type=int,default=12,help='Per-app OCR observation budget, including input verification')
     run.add_argument("--resume", help="Resume a JSON checkpoint with the same goal and app allowlist")
     run.add_argument("--amend-reason", help="Explicit reason for a changed goal at a paused/completed checkpoint; keep the app allowlist")
     workflow = subparsers.add_parser("workflow", help="Record, compile and replay native semantic workflows")
@@ -261,8 +264,14 @@ def execute(args: argparse.Namespace, backend: Xa11yBackend) -> Any:
                         info.update(bytes=file.stat().st_size, sha256=digest.hexdigest())
                     files.append(info)
                 return all(f['exists'] for f in files), {'required_files':files}
+        control=file_control(args.control_file)
+        if getattr(args,'visual_window',[]):
+            from .visual_runtime import mac_visual_backend
+            backend=mac_visual_backend(backend,args.visual_window,args.visual_input_label,args.allow_app,
+                                       max_captures=args.max_visual_captures,control=control)
+        elif getattr(args,'visual_input_label',[]):raise BokkioError('Visual input labels require an explicit visual window')
         agent = DesktopAgent(backend, OpenRouterPlanner(model=args.planner_model), None if args.plan_only else JevProvider(),
-                             max_actions=args.max_actions, max_replans=args.max_replans, max_phases=args.max_phases, control=file_control(args.control_file), final_verifier=verifier, required_sources=sources)
+                             max_actions=args.max_actions, max_replans=args.max_replans, max_phases=args.max_phases, control=control, final_verifier=verifier, required_sources=sources)
         return agent.run(goal, args.allow_app, args.trace, resume=args.resume, plan_only=args.plan_only,
                          amend_reason=args.amend_reason)
     raise BokkioError(f"Unsupported command: {args.command}")

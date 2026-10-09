@@ -1,12 +1,12 @@
 {
   "compiled_pages": 22,
-  "source_snapshots_verified": 82,
+  "source_snapshots_verified": 103,
   "referenced_source_files": 39,
   "errors": [],
   "review_pages": [],
   "office_constructor_unsupported_kwargs": [],
-  "latest_refresh": "2026-10-09-office-fix",
-  "host_tests_passed": 411,
+  "latest_refresh": "2026-10-09-visual-bridge",
+  "host_tests_passed": 435,
   "office_rounds": 10,
   "office_task_executions": 30,
   "office_artifact_passes": 0,
@@ -14,5 +14,9 @@
     "all_worktree_findings": 24,
     "reviewed_request_uuid_false_positives": 24,
     "credential_findings": 0
-  }
+  },
+  "mac_read_only_bridge_passed": 3,
+  "mac_read_only_bridge_planned": 3,
+  "actual_Jev_visual_probes": 3,
+  "visual_live_input_dispatched": false
 }

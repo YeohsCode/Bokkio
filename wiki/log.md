@@ -134,3 +134,10 @@ confidence: high
 - 增加输入范围拒绝事实、派发回执/原生回读诊断、3次有限回读和split button显式点击收窄；未知完成不重试。
 - 真实Jev在记录的合成PPT快照上返回click/1.0，没有live dispatch或新任务分数；主机411/411、Swift helper重编译/自有窗口捕获通过。
 - Mac当前锁屏且自动解锁失败，完整GUI复跑待解锁；不把此状态用于解释之前解锁时的失败。
+
+## [2026-10-09] refresh | Shared visual provider and Mac Agent routing
+
+- 更新6个采集/输入/状态/权限/Office页面及索引，追加raw版本，保留之前82份来源。
+- Mac provider、公共OCR协议、HybridBackend及Agent/Jev/CLI opt-in接入完成；范围、预算、取消、歧义、未知完成、模拟click/type和恢复约束有测试。
+- 主机435/435；最新实机只读观察及真实Jev选择各3/3，模型只接收文字候选。锁屏activation真实拒绝，零输入；计数OCR限制与历史失败保留。
+- Windows工作按用户要求暂缓；真实输入、视觉Workflow、跨窗口/图标等保持pending。

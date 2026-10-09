@@ -25,13 +25,13 @@
 
 独立 Excel 脚本探针确认 D:D 与 Currency 两次替换（各 8 个事件），保存后独立评分通过。该探针使用较早 OCR 字段定位版本，属于输入能力证据；最新原生边界定位 transport 和完整 Agent 任务仍待通过。
 
-主机回归 **411/411**，Windows 历史 **373/373**。恢复 fixture 三轮原生动作与 12 次滚动通过。原始 VLM 未运行，无官方成绩。Mac 环境与初始化/动作协议差异使这些结果属于 adapted run。
+主机回归 **435/435**，Windows 历史 **373/373**。恢复 fixture 三轮原生动作与 12 次滚动通过。原始 VLM 未运行，无官方成绩。Mac 环境与初始化/动作协议差异使这些结果属于 adapted run。
 
 后续已加入结构化输入拒绝/回读诊断、有限回读与显式split button点击收窄；记录PPT快照上的真实Jev返回click、置信度1.0。当前Mac锁屏，新GUI任务未启动，历史评分未改变。见[修复证据](evidence/2026-10-09-office-fix/README.md)。
 
 ## 已修复与下一步
 
-已修复 executor 构造、AXConfirm、真实前台激活、窗口身份、只读选区和弹窗阶段规划。下一步分别诊断 Word 确认、Excel 拒绝和 PPT 候选，再完整复跑固定三题。通用 Agent/Workflow 自动视觉降级、Windows 视觉输入和跨应用长流程仍待完成，见 [Pending](PENDING.md)。
+已修复 executor 构造、AXConfirm、真实前台激活、窗口身份、只读选区和弹窗阶段规划。下一步分别诊断 Word 确认、Excel 拒绝和 PPT 候选，再完整复跑固定三题。通用Mac Agent文字降级已实现，真实输入及视觉Workflow仍待验收/实现；Windows工作暂缓，跨应用长流程待完成，见 [Pending](PENDING.md)。
 
 使用新工作区，历史结果不覆盖：
 
@@ -46,4 +46,4 @@ uv run python scripts/office_pilot.py run --workspace /tmp/bokkio-office-new
 
 The three pinned WindowsWorld Office tasks have now executed ten development rounds, each scoring 0/3 on independent saved artifacts. Each task retains its original record and 15-action budget. Setup initializes isolated failing inputs; execution uses DesktopAgent/Planner/Jev and native actions with a scoped combo-field transport. File scoring requires preserved content, target formatting and a save after execution starts.
 
-The latest unlocked-session run stopped on Word post-input verification, Excel pre-input foreground/window refusal and PowerPoint decision confidence. A separate scripted Excel probe passed two replacements and saved-artifact checks using the earlier OCR route; it is not an Agent task success or validation of the latest native-bounds route. Round 3 had concurrent fixture activity; code changed between rounds. Host tests pass 411/411; Windows remains at its prior 373/373. Original VLM judging and official environment integration remain pending. Next: isolate these failures and rerun the full pilot. See [live evidence](evidence/2026-10-08-office-live/README.md).
+The latest unlocked-session run stopped on Word post-input verification, Excel pre-input foreground/window refusal and PowerPoint decision confidence. A separate scripted Excel probe passed two replacements and saved-artifact checks using the earlier OCR route; it is not an Agent task success or validation of the latest native-bounds route. Round 3 had concurrent fixture activity; code changed between rounds. Host tests pass 435/435; Windows remains at its prior 373/373. Original VLM judging and official environment integration remain pending. Next: isolate these failures and rerun the full pilot. See [live evidence](evidence/2026-10-08-office-live/README.md).

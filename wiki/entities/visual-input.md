@@ -4,7 +4,7 @@ created: "2026-10-08"
 updated: "2026-10-09"
 type: "entity"
 tags: ["vision", "safety", "macos"]
-sources: ["docs/P7-MACOS-VISUAL.md", "docs/PENDING.md", "docs/evidence/2026-10-08-office-live/README.md", "docs/evidence/2026-10-09-office-fix/README.md", "src/bokkio/native/macos_capture.swift", "src/bokkio/visual_input.py", "tests/test_visual_input.py"]
+sources: ["docs/P7-MACOS-VISUAL.md", "docs/P7-VISUAL-BRIDGE.md", "docs/PENDING.md", "docs/evidence/2026-10-08-office-live/README.md", "docs/evidence/2026-10-09-office-fix/README.md", "docs/evidence/2026-10-09-visual-bridge/README.md", "src/bokkio/native/macos_capture.swift", "src/bokkio/visual_input.py", "src/bokkio/visual_runtime.py", "tests/test_visual_input.py"]
 confidence: "high"
 ---
 
@@ -18,10 +18,16 @@ helper核对图像/进程出生时间、窗口身份/几何、时效、会话和
 
 独立Excel脚本探针用较早OCR字段定位确认两次替换并保存，独立货币格式校验通过。最新原生边界路径仍有零派发拒绝和派发后确认失败，尚未通过完整Agent任务。^[docs/evidence/2026-10-08-office-live/README.md#L20]
 
-Office runner仅在授权文档窗口的可写combo接入transport。通用Agent自动降级、Windows输入、视觉Workflow和完整取消/限速/恢复仍待实现或验收。^[docs/PENDING.md#L5]
+Office runner保留授权combo transport；通用Mac文字候选已通过HybridBackend接Agent/Jev/CLI。真实输入、视觉Workflow和更多可靠性验收仍待完成，Windows工作暂缓。^[docs/PENDING.md#L5]
 
 ## 后续修复（2026-10-09）
 
 输入拒绝与回读诊断已保留到Agent trace；同一字段最多3次回读，不重复派发。显式split button点击收窄后，真实Jev对记录的PPT快照返回click、置信度1.0（阈值0.7）。主机411/411；Mac当前锁屏，新GUI任务未开始，历史0/3仍为最新产物成绩。该决策探针没有live dispatch或Agent分数。^[docs/evidence/2026-10-09-office-fix/README.md#L1]
+
+## Mac公共视觉接入（2026-10-09）
+
+WindowScope/VisualObservation/VisualPolicy/VisualProvider、MacVisionProvider与HybridBackend已实现；通过显式PID/固定标题窗口接入Agent/Jev/CLI，输入标签需声明，原生可用时零OCR。恢复保留范围/策略及观察预算。^[docs/P7-VISUAL-BRIDGE.md#L5]
+
+主机435/435；最新三次独立Mac窗口只读观察与真实Jev visual_click选择均3/3（置信度1.0），模拟Agent click/type单独验证。锁屏activation实际拒绝，未派发输入；计数文字OCR仍未验收，Office历史0/3不变。Windows工作暂缓，视觉Workflow、图标和跨窗口扩展待完成。^[docs/evidence/2026-10-09-visual-bridge/README.md#L1]
 
 关联：[[entities/capture-and-ocr]]、[[concepts/action-verification]]、[[summaries/pending-and-known-gaps]]。

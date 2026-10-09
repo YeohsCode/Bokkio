@@ -55,7 +55,9 @@ def options(snapshot, values, *, include_selected=False):
         for action in node["actions"]:
             if node['state'].get('enabled') is False and action!='select_text':continue
             if ambiguous and not (action in {"set_value","submit"} and identity) and action not in verified_actions and action not in mac_actions: continue
-            if action not in {"click", "focus", "select", "select_text", "expand", "collapse", "type", "set_value", "scroll", "submit"}:
+            if action not in {"click", "focus", "select", "select_text", "expand", "collapse", "type", "set_value", "scroll", "submit", "visual_click", "visual_type"}:
+                continue
+            if action.startswith('visual_') and (node['role']!='visual_text' or node['platform_data'].get('source')!='OCR'):
                 continue
             if action == "expand" and node["state"].get("expanded") is True:
                 continue
@@ -65,7 +67,7 @@ def options(snapshot, values, *, include_selected=False):
                 continue
             if action == "select" and node["state"].get("selected") is True and not include_selected:
                 continue
-            variants = [{"value": v} for v in values if action!='select_text' or (isinstance(node['value'],str) and v and node['value'].count(v)==1)] if action in {"type", "set_value", "select_text"} else [{"value": None}]
+            variants = [{"value": v} for v in values if action!='select_text' or (isinstance(node['value'],str) and v and node['value'].count(v)==1)] if action in {"type", "set_value", "select_text", "visual_type"} else [{"value": None}]
             if action in {"set_value","submit"} and identity:
                 key = (action,node["platform_data"].get("value_scope_hwnd"), tuple(identity))
                 if key in value_targets: continue
@@ -98,6 +100,8 @@ def options(snapshot, values, *, include_selected=False):
 
 
 ACTION_DESCRIPTIONS = {
+    "visual_click": "Click one uniquely observed OCR text label in an explicitly authorized window; this label is not a native button. Requires independent post-action verification.",
+    "visual_type": "Click and type one allowed literal into an explicitly declared OCR input label; OCR alone never declares an editable field. Requires post-action verification.",
     "select_text": "Select exactly one occurrence of an allowed literal in the current native text value; preserves text. Verify selected_text, not selected state.",
     "submit": "Confirm an observed field using its advertised native confirmation capability (Mac AXConfirm or foreground-bound Explorer Enter). Use when the goal requests committing the entered value; it does not replace text.",
     "click": "Activate a button or invoke a control. For opening an expandable control prefer expand.",
@@ -284,6 +288,8 @@ def decide(provider: DecisionProvider, goal: str, snapshot: dict[str, Any], valu
     if narrow:
         snapshot = bounded_observation(goal, snapshot)
     choices = options(snapshot, values, include_selected=bool(require_action and re.match(r'^\s*select\b',goal,re.I)))
+    if full_snapshot.get('visual_fallback'):
+        choices={k:c for k,c in choices.items() if c['action']=='done' or c['action'].startswith('visual_')}
     if not allow_done:
         choices = {k:c for k,c in choices.items() if c['action']!='done'}
     if "observation_scope" in snapshot:

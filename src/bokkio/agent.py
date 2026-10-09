@@ -134,6 +134,7 @@ def planner_observation(goal, snapshot, windows, limit=240):
         while parent["role"] not in {"window", "dialog"} and parent["parent"] in by_ref:
             parent = by_ref[parent["parent"]]
         rows.append({**({"native_inline_editor":True} if data.get("class_name")=="UIRenameTextElement" else {}),
+                     **({'source':'OCR','ocr_confidence':data['ocr_confidence']} if data.get('source')=='OCR' else {}),
                      **({'value_submission':data['value_submission']} if data.get('value_submission') else {}),
                      "role": node["role"], "name": node["name"], "value": node["value"], "actions": actions,
                      "parent_name": by_ref.get(node["parent"], {}).get("name"),
@@ -186,7 +187,8 @@ class DesktopAgent:
     def _observations(self, apps, goal):
         observations = {}
         for app in apps:
-            snapshot = self.backend.snapshot(app)
+            snapshot = (self.backend.observe_for_planner(app,goal) if hasattr(self.backend,'observe_for_planner')
+                        else self.backend.snapshot(app))
             # Window names and nodes must describe the same native observation.
             # windows() previously traversed the complete UIA tree a second time.
             windows = []
@@ -222,6 +224,17 @@ class DesktopAgent:
             raise BokkioError('Invalid source constraint checkpoint')
         if resume and previous_sources != self.required_sources and amend_reason is None:
             raise BokkioError('Resume source constraints must match the checkpoint')
+        execution_contract=getattr(self.backend,'execution_contract',None)
+        # JSON normalization keeps tuple-based runtime policies comparable to
+        # their saved representation and prevents silently widening a resume.
+        execution_contract=json.loads(json.dumps(execution_contract))
+        if resume and trace.get('execution_contract')!=execution_contract:
+            raise BokkioError('Resume visual scopes and policies must match the checkpoint')
+        if execution_contract is not None:trace['execution_contract']=execution_contract
+        if hasattr(self.backend,'begin_run'):
+            if resume and not isinstance(trace.get('visual_capture_counts'),dict):
+                raise BokkioError('Visual resume requires its observation budget checkpoint')
+            self.backend.begin_run(trace.get('visual_capture_counts') if resume else None)
         if (not isinstance(trace.get("events"), list) or not isinstance(trace.get("completed_steps"), list)
                 or type(trace.get("actions")) is not int or trace["actions"] < 0
                 or type(trace.get("replans")) is not int or trace["replans"] < 0):
@@ -240,6 +253,8 @@ class DesktopAgent:
                 or not isinstance(trace.setdefault("artifact_versions", []), list)):
             raise BokkioError("Invalid requirement revision checkpoint")
         def event(kind, **data):
+            if hasattr(self.backend,'visual_capture_counts'):
+                trace['visual_capture_counts']=self.backend.visual_capture_counts
             trace["events"].append({"kind": kind, "time": time.time(), "goal_revision":trace["goal_revision"], **data})
             temporary = None
             try:
@@ -408,6 +423,8 @@ class DesktopAgent:
                         calls = []
                         try:
                             snapshot = self.backend.snapshot(step["app"], step["window"])
+                            if hasattr(self.backend,'prepare_step'):
+                                snapshot=self.backend.prepare_step(step['app'],snapshot,step)
                             passed, checks = verify_conditions(snapshot, step["success"])
                             event("observation", step=step["id"], snapshot=snapshot, checks=checks)
                             if passed and (not step.get('requires_action',False) or dispatched(step)):
@@ -454,7 +471,7 @@ class DesktopAgent:
                             source_path=source_for_open(target,snapshot) if decision.action=='click' else None
                             if decision.action in {'set_value','type'} and target['role']=='text_area' and missing_sources():
                                 raise BokkioError('Read the required sources through native Open before writing output: '+json.dumps(missing_sources()))
-                            if decision.action in {"click", "select", "set_value", "type"} and re.search(r"\b(send|delete|pay|purchase|transfer|publish)\b|发送|删除|支付|转账|发布", target.get("name") or "", re.I):
+                            if decision.action in {"click", "select", "set_value", "type", "visual_click", "visual_type"} and re.search(r"\b(send|delete|pay|purchase|transfer|publish)\b|发送|删除|支付|转账|发布", target.get("name") or "", re.I):
                                 return stop("blocked", "Sensitive native target requires explicit approval")
                             trace["actions"] += 1
                             result = execute_decision(self.backend, step["app"], decision)

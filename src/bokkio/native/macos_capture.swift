@@ -7,13 +7,16 @@ import Darwin
 
 // Establish the WindowServer/AppKit connection before asynchronous capture.
 _ = NSApplication.shared
+var postingStarted = false
 func emit(_ data: [String: Any], code: Int32 = 0) -> Never {
     if let encoded = try? JSONSerialization.data(withJSONObject: data, options: [.sortedKeys]),
        let text = String(data: encoded, encoding: .utf8) { print(text) }
     exit(code)
 }
 func fail(_ code: String, _ message: String, _ details: [String: Any] = [:]) -> Never {
-    emit(["error": code, "message": message, "details": details], code: 1)
+    var facts=details
+    if facts["dispatched"] == nil { facts["dispatched"] = postingStarted ? "unknown" : 0 }
+    emit(["error": code, "message": message, "details": facts], code: 1)
 }
 func rect(_ value: CGRect) -> [String: Double] {
     ["x": value.minX, "y": value.minY, "width": value.width, "height": value.height]
@@ -168,6 +171,7 @@ Task { @MainActor in
                     if release { events[index].post(tap:.cghidEventTap) }
                     fail("input_completion_unknown", "Foreground changed after dispatch began", ["events_posted":index+(release ? 1 : 0),"release_posted":release,"dispatched":true,"input_scope":foregroundScope()])
                 }
+                postingStarted = true
                 event.post(tap:.cghidEventTap)
             }
             emit(["pid":number,"window_id":window.windowID,"events_posted":events.count,
@@ -176,6 +180,7 @@ Task { @MainActor in
         var metadata: [String: Any] = [
             "schema": "bokkio.window_capture.v1", "platform": "macos",
             "pid": number, "window_id": window.windowID, "process_started_seconds_microseconds": born,
+            "window_title":window.title ?? "",
             "window_bounds": rect(window.frame), "content_rect": rect(contentRect),
             "width": image.width, "height": image.height, "point_pixel_scale": scale,
             "coordinate_space": "image_pixels_to_screen_points", "is_on_screen": window.isOnScreen,

@@ -11,7 +11,7 @@
 | P5：规划与跨应用执行 | Windows 阶段恢复、文件交付与需求修订通过；Mac 原生 fixture 通过，Office Agent 全任务尚未通过 |
 | P6：Recorder / Workflow | Windows 原计划验收完成；Mac 基础重放通过，文件合约与跨进程扩展待完成 |
 | P7.1：截图与坐标 | Mac 包/CLI 与原生图像验收通过；Windows 接口与 fixture 已实现，实机像素验收待完成 |
-| P7.2：OCR / 视觉候选 | Mac Vision 与唯一候选验收通过；Office runner 接入限定字段输入，通用 Planner/Jev/Workflow 自动降级待实现 |
+| P7.2：OCR / 视觉候选 | Mac公共OCR接口、授权窗口Agent/Jev/CLI降级已接入；只读观察/决策3/3，视觉Workflow重放待实现 |
 | P7.3：有界输入 | Excel 脚本探针确认两次替换及保存产物；最新 Agent 路径仍有零派发拒绝和派发后未知完成，Windows 输入待实现 |
 | P7.4–P7.5：可靠性与持续回归 | 已覆盖部分取消、身份、时效与未知完成拒绝；完整故障恢复和跨平台端到端验收待完成 |
 
@@ -19,7 +19,7 @@
 
 ## 最新结果
 
-- 主机隔离回归 **411/411**；Windows 历史回归 **373/373**，本轮未重跑 Windows。
+- 主机隔离回归 **435/435**；Windows 历史回归 **373/373**，本轮未重跑 Windows。
 - Mac 恢复检查：原生 fixture 三轮通过，12 次滚动通过。第十轮 Office 启动时会话未锁、AX/capture/events 全部通过；该轮失败不能归因于锁屏。
 - 三道固定 WindowsWorld L1 原题，共十轮、30 次任务执行，各轮产物评分均 **0/3**。第三轮与 fixture 探针并发，已标注干扰；各轮代码也有变化，这些是开发诊断记录。
 - 最新 Word：4 次动作尝试，输入派发后确认失败，停止以避免重复输入；Excel：2 次尝试，`input_unavailable` 在输入前拒绝；PowerPoint：0 次动作，决策置信度不足。三题均 blocked，Word/Excel 未验证保存后的目标格式，PPT 目标文件不存在。
@@ -29,6 +29,10 @@
 
 证据：[Office 实跑报告](evidence/2026-10-08-office-live/README.md)、[会话恢复](evidence/2026-10-08-macos-session-recovery/README.md)。
 
+## 公共视觉接入
+
+Mac本地OCR已通过HybridBackend接入Agent和CLI，声明输入标签、候选/观察预算及恢复合约有测试。最新三次原生只读观察与真实Jev决策3/3；锁屏输入守卫实际拒绝，完整GUI输入未验收。Windows工作暂缓。见[接入报告](P7-VISUAL-BRIDGE.md)。
+
 ## 本轮后续修复
 
 输入守卫与原生回读错误的结构化诊断已贯穿Agent trace；同一字段可有限回读而不重发。显式split button点击消除了click/expand竞争，真实Jev对已记录PPT快照返回click、置信度1.0。Mac当前preflight锁屏，新GUI任务未开始；该决策探针没有产生新的题库成绩。见[修复证据](evidence/2026-10-09-office-fix/README.md)。
@@ -37,7 +41,7 @@
 
 1. 针对 Word 派发后确认、Excel 前台/窗口拒绝补齐诊断，分别验证字段真实值、保存结果和零派发原因；未知完成先检查当前状态。
 2. 修复 PowerPoint 可执行候选和阶段条件，保持 15 步预算与置信度阈值，完整复跑三题。
-3. 扩展通用视觉降级与 Workflow 重放，完成 Windows 截图/OCR/输入、Mac 文件/进程恢复和 P7 故障验收。
+3. 通用Mac文字降级已实现；继续视觉Workflow、输入与故障验收及Mac文件/进程恢复。Windows工作按用户要求暂缓。
 4. 三题稳定通过后扩展跨应用职业办公流程、原始 VLM 评分和上游环境对齐。
 
 详细剩余项见 [Pending](PENDING.md)。Windows Office 激活继续暂缓。
@@ -46,6 +50,6 @@
 
 Windows P6 acceptance is complete. P7 remains partial. Ten development rounds started all three pinned Office tasks (30 executions); every round scored 0/3 on independent artifacts. Round 3 had a concurrent fixture probe, and code changed across rounds. These are diagnostic runs, not an official benchmark score.
 
-The latest unlocked-session run stopped on Word post-input verification, Excel pre-input window/foreground refusal, and PowerPoint decision confidence. A separate scripted Excel probe confirmed two replacements and the saved currency format using an earlier OCR route; it does not establish Agent success or acceptance of the latest native-bounds transport. Host regression passes 411/411; Windows remains at its historical 373/373.
+The latest unlocked-session run stopped on Word post-input verification, Excel pre-input window/foreground refusal, and PowerPoint decision confidence. A separate scripted Excel probe confirmed two replacements and the saved currency format using an earlier OCR route; it does not establish Agent success or acceptance of the latest native-bounds transport. Host regression passes 435/435; Windows remains at its historical 373/373.
 
-Next: isolate those three failures, obtain full artifact-verified pilot completions, then finish general visual fallback, platform/reliability acceptance and professional cross-app workflows. See the [pending list](PENDING.md) and [live report](evidence/2026-10-08-office-live/README.md).
+Mac scoped OCR fallback is now connected through shared provider interfaces, Agent/Jev and CLI. Native read-only observation/decision acceptance passes 3/3; actual input remains blocked by the current locked session. Next: validate live input and Office completions, extend visual Workflow/reliability and professional workflows. Windows work is paused. See the [pending list](PENDING.md) and [live report](evidence/2026-10-08-office-live/README.md).

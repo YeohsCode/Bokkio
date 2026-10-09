@@ -1,0 +1,316 @@
+---
+source_path: tests/test_visual_runtime.py
+source_version: working-tree
+ingested: 2026-10-09
+sha256: 13f8bf58059e225f31841fb46890be103850ff6c5ae131652108c879aa2cc5a6
+---
+
+import copy
+import hashlib
+import time
+
+import pytest
+
+from bokkio.agent import DesktopAgent
+from bokkio.decision import decide, execute_decision
+from bokkio.model import BokkioActionError, BokkioCompletionUnknown, BokkioError, BokkioStaleSnapshot, tree_digest
+from bokkio.visual_runtime import HybridBackend, MacVisionProvider, VisualObservation, VisualPolicy, WindowScope, mac_visual_backend, ocr_nodes
+from bokkio.windows_capture import CaptureError
+from test_cli import backend_with_button, Element
+from test_decision import Provider
+
+
+SCOPE=WindowScope('macos',100,'Untitled',200)
+
+
+def observation(scope=SCOPE, texts=('Run check','Enter code','Clicks: 0')):
+    image=('synthetic OCR frame '+repr(texts)).encode()
+    meta={'schema':'bokkio.window_capture.v1','platform':scope.platform,'pid':scope.pid,'window_id':scope.window_id or 200,'window_title':scope.title,
+          'width':800,'height':400,'content_rect':{'x':30,'y':40,'width':800,'height':400},
+          'window_bounds':{'x':30,'y':40,'width':800,'height':400},'process_identity':'123:456',
+          'process_started_seconds_microseconds':'123:456','captured_at_unix_ns':time.time_ns(),
+          'image_sha256':hashlib.sha256(image).hexdigest(),
+          'ocr':{'engine':'test-local-OCR','image_sha256':hashlib.sha256(image).hexdigest(),
+                 'observations':[{'text':text,'confidence':.99,'bounds':{'x':20,'y':20+i*30,'width':100,'height':20}} for i,text in enumerate(texts)]}}
+    return VisualObservation(scope,meta,image)
+
+
+class FakeVision:
+    def __init__(self):self.clicked=0;self.text='';self.posts=[];self.captures=0;self.prepared=[]
+    def capture(self,scope):
+        self.captures+=1
+        return observation(scope,('Run check',self.text or 'Enter code',f'Clicks: {self.clicked}'))
+    def prepare_input(self,scope):self.prepared.append(scope)
+    def execute(self,obs,text,action,*,value,verify,control):
+        if control and control() not in {None,'continue'}:raise CaptureError('input_cancelled','cancelled',dispatched=0)
+        self.posts.append((text,action,value))
+        if action=='click':self.clicked+=1
+        elif action=='type':self.text=value
+        after=self.capture(obs.scope);check=verify(after)
+        if not check['passed']:raise CaptureError('input_completion_unknown','Unconfirmed output',dispatched=True,verification=check)
+        return {'status':'confirmed','verification':check,'receipt':{'dispatched':True}},after
+
+
+def hybrid(policy=None):
+    native,window,button=backend_with_button();vision=FakeVision()
+    backend=HybridBackend(native,vision,{'100':SCOPE},policies={'100':policy or VisualPolicy(input_labels=('Enter code',))})
+    return backend,vision,native,window,button
+
+
+def step(goal='Click Run check', expected='Clicks: 1', values=None):
+    return {'id':'one','app':'100','window':'Untitled','goal':goal,'allowed_values':values or [],'risk':'local_write','requires_action':True,
+            'success':[{'role':'visual_text','name':expected,'parent_name':'Untitled','field':'present','equals':True}]}
+
+
+def test_common_ocr_contract_and_ephemeral_refs_support_platform_adapters():
+    policy=VisualPolicy();obs=observation();nodes=ocr_nodes(obs,policy,'window')
+    assert nodes[0]['role']=='visual_text' and nodes[0]['actions']==['visual_click']
+    assert nodes[0]['bounds']['x']==50 and nodes[0]['platform_data']['source']=='OCR'
+    changed=observation(texts=('Run check','Changed'))
+    assert ocr_nodes(changed,policy,'window')[0]['ref']!=nodes[0]['ref']
+    win=observation(WindowScope('windows',100,'Untitled',200))
+    assert ocr_nodes(win,policy,'window')[0]['platform']=='windows'
+
+
+def test_ocr_does_not_invent_editability_or_resolve_duplicate_labels():
+    nodes=ocr_nodes(observation(texts=('Run check','Run check','Enter code')),VisualPolicy(),'window')
+    assert all(n['actions']==[] for n in nodes[:2])
+    assert nodes[2]['actions']==['visual_click'] and 'editable' not in nodes[2]['state']
+    typed=ocr_nodes(observation(),VisualPolicy(input_labels=('Enter code',)),'window',mode='type')
+    assert typed[0]['actions']==[] and typed[1]['actions']==['visual_type']
+
+
+@pytest.mark.parametrize('disabled,actions',[(True,[]),(False,['click'])])
+def test_native_disabled_or_actionable_labels_are_not_bypassed(disabled,actions):
+    native={'role':'button','name':'Run check','state':{'enabled':not disabled},'actions':actions,'platform_data':{}}
+    assert ocr_nodes(observation(),VisualPolicy(),'window',[native])[0]['actions']==[]
+
+
+def test_candidate_overflow_and_malformed_ocr_are_rejected():
+    obs=observation()
+    with pytest.raises(CaptureError,match='candidate count'):ocr_nodes(obs,VisualPolicy(max_candidates=1),'w')
+    obs.metadata['ocr']['observations'][-1]['bounds']['x']=-1
+    with pytest.raises(CaptureError,match='invalid bounds'):ocr_nodes(obs,VisualPolicy(max_candidates=1),'w')
+
+
+def test_native_named_target_avoids_capture_and_keeps_existing_action_path():
+    backend,vision,_,_,button=hybrid()
+    snapshot=backend.observe_for_planner('100','Click Save')
+    assert vision.captures==0 and not snapshot.get('visual_fallback')
+    s=step('Click Save');s['success']=[{'role':'button','name':'Save','field':'value','equals':'pressed'}]
+    snapshot=backend.prepare_step('100',snapshot,s)
+    decision,_=decide(Provider(choice='click'),'Click Save',snapshot,allow_done=False)
+    execute_decision(backend,'100',decision)
+    assert button.value=='pressed' and vision.posts==[] and vision.captures==0
+
+
+def test_agent_completes_click_then_declared_input_with_independent_business_check(tmp_path):
+    backend,vision,*_=hybrid()
+    first=step();second=step('Type ABCD into Enter code','ABCD',['ABCD']);second['id']='two'
+    class Planner:
+        def plan(self,goal,observations,progress=None):
+            assert any(n['role']=='visual_text' and n['source']=='OCR' for n in observations['100']['nodes'])
+            return {'goal':goal,'steps':[first,second]},{}
+    agent=DesktopAgent(backend,Planner(),Provider(),final_verifier=lambda trace:(vision.clicked==1 and vision.text=='ABCD',{'business_checked':True}))
+    trace=agent.run('Click Run check then type ABCD into Enter code',['100'],tmp_path/'trace.json')
+    assert trace['status']=='completed' and trace['actions']==2
+    assert vision.posts==[('Run check','click',None),('Enter code','type','ABCD')]
+    assert backend.visual_captures==5
+    assert all(e['result']['action_source']=='bounded_OCR_input' for e in trace['events'] if e['kind']=='action')
+    assert '_observation_image' not in (tmp_path/'trace.json').read_text()
+
+
+def test_unknown_posted_completion_never_switches_route_or_retries(tmp_path):
+    backend,vision,*_=hybrid()
+    def unknown(*a,**k):vision.posts.append('unknown');raise CaptureError('input_completion_unknown','unknown',dispatched=True)
+    vision.execute=unknown
+    class Planner:
+        def plan(self,*a):return {'goal':'Click Run check','steps':[step()]},{}
+    trace=DesktopAgent(backend,Planner(),Provider()).run('Click Run check',['100'],tmp_path/'trace.json')
+    assert trace['status']=='blocked' and trace['replans']==0 and vision.posts==['unknown']
+
+
+def test_verification_capture_budget_refuses_before_dispatch():
+    backend,vision,*_=hybrid(VisualPolicy(max_captures=2))
+    before=backend.observe_for_planner('100','Click Run check')
+    before=backend.prepare_step('100',before,step())
+    decision,_=decide(Provider(),'Click Run check',before,allow_done=False)
+    with pytest.raises(CaptureError) as caught:execute_decision(backend,'100',decision)
+    assert caught.value.code=='visual_capture_budget' and caught.value.details['dispatched']==0 and vision.posts==[]
+
+
+def test_unlisted_input_and_changed_snapshot_never_dispatch():
+    backend,vision,*_=hybrid()
+    before=backend.observe_for_planner('100','Type ABCD into Enter code')
+    before=backend.prepare_step('100',before,step('Type ABCD into Enter code','ABCD',['ABCD']))
+    target=next(n for n in ocr_nodes(backend._observations['100'],backend._policy('100'),'w',mode='type') if n['name']=='Enter code')
+    # Use the actual merged ref; parent does not contribute to an OCR ref.
+    with pytest.raises(BokkioActionError,match='allowlist'):
+        backend.perform('100','visual_type',ref=target['ref'],value='INVENTED',expected_snapshot=tree_digest(before['windows']),window='Untitled')
+    with pytest.raises(BokkioStaleSnapshot):
+        backend.perform('100','visual_type',ref=target['ref'],value='ABCD',expected_snapshot='changed',window='Untitled')
+    assert vision.posts==[]
+
+
+def test_scope_binding_and_cli_configuration_are_explicit():
+    native,*_=backend_with_button()
+    with pytest.raises(BokkioError):mac_visual_backend(native,['100=Untitled'],[],['TextEdit'])
+    with pytest.raises(BokkioError):mac_visual_backend(native,['100=Untitled'],['101=Enter code'],['100'])
+    with pytest.raises(BokkioError):mac_visual_backend(native,['100=Untitled','100=Other'],[],['100'])
+    backend=mac_visual_backend(native,['100=Untitled'],['100=Enter code'],['100'])
+    assert backend.scopes['100']==WindowScope('macos',100,'Untitled')
+    with pytest.raises(CaptureError) as caught:VisualObservation(WindowScope('macos',101,'Other',200),observation().metadata,observation().image).validate()
+    assert caught.value.code=='capture_scope_mismatch'
+
+
+def test_mac_provider_reuses_native_capture_and_does_not_serialize_png(monkeypatch):
+    from bokkio import macos_capture,visual_input
+    obs=observation()
+    monkeypatch.setattr(macos_capture,'capture_window',lambda *a,**k:(obs.metadata,obs.image))
+    provider=MacVisionProvider();assert provider.capture(SCOPE).metadata==obs.metadata
+    def execute(*a,**k):
+        check=k['_post_verify'](obs.metadata,obs.image)
+        assert k['_return_image'] and check['passed']
+        return {'status':'confirmed','observation':obs.metadata,'_observation_image':obs.image}
+    monkeypatch.setattr(visual_input,'perform',execute)
+    receipt,after=provider.execute(obs,'Run check','click',value=None,verify=lambda o:{'passed':True},control=None)
+    assert '_observation_image' not in receipt and after.image==obs.image
+
+
+def test_visual_command_cannot_use_unchanged_label_as_success():
+    backend,vision,*_=hybrid()
+    before=backend.observe_for_planner('100','Click Run check')
+    contract=step(expected='Run check')
+    before=backend.prepare_step('100',before,contract)
+    decision,_=decide(Provider(),'Click Run check',before,allow_done=False)
+    with pytest.raises(BokkioActionError,match='already true'):execute_decision(backend,'100',decision)
+    assert vision.posts==[]
+
+
+@pytest.mark.parametrize('error',[CaptureError('worker_failed','No receipt'),TimeoutError('worker timed out')])
+def test_missing_dispatch_fact_is_unknown_and_never_retried(tmp_path,error):
+    backend,vision,*_=hybrid()
+    def missing(*a,**k):vision.posts.append('started');raise error
+    vision.execute=missing
+    class Planner:
+        def plan(self,*a):return {'goal':'Click Run check','steps':[step()]},{}
+    trace=DesktopAgent(backend,Planner(),Provider()).run('Click Run check',['100'],tmp_path/'trace.json')
+    assert trace['status']=='blocked' and trace['replans']==0 and vision.posts==['started']
+
+
+def test_scopes_and_observation_budget_are_preserved_across_resume(tmp_path):
+    import json
+    backend,vision,*_=hybrid()
+    class Planner:
+        def plan(self,*a):return {'goal':'Click Run check','steps':[step()]},{}
+    checks=[0]
+    def control():
+        checks[0]+=1
+        return 'pause' if checks[0]>3 else None
+    trace=DesktopAgent(backend,Planner(),Provider(),control=control).run('Click Run check',['100'],tmp_path/'trace.json')
+    assert trace['status']=='paused' and trace['visual_capture_counts']['100']>0
+    saved_count=trace['visual_capture_counts']['100']
+    backend2,vision2,*_=hybrid()
+    result=DesktopAgent(backend2,Planner(),Provider()).run('Click Run check',['100'],tmp_path/'resumed.json',resume=tmp_path/'trace.json')
+    assert result['status']=='completed' and result['visual_capture_counts']['100']>saved_count and len(vision2.posts)==1
+    expanded,_,*_=hybrid(VisualPolicy(input_labels=('Enter code','Other')))
+    with pytest.raises(BokkioError,match='policies must match'):
+        DesktopAgent(expanded,Planner(),Provider()).run('Click Run check',['100'],tmp_path/'expanded.json',resume=tmp_path/'trace.json')
+    payload=json.loads((tmp_path/'trace.json').read_text());payload.pop('visual_capture_counts')
+    (tmp_path/'missing.json').write_text(json.dumps(payload))
+    with pytest.raises(BokkioError,match='budget checkpoint'):
+        DesktopAgent(backend2,Planner(),Provider()).run('Click Run check',['100'],tmp_path/'bad.json',resume=tmp_path/'missing.json')
+
+
+def test_false_provider_confirmation_and_foreign_window_are_unknown():
+    backend,vision,*_=hybrid()
+    before=backend.observe_for_planner('100','Click Run check');before=backend.prepare_step('100',before,step())
+    decision,_=decide(Provider(),'Click Run check',before,allow_done=False)
+    vision.execute=lambda obs,*a,**k:({'status':'confirmed'},obs)
+    with pytest.raises(BokkioCompletionUnknown):execute_decision(backend,'100',decision)
+    foreign=observation(WindowScope('macos',100,'Other',201))
+    vision.execute=lambda obs,*a,**k:({'status':'confirmed'},foreign)
+    with pytest.raises(BokkioCompletionUnknown):execute_decision(backend,'100',decision)
+
+
+def test_cancellation_is_checked_by_input_provider_before_posting():
+    backend,vision,*_=hybrid();backend.control=lambda:'cancel'
+    before=backend.observe_for_planner('100','Click Run check');before=backend.prepare_step('100',before,step())
+    decision,_=decide(Provider(),'Click Run check',before,allow_done=False)
+    with pytest.raises(CaptureError) as caught:execute_decision(backend,'100',decision)
+    assert caught.value.code=='input_cancelled' and vision.posts==[]
+
+
+def test_invalid_native_tree_still_allows_scoped_read_only_ocr():
+    backend,vision,*_=hybrid()
+    def invalid(*a):raise BokkioError('Invalid macOS Accessibility tree: application node nested below its root')
+    backend.native.snapshot=invalid
+    snapshot=backend.observe_for_planner('100','Click Run check')
+    assert snapshot['native_observation_unavailable'].startswith('Invalid macOS')
+    assert snapshot['visual_fallback'] and vision.posts==[]
+    assert all(n['name']=='Untitled' for n in snapshot['windows'])
+
+
+def test_other_native_windows_are_excluded_from_visual_planner_context():
+    backend,vision,_,window,_=hybrid()
+    other=Element('window','Private document',children=[Element('button','Private action')])
+    # Append an unrelated nested window to the fake app's window children.
+    window.children_values.append(other)
+    snapshot=backend.observe_for_planner('100','Click Run check')
+    # The scoped parent contains a nested popup in this artificial tree. The
+    # wrapper must remove it rather than exposing its contents to the model.
+    from bokkio.selector import flatten
+    assert not any(n['name']=='Private document' for n in flatten(snapshot['windows']))
+
+
+def test_changed_native_creation_identity_after_input_is_unknown():
+    scope=WindowScope('macos',100,'Untitled')
+    backend,vision,*_=hybrid();backend.scopes['100']=scope
+    before=backend.observe_for_planner('100','Click Run check');before=backend.prepare_step('100',before,step())
+    decision,_=decide(Provider(),'Click Run check',before,allow_done=False)
+    def changed(obs,*a,**k):
+        after=observation(scope,texts=('Run check','Enter code','Clicks: 1'))
+        after.metadata['process_identity']='other-process'
+        return {'status':'confirmed'},after
+    vision.execute=changed
+    with pytest.raises(BokkioCompletionUnknown,match='post-input'):execute_decision(backend,'100',decision)
+
+
+def test_sensitive_visual_labels_are_refused_by_the_runtime():
+    backend,vision,*_=hybrid()
+    vision.capture=lambda scope:observation(scope,texts=('Send','Ready'))
+    contract=step('Click Send','Sent')
+    before=backend.observe_for_planner('100','Click Send');before=backend.prepare_step('100',before,contract)
+    decision,_=decide(Provider(),'Click Send',before,allow_done=False)
+    with pytest.raises(BokkioActionError,match='Sensitive visual target'):execute_decision(backend,'100',decision)
+    assert vision.posts==[]
+
+
+def test_missing_native_target_replans_to_observed_visual_roles_before_input(tmp_path):
+    backend,vision,_,_,button=hybrid()
+    first=step();bad=copy.deepcopy(first);bad['success'][0]['role']='button'
+    saving={'id':'save','app':'100','window':'Untitled','goal':'Click Save','allowed_values':[],
+            'risk':'local_write','success':[{'role':'button','name':'Save','field':'value','equals':'pressed'}]}
+    class Planner:
+        calls=0
+        def plan(self,goal,observations,progress=None):
+            self.calls+=1
+            if self.calls==1:
+                assert not any(n['role']=='visual_text' for n in observations['100']['nodes'])
+                return {'goal':goal,'steps':[bad,saving]},{}
+            assert any(n['role']=='visual_text' for n in observations['100']['nodes'])
+            assert 'role=visual_text' in progress['error']
+            return {'goal':goal,'steps':[first,saving]},{}
+    planner=Planner()
+    trace=DesktopAgent(backend,planner,Provider(),final_verifier=lambda t:(vision.clicked==1 and button.value=='pressed',{})).run('Click Run check, then Save',['100'],tmp_path/'trace.json')
+    assert trace['status']=='completed' and trace['replans']==1 and trace['actions']==2 and planner.calls==2
+    assert vision.posts==[('Run check','click',None)]
+
+
+def test_cli_visual_flags_are_opt_in_and_bind_to_exact_pid():
+    from bokkio.cli import build_parser
+    args=build_parser().parse_args(['run','--goal','Click Run check','--allow-app','100','--trace','/tmp/trace.json',
+                                   '--visual-window','100=Untitled','--visual-input-label','100=Enter code','--max-visual-captures','6'])
+    assert args.visual_window==['100=Untitled'] and args.max_visual_captures==6
+    args=build_parser().parse_args(['run','--goal','Click Save','--allow-app','100','--trace','/tmp/trace.json'])
+    assert args.visual_window==[]
