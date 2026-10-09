@@ -2,7 +2,7 @@
   "schema": "bokkio.wiki.sources.v1",
   "created": "2026-10-08",
   "basis_commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d",
-  "source_count": 103,
+  "source_count": 108,
   "records": [
     {
       "path": "README.md",
@@ -785,6 +785,46 @@
       "bytes": 18190,
       "commit": null,
       "version": "working-tree-visual-bridge"
+    },
+    {
+      "path": "docs/STATUS.md",
+      "snapshot": "raw/source-snapshots/office-rerun/docs/STATUS.md.txt",
+      "sha256": "273eb7559300264a71bddd4516be173f74ded3ff1d4688fa8a4afa2d64f0c882",
+      "bytes": 6276,
+      "commit": null,
+      "version": "working-tree-office-rerun"
+    },
+    {
+      "path": "docs/PENDING.md",
+      "snapshot": "raw/source-snapshots/office-rerun/docs/PENDING.md.txt",
+      "sha256": "2b483452c431b2900c11220740f6056df80ecc8437d3d8b354387b6d30bf9b11",
+      "bytes": 5236,
+      "commit": null,
+      "version": "working-tree-office-rerun"
+    },
+    {
+      "path": "docs/evidence/2026-10-09-office-rerun/README.md",
+      "snapshot": "raw/source-snapshots/office-rerun/docs/evidence/2026-10-09-office-rerun/README.md.txt",
+      "sha256": "6771ae3f01652d8243a85fbf2816a026475a7349d2803845877f065854752858",
+      "bytes": 1579,
+      "commit": null,
+      "version": "working-tree-office-rerun"
+    },
+    {
+      "path": "docs/evidence/2026-10-09-office-rerun/run.json",
+      "snapshot": "raw/source-snapshots/office-rerun/docs/evidence/2026-10-09-office-rerun/run.json.txt",
+      "sha256": "2cfb94b4810a0c84144fafeb3187472b2dc8b16a5728448a2532126c9e931035",
+      "bytes": 1404,
+      "commit": null,
+      "version": "working-tree-office-rerun"
+    },
+    {
+      "path": "docs/evidence/2026-10-09-office-rerun/validation.json",
+      "snapshot": "raw/source-snapshots/office-rerun/docs/evidence/2026-10-09-office-rerun/validation.json.txt",
+      "sha256": "3c27b1f9b1af0dd4735f319dc8a471607ac9e6e9332c7ebb1a7a8d74255de66d",
+      "bytes": 1540,
+      "commit": null,
+      "version": "working-tree-office-rerun"
     }
   ]
 }

@@ -1,0 +1,61 @@
+{
+  "date": "2026-10-09",
+  "code_commit": "4b6de28d0401c79afb26a5d8e7fe56990679e649",
+  "task_ids": [
+    "win_adm_l1_003",
+    "win_acc_l1_001",
+    "win_pro_l1_003"
+  ],
+  "max_steps": [
+    15,
+    15,
+    15
+  ],
+  "planned": 3,
+  "started": 0,
+  "blocked": 3,
+  "score": null,
+  "task_input_initial_checks": [
+    {
+      "task_id": "win_adm_l1_003",
+      "artifact_exists": true,
+      "sha256": "5f2a35fd942ffdca887223fd2844ce7c4c2b5addb39e89914c863dcaf08df116",
+      "bytes": 5569,
+      "checks": {
+        "preserved_content": true,
+        "heading1": false,
+        "body_font_size_spacing": false
+      },
+      "passed": false,
+      "official_score": false,
+      "evaluator": "independent_OOXML_adaptation"
+    },
+    {
+      "task_id": "win_acc_l1_001",
+      "artifact_exists": true,
+      "sha256": "f33a3ce7f48ed190b193b2aded62da5749c13eeac3e6a68a8ce2df24b176b4c5",
+      "bytes": 4606,
+      "checks": {
+        "preserved_values": true,
+        "currency_nonempty_D": false
+      },
+      "passed": false,
+      "official_score": false,
+      "evaluator": "independent_OOXML_adaptation"
+    },
+    {
+      "task_id": "win_pro_l1_003",
+      "artifact_exists": false,
+      "passed": false,
+      "checks": {},
+      "official_score": false
+    }
+  ],
+  "initial_checks_are_agent_scores": false,
+  "agent_model_calls": 0,
+  "agent_actions": 0,
+  "automatic_desktop_unlock_succeeded": false,
+  "windows_used": false,
+  "original_VLM_executed": false,
+  "latest_executed_office_score_unchanged": "historical_0_of_3"
+}

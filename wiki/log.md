@@ -141,3 +141,9 @@ confidence: high
 - Mac provider、公共OCR协议、HybridBackend及Agent/Jev/CLI opt-in接入完成；范围、预算、取消、歧义、未知完成、模拟click/type和恢复约束有测试。
 - 主机435/435；最新实机只读观察及真实Jev选择各3/3，模型只接收文字候选。锁屏activation真实拒绝，零输入；计数OCR限制与历史失败保留。
 - Windows工作按用户要求暂缓；真实输入、视觉Workflow、跨窗口/图标等保持pending。
+
+## [2026-10-09] record | Office dataset rerun blocked before execution
+
+- 公共视觉代码4b6de28已提交并推送；新工作区三题初始化通过目标负例检查。
+- 实际runner planned3/started0/blocked3、score=null；Mac锁屏且自动解锁失败，权限均通过，零模型/题目动作。
+- 保留原题15步预算与历史执行成绩；Windows维持暂缓，原始VLM未调用。更新当前状态与证据，追加不可变来源版本。

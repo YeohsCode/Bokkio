@@ -1,3 +1,10 @@
+---
+source_path: docs/STATUS.md
+source_version: working-tree
+ingested: 2026-10-09
+sha256: 273eb7559300264a71bddd4516be173f74ded3ff1d4688fa8a4afa2d64f0c882
+---
+
 # 总体进度 / Overall status
 
 更新：2026-10-09。**P6 Windows 原生验收完成，当前处于 P7 部分实现与验收阶段。Office 原题已实际执行十轮，最新三题独立评分 0/3。**

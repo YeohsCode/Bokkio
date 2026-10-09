@@ -1,0 +1,58 @@
+{
+  "schema": "bokkio.office_pilot_run.v1",
+  "revision": "fbccd464f94fec9e284e139f97bf96d0b192f580",
+  "scope": "adapted_macos_microsoft_office_pilot",
+  "environment": {
+    "ready": false,
+    "session_available": true,
+    "session_locked": true,
+    "permissions": {
+      "ax": true,
+      "capture": true,
+      "events": true
+    },
+    "reason": "interactive_session_unavailable"
+  },
+  "applications": {
+    "Microsoft Word": {
+      "installed": true,
+      "version": "16.95.4"
+    },
+    "Microsoft Excel": {
+      "installed": true,
+      "version": "16.95.4"
+    },
+    "Microsoft PowerPoint": {
+      "installed": true,
+      "version": "16.95.4"
+    }
+  },
+  "planned": 3,
+  "started": 0,
+  "tasks": [
+    {
+      "task_id": "win_adm_l1_003",
+      "status": "not_started",
+      "reason": "interactive_session_unavailable",
+      "score": null
+    },
+    {
+      "task_id": "win_acc_l1_001",
+      "status": "not_started",
+      "reason": "interactive_session_unavailable",
+      "score": null
+    },
+    {
+      "task_id": "win_pro_l1_003",
+      "status": "not_started",
+      "reason": "interactive_session_unavailable",
+      "score": null
+    }
+  ],
+  "official_score": false,
+  "judge_status": "upstream_rubric_pinned_not_official_VLM_execution",
+  "started_at_unix_ns": 1791544426444057000,
+  "setup_input_open_is_not_agent_action": true,
+  "status": "blocked",
+  "blocked": 3
+}
