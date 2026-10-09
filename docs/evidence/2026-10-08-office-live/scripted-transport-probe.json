@@ -1,0 +1,31 @@
+{
+  "scope": "scripted_owned_office_transport_probe",
+  "agent_score": false,
+  "rows": [
+    {
+      "name": "name box",
+      "value": "D:D",
+      "status": "confirmed",
+      "events": 8
+    },
+    {
+      "name": "Number Format",
+      "value": "Currency",
+      "status": "confirmed",
+      "events": 8
+    }
+  ],
+  "artifact": {
+    "task_id": "win_acc_l1_001",
+    "artifact_exists": true,
+    "sha256": "806a0b0a671271791fb7573970ddce7d573061cd98080728a4479f28cfcef26e",
+    "bytes": 8273,
+    "checks": {
+      "preserved_values": true,
+      "currency_nonempty_D": true
+    },
+    "passed": true,
+    "official_score": false,
+    "evaluator": "independent_OOXML_adaptation"
+  }
+}

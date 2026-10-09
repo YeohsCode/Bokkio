@@ -1,26 +1,25 @@
 ---
 title: "微软 Office 原题 pilot"
 created: "2026-10-08"
-updated: "2026-10-08"
+updated: "2026-10-09"
 type: "entity"
 tags: ["office", "benchmark", "agent", "evidence"]
-sources: ["src/bokkio/office_benchmark.py", "src/bokkio/office_runner.py", "src/bokkio/agent.py", "docs/OFFICE-PILOT-READINESS.md", "fixtures/windowsworld-office/manifest.json"]
+sources: ["docs/OFFICE-PILOT-READINESS.md", "docs/STATUS.md", "docs/evidence/2026-10-08-macos-session-recovery/readiness.json", "docs/evidence/2026-10-08-office-live/README.md", "docs/evidence/2026-10-08-office-live/scripted-transport-probe.json", "fixtures/windowsworld-office/manifest.json", "src/bokkio/agent.py", "src/bokkio/office_benchmark.py", "src/bokkio/office_runner.py"]
 confidence: "high"
-contested: true
 ---
 
 # 微软 Office 原题 pilot
 
-首批固定 WindowsWorld 三道 L1 原题，Mac 环境适配：Word 标题/正文格式、Excel D 列货币格式、PowerPoint 标题页。原始任务、revision、校验哈希、许可及 15 步预算保留。^[fixtures/windowsworld-office/manifest.json#L1]
+固定 WindowsWorld 三道 L1 原题：Word 标题/正文格式、Excel D 列货币格式、PowerPoint 标题页。原始记录、revision、许可及每题15次动作预算保留。prepare仅生成不达标输入，run使用DesktopAgent/Planner/Jev与原生backend；评分检查保存OOXML和执行开始后的保存时间。^[docs/OFFICE-PILOT-READINESS.md#L5]
 
-## 准备与评分
+## 实际执行
 
-`prepare()` 仅初始化隔离输入：Word 初始格式未达标、Excel 非货币、PPT 目标不存在。`evaluate()` 只读检查保存的 OOXML，模型 completed 不能替代文件证据。原始 VLM judge 入口保留 prompt/model，但需独立凭据且未实际运行。^[src/bokkio/office_benchmark.py#L64] ^[src/bokkio/office_judge.py#L18]
+2026-10-08–09十轮全部启动三题，30次执行，各轮独立产物评分0/3。第三轮有并发fixture干扰，各轮代码变化，属于开发诊断。最新Word输入后确认未知，Excel输入前窗口/前台拒绝，PPT置信度不足；Agent均blocked，run的completed仅表示执行循环返回。^[docs/evidence/2026-10-08-office-live/README.md#L3]
 
-## 实际就绪程度
+独立Excel脚本探针用较早OCR定位完成两次字段替换及保存校验，agent_score=false。最新原生边界定位transport和完整Agent任务仍待通过；原始VLM未执行，无官方成绩。^[docs/evidence/2026-10-08-office-live/scripted-transport-probe.json#L1]
 
-归档运行 planned 3、started 0、blocked 3，score null。软件准备与任务执行不同；目前不能称为三题可成功运行。^[docs/evidence/2026-10-08-office-pilot-ready/run.json#L1]
+## 已修复与下一步
 
-**代码审阅发现接口不一致**：`_native_run()` 传 `required_files=` 给 DesktopAgent，而构造器只接受 `final_verifier` / `required_sources`。这条路径被环境检查提前挡住，现有 mock executor 测试未覆盖。文档“执行入口已实现”需要以这个未解决问题限定；恢复桌面也不会自动消除 TypeError。^[src/bokkio/office_runner.py#L111] ^[src/bokkio/agent.py#L157]
+executor改final_verifier；补充真实AXConfirm、同名窗口身份、真实前台激活、只读选区和弹窗阶段规划。限定字段transport已接Office runner，通用自动视觉降级待实现。先诊断三类失败再完整复跑。^[docs/STATUS.md#L19]
 
 关联：[[queries/office-pilot-readiness]]、[[concepts/evidence-and-scoring]]、[[summaries/pending-and-known-gaps]]。

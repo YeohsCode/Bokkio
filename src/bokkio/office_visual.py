@@ -1,0 +1,55 @@
+"""Scoped Office combo editing through capture-bound native field coordinates.
+
+Microsoft Office AX setters can expose a draft string without applying its
+formatting. Click the observed field bounds, replace its text and confirm with Enter.
+This transport is scoped to a writable combo inside one authorized window.
+"""
+import re
+from .macos_capture import capture_window
+from .model import BokkioActionError,BokkioCompletionUnknown
+from .visual_input import perform
+from .windows_capture import CaptureError
+
+
+def replace_combo(pid,title,node,value,*,backend=None):
+    data=node['platform_data'];bounds=node['bounds'];current=node['value']
+    if (node['platform']!='macos' or node['role']!='combo_box' or node['state'].get('enabled') is False
+            or not data.get('mac_unique_identity') or not data.get('ax_value_settable')
+            or 'AXConfirm' not in data.get('ax_original_actions',[]) or not bounds
+            or (current is not None and not isinstance(current,str)) or (isinstance(current,str) and len(current)>1000)):
+        raise BokkioActionError('Office visual replacement requires one verified writable visible combo')
+    from .macos_activation import activate_window
+    activate_window(pid,title)
+    meta,png=capture_window(pid,title=title,ocr=True,timeout=15)
+    rect=meta['content_rect'];sx=meta['width']/rect['width'];sy=meta['height']/rect['height']
+    region={'x':(bounds['x']-rect['x'])*sx,'y':(bounds['y']-rect['y'])*sy,
+            'width':bounds['width']*sx,'height':bounds['height']*sy}
+    left=max(0,region['x']);top=max(0,region['y'])
+    right=min(meta['width'],region['x']+region['width']);bottom=min(meta['height'],region['y']+region['height'])
+    if right<=left or bottom<=top:raise BokkioActionError('Office field is outside its authorized captured window')
+    region={'x':left,'y':top,'width':right-left,'height':bottom-top}
+    # Name boxes normalize submitted ranges to the active cell label. The
+    # helper receipt proves a command was posted; artifact grading must still
+    # check all requested cells. Other fields must show the requested literal.
+    expected=value
+    if data.get('ax_identifier')=='NameBox':
+        match=re.fullmatch(r'([A-Za-z]{1,3})([1-9][0-9]{0,6})?(?::([A-Za-z]{1,3})([1-9][0-9]{0,6})?)?',value)
+        if not match:raise BokkioActionError('Name box replacement requires a bounded A1 cell/range literal')
+        expected=match[1].upper()+(match[2] or '1')
+    def verify_native(after,image):
+        from .selector import flatten
+        from .xa11y_backend import Xa11yBackend
+        reader=backend if backend is not None else Xa11yBackend()
+        nodes=flatten(reader.snapshot(str(pid),title)['windows'])
+        targets=[n for n in nodes if n['ref']==node['ref'] and n['role']=='combo_box'
+                 and n['platform_data'].get('mac_unique_identity') and n['platform_data'].get('mac_owner_pid')==pid]
+        return {'source':'fresh_native_value_after_GUI_confirmation','passed':len(targets)==1 and targets[0]['value']==expected,
+                'name':node['name'],'expected':expected,'actual':targets[0]['value'] if len(targets)==1 else None}
+    try:
+        receipt=perform(meta,png,current,'replace',value=value,region=region,expect_text=expected,verification_region=region,
+                        _native_target=node,_post_verify=verify_native)
+    except CaptureError as error:
+        if error.details.get('dispatched') in {True,'unknown'}:
+            raise BokkioCompletionUnknown('Office visual replacement requires inspection: '+error.code) from error
+        raise BokkioActionError('Office visual replacement refused before input: '+error.code) from error
+    return {'action_source':'bounded_visual_replace','visual_receipt':receipt,'confirmation_posted':True}

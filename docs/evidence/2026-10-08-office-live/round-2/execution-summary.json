@@ -1,0 +1,68 @@
+[
+  {
+    "task_id": "win_adm_l1_003",
+    "status": "blocked",
+    "actions": 0,
+    "replans": 1,
+    "phases": 0,
+    "final_reason": "Target confidence below threshold",
+    "trace_sha256": "e848abd454927c9a438ac20ed34bc8ac76a212e945d87227f5723ef8da340c14",
+    "error_count": 2,
+    "action_receipts": []
+  },
+  {
+    "task_id": "win_acc_l1_001",
+    "status": "blocked",
+    "actions": 5,
+    "replans": 1,
+    "phases": 0,
+    "final_reason": "Native UI returned to an earlier state without satisfying this subtask. Repair conflicting success conditions or the action route; do not repeat this cycle.",
+    "trace_sha256": "c4c594f19cffb78bb2b2c693cfc334a23a347cbbc42e9b093c767b26d30f64e5",
+    "error_count": 2,
+    "action_receipts": [
+      {
+        "action": "set_value",
+        "role": "combo_box",
+        "target": "name box",
+        "verification": "confirmed",
+        "action_source": "AXUIElementSetAttributeValue.AXValue",
+        "confirmation_posted": false
+      },
+      {
+        "action": "set_value",
+        "role": "combo_box",
+        "target": "name box",
+        "verification": "confirmed",
+        "action_source": "AXUIElementSetAttributeValue.AXValue",
+        "confirmation_posted": false
+      },
+      {
+        "action": "set_value",
+        "role": "combo_box",
+        "target": "name box",
+        "verification": "confirmed",
+        "action_source": "AXUIElementSetAttributeValue.AXValue",
+        "confirmation_posted": false
+      },
+      {
+        "action": "set_value",
+        "role": "combo_box",
+        "target": "name box",
+        "verification": "confirmed",
+        "action_source": "AXUIElementSetAttributeValue.AXValue",
+        "confirmation_posted": false
+      }
+    ]
+  },
+  {
+    "task_id": "win_pro_l1_003",
+    "status": "blocked",
+    "actions": 0,
+    "replans": 1,
+    "phases": 0,
+    "final_reason": "Target confidence below threshold",
+    "trace_sha256": "3530e41aa8565a030dd7a09cc5ad9225e78c30addfd77519d7ec732d6167c03d",
+    "error_count": 2,
+    "action_receipts": []
+  }
+]

@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-09",
+  "host_regression": {
+    "command": ".venv/bin/python -m pytest -q",
+    "passed": 403,
+    "failed": 0
+  },
+  "windows_regression": {
+    "passed": 373,
+    "historical": true,
+    "rerun_this_session": false
+  },
+  "rounds": 10,
+  "started": 30,
+  "artifact_passes": 0,
+  "round3_concurrent_fixture": true,
+  "official_score": false,
+  "scripted_excel_probe_passed": true,
+  "scripted_probe_agent_score": false,
+  "scripted_probe_route": "earlier_OCR_field_locator",
+  "latest_native_bounds_transport_acceptance": "pending",
+  "original_VLM_executed": false,
+  "latest_run_session_locked": false
+}

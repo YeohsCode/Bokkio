@@ -69,3 +69,56 @@ def test_literal_validation_with_explicit_verification(sample,monkeypatch):
     for value in ['\n','x'*1001,'']:
         with pytest.raises(CaptureError) as caught:inputs.perform(*sample,'Run check','type',value=value,expect_text='Done')
         assert caught.value.code=='invalid_input'
+
+
+def test_replace_posts_once_and_verifies_output_in_bound_field(sample,monkeypatch):
+    import copy
+    receipt={'pid':10,'window_id':20,'status':'posted_unverified','dispatched':True,'events_posted':8}
+    requests=[]
+    def run(*a,**k):requests.append(json.loads(k['input']));return SimpleNamespace(stdout=json.dumps(receipt).encode(),returncode=0)
+    after=copy.deepcopy(sample[0])
+    after['ocr']['observations']=[{'text':'Done','confidence':1.,'bounds':{'x':10,'y':10,'width':30,'height':20}},
+                                  {'text':'Done','confidence':1.,'bounds':{'x':60,'y':60,'width':30,'height':20}}]
+    monkeypatch.setattr(subprocess,'run',run);monkeypatch.setattr(inputs,'capture_window',lambda *a,**k:(after,sample[1]))
+    region={'x':0,'y':0,'width':50,'height':50}
+    result=inputs.perform(*sample,'Run check','replace',value='Done',expect_text='Done',verification_region=region)
+    assert result['status']=='confirmed' and len(requests)==1
+    assert requests[0]['action']=='replace' and requests[0]['text']=='Done'
+
+
+@pytest.mark.parametrize('value',['','\n','a'*1001])
+def test_replace_rejects_unbounded_or_control_text(sample,monkeypatch,value):
+    monkeypatch.setattr(subprocess,'run',lambda *a,**k:pytest.fail('must not dispatch'))
+    with pytest.raises(CaptureError,match='bounded literal'):
+        inputs.perform(*sample,'Run check','replace',value=value,expect_text='Done')
+
+
+def test_native_bounds_target_does_not_require_ambiguous_ocr_glyph(sample,monkeypatch):
+    receipt={'pid':10,'window_id':20,'status':'posted_unverified','dispatched':True,'events_posted':8}
+    requests=[]
+    def run(*a,**k):requests.append(json.loads(k['input']));return SimpleNamespace(stdout=json.dumps(receipt).encode(),returncode=0)
+    monkeypatch.setattr(subprocess,'run',run);monkeypatch.setattr(inputs,'capture_window',lambda *a,**k:sample)
+    target={'ref':'owned-field','platform':'macos','role':'combo_box','state':{'enabled':True},
+            'bounds':{'x':30,'y':40,'width':30,'height':20},
+            'platform_data':{'mac_unique_identity':True,'mac_owner_pid':10,'ax_value_settable':True,'ax_original_actions':['AXConfirm']}}
+    result=inputs.perform(*sample,'O66','replace',value='D:D',expect_text='D1',_native_target=target,
+                          _post_verify=lambda *a:{'passed':True,'actual':'D1'})
+    assert result['target']['source']=='native_bounds_bound_to_capture'
+    assert requests[0]['point']=={'x':45,'y':50} and len(requests)==1
+    target['platform_data']['mac_owner_pid']=99
+    with pytest.raises(CaptureError,match='uniquely bound'):
+        inputs.perform(*sample,'O66','replace',value='D:D',expect_text='D1',_native_target=target)
+    assert len(requests)==1
+
+
+def test_native_readback_failure_after_posting_remains_unknown(sample,monkeypatch):
+    from bokkio.model import BokkioError
+    receipt={'pid':10,'window_id':20,'status':'posted_unverified','dispatched':True,'events_posted':2}
+    calls=[]
+    monkeypatch.setattr(subprocess,'run',lambda *a,**k:calls.append(True) or SimpleNamespace(stdout=json.dumps(receipt).encode(),returncode=0))
+    monkeypatch.setattr(inputs,'capture_window',lambda *a,**k:sample)
+    def verify(*a):raise BokkioError('The document window closed')
+    with pytest.raises(CaptureError) as caught:
+        inputs.perform(*sample,'Run check','click',expect_text='Done',_post_verify=verify)
+    assert caught.value.code=='input_completion_unknown' and caught.value.details['dispatched'] is True
+    assert len(calls)==1

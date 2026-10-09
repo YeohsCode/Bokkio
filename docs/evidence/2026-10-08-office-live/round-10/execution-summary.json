@@ -1,0 +1,60 @@
+[
+  {
+    "task_id": "win_adm_l1_003",
+    "status": "blocked",
+    "actions": 4,
+    "replans": 0,
+    "phases": 2,
+    "final_reason": "Native completion is unknown; inspect the current UI/artifact before another attempt: Office visual replacement requires inspection: input_completion_unknown",
+    "trace_sha256": "612254d0a2d98ec9ad342610f4aef4e8294d4350b737f59aacb44d1bff76420b",
+    "error_count": 1,
+    "action_receipts": [
+      {
+        "action": "select_text",
+        "role": "text_area",
+        "target": "Page 1 content",
+        "verification": "confirmed",
+        "action_source": "AXSelectedTextRange",
+        "confirmation_posted": false
+      },
+      {
+        "action": "expand",
+        "role": "combo_box",
+        "target": "Styles",
+        "verification": "confirmed",
+        "action_source": "AXShowMenu",
+        "confirmation_posted": false
+      },
+      {
+        "action": "select",
+        "role": "radio_button",
+        "target": "Heading 1",
+        "verification": "unconfirmed",
+        "action_source": null,
+        "confirmation_posted": false
+      }
+    ]
+  },
+  {
+    "task_id": "win_acc_l1_001",
+    "status": "blocked",
+    "actions": 2,
+    "replans": 1,
+    "phases": 0,
+    "final_reason": "set_value failed for eeadea4cc955d9d0b132: Office visual replacement refused before input: input_unavailable",
+    "trace_sha256": "62e17815030317eb8cb6b92e403a6a9e1fe709bc2dbfcdcfb17e783955903741",
+    "error_count": 2,
+    "action_receipts": []
+  },
+  {
+    "task_id": "win_pro_l1_003",
+    "status": "blocked",
+    "actions": 0,
+    "replans": 1,
+    "phases": 0,
+    "final_reason": "Decision confidence below threshold",
+    "trace_sha256": "a548eb97777bec5b9edcff33676e99519d7c482b99e9a2d61125381e8a0c0bb8",
+    "error_count": 2,
+    "action_receipts": []
+  }
+]

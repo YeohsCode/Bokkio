@@ -28,6 +28,14 @@ class BokkioActionError(BokkioError):
     pass
 
 
+class BokkioCompletionUnknown(BokkioActionError):
+    """A native call started; its business effect needs manual inspection."""
+
+
+class BokkioStaleSnapshot(BokkioActionError):
+    """The decision was refused before any native dispatch."""
+
+
 class BokkioPermissionError(BokkioError):
     MESSAGE = (
         "macOS Accessibility permission is required. "

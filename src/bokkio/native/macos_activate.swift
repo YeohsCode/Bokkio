@@ -1,0 +1,41 @@
+// Scoped foreground activation for native desktop test/application setup.
+import Cocoa
+import ApplicationServices
+_ = NSApplication.shared
+NSApp.setActivationPolicy(.accessory)
+func emit(_ data:[String:Any], _ code:Int32=0) -> Never {
+    let bytes=try! JSONSerialization.data(withJSONObject:data,options:[.sortedKeys])
+    print(String(data:bytes,encoding:.utf8)!);exit(code)
+}
+let input=FileHandle.standardInput.readDataToEndOfFile()
+guard input.count<=16384, let args=try? JSONSerialization.jsonObject(with:input) as? [String:Any],
+      let number=args["pid"] as? Int, number>0, number<=Int(Int32.max),
+      let title=args["title"] as? String, !title.isEmpty, title.count<=1024 else {emit(["error":"invalid_scope"],1)}
+let pid=pid_t(number)
+let session=CGSessionCopyCurrentDictionary() as? [String:Any]
+guard session != nil,session?["CGSSessionScreenIsLocked"] as? Bool != true,AXIsProcessTrusted() else {
+    emit(["error":"interactive_session_unavailable"],1)
+}
+let root=AXUIElementCreateApplication(pid)
+AXUIElementSetMessagingTimeout(root,1)
+var value:CFTypeRef?
+guard AXUIElementCopyAttributeValue(root,kAXWindowsAttribute as CFString,&value) == .success,
+      let windows=value as? [AXUIElement] else {emit(["error":"window_unavailable"],1)}
+let matching=windows.filter { window in
+    var name:CFTypeRef?
+    return AXUIElementCopyAttributeValue(window,kAXTitleAttribute as CFString,&name) == .success && name as? String == title
+}
+guard matching.count==1,let app=NSRunningApplication(processIdentifier:pid),!app.isTerminated else {
+    emit(["error":"window_ambiguous_or_missing"],1)
+}
+guard app.activate(options:[]) else {emit(["error":"activation_refused"],1)}
+let end=Date().addingTimeInterval(2)
+while Date()<end && NSWorkspace.shared.frontmostApplication?.processIdentifier != pid {
+    RunLoop.current.run(until:Date().addingTimeInterval(0.05))
+}
+guard NSWorkspace.shared.frontmostApplication?.processIdentifier==pid else {
+    emit(["error":"foreground_unconfirmed"],1)
+}
+let raised=AXUIElementPerformAction(matching[0],kAXRaiseAction as CFString)
+guard raised == .success else {emit(["error":"window_raise_unconfirmed","ax_error":raised.rawValue],1)}
+emit(["status":"activated","pid":number,"title":title,"foreground_confirmed":true])

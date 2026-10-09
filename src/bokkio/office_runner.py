@@ -68,6 +68,7 @@ def _native_run(task,trace_path):
     from .jev import JevProvider
     from .xa11y_backend import Xa11yBackend
     from .selector import flatten
+    from .macos_activation import activate_window
     file=Path(task['artifact']);app_name=task['app']
     # Opening reviewed synthetic inputs belongs to initialization and is
     # separately reported. No output is generated through file libraries.
@@ -78,6 +79,7 @@ def _native_run(task,trace_path):
     time.sleep(.5)
     stems={file.stem.casefold(),Path(task['source']).stem.casefold()}
     class ScopedOffice(Xa11yBackend):
+        supports_stale_refresh=True
         def _app_tree(self,app,live=None):
             root=super()._app_tree(app,live)
             def prune(node,in_window=False):
@@ -85,7 +87,7 @@ def _native_run(task,trace_path):
                 role=node['role'];name=(node.get('name') or '').casefold()
                 if 'recent' in name or '最近' in name:return None
                 if role in {'window','dialog'}:
-                    allowed=in_window or any(stem in name for stem in stems) or name in {'font','paragraph','format cells','save as','save','open','styles','new presentation'}
+                    allowed=in_window or any(stem in name for stem in stems) or name in {'font','paragraph','format cells','save as','save','open','styles','new presentation','new slide','slide layout','layout'}
                     if not allowed:return None
                     in_window=True
                 if node['parent'] is not None and role not in {'window','dialog','menu','menu_bar','menu_item'} and not in_window:
@@ -95,7 +97,15 @@ def _native_run(task,trace_path):
             scoped=prune(root)
             if not any(n['role'] in {'window','dialog'} for n in flatten([scoped])):
                 raise BokkioError('No authorized benchmark document/window is open; no private startup context is sent to models')
+            for node in flatten([scoped]):
+                if node['role']=='combo_box' and node['platform_data'].get('ax_value_settable') and 'AXConfirm' in node['platform_data'].get('ax_original_actions',[]):
+                    node['platform_data']['value_submission']='set_value_commits_via_bound_visual_input'
             return scoped
+        def visual_value_replace(self,app,node,scope,value):
+            if scope['role']!='window' or not any(stem in (scope['name'] or '').casefold() for stem in stems):
+                raise BokkioError('Office visual field input requires the authorized document window')
+            from .office_visual import replace_combo
+            return replace_combo(bound_pid,scope['name'],node,value,backend=self)
         def perform(self,app,action,**arguments):
             if not str(app).isdigit() or int(app)!=bound_pid:raise BokkioError('Office action app is outside the task binding')
             snapshot=self.snapshot(app,arguments.get('window'))
@@ -108,7 +118,15 @@ def _native_run(task,trace_path):
     # Preflight precedes provider construction: inaccessible UI incurs no model
     # calls and is an environment result, not a model/task failure.
     backend.snapshot(str(bound_pid))
-    agent=DesktopAgent(backend,OpenRouterPlanner(),JevProvider(),max_actions=15,max_replans=1,max_phases=6,required_files=[str(file)])
+    owned_windows=[w for w in app.windows() if any(stem in (w.name or '').casefold() for stem in stems)]
+    if len(owned_windows)!=1:raise BokkioError('Benchmark initialization requires one exact document window')
+    activate_window(bound_pid,owned_windows[0].name)
+    started=time.time_ns()
+    def verify_artifact(trace):
+        score=evaluate(task['task_id'],file)
+        score['saved_after_start']=file.is_file() and file.stat().st_mtime_ns>started
+        return score['passed'] and score['saved_after_start'], {'artifact':str(file),'score':score}
+    agent=DesktopAgent(backend,OpenRouterPlanner(),JevProvider(),max_actions=15,max_replans=1,max_phases=8,final_verifier=verify_artifact)
     return agent.run(task['goal'],[str(bound_pid)],trace_path)
 
 

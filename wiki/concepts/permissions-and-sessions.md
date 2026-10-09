@@ -1,25 +1,25 @@
 ---
 title: "权限与可用输入会话"
 created: "2026-10-08"
-updated: "2026-10-08"
+updated: "2026-10-09"
 type: "concept"
 tags: ["safety", "macos", "windows", "vision"]
-sources: ["src/bokkio/office_runner.py", "src/bokkio/native/macos_capture.swift", "src/bokkio/windows_capture.py", "docs/MACOS-CAPTURE-PROBE.md"]
+sources: ["docs/MACOS-CAPTURE-PROBE.md", "docs/PENDING.md", "docs/evidence/2026-10-08-macos-session-recovery/readiness.json", "docs/evidence/2026-10-08-office-live/round-10/run.json", "src/bokkio/macos_activation.py", "src/bokkio/native/macos_capture.swift", "src/bokkio/office_runner.py", "src/bokkio/visual_input.py", "src/bokkio/windows_capture.py"]
 confidence: "high"
 ---
 
 # 权限与可用输入会话
 
-权限预检查通过与交互会话可用是不同条件。窗口捕获可工作，也不能证明前台键鼠路径或 AX 业务节点可用。^[src/bokkio/office_runner.py#L18]
+权限通过与交互会话可用是不同条件，截图可用也不能证明前台输入或AX业务节点可用。每次运行检查当时状态，历史锁定记录不是用户当前物理屏幕的判断。^[src/bokkio/office_runner.py#L18]
 
 ## Mac
 
-当前记录为 AX/capture/events 权限 true，但测试会话报告锁定、前台 loginwindow。独立 ScreenCaptureKit 捕获自有窗口成功；AX 返回 application 代理，输入在原生守卫处拒绝。这个记录不是对用户眼前物理屏幕的通用判断。^[docs/MACOS-CAPTURE-PROBE.md#L5] ^[src/bokkio/native/macos_capture.swift#L88]
+早期会话阻断后，恢复fixture三轮动作与12次滚动通过；第八轮后曾再次锁屏，随后解锁。第十轮启动报告session_locked=false，AX/capture/events=true；Word/Excel/PPT任务仍失败，应诊断输入确认、窗口守卫和决策，而不能继续归因锁屏。^[docs/evidence/2026-10-08-office-live/round-10/run.json#L1]
+
+真实前台激活用Cocoa helper确认精确PID/窗口；限定输入仍检查图像、进程出生时间、窗口/几何和前台。派发后确认未知不能作为零派发重试。^[src/bokkio/macos_activation.py#L10] ^[src/bokkio/visual_input.py#L11]
 
 ## Windows
 
-Guest authentication 可以支持文件传输、构建和单元测试，但不保证启动进程拥有交互输入桌面。截图检查输入桌面、明确窗口和几何；已观察到 desktop_unavailable。^[src/bokkio/windows_capture.py#L96]
-
-源码不应因任务受阻而关闭会话/范围检查。可继续准备代码、图像观察与评分，真实输入另行验收。^[docs/PENDING.md#L5]
+Guest认证可支持构建和文件传输，不保证进程拥有交互输入桌面。Windows截图实机像素、OCR与输入验收仍待完成。^[docs/PENDING.md#L17]
 
 关联：[[entities/capture-and-ocr]]、[[entities/visual-input]]、[[comparisons/windows-and-macos]]。

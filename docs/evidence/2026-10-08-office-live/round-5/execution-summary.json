@@ -1,0 +1,126 @@
+[
+  {
+    "task_id": "win_adm_l1_003",
+    "status": "blocked",
+    "actions": 4,
+    "replans": 1,
+    "phases": 2,
+    "final_reason": "Decision confidence below threshold",
+    "trace_sha256": "5a4bd251cc1d3e2aadae3c0db6115d32b27284b7506f468f1e6834ba822192d5",
+    "error_count": 2,
+    "action_receipts": [
+      {
+        "action": "select_text",
+        "role": "text_area",
+        "target": "Page 1 content",
+        "verification": "confirmed",
+        "action_source": "AXSelectedTextRange",
+        "confirmation_posted": false
+      },
+      {
+        "action": "expand",
+        "role": "combo_box",
+        "target": "Styles",
+        "verification": "confirmed",
+        "action_source": "AXShowMenu",
+        "confirmation_posted": false
+      },
+      {
+        "action": "click",
+        "role": "radio_button",
+        "target": "Heading 1",
+        "verification": "observed",
+        "action_source": "AXPress",
+        "confirmation_posted": false
+      },
+      {
+        "action": "expand",
+        "role": "combo_box",
+        "target": "Styles",
+        "verification": "confirmed",
+        "action_source": "AXShowMenu",
+        "confirmation_posted": false
+      }
+    ]
+  },
+  {
+    "task_id": "win_acc_l1_001",
+    "status": "blocked",
+    "actions": 3,
+    "replans": 1,
+    "phases": 1,
+    "final_reason": "The Mac combo value was written but not committed. Next subtask must explicitly confirm Number Format using submit, requires_action=true, allowed_values=[], then observe the result.",
+    "trace_sha256": "1cefe98d10ab7c1cad84a83f5a15eaaf16d41f14baf4da67f61483787a822e92",
+    "error_count": 2,
+    "action_receipts": [
+      {
+        "action": "set_value",
+        "role": "combo_box",
+        "target": "name box",
+        "verification": "confirmed",
+        "action_source": "AXUIElementSetAttributeValue.AXValue",
+        "confirmation_posted": false
+      },
+      {
+        "action": "submit",
+        "role": "combo_box",
+        "target": "name box",
+        "verification": "observed",
+        "action_source": "AXConfirm",
+        "confirmation_posted": false
+      },
+      {
+        "action": "set_value",
+        "role": "combo_box",
+        "target": "Number Format",
+        "verification": "confirmed",
+        "action_source": "AXUIElementSetAttributeValue.AXValue",
+        "confirmation_posted": false
+      }
+    ]
+  },
+  {
+    "task_id": "win_pro_l1_003",
+    "status": "blocked",
+    "actions": 4,
+    "replans": 1,
+    "phases": 2,
+    "final_reason": "Window not found: New Slide",
+    "trace_sha256": "be3acb6427b9fbc15887fb0861793fea1abd9bb1612d58df9d53f7f7a52da033",
+    "error_count": 2,
+    "action_receipts": [
+      {
+        "action": "expand",
+        "role": "combo_box",
+        "target": "New Slide",
+        "verification": "confirmed",
+        "action_source": "AXShowMenu",
+        "confirmation_posted": false
+      },
+      {
+        "action": "click",
+        "role": "radio_button",
+        "target": "Title Slide",
+        "verification": "observed",
+        "action_source": "AXPress",
+        "confirmation_posted": false
+      },
+      {
+        "action": "expand",
+        "role": "combo_box",
+        "target": "New Slide",
+        "verification": "confirmed",
+        "action_source": "AXShowMenu",
+        "confirmation_posted": false
+      },
+      {
+        "action": "click",
+        "role": "radio_button",
+        "target": "Title Slide",
+        "verification": "observed",
+        "action_source": "AXPress",
+        "confirmation_posted": false
+      }
+    ]
+  }
+]

@@ -1,0 +1,35 @@
+[
+  {
+    "task_id": "win_adm_l1_003",
+    "status": "blocked",
+    "actions": 0,
+    "replans": 1,
+    "phases": 0,
+    "final_reason": "Decision confidence below threshold",
+    "trace_sha256": "17f69ef39be9c9f4b7933f0754917c92e3addcceaa8540448e85319e9ca0bf43",
+    "error_count": 2,
+    "action_receipts": []
+  },
+  {
+    "task_id": "win_acc_l1_001",
+    "status": "blocked",
+    "actions": 0,
+    "replans": 1,
+    "phases": 0,
+    "final_reason": "Decision confidence below threshold",
+    "trace_sha256": "f1475c6f60e59de90eaf7b6e991792354afe5e36b6deadb32b063447a8d1acae",
+    "error_count": 2,
+    "action_receipts": []
+  },
+  {
+    "task_id": "win_pro_l1_003",
+    "status": "blocked",
+    "actions": 1,
+    "replans": 1,
+    "phases": 0,
+    "final_reason": "click failed for 7a0da8267b9e3999ccd8: Platform error (-25205): AXPress failed",
+    "trace_sha256": "50a2a2059e9e46f6818a67ddaa3c602ad88ca0c9b9124f015563b10cd38d4a17",
+    "error_count": 2,
+    "action_receipts": []
+  }
+]

@@ -1,0 +1,125 @@
+[
+  {
+    "task_id": "win_adm_l1_003",
+    "status": "blocked",
+    "actions": 6,
+    "replans": 1,
+    "phases": 4,
+    "final_reason": "The Mac combo value was written but not committed. Next subtask must explicitly confirm Font: using submit, requires_action=true, allowed_values=[], then observe the result.",
+    "trace_sha256": "a5c4dda9b2682636e05506cb8f791e6ff0983100585e85151a39d5788660bbf5",
+    "error_count": 2,
+    "action_receipts": [
+      {
+        "action": "select_text",
+        "role": "text_area",
+        "target": "Page 1 content",
+        "verification": "confirmed",
+        "action_source": "AXSelectedTextRange",
+        "confirmation_posted": false
+      },
+      {
+        "action": "expand",
+        "role": "combo_box",
+        "target": "Styles",
+        "verification": "confirmed",
+        "action_source": "AXShowMenu",
+        "confirmation_posted": false
+      },
+      {
+        "action": "select",
+        "role": "radio_button",
+        "target": "Heading 1",
+        "verification": "unconfirmed",
+        "action_source": null,
+        "confirmation_posted": false
+      },
+      {
+        "action": "expand",
+        "role": "combo_box",
+        "target": "Styles",
+        "verification": "confirmed",
+        "action_source": "AXShowMenu",
+        "confirmation_posted": false
+      },
+      {
+        "action": "select_text",
+        "role": "text_area",
+        "target": "Page 1 content",
+        "verification": "confirmed",
+        "action_source": "AXSelectedTextRange",
+        "confirmation_posted": false
+      },
+      {
+        "action": "set_value",
+        "role": "combo_box",
+        "target": "Font:",
+        "verification": "confirmed",
+        "action_source": "AXUIElementSetAttributeValue.AXValue",
+        "confirmation_posted": false
+      }
+    ]
+  },
+  {
+    "task_id": "win_acc_l1_001",
+    "status": "blocked",
+    "actions": 6,
+    "replans": 1,
+    "phases": 2,
+    "final_reason": "Final delivery is not verified",
+    "trace_sha256": "146bf5a5d43d4d282a683b359e0410ec2b1988ef6600aa10b78eb0a2807152b1",
+    "error_count": 1,
+    "action_receipts": [
+      {
+        "action": "set_value",
+        "role": "combo_box",
+        "target": "name box",
+        "verification": "confirmed",
+        "action_source": "AXUIElementSetAttributeValue.AXValue",
+        "confirmation_posted": false
+      },
+      {
+        "action": "submit",
+        "role": "combo_box",
+        "target": "name box",
+        "verification": "observed",
+        "action_source": "AXConfirm",
+        "confirmation_posted": false
+      },
+      {
+        "action": "set_value",
+        "role": "combo_box",
+        "target": "Number Format",
+        "verification": "confirmed",
+        "action_source": "AXUIElementSetAttributeValue.AXValue",
+        "confirmation_posted": false
+      },
+      {
+        "action": "submit",
+        "role": "combo_box",
+        "target": "Number Format",
+        "verification": "observed",
+        "action_source": "AXConfirm",
+        "confirmation_posted": false
+      },
+      {
+        "action": "click",
+        "role": "button",
+        "target": "Save",
+        "verification": "observed",
+        "action_source": "AXPress",
+        "confirmation_posted": false
+      }
+    ]
+  },
+  {
+    "task_id": "win_pro_l1_003",
+    "status": "blocked",
+    "actions": 0,
+    "replans": 1,
+    "phases": 0,
+    "final_reason": "Decision confidence below threshold",
+    "trace_sha256": "f40a6b8423a82ac6aa2d6763c41a710cd8796b016e4a26778b677222643a6ec3",
+    "error_count": 2,
+    "action_receipts": []
+  }
+]

@@ -1,0 +1,93 @@
+[
+  {
+    "task_id": "win_adm_l1_003",
+    "status": "blocked",
+    "actions": 0,
+    "replans": 1,
+    "phases": 0,
+    "final_reason": "Target confidence below threshold",
+    "trace_sha256": "dcd31b4a669eadb3786a89bf4d8a0a34b72efe55fda8838bee892c5f34b169b2",
+    "error_count": 2,
+    "action_receipts": []
+  },
+  {
+    "task_id": "win_acc_l1_001",
+    "status": "blocked",
+    "actions": 4,
+    "replans": 1,
+    "phases": 0,
+    "final_reason": "Final delivery is not verified",
+    "trace_sha256": "5981e92f142490b9b2a50c01e72fe6464ea3c5384aa834fc6bd85818f3d73ec0",
+    "error_count": 0,
+    "action_receipts": [
+      {
+        "action": "set_value",
+        "role": "combo_box",
+        "target": "name box",
+        "verification": "confirmed",
+        "action_source": "AXUIElementSetAttributeValue.AXValue",
+        "confirmation_posted": false
+      },
+      {
+        "action": "set_value",
+        "role": "combo_box",
+        "target": "Number Format",
+        "verification": "confirmed",
+        "action_source": "AXUIElementSetAttributeValue.AXValue",
+        "confirmation_posted": false
+      },
+      {
+        "action": "click",
+        "role": "button",
+        "target": "Save",
+        "verification": "observed",
+        "action_source": "AXPress",
+        "confirmation_posted": false
+      },
+      {
+        "action": "click",
+        "role": "button",
+        "target": "Save",
+        "verification": "observed",
+        "action_source": "AXPress",
+        "confirmation_posted": false
+      }
+    ]
+  },
+  {
+    "task_id": "win_pro_l1_003",
+    "status": "blocked",
+    "actions": 3,
+    "replans": 1,
+    "phases": 0,
+    "final_reason": "Native UI returned to an earlier state without satisfying this subtask. Repair conflicting success conditions or the action route; do not repeat this cycle.",
+    "trace_sha256": "2536f6005dbd5af6918fb9027b43f530be77756e295af5dfa743dee764d5e1d1",
+    "error_count": 2,
+    "action_receipts": [
+      {
+        "action": "click",
+        "role": "button",
+        "target": "Save",
+        "verification": "observed",
+        "action_source": "AXPress",
+        "confirmation_posted": false
+      },
+      {
+        "action": "click",
+        "role": "button",
+        "target": "Save",
+        "verification": "observed",
+        "action_source": "AXPress",
+        "confirmation_posted": false
+      },
+      {
+        "action": "click",
+        "role": "button",
+        "target": "Save",
+        "verification": "observed",
+        "action_source": "AXPress",
+        "confirmation_posted": false
+      }
+    ]
+  }
+]

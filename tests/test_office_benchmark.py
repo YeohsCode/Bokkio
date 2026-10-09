@@ -111,3 +111,36 @@ def test_model_completed_is_not_artifact_success(tmp_path):
     preparation(tmp_path)
     report=run(tmp_path,environment=lambda:{'ready':True},executor=lambda t,p:{'status':'completed','actions':1})
     assert report['started']==3 and report['status']=='completed' and report['passed']==0
+
+
+def test_native_executor_constructs_real_agent_and_checks_saved_result(tmp_path,monkeypatch):
+    import os
+    import sys
+    import time
+    from types import SimpleNamespace
+    from bokkio.agent import DesktopAgent
+    from bokkio import office_runner,planner,jev,macos_activation
+    from bokkio.xa11y_backend import Xa11yBackend
+    state=preparation(tmp_path);task=next(t for t in state['tasks'] if t['task_id']=='win_adm_l1_003')
+    artifact=Path(task['artifact']);word(artifact,font='Arial')
+    monkeypatch.setitem(sys.modules,'xa11y',SimpleNamespace(App=SimpleNamespace(by_name=lambda *a,**k:SimpleNamespace(pid=123,windows=lambda:[SimpleNamespace(name=artifact.stem,activate=lambda:None)]))))
+    monkeypatch.setattr(office_runner.subprocess,'run',lambda *a,**k:None)
+    monkeypatch.setattr(office_runner.time,'sleep',lambda *a:None)
+    monkeypatch.setattr(macos_activation,'activate_window',lambda *a:None)
+    monkeypatch.setattr(Xa11yBackend,'snapshot',lambda *a,**k:{'windows':[]})
+    monkeypatch.setattr(planner,'OpenRouterPlanner',lambda:object())
+    monkeypatch.setattr(jev,'JevProvider',lambda:object())
+    def execute(agent,goal,apps,path):
+        assert isinstance(agent,DesktopAgent) and apps==['123'] and agent.max_actions==15
+        assert agent.final_verifier({})[0] is False
+        word(artifact)
+        old=time.time_ns()-10_000_000_000
+        os.utime(artifact,ns=(old,old))
+        passed,detail=agent.final_verifier({})
+        assert not passed and detail['score']['passed'] and not detail['score']['saved_after_start']
+        fresh=time.time_ns()+1_000_000
+        os.utime(artifact,ns=(fresh,fresh))
+        assert agent.final_verifier({})[0] is True
+        return {'status':'completed','actions':1}
+    monkeypatch.setattr(DesktopAgent,'run',execute)
+    assert office_runner._native_run(task,tmp_path/'agent.json')['status']=='completed'

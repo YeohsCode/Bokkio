@@ -1,0 +1,209 @@
+---
+source_path: src/bokkio/macos_ax.py
+source_version: working-tree
+ingested: 2026-10-09
+sha256: 14dd6125097a6e28c37f0d8df4996bdbb75cae0e42a3ea5ad88653cb4cfa166f
+---
+
+"""Read actual Mac AX capabilities and dispatch to freshly matched AX objects.
+
+xa11y normalizes AXConfirm to press but dispatches press as AXPress. This
+supplement retains the original action and probes writable combo values.
+Matching is bounded and must resolve one native object in the current tree;
+geometry alone never establishes identity. No pointer or key events are used.
+"""
+from __future__ import annotations
+
+import ctypes as c
+from collections import defaultdict
+
+from .model import BokkioActionError,BokkioCompletionUnknown,BokkioError
+from .selector import flatten
+
+
+class Point(c.Structure):
+    _fields_=[('x',c.c_double),('y',c.c_double)]
+
+
+class Size(c.Structure):
+    _fields_=[('width',c.c_double),('height',c.c_double)]
+
+
+class MacAX:
+    def __init__(self):
+        self.ax=c.CDLL('/System/Library/Frameworks/ApplicationServices.framework/ApplicationServices')
+        self.cf=c.CDLL('/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation')
+        self._owned=[];self._targets={}
+        def bind(lib,name,args,result):
+            fn=getattr(lib,name);fn.argtypes=args;fn.restype=result
+        ptr=c.c_void_p
+        bind(self.ax,'AXUIElementCreateApplication',[c.c_int],ptr)
+        bind(self.ax,'AXUIElementCopyAttributeValue',[ptr,ptr,c.POINTER(ptr)],c.c_int)
+        bind(self.ax,'AXUIElementCopyActionNames',[ptr,c.POINTER(ptr)],c.c_int)
+        bind(self.ax,'AXUIElementIsAttributeSettable',[ptr,ptr,c.POINTER(c.c_bool)],c.c_int)
+        bind(self.ax,'AXUIElementSetAttributeValue',[ptr,ptr,ptr],c.c_int)
+        bind(self.ax,'AXUIElementPerformAction',[ptr,ptr],c.c_int)
+        bind(self.ax,'AXValueGetValue',[ptr,c.c_int,ptr],c.c_bool)
+        bind(self.ax,'AXValueGetType',[ptr],c.c_int)
+        bind(self.ax,'AXUIElementSetMessagingTimeout',[ptr,c.c_float],c.c_int)
+        bind(self.ax,'AXUIElementGetPid',[ptr,c.POINTER(c.c_int)],c.c_int)
+        bind(self.cf,'CFRelease',[ptr],None)
+        bind(self.cf,'CFRetain',[ptr],ptr)
+        bind(self.cf,'CFHash',[ptr],c.c_ulong)
+        bind(self.cf,'CFEqual',[ptr,ptr],c.c_bool)
+        bind(self.cf,'CFGetTypeID',[ptr],c.c_ulong)
+        bind(self.cf,'CFStringCreateWithCString',[ptr,c.c_char_p,c.c_uint],ptr)
+        bind(self.cf,'CFStringGetCString',[ptr,c.c_char_p,c.c_long,c.c_uint],c.c_bool)
+        bind(self.cf,'CFStringGetLength',[ptr],c.c_long)
+        bind(self.cf,'CFArrayGetCount',[ptr],c.c_long)
+        bind(self.cf,'CFArrayGetValueAtIndex',[ptr,c.c_long],ptr)
+        bind(self.cf,'CFBooleanGetValue',[ptr],c.c_bool)
+        for name in ['CFStringGetTypeID','CFArrayGetTypeID','CFBooleanGetTypeID']:
+            bind(self.cf,name,[],c.c_ulong)
+
+    def close(self):
+        for ptr in self._owned:self.cf.CFRelease(ptr)
+        self._owned=[];self._targets={}
+
+    def __del__(self):
+        if hasattr(self,'_owned'):self.close()
+
+    def _string(self,text):
+        return self.cf.CFStringCreateWithCString(None,text.encode('utf-8'),0x08000100)
+
+    def _attr(self,element,name):
+        key=self._string(name);out=c.c_void_p()
+        try:
+            error=self.ax.AXUIElementCopyAttributeValue(element,key,c.byref(out))
+            if error:return None
+            self._owned.append(out.value);return out.value
+        finally:self.cf.CFRelease(key)
+
+    def _text(self,ptr):
+        if not ptr or self.cf.CFGetTypeID(ptr)!=self.cf.CFStringGetTypeID():return None
+        length=self.cf.CFStringGetLength(ptr)
+        if length>100000:return None
+        buf=c.create_string_buffer(length*4+1)
+        return buf.value.decode('utf-8') if self.cf.CFStringGetCString(ptr,buf,len(buf),0x08000100) else None
+
+    def _array(self,ptr):
+        if not ptr or self.cf.CFGetTypeID(ptr)!=self.cf.CFArrayGetTypeID():return []
+        count=self.cf.CFArrayGetCount(ptr)
+        if count>4096:raise BokkioError('Mac AX array exceeds observation budget')
+        return [self.cf.CFArrayGetValueAtIndex(ptr,i) for i in range(count)]
+
+    def _settable(self,element,name):
+        key=self._string(name);value=c.c_bool()
+        try:return self.ax.AXUIElementIsAttributeSettable(element,key,c.byref(value))==0 and value.value
+        finally:self.cf.CFRelease(key)
+
+    def _actions(self,element):
+        out=c.c_void_p()
+        if self.ax.AXUIElementCopyActionNames(element,c.byref(out)):return []
+        self._owned.append(out.value)
+        return [self._text(p) for p in self._array(out.value)]
+
+    def _bounds(self,element):
+        point=self._attr(element,'AXPosition');size=self._attr(element,'AXSize')
+        if not point or not size or self.ax.AXValueGetType(point)!=1 or self.ax.AXValueGetType(size)!=2:return None
+        p=Point();s=Size()
+        if not self.ax.AXValueGetValue(point,1,c.byref(p)) or not self.ax.AXValueGetValue(size,2,c.byref(s)):return None
+        # xa11y reports integer point geometry.
+        return (int(p.x),int(p.y),int(s.width),int(s.height))
+
+    @staticmethod
+    def _key(role,name,identifier,bounds,window=None):
+        return (role,name,identifier,bounds,window)
+
+    def annotate(self,tree,pid):
+        self.close()
+        app=self.ax.AXUIElementCreateApplication(pid);self._owned.append(app)
+        self.ax.AXUIElementSetMessagingTimeout(app,.3)
+        candidates=defaultdict(list);stack=[(app,0,None)];visited=defaultdict(list);count=0
+        while stack:
+            element,depth,window_context=stack.pop();identity=int(self.cf.CFHash(element));count+=1
+            if count>4096 or depth>64:raise BokkioError('Mac AX capability traversal exceeds budget')
+            # Same hash may be a collision: compare the actual CF object.
+            if any(self.cf.CFEqual(element,old) for old in visited[identity]):continue
+            visited[identity].append(element)
+            owner=c.c_int()
+            if self.ax.AXUIElementGetPid(element,c.byref(owner)) or owner.value!=pid:continue
+            role=self._text(self._attr(element,'AXRole'))
+            title=self._text(self._attr(element,'AXTitle'))
+            description=self._text(self._attr(element,'AXDescription'))
+            identifier=self._text(self._attr(element,'AXIdentifier'))
+            bounds=self._bounds(element)
+            if role=='AXWindow':window_context=(title,bounds)
+            record=(element,identity)
+            for name in {title,description}:
+                candidates[self._key(role,name,identifier,bounds,window_context)].append(record)
+            stack.extend((child,depth+1,window_context) for child in self._array(self._attr(element,'AXChildren')))
+        identity_refs=defaultdict(list)
+        popup_names={n['name'] for n in flatten([tree]) if n['role'] in {'window','dialog'}}
+        nodes={n['ref']:n for n in flatten([tree])}
+        for node in nodes.values():
+            window_node=node
+            while window_node['platform_data'].get('ax_role')!='AXWindow' and window_node['parent'] in nodes:
+                window_node=nodes[window_node['parent']]
+            window_context=None
+            if window_node['platform_data'].get('ax_role')=='AXWindow':
+                box=window_node['bounds']
+                window_context=(window_node['platform_data'].get('AXTitle',window_node['name']),tuple(box.values()) if box else None)
+            data=node['platform_data'];bounds=node['bounds']
+            key=self._key(data.get('ax_role'),node['name'],data.get('ax_identifier'),tuple(bounds.values()) if bounds else None,window_context)
+            matches=candidates.get(key,[])
+            if len(matches)!=1:continue
+            element,identity=matches[0]
+            actions=self._actions(element)
+            native=[]
+            if 'AXPress' in actions or 'AXConfirm' in actions:native.append('click')
+            if 'AXShowMenu' in actions:native.append('expand')
+            writable=node['role'] in {'text_field','text_area','combo_box'} and self._settable(element,'AXValue')
+            if writable:native.append('set_value')
+            if node['role']=='combo_box' and 'AXConfirm' in actions:
+                native.append('submit')
+                if 'AXPress' not in actions:
+                    node['actions']=[a for a in node['actions'] if a!='click']
+                    native=[a for a in native if a!='click']
+            data.update(ax_native_identity=identity,mac_owner_pid=pid,ax_original_actions=actions,ax_value_settable=writable)
+            selected=self._text(self._attr(element,'AXSelectedText')) if node['role'] in {'text_field','text_area'} else None
+            if selected is not None:node['state']['selected_text']=selected
+            if 'AXShowMenu' in actions and node['name'] and node['role']=='combo_box' and node['state'].get('expanded') is None:
+                node['state']['expanded']=node['name'] in popup_names
+                data['expanded_source']='same_process_named_AX_popup'
+            if node['role'] in {'text_field','text_area'} and self._settable(element,'AXSelectedTextRange') and isinstance(node['value'],str):native.append('select_text')
+            data['mac_verified_actions']=native
+            node['actions']=sorted(set(node['actions'])|set(native))
+            if writable:node['state']['editable']=True
+            self._targets[node['ref']]=(element,identity,actions,pid)
+            identity_refs[identity].append(node)
+        # A propagated structural ambiguity can be resolved by a uniquely
+        # matched native CF object. Hash collisions/duplicate aliases stay gated.
+        for group in identity_refs.values():
+            if len(group)==1:group[0]['platform_data']['mac_unique_identity']=True
+        return tree
+
+    def perform(self,node,action,value=None):
+        target=self._targets.get(node['ref'])
+        if not target or target[1]!=node['platform_data'].get('ax_native_identity'):
+            raise BokkioActionError('Mac native target is no longer bound')
+        element,identity,actions,pid=target
+        if action not in node['platform_data'].get('mac_verified_actions',[]):
+            raise BokkioActionError('Mac native action is not advertised')
+        if action=='set_value':
+            key=self._string('AXValue');text=self._string(value)
+            try:error=self.ax.AXUIElementSetAttributeValue(element,key,text)
+            finally:self.cf.CFRelease(key);self.cf.CFRelease(text)
+            source='AXUIElementSetAttributeValue.AXValue'
+        elif action=='select_text':
+            # Actual selection stays in xa11y, which already supports ranges.
+            raise BokkioActionError('Text selection dispatch uses the live xa11y object')
+        else:
+            source=('AXShowMenu' if action=='expand' else 'AXConfirm' if action=='submit' or 'AXPress' not in actions else 'AXPress')
+            key=self._string(source)
+            try:error=self.ax.AXUIElementPerformAction(element,key)
+            finally:self.cf.CFRelease(key)
+        if error:
+            # No second action is attempted after a native call.
+            raise BokkioCompletionUnknown(f'Mac {source} returned {error}; completion requires fresh observation')
+        return {'action_source':source,'native_identity':identity}

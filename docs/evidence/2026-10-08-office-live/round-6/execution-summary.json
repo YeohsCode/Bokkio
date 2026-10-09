@@ -1,0 +1,126 @@
+[
+  {
+    "task_id": "win_adm_l1_003",
+    "status": "blocked",
+    "actions": 2,
+    "replans": 1,
+    "phases": 1,
+    "final_reason": "Window not found: Styles",
+    "trace_sha256": "e5f4d881b7dd7c761473f6f8c8488e621cb52fbf8f40b449fea1f41d9555c2e2",
+    "error_count": 2,
+    "action_receipts": [
+      {
+        "action": "select_text",
+        "role": "text_area",
+        "target": "Page 1 content",
+        "verification": "confirmed",
+        "action_source": "AXSelectedTextRange",
+        "confirmation_posted": false
+      },
+      {
+        "action": "expand",
+        "role": "combo_box",
+        "target": "Styles",
+        "verification": "confirmed",
+        "action_source": "AXShowMenu",
+        "confirmation_posted": false
+      }
+    ]
+  },
+  {
+    "task_id": "win_acc_l1_001",
+    "status": "blocked",
+    "actions": 5,
+    "replans": 1,
+    "phases": 2,
+    "final_reason": "Final delivery is not verified",
+    "trace_sha256": "bc8c5a714052e8fad16b8105ec28a67725a5a92f57420e06aff483e63a061f27",
+    "error_count": 1,
+    "action_receipts": [
+      {
+        "action": "set_value",
+        "role": "combo_box",
+        "target": "name box",
+        "verification": "confirmed",
+        "action_source": "AXUIElementSetAttributeValue.AXValue",
+        "confirmation_posted": false
+      },
+      {
+        "action": "submit",
+        "role": "combo_box",
+        "target": "name box",
+        "verification": "observed",
+        "action_source": "AXConfirm",
+        "confirmation_posted": false
+      },
+      {
+        "action": "set_value",
+        "role": "combo_box",
+        "target": "Number Format",
+        "verification": "confirmed",
+        "action_source": "AXUIElementSetAttributeValue.AXValue",
+        "confirmation_posted": false
+      },
+      {
+        "action": "submit",
+        "role": "combo_box",
+        "target": "Number Format",
+        "verification": "observed",
+        "action_source": "AXConfirm",
+        "confirmation_posted": false
+      },
+      {
+        "action": "click",
+        "role": "button",
+        "target": "Save",
+        "verification": "observed",
+        "action_source": "AXPress",
+        "confirmation_posted": false
+      }
+    ]
+  },
+  {
+    "task_id": "win_pro_l1_003",
+    "status": "blocked",
+    "actions": 4,
+    "replans": 1,
+    "phases": 3,
+    "final_reason": "Dialog appearance/closure checks require window=null because native window titles may change",
+    "trace_sha256": "c7bd8b733675b38cec98752337268296c6b8ddf559771027f7de080b3670ac1d",
+    "error_count": 2,
+    "action_receipts": [
+      {
+        "action": "expand",
+        "role": "combo_box",
+        "target": "New Slide",
+        "verification": "confirmed",
+        "action_source": "AXShowMenu",
+        "confirmation_posted": false
+      },
+      {
+        "action": "select",
+        "role": "radio_button",
+        "target": "Title Slide",
+        "verification": "unconfirmed",
+        "action_source": null,
+        "confirmation_posted": false
+      },
+      {
+        "action": "expand",
+        "role": "combo_box",
+        "target": "Layout",
+        "verification": "confirmed",
+        "action_source": "AXShowMenu",
+        "confirmation_posted": false
+      },
+      {
+        "action": "select",
+        "role": "radio_button",
+        "target": "Title Slide",
+        "verification": "unconfirmed",
+        "action_source": null,
+        "confirmation_posted": false
+      }
+    ]
+  }
+]

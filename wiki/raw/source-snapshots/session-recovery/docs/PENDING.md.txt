@@ -1,0 +1,55 @@
+---
+source_path: docs/PENDING.md
+source_version: working-tree
+ingested: 2026-10-08
+sha256: 16d42ed9f8c9b1267b537c7abf4f89ff2ec1a753b317b1596d015b7d37da9655
+---
+
+# 当前待办 / Pending work
+
+更新：2026-10-08。总体位置：**P6 Windows 验收完成，P7 部分实现；Office 原题三题未开始**。当前能力、证据与下一步顺序见 [总体进度](STATUS.md)。
+
+## 优先执行
+
+| 顺序 | 待办 | 完成条件 / 当前状态 |
+|---|---|---|
+| 1 | 保持并复查实际输入环境 | Mac本轮session_locked=false，原生动作3/3及12次滚动通过，三个Office目标窗口可读取；恢复与executor接口修复已完成。Windows仍需恢复输入桌面。见[恢复证据](evidence/2026-10-08-macos-session-recovery/README.md) |
+| 2 | 真正运行三道 Office 原题 | WindowsWorld Word/Excel/PowerPoint L1 的原题、初始化、原生 runner、独立评分已准备；新工作区按 15 步预算实跑，保留中间证据、保存/产物与失败。早期报告 planned 3 / started 0 / blocked 3；本轮新工作区已就绪，Agent尚未开始 |
+| 3 | Office 原生覆盖修复 | Word/PPT disabled 编辑区、Excel 单元格/格式对话框、Outlook 窗口遍历及未知 AXPress 处理；不能把 CUA 兼容性流程算作 Bokkio 任务通过 |
+| 4 | P7.2 自动视觉降级 | OCR/唯一候选已有 Mac 验收；接入 Planner/Jev/Workflow，只在原生目标/动作缺失时降级，未知派发不重试 |
+| 5 | P7.3 输入正向验收 | Mac 执行器已实现、前置拒绝零派发已验证；实际完成 click/type 后独立检查。Windows 视觉输入、跨应用执行和视觉步骤重放待实现/验收 |
+
+## 平台与可靠性
+
+| 项目 | 仍需完成 |
+|---|---|
+| Windows P7.1 | 截图接口/自绘 fixture 已实现；完成三轮像素、窗口移动、DPI/坐标与六类窗口故障实机验收 |
+| Windows OCR | 实现原生 OCR/视觉候选，验证歧义、区域、时效与图像绑定 |
+| Mac 捕获与视觉扩展 | 当前 Runtime 正常流程 3/3、拒绝 8/8；扩大多显示器/比例、窗口移动竞争、OCR 合并文本行、GPU 和真实办公应用 |
+| Mac Workflow 对照 | 文件/参数合约、保存后新进程重开、不同 PID/执行进程恢复和真实模型修复；历史 Cocoa 基础结果不能代替这些项目 |
+| P7.4–P7.5 | 完整取消、限速、确认、崩溃/未知完成恢复；权限缺失、图像过期、窗口关闭/移动、无响应等故障；分别统计 native / visual / Workflow / Agent 全流程 |
+| 大树与虚拟化 | 更多独立应用和真实 Windows VirtualizedItem provider；已有分页 fixture 不能算完整原生虚拟化验收 |
+
+## Benchmark、暂缓与可选项
+
+- **原始 VLM 评分**：judge 入口保留原始 prompt/model/checks；实际有轨迹后执行，需要独立 `QWEN_API_KEY`。当前未运行；OOXML 评分可独立使用。
+- **完整上游环境**：WindowsWorld / WAA 的 VM、HTTP/server runner、初始化与 evaluator 对齐；Mac 适配分数不作为官方成绩。
+- **职业办公长流程**：扩展 OFFICE-01～03、图表、需求变更、邮件草稿、文件交付、暂停/进程恢复及至少三轮独立状态验收。发送真实邮件需单独指示。
+- **Windows Office 暂缓**：可用许可证、激活和 Outlook 设置，以及完整 UIA 办公流程。
+- **可选录制**：全局人工键鼠监听；现有原生回执与成功 trace 已满足 P6 录制来源要求。
+
+## 本次交付
+
+P7 截图/OCR/有界输入代码，原始三题 Office pilot、准备/评分工具和失败/阻断证据随本次提交交付。提交前主机回归 373/373；Windows 最新同轮回归 373/373。GUI 任务仍以原生实测结果为准。
+
+## English
+
+P6 Windows acceptance is complete; P7 is partial. Priorities: restore interactive input, run the three pinned Office tasks, repair native Office coverage, connect automatic Planner/Jev/Workflow visual fallback, and validate positive bounded input. Office currently has planned 3, started 0, blocked 3 and null scores.
+
+Remaining platform work includes Windows live capture/OCR/input, wider Mac capture and file/process workflows, full reliability, real virtualized providers, original VLM judging and full upstream environment integration. The VLM entry requires QWEN_API_KEY; local artifact scoring is independent. Windows Office activation remains paused. Cross-app office workflows and optional global recording remain visible. This delivery contains P7/pilot code and sanitized evidence, with 373 tests passing on each platform; GUI task success is reported separately.
+
+## 同日恢复更新 / Recovery update
+
+Mac交互桌面与原生输入已验证，Office构造接口已修复；主机374/374，Windows历史373/373。新三题工作区通过环境/窗口/模型配置/初始状态核验，下一项为实际Agent试跑。
+
+Mac interactive input and Office executor wiring are ready for an attempt. Host regression: 374/374; Windows remains at its prior 373/373. The new pilot has not executed any benchmark task.

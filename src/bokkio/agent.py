@@ -8,8 +8,9 @@ from pathlib import Path
 import re
 import tempfile
 import time
+import copy
 from .decision import bounded_observation, decide, execute_decision
-from .model import BokkioError, tree_digest
+from .model import BokkioCompletionUnknown,BokkioError,BokkioStaleSnapshot, tree_digest
 from .planner import validate_plan
 from .selector import flatten
 
@@ -71,7 +72,9 @@ def planner_observation(goal, snapshot, windows, limit=240):
     by_ref = {n["ref"]: n for n in nodes}
     scoped = bounded_observation(goal, snapshot)
     strategy = "full"
-    if "observation_scope" in scoped:
+    if len(nodes)<=limit:
+        selected=nodes
+    elif "observation_scope" in scoped:
         selected = flatten(scoped["windows"])
         strategy = "exact_observed_names"
         # Status labels can describe the outcome even when their current names
@@ -123,15 +126,20 @@ def planner_observation(goal, snapshot, windows, limit=240):
         data = node['platform_data']
         if data.get('ambiguous_ref_identity'):
             actions = [a for a in actions if a in data.get('verified_native_actions', [])
+                       or (data.get('mac_unique_identity') and a in data.get('mac_verified_actions',[]))
                        or (a in {'set_value','submit'} and data.get('value_runtime_id'))]
+        if node['state'].get('enabled') is False:
+            actions=[a for a in actions if a=='select_text' and data.get('mac_unique_identity')]
         parent = node
         while parent["role"] not in {"window", "dialog"} and parent["parent"] in by_ref:
             parent = by_ref[parent["parent"]]
-        rows.append({**({"native_inline_editor":True} if data.get("class_name")=="UIRenameTextElement" else {}), "role": node["role"], "name": node["name"], "value": node["value"], "actions": actions,
+        rows.append({**({"native_inline_editor":True} if data.get("class_name")=="UIRenameTextElement" else {}),
+                     **({'value_submission':data['value_submission']} if data.get('value_submission') else {}),
+                     "role": node["role"], "name": node["name"], "value": node["value"], "actions": actions,
                      "parent_name": by_ref.get(node["parent"], {}).get("name"),
                      "window_name": parent["name"] if parent["role"] in {"window", "dialog"} else None,
                      "state": {k: v for k, v in node["state"].items() if v is not None and k in
-                               {"enabled", "visible", "focused", "selected", "expanded", "checked", "editable"}}})
+                               {"enabled", "visible", "focused", "selected", "selected_text", "expanded", "checked", "editable"}}})
     words = list(dict.fromkeys(re.findall(r'(?:\bword\s*|单词\s*|词\s*)["“\']([^"”\'\n]{1,64})["”\']', goal, re.I)))[:16]
     text_facts = []
     for row in rows:
@@ -315,11 +323,34 @@ class DesktopAgent:
                 plan, metadata = self.planner.plan(goal, observations, progress)
                 event("plan_proposal", plan=plan, model=metadata)
                 try:
+                    # Selection literals are read-only: bind an omitted value
+                    # only when the predicate names one actual observed string.
+                    # Preserve the raw proposal as an immutable event.
+                    plan=copy.deepcopy(plan)
+                    if isinstance(plan,dict) and isinstance(plan.get('steps'),list):
+                        for proposed in plan['steps']:
+                            if not isinstance(proposed,dict) or not re.search(r'\bselect\b',str(proposed.get('goal','')),re.I):continue
+                            values=proposed.get('allowed_values')
+                            if not isinstance(values,list):continue
+                            for check in proposed.get('success',[]):
+                                if not isinstance(check,dict) or check.get('field')!='selected_text':continue
+                                literal=check.get('equals')
+                                rows=observations.get(proposed.get('app'),{}).get('nodes',[])
+                                matches=[n for n in rows if n['role']==check.get('role') and n['name']==check.get('name')
+                                         and isinstance(n['value'],str) and isinstance(literal,str) and literal and n['value'].count(literal)==1]
+                                if len(matches)==1 and literal not in values and len(values)<16:
+                                    values.append(literal)
+                                    event('selection_literal_bound',step=proposed.get('id'),source='unique_current_native_text')
                     validated=validate_plan(plan, apps, observations)
                     if progress and progress.get('native_inline_editor_opened') and validated['steps']:
                         first=validated['steps'][0]
                         if re.search(r"\b(?:click|press|invoke)\s+(?:the\s+)?['\"]?rename\b",first['goal'],re.I):
                             raise BokkioError('Inline rename editor is already open. Use the observed new editor to write the filename, then submit and verify the renamed row. Do not invoke Rename again.')
+                    if progress and progress.get('native_combo_value_written'):
+                        first=validated['steps'][0];target=progress['native_combo_value_written']
+                        if (not first.get('requires_action') or not re.search(r'\b(?:submit|confirm|commit)\b',first['goal'],re.I)
+                                or target['name'].casefold().rstrip(':') not in first['goal'].casefold()):
+                            raise BokkioError('The Mac combo value was written but not committed. Next subtask must explicitly confirm '+target['name']+' using submit, requires_action=true, allowed_values=[], then observe the result.')
                     return validated, metadata
                 except BokkioError as error:
                     event("error", error=str(error), stage="plan_validation")
@@ -368,6 +399,7 @@ class DesktopAgent:
                         event("subtask_retained", step=step["id"], evidence="verified_history")
                         continue
                     seen_states = {}
+                    stale_refreshes=0
                     while True:
                         control = self._control()
                         if control: return stop("paused" if control == "pause" else "cancelled")
@@ -427,7 +459,14 @@ class DesktopAgent:
                             trace["actions"] += 1
                             result = execute_decision(self.backend, step["app"], decision)
                             event("action", step=step["id"], subtask=step, result=result)
-                            fresh = self.backend.snapshot(step["app"], step["window"])
+                            popup_closed=False
+                            try:fresh = self.backend.snapshot(step["app"], step["window"])
+                            except BokkioError as error:
+                                if step['window'] is None or not str(error).startswith('Window not found:'):raise
+                                fresh=self.backend.snapshot(step['app'])
+                                if any(n['role'] in {'window','dialog'} and n['name']==step['window'] for n in flatten(fresh['windows'])):raise
+                                popup_closed=True
+                                event('window_scope_changed',previous_window=step['window'],snapshot=fresh)
                             if source_path:
                                 current=flatten(fresh['windows'])
                                 editors=[n for n in current if n['role']=='text_area' and isinstance(n['value'],str)]
@@ -440,7 +479,10 @@ class DesktopAgent:
                                       text_facts=planner_observation(goal,fresh,[])['text_facts'])
                             passed, checks = verify_conditions(fresh, step["success"])
                             event("outcome", step=step["id"], snapshot=fresh, passed=passed, checks=checks)
-                            if passed:
+                            combo_written=(decision.action=='set_value' and target['platform']=='macos'
+                                           and target['role']=='combo_box' and 'submit' in target['actions'] and not result.get('input_commit'))
+                            visual_committed=bool(result.get('input_commit')) and not passed
+                            if passed and not combo_written:
                                 complete(step)
                             menu_changed=(decision.action=='click' and target['role']=='menu_item'
                                           and 'toggle' in [a.casefold() for a in target['platform_data'].get('actions',[])]
@@ -456,15 +498,28 @@ class DesktopAgent:
                                                and not passed and
                                                {w.get('name') for w in flatten(fresh['windows']) if w['role']=='window'}!=
                                                {w.get('name') for w in flatten(snapshot['windows']) if w['role']=='window'})
-                            if menu_changed or rename_editor_opened or address_submitted:
+                            popup_opened=(decision.action=='expand' and target['platform']=='macos'
+                                          and result.get('action_source')=='AXShowMenu'
+                                          and (result.get('verification')=='confirmed' or
+                                               {n['name'] for n in flatten(fresh['windows']) if n['role'] in {'window','dialog'}} !=
+                                               {n['name'] for n in flatten(snapshot['windows']) if n['role'] in {'window','dialog'}}))
+                            if menu_changed or rename_editor_opened or address_submitted or combo_written or popup_opened or popup_closed or visual_committed:
                                 if trace['phases'] >= self.max_phases:
                                     return stop('blocked','Native menu phase budget exhausted')
                                 observations=self._observations(apps,goal)
                                 event('planner_observations',observations=observations)
-                                reason=('native_inline_editor_opened' if rename_editor_opened else
+                                reason=('visual_value_committed' if visual_committed else 'native_combo_value_written' if combo_written else 'native_popup_closed' if popup_closed else 'native_popup_opened' if popup_opened else
+                                        'native_inline_editor_opened' if rename_editor_opened else
                                         'native_address_submitted' if address_submitted else 'native_menu_changed')
                                 progress={reason:target['name'], 'completed_steps':trace['completed_steps'],
                                           'completed_subtasks':receipts()}
+                                if combo_written:progress['native_combo_value_written']={'name':target['name'],'value':decision.value,'app':step['app']}
+                                if visual_committed:
+                                    after=result.get('after') or {}
+                                    progress['visual_value_committed']={'name':target['name'],'requested':decision.value,'native_value':after.get('value'),
+                                                                       'confirmation_posted':True,'property_verification':'final_artifact_required'}
+                                if popup_closed:progress['native_popup_closed']={'action':decision.action,'target':target['name'],'intent':step['goal'],
+                                                                               'command_dispatched':True,'property_verification':'final_artifact_required'}
                                 if address_submitted:
                                     progress['navigation_result']={'submitted_address':target['value'],
                                         'window_names':[n['name'] for n in flatten(fresh['windows']) if n['role']=='window'],
@@ -485,6 +540,12 @@ class DesktopAgent:
                             # Multi-action dropdown/tree subtasks continue from fresh state.
                         except BokkioError as error:
                             event("error", step=step["id"], error=str(error), model_calls=calls)
+                            if isinstance(error,BokkioCompletionUnknown):return stop('blocked','Native completion is unknown; inspect the current UI/artifact before another attempt: '+str(error))
+                            if isinstance(error,BokkioStaleSnapshot) and getattr(self.backend,'supports_stale_refresh',False):
+                                stale_refreshes+=1
+                                event('stale_decision_rejected',step=step['id'],dispatched=False,refresh=stale_refreshes)
+                                if stale_refreshes<=2:continue
+                                return stop('blocked','Native snapshot changed repeatedly before input')
                             control = self._control()
                             if control: return stop("paused" if control == "pause" else "cancelled")
                             if trace["replans"] >= self.max_replans: return stop("blocked", str(error))

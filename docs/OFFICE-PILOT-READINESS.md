@@ -1,59 +1,47 @@
-# 微软 Office 原题试跑准备 / Office pilot readiness
+# 微软 Office 原题试跑 / Office pilot execution
 
-日期：2026-10-08。**首批三道原题的准备、执行入口和评分代码已完成；实机试跑在交互会话检查处阻断，尚不能宣称 Office 题库已实际跑通。**
+更新：2026-10-09。**三道原题已实际启动十轮，最新独立评分 0/3；目前需要修复任务执行覆盖。**
 
-## 已完成
+## 输入、执行和评分
 
-- 核验 WindowsWorld 原始仓库，固定提交 `fbccd464f94fec9e284e139f97bf96d0b192f580` 与 181 题的源清单哈希。
-- 固定三道 Microsoft Office L1 原题：Word `win_adm_l1_003`、Excel `win_acc_l1_001`、PowerPoint `win_pro_l1_003`。完整原始 instruction、preconditions、初始化提示、中间检查和最终目标保留，每题预算 15 步。
-- 使用 officecli 创建独立 Word/Excel 输入及 PowerPoint 空白工作文件。Word 为 Normal/Arial 12pt/单倍行距，Excel D 列为 General，PPT 目标文件不存在；三个初始状态的目标评分均未通过，防止初始化提前做完题目。
-- 输入完成 schema 校验、内容检查及 HTML 预览检查；所有 Office 初始化 resident 在外部读取前关闭。第一次列宽命令被 CLI 拒绝，改用已核对的 column/width 属性；历史初始化失败保留。
-- `scripts/office_pilot.py` 提供 prepare / run / evaluate / judge。run 接入现有 DesktopAgent、Planner、Jev 和原生 backend，作用于已准备的任务文件；没有用文件脚本代替题目执行。
-- Word 评分解析样式继承、标题与正文保留、Calibri 11pt、1.15 行距；Excel 验证数据保持及 D 列所有非空单元格货币格式；PowerPoint 验证单页、标题 placeholder 与 title layout。
-- 模型声明 completed 不会直接产生成功分数；还需原始目标匹配且文件在执行开始后保存。任务文件/路径/预算或初始输入被修改时拒绝运行。
-- 原始 VLM system prompt、evaluate() 函数参考、`qwen3-vl-plus` 与 DashScope endpoint 已固定。`judge` 保留全部中间检查；未提供 `QWEN_API_KEY` 时不调用网络。
+- WindowsWorld 固定提交 `fbccd464f94fec9e284e139f97bf96d0b192f580`；原题、许可、初始化提示、中间检查与目标完整保留。
+- Word `win_adm_l1_003`、Excel `win_acc_l1_001`、PowerPoint `win_pro_l1_003`，每题 15 次动作尝试；最多 8 个规划阶段，置信度阈值保持不变。
+- `prepare` 用 officecli 初始化隔离输入；初始目标均未满足。`run` 用 DesktopAgent、Planner、Jev 与 native backend 执行，字段 transport 仅作用于授权文档窗口的可写 combo；不通过文件脚本写入任务结果。
+- Word 独立评分检查标题样式、Calibri 11pt/1.15 行距与内容保持；Excel 检查数据保持与 D 列非空单元格货币格式；PPT 检查单页、标题 placeholder 和 title layout。
+- `final_verifier` 同时要求目标达标和执行开始后保存；模型 completed 或 AX 草稿值不能替代保存文件。
+- 已固定原始 VLM prompt/evaluate/model 参考，`judge` 需独立 `QWEN_API_KEY`，尚未实际调用。
 
-本轮软件采用原生路径。P7 的 OCR/输入自动降级尚未接入这个 runner；实际 Office 操作覆盖需要桌面可用后的首轮失败诊断，不能从隔离测试推定三题成功。
+## 实际结果
 
-## 实际运行记录
+早期会话阻断为 planned 3 / started 0 / blocked 3、score null；会话恢复后十轮全部 started 3，各轮独立评分 **0/3**。第三轮曾并发运行 fixture 探针，已标注；各轮代码变化，保留为开发诊断记录。
 
-| 项目 | 结果 |
-|---|---|
-| Mac 微软应用 | Word/Excel/PowerPoint 均已安装，16.95.4；本轮没有新核验编辑许可证 |
-| AX / 屏幕录制 / 事件权限 | 预检查均为 true |
-| 当前控制台 | 501 与测试进程用户一致；会话锁定，前台为 `com.apple.loginwindow` |
-| Office pilot run | planned 3、started 0、blocked 3、score null；没有模型调用/Office 任务动作 |
-| 初始产物检查 | 0/3 达标；这是初始化负例检查，不是 Agent 题库失败率 |
-| 主机与 Windows 回归 | 各 373/373；包括 18 项题目/评分/runner/judge 用例 |
-| 原始 VLM 评分 | 未运行，没有截图轨迹或实际任务结果；API key 未新增 |
+| 最新第十轮 | 动作尝试 | 停止原因 | 保存产物 |
+|---|---:|---|---|
+| Word | 4 | `input_completion_unknown`：派发后确认失败，需先检查当前状态 | 内容保持，标题/正文格式未达标，未验证新保存 |
+| Excel | 2 | `input_unavailable`：窗口/前台守卫在输入前拒绝 | 数据保持，货币格式未达标，未验证新保存 |
+| PowerPoint | 0 | 决策置信度不足 | 目标文件不存在 |
 
-另用公开 `CGEventPostToPid` 在新建自有 fixture 上做一次定向事件探针，应用业务计数没有变化，因此未把该调用当作成功输入，也未更改生产输入守卫。没有使用登录窗口、绕过认证或关闭安全设置。
+第十轮启动时 session_locked=false，AX/capture/events=true。`run.json` 的 completed 表示三题执行循环返回；各 Agent 为 blocked，产物 passed=false。
 
-## 哪些仍未完成
+独立 Excel 脚本探针确认 D:D 与 Currency 两次替换（各 8 个事件），保存后独立评分通过。该探针使用较早 OCR 字段定位版本，属于输入能力证据；最新原生边界定位 transport 和完整 Agent 任务仍待通过。
 
-1. **交互桌面恢复后的真实试跑**：本轮输入环境不允许开始 Office 编辑。恢复一次会话后可以提交固定三题运行，不需要每个动作人工确认。
-2. **Office Native / Vision 覆盖修复**：实际运行再定位 Word 编辑区、Excel 单元格/格式对话框、PPT 文本和保存的失败；P7 自动降级仍待接入。
-3. **评分与扩展**：采集逐步证据后可运行原始 VLM judge；Mac 环境、输入生成与动作协议差异保留为 adapted run。接官方 VM/server 和跨应用长流程后再谈可比较成绩。
+主机回归 **403/403**，Windows 历史 **373/373**。恢复 fixture 三轮原生动作与 12 次滚动通过。原始 VLM 未运行，无官方成绩。Mac 环境与初始化/动作协议差异使这些结果属于 adapted run。
 
-Windows Office 激活继续暂缓。未选择邮件发送题，外部分享/发送/发布不属于这批任务。
+## 已修复与下一步
 
-## 执行命令
+已修复 executor 构造、AXConfirm、真实前台激活、窗口身份、只读选区和弹窗阶段规划。下一步分别诊断 Word 确认、Excel 拒绝和 PPT 候选，再完整复跑固定三题。通用 Agent/Workflow 自动视觉降级、Windows 视觉输入和跨应用长流程仍待完成，见 [Pending](PENDING.md)。
 
-已准备工作区：`/tmp/bokkio-office-pilot-2026-10-08-final`。它已有 blocked 报告，结果拒绝覆盖；恢复桌面后使用新工作区：
+使用新工作区，历史结果不覆盖：
 
 ```sh
-uv run python scripts/office_pilot.py prepare --workspace /tmp/bokkio-office-first-live
-uv run python scripts/office_pilot.py run --workspace /tmp/bokkio-office-first-live
+uv run python scripts/office_pilot.py prepare --workspace /tmp/bokkio-office-new
+uv run python scripts/office_pilot.py run --workspace /tmp/bokkio-office-new
 ```
 
-`run.json` 区分未开始、执行错误、执行结束和独立产物分数。文件生成只用于 setup；run 不调用 officecli 写入结果。主机与 Windows 回归不是 Office GUI 通过。
-
-原始任务与许可见 [题目包](../fixtures/windowsworld-office/README.md)，当前准备/阻断证据见 [索引](evidence/2026-10-08-office-pilot-ready/README.md)。
+源任务见 [题目包](../fixtures/windowsworld-office/README.md)；本轮见 [实跑证据](evidence/2026-10-08-office-live/README.md)，早期见 [准备证据](evidence/2026-10-08-office-pilot-ready/README.md) 和 [恢复证据](evidence/2026-10-08-macos-session-recovery/README.md)。Windows Office 激活继续暂缓。
 
 ## English
 
-Three original WindowsWorld Microsoft Office tasks are pinned with full records, initialization prompts, criteria, license and 15-step budgets. Isolated deterministic inputs, a native DesktopAgent/Planner/Jev runner, independent OOXML grading and optional original-prompt/model VLM judging are implemented. Setup inputs intentionally do not satisfy the targets; setup opening is separate from Agent actions. This is a Mac adaptation, not an official score.
+The three pinned WindowsWorld Office tasks have now executed ten development rounds, each scoring 0/3 on independent saved artifacts. Each task retains its original record and 15-action budget. Setup initializes isolated failing inputs; execution uses DesktopAgent/Planner/Jev and native actions with a scoped combo-field transport. File scoring requires preserved content, target formatting and a save after execution starts.
 
-The real run is blocked before task execution: all three permission preflights pass, but the current console reports a lock and loginwindow is foreground. Planned 3, started 0, blocked 3, scores null. No model or Office task action ran. Both platforms pass 373 regression tests, including 18 pilot tests. A one-off owned-fixture PID-event probe had no verified business effect; no production input guard or security policy was weakened.
-
-The pilot is runnable software but has not completed actual Office execution. After an interactive desktop is available, run a fresh workspace and diagnose task failures. Automatic visual fallback, Office coverage repairs, original VLM execution and full official environment integration remain pending. Outgoing mail and alternate office suites are excluded.
+The latest unlocked-session run stopped on Word post-input verification, Excel pre-input foreground/window refusal and PowerPoint decision confidence. A separate scripted Excel probe passed two replacements and saved-artifact checks using the earlier OCR route; it is not an Agent task success or validation of the latest native-bounds route. Round 3 had concurrent fixture activity; code changed between rounds. Host tests pass 403/403; Windows remains at its prior 373/373. Original VLM judging and official environment integration remain pending. Next: isolate these failures and rerun the full pilot. See [live evidence](evidence/2026-10-08-office-live/README.md).

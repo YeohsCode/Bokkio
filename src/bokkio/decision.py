@@ -41,16 +41,21 @@ def options(snapshot, values, *, include_selected=False):
     value_targets = set()
     native_targets = set()
     for node in flatten(snapshot["windows"]):
-        if node["state"].get("enabled") is False or node["state"].get("visible") is False:
+        readonly_selection=(node['platform']=='macos' and node['role'] in {'text_area','text_field'}
+                            and node['platform_data'].get('mac_unique_identity')
+                            and 'select_text' in node['platform_data'].get('mac_verified_actions',[]))
+        if (node["state"].get("enabled") is False and not readonly_selection) or node["state"].get("visible") is False:
             continue
         identity = node["platform_data"].get("value_runtime_id")
         ambiguous = node["platform_data"].get("ambiguous_ref_identity")
         verified_actions = node['platform_data'].get('verified_native_actions', [])
-        if ambiguous and not identity and not verified_actions:
+        mac_actions=node['platform_data'].get('mac_verified_actions',[]) if node['platform_data'].get('mac_unique_identity') else []
+        if ambiguous and not identity and not verified_actions and not mac_actions:
             continue
         for action in node["actions"]:
-            if ambiguous and not (action in {"set_value","submit"} and identity) and action not in verified_actions: continue
-            if action not in {"click", "focus", "select", "expand", "collapse", "type", "set_value", "scroll", "submit"}:
+            if node['state'].get('enabled') is False and action!='select_text':continue
+            if ambiguous and not (action in {"set_value","submit"} and identity) and action not in verified_actions and action not in mac_actions: continue
+            if action not in {"click", "focus", "select", "select_text", "expand", "collapse", "type", "set_value", "scroll", "submit"}:
                 continue
             if action == "expand" and node["state"].get("expanded") is True:
                 continue
@@ -60,7 +65,7 @@ def options(snapshot, values, *, include_selected=False):
                 continue
             if action == "select" and node["state"].get("selected") is True and not include_selected:
                 continue
-            variants = [{"value": v} for v in values] if action in {"type", "set_value"} else [{"value": None}]
+            variants = [{"value": v} for v in values if action!='select_text' or (isinstance(node['value'],str) and v and node['value'].count(v)==1)] if action in {"type", "set_value", "select_text"} else [{"value": None}]
             if action in {"set_value","submit"} and identity:
                 key = (action,node["platform_data"].get("value_scope_hwnd"), tuple(identity))
                 if key in value_targets: continue
@@ -93,7 +98,8 @@ def options(snapshot, values, *, include_selected=False):
 
 
 ACTION_DESCRIPTIONS = {
-    "submit": "Commit the current Explorer address or inline rename field using a foreground-focus-bound Enter key. Use only when the goal requests submitting/confirming the entered value; it does not replace text.",
+    "select_text": "Select exactly one occurrence of an allowed literal in the current native text value; preserves text. Verify selected_text, not selected state.",
+    "submit": "Confirm an observed field using its advertised native confirmation capability (Mac AXConfirm or foreground-bound Explorer Enter). Use when the goal requests committing the entered value; it does not replace text.",
     "click": "Activate a button or invoke a control. For opening an expandable control prefer expand.",
     "focus": "Give keyboard focus when the goal explicitly requests focus. Native value replacement does not require a focus step.",
     "set_value": "Replace the entire field value directly with an allowed literal using native ValuePattern/AX. This works without prior focus. Use this when the goal specifies what a field should contain.",
@@ -346,6 +352,30 @@ def decide(provider: DecisionProvider, goal: str, snapshot: dict[str, Any], valu
             if len(direct)!=1:
                 raise BokkioError('Selection requires one uniquely actionable native row matching its explicit success condition')
             choices={k:c for k,c in choices.items() if k==direct[0] or c['action']=='done'}
+    if marker:
+        try: checks=json.loads(encoded)
+        except ValueError: checks=[]
+        selection=[c for c in checks if isinstance(c,dict) and c.get('field')=='selected_text' and isinstance(c.get('equals'),str)]
+        if len(selection)==1:
+            condition=selection[0];observed={n['ref']:n for n in flatten(snapshot['windows'])}
+            direct=[token for token,choice in choices.items() if choice['action']=='select_text'
+                    and choice['value']==condition['equals'] and observed[choice['ref']]['role']==condition['role']
+                    and (condition.get('name') is None or observed[choice['ref']]['name']==condition['name'])]
+            if len(direct)==1:choices={direct[0]:choices[direct[0]]}
+        radios=[c for c in checks if isinstance(c,dict) and c.get('role')=='radio_button' and c.get('field')=='checked' and c.get('equals') is True]
+        if len(radios)==1:
+            condition=radios[0];observed={n['ref']:n for n in flatten(snapshot['windows'])}
+            direct=[token for token,choice in choices.items() if choice['action']=='select'
+                    and observed[choice['ref']]['role']=='radio_button' and observed[choice['ref']]['name']==condition.get('name')
+                    and (condition.get('parent_name') is None or observed.get(observed[choice['ref']]['parent'],{}).get('name')==condition['parent_name'])]
+            if len(direct)==1:choices={direct[0]:choices[direct[0]]}
+    if re.search(r'\b(?:submit|confirm|commit)\b',intent,re.I):
+        observed={n['ref']:n for n in flatten(snapshot['windows'])}
+        direct=[token for token,choice in choices.items() if choice['action']=='submit'
+                and observed[choice['ref']]['platform']=='macos'
+                and isinstance(observed[choice['ref']]['name'],str)
+                and observed[choice['ref']]['name'].casefold().rstrip(':') in intent.casefold()]
+        if len(direct)==1:choices={direct[0]:choices[direct[0]]}
     if not choices:
         if narrow:
             # A short name such as Name can match the requested setting text

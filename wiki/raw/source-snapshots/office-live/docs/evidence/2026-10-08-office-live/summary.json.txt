@@ -1,0 +1,122 @@
+---
+source_path: docs/evidence/2026-10-08-office-live/summary.json
+source_version: working-tree
+ingested: 2026-10-09
+sha256: b30668a92a8387fcf52cf7b27fd780473ff7ce2f21fae38fd3cab309b9aef83f
+---
+
+{
+  "scope": "adapted_WindowsWorld_Office_on_macOS",
+  "rounds": [
+    {
+      "round": 1,
+      "started": 3,
+      "passed": 0,
+      "status": "completed",
+      "input_mode": "native_AX",
+      "concurrent_fixture_probe": false,
+      "report": "round-1/run.json"
+    },
+    {
+      "round": 2,
+      "started": 3,
+      "passed": 0,
+      "status": "completed",
+      "input_mode": "native_AX",
+      "concurrent_fixture_probe": false,
+      "report": "round-2/run.json"
+    },
+    {
+      "round": 3,
+      "started": 3,
+      "passed": 0,
+      "status": "completed",
+      "input_mode": "native_AX",
+      "concurrent_fixture_probe": true,
+      "report": "round-3/run.json"
+    },
+    {
+      "round": 4,
+      "started": 3,
+      "passed": 0,
+      "status": "completed",
+      "input_mode": "native_AX",
+      "concurrent_fixture_probe": false,
+      "report": "round-4/run.json"
+    },
+    {
+      "round": 5,
+      "started": 3,
+      "passed": 0,
+      "status": "completed",
+      "input_mode": "native_AX",
+      "concurrent_fixture_probe": false,
+      "report": "round-5/run.json"
+    },
+    {
+      "round": 6,
+      "started": 3,
+      "passed": 0,
+      "status": "completed",
+      "input_mode": "native_AX",
+      "concurrent_fixture_probe": false,
+      "report": "round-6/run.json"
+    },
+    {
+      "round": 7,
+      "started": 3,
+      "passed": 0,
+      "status": "completed",
+      "input_mode": "native_AX",
+      "concurrent_fixture_probe": false,
+      "report": "round-7/run.json"
+    },
+    {
+      "round": 8,
+      "started": 3,
+      "passed": 0,
+      "status": "completed",
+      "input_mode": "native_plus_bound_field_input",
+      "concurrent_fixture_probe": false,
+      "report": "round-8/run.json"
+    },
+    {
+      "round": 9,
+      "started": 3,
+      "passed": 0,
+      "status": "completed",
+      "input_mode": "native_plus_bound_field_input",
+      "concurrent_fixture_probe": false,
+      "report": "round-9/run.json"
+    },
+    {
+      "round": 10,
+      "started": 3,
+      "passed": 0,
+      "status": "completed",
+      "input_mode": "native_plus_bound_field_input",
+      "concurrent_fixture_probe": false,
+      "report": "round-10/run.json"
+    }
+  ],
+  "official_score": false,
+  "historical_failures_retained": true,
+  "latest_worktree_sources": {
+    "src/bokkio/agent.py": "bdedb74790c9400b96c5fca01e2db3516c194c173fffcdc8ab16460b7702d170",
+    "src/bokkio/planner.py": "f9730f3fa0e36db2375d7a709d760787ad943139899a4bed456214fa4041f5ae",
+    "src/bokkio/decision.py": "d5541685c9bcedb397a06fe9d8ce4f81c17e19da38d4100a7d31d450988dab0b",
+    "src/bokkio/xa11y_backend.py": "b5595eaf327117ffdfa4525ec93c3cb21af087f941d5195c98c2286ae03b65ac",
+    "src/bokkio/office_runner.py": "8a6c9d2442b7fd2c50398e2f5966ce823d7ecb6801c27cd9c319fce4b8832221",
+    "src/bokkio/macos_ax.py": "14dd6125097a6e28c37f0d8df4996bdbb75cae0e42a3ea5ad88653cb4cfa166f",
+    "src/bokkio/macos_activation.py": "4584b48d183b8d00f75d675d6cc1d87cbc44bbd0fcea7daa21d8e713a03bd152",
+    "src/bokkio/office_visual.py": "a1dff0e58df13cccdef382f60c98835165fe568330ec89dbae3ffeb1e518bd27",
+    "src/bokkio/visual_input.py": "d1cb81d12bfb9f7ef7ead67d13466a291206706b5bc03eb83b29f788410ee251",
+    "src/bokkio/native/macos_activate.swift": "746c045a24c7f3d4dfff9fb7d37d77daf2aace70c527d11dd061fedd45df2fe0",
+    "src/bokkio/native/macos_capture.swift": "ac09d3e308106bd4cf9e076a2577b529681dddc937c2ec544f4172decaa8d959"
+  },
+  "updated": "2026-10-09",
+  "total_task_executions": 30,
+  "total_artifact_passes": 0,
+  "development_runs_not_comparable": true,
+  "latest_round": 10
+}

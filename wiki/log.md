@@ -1,7 +1,7 @@
 ---
 title: Bokkio Wiki Log
 created: 2026-10-08
-updated: 2026-10-08
+updated: 2026-10-09
 type: meta
 tags: [meta, maintenance]
 sources: [docs/STATUS.md]
@@ -102,3 +102,28 @@ confidence: high
 - 技能 lint：25 个Markdown文件，22个编译页，110条已解析链接，0孤立页/0断链/必需frontmatter通过。
 - 附加检查：42份来源body哈希、39个来源文件引用、索引、标签、200行阈值和来源行号均通过。
 - 待审阅项：[[entities/office-pilot]] contested，真实executor调用与Agent构造签名不一致，未在本次知识库任务中修复。
+
+## [2026-10-08] refresh | Mac desktop recovery and executor repair
+
+- 更新5个状态/Office/权限页面及索引；保留旧blocked证据和旧raw来源。
+- 新证据：Mac会话解锁，原生fixture动作3/3及12次滚动通过，三个Office文档窗口可读；新工作区可尝试，未执行题目。
+- Office executor改final_verifier，新增真实DesktopAgent构造路径测试；主机374/374。
+- 追加working-tree来源快照，以body SHA-256标识版本；不会把未提交状态标记成历史commit。
+
+## [2026-10-08] lint | Recovery refresh clean
+
+- 25页、110条解析链接，零孤立页/断链；50份raw正文哈希及全部来源行号有效。
+- Office constructor review flag已解除；题目成功与P7视觉输入验收仍待实跑。
+
+## [2026-10-09] refresh | Office live runs and bounded input
+
+- 更新6个Office/状态/权限/输入页面及索引，追加来源版本，不改旧raw。
+- 十轮共30次原题执行，各轮独立评分0/3；第三轮并发干扰和各轮代码变化保留。
+- 最新解锁会话失败是Word派发后确认、Excel输入前守卫、PPT置信度；不再写“未开始”。
+- 较早OCR版本Excel脚本探针通过，明确不是Agent成绩或最新native-bounds验收。主机403/403，Windows历史373/373。
+
+## [2026-10-09] lint | Live-run refresh validated
+
+- 25个Markdown页面、110条解析链接，零孤立页/断链；69份不可变来源正文哈希、来源行号和两份证据SHA256SUMS通过。
+- 全工作树隐私扫描的24项命中均为历史WAA runner去重请求UUID，来源arena.py的uuid4().hex；没有凭据命中。
+- 主机403项回归通过；保留Office0/3与较早OCR脚本探针的证据范围。

@@ -1,0 +1,11 @@
+{
+  "ready": false,
+  "session_available": true,
+  "session_locked": true,
+  "permissions": {
+    "ax": true,
+    "capture": true,
+    "events": true
+  },
+  "reason": "interactive_session_unavailable"
+}

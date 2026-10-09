@@ -1,0 +1,17 @@
+{
+  "host_tests": {
+    "passed": 374,
+    "failed": 0
+  },
+  "office_tests": {
+    "passed": 19,
+    "failed": 0
+  },
+  "office_constructor_unsupported_kwargs": [],
+  "benchmark_tasks_started": 0,
+  "source_sha256": {
+    "src/bokkio/office_runner.py": "e7af22af550872f974266ab6d12566fa8bf984b1aaab029d2026fa66d36cbb45",
+    "tests/test_office_benchmark.py": "15d436cfb0aa25e57eea64f336a284b100067fc4fa7ea3a7854a94ebc42cfe9c",
+    "scripts/verify_macos_controls.py": "10c5ef9b675fd685593ee26bd9ec87b2aa4fc1d5760b239d500ca1bb4d71b516"
+  }
+}

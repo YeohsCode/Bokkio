@@ -1,41 +1,47 @@
 # 总体进度 / Overall status
 
-更新：2026-10-08。**P6 的 Windows 原生验收已完成；当前在 P7 的部分实现与验收阶段。Office 原题 pilot 软件链路已准备，实际任务尚未开始。**
+更新：2026-10-09。**P6 Windows 原生验收完成，当前处于 P7 部分实现与验收阶段。Office 原题已实际执行十轮，最新三题独立评分 0/3。**
 
 ## 阶段位置
 
 | 阶段 | 当前交付与验收 |
 |---|---|
-| P0–P3：环境、元素模型、跨平台原生 Runtime | 基础实现与开发环境读取/动作验收已完成；应用与稳定性覆盖继续扩展 |
-| P4：Jev 局部决策 | 真实模型、难例与大树开发样本已有验收；通用应用覆盖仍待扩展 |
-| P5：规划与跨应用执行 | 已实现，Windows 阶段恢复/文件交付/需求修订通过；Mac 有历史 fixture 对照，当前 AX 读取复查失败 |
-| P6：Recorder / Workflow | Windows 原计划验收完成；Mac 基础重放对照通过，文件合约与跨进程扩展待完成 |
-| P7.1：截图与坐标 | Mac 包/CLI 已接入，原生图像/身份/坐标验证通过；Windows 接口与 fixture 已实现，实机像素验收待完成 |
-| P7.2：OCR / 视觉候选 | Mac 本机 Vision 与唯一候选定位通过；自动 Agent 降级、Windows OCR 仍未接入 |
-| P7.3：有界输入 | Mac 执行器代码已实现，前置拒绝确认零派发；真实点击/输入尚未通过，Windows 视觉输入待实现 |
-| P7.4–P7.5：可靠性与持续回归 | 部分取消/身份/时效/未知完成拒绝已有隔离测试；完整故障、恢复和跨平台端到端验收待完成 |
+| P0–P3：环境、元素模型、原生 Runtime | 基础实现与 Windows/macOS 开发环境验收完成；应用与稳定性覆盖继续扩展 |
+| P4：Jev 局部决策 | 真实模型、难例与大树开发样本已有验收；通用应用覆盖待扩展 |
+| P5：规划与跨应用执行 | Windows 阶段恢复、文件交付与需求修订通过；Mac 原生 fixture 通过，Office Agent 全任务尚未通过 |
+| P6：Recorder / Workflow | Windows 原计划验收完成；Mac 基础重放通过，文件合约与跨进程扩展待完成 |
+| P7.1：截图与坐标 | Mac 包/CLI 与原生图像验收通过；Windows 接口与 fixture 已实现，实机像素验收待完成 |
+| P7.2：OCR / 视觉候选 | Mac Vision 与唯一候选验收通过；Office runner 接入限定字段输入，通用 Planner/Jev/Workflow 自动降级待实现 |
+| P7.3：有界输入 | Excel 脚本探针确认两次替换及保存产物；最新 Agent 路径仍有零派发拒绝和派发后未知完成，Windows 输入待实现 |
+| P7.4–P7.5：可靠性与持续回归 | 已覆盖部分取消、身份、时效与未知完成拒绝；完整故障恢复和跨平台端到端验收待完成 |
 
-阶段完成度按验收范围报告，不把 373 项隔离测试或截图通过换算成通用 Computer Use 成功率。
+阶段按实际验收范围报告；单元测试和脚本探针不换算成通用 Computer Use 成功率。
 
-## 最新证据
+## 最新结果
 
-- 主机和 Windows 最新隔离回归各 **373/373**。
-- Mac 截图/OCR Runtime：三个独立自绘窗口流程 **3/3**，八类拒绝 **8/8**，CLI 及包内 Swift helper 验证通过。
-- Mac 有界输入：实机 `input_desktop_unavailable`，`dispatched=0`；当前可继续截图、OCR、代码和评分开发。
-- WindowsWorld 原题：固定提交与三道 Word/Excel/PowerPoint L1 题目，隔离初始化、原生 runner、只读 OOXML 评分及原始 VLM 入口已落地。实际报告 **planned 3 / started 0 / blocked 3，评分为空**。
-- 原题任务执行与原始 VLM judge 均未运行；没有官方榜单成绩。Office CUA 兼容性测试、初始化负例、单元测试与 Bokkio 任务成绩分别保留。
+- 主机隔离回归 **403/403**；Windows 历史回归 **373/373**，本轮未重跑 Windows。
+- Mac 恢复检查：原生 fixture 三轮通过，12 次滚动通过。第十轮 Office 启动时会话未锁、AX/capture/events 全部通过；该轮失败不能归因于锁屏。
+- 三道固定 WindowsWorld L1 原题，共十轮、30 次任务执行，各轮产物评分均 **0/3**。第三轮与 fixture 探针并发，已标注干扰；各轮代码也有变化，这些是开发诊断记录。
+- 最新 Word：4 次动作尝试，输入派发后确认失败，停止以避免重复输入；Excel：2 次尝试，`input_unavailable` 在输入前拒绝；PowerPoint：0 次动作，决策置信度不足。三题均 blocked，Word/Excel 未验证保存后的目标格式，PPT 目标文件不存在。
+- 独立 Excel 脚本探针完成 D 列选择、Currency 格式及保存，数据保持与货币格式校验通过。它使用较早的 OCR 字段定位版本，不能证明最新原生边界定位路径或 Agent 题目通过。
+- 已修复 executor 构造接口、AXConfirm 派发、同名跨窗口身份、真实前台激活、只读文本选区、下拉确认与弹窗阶段规划。真实任务的剩余失败保留。
+- 原始 VLM judge 未运行，没有官方榜单成绩。
+
+证据：[Office 实跑报告](evidence/2026-10-08-office-live/README.md)、[会话恢复](evidence/2026-10-08-macos-session-recovery/README.md)。
 
 ## 下一步顺序
 
-1. 恢复可用交互会话，先确认 AX/输入前置条件，再实际执行固定三题；按原题和 15 步预算记录全部失败与独立产物结果。
-2. 修复真实 Office 覆盖，接入 Planner/Jev/Workflow 的视觉降级；完成有界输入正向和故障验收。
-3. 完成 Windows 截图/OCR/视觉输入、Mac 多显示器/比例/文件恢复对照，以及 P7 可靠性回归。
-4. 扩展跨应用办公长流程，运行有证据的原始 VLM 评分，再对齐完整上游 runner/环境。
+1. 针对 Word 派发后确认、Excel 前台/窗口拒绝补齐诊断，分别验证字段真实值、保存结果和零派发原因；未知完成先检查当前状态。
+2. 修复 PowerPoint 可执行候选和阶段条件，保持 15 步预算与置信度阈值，完整复跑三题。
+3. 扩展通用视觉降级与 Workflow 重放，完成 Windows 截图/OCR/输入、Mac 文件/进程恢复和 P7 故障验收。
+4. 三题稳定通过后扩展跨应用职业办公流程、原始 VLM 评分和上游环境对齐。
 
-详细剩余项见 [Pending](PENDING.md)。本次交付包括 P7 和 Office pilot 的代码、原始任务及脱敏证据；Windows Office 激活继续暂缓。
+详细剩余项见 [Pending](PENDING.md)。Windows Office 激活继续暂缓。
 
 ## English
 
-Windows P6 acceptance is complete. P7 is partially implemented and under validation. Mac package/CLI capture and local OCR candidates pass 3/3 native flows plus 8/8 rejection cases. Bounded input is coded but real preflight rejects with zero dispatch; positive input and automatic Agent fallback are pending. Windows capture is coded, with live pixel validation and OCR/input pending. Host and Windows each pass 373 isolated tests.
+Windows P6 acceptance is complete. P7 remains partial. Ten development rounds started all three pinned Office tasks (30 executions); every round scored 0/3 on independent artifacts. Round 3 had a concurrent fixture probe, and code changed across rounds. These are diagnostic runs, not an official benchmark score.
 
-Three pinned WindowsWorld Microsoft Office tasks have setup, a native runner, independent artifact scoring and an original VLM judge entry. The actual run is blocked before execution: planned 3, started 0, blocked 3, scores null. No Office task completion or official leaderboard result is claimed. Next: restore an interactive session, run the fixed pilot and repair coverage, connect visual fallback, finish platform/reliability acceptance, then expand professional workflows and upstream integration. See the [pending list](PENDING.md).
+The latest unlocked-session run stopped on Word post-input verification, Excel pre-input window/foreground refusal, and PowerPoint decision confidence. A separate scripted Excel probe confirmed two replacements and the saved currency format using an earlier OCR route; it does not establish Agent success or acceptance of the latest native-bounds transport. Host regression passes 403/403; Windows remains at its historical 373/373.
+
+Next: isolate those three failures, obtain full artifact-verified pilot completions, then finish general visual fallback, platform/reliability acceptance and professional cross-app workflows. See the [pending list](PENDING.md) and [live report](evidence/2026-10-08-office-live/README.md).

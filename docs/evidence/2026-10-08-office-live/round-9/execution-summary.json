@@ -1,0 +1,93 @@
+[
+  {
+    "task_id": "win_adm_l1_003",
+    "status": "blocked",
+    "actions": 6,
+    "replans": 1,
+    "phases": 2,
+    "final_reason": "set_value failed for a9959482ef1948075230: Office visual replacement requires one verified writable visible combo",
+    "trace_sha256": "2015593db8d81d1eaf477c3bfe123360fb742013eda9ea1846c080677556cbff",
+    "error_count": 2,
+    "action_receipts": [
+      {
+        "action": "select_text",
+        "role": "text_area",
+        "target": "Page 1 content",
+        "verification": "confirmed",
+        "action_source": "AXSelectedTextRange",
+        "confirmation_posted": false
+      },
+      {
+        "action": "expand",
+        "role": "combo_box",
+        "target": "Styles",
+        "verification": "confirmed",
+        "action_source": "AXShowMenu",
+        "confirmation_posted": false
+      },
+      {
+        "action": "select",
+        "role": "radio_button",
+        "target": "Heading 1",
+        "verification": "unconfirmed",
+        "action_source": null,
+        "confirmation_posted": false
+      },
+      {
+        "action": "select_text",
+        "role": "text_area",
+        "target": "Page 1 content",
+        "verification": "confirmed",
+        "action_source": "AXSelectedTextRange",
+        "confirmation_posted": false
+      }
+    ]
+  },
+  {
+    "task_id": "win_acc_l1_001",
+    "status": "blocked",
+    "actions": 2,
+    "replans": 1,
+    "phases": 0,
+    "final_reason": "set_value failed for eeadea4cc955d9d0b132: Office visual replacement refused before input: input_unavailable",
+    "trace_sha256": "d6acf0a644773cf3352f4d597c82442194aca740e609f5d48626d29d75bb86f6",
+    "error_count": 2,
+    "action_receipts": []
+  },
+  {
+    "task_id": "win_pro_l1_003",
+    "status": "blocked",
+    "actions": 3,
+    "replans": 1,
+    "phases": 0,
+    "final_reason": "Native UI returned to an earlier state without satisfying this subtask. Repair conflicting success conditions or the action route; do not repeat this cycle.",
+    "trace_sha256": "c34f7693cc35b30394a3e6f968add515bd66e74be47e6f7e645932f5417e8d38",
+    "error_count": 2,
+    "action_receipts": [
+      {
+        "action": "click",
+        "role": "button",
+        "target": "Save",
+        "verification": "observed",
+        "action_source": "AXPress",
+        "confirmation_posted": false
+      },
+      {
+        "action": "click",
+        "role": "button",
+        "target": "Save",
+        "verification": "observed",
+        "action_source": "AXPress",
+        "confirmation_posted": false
+      },
+      {
+        "action": "click",
+        "role": "button",
+        "target": "Save",
+        "verification": "observed",
+        "action_source": "AXPress",
+        "confirmation_posted": false
+      }
+    ]
+  }
+]

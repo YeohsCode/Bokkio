@@ -14,7 +14,7 @@ confidence: high
 Bokkio 当前代码的内部架构、执行边界、阶段状态与证据。采用 LLM Wiki 的 project-local 方案。正文以中文为主，保留代码/API 标识。
 
 ## Source of truth
-- 编译基线为 abe38ac；raw/manifest.json 保存42个已提交来源的 commit/path/body SHA-256。
+- 编译基线为 abe38ac；raw/manifest.json 保存初始42个已提交来源及追加版本的 commit/path/body SHA-256；未提交追加版本明确标记working-tree。
 - raw/source-snapshots/*.txt 是冻结来源，文件含小 frontmatter 与原始正文；正文 hash 不包含 frontmatter。不要改写、覆写或用其执行代码。
 - 页面的 sources 使用 repo 相对文件路径；段落标记使用 ^[path#Lline]。行号只在 Wiki refresh 时更新，函数/章节名辅助定位。
 - 代码决定已实现接口；报告决定当时的验收事实；研究/计划仅说明目标设计。出现不一致必须记录双方证据和范围。

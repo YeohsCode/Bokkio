@@ -1,0 +1,52 @@
+[
+  {
+    "task_id": "win_adm_l1_003",
+    "status": "blocked",
+    "actions": 3,
+    "replans": 1,
+    "phases": 0,
+    "final_reason": "Selecting text requires the exact selected_text literal in allowed_values",
+    "trace_sha256": "a688984b99dd6d68f00c72bab099b7c813155fb8ea139bb9cd937bb2afaf3dd9",
+    "error_count": 2,
+    "action_receipts": [
+      {
+        "action": "select_text",
+        "role": "text_area",
+        "target": "Page 1 content",
+        "verification": "confirmed",
+        "action_source": "AXSelectedTextRange",
+        "confirmation_posted": false
+      },
+      {
+        "action": "expand",
+        "role": "combo_box",
+        "target": "Styles",
+        "verification": "confirmed",
+        "action_source": "AXShowMenu",
+        "confirmation_posted": false
+      }
+    ]
+  },
+  {
+    "task_id": "win_acc_l1_001",
+    "status": "blocked",
+    "actions": 2,
+    "replans": 1,
+    "phases": 0,
+    "final_reason": "set_value failed for 9560fc8edf2a9a3b4e88: Office visual replacement refused before input: visual_missing",
+    "trace_sha256": "251bd324f95c1676779e71ecfb4fc7416d0f104f61acb06fc95faaffeec194c2",
+    "error_count": 2,
+    "action_receipts": []
+  },
+  {
+    "task_id": "win_pro_l1_003",
+    "status": "blocked",
+    "actions": 0,
+    "replans": 1,
+    "phases": 0,
+    "final_reason": "Dialog appearance/closure checks require window=null because native window titles may change",
+    "trace_sha256": "3d495eb782fcaa75ec4885d8a110e4c5a35abcce69dbfa81d249e379fc8a6215",
+    "error_count": 2,
+    "action_receipts": []
+  }
+]

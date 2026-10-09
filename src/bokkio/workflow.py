@@ -68,7 +68,9 @@ def resolve(snapshot, selector, action):
             named=lambda rows:[a for a in rows if a['name'] is not None]
             if named(actual)!=named(selector['ancestors']):return False
         capability = 'click' if action == 'invoke' else action
-        return capability in node['actions'] and node['state'].get('enabled') is not False
+        readonly_selection=(action=='select_text' and node['platform']=='macos' and node['role'] in {'text_field','text_area'}
+                            and node['platform_data'].get('mac_unique_identity') and action in node['platform_data'].get('mac_verified_actions',[]))
+        return capability in node['actions'] and (node['state'].get('enabled') is not False or readonly_selection)
     candidates=[n for n in nodes if matches(n)]
     # A remembered ref cannot disambiguate newly indistinguishable duplicates.
     if len(candidates)!=1:
@@ -83,13 +85,13 @@ def resolve(snapshot, selector, action):
 def auto_checks(result):
     node=result.get('after');action=result['action']
     if not node:return []
-    fields={'set_value':'value','type':'value','focus':'focused','select':'selected',
+    fields={'set_value':'value','type':'value','select_text':'selected_text','focus':'focused','select':'selected',
             'expand':'expanded','collapse':'expanded'}
     field=fields.get(action)
     if action=='select' and node['role']=='radio_button':field='checked'
     if field is None:return []
     wanted=(result.get('postcondition',{}).get('expected',node.get('value'))
-            if field=='value' else action!='collapse')
+            if field in {'value','selected_text'} else action!='collapse')
     if wanted in {'on','off'} and field=='checked':wanted=wanted=='on'
     if wanted is None:return []
     return [{'role':node['role'],'name':node['name'],'parent_name':None,
@@ -110,11 +112,11 @@ def validate_checks(checks):
         if not isinstance(c,dict) or set(c)-{'role','name','parent_name','field','equals'}:
             raise BokkioError('Invalid workflow condition')
         if not isinstance(c.get('role'),str) or c.get('field') not in {
-                'present','name','value','checked','selected','focused','expanded','enabled','active'}:
+                'present','name','value','selected_text','checked','selected','focused','expanded','enabled','active'}:
             raise BokkioError('Invalid workflow condition field')
         if 'equals' not in c or 'name' not in c:raise BokkioError('Incomplete workflow condition')
-        if c['field'] in {'name','value'} and not isinstance(c['equals'],str):raise BokkioError('Workflow text conditions require strings')
-        if c['field'] not in {'name','value'} and type(c['equals']) is not bool:
+        if c['field'] in {'name','value','selected_text'} and not isinstance(c['equals'],str):raise BokkioError('Workflow text conditions require strings')
+        if c['field'] not in {'name','value','selected_text'} and type(c['equals']) is not bool:
             raise BokkioError('Workflow state conditions require boolean values')
         if c.get('name') is not None and not isinstance(c['name'],str):raise BokkioError('Invalid condition name')
         if c.get('parent_name') is not None and not isinstance(c['parent_name'],str):raise BokkioError('Invalid condition parent')
@@ -153,9 +155,9 @@ def _validate_literal(workflow):
         if t.get('fallback') not in {None,'named_context'}:raise BokkioError('Invalid selector fallback')
         if t.get('fallback')=='named_context' and not any(a['role'] in {'window','dialog'} and a['name'] for a in t['ancestors']):raise BokkioError('Named-context fallback requires a named window anchor')
         if SENSITIVE.search(t['name'] or ''):raise BokkioError('Sensitive native target cannot be replayed')
-        args=s['arguments'];allowed={'value','expected_value'} if s['action'] in {'type','set_value'} else ({'direction','amount'} if s['action']=='scroll' else set())
+        args=s['arguments'];allowed={'value','expected_value'} if s['action'] in {'type','set_value'} else ({'value'} if s['action']=='select_text' else {'direction','amount'} if s['action']=='scroll' else set())
         if not isinstance(args,dict) or set(args)-allowed:raise BokkioError('Invalid workflow action arguments')
-        if s['action'] in {'type','set_value'} and not isinstance(args.get('value'),str):raise BokkioError('Text action requires literal value')
+        if s['action'] in {'type','set_value','select_text'} and not isinstance(args.get('value'),str):raise BokkioError('Text action requires literal value')
         if 'expected_value' in args and (s['action']!='type' or not isinstance(args['expected_value'],str)):raise BokkioError('Invalid type readback')
         if s['action']=='scroll':
             amount=args.get('amount',0.25)
@@ -217,7 +219,7 @@ class Recorder:
             raise BokkioError('Recording verification must contain explicit conditions')
         allowed={'ref','role','name','parent','value','direction','amount','expected_value'}
         if set(arguments)-allowed:raise BokkioError('Unsupported recording arguments')
-        if action not in {'type','set_value','select','focus','expand','collapse'} and not verify:
+        if action not in {'type','set_value','select_text','select','focus','expand','collapse'} and not verify:
             raise BokkioError('Recording requires explicit business verification for this action')
         native=self.bindings[app];before=self.backend.snapshot(native)
         from .selector import choose
@@ -261,7 +263,7 @@ class Recorder:
         self.events.append({'before':before,'result':result,'after':after,'checks':details,'passed':passed,'source':'native_client_receipt'})
         if not passed:raise BokkioError('Captured action verification failed')
         args={};wait=[]
-        if action in {'type','set_value'}:
+        if action in {'type','set_value','select_text'}:
             expected=result.get('postcondition',{}).get('expected')
             if not isinstance(expected,str):raise BokkioError('Captured text action lacks a verified requested value')
             args={'value':expected}

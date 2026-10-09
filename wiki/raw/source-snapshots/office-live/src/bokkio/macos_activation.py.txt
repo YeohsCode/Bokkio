@@ -1,0 +1,39 @@
+---
+source_path: src/bokkio/macos_activation.py
+source_version: working-tree
+ingested: 2026-10-09
+sha256: 4584b48d183b8d00f75d675d6cc1d87cbc44bbd0fcea7daa21d8e713a03bd152
+---
+
+"""Activate one exact authorized Mac document window; confirm actual foreground."""
+import hashlib
+import json
+import os
+from pathlib import Path
+import subprocess
+import tempfile
+from .model import BokkioError
+
+
+def activate_window(pid,title):
+    if type(pid) is not int or not 0<pid<=0x7fffffff or not isinstance(title,str) or not title or len(title)>1024:
+        raise BokkioError('Activation requires an exact PID and window title')
+    source=Path(__file__).parent/'native/macos_activate.swift'
+    digest=hashlib.sha256(source.read_bytes()).hexdigest()
+    cache=Path.home()/'Library/Caches/Bokkio/native/activation'/digest
+    cache.mkdir(parents=True,exist_ok=True,mode=0o700)
+    helper=cache/'activate'
+    if not helper.is_file():
+        fd,name=tempfile.mkstemp(prefix='build-',dir=cache);os.close(fd)
+        try:
+            result=subprocess.run(['xcrun','swiftc','-framework','Cocoa',str(source),'-o',name],capture_output=True,timeout=60)
+            if result.returncode:raise BokkioError('Mac activation helper compilation failed')
+            os.chmod(name,0o700);os.replace(name,helper)
+        finally:Path(name).unlink(missing_ok=True)
+    try:
+        result=subprocess.run([str(helper)],input=json.dumps({'pid':pid,'title':title}).encode(),capture_output=True,timeout=5)
+        receipt=json.loads(result.stdout)
+    except (OSError,ValueError,subprocess.TimeoutExpired):raise BokkioError('Mac foreground activation is unconfirmed') from None
+    if result.returncode or receipt.get('status')!='activated' or receipt.get('pid')!=pid or receipt.get('title')!=title or receipt.get('foreground_confirmed') is not True:
+        raise BokkioError('Mac foreground activation failed: '+str(receipt.get('error','invalid_receipt')))
+    return receipt

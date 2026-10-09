@@ -1,0 +1,51 @@
+---
+source_path: docs/STATUS.md
+source_version: working-tree
+ingested: 2026-10-08
+sha256: cffbd0b8a9b94367121ece1999aca1cf9ee1778b025d52264814c416bd1eead8
+---
+
+# 总体进度 / Overall status
+
+更新：2026-10-08。**P6 的 Windows 原生验收已完成；当前在 P7 的部分实现与验收阶段。Office 原题 pilot 软件链路已准备，实际任务尚未开始。**
+
+## 阶段位置
+
+| 阶段 | 当前交付与验收 |
+|---|---|
+| P0–P3：环境、元素模型、跨平台原生 Runtime | 基础实现与开发环境读取/动作验收已完成；应用与稳定性覆盖继续扩展 |
+| P4：Jev 局部决策 | 真实模型、难例与大树开发样本已有验收；通用应用覆盖仍待扩展 |
+| P5：规划与跨应用执行 | 已实现，Windows 阶段恢复/文件交付/需求修订通过；Mac 有历史 fixture 对照，本轮交互会话与原生动作复查通过，Office任务验收待跑 |
+| P6：Recorder / Workflow | Windows 原计划验收完成；Mac 基础重放对照通过，文件合约与跨进程扩展待完成 |
+| P7.1：截图与坐标 | Mac 包/CLI 已接入，原生图像/身份/坐标验证通过；Windows 接口与 fixture 已实现，实机像素验收待完成 |
+| P7.2：OCR / 视觉候选 | Mac 本机 Vision 与唯一候选定位通过；自动 Agent 降级、Windows OCR 仍未接入 |
+| P7.3：有界输入 | Mac 执行器代码已实现，前置拒绝确认零派发；真实点击/输入尚未通过，Windows 视觉输入待实现 |
+| P7.4–P7.5：可靠性与持续回归 | 部分取消/身份/时效/未知完成拒绝已有隔离测试；完整故障、恢复和跨平台端到端验收待完成 |
+
+阶段完成度按验收范围报告，不把 373 项隔离测试或截图通过换算成通用 Computer Use 成功率。
+
+## 最新证据
+
+- 本轮主机隔离回归 **374/374**；Windows历史回归 **373/373**。
+- Mac交互桌面恢复后：session_locked=false、权限全部通过，自有fixture动作3/3、12次滚动通过；三个Office合成输入窗口原生可读。Office executor接口修复并覆盖真实构造路径。见[恢复证据](evidence/2026-10-08-macos-session-recovery/README.md)。
+- Mac 截图/OCR Runtime：三个独立自绘窗口流程 **3/3**，八类拒绝 **8/8**，CLI 及包内 Swift helper 验证通过。
+- Mac 有界输入：实机 `input_desktop_unavailable`，`dispatched=0`；当前可继续截图、OCR、代码和评分开发。
+- WindowsWorld 原题：固定提交与三道 Word/Excel/PowerPoint L1 题目，隔离初始化、原生 runner、只读 OOXML 评分及原始 VLM 入口已落地。实际报告 **planned 3 / started 0 / blocked 3，评分为空**。
+- 原题任务执行与原始 VLM judge 均未运行；没有官方榜单成绩。Office CUA 兼容性测试、初始化负例、单元测试与 Bokkio 任务成绩分别保留。
+
+## 下一步顺序
+
+1. Mac交互会话与原生输入已复查通过，在新工作区实际执行固定三题；按原题和 15 步预算记录全部失败与独立产物结果。
+2. 修复真实 Office 覆盖，接入 Planner/Jev/Workflow 的视觉降级；完成有界输入正向和故障验收。
+3. 完成 Windows 截图/OCR/视觉输入、Mac 多显示器/比例/文件恢复对照，以及 P7 可靠性回归。
+4. 扩展跨应用办公长流程，运行有证据的原始 VLM 评分，再对齐完整上游 runner/环境。
+
+详细剩余项见 [Pending](PENDING.md)。本次交付包括 P7 和 Office pilot 的代码、原始任务及脱敏证据；Windows Office 激活继续暂缓。
+
+## English
+
+Windows P6 acceptance is complete. P7 is partially implemented and under validation. Mac package/CLI capture and local OCR candidates pass 3/3 native flows plus 8/8 rejection cases. Bounded input is coded but real preflight rejects with zero dispatch; positive input and automatic Agent fallback are pending. Windows capture is coded, with live pixel validation and OCR/input pending. Host and Windows each pass 373 isolated tests.
+
+Three pinned WindowsWorld Microsoft Office tasks have setup, a native runner, independent artifact scoring and an original VLM judge entry. The earlier run was blocked before execution: planned 3, started 0, blocked 3, scores null. No Office task completion or official leaderboard result is claimed. Next: restore an interactive session, run the fixed pilot and repair coverage, connect visual fallback, finish platform/reliability acceptance, then expand professional workflows and upstream integration. See the [pending list](PENDING.md).
+
+Same-day update: Mac native interactive checks now pass, three isolated Office windows are visible, and executor wiring is fixed. A fresh pilot workspace is ready to attempt; no benchmark task has run yet. Host tests now pass 374/374.

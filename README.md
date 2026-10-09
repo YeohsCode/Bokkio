@@ -24,9 +24,9 @@ Bokkio 源于一个具体需求：在 Windows 和 macOS 上，通过统一接口
 
 ### 当前进展
 
-截至 **2026-10-08**：
+截至 **2026-10-09**：
 
-**总体位置：P6 Windows 验收完成，P7 部分实现。** Mac 截图/OCR Runtime 3/3、拒绝 8/8；真实输入与自动 Agent 降级尚未通过。WindowsWorld Office 原题三题的软件链路已准备，实际 started 0、blocked 3，评分为空。最新主机与 Windows 隔离回归各 **373/373**。
+**总体位置：P6 Windows 验收完成，P7 部分实现。** Office 原题已实跑十轮，各轮独立评分 **0/3**；最新失败为 Word 输入后确认、Excel 输入前窗口/前台拒绝与 PowerPoint 决策置信度不足。独立 Excel 脚本探针完成字段替换和保存校验，完整 Agent 任务与最新字段 transport 尚未通过。主机回归 **403/403**，Windows 历史 **373/373**。见 [实跑报告](docs/evidence/2026-10-08-office-live/README.md)。
 
 完整阶段位置见 [总体进度](docs/STATUS.md)，按优先级执行的剩余项见 [Pending](docs/PENDING.md)。以下保留各阶段的历史验收与对应分母：
 
@@ -59,7 +59,7 @@ Bokkio 源于一个具体需求：在 Windows 和 macOS 上，通过统一接口
 
 **Mac P7 Runtime（同日）：** 截图已接入包与 CLI，本机 Vision OCR 和目标候选定位三轮 3/3、八类拒绝 8/8；两端隔离回归各 355/355。有界输入执行器已实现，但实机前置检查零派发拒绝，点击/输入与自动 Agent 降级尚未验收。见 [报告](docs/P7-MACOS-VISUAL.md)。
 
-**微软 Office 原题 pilot（同日）：** 固定 WindowsWorld 的 Word/Excel/PowerPoint 三道 L1 原题，输入初始化、原生 runner、只读 OOXML 评分和原始 VLM judge 入口已实现；两端回归各 373/373。实际运行在会话前置检查处阻断：三题均未开始、评分为空；原生 Office 编辑与视觉自动降级仍需实测。见 [准备报告](docs/OFFICE-PILOT-READINESS.md)。
+**微软 Office 原题 pilot（2026-10-08–09）：** 固定三道 L1 原题、初始化、原生 runner、独立评分与原始 VLM 入口已实现；早期会话阻断后完成十轮实际执行，各轮 0/3。AXConfirm、只读选区、窗口身份与阶段规划已修复，剩余失败及脚本能力证据分别保留。见 [执行报告](docs/OFFICE-PILOT-READINESS.md)。
 
 当前实现为 **Python + xa11y 0.15.x**，Windows 额外使用 comtypes 读取原生 UIA ValuePattern 与 ScrollPattern；经典对话框 Edit 的文本提交使用已验证的 Win32 编辑消息。后续核心 Runtime 优先考虑 Rust；统一元素模型参考 CUP（Computer Use Protocol），目前尚未实现完整 CUP 协议适配。Jev 使用 OpenRouter Decisions API 的 `typesafe/jev-1.13`，也保留 TypeSafe 直连选项。当前小样本结果不能代表通用桌面成功率。
 
@@ -160,9 +160,9 @@ ref 是基于当前结构的引用。TextEdit、系统设置和固定应用的�
 
 ### 当前阶段与后续工作
 
-**P6 完成，P7 当前为部分实现与验收。** Mac 捕获/OCR 已通过；输入正向、自动降级和 Windows 实机视觉仍待完成，Office 原题试跑在环境前置检查处阻断。
+**P6 完成，P7 当前为部分实现与验收。** Mac 捕获/OCR 已通过；输入正向、自动降级和 Windows 实机视觉仍待完成，Office原题早期受环境阻断，同日恢复后新工作区已可试跑。
 
-1. 恢复输入会话后，使用新工作区实际运行固定三题 Office pilot，独立核验保存文件和全部失败。
+1. 使用已通过Mac输入检查的新工作区实际运行固定三题 Office pilot，独立核验保存文件和全部失败。
 2. 修复真实 Office 原生覆盖，接入 Planner/Jev/Workflow 视觉降级并完成 click/type 正向验收。
 3. 扩展 Windows 视觉、Mac 文件/进程恢复、多显示器/比例和可靠性，随后对齐完整上游测试环境。
 
@@ -257,9 +257,9 @@ The [research proposal](docs/RESEARCH.md) defines the requirements, and the [pha
 
 ### Current status
 
-As of **2026-10-08**:
+As of **2026-10-09**:
 
-**Overall position: Windows P6 acceptance is complete; P7 is partial.** Mac capture/OCR Runtime passes 3/3 with 8/8 rejections. Positive input and automatic Agent fallback remain pending. The three-task WindowsWorld Office software pilot is prepared, but actual execution has started 0 tasks, blocked 3, and null scores. Latest host and Windows regressions each pass **373/373**.
+**Overall position: Windows P6 acceptance is complete; P7 is partial.** Ten Office development rounds each scored **0/3** on independent artifacts. Latest blockers: Word verification after input, Excel pre-input foreground/window refusal and PowerPoint decision confidence. A separate scripted Excel probe passed field replacement and saved-artifact checks; full Agent tasks and the latest field transport remain unvalidated. Host regression: **403/403**; historical Windows: **373/373**. See the [live report](docs/evidence/2026-10-08-office-live/README.md).
 
 See [overall status](docs/STATUS.md) and the prioritized [pending list](docs/PENDING.md). Historical acceptance below retains its original dates and denominators.
 
@@ -286,7 +286,7 @@ See [overall status](docs/STATUS.md) and the prioritized [pending list](docs/PEN
 
 **Mac P7 Runtime (same day):** Package/CLI capture and local Vision OCR candidate selection pass 3/3 native runs and 8/8 rejection cases. Host and Windows each pass 355 tests. Bounded input is implemented but real preflight rejects with zero dispatch; positive input and automatic Agent fallback remain pending. See the [report](docs/P7-MACOS-VISUAL.md).
 
-**Microsoft Office original-task pilot (same day):** Three WindowsWorld L1 tasks, isolated initialization, a native runner, independent OOXML grading and original VLM judge entry are implemented. Host/Windows each pass 373 tests. Actual run is blocked at session preflight: zero tasks started and scores are null. See the [readiness report](docs/OFFICE-PILOT-READINESS.md).
+**Microsoft Office original-task pilot (2026-10-08–09):** Three pinned L1 tasks have isolated initialization, native execution, independent grading and an original VLM entry. Following the early session block, ten actual rounds each scored 0/3. AXConfirm, text selection, window identity and phase planning were repaired; remaining failures and scripted capability evidence are preserved separately. See the [execution report](docs/OFFICE-PILOT-READINESS.md).
 
 The current implementation uses **Python + xa11y 0.15.x**, with comtypes for native Windows ValuePattern and ScrollPattern support. Verified Win32 edit messages commit text in classic dialogs. Rust is the preferred direction for the future core runtime. The element model draws on CUP (Computer Use Protocol); full CUP protocol adaptation is not implemented. Jev uses `typesafe/jev-1.13` through OpenRouter Decisions, with a direct TypeSafe option. These small development samples do not establish general desktop success rates.
 
@@ -393,7 +393,7 @@ The fixed native WAA trio passed two consecutive rounds at **3/3**, including pe
 
 ### Current phase and further work
 
-**P6 is complete; P7 is partially implemented and under validation.** Mac capture/OCR passes; positive input, automatic fallback and Windows live visual acceptance remain pending. The Office original-task pilot is blocked at environment preflight.
+**P6 is complete; P7 is partially implemented and under validation.** Mac capture/OCR passes; positive input, automatic fallback and Windows live visual acceptance remain pending. The earlier Office pilot was blocked; same-day recovery makes a new workspace ready to attempt.
 
 1. Restore input availability and run the fixed three-task Office pilot in a fresh workspace, independently verifying saved artifacts and retaining every failure.
 2. Repair Office native coverage, connect Planner/Jev/Workflow visual fallback, and validate click/type.

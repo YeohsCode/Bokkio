@@ -5,7 +5,7 @@ import math
 from collections import Counter
 from typing import Any
 
-from .model import BokkioActionError, BokkioError, BokkioPermissionError, path_signature, stable_hash, tree_digest
+from .model import BokkioActionError, BokkioCompletionUnknown, BokkioError, BokkioPermissionError, BokkioStaleSnapshot, path_signature, stable_hash, tree_digest
 from .selector import choose, flatten
 from .scroll import DIRECTIONS, axis, observe_scroll, plan_scroll
 
@@ -21,6 +21,7 @@ ACTION_METHODS = {
     "expand": "expand",
     "collapse": "collapse",
     "submit": "submit",
+    "select_text": "select_text",
 }
 
 NORMALIZED_ACTIONS = {
@@ -74,6 +75,9 @@ class Xa11yBackend:
         if real_provider and self._platform == "windows" and native is None:
             from .windows_uia import WindowsUIA
             self._native = _call(WindowsUIA)
+        if real_provider and self._platform == "macos" and native is None:
+            from .macos_ax import MacAX
+            self._native = _call(MacAX)
 
     def apps(self) -> list[dict[str, Any]]:
         return [
@@ -149,9 +153,9 @@ class Xa11yBackend:
             raise BokkioActionError("direction and amount are only valid for scroll")
         if expected_value is not None and action != "type":
             raise BokkioActionError("expect-value is only valid for type")
-        if action in {"type", "set_value"} and value is None:
+        if action in {"type", "set_value", "select_text"} and value is None:
             raise BokkioActionError(f"{action} requires a value")
-        if action not in {"type", "set_value"} and value is not None:
+        if action not in {"type", "set_value", "select_text"} and value is not None:
             raise BokkioActionError(f"{action} does not accept a value")
 
         native_app = self._resolve_app(app)
@@ -160,15 +164,18 @@ class Xa11yBackend:
         before_scope = ([before_tree] if window is None else
                         [{**n, "parent": None} for n in self._select_windows(self._window_nodes(before_tree), window)])
         if expected_snapshot is not None and tree_digest(before_scope) != expected_snapshot:
-            raise BokkioActionError("Snapshot changed since decision; observe and decide again")
+            raise BokkioStaleSnapshot("Snapshot changed since decision; observe and decide again")
         before = choose(before_scope, ref=ref, role=role, name=name, parent=parent)
         native_value_write = action in {"set_value","submit"} and before["platform_data"].get("value_runtime_id") and hasattr(self._native, "submit" if action=='submit' else "set_value")
         native_action = (action in before['platform_data'].get('verified_native_actions', [])
                          and before['platform_data'].get('action_runtime_id') and hasattr(self._native,'perform_action'))
-        if expected_snapshot is not None and before["platform_data"].get("ambiguous_ref_identity") and not (native_value_write or native_action):
+        mac_action = (before['platform_data'].get('mac_unique_identity') and action in before['platform_data'].get('mac_verified_actions', [])
+                      and hasattr(self._native,'perform'))
+        if expected_snapshot is not None and before["platform_data"].get("ambiguous_ref_identity") and not (native_value_write or native_action or mac_action):
             raise BokkioActionError("Target has indistinguishable siblings without a unique native identity")
         radio_select = action == "select" and before["role"] == "radio_button"
-        if before["state"].get("enabled") is False:
+        readonly_selection=(mac_action and action=='select_text' and before['role'] in {'text_area','text_field'})
+        if before["state"].get("enabled") is False and not readonly_selection:
             raise BokkioActionError(f"Target is disabled: {before['ref']}")
         capability = "click" if action == "invoke" else action
         if action != "scroll" and capability not in before["actions"]:
@@ -192,7 +199,21 @@ class Xa11yBackend:
                     else:
                         _call(live[scroll_plan["bar_ref"]].set_numeric_value, scroll_plan["requested_position"])
             else:
-                if action=='submit':
+                if mac_action and action=='select_text':
+                    text=before['value']
+                    if not isinstance(value,str) or not value or not isinstance(text,str) or text.count(value)!=1:
+                        raise BokkioActionError('Text selection requires one exact nonempty literal in the current value')
+                    start=len(text[:text.index(value)].encode('utf-16-le'))//2
+                    end=start+len(value.encode('utf-16-le'))//2
+                    _call(element.select_text,start,end)
+                    action_source='AXSelectedTextRange'
+                elif mac_action and action=='set_value' and before['role']=='combo_box' and hasattr(self,'visual_value_replace'):
+                    native_result=_call(self.visual_value_replace,native_app,before,scope,value)
+                    action_source=native_result['action_source']
+                elif mac_action:
+                    native_result=_call(self._native.perform,before,action,value)
+                    action_source=native_result['action_source']
+                elif action=='submit':
                     data=before['platform_data']
                     if not data.get('submit_available') or not hasattr(self._native,'submit'):
                         raise BokkioActionError('Native Enter submission is not available for this field')
@@ -215,7 +236,7 @@ class Xa11yBackend:
                         _call(method)
                     else:
                         _call(method, value)
-        except BokkioPermissionError:
+        except (BokkioPermissionError,BokkioCompletionUnknown):
             raise
         except Exception as error:
             raise BokkioActionError(f"{action} failed for {before['ref']}: {error}") from error
@@ -224,7 +245,7 @@ class Xa11yBackend:
         after = self._find_by_ref(after_tree, before["ref"])
         verification = "observed"
         postcondition = None
-        if action in {"set_value", "focus", "select", "expand", "collapse"} or expected_value is not None:
+        if action in {"set_value", "focus", "select", "select_text", "expand", "collapse"} or expected_value is not None:
             verification = "unconfirmed"
             if after is None:
                 postcondition = {"reason": "target_missing"}
@@ -234,6 +255,10 @@ class Xa11yBackend:
         elif action == "set_value" and after is not None:
             verification = "confirmed" if after["value"] == value else "unconfirmed"
             postcondition = {"check": "value", "expected": value, "actual": after["value"]}
+        elif action == "select_text" and after is not None:
+            selected=after['state'].get('selected_text')
+            verification='confirmed' if selected==value else 'unconfirmed'
+            postcondition={'check':'selected_text','expected':value,'actual':selected}
         elif action == "focus" and after is not None:
             verification = "confirmed" if after["state"]["focused"] else "unconfirmed"
         elif action == "select" and after is not None:
@@ -260,6 +285,9 @@ class Xa11yBackend:
             result['write_source'] = write_source
         if action_source is not None:
             result['action_source'] = action_source
+        if action_source=='bounded_visual_replace':
+            result['input_commit']={'requested_value':value,'confirmation_posted':native_result['confirmation_posted'],
+                                    'visual':native_result['visual_receipt']}
         if scroll_plan is not None:
             result["scroll"], changed = observe_scroll(before_tree, after_tree, scroll_plan)
             result["verification"] = "confirmed" if changed else "unconfirmed"
@@ -333,6 +361,8 @@ class Xa11yBackend:
         element = _call(app.as_element)
         live = {} if live is None else live
         tree = self._walk(element, identity, [], parent_ref=None, occurrence=0, live=live)
+        if self._platform=='macos' and self._native is not None and hasattr(self._native,'annotate'):
+            tree=_call(self._native.annotate,tree,app.pid)
         if self._platform == "windows":
             nodes = {n["ref"]: n for n in flatten([tree])}
             aliases = {}
@@ -538,7 +568,7 @@ class Xa11yBackend:
         platform_data["native_stable_id"] = (
             _call(lambda: element.stable_id) if element is not None else None
         )
-        if self._native is not None and (role in {"text_field", "text_area"} or "set_value" in actions) and role != "scroll_bar":
+        if self._native is not None and hasattr(self._native,'value') and (role in {"text_field", "text_area"} or "set_value" in actions) and role != "scroll_bar":
             try:
                 pattern = (self._native.scoped_value(element, native_window) if hasattr(self._native, "scoped_value") else self._native.value(element))
                 if pattern and pattern.get("available"):
@@ -576,7 +606,7 @@ class Xa11yBackend:
         # xa11y's macOS select() writes AXSelected for these native roles.
         if self._platform == "macos" and role in {"row", "table_row", "list_item", "tree_item"} and state.get("selected") is not None:
             actions = sorted(set(actions) | {"select"})
-        if self._native is not None and role in {"group", "list", "table", "tree", "text_area", "scroll_area", "pane"}:
+        if self._native is not None and hasattr(self._native,'scroll_state') and role in {"group", "list", "table", "tree", "text_area", "scroll_area", "pane"}:
             try:
                 scroll = self._native.scroll_state(element)
                 if scroll is not None:

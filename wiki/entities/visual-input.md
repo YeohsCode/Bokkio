@@ -1,25 +1,23 @@
 ---
 title: "有界视觉输入：代码与验收边界"
 created: "2026-10-08"
-updated: "2026-10-08"
+updated: "2026-10-09"
 type: "entity"
 tags: ["vision", "safety", "macos"]
-sources: ["src/bokkio/visual_input.py", "src/bokkio/native/macos_capture.swift", "docs/P7-MACOS-VISUAL.md", "tests/test_visual_input.py"]
+sources: ["docs/P7-MACOS-VISUAL.md", "docs/PENDING.md", "docs/evidence/2026-10-08-office-live/README.md", "src/bokkio/native/macos_capture.swift", "src/bokkio/visual_input.py", "tests/test_visual_input.py"]
 confidence: "high"
 ---
 
 # 有界视觉输入：代码与验收边界
 
-Mac `visual_input.perform()` 已实现单次 click/type API，但真实正向输入尚未通过；当前证据是输入前置拒绝且派发为零。^[src/bokkio/visual_input.py#L11] ^[docs/P7-MACOS-VISUAL.md#L15]
+Mac visual_input.perform支持click/type/replace。一般目标用OCR唯一候选；内部Office路径可绑定当前唯一可写combo的原生边界，模型仍选择闭合ref，不提供坐标。^[src/bokkio/visual_input.py#L11]
 
-## 前置和后置检查
+## 派发与确认
 
-API 要求当前 OCR 目标、原始图像、完整身份、允许的动作/有界字面文字，以及明确的操作后文字。Native helper 再查进程/窗口、图像与几何、时效、会话和前台范围；不允许通过 caller confidence 直接跳过。^[src/bokkio/native/macos_capture.swift#L88]
+helper核对图像/进程出生时间、窗口身份/几何、时效、会话和前台。replace执行点击、Cmd+A、文字与Enter共8个事件；新观察确认文字或新鲜原生字段值。receipt丢失或派发后验证失败为input_completion_unknown，不能自动重试。^[src/bokkio/visual_input.py#L57]
 
-CGEventPost 没有交付确认。回执丢失或派发后的观察/文字验证失败是 `input_completion_unknown`，不能自动重试。前置 pause/cancel 已有测试；完整运行期取消、限速和视觉 Workflow 待补齐。^[src/bokkio/visual_input.py#L39]
+独立Excel脚本探针用较早OCR字段定位确认两次替换并保存，独立货币格式校验通过。最新原生边界路径仍有零派发拒绝和派发后确认失败，尚未通过完整Agent任务。^[docs/evidence/2026-10-08-office-live/README.md#L20]
 
-## 尚未接入
-
-该 API 没有成为 DesktopAgent 的自动视觉降级，也未提供 Windows 对应输入路径或已验收跨应用正向流程。源码中存在某 API 不能作为能力已可用的证据。^[docs/STATUS.md#L5]
+Office runner仅在授权文档窗口的可写combo接入transport。通用Agent自动降级、Windows输入、视觉Workflow和完整取消/限速/恢复仍待实现或验收。^[docs/PENDING.md#L5]
 
 关联：[[entities/capture-and-ocr]]、[[concepts/action-verification]]、[[summaries/pending-and-known-gaps]]。

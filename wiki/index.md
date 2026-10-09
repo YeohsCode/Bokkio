@@ -1,7 +1,7 @@
 ---
 title: Bokkio LLM Wiki Index
 created: 2026-10-08
-updated: 2026-10-08
+updated: 2026-10-09
 type: meta
 tags: [meta, project]
 sources: [docs/STATUS.md]
@@ -10,7 +10,7 @@ confidence: high
 
 # Bokkio LLM Wiki
 
-项目代码与证据的可维护知识库。Last updated: 2026-10-08 | Total compiled pages: 22
+项目代码与证据的可维护知识库。Last updated: 2026-10-09 | Total compiled pages: 22
 
 先读 [[SCHEMA]]；维护记录见 [[log]]。
 
@@ -25,7 +25,7 @@ confidence: high
 - [[entities/native-runtime|原生 Runtime：xa11y 适配层]] — `Xa11yBackend` 是原生应用发现、树读取、元素查找与动作派发入口；Windows UIA 补充不替代整套树模型。
 - [[entities/office-pilot|微软 Office 原题 pilot]] — 首批固定 WindowsWorld 三道 L1 原题，Mac 环境适配：Word 标题/正文格式、Excel D 列货币格式、PowerPoint 标题页。
 - [[entities/planner-and-jev|Planner 与 Jev 的职责分工]] — Planner 规划阶段和成功条件；Jev 在当前观察的有限选项中选择动作与目标。
-- [[entities/visual-input|有界视觉输入：代码与验收边界]] — Mac `visual_input.perform()` 已实现单次 click/type API，但真实正向输入尚未通过；当前证据是输入前置拒绝且派发为零。
+- [[entities/visual-input|有界视觉输入：代码与验收边界]] — Mac click/type/replace和限定Office字段输入已实现；较早OCR脚本探针通过，最新Agent路径尚未通过。
 - [[entities/workflow-engine|Recorder 与 Workflow 引擎]] — Workflow 将成功语义执行固化为有依赖、前置条件、验证条件与版本哈希的可重放步骤；它不是无条件键鼠宏。
 
 ## Concepts
@@ -45,14 +45,14 @@ confidence: high
 ## Queries
 
 - [[queries/extending-native-runtime|如何扩展原生动作而不破坏边界]] — 新增动作需要同时更新 capability、选择空间、实际派发和验证；单独加入 CLI action 名称不等于支持。
-- [[queries/office-pilot-readiness|如何判断 Office 题库是否可以跑]] — 当前答案：原题/输入/评分软件已准备，实际任务未开始；还需要修复真实 executor 的构造接口，并完成交互环境及 Office 操作验收。
+- [[queries/office-pilot-readiness|如何判断 Office 题库是否可以跑]] — 十轮三题已实际执行，各轮独立评分0/3；仍需修复Word确认、Excel守卫与PPT候选。
 
 ## Summaries
 
 - [[summaries/architecture-map|架构与代码导航]] — 从入口到执行按模块职责阅读，比按提交时间浏览更容易定位改动。
-- [[summaries/current-status|当前阶段与证据快照]] — 本页为代码基线 abe38ac 的 2026-10-08 快照，不是持续实时监控。
+- [[summaries/current-status|当前阶段与证据快照]] — 2026-10-09快照：P7部分验收、Office十轮实跑与403项主机回归。
 - [[summaries/pending-and-known-gaps|Pending 与已知集成缺口]] — 按先修复可复现代码问题、再获取真实执行证据的顺序推进；环境恢复不是所有缺口的唯一条件。
 
 ## Raw sources
 
-42份已提交来源保存为不可变文本快照，正文哈希和基线提交见 raw/manifest.json。页面溯源仍指向仓库代码/文档。
+初始42份已提交来源及追加的恢复版本保存为不可变文本快照，正文哈希和基线提交见 raw/manifest.json。页面溯源仍指向仓库代码/文档。

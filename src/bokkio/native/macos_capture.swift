@@ -91,7 +91,7 @@ Task { @MainActor in
             }
             guard let point = args["point"] as? [String: Double], let x = point["x"], let y = point["y"],
                   x.isFinite, y.isFinite, contentRect.contains(CGPoint(x:x,y:y)),
-                  let action = args["action"] as? String, ["click","type"].contains(action),
+                  let action = args["action"] as? String, ["click","type","replace"].contains(action),
                   let captured = args["captured_at_unix_ns"] as? Int64,
                   Date().timeIntervalSince1970 * 1e9 - Double(captured) <= 15000000000,
                   Double(captured) <= Date().timeIntervalSince1970 * 1e9 else {
@@ -108,7 +108,7 @@ Task { @MainActor in
                 fail("input_unavailable", "Authorized window must own foreground input and event permission", ["dispatched": 0])
             }
             let text = args["text"] as? String ?? ""
-            if action == "type" && (text.isEmpty || text.utf16.count > 1000 || text.unicodeScalars.contains(where: { CharacterSet.controlCharacters.contains($0) })) {
+            if action != "click" && (text.isEmpty || text.utf16.count > 1000 || text.unicodeScalars.contains(where: { CharacterSet.controlCharacters.contains($0) })) {
                 fail("invalid_input", "Typed text must be bounded literal text without control characters", ["dispatched": 0])
             }
             var events: [CGEvent] = []
@@ -118,7 +118,15 @@ Task { @MainActor in
                 fail("input_unavailable", "Could not construct input events", ["dispatched": 0])
             }
             events=[down,up]
-            if action == "type" {
+            if action != "click" {
+                if action == "replace" {
+                    guard let selectDown=CGEvent(keyboardEventSource:nil,virtualKey:0,keyDown:true),
+                          let selectUp=CGEvent(keyboardEventSource:nil,virtualKey:0,keyDown:false) else {
+                        fail("input_unavailable", "Could not construct bounded field selection", ["dispatched":0])
+                    }
+                    selectDown.flags = .maskCommand; selectUp.flags = .maskCommand
+                    events.append(contentsOf:[selectDown,selectUp])
+                }
                 let units=Array(text.utf16)
                 guard let keyDown=CGEvent(keyboardEventSource:nil,virtualKey:0,keyDown:true),
                       let keyUp=CGEvent(keyboardEventSource:nil,virtualKey:0,keyDown:false) else {
@@ -127,6 +135,13 @@ Task { @MainActor in
                 keyDown.keyboardSetUnicodeString(stringLength:units.count,unicodeString:units)
                 keyUp.keyboardSetUnicodeString(stringLength:units.count,unicodeString:units)
                 events.append(contentsOf:[keyDown,keyUp])
+                if action == "replace" {
+                    guard let confirmDown=CGEvent(keyboardEventSource:nil,virtualKey:36,keyDown:true),
+                          let confirmUp=CGEvent(keyboardEventSource:nil,virtualKey:36,keyDown:false) else {
+                        fail("input_unavailable", "Could not construct bounded field confirmation", ["dispatched":0])
+                    }
+                    events.append(contentsOf:[confirmDown,confirmUp])
+                }
             }
             guard foregroundIsScoped(), processIdentity()==born else {
                 fail("capture_changed", "Input scope changed before dispatch", ["dispatched": 0])
@@ -135,7 +150,7 @@ Task { @MainActor in
             // a lost scope is unknown completion and must never trigger retry.
             for (index,event) in events.enumerated() {
                 if index>0 && !foregroundIsScoped() {
-                    let release = index==1 || (action == "type" && index==3)
+                    let release = index % 2 == 1
                     if release { events[index].post(tap:.cghidEventTap) }
                     fail("input_completion_unknown", "Foreground changed after dispatch began", ["events_posted":index+(release ? 1 : 0),"release_posted":release,"dispatched":true])
                 }

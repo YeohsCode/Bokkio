@@ -2,7 +2,7 @@
   "schema": "bokkio.wiki.sources.v1",
   "created": "2026-10-08",
   "basis_commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d",
-  "source_count": 42,
+  "source_count": 69,
   "records": [
     {
       "path": "README.md",
@@ -297,6 +297,222 @@
       "sha256": "2424195166f7ead0d69c712f12c6cb0b70860dbe3a242e0594cc6a0638f9ad05",
       "bytes": 16579,
       "commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d"
+    },
+    {
+      "path": "src/bokkio/office_runner.py",
+      "snapshot": "raw/source-snapshots/session-recovery/src/bokkio/office_runner.py.txt",
+      "sha256": "e7af22af550872f974266ab6d12566fa8bf984b1aaab029d2026fa66d36cbb45",
+      "bytes": 9849,
+      "commit": null,
+      "version": "working-tree-session-recovery"
+    },
+    {
+      "path": "tests/test_office_benchmark.py",
+      "snapshot": "raw/source-snapshots/session-recovery/tests/test_office_benchmark.py.txt",
+      "sha256": "15d436cfb0aa25e57eea64f336a284b100067fc4fa7ea3a7854a94ebc42cfe9c",
+      "bytes": 8236,
+      "commit": null,
+      "version": "working-tree-session-recovery"
+    },
+    {
+      "path": "docs/PENDING.md",
+      "snapshot": "raw/source-snapshots/session-recovery/docs/PENDING.md.txt",
+      "sha256": "16d42ed9f8c9b1267b537c7abf4f89ff2ec1a753b317b1596d015b7d37da9655",
+      "bytes": 4890,
+      "commit": null,
+      "version": "working-tree-session-recovery"
+    },
+    {
+      "path": "docs/STATUS.md",
+      "snapshot": "raw/source-snapshots/session-recovery/docs/STATUS.md.txt",
+      "sha256": "cffbd0b8a9b94367121ece1999aca1cf9ee1778b025d52264814c416bd1eead8",
+      "bytes": 4612,
+      "commit": null,
+      "version": "working-tree-session-recovery"
+    },
+    {
+      "path": "docs/OFFICE-PILOT-READINESS.md",
+      "snapshot": "raw/source-snapshots/session-recovery/docs/OFFICE-PILOT-READINESS.md.txt",
+      "sha256": "f79463b58c3f2eede30f82654cdc931788066271199faeddadd66048ce922d6c",
+      "bytes": 7025,
+      "commit": null,
+      "version": "working-tree-session-recovery"
+    },
+    {
+      "path": "docs/evidence/2026-10-08-macos-session-recovery/readiness.json",
+      "snapshot": "raw/source-snapshots/session-recovery/docs/evidence/2026-10-08-macos-session-recovery/readiness.json.txt",
+      "sha256": "cfa28ea65ad741c91cb4eb515df587ce05f16593df0602bf4cc32e0452f6638f",
+      "bytes": 1667,
+      "commit": null,
+      "version": "working-tree-session-recovery"
+    },
+    {
+      "path": "docs/evidence/2026-10-08-macos-session-recovery/README.md",
+      "snapshot": "raw/source-snapshots/session-recovery/docs/evidence/2026-10-08-macos-session-recovery/README.md.txt",
+      "sha256": "fe1c67b8dd7e17ba6e05c6eae46133e634d6de4460a610196ddfa2c670a77af8",
+      "bytes": 2012,
+      "commit": null,
+      "version": "working-tree-session-recovery"
+    },
+    {
+      "path": "docs/evidence/2026-10-08-macos-session-recovery/validation.json",
+      "snapshot": "raw/source-snapshots/session-recovery/docs/evidence/2026-10-08-macos-session-recovery/validation.json.txt",
+      "sha256": "34094155e937d2f489bd8e84cef1cc07c01a6441d314bfa57f1d0312260ddaa0",
+      "bytes": 541,
+      "commit": null,
+      "version": "working-tree-session-recovery"
+    },
+    {
+      "path": "docs/STATUS.md",
+      "snapshot": "raw/source-snapshots/office-live/docs/STATUS.md.txt",
+      "sha256": "a1fc2f22838a001a290c2683fabc6548ee4c8925f33a9770ffc59de02139c50a",
+      "bytes": 4687,
+      "commit": null,
+      "version": "working-tree-office-live"
+    },
+    {
+      "path": "docs/PENDING.md",
+      "snapshot": "raw/source-snapshots/office-live/docs/PENDING.md.txt",
+      "sha256": "679bdc4fe056162043d7d4774f11670398306d4249f2639baf45a144180981c4",
+      "bytes": 3965,
+      "commit": null,
+      "version": "working-tree-office-live"
+    },
+    {
+      "path": "docs/OFFICE-PILOT-READINESS.md",
+      "snapshot": "raw/source-snapshots/office-live/docs/OFFICE-PILOT-READINESS.md.txt",
+      "sha256": "0a547ebc86668a7429635caffc79ca0115e31200e2d0893a7b0ed9fe63d1067d",
+      "bytes": 4619,
+      "commit": null,
+      "version": "working-tree-office-live"
+    },
+    {
+      "path": "docs/evidence/2026-10-08-office-live/README.md",
+      "snapshot": "raw/source-snapshots/office-live/docs/evidence/2026-10-08-office-live/README.md.txt",
+      "sha256": "a1edf0be1dad744528af3ecf1c366d1f21c989edb170767fd9d8149d4f079ca7",
+      "bytes": 3539,
+      "commit": null,
+      "version": "working-tree-office-live"
+    },
+    {
+      "path": "docs/evidence/2026-10-08-office-live/summary.json",
+      "snapshot": "raw/source-snapshots/office-live/docs/evidence/2026-10-08-office-live/summary.json.txt",
+      "sha256": "b30668a92a8387fcf52cf7b27fd780473ff7ce2f21fae38fd3cab309b9aef83f",
+      "bytes": 3600,
+      "commit": null,
+      "version": "working-tree-office-live"
+    },
+    {
+      "path": "docs/evidence/2026-10-08-office-live/validation.json",
+      "snapshot": "raw/source-snapshots/office-live/docs/evidence/2026-10-08-office-live/validation.json.txt",
+      "sha256": "607d2e4ab837f957581b6b90db55e3d2e5d12a19477229493abc4d7210fe0d8e",
+      "bytes": 628,
+      "commit": null,
+      "version": "working-tree-office-live"
+    },
+    {
+      "path": "docs/evidence/2026-10-08-office-live/round-10/run.json",
+      "snapshot": "raw/source-snapshots/office-live/docs/evidence/2026-10-08-office-live/round-10/run.json.txt",
+      "sha256": "8e64df59c25c83900cbbd7b2711b303a405e1f56ec0068e43160437318064ebf",
+      "bytes": 2613,
+      "commit": null,
+      "version": "working-tree-office-live"
+    },
+    {
+      "path": "docs/evidence/2026-10-08-office-live/scripted-transport-probe.json",
+      "snapshot": "raw/source-snapshots/office-live/docs/evidence/2026-10-08-office-live/scripted-transport-probe.json.txt",
+      "sha256": "13c9d855bf6108af2040f14a633a8fdaca622edaebdd2f0cf9c1a2f2125315d4",
+      "bytes": 691,
+      "commit": null,
+      "version": "working-tree-office-live"
+    },
+    {
+      "path": "src/bokkio/office_runner.py",
+      "snapshot": "raw/source-snapshots/office-live/src/bokkio/office_runner.py.txt",
+      "sha256": "8a6c9d2442b7fd2c50398e2f5966ce823d7ecb6801c27cd9c319fce4b8832221",
+      "bytes": 10965,
+      "commit": null,
+      "version": "working-tree-office-live"
+    },
+    {
+      "path": "src/bokkio/macos_ax.py",
+      "snapshot": "raw/source-snapshots/office-live/src/bokkio/macos_ax.py.txt",
+      "sha256": "14dd6125097a6e28c37f0d8df4996bdbb75cae0e42a3ea5ad88653cb4cfa166f",
+      "bytes": 11087,
+      "commit": null,
+      "version": "working-tree-office-live"
+    },
+    {
+      "path": "src/bokkio/macos_activation.py",
+      "snapshot": "raw/source-snapshots/office-live/src/bokkio/macos_activation.py.txt",
+      "sha256": "4584b48d183b8d00f75d675d6cc1d87cbc44bbd0fcea7daa21d8e713a03bd152",
+      "bytes": 1770,
+      "commit": null,
+      "version": "working-tree-office-live"
+    },
+    {
+      "path": "src/bokkio/office_visual.py",
+      "snapshot": "raw/source-snapshots/office-live/src/bokkio/office_visual.py.txt",
+      "sha256": "a1dff0e58df13cccdef382f60c98835165fe568330ec89dbae3ffeb1e518bd27",
+      "bytes": 3778,
+      "commit": null,
+      "version": "working-tree-office-live"
+    },
+    {
+      "path": "src/bokkio/visual_input.py",
+      "snapshot": "raw/source-snapshots/office-live/src/bokkio/visual_input.py.txt",
+      "sha256": "d1cb81d12bfb9f7ef7ead67d13466a291206706b5bc03eb83b29f788410ee251",
+      "bytes": 6511,
+      "commit": null,
+      "version": "working-tree-office-live"
+    },
+    {
+      "path": "src/bokkio/agent.py",
+      "snapshot": "raw/source-snapshots/office-live/src/bokkio/agent.py.txt",
+      "sha256": "bdedb74790c9400b96c5fca01e2db3516c194c173fffcdc8ab16460b7702d170",
+      "bytes": 44063,
+      "commit": null,
+      "version": "working-tree-office-live"
+    },
+    {
+      "path": "src/bokkio/planner.py",
+      "snapshot": "raw/source-snapshots/office-live/src/bokkio/planner.py.txt",
+      "sha256": "f9730f3fa0e36db2375d7a709d760787ad943139899a4bed456214fa4041f5ae",
+      "bytes": 28776,
+      "commit": null,
+      "version": "working-tree-office-live"
+    },
+    {
+      "path": "src/bokkio/decision.py",
+      "snapshot": "raw/source-snapshots/office-live/src/bokkio/decision.py.txt",
+      "sha256": "d5541685c9bcedb397a06fe9d8ce4f81c17e19da38d4100a7d31d450988dab0b",
+      "bytes": 32685,
+      "commit": null,
+      "version": "working-tree-office-live"
+    },
+    {
+      "path": "src/bokkio/xa11y_backend.py",
+      "snapshot": "raw/source-snapshots/office-live/src/bokkio/xa11y_backend.py.txt",
+      "sha256": "b5595eaf327117ffdfa4525ec93c3cb21af087f941d5195c98c2286ae03b65ac",
+      "bytes": 34192,
+      "commit": null,
+      "version": "working-tree-office-live"
+    },
+    {
+      "path": "src/bokkio/native/macos_capture.swift",
+      "snapshot": "raw/source-snapshots/office-live/src/bokkio/native/macos_capture.swift.txt",
+      "sha256": "ac09d3e308106bd4cf9e076a2577b529681dddc937c2ec544f4172decaa8d959",
+      "bytes": 13175,
+      "commit": null,
+      "version": "working-tree-office-live"
+    },
+    {
+      "path": "src/bokkio/native/macos_activate.swift",
+      "snapshot": "raw/source-snapshots/office-live/src/bokkio/native/macos_activate.swift.txt",
+      "sha256": "746c045a24c7f3d4dfff9fb7d37d77daf2aace70c527d11dd061fedd45df2fe0",
+      "bytes": 2258,
+      "commit": null,
+      "version": "working-tree-office-live"
     }
   ]
 }
