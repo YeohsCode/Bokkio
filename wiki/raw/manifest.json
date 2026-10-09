@@ -2,7 +2,7 @@
   "schema": "bokkio.wiki.sources.v1",
   "created": "2026-10-08",
   "basis_commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d",
-  "source_count": 69,
+  "source_count": 82,
   "records": [
     {
       "path": "README.md",
@@ -513,6 +513,110 @@
       "bytes": 2258,
       "commit": null,
       "version": "working-tree-office-live"
+    },
+    {
+      "path": "README.md",
+      "snapshot": "raw/source-snapshots/office-fix/README.md.txt",
+      "sha256": "6408efe287b1871dc050269389e9070a3371fc206114d511741ae2bc4e0c7728",
+      "bytes": 48715,
+      "commit": null,
+      "version": "working-tree-office-fix"
+    },
+    {
+      "path": "docs/STATUS.md",
+      "snapshot": "raw/source-snapshots/office-fix/docs/STATUS.md.txt",
+      "sha256": "056ae65a962a341bb7e8d5bdd3e908f42bc81f58bcc3c8c3adb7743e1f54a48d",
+      "bytes": 5102,
+      "commit": null,
+      "version": "working-tree-office-fix"
+    },
+    {
+      "path": "docs/PENDING.md",
+      "snapshot": "raw/source-snapshots/office-fix/docs/PENDING.md.txt",
+      "sha256": "3684480621ddae7faa9288dd35107d532f029cc5251d2a4d5affb5d241f9def4",
+      "bytes": 4297,
+      "commit": null,
+      "version": "working-tree-office-fix"
+    },
+    {
+      "path": "docs/OFFICE-PILOT-READINESS.md",
+      "snapshot": "raw/source-snapshots/office-fix/docs/OFFICE-PILOT-READINESS.md.txt",
+      "sha256": "8949396ba879c55e8f9c575943d9c3d68b0699a95796191fe915022b42e3ccc7",
+      "bytes": 4908,
+      "commit": null,
+      "version": "working-tree-office-fix"
+    },
+    {
+      "path": "docs/evidence/2026-10-09-office-fix/README.md",
+      "snapshot": "raw/source-snapshots/office-fix/docs/evidence/2026-10-09-office-fix/README.md.txt",
+      "sha256": "ed340ac643699e803c093406b39d330f11dd95d1dabe1048692af115e059bbc8",
+      "bytes": 2656,
+      "commit": null,
+      "version": "working-tree-office-fix"
+    },
+    {
+      "path": "docs/evidence/2026-10-09-office-fix/validation.json",
+      "snapshot": "raw/source-snapshots/office-fix/docs/evidence/2026-10-09-office-fix/validation.json.txt",
+      "sha256": "6a33acbfe3928d91b00d1ebec0e1bb5a8b1ba61155c05545f451391834fc7256",
+      "bytes": 1348,
+      "commit": null,
+      "version": "working-tree-office-fix"
+    },
+    {
+      "path": "docs/evidence/2026-10-09-office-fix/ppt-decision-probe.json",
+      "snapshot": "raw/source-snapshots/office-fix/docs/evidence/2026-10-09-office-fix/ppt-decision-probe.json.txt",
+      "sha256": "5b51ed44791c2e6b4c1de8790f6b0a45b0767cf8e32e6a1c76ff90a013c5e966",
+      "bytes": 295,
+      "commit": null,
+      "version": "working-tree-office-fix"
+    },
+    {
+      "path": "src/bokkio/agent.py",
+      "snapshot": "raw/source-snapshots/office-fix/src/bokkio/agent.py.txt",
+      "sha256": "522b65bca7dd32f4a8501efff205199ad42b04e9bd5c8205510f72fd2748e941",
+      "bytes": 44205,
+      "commit": null,
+      "version": "working-tree-office-fix"
+    },
+    {
+      "path": "src/bokkio/decision.py",
+      "snapshot": "raw/source-snapshots/office-fix/src/bokkio/decision.py.txt",
+      "sha256": "f100253fc053dc5dca810d4598d0c8313ca30f7fd028327c3b5f90e62852a7e1",
+      "bytes": 33791,
+      "commit": null,
+      "version": "working-tree-office-fix"
+    },
+    {
+      "path": "src/bokkio/model.py",
+      "snapshot": "raw/source-snapshots/office-fix/src/bokkio/model.py.txt",
+      "sha256": "d2454d869b5de91481d86b6c25a6ab0c31d4d50a006d25143ee37e8ea312345f",
+      "bytes": 3576,
+      "commit": null,
+      "version": "working-tree-office-fix"
+    },
+    {
+      "path": "src/bokkio/visual_input.py",
+      "snapshot": "raw/source-snapshots/office-fix/src/bokkio/visual_input.py.txt",
+      "sha256": "bfbaaa0ab8089e13d602c14faae7756d6fd1420b9cb0ab60e68e07a73fabe23a",
+      "bytes": 6713,
+      "commit": null,
+      "version": "working-tree-office-fix"
+    },
+    {
+      "path": "src/bokkio/office_visual.py",
+      "snapshot": "raw/source-snapshots/office-fix/src/bokkio/office_visual.py.txt",
+      "sha256": "abd424d50894c33d5b38356cc8091b1812a16e28bcf4a6ed9bc8408c7fc9459e",
+      "bytes": 4359,
+      "commit": null,
+      "version": "working-tree-office-fix"
+    },
+    {
+      "path": "src/bokkio/native/macos_capture.swift",
+      "snapshot": "raw/source-snapshots/office-fix/src/bokkio/native/macos_capture.swift.txt",
+      "sha256": "e5fe094efab7313e24886545e7a195dbd765104ecd5316ba7d1fd31927abcb83",
+      "bytes": 14138,
+      "commit": null,
+      "version": "working-tree-office-fix"
     }
   ]
 }

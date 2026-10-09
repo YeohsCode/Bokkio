@@ -1,3 +1,10 @@
+---
+source_path: src/bokkio/visual_input.py
+source_version: working-tree
+ingested: 2026-10-09
+sha256: bfbaaa0ab8089e13d602c14faae7756d6fd1420b9cb0ab60e68e07a73fabe23a
+---
+
 """Bounded Mac visual input, with no automatic retries after event posting."""
 import json
 import math

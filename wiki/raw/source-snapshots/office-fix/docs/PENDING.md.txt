@@ -1,3 +1,10 @@
+---
+source_path: docs/PENDING.md
+source_version: working-tree
+ingested: 2026-10-09
+sha256: 3684480621ddae7faa9288dd35107d532f029cc5251d2a4d5affb5d241f9def4
+---
+
 # 当前待办 / Pending work
 
 更新：2026-10-09。**P6 Windows 验收完成，P7 部分实现；Office 原题已执行，最新独立评分 0/3。** 阶段与实际分母见 [总体进度](STATUS.md)。

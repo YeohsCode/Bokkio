@@ -1,3 +1,10 @@
+---
+source_path: docs/OFFICE-PILOT-READINESS.md
+source_version: working-tree
+ingested: 2026-10-09
+sha256: 8949396ba879c55e8f9c575943d9c3d68b0699a95796191fe915022b42e3ccc7
+---
+
 # 微软 Office 原题试跑 / Office pilot execution
 
 更新：2026-10-09。**三道原题已实际启动十轮，最新独立评分 0/3；目前需要修复任务执行覆盖。**

@@ -4,7 +4,7 @@ created: "2026-10-08"
 updated: "2026-10-09"
 type: "query"
 tags: ["office", "benchmark", "evidence"]
-sources: ["docs/OFFICE-PILOT-READINESS.md", "docs/STATUS.md", "docs/evidence/2026-10-08-macos-session-recovery/readiness.json", "docs/evidence/2026-10-08-office-live/README.md", "src/bokkio/agent.py", "src/bokkio/office_runner.py", "tests/test_office_benchmark.py"]
+sources: ["docs/OFFICE-PILOT-READINESS.md", "docs/STATUS.md", "docs/evidence/2026-10-08-macos-session-recovery/readiness.json", "docs/evidence/2026-10-08-office-live/README.md", "docs/evidence/2026-10-09-office-fix/README.md", "src/bokkio/agent.py", "src/bokkio/office_runner.py", "tests/test_office_benchmark.py"]
 confidence: "high"
 ---
 
@@ -24,6 +24,10 @@ uv run python scripts/office_pilot.py prepare --workspace /tmp/bokkio-office-new
 uv run python scripts/office_pilot.py run --workspace /tmp/bokkio-office-new
 ```
 
-主机403/403；Windows373/373为历史回归。原始VLM/官方环境仍未执行。^[docs/STATUS.md#L21]
+主机411/411；Windows373/373为历史回归。原始VLM/官方环境仍未执行。^[docs/STATUS.md#L21]
+
+## 后续修复（2026-10-09）
+
+输入拒绝与回读诊断已保留到Agent trace；同一字段最多3次回读，不重复派发。显式split button点击收窄后，真实Jev对记录的PPT快照返回click、置信度1.0（阈值0.7）。主机411/411；Mac当前锁屏，新GUI任务未开始，历史0/3仍为最新产物成绩。该决策探针没有live dispatch或Agent分数。^[docs/evidence/2026-10-09-office-fix/README.md#L1]
 
 关联：[[entities/office-pilot]]、[[concepts/permissions-and-sessions]]、[[summaries/pending-and-known-gaps]]。

@@ -1,3 +1,10 @@
+---
+source_path: src/bokkio/office_visual.py
+source_version: working-tree
+ingested: 2026-10-09
+sha256: abd424d50894c33d5b38356cc8091b1812a16e28bcf4a6ed9bc8408c7fc9459e
+---
+
 """Scoped Office combo editing through capture-bound native field coordinates.
 
 Microsoft Office AX setters can expose a draft string without applying its

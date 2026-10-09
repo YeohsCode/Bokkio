@@ -522,3 +522,27 @@ def test_file_selection_condition_binds_exact_row_not_incidental_documents_navig
     provider=Provider()
     with pytest.raises(BokkioError,match='uniquely actionable native row'):
         decide(provider,goal,backend.snapshot('TextEdit'),allow_done=False)
+
+
+def test_explicit_split_button_click_does_not_offer_menu_expansion():
+    from test_cli import Element
+    backend,window,_=backend_with_button()
+    button=Element('button','New Slide');button.actions=['press','expand'];button.expanded=False
+    window.children_values=[button]
+    provider=Provider(choice='click')
+    decision,_=decide(provider,'Click New Slide to add a new slide',backend.snapshot('TextEdit'),allow_done=False)
+    assert decision.action=='click' and list(provider.questions['next']['criteria'])==['click']
+    provider=Provider(choice='expand')
+    decide(provider,'Expand New Slide to choose a layout',backend.snapshot('TextEdit'),allow_done=False)
+    assert 'expand' in provider.questions['next']['criteria']
+
+
+def test_explicit_click_does_not_resolve_duplicate_buttons():
+    from test_cli import Element
+    backend,window,_=backend_with_button()
+    a=Element('button','New Slide');b=Element('button','New Slide')
+    for n in [a,b]:n.actions=['press','expand'];n.expanded=False
+    window.children_values=[a,b]
+    # Ambiguous identities still refuse; explicit intent cannot invent identity.
+    with pytest.raises(BokkioError,match='No native action candidates'):
+        decide(Provider(choice='click'),'Click New Slide',backend.snapshot('TextEdit'),allow_done=False)

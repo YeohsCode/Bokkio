@@ -122,3 +122,25 @@ def test_native_readback_failure_after_posting_remains_unknown(sample,monkeypatc
         inputs.perform(*sample,'Run check','click',expect_text='Done',_post_verify=verify)
     assert caught.value.code=='input_completion_unknown' and caught.value.details['dispatched'] is True
     assert len(calls)==1
+
+
+def test_unknown_completion_retains_receipt_and_actual_native_value(sample,monkeypatch):
+    from bokkio.model import BokkioActionError,native_error_details
+    receipt={'pid':10,'window_id':20,'status':'posted_unverified','dispatched':True,'events_posted':8}
+    calls=[]
+    monkeypatch.setattr(subprocess,'run',lambda *a,**k:calls.append(True) or SimpleNamespace(stdout=json.dumps(receipt).encode(),returncode=0))
+    monkeypatch.setattr(inputs,'capture_window',lambda *a,**k:sample)
+    check={'passed':False,'expected':'Calibri','actual':'Arial','matching_targets':1,'observations':3}
+    with pytest.raises(CaptureError) as caught:
+        inputs.perform(*sample,'Run check','replace',value='Calibri',expect_text='Calibri',_post_verify=lambda *a:check)
+    wrapper=BokkioActionError('adapter failed');wrapper.__cause__=caught.value
+    diagnostic=native_error_details(wrapper)
+    assert diagnostic['code']=='input_completion_unknown'
+    assert diagnostic['details']['receipt']==receipt and diagnostic['details']['verification']==check
+    assert diagnostic['details']['dispatched'] is True and len(calls)==1
+
+
+def test_native_error_diagnostics_terminate_on_causal_cycle():
+    from bokkio.model import BokkioError,native_error_details
+    error=BokkioError('wrapped');error.__cause__=error
+    assert native_error_details(error) is None

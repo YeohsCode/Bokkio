@@ -127,3 +127,10 @@ confidence: high
 - 25个Markdown页面、110条解析链接，零孤立页/断链；69份不可变来源正文哈希、来源行号和两份证据SHA256SUMS通过。
 - 全工作树隐私扫描的24项命中均为历史WAA runner去重请求UUID，来源arena.py的uuid4().hex；没有凭据命中。
 - 主机403项回归通过；保留Office0/3与较早OCR脚本探针的证据范围。
+
+## [2026-10-09] refresh | Office input diagnostics and explicit click
+
+- 更新6个既有页面及索引，追加raw版本，保留之前的69份不可变来源。
+- 增加输入范围拒绝事实、派发回执/原生回读诊断、3次有限回读和split button显式点击收窄；未知完成不重试。
+- 真实Jev在记录的合成PPT快照上返回click/1.0，没有live dispatch或新任务分数；主机411/411、Swift helper重编译/自有窗口捕获通过。
+- Mac当前锁屏且自动解锁失败，完整GUI复跑待解锁；不把此状态用于解释之前解锁时的失败。

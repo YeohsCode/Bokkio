@@ -1,3 +1,10 @@
+---
+source_path: src/bokkio/native/macos_capture.swift
+source_version: working-tree
+ingested: 2026-10-09
+sha256: e5fe094efab7313e24886545e7a195dbd765104ecd5316ba7d1fd31927abcb83
+---
+
 import Cocoa
 import ScreenCaptureKit
 import Vision

@@ -1,0 +1,17 @@
+---
+source_path: docs/evidence/2026-10-09-office-fix/ppt-decision-probe.json
+source_version: working-tree
+ingested: 2026-10-09
+sha256: 5b51ed44791c2e6b4c1de8790f6b0a45b0767cf8e32e6a1c76ff90a013c5e966
+---
+
+{
+  "scope": "recorded_synthetic_PowerPoint_decision_probe",
+  "live_dispatch": false,
+  "agent_score": false,
+  "source_trace_sha256": "a548eb97777bec5b9edcff33676e99519d7c482b99e9a2d61125381e8a0c0bb8",
+  "action": "click",
+  "confidence": 1.0,
+  "threshold": 0.7,
+  "elapsed_seconds": 1.232
+}

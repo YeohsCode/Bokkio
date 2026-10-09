@@ -1,3 +1,10 @@
+---
+source_path: README.md
+source_version: working-tree
+ingested: 2026-10-09
+sha256: 6408efe287b1871dc050269389e9070a3371fc206114d511741ae2bc4e0c7728
+---
+
 # Bokkio
 
 面向 Windows 与 macOS 的原生桌面自动化项目，探索确定性 Workflow、Jev 局部决策与 LLM 全局规划的协作。

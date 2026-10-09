@@ -50,7 +50,7 @@ confidence: high
 ## Summaries
 
 - [[summaries/architecture-map|架构与代码导航]] — 从入口到执行按模块职责阅读，比按提交时间浏览更容易定位改动。
-- [[summaries/current-status|当前阶段与证据快照]] — 2026-10-09快照：P7部分验收、Office十轮实跑与403项主机回归。
+- [[summaries/current-status|当前阶段与证据快照]] — 2026-10-09快照：P7部分验收、Office十轮实跑与411项主机回归。
 - [[summaries/pending-and-known-gaps|Pending 与已知集成缺口]] — 按先修复可复现代码问题、再获取真实执行证据的顺序推进；环境恢复不是所有缺口的唯一条件。
 
 ## Raw sources

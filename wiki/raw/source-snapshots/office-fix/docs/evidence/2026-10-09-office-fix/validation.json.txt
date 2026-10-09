@@ -1,0 +1,46 @@
+---
+source_path: docs/evidence/2026-10-09-office-fix/validation.json
+source_version: working-tree
+ingested: 2026-10-09
+sha256: 6a33acbfe3928d91b00d1ebec0e1bb5a8b1ba61155c05545f451391834fc7256
+---
+
+{
+  "date": "2026-10-09",
+  "base_commit": "93fd1a1",
+  "host_regression": {
+    "passed": 411,
+    "failed": 0,
+    "command": ".venv/bin/python -m pytest -q"
+  },
+  "capture_helper_compiled": true,
+  "live_run_started": false,
+  "environment": {
+    "ready": false,
+    "session_available": true,
+    "session_locked": true,
+    "permissions": {
+      "ax": true,
+      "capture": true,
+      "events": true
+    },
+    "reason": "interactive_session_unavailable"
+  },
+  "historical_latest_office_artifact_passes": 0,
+  "historical_latest_office_planned": 3,
+  "new_agent_score": null,
+  "recorded_snapshot_Jev_probe": {
+    "action": "click",
+    "confidence": 1.0,
+    "threshold": 0.7,
+    "live_dispatch": false
+  },
+  "sources": {
+    "src/bokkio/agent.py": "522b65bca7dd32f4a8501efff205199ad42b04e9bd5c8205510f72fd2748e941",
+    "src/bokkio/decision.py": "f100253fc053dc5dca810d4598d0c8313ca30f7fd028327c3b5f90e62852a7e1",
+    "src/bokkio/model.py": "d2454d869b5de91481d86b6c25a6ab0c31d4d50a006d25143ee37e8ea312345f",
+    "src/bokkio/native/macos_capture.swift": "e5fe094efab7313e24886545e7a195dbd765104ecd5316ba7d1fd31927abcb83",
+    "src/bokkio/office_visual.py": "abd424d50894c33d5b38356cc8091b1812a16e28bcf4a6ed9bc8408c7fc9459e",
+    "src/bokkio/visual_input.py": "bfbaaa0ab8089e13d602c14faae7756d6fd1420b9cb0ab60e68e07a73fabe23a"
+  }
+}

@@ -4,7 +4,7 @@ created: "2026-10-08"
 updated: "2026-10-09"
 type: "concept"
 tags: ["safety", "macos", "windows", "vision"]
-sources: ["docs/MACOS-CAPTURE-PROBE.md", "docs/PENDING.md", "docs/evidence/2026-10-08-macos-session-recovery/readiness.json", "docs/evidence/2026-10-08-office-live/round-10/run.json", "src/bokkio/macos_activation.py", "src/bokkio/native/macos_capture.swift", "src/bokkio/office_runner.py", "src/bokkio/visual_input.py", "src/bokkio/windows_capture.py"]
+sources: ["docs/MACOS-CAPTURE-PROBE.md", "docs/PENDING.md", "docs/evidence/2026-10-08-macos-session-recovery/readiness.json", "docs/evidence/2026-10-08-office-live/round-10/run.json", "docs/evidence/2026-10-09-office-fix/README.md", "src/bokkio/macos_activation.py", "src/bokkio/native/macos_capture.swift", "src/bokkio/office_runner.py", "src/bokkio/visual_input.py", "src/bokkio/windows_capture.py"]
 confidence: "high"
 ---
 
@@ -21,5 +21,9 @@ confidence: "high"
 ## Windows
 
 Guest认证可支持构建和文件传输，不保证进程拥有交互输入桌面。Windows截图实机像素、OCR与输入验收仍待完成。^[docs/PENDING.md#L17]
+
+## 后续修复（2026-10-09）
+
+输入拒绝与回读诊断已保留到Agent trace；同一字段最多3次回读，不重复派发。显式split button点击收窄后，真实Jev对记录的PPT快照返回click、置信度1.0（阈值0.7）。主机411/411；Mac当前锁屏，新GUI任务未开始，历史0/3仍为最新产物成绩。该决策探针没有live dispatch或Agent分数。^[docs/evidence/2026-10-09-office-fix/README.md#L1]
 
 关联：[[entities/capture-and-ocr]]、[[entities/visual-input]]、[[comparisons/windows-and-macos]]。

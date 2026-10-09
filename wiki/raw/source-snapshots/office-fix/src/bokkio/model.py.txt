@@ -1,3 +1,10 @@
+---
+source_path: src/bokkio/model.py
+source_version: working-tree
+ingested: 2026-10-09
+sha256: d2454d869b5de91481d86b6c25a6ab0c31d4d50a006d25143ee37e8ea312345f
+---
+
 from __future__ import annotations
 
 import hashlib

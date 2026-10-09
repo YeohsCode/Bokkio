@@ -55,3 +55,55 @@ def test_visual_failure_is_classified_without_retries(monkeypatch,dispatched):
     expected=BokkioCompletionUnknown if dispatched else BokkioActionError
     with pytest.raises(expected):visual.replace_combo(10,'Owned',field(),'Currency')
     assert len(calls)==1
+
+
+def test_delayed_native_value_is_observed_without_reposting(monkeypatch):
+    setup(monkeypatch)
+    node=field();node.update(ref='field',parent=None,children=[])
+    node['platform_data']['mac_owner_pid']=10
+    snapshots=[];posts=[];sleeps=[]
+    class Reader:
+        def snapshot(self,pid,title):
+            assert (pid,title)==('10','Owned')
+            fresh=copy.deepcopy(node)
+            fresh['value']='General' if not snapshots else 'Currency'
+            snapshots.append(fresh)
+            return {'windows':[fresh]}
+    def perform(*a,**k):
+        posts.append(True)
+        check=k['_post_verify']({},b'image')
+        assert check['passed'] and check['observations']==2
+        return {'status':'confirmed','verification':check}
+    monkeypatch.setattr(visual,'perform',perform)
+    monkeypatch.setattr(visual.time,'sleep',sleeps.append)
+    result=visual.replace_combo(10,'Owned',node,'Currency',backend=Reader())
+    assert result['confirmation_posted'] and len(posts)==1 and sleeps==[.1]
+
+
+def test_native_readback_stops_when_binding_disappears(monkeypatch):
+    setup(monkeypatch);node=field();node['ref']='field'
+    class Reader:
+        def snapshot(self,*a):return {'windows':[]}
+    def perform(*a,**k):
+        check=k['_post_verify']({},b'image')
+        assert not check['passed'] and check['matching_targets']==0 and check['observations']==1
+        return {'status':'unconfirmed'}
+    monkeypatch.setattr(visual,'perform',perform)
+    monkeypatch.setattr(visual.time,'sleep',lambda *a:pytest.fail('a lost binding must not be polled'))
+    visual.replace_combo(10,'Owned',node,'Currency',backend=Reader())
+
+
+def test_persistent_wrong_value_has_bounded_readbacks_and_one_dispatch(monkeypatch):
+    setup(monkeypatch);node=field();node.update(ref='field',parent=None,children=[])
+    node['platform_data']['mac_owner_pid']=10
+    observations=[];posts=[]
+    class Reader:
+        def snapshot(self,*a):observations.append(True);return {'windows':[node]}
+    def perform(*a,**k):
+        posts.append(True);check=k['_post_verify']({},b'image')
+        assert not check['passed'] and check['actual']=='General' and check['observations']==3
+        raise CaptureError('input_completion_unknown','Posted input did not verify',dispatched=True,cause='native_readback_unconfirmed',verification=check)
+    monkeypatch.setattr(visual,'perform',perform);monkeypatch.setattr(visual.time,'sleep',lambda *a:None)
+    with pytest.raises(BokkioCompletionUnknown,match='native_readback_unconfirmed'):
+        visual.replace_combo(10,'Owned',node,'Currency',backend=Reader())
+    assert len(observations)==3 and len(posts)==1

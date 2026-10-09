@@ -1031,3 +1031,22 @@ def test_ambiguous_checked_outcome_replans_before_dispatching_or_toggling_again(
     result=DesktopAgent(backend,planner,NoCalls()).run('Turn off notifications',['TextEdit'],tmp_path/'trace.json')
     assert result['status']=='completed' and result['actions']==0 and result['replans']==1
     assert 'ambiguous' in next(e['error'] for e in result['events'] if e['kind']=='error')
+
+
+def test_unknown_native_completion_preserves_diagnostics_without_replan(tmp_path):
+    from bokkio.model import BokkioCompletionUnknown
+    from bokkio.windows_capture import CaptureError
+    backend,_,button=backend_with_button();calls=[]
+    def press():
+        calls.append(True)
+        cause=CaptureError('input_completion_unknown','Posted input did not verify',dispatched=True,
+                           cause='native_readback_unconfirmed',verification={'expected':'Calibri','actual':'Arial'})
+        raise BokkioCompletionUnknown('Needs inspection') from cause
+    button.press=press;planner=Planner()
+    trace=DesktopAgent(backend,planner,Provider()).run('Click Save',['TextEdit'],tmp_path/'trace.json')
+    assert trace['status']=='blocked' and trace['replans']==0 and len(calls)==1 and len(planner.calls)==1
+    error=next(e for e in trace['events'] if e['kind']=='error')
+    assert error['native_error']['details']['dispatched'] is True
+    assert error['native_error']['details']['verification']['actual']=='Arial'
+    saved=json.loads((tmp_path/'trace.json').read_text())
+    assert next(e for e in saved['events'] if e['kind']=='error')['native_error']==error['native_error']

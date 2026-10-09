@@ -1,3 +1,10 @@
+---
+source_path: src/bokkio/agent.py
+source_version: working-tree
+ingested: 2026-10-09
+sha256: 522b65bca7dd32f4a8501efff205199ad42b04e9bd5c8205510f72fd2748e941
+---
+
 """Bounded native observation → planning → decision → verified execution."""
 from __future__ import annotations
 import json

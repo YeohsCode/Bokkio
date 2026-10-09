@@ -1,3 +1,10 @@
+---
+source_path: src/bokkio/decision.py
+source_version: working-tree
+ingested: 2026-10-09
+sha256: f100253fc053dc5dca810d4598d0c8313ca30f7fd028327c3b5f90e62852a7e1
+---
+
 """Closed choices for native desktop decisions and guarded execution."""
 from __future__ import annotations
 import json
