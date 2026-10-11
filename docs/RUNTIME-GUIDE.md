@@ -67,13 +67,13 @@ uv run bokkio-runtime --state STATE approve APPROVAL --decision approved --reaso
 
 客户端使用**原 operation_id、原工具和原参数**重试。参数或代码改变不能沿用旧 ID/审批。可选决定为 approved、denied、revoked；批准有效期五分钟，使用后 consumed。观察/截图仍受自己的时效限制，批准不延长观察有效期。过期观察须重新观察并提交新请求。
 
-重复已完成 operation_id 返回记录，不再次执行。正在执行或崩溃后没有结果的操作返回 `completion_unknown`，先检查 UI/文件和日志，禁止盲目重发。取消无法撤销已经发生的副作用。此幂等机制不承诺 GUI exactly-once。
+重复已完成 operation_id 返回记录，不再次执行。正在执行或崩溃后没有结果的操作返回 `completion_unknown`，先检查 UI/文件和日志，禁止盲目重发。job.get 会检测丢失的 worker、核对进程出生身份、终止仍可确认属于该作业的进程树，并保存 completion_unknown。未成功持久化子进程身份的崩溃间隙不能承诺自动清理；未知状态始终需要独立核对。旧版未记录 worker 身份的未结束作业需管理员检查。取消无法撤销已经发生的副作用。此幂等机制不承诺 GUI exactly-once。
 
 ## 生成代码、进程与 Browser
 
-`code.run` 参数：code、language（python/shell/powershell）、cwd、timeout（≤300 秒）、output_limit（≤1 MB）。`process.run` 使用 argv 数组，不做 shell 拼接。二者需写入及 trusted-host 授权，返回 queued 和 job_id。用 `job.get` 查询、`job.cancel` 取消，或 SDK `client.wait_job(job_id)`。
+`code.run` 参数：code、language（python/shell/powershell）、cwd、timeout（≤300 秒）、output_limit（≤1 MB）。`process.run` 使用 argv 数组，不做 shell 拼接。二者需写入及 trusted-host 授权，返回 queued 和 job_id。用 `job.get` 查询并处理 worker 丢失、`job.cancel` 取消，或 SDK `client.wait_job(job_id)`。
 
-生成 Python 代码用 `Client.from_environment()` 继承已批准 session；SDK 子调用的日志带父 operation_id。`examples/generated_code.py` 演示 CSV 处理与独立结果检查。stdout/stderr 有上限，持续排空后丢弃超限部分并标记 truncated；超时/取消停止进程树。启动 worker 不代表脚本已派发，实际派发由 job.started/job.finished 和最终 receipt 报告。
+生成 Python 代码用 `Client.from_environment()` 继承已批准 session；SDK 子调用的日志带父 operation_id。`examples/generated_code.py` 演示 CSV 处理与独立结果检查。stdout/stderr 有上限，持续排空后丢弃超限部分并标记 truncated；超时/取消停止可跟踪的进程组/树：POSIX 使用同一进程组，Windows 使用 taskkill /T；主动脱离进程组的 trusted-host 程序不保证清理。启动 worker 不代表脚本已派发，实际派发由 job.started/job.finished 和最终 receipt 报告。
 
 Browser 用独立 Playwright worker 保存每会话页面状态，CLI/SDK 跨进程仍可连续操作。`browser.open` 指定 URL；`browser.act` 支持唯一 CSS selector 的 fill/click/press，并要求 expected_url 为上次 open/observe 返回的精确 URL，避免审批等待期间目标悄悄切到另一页面；`browser.observe` 返回有界正文和表单值。网络请求与 WebSocket 受精确 origin 限制，服务 worker 禁用；这不是针对恶意 Chromium 或宿主脚本的 OS 网络沙箱。
 
@@ -108,3 +108,15 @@ Agent 可用 session 限定的 `audit.query`、`events.follow`、`metrics.summar
 ```
 
 Windows command 使用虚拟环境的 `Scripts/bokkio-runtime.exe`。stdio 服务采用官方 MCP SDK，stdout 仅用于协议。工具参数格式为 `{"arguments": {具体工具参数}, "session_id": "SESSION", "operation_id": "可选唯一ID"}`。session.open 返回会话 ID；不要安装或授权额外模型服务才能调用 Core。
+
+## 可重复的 macOS 与 MCP 开发验收
+
+不依赖 vendor 的原生 fixture：
+
+```sh
+uv run python scripts/build_native_fixture.py --source fixtures/cocoa-runtime/main.swift --output /tmp/BokkioRuntimeContract.app --name BokkioRuntimeContract
+```
+
+启动该 App 后，以明确授权的 app/name/PID 运行 scripts/verify_runtime.py；自绘 fixture 使用 fixtures/cocoa-visual/main.swift。scripts/verify_runtime_faults.py 只操作自有 fixture 和进程，输出真实桌面/取消/崩溃矩阵；硬件或锁屏未测项明确列出。
+
+examples/mcp_call.py 通过官方 MCP SDK 执行单次工具调用，并可跨 stdio 连接复用持久 session。scripts/verify_runtime_mcp_native.py 接受 app、精确 window、实际节点 match、写入 value 与独立 readback 的任务清单，不包含应用业务分支。模板见 examples/mcp-native-task.json。默认把挂起请求保存给独立管理员；观察过期后必须新观察、新请求和新批准。仅自有可丢弃 fixture 可显式使用 --approve-owned-fixture 自动化验证管理员入口，此成绩不等同于客户人工审批。

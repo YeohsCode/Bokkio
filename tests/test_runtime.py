@@ -248,3 +248,36 @@ def test_post_dispatch_log_failure_reports_unknown_without_repeat(setup, monkeyp
     assert desktop.dispatches == 1
     assert client.call("desktop.act", arguments, "lost-result")["status"] == "completion_unknown"
     assert desktop.dispatches == 1
+
+
+def test_session_closed_after_input_lock_wait_never_dispatches(setup, monkeypatch):
+    from contextlib import contextmanager
+    from bokkio import desktop_input
+    client, desktop, _, _ = setup
+    client.runtime.policy['require_approval'] = False
+    arguments = action(client)
+
+    @contextmanager
+    def delayed_lock():
+        client.call('session.close')
+        yield
+
+    monkeypatch.setattr(desktop_input, 'desktop_lock', delayed_lock)
+    result = client.call('desktop.act', arguments)
+    assert result['dispatched'] == 0
+    assert result['error_code'] == 'dispatch_scope_changed'
+    assert desktop.dispatches == 0
+
+
+def test_approval_poll_records_expiry_once_and_stays_in_session(setup):
+    client, desktop, _, _ = setup
+    request = action(client)
+    pending = client.call('desktop.act', request, 'expire-without-retry')
+    with client.runtime.store.connect() as db:
+        db.execute('UPDATE approvals SET expires=0 WHERE id=?', (pending['approval_id'],))
+    for _ in range(2):
+        result = client.call('approval.status', {'approval_id': pending['approval_id']})
+        assert result['result'][0]['status'] == 'expired'
+    events = client.runtime.store.query(operation_id='expire-without-retry')
+    assert len([e for e in events if e['kind'] == 'approval.expired']) == 1
+    assert desktop.dispatches == 0

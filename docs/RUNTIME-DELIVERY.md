@@ -1,6 +1,6 @@
 # 三天计划实施与交付状态
 
-更新：2026-10-11。工作候选版本：0.2.0。**新 Runtime 功能已实现并通过 macOS 开发验收；计划整体尚未完成，Windows 实机和客户业务样本仍待验收。**
+更新：2026-10-12。工作候选版本：0.2.0。**新 Runtime 功能已实现并通过 macOS 开发验收；计划整体尚未完成，Windows 实机和客户业务样本仍待验收。**
 
 ## 已实现
 
@@ -20,7 +20,7 @@
 
 | 验证 | 结果 | 范围 |
 |---|---|---|
-| 主机回归 | 541/541 | 原 519 项 + 22 项 Runtime/transport/真实代码与 Browser 测试；不是双平台实机成绩 |
+| 主机回归 | 546/546 | 原 519 项 + 27 项 Runtime/transport/真实进程与 Browser 测试；不是双平台实机成绩 |
 | MCP 初始化/工具发现/调用 | 通过 | 官方 MCP client 与 stdio server，结构化结果，CLI 与 MCP 共用 session |
 | 原生中文字段写入与重新观察 | 3/3 | macOS 自有原生 fixture，未调用 Planner/Jev |
 | 无文字图标坐标点击 | 3/3 | macOS 自绘窗口，OCR 未启用；独立 business JSON 点击数为 1/2/3 |
@@ -37,6 +37,12 @@
 最后一组交付候选复测：wheel 按锁定 requirements 安装到独立环境，原生字段/代码/Browser 各 3/3，官方 MCP/CLI、管理员审批和日志对账通过；三个新进程的视觉中文输入/图标点击 3/3。摘要见 [开发证据](evidence/2026-10-11-runtime/README.md)。最终源版本额外检查了 Browser 精确 URL 绑定、Windows 输入前像素 hash、并发 Native/COM 线程隔离及审批目标预览。
 
 交付文件位于 `dist/`：`bokkio-runtime-0.2.0-candidate.zip`、wheel、源码归档、锁定 requirements、依赖元数据清单与 SHA256 校验。依赖清单仅反映本机已安装分发包的元数据，不能替代 Windows 依赖实装与许可证兼容性审阅。
+
+## macOS 可靠性与 MCP 续测
+
+2026-10-12：真实进程故障 5/5，本机完整窗口/作业矩阵 16/18；两项正向像素动作被系统通知挡住且零派发。修复忽略 SIGTERM 的残留子进程、worker 丢失后的长期 running、输入锁等待期间会话变化，以及审批轮询不更新过期状态。新增自包含原生 fixture、通用 MCP manifest runner 与单次 MCP 调用入口；原生/代码/Browser 和 manifest 字段分别三轮通过。Numbers 未增加 Core 应用规则的 MCP 开发样本 3/3，独立读回且源 CSV 未变。详见 [续测证据](evidence/2026-10-12-runtime-macos/README.md)。
+
+当前 Codex 通过官方 MCP client bridge 的闭环与开发管理员审批已验证；客户实际 Harness 和业务任务仍待指定。当前只有一个显示器、scale=1，真实锁屏往返及其他显示器/缩放未运行。
 
 ## 尚需完成的交付验收
 

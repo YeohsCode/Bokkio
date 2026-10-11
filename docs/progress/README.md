@@ -10,7 +10,7 @@
 | [接续说明与待办](HANDOFF.md) | 两端启动、验证、证据保存及协作规则 |
 | [详细交付报告](../RUNTIME-DELIVERY.md) | 实现和实测的具体边界 |
 | [Runtime 使用指南](../RUNTIME-GUIDE.md) | 配置、调用和信任边界 |
-| [验收证据](../evidence/2026-10-11-runtime/README.md) | 脱敏摘要、历史失败和校验和 |
+| [验收证据](../evidence/2026-10-12-runtime-macos/README.md) | 脱敏摘要、历史失败和校验和 |
 
 进度、计划、待办、验收摘要必须提交 Git，不放入 gitignore。每次完成一个待办，更新 STATUS.md 和 state.json，补充对应证据，并在提交说明中写清平台与验证结果。不要把旧平台成绩算作新 Runtime 验收。
 

@@ -191,8 +191,21 @@ class AuditStore:
                       data={"approval_id": approval_id, "actor": owner, "reason": reason, "request_sha256": row["hash"]}, db=db)
         return {"approval_id": approval_id, "status": decision, "actor": owner}
 
-    def approvals(self, approval_id=None):
+    def approvals(self, approval_id=None, session_id=None):
         with self.connect() as db:
-            rows = db.execute("SELECT a.*,o.tool,o.session_id FROM approvals a JOIN operations o ON o.id=a.operation_id" +
-                              (" WHERE a.id=?" if approval_id else "") + " ORDER BY a.created", (approval_id,) if approval_id else ()).fetchall()
+            db.execute("BEGIN IMMEDIATE")
+            conditions, params = [], []
+            if approval_id:
+                conditions.append("a.id=?"); params.append(approval_id)
+            if session_id:
+                conditions.append("o.session_id=?"); params.append(session_id)
+            query = "SELECT a.*,o.tool,o.session_id FROM approvals a JOIN operations o ON o.id=a.operation_id" + (
+                " WHERE " + " AND ".join(conditions) if conditions else "") + " ORDER BY a.created"
+            rows = db.execute(query, params).fetchall()
+            for row in rows:
+                if row["status"] in {"pending", "approved"} and row["expires"] <= time.time():
+                    db.execute("UPDATE approvals SET status='expired' WHERE id=?", (row["id"],))
+                    self.emit("approval.expired", session_id=row["session_id"], operation_id=row["operation_id"],
+                              data={"approval_id": row["id"], "request_sha256": row["hash"]}, db=db)
+            rows = db.execute(query, params).fetchall()
         return [dict(r) for r in rows]

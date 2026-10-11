@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "updated": "2026-10-11",
+  "updated": "2026-10-12",
   "version": "0.2.0",
   "overall_status": "implementation_delivered_acceptance_incomplete",
   "plan": "docs/PLAN-REPOSITIONING.md",
   "guide": "docs/RUNTIME-GUIDE.md",
-  "evidence": "docs/evidence/2026-10-11-runtime/README.md",
+  "evidence": "docs/evidence/2026-10-12-runtime-macos/README.md",
   "implementation": {
     "completed_groups": 8,
     "total_groups": 8,
@@ -16,7 +16,36 @@
       "development_capability_categories_passed": 4,
       "total_categories": 5,
       "customer_acceptance_complete": false,
-      "host_tests_passed": 541
+      "host_tests_passed": 546,
+      "fault_matrix": {
+        "passed": 16,
+        "total": 18,
+        "status": "partial",
+        "blocked_cases": [
+          "fresh_window_after_rebuild",
+          "physical_display_coordinate_mapping"
+        ]
+      },
+      "real_job_faults": {
+        "passed": 5,
+        "total": 5
+      },
+      "unadapted_local_app": {
+        "app": "Numbers",
+        "passed": 3,
+        "total": 3,
+        "customer_selected": false
+      },
+      "mcp_manifest": {
+        "passed": 3,
+        "total": 3,
+        "approval_mode": "automated_admin_owned_fixture"
+      },
+      "physical_environment": {
+        "displays": 1,
+        "scale": 1
+      },
+      "screen_lock_tested": false
     },
     "windows": {
       "development_capability_categories_passed": 0,
@@ -31,20 +60,34 @@
     {
       "id": "MAC-01",
       "platform": "macos",
-      "status": "pending",
-      "task": "Physical focus/window/display and cancellation/unknown-completion fault matrix"
+      "status": "partial_environment_blocked",
+      "task": "Physical focus/window/display and cancellation/unknown-completion fault matrix",
+      "completed": [
+        "process_tree_cancel_timeout_session_close",
+        "worker_loss_unknown_no_replay",
+        "output_limits",
+        "window_geometry_pixels_ref_visibility_and_real_expiry",
+        "post_lock_session_revalidation"
+      ],
+      "remaining": [
+        "two_positive_pixel_checks_blocked_by_system_notification",
+        "physical_lock_unlock",
+        "second_display_or_different_scale"
+      ]
     },
     {
       "id": "CLIENT-01",
       "platform": "macos_then_windows",
-      "status": "needs_customer_task",
-      "task": "Unadapted customer application task with disposable data and independent checks"
+      "status": "development_sample_passed_needs_customer_task",
+      "task": "Unadapted customer application task with disposable data and independent checks",
+      "development_evidence": "Numbers MCP import/native name-field write/readback/source-hash 3/3; no Core app rule; document save/reopen not tested"
     },
     {
       "id": "HARNESS-01",
       "platform": "both",
-      "status": "pending",
-      "task": "Customer Harness MCP approval/action/evidence loop"
+      "status": "development_mcp_loop_passed_needs_customer_harness",
+      "task": "Customer Harness MCP approval/action/evidence loop",
+      "development_evidence": "Current Codex via official MCP client bridge; generic manifest 3/3; explicit automated fixture admin approval"
     },
     {
       "id": "WIN-01",

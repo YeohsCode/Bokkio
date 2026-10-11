@@ -9,3 +9,11 @@ include scripts/verify_runtime.py
 include scripts/verify_runtime_visual.py
 recursive-include docs/evidence/2026-10-11-runtime *.json README.md SHA256SUMS
 recursive-include docs/progress *.md *.json
+include scripts/build_native_fixture.py
+include scripts/build_runtime_bundle.py
+include scripts/verify_runtime_faults.py
+include scripts/verify_runtime_mcp_native.py
+recursive-include fixtures/cocoa-runtime *.swift
+recursive-include fixtures/cocoa-visual *.swift
+recursive-include fixtures/windows-visual *.cs *.csproj
+recursive-include docs/evidence/2026-10-12-runtime-macos *.json README.md SHA256SUMS

@@ -21,8 +21,8 @@ async def serve(runtime):
                            inputSchema={"type": "object", "properties": {
                                "arguments": SCHEMAS[tool], "session_id": {"type": "string"}, "operation_id": {"type": "string"}},
                                "additionalProperties": False},
-                           annotations=types.ToolAnnotations(readOnlyHint=tool in READ_TOOLS,
-                                                             destructiveHint=tool not in READ_TOOLS)) for tool in sorted(TOOLS)]
+                           annotations=types.ToolAnnotations(readOnlyHint=tool in READ_TOOLS and tool != "job.get",
+                                                             destructiveHint=tool not in READ_TOOLS or tool == "job.get")) for tool in sorted(TOOLS)]
 
     @server.call_tool()
     async def call_tool(name, arguments):

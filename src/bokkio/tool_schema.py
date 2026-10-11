@@ -46,6 +46,7 @@ DESCRIPTIONS = {
     "desktop.pixel": "Click/type at image-pixel x/y in a fresh capture, including icons without OCR text. Granted window must be foreground and unobscured. No automatic retry after unknown completion.",
     "code.run": "Queue explicitly trusted-host generated code. No security sandbox. Returns job_id; job.get polls results, job.cancel cancels. Python may call Client.from_environment().",
     "process.run": "Queue approved trusted-host argv in a granted cwd with bounded stdout/stderr and timeout. Poll using job.get.",
+    "job.get": "Poll durable job state. A lost worker is completion_unknown and never replayed; reconciliation may terminate its still-identical tracked process tree. Inspect evidence before any new request.",
     "browser.open": "Navigate an isolated persistent Playwright session within granted HTTP(S) origins.",
     "browser.act": "Click, fill or press a unique CSS selector in the isolated granted browser session. expected_url must match the exact URL returned by browser.open/observe, so approval cannot silently target another page.",
     "evidence.check": "Independently check a granted file's bytes/hash and optional CSV row/column contract. Register an artifact for subsequent reading.",

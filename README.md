@@ -6,7 +6,7 @@ A model-independent computer use runtime for Windows and macOS: native/pixel act
 
 **工作候选版本 / Working candidate:** `0.2.0` — 通用执行 Core，MCP、CLI、Python SDK、生成代码、Browser、审批、可查询统计的操作日志。
 
-**2026-10-11 状态：** 主机回归 **541/541**；macOS 原生字段、视觉中文输入/图标点击、代码和 Browser 各有 **3/3** 验证。Windows 当前 Runtime 与客户业务样本待验收。当前聚焦 macOS，Windows 可在另一台电脑接续。
+**2026-10-12 状态：** 主机回归 **546/546**；macOS 原生字段、视觉中文输入/图标点击、代码和 Browser 各有 **3/3** 验证。新增真实进程故障 **5/5**、本机窗口/作业矩阵 **16/18**、Numbers/MCP 开发样本 **3/3**；两项正向像素动作仍被系统通知挡住，客户应用、客户 Harness 和 Windows 当前 Runtime 待验收。当前聚焦 macOS，Windows 可在另一台电脑接续。
 
 **跨环境 Agent 共享入口 / Shared handoff:** [计划、进度、完成度与待办](docs/progress/README.md) · [结构化状态](docs/progress/state.json) · [接续步骤](docs/progress/HANDOFF.md)。这些文档和脱敏验收报告由 Git 跟踪；每端完成工作后更新并推送。
 
@@ -251,7 +251,7 @@ uv run python scripts/verify_native.py --output /tmp/bokkio-evidence
 
 Bokkio is an enterprise computer use execution tool. External harnesses, Agent IDEs and agents plan tasks and choose channels; the shared Core observes and acts on approved resources, runs generated code/scripts, controls an isolated browser, and records approvals and operation evidence. No model or application-specific planning loop is required.
 
-As of 2026-10-11, host regression passes **541/541**. macOS has development evidence for native actions, pixel/Unicode input, generated-code combinations and browser operations. Customer application tasks, the complete physical fault matrix and customer Agent integration remain pending. Current-runtime Windows live acceptance is pending; the saved VM credentials were recovered and login succeeded.
+As of 2026-10-12, host regression passes **546/546**. Real process faults pass 5/5, the local desktop/job matrix scores 16/18, and the unadapted Numbers/MCP development sample passes 3/3. Two positive pixel checks remain blocked by a system notification. macOS has development evidence for native actions, pixel/Unicode input, generated-code combinations and browser operations. Customer application tasks, the complete physical fault matrix and customer Agent integration remain pending. Current-runtime Windows live acceptance is pending; the saved VM credentials were recovered and login succeeded.
 
 Use the [shared progress folder](docs/progress/README.md) for the plan, completion counts, pending work and cross-environment handoff. These documents and sanitized evidence are tracked in Git. The candidate is not yet a fully accepted dual-platform release.
 

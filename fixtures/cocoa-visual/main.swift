@@ -57,6 +57,67 @@ final class Canvas: NSView {
 
 final class Delegate: NSObject, NSApplicationDelegate {
     var windows: [NSWindow] = []
+    var lastCommand = ""
+    var timer: Timer?
+    func writeState(command: String? = nil) {
+        guard let path=ProcessInfo.processInfo.environment["BOKKIO_VISUAL_STATE"],let window=windows.first else {return}
+        let displays=NSScreen.screens.enumerated().map { index,screen -> [String:Any] in
+            ["index":index,"frame":["x":screen.frame.minX,"y":screen.frame.minY,
+             "width":screen.frame.width,"height":screen.frame.height],"scale":screen.backingScaleFactor]
+        }
+        var state:[String:Any] = ["pid":ProcessInfo.processInfo.processIdentifier,
+            "window_id":window.windowNumber,"window_count":windows.count,
+            "window_ids":windows.map{$0.windowNumber},"subviews":window.contentView!.subviews.count,
+            "client_width":window.contentView!.bounds.width,"client_height":window.contentView!.bounds.height,
+            "frame":["x":window.frame.minX,"y":window.frame.minY,"width":window.frame.width,"height":window.frame.height],
+            "expected_content_rect":["x":window.frame.minX,"y":NSScreen.screens[0].frame.maxY-window.frame.maxY,
+                                     "width":window.frame.width,"height":window.frame.height],
+            "scale":window.backingScaleFactor,"displays":displays,
+            "minimized":window.isMiniaturized,
+            "on_screen":(CGWindowListCopyWindowInfo([.optionOnScreenOnly,.excludeDesktopElements],kCGNullWindowID) as? [[String:Any]])?.contains(where:{$0[kCGWindowNumber as String] as? Int == window.windowNumber}) == true,
+            "duplicate":ProcessInfo.processInfo.environment["BOKKIO_VISUAL_DUPLICATE"] == "1"]
+        if let command=command {state["command_id"]=command}
+        if let data=try? JSONSerialization.data(withJSONObject:state,options:[.sortedKeys]) {
+            try? data.write(to:URL(fileURLWithPath:path),options:.atomic)
+        }
+    }
+    func pollControl() {
+        // Disposable-fixture control only. It never executes code or touches other apps.
+        guard let path=ProcessInfo.processInfo.environment["BOKKIO_VISUAL_CONTROL"],
+              let data=try? Data(contentsOf:URL(fileURLWithPath:path)),
+              let args=try? JSONSerialization.jsonObject(with:data) as? [String:Any],
+              let id=args["id"] as? String,
+              let action=args["action"] as? String,let window=windows.first else {return}
+        if id == lastCommand {writeState(command:id);return}
+        lastCommand=id
+        switch action {
+        case "front": window.deminiaturize(nil);window.makeKeyAndOrderFront(nil);NSApp.activate(ignoringOtherApps:true)
+        case "move":
+            if let x=args["x"] as? Double,let y=args["y"] as? Double {window.setFrameOrigin(NSPoint(x:x,y:y))}
+        case "resize":
+            if let width=args["width"] as? Double,let height=args["height"] as? Double {
+                window.setContentSize(NSSize(width:width,height:height))
+            }
+        case "display":
+            if let index=args["index"] as? Int,NSScreen.screens.indices.contains(index) {
+                let frame=NSScreen.screens[index].visibleFrame
+                window.setFrameOrigin(NSPoint(x:frame.minX+40,y:frame.minY+40))
+            }
+        case "minimize": window.miniaturize(nil)
+        case "repaint":
+            if let canvas=window.contentView as? Canvas {canvas.input="CHANGED";canvas.needsDisplay=true;canvas.changed?()}
+        case "rebuild":
+            let replacement=NSWindow(contentRect:NSRect(x:180,y:180,width:640,height:360),
+                                     styleMask:[.titled,.closable,.miniaturizable],backing:.buffered,defer:false)
+            replacement.title="BokkioVisual";replacement.contentView=window.contentView
+            window.contentView=nil;window.isReleasedWhenClosed=false;windows[0]=replacement
+            replacement.makeKeyAndOrderFront(nil);NSApp.activate(ignoringOtherApps:true)
+            window.close()
+        default: break
+        }
+        window.contentView?.displayIfNeeded()
+        writeState(command:id)
+    }
     func applicationDidFinishLaunching(_ note: Notification) {
         let count = ProcessInfo.processInfo.environment["BOKKIO_VISUAL_WINDOWS"] == "2" ? 2 : 1
         for index in 0..<count {
@@ -89,6 +150,10 @@ final class Delegate: NSObject, NSApplicationDelegate {
             }
         }
         if environment["BOKKIO_VISUAL_MINIMIZE"] == "1" { windows[0].miniaturize(nil) }
+        writeState()
+        if environment["BOKKIO_VISUAL_CONTROL"] != nil {
+            timer=Timer.scheduledTimer(withTimeInterval:0.03,repeats:true){[weak self] _ in self?.pollControl()}
+        }
     }
     func applicationShouldTerminateAfterLastWindowClosed(_ app:NSApplication)->Bool { true }
 }

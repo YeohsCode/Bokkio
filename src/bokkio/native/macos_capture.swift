@@ -43,6 +43,12 @@ Task { @MainActor in
         let born = processIdentity()
         let requestedID = args["window_id"] as? UInt32
         let title = args["title"] as? String
+        if let requestedID=requestedID {
+            let visible=CGWindowListCopyWindowInfo([.optionOnScreenOnly,.excludeDesktopElements],kCGNullWindowID) as? [[String:Any]]
+            guard visible?.contains(where:{$0[kCGWindowNumber as String] as? UInt32 == requestedID && $0[kCGWindowOwnerPID as String] as? Int == number}) == true else {
+                fail("window_not_visible", "Authorized window is hidden, minimized or no longer on screen")
+            }
+        }
         func findWindow() async throws -> SCWindow {
             let content = try await SCShareableContent.excludingDesktopWindows(true, onScreenWindowsOnly: false)
             let matches = content.windows.filter {
@@ -55,7 +61,10 @@ Task { @MainActor in
             return matches[0]
         }
         let window = try await findWindow()
-        guard window.isOnScreen else { fail("window_not_visible", "Hidden or minimized windows cannot be targeted") }
+        let visible = CGWindowListCopyWindowInfo([.optionOnScreenOnly,.excludeDesktopElements],kCGNullWindowID) as? [[String:Any]]
+        guard window.isOnScreen,visible?.contains(where:{ $0[kCGWindowNumber as String] as? UInt32 == window.windowID }) == true else {
+            fail("window_not_visible", "Hidden or minimized windows cannot be targeted")
+        }
         let filter = SCContentFilter(desktopIndependentWindow: window)
         let contentRect = filter.contentRect
         let scale = Double(filter.pointPixelScale)
@@ -93,6 +102,8 @@ Task { @MainActor in
             return ["expected_pid":number,"expected_window_id":window.windowID,
                     "foreground_pid":front.map { Int($0) } as Any? ?? NSNull(),
                     "top_window_pid":topPID as Any? ?? NSNull(),"top_window_id":topID as Any? ?? NSNull(),
+                    "top_window_alpha":top?[kCGWindowAlpha as String] as Any? ?? NSNull(),
+                    "top_window_bounds":top?[kCGWindowBounds as String] as Any? ?? NSNull(),
                     "foreground_process_matches":front == pid,
                     "top_window_matches":topPID == number && topID == window.windowID,
                     "event_permission":CGPreflightPostEventAccess()]
@@ -292,6 +303,8 @@ Task { @MainActor in
                 fail("capture_changed","Window pixels changed before input",["dispatched":0])
             }
             func foregroundIsScoped() -> Bool {
+                let session=CGSessionCopyCurrentDictionary() as? [String:Any]
+                guard session != nil,session?["CGSSessionScreenIsLocked"] as? Bool != true else {return false}
                 let scope = foregroundScope()
                 return scope["foreground_process_matches"] as? Bool == true && (scope["top_window_matches"] as? Bool == true || optionPopupIsScoped())
             }

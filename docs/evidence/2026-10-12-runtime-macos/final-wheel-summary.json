@@ -1,0 +1,190 @@
+{
+  "platform": "Darwin",
+  "architecture": "arm64",
+  "scope": "explicit_disposable_runtime_acceptance",
+  "rounds": [
+    {
+      "round": 1,
+      "code": true,
+      "browser": true,
+      "receipts": [
+        "51dd76e2844543b4a5a0fad6baa299e1",
+        "4901908c79af4041b9064a74f53e6f99",
+        "6c071a36d0ac4bbbb05c12b20fcc5186",
+        "7132be9cc74142b998405ef59da4db8b"
+      ]
+    },
+    {
+      "round": 2,
+      "code": true,
+      "browser": true,
+      "receipts": [
+        "5a67439c57254b0bb88d331367881b86",
+        "184e01ab8f0c4e1d9f968a9991a3526e",
+        "3c0031ed6ce84fe38e529f2d15753947",
+        "476dbe5cadfc4d99a67e2a0df999c71a"
+      ]
+    },
+    {
+      "round": 3,
+      "code": true,
+      "browser": true,
+      "receipts": [
+        "efe6cf3f5f9c464aab6697b678b6695a",
+        "f668464395f14a49aea4292326dea47c",
+        "d8738a8506bd413a856f8878e32c982a",
+        "b61b73cd50174779ba6d90374bc0fe87"
+      ]
+    }
+  ],
+  "native": [
+    {
+      "round": 1,
+      "passed": true,
+      "status": "verified",
+      "operation_id": "0cbee259d00a470183a20e9ec3b50734",
+      "attempts": [
+        {
+          "operation_id": "0cbee259d00a470183a20e9ec3b50734",
+          "status": "verified",
+          "dispatched": true
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "passed": true,
+      "status": "verified",
+      "operation_id": "7406bb32657043198973bb40dfbe3b84",
+      "attempts": [
+        {
+          "operation_id": "7406bb32657043198973bb40dfbe3b84",
+          "status": "verified",
+          "dispatched": true
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "passed": true,
+      "status": "verified",
+      "operation_id": "c36cc8e363154640b6c8ee91d9d67b31",
+      "attempts": [
+        {
+          "operation_id": "c36cc8e363154640b6c8ee91d9d67b31",
+          "status": "verified",
+          "dispatched": true
+        }
+      ]
+    }
+  ],
+  "mcp": {
+    "passed": true,
+    "tools": 23,
+    "client": "official_mcp_sdk"
+  },
+  "approval": {
+    "passed": true,
+    "mode": "automated_local_admin_cli_fixture",
+    "operation_id": "approval-fixture"
+  },
+  "cli": {
+    "passed": true
+  },
+  "audit": {
+    "events": 115,
+    "logical_operations": 36,
+    "reconciled": true,
+    "generated_code_parent_links": 3
+  },
+  "stats": {
+    "logical_operations": 36,
+    "by_tool_status": [
+      {
+        "status": "completed",
+        "tool": "audit.query",
+        "n": 1
+      },
+      {
+        "status": "completed",
+        "tool": "browser.observe",
+        "n": 3
+      },
+      {
+        "status": "completed",
+        "tool": "desktop.observe",
+        "n": 6
+      },
+      {
+        "status": "completed",
+        "tool": "evidence.check",
+        "n": 3
+      },
+      {
+        "status": "completed",
+        "tool": "job.get",
+        "n": 6
+      },
+      {
+        "status": "completed",
+        "tool": "metrics.summary",
+        "n": 1
+      },
+      {
+        "status": "completed",
+        "tool": "session.open",
+        "n": 1
+      },
+      {
+        "status": "executed",
+        "tool": "browser.act",
+        "n": 6
+      },
+      {
+        "status": "executed",
+        "tool": "browser.open",
+        "n": 3
+      },
+      {
+        "status": "executed",
+        "tool": "code.run",
+        "n": 3
+      },
+      {
+        "status": "verified",
+        "tool": "desktop.act",
+        "n": 3
+      }
+    ],
+    "events": {
+      "request.received": 36,
+      "execution.intent": 36,
+      "session.opened": 1,
+      "execution.finished": 36,
+      "job.started": 3,
+      "job.finished": 3
+    },
+    "attempts": 36,
+    "known_dispatched": 15,
+    "approval_wait_ms": [],
+    "execution_channels": {
+      "session": 1,
+      "code": 3,
+      "job": 6,
+      "evidence": 3,
+      "browser": 12,
+      "desktop": 9,
+      "audit": 1,
+      "metrics": 1
+    },
+    "execution_duration_ms": {
+      "p50": 35.079,
+      "p95": 192.782
+    },
+    "model_tokens": null,
+    "business_success_rate": null
+  },
+  "date": "2026-10-12",
+  "package_scope": "isolated_environment_installed_wheel",
+  "macos_version": "15.5"
+}

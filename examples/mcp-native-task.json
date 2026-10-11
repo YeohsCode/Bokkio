@@ -1,0 +1,11 @@
+{
+  "scope": "owned_disposable_fixture",
+  "app": "BokkioRuntimeContract",
+  "tasks": [
+    {
+      "window": "Bokkio Runtime Contract",
+      "match": {"role": "text_field", "name": "Search", "value": ""},
+      "value": "MCP 开发样本 1"
+    }
+  ]
+}

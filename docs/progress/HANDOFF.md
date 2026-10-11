@@ -15,13 +15,21 @@ uv run pytest -q
 uv run python scripts/verify_runtime.py --output /tmp/bokkio-runtime-acceptance-NEW
 ```
 
-最后一条只验证代码/Browser/MCP/CLI/审批/审计。原生验证需启动明确授权的自有测试应用，再增加 --native-app APP --field Search；不能将省略原生项的结果称为桌面验收。辅助功能、屏幕录制和真实交互桌面按指南确认。
+最后一条只验证代码/Browser/MCP/CLI/审批/审计。原生验证可先编译 fixtures/cocoa-runtime/main.swift（无需 vendor），启动生成的 App，再增加 --native-app BokkioRuntimeContract --field Search；不能将省略原生项的结果称为桌面验收。辅助功能、屏幕录制和真实交互桌面按指南确认。
+
+原生 fixture 编译命令：
+
+```sh
+uv run python scripts/build_native_fixture.py --source fixtures/cocoa-runtime/main.swift --output /tmp/BokkioRuntimeContract.app --name BokkioRuntimeContract
+```
 
 自绘视觉 fixture 源码位于 fixtures/cocoa-visual/main.swift，编译并包装成 App 后运行：
 
 ```sh
 uv run python scripts/verify_runtime_visual.py --fixture /ABS/PATH/Test.app/Contents/MacOS/Test --output /tmp/bokkio-runtime-visual-NEW
 ```
+
+原生/代码/Browser 验收使用 scripts/verify_runtime.py。窗口/作业故障使用 scripts/verify_runtime_faults.py --fixture VISUAL_EXECUTABLE --output NEWDIR，显式记录屏幕锁、显示器及前台阻塞。MCP 字段闭环使用 scripts/verify_runtime_mcp_native.py；examples/mcp-native-task.json 提供自有原生 fixture 模板，先配置本机 policy。自动管理员审批只有显式 --approve-owned-fixture 才启用，不能代替客户人工审批。
 
 ## Windows
 

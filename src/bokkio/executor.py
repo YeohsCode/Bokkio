@@ -15,9 +15,45 @@ from .audit import AuditStore, canonical, identifier
 
 def initialize(store):
     with store.connect() as db:
+        db.execute("BEGIN IMMEDIATE")
         db.execute("""CREATE TABLE IF NOT EXISTS jobs (
             id TEXT PRIMARY KEY, session_id TEXT, operation_id TEXT, status TEXT,
             request TEXT, result TEXT, cancel INTEGER DEFAULT 0)""")
+        columns = {row[1] for row in db.execute("PRAGMA table_info(jobs)")}
+        for name, kind in (("worker_pid", "INTEGER"), ("worker_birth", "TEXT"),
+                           ("process_pid", "INTEGER"), ("process_birth", "TEXT")):
+            if name not in columns:
+                db.execute("ALTER TABLE jobs ADD COLUMN " + name + " " + kind)
+
+
+def _birth(pid):
+    from .runtime import process_birth
+    if os.name == "nt":
+        import ctypes as c
+        from ctypes import wintypes as w
+        kernel = c.WinDLL("kernel32", use_last_error=True)
+        kernel.OpenProcess.argtypes, kernel.OpenProcess.restype = [w.DWORD, w.BOOL, w.DWORD], w.HANDLE
+        kernel.GetExitCodeProcess.argtypes = [w.HANDLE, c.POINTER(w.DWORD)]
+        kernel.CloseHandle.argtypes = [w.HANDLE]
+        handle = kernel.OpenProcess(0x1000, False, pid)
+        if not handle:
+            raise ValueError("Worker is unavailable")
+        try:
+            code = w.DWORD()
+            if not kernel.GetExitCodeProcess(handle, c.byref(code)) or code.value != 259:
+                raise ValueError("Worker has exited")
+        finally:
+            kernel.CloseHandle(handle)
+    else:
+        state = subprocess.run(["ps", "-p", str(pid), "-o", "stat="], capture_output=True, text=True, timeout=3)
+        if not state.stdout.strip() or state.stdout.strip().startswith("Z"):
+            raise ValueError("Process is no longer running")
+    return process_birth(pid)
+
+
+def _identity(pid):
+    from .runtime import process_birth
+    return process_birth(pid)
 
 
 def launch(store, session_id, operation_id, request):
@@ -27,9 +63,12 @@ def launch(store, session_id, operation_id, request):
         db.execute("INSERT INTO jobs(id,session_id,operation_id,status,request) VALUES(?,?,?,?,?)",
                    (job_id, session_id, operation_id, "queued", canonical(request)))
     try:
-        subprocess.Popen([sys.executable, "-m", "bokkio.executor", str(store.root), job_id],
+        process = subprocess.Popen([sys.executable, "-m", "bokkio.executor", str(store.root), job_id],
                          stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
                          **({"creationflags": subprocess.CREATE_NO_WINDOW} if os.name == "nt" else {"start_new_session": True}))
+        born = _identity(process.pid)
+        with store.connect() as db:
+            db.execute("UPDATE jobs SET worker_pid=?,worker_birth=? WHERE id=?", (process.pid, born, job_id))
     except Exception:
         with store.connect() as db:
             db.execute("UPDATE jobs SET status='failed',result=? WHERE id=?", (canonical({"error": "worker_start_failed"}), job_id))
@@ -43,6 +82,37 @@ def get(store, job_id, session_id):
         row = db.execute("SELECT * FROM jobs WHERE id=? AND session_id=?", (job_id, session_id)).fetchone()
     if row is None:
         raise ValueError("Job is outside this session")
+    if row["status"] in {"queued", "running"} and row["worker_pid"]:
+        try:
+            alive = _birth(row["worker_pid"]) == row["worker_birth"]
+        except (ValueError, OSError, subprocess.TimeoutExpired):
+            alive = False
+        if not alive:
+            # A lost worker cannot prove whether its child produced side effects.
+            # Stop a still-identical tracked child, record unknown, never replay.
+            cleanup = "no_tracked_live_child"
+            if row["process_pid"]:
+                try:
+                    if _birth(row["process_pid"]) == row["process_birth"]:
+                        _terminate_pid(row["process_pid"])
+                        cleanup = "tracked_process_tree_terminated"
+                except (ValueError, OSError, subprocess.TimeoutExpired):
+                    cleanup = "tracked_child_unavailable"
+            result = {"error": "worker_lost", "dispatched": "unknown", "cleanup": cleanup,
+                      "message": "Worker exited without a durable result; inspect evidence before any new request"}
+            with store.connect() as db:
+                db.execute("BEGIN IMMEDIATE")
+                changed = db.execute("UPDATE jobs SET status='completion_unknown',result=? WHERE id=? AND status IN ('queued','running')",
+                                     (canonical(result), job_id)).rowcount
+                if changed:
+                    receipt = {"status": "completion_unknown", "session_id": session_id,
+                               "operation_id": row["operation_id"], "dispatched": "unknown",
+                               "result": {"job_id": job_id, "status": "completion_unknown"}, "error_code": "worker_lost"}
+                    db.execute("UPDATE operations SET status=?,result=? WHERE id=?",
+                               ("completion_unknown", canonical(receipt), row["operation_id"]))
+                    store.emit("job.worker_lost", session_id=session_id, operation_id=row["operation_id"],
+                               data={"job_id": job_id, "status": "completion_unknown", "dispatched": "unknown", "cleanup": cleanup}, db=db)
+                row = db.execute("SELECT * FROM jobs WHERE id=?", (job_id,)).fetchone()
     return {"job_id": job_id, "status": row["status"], "result": json.loads(row["result"]) if row["result"] else None}
 
 
@@ -54,27 +124,37 @@ def cancel(store, job_id, session_id):
     return get(store, job_id, session_id)
 
 
-def _terminate(process):
+def _terminate_pid(pid):
     if os.name == "nt":
-        subprocess.run(["taskkill", "/PID", str(process.pid), "/T", "/F"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=10)
+        subprocess.run(["taskkill", "/PID", str(pid), "/T", "/F"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=10)
     else:
         try:
-            os.killpg(process.pid, signal.SIGTERM)
-            process.wait(timeout=1)
-        except subprocess.TimeoutExpired:
-            os.killpg(process.pid, signal.SIGKILL)
+            os.killpg(pid, signal.SIGTERM)
+            deadline = time.monotonic() + 1
+            # The group leader may exit while a descendant ignores SIGTERM.
+            while time.monotonic() < deadline:
+                os.killpg(pid, 0)
+                time.sleep(.05)
+            os.killpg(pid, signal.SIGKILL)
         except ProcessLookupError:
             pass
 
 
+def _terminate(process):
+    _terminate_pid(process.pid)
+    process.wait(timeout=10)
+
+
 def worker(root, job_id):
     store = AuditStore(root)
+    initialize(store)
     with store.connect() as db:
         db.execute("BEGIN IMMEDIATE")
         job = db.execute("SELECT * FROM jobs WHERE id=?", (job_id,)).fetchone()
         if job is None or job["status"] != "queued":
             return
-        db.execute("UPDATE jobs SET status='running' WHERE id=?", (job_id,))
+        db.execute("UPDATE jobs SET status='running',worker_pid=?,worker_birth=? WHERE id=?",
+                   (os.getpid(), _birth(os.getpid()), job_id))
     request = json.loads(job["request"])
     session, operation = job["session_id"], job["operation_id"]
     start = time.monotonic()
@@ -110,6 +190,8 @@ def worker(root, job_id):
         process = subprocess.Popen(command, cwd=request["cwd"], env=inherited, stdin=subprocess.DEVNULL,
                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                    **({"creationflags": subprocess.CREATE_NEW_PROCESS_GROUP | subprocess.CREATE_NO_WINDOW} if os.name == "nt" else {"start_new_session": True}))
+        with store.connect() as db:
+            db.execute("UPDATE jobs SET process_pid=?,process_birth=? WHERE id=?", (process.pid, _identity(process.pid), job_id))
         buffers = {"stdout": bytearray(), "stderr": bytearray()}
         counts = {"stdout": 0, "stderr": 0}
         def consume(name, stream):

@@ -86,10 +86,18 @@ class Runtime:
             self._backend = Xa11yBackend()
         return self._backend
 
-    def _native_call(self, method, *args, _session_guard=None, **kwargs):
+    def _native_call(self, method, *args, _session_guard=None, _dispatch_request=None, **kwargs):
         def invoke():
             if _session_guard is not None:
-                self._session(_session_guard)
+                if _dispatch_request is not None:
+                    self._dispatch_scope(*_dispatch_request, _session_guard)
+                else:
+                    self._session(_session_guard)
+            if method == "perform":
+                from .xa11y_backend import Xa11yBackend
+                if isinstance(self.backend, Xa11yBackend):
+                    from .desktop_input import require_input_session
+                    require_input_session()
             return getattr(self.backend, method)(*args, **kwargs)
         return self._native_executor.submit(invoke).result()
 
@@ -153,6 +161,19 @@ class Runtime:
         if time.time() - payload["time"] > 15:
             raise BokkioStaleSnapshot("Observation expired; observe again")
         return payload
+
+    def _dispatch_scope(self, tool, args, session_id):
+        # Lock acquisition may wait while a session expires or a grant changes.
+        # Revalidate immediately after acquiring the shared desktop lock.
+        from .windows_capture import CaptureError
+        try:
+            scope = self._session(session_id)
+            self._validate(tool, args, scope)
+            if "observation_id" in args:
+                self._get_observation(session_id, args["observation_id"])
+            return scope
+        except (ValueError, BokkioStaleSnapshot) as error:
+            raise CaptureError("dispatch_scope_changed", str(error), dispatched=0) from error
 
     def call(self, tool, arguments=None, *, session_id=None, operation_id=None):
         arguments = json.loads(canonical(arguments if arguments is not None else {}))
@@ -399,14 +420,17 @@ class Runtime:
                 raise ValueError("Action scope differs from observation")
             from .desktop_input import desktop_lock
             with desktop_lock():
+                self._dispatch_scope(tool, args, session_id)
                 return self._native_call("perform", app, args["action"], ref=args["ref"], window=args.get("window"),
                                             _session_guard=session_id,
+                                            _dispatch_request=(tool, args),
                                             expected_snapshot=tree_digest(observation["snapshot"]["windows"]),
                                             **{k: args[k] for k in ("value", "direction", "amount", "expected_value") if k in args})
         if tool == "desktop.activate":
             from .desktop_input import desktop_lock, activate
             app = self._app(scope, args["app"], args["window"])
             with desktop_lock():
+                self._dispatch_scope(tool, args, session_id)
                 return activate(int(app), args["window"], args.get("window_id"))
         if tool == "desktop.capture":
             from .desktop_input import capture
@@ -429,6 +453,7 @@ class Runtime:
             with self.store.connect() as db:
                 image = db.execute("SELECT path FROM artifacts WHERE id=? AND session_id=?", (observation["artifact_id"], session_id)).fetchone()
             with desktop_lock():
+                self._dispatch_scope(tool, args, session_id)
                 return perform(observation["metadata"], Path(image["path"]).read_bytes(), args["action"], args["x"], args["y"], args.get("value"))
         if tool in {"code.run", "process.run", "job.get", "job.cancel"}:
             from . import executor
@@ -441,6 +466,7 @@ class Runtime:
             from .desktop_input import desktop_lock
             action = "open" if tool == "browser.open" else "observe" if tool == "browser.observe" else args.get("action")
             with desktop_lock():
+                self._dispatch_scope(tool, args, session_id)
                 return call(self.store, session_id, {**args, "action": action}, scope["origins"])
         if tool == "evidence.check":
             path = self._path(scope, args["path"])
@@ -498,5 +524,5 @@ class Runtime:
         if tool == "metrics.summary":
             return self.store.stats(session_id)
         if tool == "approval.status":
-            return [r for r in self.store.approvals(args.get("approval_id")) if r["session_id"] == session_id]
+            return self.store.approvals(args.get("approval_id"), session_id=session_id)
         raise ValueError("Unsupported operation")

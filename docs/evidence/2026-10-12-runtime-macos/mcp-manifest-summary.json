@@ -1,0 +1,98 @@
+{
+  "scope": "owned_disposable_fixture",
+  "caller": "official_mcp_client_manifest_runner",
+  "approval_mode": "automated_admin_owned_fixture",
+  "tasks": [
+    {
+      "task": 1,
+      "passed": true,
+      "status": "verified",
+      "dispatched": true,
+      "readback": true,
+      "source_unchanged": true,
+      "operation_id": "c4156f7b72db4e29a28a0ab6a76d0cc2",
+      "error": null
+    },
+    {
+      "task": 2,
+      "passed": true,
+      "status": "verified",
+      "dispatched": true,
+      "readback": true,
+      "source_unchanged": true,
+      "operation_id": "4ff78c1be4a044c59c2adc907798c203",
+      "error": null
+    },
+    {
+      "task": 3,
+      "passed": true,
+      "status": "verified",
+      "dispatched": true,
+      "readback": true,
+      "source_unchanged": true,
+      "operation_id": "addb4e25851645aaab73f432eb2b6df0",
+      "error": null
+    }
+  ],
+  "status": "completed",
+  "passed": 3,
+  "total": 3,
+  "metrics": {
+    "logical_operations": 11,
+    "by_tool_status": [
+      {
+        "status": "completed",
+        "tool": "desktop.observe",
+        "n": 6
+      },
+      {
+        "status": "completed",
+        "tool": "session.open",
+        "n": 1
+      },
+      {
+        "status": "running",
+        "tool": "metrics.summary",
+        "n": 1
+      },
+      {
+        "status": "verified",
+        "tool": "desktop.act",
+        "n": 3
+      }
+    ],
+    "events": {
+      "request.received": 14,
+      "execution.intent": 11,
+      "session.opened": 1,
+      "execution.finished": 13,
+      "approval.requested": 3,
+      "approval.approved": 3,
+      "approval.consumed": 3
+    },
+    "attempts": 14,
+    "known_dispatched": 3,
+    "approval_wait_ms": [
+      49.224,
+      47.987,
+      45.258
+    ],
+    "execution_channels": {
+      "session": 1,
+      "desktop": 12
+    },
+    "execution_duration_ms": {
+      "p50": 48.027,
+      "p95": 152.942
+    },
+    "model_tokens": null,
+    "business_success_rate": null
+  },
+  "audit_artifact": {
+    "artifact_id": "01d81e9d54004426bf81dd63723f4c76",
+    "sha256": "53dfb0ada97ef1ea1e7a1cee244730bfde6ec4765d400d15ba642799341626d3",
+    "mime": "application/x-ndjson",
+    "bytes": 33381
+  },
+  "date": "2026-10-12"
+}

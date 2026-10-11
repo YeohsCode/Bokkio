@@ -16,6 +16,47 @@ import time
 from .windows_capture import CaptureError
 
 
+def require_input_session():
+    """Check the active desktop without prompting for additional permissions."""
+    if sys.platform == "darwin":
+        app = c.CDLL('/System/Library/Frameworks/ApplicationServices.framework/ApplicationServices')
+        cf = c.CDLL('/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation')
+        ptr = c.c_void_p
+        app.CGSessionCopyCurrentDictionary.restype = ptr
+        cf.CFStringCreateWithCString.argtypes, cf.CFStringCreateWithCString.restype = [ptr, c.c_char_p, c.c_uint], ptr
+        cf.CFDictionaryGetValue.argtypes, cf.CFDictionaryGetValue.restype = [ptr, ptr], ptr
+        cf.CFBooleanGetValue.argtypes, cf.CFBooleanGetValue.restype = [ptr], c.c_bool
+        cf.CFGetTypeID.argtypes, cf.CFGetTypeID.restype = [ptr], c.c_ulong
+        cf.CFBooleanGetTypeID.restype = c.c_ulong
+        cf.CFRelease.argtypes = [ptr]
+        session = app.CGSessionCopyCurrentDictionary()
+        if not session:
+            raise CaptureError("input_desktop_unavailable", "Interactive Mac session is unavailable", dispatched=0)
+        key = cf.CFStringCreateWithCString(None, b'CGSSessionScreenIsLocked', 0x08000100)
+        try:
+            value = cf.CFDictionaryGetValue(session, key)
+            if value and (cf.CFGetTypeID(value) != cf.CFBooleanGetTypeID() or cf.CFBooleanGetValue(value)):
+                raise CaptureError("input_desktop_unavailable", "Mac screen is locked", dispatched=0)
+        finally:
+            cf.CFRelease(key)
+            cf.CFRelease(session)
+    elif sys.platform == "win32":
+        from ctypes import wintypes as w
+        user = c.WinDLL("user32", use_last_error=True)
+        user.OpenInputDesktop.argtypes, user.OpenInputDesktop.restype = [w.DWORD, w.BOOL, w.DWORD], w.HANDLE
+        user.CloseDesktop.argtypes = [w.HANDLE]
+        user.GetUserObjectInformationW.argtypes = [w.HANDLE, c.c_int, w.LPVOID, w.DWORD, c.POINTER(w.DWORD)]
+        desktop = user.OpenInputDesktop(0, False, 1)
+        if not desktop:
+            raise CaptureError("input_desktop_unavailable", "Normal Windows input desktop is unavailable", dispatched=0)
+        try:
+            name, needed = c.create_unicode_buffer(256), w.DWORD()
+            if not user.GetUserObjectInformationW(desktop, 2, name, c.sizeof(name), c.byref(needed)) or name.value != "Default":
+                raise CaptureError("input_desktop_unavailable", "Normal Windows input desktop is unavailable", dispatched=0)
+        finally:
+            user.CloseDesktop(desktop)
+
+
 @contextmanager
 def desktop_lock(timeout=5):
     root = Path(os.environ.get("LOCALAPPDATA", Path.home())) / ".bokkio"

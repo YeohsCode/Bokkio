@@ -13,13 +13,17 @@ def build():
     files += sorted((project / "src/bokkio").glob("*.py"))
     files += sorted((project / "src/bokkio/native").glob("*.swift"))
     files += sorted((project / "examples").glob("*.py")) + sorted((project / "examples").glob("*.json"))
-    files += [project / "scripts" / name for name in ("install_runtime.sh", "install_runtime.ps1", "verify_runtime.py", "verify_runtime_visual.py")]
-    files += [project / "tests" / name for name in ("test_runtime.py", "test_runtime_transports.py")]
+    files += [project / "scripts" / name for name in ("install_runtime.sh", "install_runtime.ps1", "verify_runtime.py", "verify_runtime_visual.py", "verify_runtime_faults.py", "verify_runtime_mcp_native.py", "build_native_fixture.py", "build_runtime_bundle.py")]
+    files += [project / "tests" / name for name in ("test_runtime.py", "test_runtime_transports.py", "test_runtime_jobs.py")]
     files += [project / "docs" / name for name in ("RUNTIME-GUIDE.md", "RUNTIME-DELIVERY.md", "PLAN-REPOSITIONING.md")]
     files += sorted((project / "docs/progress").glob("*.md")) + sorted((project / "docs/progress").glob("*.json"))
-    files += sorted((project / "docs/evidence/2026-10-11-runtime").glob("*.json"))
-    files += [project / "docs/evidence/2026-10-11-runtime" / name for name in ("README.md", "SHA256SUMS")]
-    files += [project / "fixtures/cocoa-visual/main.swift", project / "fixtures/windows-visual/Program.cs", project / "fixtures/windows-visual/windows-visual.csproj"]
+    # Explicit public/sanitized evidence only; legacy runtime directories may
+    # have different privacy and checksum conventions.
+    for name in ("2026-10-11-runtime", "2026-10-12-runtime-macos"):
+        evidence = project / "docs/evidence" / name
+        files += sorted(evidence.glob("*.json"))
+        files += [evidence / name for name in ("README.md", "SHA256SUMS")]
+    files += [project / "fixtures/cocoa-runtime/main.swift", project / "fixtures/cocoa-visual/main.swift", project / "fixtures/windows-visual/Program.cs", project / "fixtures/windows-visual/windows-visual.csproj"]
     releases = [dist / name for name in ("bokkio-0.2.0-py3-none-any.whl", "bokkio-0.2.0.tar.gz", "runtime-requirements.txt", "runtime-dependency-inventory.json")]
     for file in files + releases:
         if not file.is_file():
@@ -40,7 +44,7 @@ Windows/macOS 的通用执行工具：MCP、CLI、Python SDK、原生/截图输�
 macOS 运行 `sh scripts/install_runtime.sh`；Windows 运行 `powershell -File scripts/install_runtime.ps1`。
 这两条命令从锁定依赖安装，需要可用包源。先阅读 docs/RUNTIME-GUIDE.md，人工配置 examples/runtime-policy.json；默认拒绝资源访问。
 
-packages/ 内含 wheel、源码归档、锁定 requirements 和本机依赖元数据清单；不是离线依赖镜像。仓库回归 541 项，本包携带 22 项 Runtime 核心/transport 测试。
+packages/ 内含 wheel、源码归档、锁定 requirements 和本机依赖元数据清单；不是离线依赖镜像。仓库回归 546 项，本包携带 27 项 Runtime 核心/transport 测试。
 
 实际完成范围和待验收项见 docs/RUNTIME-DELIVERY.md。Windows 实机和客户业务样本尚待验收，本包不标为双平台已验收正式发行。
 """)

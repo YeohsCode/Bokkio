@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-12",
+  "platform": "Darwin",
+  "tests": {
+    "passed": 546,
+    "failed": 0,
+    "duration_seconds": 9.02
+  },
+  "source_runtime_tests": 27,
+  "desktop_job_matrix": {
+    "passed": 16,
+    "total": 18
+  },
+  "known_zero_dispatch_blocked_positive_cases": 2,
+  "customer_acceptance_complete": false
+}

@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-12",
+  "scope": "development_runs_not_combined_success_rate",
+  "runs": [
+    {
+      "round": 1,
+      "status": "runner_interrupted",
+      "reason": "Test runner used content-rectangle height instead of fixture client height; posted click did not hit the expected business button. Fixed caller coordinate mapping; driver guards unchanged."
+    },
+    {
+      "round": 2,
+      "status": "runner_interrupted",
+      "reason": "minimization transition/read timeout"
+    },
+    {
+      "round": 3,
+      "status": "runner_interrupted",
+      "reason": "foreground guard rejected fresh positive input while a system notification was topmost"
+    },
+    {
+      "round": 4,
+      "status": "runner_interrupted",
+      "reason": "foreground guard rejected fresh positive input while a system notification was topmost"
+    },
+    {
+      "round": 5,
+      "status": "runner_interrupted",
+      "reason": "minimization transition/read timeout"
+    }
+  ]
+}

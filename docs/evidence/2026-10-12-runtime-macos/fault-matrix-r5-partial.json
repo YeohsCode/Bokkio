@@ -1,0 +1,80 @@
+{
+  "platform": "Darwin",
+  "architecture": "arm64",
+  "scope": "owned_fixture_physical_faults_and_real_processes",
+  "source_revision": "4d5d0cfc618133b5ba0d661d096d4938a5a94134",
+  "working_tree_changes": true,
+  "checks": [
+    {
+      "case": "window_moved",
+      "passed": true,
+      "dispatched": 0,
+      "error_code": "capture_changed",
+      "status": "failed",
+      "business_clicks_unchanged": true
+    },
+    {
+      "case": "window_resized",
+      "passed": true,
+      "dispatched": 0,
+      "error_code": "capture_changed",
+      "status": "failed",
+      "business_clicks_unchanged": true
+    },
+    {
+      "case": "pixels_changed",
+      "passed": true,
+      "dispatched": 0,
+      "error_code": "capture_changed",
+      "status": "failed",
+      "business_clicks_unchanged": true
+    },
+    {
+      "case": "other_process_takes_foreground",
+      "passed": true,
+      "dispatched": 0,
+      "error_code": "capture_changed",
+      "status": "failed",
+      "business_clicks_unchanged": true
+    },
+    {
+      "case": "nonforeground_fresh_pixels",
+      "passed": true,
+      "dispatched": 0,
+      "error_code": "input_unavailable",
+      "status": "failed",
+      "business_clicks_unchanged": true
+    },
+    {
+      "case": "window_rebuilt_same_title",
+      "passed": true,
+      "dispatched": 0,
+      "error_code": "window_missing",
+      "status": "failed",
+      "business_clicks_unchanged": true
+    },
+    {
+      "case": "fresh_window_after_rebuild",
+      "passed": false
+    },
+    {
+      "case": "minimized_window_capture_rejected",
+      "passed": true,
+      "error_code": "capture_timeout"
+    }
+  ],
+  "displays": [
+    {
+      "frame": {
+        "height": 1440,
+        "width": 2560,
+        "x": 0,
+        "y": 0
+      },
+      "index": 0,
+      "scale": 1
+    }
+  ],
+  "status": "runner_interrupted",
+  "date": "2026-10-12"
+}

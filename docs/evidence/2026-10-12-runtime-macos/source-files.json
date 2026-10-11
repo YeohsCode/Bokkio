@@ -1,0 +1,14 @@
+{
+  "src/bokkio/runtime.py": "c22d56bf746527165e5859e208ce5e81ea9579b093bfb3e89671e54fd2a2d1ba",
+  "src/bokkio/audit.py": "fe318b8f1835157f1d19f7227ea499d2b459acdbc5494dfeab610770a3450162",
+  "src/bokkio/desktop_input.py": "0f94fbafb87f54ba1373f3f0fea00ae8dde9421a8a7b2bd9f9f161348f8e308a",
+  "src/bokkio/executor.py": "fdad38235d40dc37336133be1a4204f9ac6165ab6e923b405709d3eef432e9eb",
+  "src/bokkio/mcp_server.py": "a6e60964d716dbd1a40c9e546f9940193991dacd2f9d057f62fa022a583b89f6",
+  "src/bokkio/tool_schema.py": "610e9f8c77c5f0302637dce2ddf02bd571224561a9f71873bcb1a1ffd3f8953f",
+  "src/bokkio/native/macos_capture.swift": "b3da29d8ea90ab15b64326069e313d428549e03d45ad5d27cb792bef57a21c7a",
+  "fixtures/cocoa-visual/main.swift": "d167c061d53f8ebafc2281c44144e25ce283df9213d4a072ccda9eb57ee41fea",
+  "fixtures/cocoa-runtime/main.swift": "a6153e938f0ac69f756c6e8fc6ce4f6fa61ff070e98a4fccdce0a565b894d105",
+  "scripts/verify_runtime_faults.py": "0ad2f4f7b071d52ebd1923d3d4bb619b0ffb45d48383ad1fefee7c9260682feb",
+  "scripts/verify_runtime_mcp_native.py": "c6b5504bd5602b975046206ae3e1c42bd0c2b587b03a9ce39af9140173190b29",
+  "examples/mcp_call.py": "ff693d867c09f75dff910e58b0852265b63c118baed2f970865f86ae6d9577ca"
+}

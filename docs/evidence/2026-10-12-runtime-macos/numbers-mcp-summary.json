@@ -1,0 +1,82 @@
+{
+  "scope": "owned_local_numbers_development_task",
+  "harness": "current Codex agent via official MCP client bridge",
+  "approval_mode": "local_developer_admin_for_owned_fixture_not_customer_human_approval",
+  "rounds": [
+    {
+      "round": 1,
+      "passed": true,
+      "native_status": "verified",
+      "dispatched": true,
+      "rename_readback": true,
+      "imported_value_readback": true,
+      "source_csv_independent_check": true,
+      "source_unchanged": true,
+      "error": null,
+      "operation_id": "numbers-rename-1-fresh",
+      "approval_id": "cb1a8bc4740a47eabe4479d0d22e62f1"
+    },
+    {
+      "round": 2,
+      "passed": true,
+      "native_status": "verified",
+      "dispatched": true,
+      "rename_readback": true,
+      "imported_value_readback": true,
+      "source_csv_independent_check": true,
+      "source_unchanged": true,
+      "error": null,
+      "operation_id": "numbers-rename-2-fresh",
+      "approval_id": "0b468c6c92e84f5c9a2b999bbcfa8e4f"
+    },
+    {
+      "round": 3,
+      "passed": true,
+      "native_status": "verified",
+      "dispatched": true,
+      "rename_readback": true,
+      "imported_value_readback": true,
+      "source_csv_independent_check": true,
+      "source_unchanged": true,
+      "error": null,
+      "operation_id": "numbers-rename-3-fresh",
+      "approval_id": "cda6ac1bb02b4e15853439ff75ff4012"
+    }
+  ],
+  "audit": {
+    "events": 83,
+    "approval_consumed": 5,
+    "native_operations": 3,
+    "artifact_read": true
+  },
+  "tools": [
+    "approval.status",
+    "artifact.read",
+    "audit.export",
+    "audit.query",
+    "browser.act",
+    "browser.observe",
+    "browser.open",
+    "capabilities",
+    "code.run",
+    "desktop.act",
+    "desktop.activate",
+    "desktop.capture",
+    "desktop.list",
+    "desktop.observe",
+    "desktop.pixel",
+    "events.follow",
+    "evidence.check",
+    "job.cancel",
+    "job.get",
+    "metrics.summary",
+    "process.run",
+    "session.close",
+    "session.open"
+  ],
+  "passed": 3,
+  "total": 3,
+  "date": "2026-10-12",
+  "document_save_and_reopen_tested": false,
+  "task_detail": "Imported local CSV and wrote/read native sheet-name fields; persistent Numbers document saving was not tested."
+}
