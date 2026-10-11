@@ -60,7 +60,8 @@ sealed class VisualForm : Form
         g.FillRectangle(Brushes.AliceBlue, InputBox); g.DrawRectangle(Pens.Black, InputBox);
         g.DrawString(input.Length == 0 ? "Enter code" : input, font, Brushes.Black, 68, 118);
         g.FillRectangle(Brushes.RoyalBlue, SubmitBox);
-        g.DrawString("Run check", font, Brushes.White, 72, 200);
+        if (mode == "icon") g.FillPolygon(Brushes.White, new Point[] { new(148,200), new(148,230), new(175,215) });
+        else g.DrawString("Run check", font, Brushes.White, 72, 200);
         g.DrawString($"Clicks: {clicks}", font, Brushes.Black, 60, 275);
         (Color color, int x, int y)[] marks = [
             (Color.FromArgb(161,11,206),8,8),

@@ -1,0 +1,189 @@
+{
+  "platform": "Darwin",
+  "architecture": "arm64",
+  "scope": "explicit_disposable_runtime_acceptance",
+  "rounds": [
+    {
+      "round": 1,
+      "code": true,
+      "browser": true,
+      "receipts": [
+        "fa3d18c03ab24fcca7907691ebe35d1d",
+        "e3179cef7bf64b398184fbbdc9624831",
+        "f5e0ee942c1643869be7135f1a8e85d4",
+        "8b23ea793ed642cab718ec4588069b9a"
+      ]
+    },
+    {
+      "round": 2,
+      "code": true,
+      "browser": true,
+      "receipts": [
+        "e003d8407ff64d6ab35b4ab4e5a4453e",
+        "85a63301d106428fb4d2861eba22eb04",
+        "6a7c633497ea4e8e82f4bff7eb4217c7",
+        "3410f0816f464ad593dd4706a841973d"
+      ]
+    },
+    {
+      "round": 3,
+      "code": true,
+      "browser": true,
+      "receipts": [
+        "5eee7945ca4d4935aadc27070192dd33",
+        "a361816734d94b03a09ff54ccf962554",
+        "392e8d6e47ad4f8388eaeda481020817",
+        "71c5b02a8bad46be9febd070c541d8a5"
+      ]
+    }
+  ],
+  "native": [
+    {
+      "round": 1,
+      "passed": true,
+      "status": "verified",
+      "operation_id": "ea1875cba7184efd8800be65a104fd1d",
+      "attempts": [
+        {
+          "operation_id": "ea1875cba7184efd8800be65a104fd1d",
+          "status": "verified",
+          "dispatched": true
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "passed": true,
+      "status": "verified",
+      "operation_id": "b2df9566368f47d4a70c8620343a7f01",
+      "attempts": [
+        {
+          "operation_id": "b2df9566368f47d4a70c8620343a7f01",
+          "status": "verified",
+          "dispatched": true
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "passed": true,
+      "status": "verified",
+      "operation_id": "5aa2be2daef849ed8270ce4307d2ca3e",
+      "attempts": [
+        {
+          "operation_id": "5aa2be2daef849ed8270ce4307d2ca3e",
+          "status": "verified",
+          "dispatched": true
+        }
+      ]
+    }
+  ],
+  "mcp": {
+    "passed": true,
+    "tools": 23,
+    "client": "official_mcp_sdk"
+  },
+  "approval": {
+    "passed": true,
+    "mode": "automated_local_admin_cli_fixture",
+    "operation_id": "approval-fixture"
+  },
+  "cli": {
+    "passed": true
+  },
+  "audit": {
+    "events": 115,
+    "logical_operations": 36,
+    "reconciled": true,
+    "generated_code_parent_links": 3
+  },
+  "stats": {
+    "logical_operations": 36,
+    "by_tool_status": [
+      {
+        "status": "completed",
+        "tool": "audit.query",
+        "n": 1
+      },
+      {
+        "status": "completed",
+        "tool": "browser.observe",
+        "n": 3
+      },
+      {
+        "status": "completed",
+        "tool": "desktop.observe",
+        "n": 6
+      },
+      {
+        "status": "completed",
+        "tool": "evidence.check",
+        "n": 3
+      },
+      {
+        "status": "completed",
+        "tool": "job.get",
+        "n": 6
+      },
+      {
+        "status": "completed",
+        "tool": "metrics.summary",
+        "n": 1
+      },
+      {
+        "status": "completed",
+        "tool": "session.open",
+        "n": 1
+      },
+      {
+        "status": "executed",
+        "tool": "browser.act",
+        "n": 6
+      },
+      {
+        "status": "executed",
+        "tool": "browser.open",
+        "n": 3
+      },
+      {
+        "status": "executed",
+        "tool": "code.run",
+        "n": 3
+      },
+      {
+        "status": "verified",
+        "tool": "desktop.act",
+        "n": 3
+      }
+    ],
+    "events": {
+      "request.received": 36,
+      "execution.intent": 36,
+      "session.opened": 1,
+      "execution.finished": 36,
+      "job.started": 3,
+      "job.finished": 3
+    },
+    "attempts": 36,
+    "known_dispatched": 15,
+    "approval_wait_ms": [],
+    "execution_channels": {
+      "session": 1,
+      "code": 3,
+      "job": 6,
+      "evidence": 3,
+      "browser": 12,
+      "desktop": 9,
+      "audit": 1,
+      "metrics": 1
+    },
+    "execution_duration_ms": {
+      "p50": 31.435,
+      "p95": 407.415
+    },
+    "model_tokens": null,
+    "business_success_rate": null
+  },
+  "dependency_set": "uv.lock / dist/runtime-requirements.txt",
+  "xa11y_version": "0.15.0"
+}

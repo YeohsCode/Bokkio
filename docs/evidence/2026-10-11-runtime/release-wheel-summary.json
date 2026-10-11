@@ -1,0 +1,189 @@
+{
+  "platform": "Darwin",
+  "architecture": "arm64",
+  "scope": "explicit_disposable_runtime_acceptance",
+  "rounds": [
+    {
+      "round": 1,
+      "code": true,
+      "browser": true,
+      "receipts": [
+        "1422414b38a74a2682fd7edc4011f580",
+        "4a33cc4b66f0467abe79996392ec2440",
+        "ce4901403de54ff49ebb3cc88f953519",
+        "0d0029bcc6d547c0b07f4cb0ae18ca0e"
+      ]
+    },
+    {
+      "round": 2,
+      "code": true,
+      "browser": true,
+      "receipts": [
+        "94e149050bf64f7e94346f1b00e1b44b",
+        "a411fdfefb4f41589057bd272a5f2a1b",
+        "f443acd1058c4c9fbf56e69d48f725fa",
+        "aa9960c3b17e4059a50f4e118be2e6f1"
+      ]
+    },
+    {
+      "round": 3,
+      "code": true,
+      "browser": true,
+      "receipts": [
+        "70581c65372b432a880fedfb0bf753c9",
+        "6280456febb4472f90ddfcd4eb2d4890",
+        "43ba571525354140bab2e5793373d34e",
+        "d39395dd9d25472b8689a8e012ce92c5"
+      ]
+    }
+  ],
+  "native": [
+    {
+      "round": 1,
+      "passed": true,
+      "status": "verified",
+      "operation_id": "cd87bbb224bd4ee7a57eb7df6a36992a",
+      "attempts": [
+        {
+          "operation_id": "cd87bbb224bd4ee7a57eb7df6a36992a",
+          "status": "verified",
+          "dispatched": true
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "passed": true,
+      "status": "verified",
+      "operation_id": "c861171617264180822d1162b967c00e",
+      "attempts": [
+        {
+          "operation_id": "c861171617264180822d1162b967c00e",
+          "status": "verified",
+          "dispatched": true
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "passed": true,
+      "status": "verified",
+      "operation_id": "c462bface669404eabdac919310f4456",
+      "attempts": [
+        {
+          "operation_id": "c462bface669404eabdac919310f4456",
+          "status": "verified",
+          "dispatched": true
+        }
+      ]
+    }
+  ],
+  "mcp": {
+    "passed": true,
+    "tools": 23,
+    "client": "official_mcp_sdk"
+  },
+  "approval": {
+    "passed": true,
+    "mode": "automated_local_admin_cli_fixture",
+    "operation_id": "approval-fixture"
+  },
+  "cli": {
+    "passed": true
+  },
+  "audit": {
+    "events": 115,
+    "logical_operations": 36,
+    "reconciled": true,
+    "generated_code_parent_links": 3
+  },
+  "stats": {
+    "logical_operations": 36,
+    "by_tool_status": [
+      {
+        "status": "completed",
+        "tool": "audit.query",
+        "n": 1
+      },
+      {
+        "status": "completed",
+        "tool": "browser.observe",
+        "n": 3
+      },
+      {
+        "status": "completed",
+        "tool": "desktop.observe",
+        "n": 6
+      },
+      {
+        "status": "completed",
+        "tool": "evidence.check",
+        "n": 3
+      },
+      {
+        "status": "completed",
+        "tool": "job.get",
+        "n": 6
+      },
+      {
+        "status": "completed",
+        "tool": "metrics.summary",
+        "n": 1
+      },
+      {
+        "status": "completed",
+        "tool": "session.open",
+        "n": 1
+      },
+      {
+        "status": "executed",
+        "tool": "browser.act",
+        "n": 6
+      },
+      {
+        "status": "executed",
+        "tool": "browser.open",
+        "n": 3
+      },
+      {
+        "status": "executed",
+        "tool": "code.run",
+        "n": 3
+      },
+      {
+        "status": "verified",
+        "tool": "desktop.act",
+        "n": 3
+      }
+    ],
+    "events": {
+      "request.received": 36,
+      "execution.intent": 36,
+      "session.opened": 1,
+      "execution.finished": 36,
+      "job.started": 3,
+      "job.finished": 3
+    },
+    "attempts": 36,
+    "known_dispatched": 15,
+    "approval_wait_ms": [],
+    "execution_channels": {
+      "session": 1,
+      "code": 3,
+      "job": 6,
+      "evidence": 3,
+      "browser": 12,
+      "desktop": 9,
+      "audit": 1,
+      "metrics": 1
+    },
+    "execution_duration_ms": {
+      "p50": 34.293,
+      "p95": 425.988
+    },
+    "model_tokens": null,
+    "business_success_rate": null
+  },
+  "dependency_set": "uv.lock",
+  "xa11y_version": "0.15.0"
+}

@@ -85,6 +85,7 @@ def _capture_in_worker(pid, hwnd):
     get_dpi = api(user, "GetDpiForWindow", w.UINT, w.HWND)
     set_dpi = api(user, "SetThreadDpiAwarenessContext", w.HANDLE, w.HANDLE)
     get_class = api(user, "GetClassNameW", c.c_int, w.HWND, w.LPWSTR, c.c_int)
+    get_title = api(user, "GetWindowTextW", c.c_int, w.HWND, w.LPWSTR, c.c_int)
     open_process = api(kernel, "OpenProcess", w.HANDLE, w.DWORD, w.BOOL, w.DWORD)
     get_times = api(kernel, "GetProcessTimes", w.BOOL, w.HANDLE, *([c.POINTER(w.FILETIME)] * 4))
     close_handle = api(kernel, "CloseHandle", w.BOOL, w.HANDLE)
@@ -148,6 +149,8 @@ def _capture_in_worker(pid, hwnd):
             dpi = get_dpi(hwnd)
             if not dpi: native_error("GetDpiForWindow")
             class_name = c.create_unicode_buffer(256)
+            title = c.create_unicode_buffer(2048)
+            get_title(hwnd, title, len(title))
             if not get_class(hwnd, class_name, 256): native_error("GetClassNameW")
             policy = w.DWORD(); known = bool(affinity(hwnd, c.byref(policy)))
             if not known and c.get_last_error() == 5:
@@ -155,7 +158,7 @@ def _capture_in_worker(pid, hwnd):
             if known and policy.value:
                 raise CaptureError("capture_protected", "Window display affinity excludes capture")
             return {"pid": pid, "hwnd": hwnd, "process_created_filetime": born,
-                    "window_class": class_name.value, "width": width, "height": height,
+                    "window_class": class_name.value, "window_title": title.value, "width": width, "height": height,
                     "window_bounds": {"x":rect.left,"y":rect.top,"width":rect.right-rect.left,"height":rect.bottom-rect.top},
                     "client_screen_origin": {"x":origin.x,"y":origin.y}, "window_dpi":dpi,
                     "logical_to_physical_scale":dpi/96, "display_affinity_query": "known" if known else "unavailable"}

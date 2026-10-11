@@ -1,0 +1,102 @@
+{
+  "platform": "Darwin",
+  "architecture": "arm64",
+  "scope": "owned_icon_and_unicode_without_ocr",
+  "rounds": [
+    {
+      "round": 1,
+      "passed": true,
+      "input_matches": true,
+      "clicks": 1,
+      "type_status": "executed",
+      "click_status": "executed",
+      "operation_ids": [
+        "1e3b47455b98483ab0c4aefaa1533189",
+        "89426eba79a34b70b092091e61c5d9e3"
+      ],
+      "attempts": {
+        "type": [
+          {
+            "operation_id": "1e3b47455b98483ab0c4aefaa1533189",
+            "status": "executed",
+            "dispatched": true,
+            "error_code": null
+          }
+        ],
+        "click": [
+          {
+            "operation_id": "89426eba79a34b70b092091e61c5d9e3",
+            "status": "executed",
+            "dispatched": true,
+            "error_code": null
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "round": 2,
+      "passed": true,
+      "input_matches": true,
+      "clicks": 1,
+      "type_status": "executed",
+      "click_status": "executed",
+      "operation_ids": [
+        "61f901f8a2c9447cab6e36e006dd8b61",
+        "ae514e35915e4b5493b2368548b416ff"
+      ],
+      "attempts": {
+        "type": [
+          {
+            "operation_id": "61f901f8a2c9447cab6e36e006dd8b61",
+            "status": "executed",
+            "dispatched": true,
+            "error_code": null
+          }
+        ],
+        "click": [
+          {
+            "operation_id": "ae514e35915e4b5493b2368548b416ff",
+            "status": "executed",
+            "dispatched": true,
+            "error_code": null
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "round": 3,
+      "passed": true,
+      "input_matches": true,
+      "clicks": 1,
+      "type_status": "executed",
+      "click_status": "executed",
+      "operation_ids": [
+        "239d017db7de45749da33a1d726750b7",
+        "bc0de2ee669e4944a6e09f35002b93c5"
+      ],
+      "attempts": {
+        "type": [
+          {
+            "operation_id": "239d017db7de45749da33a1d726750b7",
+            "status": "executed",
+            "dispatched": true,
+            "error_code": null
+          }
+        ],
+        "click": [
+          {
+            "operation_id": "bc0de2ee669e4944a6e09f35002b93c5",
+            "status": "executed",
+            "dispatched": true,
+            "error_code": null
+          }
+        ]
+      },
+      "errors": []
+    }
+  ],
+  "dependency_set": "uv.lock",
+  "xa11y_version": "0.15.0"
+}

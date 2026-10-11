@@ -1,10 +1,16 @@
 # Bokkio
 
-面向 Windows 与 macOS 的原生桌面自动化项目，探索确定性 Workflow、Jev 局部决策与 LLM 全局规划的协作。
+面向 Windows 与 macOS 的通用 Computer Use Runtime，供不同 Harness、Agent IDE 与 Agent 调用，支持原生/视觉动作、生成代码、审批与操作审计。
 
-A native desktop automation project for Windows and macOS, exploring how deterministic workflows, Jev UI decisions and LLM planning can work together.
+A model-independent computer use runtime for Windows and macOS: native/pixel actions, generated code, human approvals and operation audit through MCP, CLI and Python SDK.
 
-**当前版本 / Current release:** `0.1.0` — Windows UIA / macOS Accessibility CLI，已接入真实 Jev / Windows UIA and macOS Accessibility CLI with real Jev integration.
+**工作候选版本 / Working candidate:** `0.2.0` — 通用执行 Core，MCP、CLI、Python SDK、生成代码、Browser、审批、可查询统计的操作日志。
+
+**2026-10-11 状态：** 主机回归 **541/541**；macOS 原生字段、视觉中文输入/图标点击、代码和 Browser 各有 **3/3** 验证。Windows 当前 Runtime 与客户业务样本待验收。当前聚焦 macOS，Windows 可在另一台电脑接续。
+
+**跨环境 Agent 共享入口 / Shared handoff:** [计划、进度、完成度与待办](docs/progress/README.md) · [结构化状态](docs/progress/state.json) · [接续步骤](docs/progress/HANDOFF.md)。这些文档和脱敏验收报告由 Git 跟踪；每端完成工作后更新并推送。
+
+使用方法见 [Runtime 指南](docs/RUNTIME-GUIDE.md)，详细实测范围见 [交付报告](docs/RUNTIME-DELIVERY.md)。历史 `0.1.0` Planner/Jev/Workflow 内容保留在下文。
 
 [中文](#中文) · [English](#english)
 
@@ -12,25 +18,17 @@ A native desktop automation project for Windows and macOS, exploring how determi
 
 ## 中文
 
-### 项目背景
+### 项目定位与当前进展
 
-Bokkio 源于一个具体需求：在 Windows 和 macOS 上，通过统一接口读取原生应用的 UI 元素，并逐步完成点击、输入、选择和跨应用流程自动化。项目希望具备类似 UiPath 的元素树与流程重放能力，同时引入 AI 来处理任务规划和 UI 变化。
+Bokkio 为企业提供通用 Computer Use 执行工具。调用方的 Harness、Agent IDE 或 Agent 负责理解任务、选择通道和判断业务结果；Bokkio 负责获准资源上的观察、原生/视觉动作、生成代码/脚本、Browser、审批与操作证据。Core 不依赖固定模型或业务流程，DeepSeek Harness 是可选调用方。
 
-底层优先使用操作系统提供的真实 UI 结构：Windows UI Automation（UIA）和 macOS Accessibility（AXUIElement）。按钮、文本框、菜单和表格应尽可能通过角色、名称、状态及父子关系定位；当 Accessibility 信息不足时，再引入 OCR 与视觉操作兜底。Bokkio 的 Computer Use 覆盖桌面应用、系统设置和跨应用流程；浏览器只是其中一种测试环境。
+macOS 开发覆盖计划中的四类能力：原生、视觉、生成代码组合、Browser。客户应用类待确定，完整故障矩阵和客户 Agent 接入待验收。Windows 新 Runtime 已提供实现及安装脚本，当前实机验收尚未完成；先前保存的 VM 凭据已找回并成功登录。
 
-长期目标是把一次成功的 Agent 执行过程转化为可保存、可验证、可重复执行的 Workflow。重复任务走确定性重放，遇到 UI 变化或执行失败时，再由 Jev 或 LLM 协助恢复。
+最新定位和三天交付门槛见 [实施计划](docs/PLAN-REPOSITIONING.md)，完成度及剩余工作统一维护在 [共享进度](docs/progress/STATUS.md)。统计分母是开发能力覆盖，不表示通用软件成功率或双平台生产验收完成。
 
-项目需求来自 [研究方案](docs/RESEARCH.md)，实施范围与验收标准见 [分阶段计划](PLAN.md)。这些文档描述目标设计；当前交付范围见下节。
+### 历史 P0–P7 记录
 
-### 当前进展
-
-截至 **2026-10-09**：
-
-**总体位置：P6 Windows 验收完成，P7 部分实现。** Office 原题已实跑十轮，各轮独立评分 **0/3**；最新失败为 Word 输入后确认、Excel 输入前窗口/前台拒绝与 PowerPoint 决策置信度不足。独立 Excel 脚本探针完成字段替换和保存校验，完整 Agent 任务与最新字段 transport 尚未通过。主机回归 **435/435**，Windows 历史 **373/373**。见 [实跑报告](docs/evidence/2026-10-08-office-live/README.md)。
-
-Mac公共视觉接口和Agent/CLI OCR降级已落地；最新自绘窗口只读观察与真实Jev决策3/3，真实输入仍待验收。见[视觉接入](docs/P7-VISUAL-BRIDGE.md)。
-
-完整阶段位置见 [总体进度](docs/STATUS.md)，按优先级执行的剩余项见 [Pending](docs/PENDING.md)。以下保留各阶段的历史验收与对应分母：
+以下保留原阶段的成绩、限制与证据。旧 Office 三题和 Planner/Jev 循环不作为新 Core 的必经路径。
 
 - **P0：macOS 环境与授权已验证。** xa11y 构建、Python 绑定和原生 Cocoa 测试应用可用；Fusion 与 Windows 11 ARM 虚机已配置，Windows 已安装，账户已验证。
 - **P1：实机读取已验证。** TextEdit、Finder、系统设置和固定原生应用的 AX 树均可读取；Safari 本地页面作为兼容性样本。本轮枚举到 35 个应用，元素查询、窗口筛选和 ref 查找通过验证。
@@ -68,21 +66,29 @@ Mac公共视觉接口和Agent/CLI OCR降级已落地；最新自绘窗口只读�
 ### 目标架构
 
 ```text
-用户目标 / 自然语言
-        ↓
-LLM / Planner                 拆解任务与定义成功条件
-        ↓
-Jev                           选择当前元素与下一步动作
-        ↓
-Unified Element Runtime       元素模型、定位与执行
-        ↓
-Windows UIA / macOS AX         访问原生应用
-
-执行轨迹 → Recorder → Workflow → 确定性重放
-Accessibility 信息不足 → OCR / Vision / 坐标操作兜底
+Harness / Agent IDE / Agent
+        ↓ MCP / CLI JSON / Python SDK
+Computer Use Core
+        ↓ Session / 授权 / 审批 / 作业 / 操作日志
+Windows UIA / macOS AX · 截图/鼠键 · Browser · Code/Process
+        ↓ Observation / ActionReceipt / Artifact
+调用方独立核验结果并选择下一步
 ```
 
-当前已实现 **原生读取与动作、真实 Jev、P5 规划循环、P6 语义录制、参数化与可恢复确定性重放**，P7 已增加 Mac 窗口捕获/OCR；完整视觉执行链路待完成。
+原生、视觉和代码由调用方组合。Planner、Jev、Skills、Workflow 是可选客户端或扩展。所有新入口使用相同的执行与审计契约。
+
+### Runtime 安装与调用
+
+macOS 执行 `sh scripts/install_runtime.sh`；Windows 执行 `powershell -File scripts/install_runtime.ps1`。MCP 需要 Python 3.10+，两端还需实际宿主授权和可用交互桌面。
+
+```sh
+uv run bokkio-runtime --help
+uv run bokkio-runtime --policy examples/runtime-policy.json call capabilities
+```
+
+策略模板默认拒绝资源访问；根据获准应用、路径和 origin 配置后再打开 session。CLI、SDK、MCP 接入及独立审批命令见 [指南](docs/RUNTIME-GUIDE.md)，验证和跨平台交接见 [接续说明](docs/progress/HANDOFF.md)。代码执行为 trusted-host，需明确授权。
+
+以下安装及调用示例属于保留的旧 `bokkio` CLI；旧入口不纳入新 Runtime 的企业授权边界。
 
 ### 安装与权限
 
@@ -147,7 +153,7 @@ uv run bokkio act --app BokkioTest --action scroll --role scroll_bar --direction
 
 ref 是基于当前结构的引用。TextEdit、系统设置和固定应用的连续快照 ref 保持一致；Finder 在三组连续读取中，动态文本名称变化但 ref 集合保持一致。`structural-v3` 对父节点下唯一的不可点击 static_text 忽略名称变化，Windows 唯一 HWND 进入身份路径，使重复控件重排后 ref 保持稳定、重建后旧 ref 失效；交互控件仍保留名称身份。旧快照需重新获取。应用重启、交互控件改名、结构变化和兄弟节点顺序变化都可能使引用失效。窗口列表、窗口快照与应用快照共用 ref。`get` 找不到 ref 时会要求重新获取 snapshot；`act` 遇到 stale ref 返回结构化错误。
 
-### 待办与路线图
+### 历史阶段路线图
 
 | 阶段 | 内容 | 状态 |
 |---|---|---|
@@ -160,15 +166,9 @@ ref 是基于当前结构的引用。TextEdit、系统设置和固定应用的�
 | P6 | Recorder 与确定性 Workflow 重放 | Windows 验收完成；参数、文件版本、恢复与模型修复通过 |
 | P7 | Vision / CUA 兜底与可靠性加固 | Mac 采集/OCR 已验收；Windows 像素、真实输入、自动降级与完整可靠性待完成 |
 
-### 当前阶段与后续工作
+### 后续工作
 
-**P6 完成，P7 当前为部分实现与验收。** Mac 捕获/OCR 已通过；输入正向、自动降级和 Windows 实机视觉仍待完成，Office原题早期受环境阻断，同日恢复后新工作区已可试跑。
-
-1. 使用已通过Mac输入检查的新工作区实际运行固定三题 Office pilot，独立核验保存文件和全部失败。
-2. 修复真实 Office 原生覆盖，接入 Planner/Jev/Workflow 视觉降级并完成 click/type 正向验收。
-3. 扩展 Windows 视觉、Mac 文件/进程恢复、多显示器/比例和可靠性，随后对齐完整上游测试环境。
-
-详见 [总体进度](docs/STATUS.md)、[P7 计划](docs/P7-PLAN.md) 和 [Pending](docs/PENDING.md)。
+当前按 [共享待办](docs/progress/STATUS.md) 执行：macOS 故障矩阵、客户应用任务、客户 Harness 接入，以及 Windows 独立实机验收。原 Office/Workflow 任务保留为历史诊断与可选回归，不持续向 Core 添加应用业务规则。
 
 ### Computer Use 测试集
 
@@ -247,25 +247,17 @@ uv run python scripts/verify_native.py --output /tmp/bokkio-evidence
 
 ## English
 
-### Background
+### Positioning and current status
 
-Bokkio started from a practical need: inspect native UI elements through one interface on Windows and macOS, then use those elements to click, type, select, and automate tasks across applications. The project aims to combine UiPath-like element trees and workflow replay with AI for task planning and adaptation to UI changes.
+Bokkio is an enterprise computer use execution tool. External harnesses, Agent IDEs and agents plan tasks and choose channels; the shared Core observes and acts on approved resources, runs generated code/scripts, controls an isolated browser, and records approvals and operation evidence. No model or application-specific planning loop is required.
 
-The runtime prioritizes the UI structure exposed by the operating system: Windows UI Automation (UIA) and macOS Accessibility (AXUIElement). Buttons, text fields, menus, and tables should be located through roles, names, states, and parent–child relationships where available. OCR and visual actions are planned fallbacks when accessibility data is insufficient. Bokkio's Computer Use scope includes desktop applications, system settings, and tasks across applications; a browser is one test environment within that scope.
+As of 2026-10-11, host regression passes **541/541**. macOS has development evidence for native actions, pixel/Unicode input, generated-code combinations and browser operations. Customer application tasks, the complete physical fault matrix and customer Agent integration remain pending. Current-runtime Windows live acceptance is pending; the saved VM credentials were recovered and login succeeded.
 
-The long-term goal is to turn a successful Agent execution into a saved, verifiable, repeatable workflow. Recurring tasks use deterministic replay; Jev or an LLM can help recover when the UI changes or execution fails.
+Use the [shared progress folder](docs/progress/README.md) for the plan, completion counts, pending work and cross-environment handoff. These documents and sanitized evidence are tracked in Git. The candidate is not yet a fully accepted dual-platform release.
 
-The [research proposal](docs/RESEARCH.md) defines the requirements, and the [phased plan](PLAN.md) defines scope and acceptance criteria. Those documents describe the intended design; the delivered scope is summarized below.
+### Historical P0–P7 results
 
-### Current status
-
-As of **2026-10-09**:
-
-**Overall position: Windows P6 acceptance is complete; P7 is partial.** Ten Office development rounds each scored **0/3** on independent artifacts. Latest blockers: Word verification after input, Excel pre-input foreground/window refusal and PowerPoint decision confidence. A separate scripted Excel probe passed field replacement and saved-artifact checks; full Agent tasks and the latest field transport remain unvalidated. Host regression: **435/435**; historical Windows: **373/373**. See the [live report](docs/evidence/2026-10-08-office-live/README.md).
-
-Mac shared visual interfaces and opt-in Agent/CLI OCR fallback are implemented. Latest native read-only observations and real Jev choices pass 3/3; live input remains pending. See the [visual bridge](docs/P7-VISUAL-BRIDGE.md).
-
-See [overall status](docs/STATUS.md) and the prioritized [pending list](docs/PENDING.md). Historical acceptance below retains its original dates and denominators.
+The following records retain their original dates and denominators. Office task scores and Planner/Jev are historical diagnostics and optional client capabilities.
 
 - **P0: macOS environment and permissions verified.** xa11y builds, Python bindings, and the native Cocoa test app work. Fusion and a Windows 11 ARM VM are configured; Windows and its local account are ready.
 - **P1: live reads verified.** AX trees from TextEdit, Finder, System Settings, and the fixed native app are readable. Safari serves as a local compatibility sample. The follow-up enumerated 35 applications; element queries, window filters, and ref lookup passed.
@@ -294,24 +286,18 @@ See [overall status](docs/STATUS.md) and the prioritized [pending list](docs/PEN
 
 The current implementation uses **Python + xa11y 0.15.x**, with comtypes for native Windows ValuePattern and ScrollPattern support. Verified Win32 edit messages commit text in classic dialogs. Rust is the preferred direction for the future core runtime. The element model draws on CUP (Computer Use Protocol); full CUP protocol adaptation is not implemented. Jev uses `typesafe/jev-1.13` through OpenRouter Decisions, with a direct TypeSafe option. These small development samples do not establish general desktop success rates.
 
-### Intended architecture
+### Runtime architecture and setup
 
 ```text
-User goal / natural language
-        ↓
-LLM / Planner                 Decompose tasks and define success conditions
-        ↓
-Jev                           Choose a current element and next action
-        ↓
-Unified Element Runtime       Model, locate, and operate on elements
-        ↓
-Windows UIA / macOS AX         Access native applications
-
-Execution trace → Recorder → Workflow → Deterministic replay
-Insufficient accessibility data → OCR / Vision / coordinate action fallback
+Harness / Agent IDE / Agent → MCP / CLI / Python SDK
+→ Shared Core: sessions, authorization, approvals, jobs, audit
+→ Windows UIA / macOS AX / pixel input / browser / code-process
+→ Observations, receipts and artifacts for independent verification
 ```
 
-Native reads/actions, real Jev decisions, P5 planning and P6 recording/parameterized resumable replay are available. P7 adds verified Mac capture/OCR; the complete visual execution loop is pending. Historical Mac native fixture results remain separate from current AX preflight failures.
+Run `sh scripts/install_runtime.sh` on macOS or `powershell -File scripts/install_runtime.ps1` on Windows. MCP requires Python 3.10+. Configure explicitly approved resources in the default-deny policy template. See the [guide](docs/RUNTIME-GUIDE.md) and [handoff](docs/progress/HANDOFF.md) for startup, validation and the trusted-host code boundary.
+
+The following legacy `bokkio` CLI examples remain available and are outside the new Runtime enterprise authorization boundary.
 
 ### Installation and permissions
 
@@ -376,7 +362,7 @@ Missing values are explicit `null` or empty structures. The JSON snapshot wrappe
 
 Refs describe the current structure. Consecutive snapshots retained identical ref sets in TextEdit, System Settings, and the fixed app. Dynamic Finder text names changed while ref sets remained stable in three snapshot pairs. `structural-v3` ignores name changes for a single non-clickable static_text child. Unique Windows HWNDs enter identity paths, preserving duplicate refs through reorder and invalidating refs when controls are rebuilt. Interactive controls retain name-based identities. Refresh snapshots created by older versions. App restarts, interactive element renaming, structural changes, and sibling reordering can invalidate refs. Window lists and window/application snapshots share refs. `get` asks for a fresh snapshot when resolution fails; `act` returns a structured stale-ref error.
 
-### Pending work and roadmap
+### Historical roadmap
 
 | Phase | Scope | Status |
 |---|---|---|
@@ -395,15 +381,9 @@ The fixed native WAA trio passed two consecutive rounds at **3/3**, including pe
 
 **Fixed five-task pilot:** Final consecutive full rounds v26 and v27 each scored 4/5, with all five agents completed and intermediate/native artifact checks passed. Navigation reached the correct folder; the unchanged title metric remains zero because of an environment suffix. Native rectangle acquisition, Settings readiness and same-named control verification were repaired. Three separate Settings confirmations each passed 1/1. All failures and denominators remain in the [pilot report](docs/P5-WAA-PILOT.md).
 
-### Current phase and further work
+### Further work
 
-**P6 is complete; P7 is partially implemented and under validation.** Mac capture/OCR passes; positive input, automatic fallback and Windows live visual acceptance remain pending. The earlier Office pilot was blocked; same-day recovery makes a new workspace ready to attempt.
-
-1. Restore input availability and run the fixed three-task Office pilot in a fresh workspace, independently verifying saved artifacts and retaining every failure.
-2. Repair Office native coverage, connect Planner/Jev/Workflow visual fallback, and validate click/type.
-3. Expand Windows vision, Mac file/process recovery, multi-display/DPI and reliability, then align full upstream benchmark environments.
-
-See [overall status](docs/STATUS.md), the [P7 plan](docs/P7-PLAN.md) and the [pending list](docs/PENDING.md).
+Follow the [shared status and pending work](docs/progress/STATUS.md): macOS physical fault checks, customer tasks, customer Harness integration, and Windows live acceptance. Keep historical Office/Workflow diagnostics separate from current Runtime acceptance.
 
 ### Computer Use benchmarks
 

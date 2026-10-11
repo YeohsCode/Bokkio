@@ -1,0 +1,10 @@
+{
+  "apps": [],
+  "windows": {},
+  "paths": [],
+  "origins": [],
+  "write": false,
+  "trusted_host": false,
+  "require_approval": true,
+  "ttl": 3600
+}

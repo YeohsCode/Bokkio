@@ -1,0 +1,187 @@
+{
+  "platform": "Darwin",
+  "architecture": "arm64",
+  "scope": "explicit_disposable_runtime_acceptance",
+  "rounds": [
+    {
+      "round": 1,
+      "code": true,
+      "browser": true,
+      "receipts": [
+        "0bb8c944da0b4bd193196831b260524f",
+        "af36ce2a2a9c4a43beb8fe5f740f72b6",
+        "b05b656881264ba29e278eb91ad264c7",
+        "2ad98bfad2c84db199ad08af32ccff10"
+      ]
+    },
+    {
+      "round": 2,
+      "code": true,
+      "browser": true,
+      "receipts": [
+        "1cb98735c6e84c8ca33f6b5046bba4e1",
+        "839eb2731e654884af85121425101c55",
+        "f97c09da8d0948aea274f1ac8ab4b7d7",
+        "b27e29c9a400443293b6a4c838bc3288"
+      ]
+    },
+    {
+      "round": 3,
+      "code": true,
+      "browser": true,
+      "receipts": [
+        "a42dfe99eb164247ba0929280dd2ad31",
+        "46d56c78648046e8bfe07b48d0eaee2b",
+        "1c29e51b7103461dbd1b7dfbf7630e58",
+        "931b65847bc64f61a10effcbc54812ee"
+      ]
+    }
+  ],
+  "native": [
+    {
+      "round": 1,
+      "passed": true,
+      "status": "verified",
+      "operation_id": "ac766af7fdd14dfbba9838c902803151",
+      "attempts": [
+        {
+          "operation_id": "ac766af7fdd14dfbba9838c902803151",
+          "status": "verified",
+          "dispatched": true
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "passed": true,
+      "status": "verified",
+      "operation_id": "ad37f26d68b640658e21c82fd975c7b4",
+      "attempts": [
+        {
+          "operation_id": "ad37f26d68b640658e21c82fd975c7b4",
+          "status": "verified",
+          "dispatched": true
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "passed": true,
+      "status": "verified",
+      "operation_id": "0631ef094f2b428eb60734c3de2f2f0f",
+      "attempts": [
+        {
+          "operation_id": "0631ef094f2b428eb60734c3de2f2f0f",
+          "status": "verified",
+          "dispatched": true
+        }
+      ]
+    }
+  ],
+  "mcp": {
+    "passed": true,
+    "tools": 23,
+    "client": "official_mcp_sdk"
+  },
+  "approval": {
+    "passed": true,
+    "mode": "automated_local_admin_cli_fixture",
+    "operation_id": "approval-fixture"
+  },
+  "cli": {
+    "passed": true
+  },
+  "audit": {
+    "events": 115,
+    "logical_operations": 36,
+    "reconciled": true,
+    "generated_code_parent_links": 3
+  },
+  "stats": {
+    "logical_operations": 36,
+    "by_tool_status": [
+      {
+        "status": "completed",
+        "tool": "audit.query",
+        "n": 1
+      },
+      {
+        "status": "completed",
+        "tool": "browser.observe",
+        "n": 3
+      },
+      {
+        "status": "completed",
+        "tool": "desktop.observe",
+        "n": 6
+      },
+      {
+        "status": "completed",
+        "tool": "evidence.check",
+        "n": 3
+      },
+      {
+        "status": "completed",
+        "tool": "job.get",
+        "n": 6
+      },
+      {
+        "status": "completed",
+        "tool": "metrics.summary",
+        "n": 1
+      },
+      {
+        "status": "completed",
+        "tool": "session.open",
+        "n": 1
+      },
+      {
+        "status": "executed",
+        "tool": "browser.act",
+        "n": 6
+      },
+      {
+        "status": "executed",
+        "tool": "browser.open",
+        "n": 3
+      },
+      {
+        "status": "executed",
+        "tool": "code.run",
+        "n": 3
+      },
+      {
+        "status": "verified",
+        "tool": "desktop.act",
+        "n": 3
+      }
+    ],
+    "events": {
+      "request.received": 36,
+      "execution.intent": 36,
+      "session.opened": 1,
+      "execution.finished": 36,
+      "job.started": 3,
+      "job.finished": 3
+    },
+    "attempts": 36,
+    "known_dispatched": 15,
+    "approval_wait_ms": [],
+    "execution_channels": {
+      "session": 1,
+      "code": 3,
+      "job": 6,
+      "evidence": 3,
+      "browser": 12,
+      "desktop": 9,
+      "audit": 1,
+      "metrics": 1
+    },
+    "execution_duration_ms": {
+      "p50": 36.893,
+      "p95": 464.37
+    },
+    "model_tokens": null,
+    "business_success_rate": null
+  }
+}

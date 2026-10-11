@@ -1,0 +1,76 @@
+{
+  "scope": "generated_code_native_sdk_and_csv",
+  "rounds": [
+    {
+      "round": 1,
+      "job_status": "completed",
+      "passed": true,
+      "operation_id": "26f309f4c58748009a86fbd476ed6372"
+    },
+    {
+      "round": 2,
+      "job_status": "completed",
+      "passed": true,
+      "operation_id": "bfe01437e7724ea6839fefb9aa940fa5"
+    },
+    {
+      "round": 3,
+      "job_status": "completed",
+      "passed": true,
+      "operation_id": "a38f91a67736483295249ee6f7dca15e"
+    }
+  ],
+  "stats": {
+    "logical_operations": 43,
+    "by_tool_status": [
+      {
+        "status": "completed",
+        "tool": "desktop.observe",
+        "n": 6
+      },
+      {
+        "status": "completed",
+        "tool": "job.get",
+        "n": 30
+      },
+      {
+        "status": "completed",
+        "tool": "session.open",
+        "n": 1
+      },
+      {
+        "status": "executed",
+        "tool": "code.run",
+        "n": 3
+      },
+      {
+        "status": "verified",
+        "tool": "desktop.act",
+        "n": 3
+      }
+    ],
+    "events": {
+      "request.received": 43,
+      "execution.intent": 43,
+      "session.opened": 1,
+      "execution.finished": 43,
+      "job.started": 3,
+      "job.finished": 3
+    },
+    "attempts": 43,
+    "known_dispatched": 6,
+    "approval_wait_ms": [],
+    "execution_channels": {
+      "session": 1,
+      "code": 3,
+      "job": 30,
+      "desktop": 9
+    },
+    "execution_duration_ms": {
+      "p50": 2.374,
+      "p95": 866.247
+    },
+    "model_tokens": null,
+    "business_success_rate": null
+  }
+}

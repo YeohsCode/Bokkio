@@ -1,0 +1,100 @@
+{
+  "platform": "Darwin",
+  "architecture": "arm64",
+  "scope": "owned_icon_and_unicode_without_ocr",
+  "rounds": [
+    {
+      "round": 1,
+      "passed": true,
+      "input_matches": true,
+      "clicks": 1,
+      "type_status": "executed",
+      "click_status": "executed",
+      "operation_ids": [
+        "b0245ddd0abb4b0c96b2fbc79199fc37",
+        "2ae75d6d7a4f4630987c3e5c25b236d7"
+      ],
+      "attempts": {
+        "type": [
+          {
+            "operation_id": "b0245ddd0abb4b0c96b2fbc79199fc37",
+            "status": "executed",
+            "dispatched": true,
+            "error_code": null
+          }
+        ],
+        "click": [
+          {
+            "operation_id": "2ae75d6d7a4f4630987c3e5c25b236d7",
+            "status": "executed",
+            "dispatched": true,
+            "error_code": null
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "round": 2,
+      "passed": true,
+      "input_matches": true,
+      "clicks": 1,
+      "type_status": "executed",
+      "click_status": "executed",
+      "operation_ids": [
+        "ceaa973dc3464a4a8ccf79b54e5b5f51",
+        "6ff5125809894e74a6a27a444447ee9c"
+      ],
+      "attempts": {
+        "type": [
+          {
+            "operation_id": "ceaa973dc3464a4a8ccf79b54e5b5f51",
+            "status": "executed",
+            "dispatched": true,
+            "error_code": null
+          }
+        ],
+        "click": [
+          {
+            "operation_id": "6ff5125809894e74a6a27a444447ee9c",
+            "status": "executed",
+            "dispatched": true,
+            "error_code": null
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "round": 3,
+      "passed": true,
+      "input_matches": true,
+      "clicks": 1,
+      "type_status": "executed",
+      "click_status": "executed",
+      "operation_ids": [
+        "8a2d3ac2e70b44758291fcf000ad6d44",
+        "95b25b3fb7d34bc996475da78dfc3279"
+      ],
+      "attempts": {
+        "type": [
+          {
+            "operation_id": "8a2d3ac2e70b44758291fcf000ad6d44",
+            "status": "executed",
+            "dispatched": true,
+            "error_code": null
+          }
+        ],
+        "click": [
+          {
+            "operation_id": "95b25b3fb7d34bc996475da78dfc3279",
+            "status": "executed",
+            "dispatched": true,
+            "error_code": null
+          }
+        ]
+      },
+      "errors": []
+    }
+  ]
+}

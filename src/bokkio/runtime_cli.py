@@ -1,0 +1,111 @@
+"""Enterprise CLI and human approval entry point, separate from legacy Agent commands."""
+from __future__ import annotations
+
+import argparse
+import json
+import os
+from pathlib import Path
+import sys
+import time
+
+from .audit import AuditStore, canonical
+from .runtime import Runtime, load_policy
+
+
+def parser():
+    command = argparse.ArgumentParser(prog="bokkio-runtime")
+    command.add_argument("--state", default=os.environ.get("BOKKIO_STATE_DIR", str(Path.home() / ".bokkio/runtime")))
+    command.add_argument("--policy", help="Human-managed JSON policy; default denies all resource access")
+    commands = command.add_subparsers(dest="command", required=True)
+    call = commands.add_parser("call")
+    call.add_argument("tool")
+    call.add_argument("--args", default="{}")
+    call.add_argument("--args-file", help="JSON input file, preferred for generated code and multiline values")
+    call.add_argument("--session")
+    call.add_argument("--operation")
+    commands.add_parser("serve", help="Start official SDK MCP stdio server")
+    approvals = commands.add_parser("approvals", help="Local human/admin inspection; never an Agent MCP tool")
+    approvals.add_argument("--id")
+    approvals.add_argument("--show-request", action="store_true", help="Show private exact request to review before approval")
+    approval = commands.add_parser("approve", help="Human/admin decision; same-user host scripts are trusted")
+    approval.add_argument("id")
+    approval.add_argument("--decision", choices=["approved", "denied", "revoked"], required=True)
+    approval.add_argument("--reason", required=True)
+    events = commands.add_parser("events")
+    events.add_argument("--session")
+    events.add_argument("--operation")
+    events.add_argument("--after", type=int, default=0)
+    events.add_argument("--follow", action="store_true")
+    stats = commands.add_parser("stats")
+    stats.add_argument("--session")
+    export = commands.add_parser("export")
+    export.add_argument("--session")
+    export.add_argument("--format", choices=["csv", "jsonl"], default="jsonl")
+    export.add_argument("--output", required=True)
+    return command
+
+
+def main(argv=None):
+    args = parser().parse_args(argv)
+    try:
+        store = AuditStore(args.state)
+        if args.command in {"call", "serve"}:
+            runtime = Runtime(args.state, load_policy(args.policy) if args.policy else None)
+            if args.command == "serve":
+                from .mcp_server import serve
+                import asyncio
+                asyncio.run(serve(runtime))
+                return 0
+            request = json.loads(Path(args.args_file).read_text(encoding="utf-8") if args.args_file else args.args)
+            result = runtime.call(args.tool, request, session_id=args.session, operation_id=args.operation)
+        elif args.command == "approve":
+            result = store.decide(args.id, args.decision, args.reason)
+        elif args.command == "approvals":
+            result = store.approvals(args.id)
+            if args.show_request:
+                with store.connect() as db:
+                    for approval in result:
+                        row = db.execute("SELECT request FROM operations WHERE id=?", (approval["operation_id"],)).fetchone()
+                        approval["private_request"] = json.loads(row["request"])
+                        observed_id = approval["private_request"].get("observation_id")
+                        if observed_id:
+                            observed = db.execute("SELECT payload FROM observations WHERE id=? AND session_id=?", (observed_id, approval["session_id"])).fetchone()
+                            if observed:
+                                observation = json.loads(observed["payload"])
+                                preview = {"observed_at": observation["time"], "app": observation["app"], "window": observation["window"], "content_trust": "untrusted_app_data"}
+                                if "snapshot" in observation:
+                                    from .selector import flatten
+                                    ref = approval["private_request"].get("ref")
+                                    candidates = [n for n in flatten(observation["snapshot"]["windows"]) if n["ref"] == ref]
+                                    preview["targets"] = [{k: n.get(k) for k in ("ref", "role", "name", "value", "bounds")} for n in candidates]
+                                else:
+                                    preview["capture"] = observation["metadata"]
+                                    preview["artifact_id"] = observation["artifact_id"]
+                                approval["observation_preview"] = preview
+        elif args.command == "stats":
+            result = store.stats(args.session)
+        elif args.command == "export":
+            Path(args.output).write_text(store.export(args.format, session_id=args.session), encoding="utf-8")
+            result = {"output": str(Path(args.output).resolve()), "format": args.format}
+        else:
+            cursor = args.after
+            while True:
+                records = store.query(after=cursor, session_id=args.session, operation_id=args.operation)
+                for record in records:
+                    print(canonical(record), flush=True)
+                    cursor = record["seq"]
+                if not args.follow:
+                    break
+                time.sleep(.2)
+            return 0
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 1 if isinstance(result, dict) and result.get("status") in {"denied", "failed", "completion_unknown"} else 0
+    except KeyboardInterrupt:
+        return 130
+    except Exception as error:
+        print(json.dumps({"error": type(error).__name__, "message": str(error)}), file=sys.stderr)
+        return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

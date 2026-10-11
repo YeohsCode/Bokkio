@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-11",
+  "scope": "repository_handoff_validation",
+  "platform": "Darwin",
+  "tests": {
+    "command": "uv run pytest -q",
+    "passed": 541,
+    "failed": 0,
+    "duration_seconds": 5.39
+  },
+  "checks": {
+    "shared_docs_links": true,
+    "shared_state_json": true,
+    "evidence_checksums": true,
+    "git_diff_check": true,
+    "private_vm_credential_absent_from_staged_files": true,
+    "runtime_capabilities": {
+      "passed": true,
+      "tools": 23
+    },
+    "package_build": true
+  },
+  "windows": {
+    "saved_credentials_login_verified": true,
+    "current_runtime_live_acceptance": false
+  },
+  "note": "Repository sharing and packaging validation; does not complete customer or Windows runtime acceptance."
+}

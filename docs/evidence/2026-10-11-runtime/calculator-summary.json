@@ -1,0 +1,110 @@
+{
+  "scope": "generic_runtime_calculator_no_core_app_rules",
+  "rounds": [
+    {
+      "round": 1,
+      "display_values": [
+        "1+2",
+        "3"
+      ],
+      "passed": true,
+      "actions": [
+        {
+          "label": "All Clear",
+          "status": "executed",
+          "operation_id": "d3a07e3aedbe4d68ad66bb2ccb52c595"
+        },
+        {
+          "label": "1",
+          "status": "executed",
+          "operation_id": "997af8de76364ad69d0fd53c17045493"
+        },
+        {
+          "label": "Add",
+          "status": "executed",
+          "operation_id": "b883769c919e4a80a18b3ac70a5e1b09"
+        },
+        {
+          "label": "2",
+          "status": "executed",
+          "operation_id": "3b14f0d9604c4a7d9d38dd9450f2bf01"
+        },
+        {
+          "label": "Equals",
+          "status": "executed",
+          "operation_id": "d96511f1edb8454391d603d1af45d469"
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "display_values": [
+        "1+2",
+        "3"
+      ],
+      "passed": true,
+      "actions": [
+        {
+          "label": "All Clear",
+          "status": "executed",
+          "operation_id": "263f6be19f1a4551b1b02443e7a3e243"
+        },
+        {
+          "label": "1",
+          "status": "executed",
+          "operation_id": "2916508c61e14b1aa974d6dac2549704"
+        },
+        {
+          "label": "Add",
+          "status": "executed",
+          "operation_id": "ae63e400ae11432eb96d1c18f81d3ae6"
+        },
+        {
+          "label": "2",
+          "status": "executed",
+          "operation_id": "041d031a300a4375853cf8a3ab566bab"
+        },
+        {
+          "label": "Equals",
+          "status": "executed",
+          "operation_id": "403f6fa4b0ae484d94e51261bdb3d347"
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "display_values": [
+        "1+2",
+        "3"
+      ],
+      "passed": true,
+      "actions": [
+        {
+          "label": "All Clear",
+          "status": "executed",
+          "operation_id": "81cabbe146384e5fa0e4d97706dfbf89"
+        },
+        {
+          "label": "1",
+          "status": "executed",
+          "operation_id": "afc271ffe2b54b45864e0fad234179fc"
+        },
+        {
+          "label": "Add",
+          "status": "executed",
+          "operation_id": "7217094abd124467a23ee69099347411"
+        },
+        {
+          "label": "2",
+          "status": "executed",
+          "operation_id": "60923f39265a4ccfb88f2f9f62fbdeb9"
+        },
+        {
+          "label": "Equals",
+          "status": "executed",
+          "operation_id": "922457ae32c648eeb56178e15d7e2737"
+        }
+      ]
+    }
+  ]
+}

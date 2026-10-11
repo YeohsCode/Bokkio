@@ -1,5 +1,11 @@
 # 总体进度 / Overall status
 
+**当前主线入口：** [跨环境共享进度](progress/README.md)。新 Runtime 的完成度、待办和两端接续以该目录为准；下面旧 P0–P7/Office 内容保留为历史。
+
+## 新主线：三天 Computer Use Runtime
+
+2026-10-11 已按新定位实施工作候选版 `0.2.0`：统一 Runtime、MCP/CLI/Python SDK、生成代码作业、Browser、SQLite 操作/审批追溯、查询统计与导出。Mac 原生字段、无 OCR 图标点击、代码驱动原生动作/CSV、系统 Calculator 各有 3/3 记录；官方 MCP/CLI/SDK 连通通过。整体计划仍待 Windows 实机和客户业务样本验收；详见 [Runtime 交付状态](RUNTIME-DELIVERY.md) 和 [指南](RUNTIME-GUIDE.md)。下面是旧 P0–P7 路线的历史状态，Office 连续三轮不再是新主线的前置条件。
+
 更新：2026-10-11。**P6 Windows 原生验收完成，P7 部分实现；完整 Office 开发轮 r28、r30 各通过 3/3；最新完成轮 r33 为 0/3，连续三轮 3/3 尚未达到。按用户要求提交当前快照，实机验收暂停。**
 
 ## 阶段位置

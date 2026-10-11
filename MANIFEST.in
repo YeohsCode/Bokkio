@@ -1,0 +1,11 @@
+include uv.lock
+include docs/PLAN-REPOSITIONING.md
+include docs/RUNTIME-GUIDE.md
+include docs/RUNTIME-DELIVERY.md
+recursive-include examples *.json *.py
+include scripts/install_runtime.sh
+include scripts/install_runtime.ps1
+include scripts/verify_runtime.py
+include scripts/verify_runtime_visual.py
+recursive-include docs/evidence/2026-10-11-runtime *.json README.md SHA256SUMS
+recursive-include docs/progress *.md *.json

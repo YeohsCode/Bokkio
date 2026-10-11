@@ -4,13 +4,22 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "bokkio"
-version = "0.1.0"
-description = "Native desktop accessibility inspection and semantic actions"
+version = "0.2.0"
+description = "Model-independent computer use runtime with native actions, code, approvals and audit"
 requires-python = ">=3.9"
 dependencies = ["xa11y>=0.15,<0.16", "certifi>=2025.1,<2027", "comtypes>=1.4.17,<2; sys_platform == 'win32'"]
 
 [project.scripts]
 bokkio = "bokkio.cli:main"
+bokkio-runtime = "bokkio.runtime_cli:main"
+
+[project.optional-dependencies]
+browser = [
+    "playwright>=1.50,<2",
+]
+mcp = [
+    "mcp>=1.12,<2 ; python_full_version >= '3.10'",
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -23,3 +32,4 @@ test = ["pytest>=8"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+markers = ["browser_live: real isolated Chromium worker contract (requires installed browser)"]

@@ -1,0 +1,62 @@
+{
+  "scope": "macos_icon_without_ocr",
+  "rounds": [
+    {
+      "round": 1,
+      "status": "executed",
+      "receipt": {
+        "status": "executed",
+        "operation_id": "1b0d952599d44f52af7a46f81bc0928e",
+        "session_id": "80d4b72c88b74dc9a963e61675d25221",
+        "dispatched": true,
+        "result": {
+          "dispatched": true,
+          "events_posted": 2,
+          "pid": 73258,
+          "status": "posted_unverified",
+          "window_id": 3883
+        }
+      },
+      "clicks": 1,
+      "passed": true
+    },
+    {
+      "round": 2,
+      "status": "executed",
+      "receipt": {
+        "status": "executed",
+        "operation_id": "46af848c2fce442fa5ff297f13bb1473",
+        "session_id": "80d4b72c88b74dc9a963e61675d25221",
+        "dispatched": true,
+        "result": {
+          "dispatched": true,
+          "events_posted": 2,
+          "pid": 73258,
+          "status": "posted_unverified",
+          "window_id": 3883
+        }
+      },
+      "clicks": 2,
+      "passed": true
+    },
+    {
+      "round": 3,
+      "status": "executed",
+      "receipt": {
+        "status": "executed",
+        "operation_id": "f0bfbdb8403a4e4187002e58e5a1d893",
+        "session_id": "80d4b72c88b74dc9a963e61675d25221",
+        "dispatched": true,
+        "result": {
+          "dispatched": true,
+          "events_posted": 2,
+          "pid": 73258,
+          "status": "posted_unverified",
+          "window_id": 3883
+        }
+      },
+      "clicks": 3,
+      "passed": true
+    }
+  ]
+}

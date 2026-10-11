@@ -4,6 +4,7 @@ import Cocoa
 // accessibility business labels are exposed; OCR must read the actual pixels.
 final class Canvas: NSView {
     let duplicate = ProcessInfo.processInfo.environment["BOKKIO_VISUAL_DUPLICATE"] == "1"
+    let iconOnly = ProcessInfo.processInfo.environment["BOKKIO_VISUAL_ICON"] == "1"
     var input=""
     var clicks=0
     var focused=false
@@ -32,7 +33,12 @@ final class Canvas: NSView {
         text(input.isEmpty ? "Enter code" : input,70,110)
         NSColor(calibratedRed:0.15,green:0.3,blue:0.85,alpha:1).setFill()
         NSRect(x:60,y:175,width:210,height:52).fill()
-        text("Run check",75,188,color:.white)
+        if iconOnly {
+            NSColor.white.setFill()
+            let icon=NSBezierPath()
+            icon.move(to:NSPoint(x:150,y:185));icon.line(to:NSPoint(x:150,y:216))
+            icon.line(to:NSPoint(x:178,y:200));icon.close();icon.fill()
+        } else { text("Run check",75,188,color:.white) }
         text(clicks == 0 ? "Ready" : "Checked",60,265)
         text("Clicks: \(clicks)",60,305)
         if duplicate {

@@ -1,0 +1,48 @@
+{
+  "platform": "Darwin",
+  "architecture": "arm64",
+  "scope": "owned_icon_and_unicode_without_ocr",
+  "rounds": [
+    {
+      "round": 1,
+      "passed": true,
+      "input_matches": true,
+      "clicks": 1,
+      "type_status": "executed",
+      "click_status": "executed",
+      "operation_ids": [
+        "5cb62c7f37184e758b016f8aa89e7e06",
+        "65bcb89c131c49918dea436cebb94cb7"
+      ],
+      "errors": []
+    },
+    {
+      "round": 2,
+      "passed": false,
+      "input_matches": true,
+      "clicks": 0,
+      "type_status": "executed",
+      "click_status": "failed",
+      "operation_ids": [
+        "42757847483f48ee8f86317fd34dc886",
+        "235fc0e202734f38b08a0fbb1cca1254"
+      ],
+      "errors": [
+        "Window pixels changed before input"
+      ]
+    },
+    {
+      "round": 3,
+      "passed": true,
+      "input_matches": true,
+      "clicks": 1,
+      "type_status": "executed",
+      "click_status": "executed",
+      "operation_ids": [
+        "7841fa0f716d4c6085c17237909899dd",
+        "714246fb086b4e4fb674dd39a428b123"
+      ],
+      "errors": []
+    }
+  ]
+}

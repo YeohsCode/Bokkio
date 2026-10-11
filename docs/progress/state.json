@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "updated": "2026-10-11",
+  "version": "0.2.0",
+  "overall_status": "implementation_delivered_acceptance_incomplete",
+  "plan": "docs/PLAN-REPOSITIONING.md",
+  "guide": "docs/RUNTIME-GUIDE.md",
+  "evidence": "docs/evidence/2026-10-11-runtime/README.md",
+  "implementation": {
+    "completed_groups": 8,
+    "total_groups": 8,
+    "meaning": "code_delivery_only"
+  },
+  "acceptance": {
+    "macos": {
+      "development_capability_categories_passed": 4,
+      "total_categories": 5,
+      "customer_acceptance_complete": false,
+      "host_tests_passed": 541
+    },
+    "windows": {
+      "development_capability_categories_passed": 0,
+      "total_categories": 5,
+      "current_runtime_live_tested": false,
+      "vm_login": "verified_2026-10-11",
+      "next_environment": "user_windows_computer"
+    },
+    "final_matrix_complete": false
+  },
+  "pending": [
+    {
+      "id": "MAC-01",
+      "platform": "macos",
+      "status": "pending",
+      "task": "Physical focus/window/display and cancellation/unknown-completion fault matrix"
+    },
+    {
+      "id": "CLIENT-01",
+      "platform": "macos_then_windows",
+      "status": "needs_customer_task",
+      "task": "Unadapted customer application task with disposable data and independent checks"
+    },
+    {
+      "id": "HARNESS-01",
+      "platform": "both",
+      "status": "pending",
+      "task": "Customer Harness MCP approval/action/evidence loop"
+    },
+    {
+      "id": "WIN-01",
+      "platform": "windows",
+      "status": "deferred_to_windows_environment",
+      "task": "Current runtime native/pixel/code/browser/transports/approval/audit acceptance"
+    },
+    {
+      "id": "RELEASE-01",
+      "platform": "both",
+      "status": "pending",
+      "task": "Freeze version, complete final customer and fault matrices, declare support scope"
+    }
+  ]
+}
