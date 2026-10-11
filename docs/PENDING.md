@@ -1,52 +1,40 @@
 # 当前待办 / Pending work
 
-更新：2026-10-09。**P6 Windows 验收完成，P7 部分实现；Office 原题已执行，最新独立评分 0/3。** 阶段与实际分母见 [总体进度](STATUS.md)。
+更新：2026-10-11。**P6 Windows 已验收，P7 部分实现；完整 Office 开发轮 r28、r30 各通过 3/3；最新完成轮 r33 为 0/3，连续三轮 3/3 尚未达到。按用户要求提交当前快照，实机验收暂停。**
 
 ## 优先执行
 
 | 顺序 | 待办 | 完成条件 / 当前缺口 |
 |---|---|---|
-| 1 | Word 输入后确认 | 保存并独立验证标题、字体/字号、行距及内容保持；已加入最多3次回读及实际值诊断；实机确认仍待解锁后验证，未知完成先检查实际状态 |
-| 2 | Excel 字段输入与前台范围 | 已保留期望/实际窗口、前台PID与权限；解锁后定位 `input_unavailable` 的具体原因，验证最新原生边界定位、D 列范围、Currency 和保存；旧 OCR 脚本探针通过不等于当前 Agent 路径通过 |
-| 3 | PowerPoint 规划与动作覆盖 | 补齐标题页/文本/保存候选与弹窗成功条件；显式split button点击修复后，记录快照上的真实Jev置信度1.0；实机点击/后续任务仍待验收，保持15步预算 |
-| 4 | 完整复跑固定三题 | 使用新隔离工作区，逐步记录动作、最终产物和失败；已有十轮各 0/3，第三轮并发干扰单独标注 |
-| 5 | 通用 P7 视觉降级与重放 | 公共Mac provider与Agent/Jev/CLI文字降级已实现；仍需视觉Workflow、跨窗口/图标/无标签输入及真实正向/故障验收 |
+| 1 | 最新实机输入回归 | 最新助手已在三个新进程通过 3/3，各两次尝试；保持身份、焦点、时效和零重复输入守卫 |
+| 2 | Word 完整格式与保存 | 验证 Heading 1、正文 Calibri 11pt、1.15 行距及内容保持。独立 GUI 探针及 r26 完整 Agent 全部检查通过；选区、阶段衔接和明确命令意图仍需稳定验收 |
+| 3 | PPT 完整 Agent 任务 | 标题页、Alpha Initiative、Save As 独立文件检查。脚本/固定标题子任务探针产物通过，不算全任务；完整 Agent 已成功输入标题，r14 用六次尝试完成全部保存/标题/布局检查，仍需连续稳定验收 |
+| 4 | 固定三题稳定验收 | 新隔离输入、串行执行、每题 15 次动作尝试，连续三轮 3/3。Excel 在多个完整开发轮通过；各轮代码不同，不能视作稳定验收 |
+| 5 | 故障恢复与优化 | 真实取消、权限/窗口/进程变化、未知完成、保存后重开；三题通过后再扩展职业办公流程和性能优化 |
 
-本轮修复及411项回归见[修复证据](evidence/2026-10-09-office-fix/README.md)。Mac当前锁屏，新Office GUI复跑待解锁；历史0/3仍是最新产物成绩。
-
-Mac公共接口测试435/435、原生只读观察/决策3/3，输入仍未派发；详见[接入报告](P7-VISUAL-BRIDGE.md)。Windows工作按用户要求暂缓。
+现有 GPT-4.1 Planner + Jev；不新增 Astra 依赖。截图本机 OCR，业务模型接收文字/候选并计文字 token。未知完成仅只读核对：成功条件由假变真才继续，不重发；已有静态条件不能证明命令。主机 **519/519**，Windows 历史 **373/373**。见[本次证据](evidence/2026-10-10-office-progress/README.md)。
 
 ## 平台与可靠性
 
 | 项目 | 仍需完成 |
 |---|---|
-| Windows P7（暂缓） | 实机截图像素、移动/DPI、窗口故障验收；原生 OCR/候选与视觉输入实现和跨应用验证 |
-| Mac 捕获与输入 | 多显示器/比例、窗口竞争、OCR 行合并、真实办公覆盖；最新字段 transport 正向验收与确认失败诊断 |
-| Mac Workflow | 文件/参数合约、保存后新进程重开、不同 PID/执行进程恢复及真实模型修复 |
-| P7.4–P7.5 | 完整取消、限速、崩溃与未知完成恢复；权限缺失、图像过期、窗口关闭/移动、无响应等故障；分别统计 native / visual / Workflow / Agent |
-| 大树与虚拟化 | 更多独立应用和真实 Windows VirtualizedItem provider；分页 fixture 不能替代完整虚拟化验收 |
+| Windows P7（暂缓） | 实机截图像素、移动/DPI、窗口故障验收；原生 OCR/视觉输入和跨应用验证 |
+| Mac 捕获与输入 | 多显示器/比例、窗口竞争、OCR 行合并、真实办公覆盖；最新字段 transport/编辑完成正向实机验收 |
+| Mac Workflow | 视觉动作录制重放、文件/参数合约、保存后新进程重开、不同 PID/执行进程恢复及真实模型修复 |
+| P7.4–P7.5 | 完整取消、限速、崩溃与未知完成恢复；权限缺失、图像过期、窗口关闭/移动、无响应；分别统计 native/visual/Workflow/Agent |
+| 大树与虚拟化 | 更多独立应用和真实 Windows VirtualizedItem provider；分页 fixture 不等于完整虚拟化验收 |
 | Office 其他原生覆盖 | Outlook 深度遍历、Excel 单元格观察、Word/PPT 编辑区与对话框；已有 CUA 流程不计作 Bokkio Agent 成功 |
 
 ## Benchmark、暂缓与可选项
 
-- **原始 VLM 评分**：入口已保留原始 prompt/model/checks；实际调用及截图轨迹待完成，需要独立 `QWEN_API_KEY`。OOXML 评分可独立运行。
-- **上游环境对齐**：WindowsWorld / WAA VM、HTTP/server runner、初始化与 evaluator；Mac adapted run 不作为官方成绩。
-- **职业办公长流程**：图表、需求变更、邮件草稿、文件交付、暂停/进程恢复及三轮独立状态验收；真实邮件发送需用户指示。
-- **Windows Office 暂缓**：许可证、激活与 Outlook 设置及完整 UIA 办公流程。
+- **原始 VLM 评分**：已保留原始 prompt/model/checks；实际执行需要独立 `QWEN_API_KEY`。当前只读 OOXML 是 Mac 适配评分。
+- **上游环境对齐**：WindowsWorld/WAA VM、HTTP/server runner、初始化与 evaluator；Mac adapted run 不是官方成绩。
+- **职业办公长流程**：图表、需求变更、邮件草稿、文件交付、暂停/进程恢复及三轮独立验收；真实邮件发送需用户指示。
+- **Windows Office 暂缓**：许可证、激活、Outlook 设置及完整 UIA 办公流程。
 - **可选录制**：全局人工键鼠监听；P6 已有原生回执及成功 trace 录制来源。
 
-## 本轮收尾
-
-构造接口、AXConfirm、窗口身份/激活、只读选区与阶段规划修复已加入代码；十轮失败、Excel 脚本探针和恢复证据已整理。主机回归 **435/435**；Windows 历史 **373/373**。本轮测试和文档形成独立提交。
-
-## 最新题库重跑尝试（2026-10-09）
-
-公共视觉版本`4b6de28`已提交并推送；随后使用新输入启动三道Office原题。实际planned 3 / started 0 / blocked 3、score=null，原因为Mac锁屏且自动解锁失败，权限均通过。没有题目模型调用或动作；历史执行0/3不变。Windows保持暂缓。见[本次证据](evidence/2026-10-09-office-rerun/README.md)。
+历史：[十轮失败与恢复](evidence/2026-10-08-office-live/README.md)、[前次锁屏重跑](evidence/2026-10-09-office-rerun/README.md)。本次代码与证据按用户要求一起提交。
 
 ## English
 
-P6 Windows acceptance is complete; P7 is partial. The Office pilot has executed ten diagnostic rounds, each scoring 0/3. Priorities are Word verification after posted input, Excel pre-input foreground/window refusal, PowerPoint planning/action coverage, and a fresh full pilot rerun. The earlier scripted Excel success is separate from Agent results and the latest native-bounds route.
-
-Mac scoped text fallback is implemented in the shared provider, Agent/Jev and CLI. Remaining work includes real input acceptance, visual Workflow replay, icons/changing windows, wider Mac file/process workflows, reliability, real virtualized providers, VLM judging and upstream integration. Windows work is paused at the user’s request. Current host regression is 435/435; the historical Windows result is 373/373. Evidence: [live report](evidence/2026-10-08-office-live/README.md).
-
-Latest rerun attempt: commit 4b6de28, planned 3 / started 0 / blocked 3, null scores due to the locked Mac session and failed automatic unlock. No task/model action ran; historical executed scores remain unchanged. See [rerun evidence](evidence/2026-10-09-office-rerun/README.md).
+Latest input helper passed 3/3 in fresh processes. Full Office development rounds r28 and r30 each passed 3/3. The latest completed round r33 passed 0/3; three consecutive 3/3 rounds remain pending. Live acceptance is paused for the requested code snapshot. Continue fresh serial Office rounds under 15 attempts per task when resumed. Host tests: 519; historical Windows tests: 373. Windows remains paused.

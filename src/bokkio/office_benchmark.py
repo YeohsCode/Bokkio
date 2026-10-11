@@ -89,7 +89,10 @@ def prepare(bundle,workspace):
         else:
             # A blank scratch document avoids exposing the user's recent files.
             # The requested output and answer slide are still absent at setup.
-            scratch=folder/'Bokkio_blank.pptx'
+            # Start the empty work file in the isolated desktop so a native
+            # Save As sheet defaults to the authorized output directory.
+            # The requested output/answer slide remain absent.
+            scratch=desktop/'Bokkio_blank.pptx'
             command('create',scratch);command('close',scratch);initial.append(scratch)
         qa={}
         for p in initial:

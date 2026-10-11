@@ -9,6 +9,7 @@ import plistlib
 import subprocess
 import sys
 import time
+from urllib.parse import unquote,urlparse
 
 from .model import BokkioError
 from .office_benchmark import TASKS,digest,evaluate,load_bundle
@@ -78,49 +79,148 @@ def _native_run(task,trace_path):
     app=xa11y.App.by_name(app_name,timeout=15)
     time.sleep(.5)
     stems={file.stem.casefold(),Path(task['source']).stem.casefold()}
+    documents={str(Path(task['source']).resolve()),str(file.resolve())}
     class ScopedOffice(Xa11yBackend):
         supports_stale_refresh=True
         def _app_tree(self,app,live=None):
+            if not input_environment()['ready']:
+                raise BokkioError('Office interactive session changed; unlock before observing or dispatching')
             root=super()._app_tree(app,live)
-            def prune(node,in_window=False):
+            def prune(node,in_window=False,save_panel=False):
                 node=copy.deepcopy(node)
                 role=node['role'];name=(node.get('name') or '').casefold()
                 if 'recent' in name or '最近' in name:return None
+                # This task owns the initialized scratch file. A second new
+                # document has no task-bound file identity or capture scope.
+                if task['task_id']=='win_pro_l1_003' and role=='menu_item' and name in {'new presentation','new from template...'}:return None
+                save_panel=save_panel or (role=='dialog' and name in {'save','save as','save as...'})
+                # Expanded NSSavePanel browsers include ancestor directories
+                # and unrelated filenames. Only the named path controls are
+                # needed for this exact-output pilot; omit browser rows.
+                if save_panel:
+                    data=node['platform_data']
+                    if data.get('native_file_entry') and str(Path(data['ax_url_path']).resolve())!=str(Path(task['desktop']).resolve()):return None
+                    if role=='text_field' and not node.get('name'):return None
                 if role in {'window','dialog'}:
                     allowed=in_window or any(stem in name for stem in stems) or name in {'font','paragraph','format cells','save as','save','open','styles','new presentation','new slide','slide layout','layout'}
+                    document=node['platform_data'].get('ax_document')
+                    if document:
+                        allowed=str(Path(unquote(urlparse(document).path)).resolve()) in documents
                     if not allowed:return None
                     in_window=True
                 if node['parent'] is not None and role not in {'window','dialog','menu','menu_bar','menu_item'} and not in_window:
                     return None
-                node['children']=[p for child in node.get('children',[]) if (p:=prune(child,in_window)) is not None]
+                node['children']=[p for child in node.get('children',[]) if (p:=prune(child,in_window,save_panel)) is not None]
                 return node
             scoped=prune(root)
             if not any(n['role'] in {'window','dialog'} for n in flatten([scoped])):
                 raise BokkioError('No authorized benchmark document/window is open; no private startup context is sent to models')
             for node in flatten([scoped]):
+                if (node['role']=='window' and node['platform_data'].get('ax_document')
+                        and Path(task['source']).resolve()==file.resolve()):
+                    node['platform_data']['save_in_place_document']=True
+                if task['task_id']=='win_pro_l1_003' and node['role'] in {'text_field','combo_box'} and (node['name'] or '').casefold().startswith('search'):
+                    node['actions']=[]
                 if node['role']=='combo_box' and node['platform_data'].get('ax_value_settable') and 'AXConfirm' in node['platform_data'].get('ax_original_actions',[]):
                     node['platform_data']['value_submission']='set_value_commits_via_bound_visual_input'
+            editors=[n for n in flatten([scoped]) if n['role']=='text_area']
+            indexed={n['ref']:n for n in flatten([scoped])}
+            # Toolbar and native menu aliases can divide target confidence.
+            # Keep one bound menu transport, while retaining save-panel Save.
+            if any(n['role']=='menu_item' and n['name']=='Save' and n['platform_data'].get('native_menu_command') for n in indexed.values()):
+                for node in indexed.values():
+                    if node['role']!='button' or node['name']!='Save':continue
+                    ancestor=node
+                    while ancestor['parent'] in indexed and ancestor['role'] not in {'window','dialog'}:ancestor=indexed[ancestor['parent']]
+                    if ancestor['role']!='dialog':node['actions']=[]
+            if app_name=='Microsoft Word':
+                # This pilot's declared input structure is one title paragraph
+                # followed by body paragraphs. Bind those selection targets to
+                # current readable native text, never fixture answer constants.
+                readable=[n for n in editors if isinstance(n.get('value'),str) and 'select_text' in n['actions']]
+                if len(readable)==1:
+                    title,separator,body=readable[0]['value'].partition('\n')
+                    if separator and title and body and len(title)<=4000 and len(body)<=4000:
+                        readable[0]['platform_data']['selection_targets']={'main_title':title,'body':body}
+                for node in indexed.values():
+                    if node['role']=='button' and node['name']=='Clear Formatting':
+                        node['platform_data']['click_transport']='selection_bound_pointer'
+                    if node['role']=='combo_box' and node['name']=='Line and Paragraph Spacing':
+                        node['actions']=[]
+                        node['platform_data']['value_submission']='exact_spacing_requires_Paragraph_dialog'
+            cjk_selection=any(any('\u3400'<=ch<='\u9fff' for ch in (n['state'].get('selected_text') or '')) for n in editors)
+            if app_name=='Microsoft Word' and cjk_selection:
+                for node in flatten([scoped]):
+                    if node['role']=='combo_box' and node['name']=='Font:':
+                        node['actions']=[a for a in node['actions'] if a not in {'set_value','submit','expand'}]
+                        node['platform_data']['value_submission']='script_specific_font_dialog_required'
+            for dialog in flatten([scoped]):
+                if dialog['role']=='dialog' and dialog['name'] in {'Font','Paragraph'}:
+                    for node in flatten([dialog]):
+                        if node['role'] in {'combo_box','text_field'} and node['platform_data'].get('ax_value_settable'):
+                            node['platform_data']['value_submission']='set_value_requires_dialog_commit'
+                        if dialog['name']=='Font' and node['role']=='combo_box' and node['name']=='Latin text font:':
+                            node['actions']=[] if node['state'].get('expanded') else ['expand']
+                            node['platform_data']['mac_verified_actions']=node['actions']
+                            node['platform_data']['value_submission']='native_popup_selection_required'
             return scoped
         def visual_value_replace(self,app,node,scope,value):
+            from .office_visual import replace_combo
+            if scope['role']=='dialog' and scope['name'] in {'Font','Paragraph'}:
+                if scope['name']=='Font' and node['name']=='Size:':return self._native.perform(node,'set_value',value)
+                return replace_combo(bound_pid,scope['name'],node,value,backend=self,confirm=False)
             if scope['role']!='window' or not any(stem in (scope['name'] or '').casefold() for stem in stems):
                 raise BokkioError('Office visual field input requires the authorized document window')
-            from .office_visual import replace_combo
             return replace_combo(bound_pid,scope['name'],node,value,backend=self)
+        def visual_expand(self,app,node,scope):
+            if scope['role']=='dialog' and scope['name']=='Font' and node['name']=='Latin text font:':
+                from .office_visual import expand_combo
+                return expand_combo(bound_pid,scope['name'],node,backend=self)
+            return self._native.perform(node,'expand')
+        def visual_click(self,app,node,scope):
+            if app_name!='Microsoft Word' or node['name']!='Clear Formatting' or scope['role']!='window':
+                raise BokkioError('Office button transport is outside the authorized body-format action')
+            from .office_visual import click_selection_button
+            document=scope['platform_data'].get('ax_document')
+            return click_selection_button(bound_pid,scope['name'],node,backend=self,
+                                          document=unquote(urlparse(document).path) if document else None)
+        def visual_option_select(self,app,node,scope):
+            if scope['role']!='dialog' or scope['name']!='Font':
+                raise BokkioError('Office native option input requires the observed Font dialog')
+            from .office_visual import select_option
+            return select_option(bound_pid,scope['name'],node,backend=self)
         def perform(self,app,action,**arguments):
             if not str(app).isdigit() or int(app)!=bound_pid:raise BokkioError('Office action app is outside the task binding')
             snapshot=self.snapshot(app,arguments.get('window'))
             nodes={n['ref']:n for n in flatten(snapshot['windows'])}
             ref=arguments.get('ref');name=(nodes.get(ref,{}).get('name') or '').casefold()
+            if nodes.get(ref,{}).get('platform_data',{}).get('native_menu_command'):
+                main=[n for n in nodes.values() if n['role']=='window' and n['platform_data'].get('ax_document') and n['state'].get('active') is True]
+                if not snapshot['app'].get('is_foreground') or len(main)!=1:
+                    from .model import BokkioStaleSnapshot
+                    raise BokkioStaleSnapshot('Owned Office main document or foreground changed before menu dispatch')
             if any(term in name for term in ['share','send','publish','共享','发送']):raise BokkioError('External communication is outside this Office pilot')
+            if task['task_id']=='win_pro_l1_003' and name.startswith('search') and action in {'set_value','type','submit'}:
+                raise BokkioError('PowerPoint application search is outside the title-slide task')
+            if app_name=='Microsoft Word' and action!='select_text' and name in {'styles','font:','font size:','font...','paragraph...','clear formatting','line and paragraph spacing'}:
+                editors=[n for n in nodes.values() if n['role']=='text_area' and 'select_text' in n['actions']]
+                if editors and not any(n['state'].get('selected_text') for n in editors):
+                    raise BokkioError('Word formatting requires a verified nonempty document text selection before dispatch')
             return super().perform(app,action,**arguments)
     bound_pid=app.pid
     backend=ScopedOffice()
     # Preflight precedes provider construction: inaccessible UI incurs no model
     # calls and is an environment result, not a model/task failure.
     backend.snapshot(str(bound_pid))
-    owned_windows=[w for w in app.windows() if any(stem in (w.name or '').casefold() for stem in stems)]
-    if len(owned_windows)!=1:raise BokkioError('Benchmark initialization requires one exact document window')
-    activate_window(bound_pid,owned_windows[0].name)
+    owned_windows=[w for w in flatten(backend.snapshot(str(bound_pid))['windows'])
+                   if w['role']=='window' and w['platform_data'].get('ax_document')
+                   and str(Path(unquote(urlparse(w['platform_data']['ax_document']).path)).resolve())==str(Path(task['source']).resolve())]
+    if len(owned_windows)!=1:raise BokkioError('Benchmark initialization requires one document bound to its exact source path')
+    activation=activate_window(bound_pid,owned_windows[0]['name'],document=str(Path(task['source']).resolve()),clear_hover=True)
+    if task['task_id']=='win_pro_l1_003':
+        from .office_visual import OfficeVisualBackend
+        from .visual_runtime import WindowScope
+        backend=OfficeVisualBackend(backend,WindowScope('macos',bound_pid,owned_windows[0]['name'],activation['window_id'],str(Path(task['source']).resolve())))
     started=time.time_ns()
     def verify_artifact(trace):
         score=evaluate(task['task_id'],file)

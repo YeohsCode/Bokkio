@@ -546,3 +546,70 @@ def test_explicit_click_does_not_resolve_duplicate_buttons():
     # Ambiguous identities still refuse; explicit intent cannot invent identity.
     with pytest.raises(BokkioError,match='No native action candidates'):
         decide(Provider(choice='click'),'Click New Slide',backend.snapshot('TextEdit'),allow_done=False)
+
+
+def test_explicit_click_uses_longest_observed_command_name():
+    from test_cli import Element
+    from bokkio.selector import flatten
+    backend,window,_=backend_with_button()
+    commands=[Element('menu_item','Save'),Element('menu_item','Save As...')]
+    for n in commands:n.actions=['press','focus'];n.parent_value=window
+    window.children_values=commands
+    snapshot=backend.snapshot('TextEdit')
+    provider=Provider(choice='click')
+    decision,_=decide(provider,'Click Save As...',snapshot,allow_done=False)
+    assert list(provider.questions['next']['criteria'])==['click']
+    assert len(provider.questions['click_target']['criteria'])==1
+    assert next(n['name'] for n in flatten(snapshot['windows']) if n['ref']==decision.ref)=='Save As...'
+
+
+def test_explicit_unique_click_does_not_offer_focus_as_an_alternative():
+    backend,_,button=backend_with_button();button.actions=['press','focus']
+    provider=Provider(choice='click')
+    decision,_=decide(provider,'Click Save',backend.snapshot('TextEdit'),allow_done=False)
+    assert decision.action=='click' and list(provider.questions['next']['criteria'])==['click']
+
+
+@pytest.mark.parametrize('current,expected',[('Microsoft YaHei','set_value'),('Calibri','submit')])
+def test_set_then_confirm_replaces_missing_value_before_native_submission(current,expected):
+    from test_cli import Element
+    from bokkio.selector import flatten
+    backend,window,_=backend_with_button();field=Element('combo_box','Asian text font:',current)
+    field.actions=['set_value'];field.editable=True;window.children_values=[field]
+    snapshot=backend.snapshot('TextEdit');node=next(n for n in flatten(snapshot['windows']) if n['name']=='Asian text font:')
+    node['platform']='macos';node['actions'].append('submit')
+    goal='Set Asian text font: to Calibri and confirm\nRequired observable outcome: '+json.dumps(
+        [{'role':'combo_box','name':'Asian text font:','field':'value','equals':'Calibri'}])
+    provider=Provider(choice=expected);decision,_=decide(provider,goal,snapshot,['Calibri'],allow_done=False)
+    assert decision.action==expected and list(provider.questions['next']['criteria'])==[expected]
+
+
+@pytest.mark.parametrize('enabled',[True,False])
+def test_dialog_acquisition_uses_current_menu_and_never_unrelated_file_open(enabled):
+    import json
+    from test_cli import Element
+    from bokkio.selector import flatten
+    backend,window,_=backend_with_button()
+    commands=[Element('menu_item','Open'),Element('menu_item','Paragraph...')]
+    for n in commands:n.actions=['press','focus'];n.parent_value=window
+    window.children_values=commands;snapshot=backend.snapshot('TextEdit')
+    paragraph=next(n for n in flatten(snapshot['windows']) if n['name']=='Paragraph...')
+    paragraph['platform_data']['native_menu_command']=True;paragraph['state']['enabled']=enabled
+    goal='Open the Paragraph dialog to set body spacing\nRequired observable outcome: '+json.dumps(
+        [{'role':'dialog','name':'Paragraph','field':'present','equals':True}])
+    provider=Provider(choice='click')
+    if enabled:
+        decision,_=decide(provider,goal,snapshot,allow_done=False)
+        assert decision.ref==paragraph['ref'] and list(provider.questions['next']['criteria'])==['click']
+    else:
+        with pytest.raises(BokkioError,match='no uniquely actionable'):decide(provider,goal,snapshot,allow_done=False)
+
+
+def test_disabled_save_as_never_falls_back_to_shorter_save_command():
+    from test_cli import Element
+    backend,window,_=backend_with_button()
+    save=Element('menu_item','Save');save.actions=['press']
+    save_as=Element('menu_item','Save As...');save_as.actions=['press'];save_as.enabled=False
+    window.children_values=[save,save_as]
+    with pytest.raises(BokkioError,match='shorter command'):
+        decide(Provider(choice='click'),'Click Save As...',backend.snapshot('TextEdit'),allow_done=False)

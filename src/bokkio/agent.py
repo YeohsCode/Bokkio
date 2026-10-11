@@ -121,6 +121,21 @@ def planner_observation(goal, snapshot, windows, limit=240):
                        [i * (len(group) - 1) // (count - 1) for i in range(count)])
             selected.extend(group[i] for i in indices)
     rows = []
+    # Narrowing by goal words can retain hidden menu commands while dropping
+    # the visible ribbon fields needed for the next phase. Keep source editors
+    # and a bounded set of observed visible fields beside those named matches.
+    editors=[n for n in nodes if n['role']=='text_area' and isinstance(n.get('value'),str)
+             and n['value'] and n['state'].get('visible') is not False][:16]
+    fields=[n for n in nodes if n['role'] in {'combo_box','text_field'} and n['name']
+            and n['state'].get('visible') is True and n['actions']][:32]
+    controls=[n for n in nodes if n['role'] in {'button','split_button','radio_button','checkbox','visual_text'}
+              and n['name'] and n['state'].get('visible') is True and n['actions']]
+    # A compact ribbon fits; large grids/lists retain balanced sampling.
+    if len(controls)>96:controls=[]
+    priority=editors+fields+controls
+    if priority:
+        priority_refs={n['ref'] for n in priority}
+        selected=(priority+[n for n in selected if n['ref'] not in priority_refs])[:limit]
     for node in selected:
         actions = node['actions']
         data = node['platform_data']
@@ -136,8 +151,12 @@ def planner_observation(goal, snapshot, windows, limit=240):
         rows.append({**({"native_inline_editor":True} if data.get("class_name")=="UIRenameTextElement" else {}),
                      **({'source':'OCR','ocr_confidence':data['ocr_confidence']} if data.get('source')=='OCR' else {}),
                      **({'value_submission':data['value_submission']} if data.get('value_submission') else {}),
+                     **({'native_menu_command':True} if data.get('native_menu_command') and data.get('mac_unique_identity') else {}),
+                     **({'native_file_path':data['ax_url_path']} if data.get('native_file_entry') and data.get('ax_url_path') else {}),
+                     **({'selection_targets':data['selection_targets']} if data.get('selection_targets') and 'select_text' in actions else {}),
+                     **({'save_in_place_document':True} if data.get('save_in_place_document') and node['role']=='window' else {}),
                      "role": node["role"], "name": node["name"], "value": node["value"], "actions": actions,
-                     "parent_name": by_ref.get(node["parent"], {}).get("name"),
+                     "parent_name": by_ref.get(node["parent"], {}).get("name") or None,
                      "window_name": parent["name"] if parent["role"] in {"window", "dialog"} else None,
                      "state": {k: v for k, v in node["state"].items() if v is not None and k in
                                {"enabled", "visible", "focused", "selected", "selected_text", "expanded", "checked", "editable"}}})
@@ -324,6 +343,10 @@ class DesktopAgent:
                 trace["completed_steps"].append(step["id"])
             event("subtask_completed", step=step["id"], subtask=step)
         def make_plan(observations, progress):
+            if progress is not None:
+                progress={**progress,'remaining_actions':self.max_actions-trace['actions'],
+                          'dispatched_subtasks':[e['subtask'] for e in trace['events'] if e.get('kind')=='action'
+                                                 and e.get('goal_revision',1)==trace['goal_revision']]}
             inline=[{'app':app,**node} for app,obs in observations.items() for node in obs['nodes']
                     if node.get('native_inline_editor') and node['state'].get('editable')]
             if inline:
@@ -356,7 +379,7 @@ class DesktopAgent:
                                 if len(matches)==1 and literal not in values and len(values)<16:
                                     values.append(literal)
                                     event('selection_literal_bound',step=proposed.get('id'),source='unique_current_native_text')
-                    validated=validate_plan(plan, apps, observations)
+                    validated=validate_plan(plan, apps, observations, requested_goal=goal)
                     if progress and progress.get('native_inline_editor_opened') and validated['steps']:
                         first=validated['steps'][0]
                         if re.search(r"\b(?:click|press|invoke)\s+(?:the\s+)?['\"]?rename\b",first['goal'],re.I):
@@ -366,6 +389,7 @@ class DesktopAgent:
                         if (not first.get('requires_action') or not re.search(r'\b(?:submit|confirm|commit)\b',first['goal'],re.I)
                                 or target['name'].casefold().rstrip(':') not in first['goal'].casefold()):
                             raise BokkioError('The Mac combo value was written but not committed. Next subtask must explicitly confirm '+target['name']+' using submit, requires_action=true, allowed_values=[], then observe the result.')
+                    trace['deferred_subtasks']=copy.deepcopy(metadata.get('deferred_subtasks',[]))
                     return validated, metadata
                 except BokkioError as error:
                     event("error", error=str(error), stage="plan_validation")
@@ -421,11 +445,14 @@ class DesktopAgent:
                         if step["risk"] in {"external", "destructive"}:
                             return stop("blocked", "Sensitive subtask requires explicit approval outside this loop")
                         calls = []
+                        attempted_action=False
+                        before_satisfied=None
                         try:
                             snapshot = self.backend.snapshot(step["app"], step["window"])
                             if hasattr(self.backend,'prepare_step'):
                                 snapshot=self.backend.prepare_step(step['app'],snapshot,step)
                             passed, checks = verify_conditions(snapshot, step["success"])
+                            before_satisfied=passed
                             event("observation", step=step["id"], snapshot=snapshot, checks=checks)
                             if passed and (not step.get('requires_action',False) or dispatched(step)):
                                 complete(step)
@@ -474,6 +501,7 @@ class DesktopAgent:
                             if decision.action in {"click", "select", "set_value", "type", "visual_click", "visual_type"} and re.search(r"\b(send|delete|pay|purchase|transfer|publish)\b|发送|删除|支付|转账|发布", target.get("name") or "", re.I):
                                 return stop("blocked", "Sensitive native target requires explicit approval")
                             trace["actions"] += 1
+                            attempted_action=True
                             result = execute_decision(self.backend, step["app"], decision)
                             event("action", step=step["id"], subtask=step, result=result)
                             popup_closed=False
@@ -497,7 +525,8 @@ class DesktopAgent:
                             passed, checks = verify_conditions(fresh, step["success"])
                             event("outcome", step=step["id"], snapshot=fresh, passed=passed, checks=checks)
                             combo_written=(decision.action=='set_value' and target['platform']=='macos'
-                                           and target['role']=='combo_box' and 'submit' in target['actions'] and not result.get('input_commit'))
+                                           and target['role']=='combo_box' and 'submit' in target['actions'] and not result.get('input_commit')
+                                           and target['platform_data'].get('value_submission')!='set_value_requires_dialog_commit')
                             visual_committed=bool(result.get('input_commit')) and not passed
                             if passed and not combo_written:
                                 complete(step)
@@ -516,20 +545,24 @@ class DesktopAgent:
                                                {w.get('name') for w in flatten(fresh['windows']) if w['role']=='window'}!=
                                                {w.get('name') for w in flatten(snapshot['windows']) if w['role']=='window'})
                             popup_opened=(decision.action=='expand' and target['platform']=='macos'
-                                          and result.get('action_source')=='AXShowMenu'
+                                          and result.get('action_source') in {'AXShowMenu','bounded_native_dropdown_click'}
                                           and (result.get('verification')=='confirmed' or
                                                {n['name'] for n in flatten(fresh['windows']) if n['role'] in {'window','dialog'}} !=
                                                {n['name'] for n in flatten(snapshot['windows']) if n['role'] in {'window','dialog'}}))
-                            if menu_changed or rename_editor_opened or address_submitted or combo_written or popup_opened or popup_closed or visual_committed:
+                            previous_dialogs={n['name'] for n in flatten(snapshot['windows']) if n['role']=='dialog'}
+                            new_dialogs=sorted({n['name'] for n in flatten(fresh['windows']) if n['role']=='dialog'}-previous_dialogs)
+                            dialog_opened=decision.action=='click' and bool(new_dialogs)
+                            if menu_changed or rename_editor_opened or address_submitted or combo_written or popup_opened or popup_closed or visual_committed or dialog_opened:
                                 if trace['phases'] >= self.max_phases:
                                     return stop('blocked','Native menu phase budget exhausted')
                                 observations=self._observations(apps,goal)
                                 event('planner_observations',observations=observations)
-                                reason=('visual_value_committed' if visual_committed else 'native_combo_value_written' if combo_written else 'native_popup_closed' if popup_closed else 'native_popup_opened' if popup_opened else
+                                reason=('visual_value_committed' if visual_committed else 'native_combo_value_written' if combo_written else 'native_popup_closed' if popup_closed else 'native_popup_opened' if popup_opened else 'native_dialog_opened' if dialog_opened else
                                         'native_inline_editor_opened' if rename_editor_opened else
                                         'native_address_submitted' if address_submitted else 'native_menu_changed')
                                 progress={reason:target['name'], 'completed_steps':trace['completed_steps'],
-                                          'completed_subtasks':receipts()}
+                                          'completed_subtasks':receipts(),
+                                          'remaining_subtasks':copy.deepcopy(trace['plan']['steps'][index+1:]+trace.get('deferred_subtasks',[]))}
                                 if combo_written:progress['native_combo_value_written']={'name':target['name'],'value':decision.value,'app':step['app']}
                                 if visual_committed:
                                     after=result.get('after') or {}
@@ -537,6 +570,7 @@ class DesktopAgent:
                                                                        'confirmation_posted':True,'property_verification':'final_artifact_required'}
                                 if popup_closed:progress['native_popup_closed']={'action':decision.action,'target':target['name'],'intent':step['goal'],
                                                                                'command_dispatched':True,'property_verification':'final_artifact_required'}
+                                if dialog_opened:progress['native_dialog_opened']={'command':target['name'],'names':new_dialogs,'command_dispatched':True}
                                 if address_submitted:
                                     progress['navigation_result']={'submitted_address':target['value'],
                                         'window_names':[n['name'] for n in flatten(fresh['windows']) if n['role']=='window'],
@@ -558,7 +592,26 @@ class DesktopAgent:
                         except BokkioError as error:
                             diagnostic=native_error_details(error)
                             event("error", step=step["id"], error=str(error), model_calls=calls, native_error=diagnostic)
-                            if isinstance(error,BokkioCompletionUnknown):return stop('blocked','Native completion is unknown; inspect the current UI/artifact before another attempt: '+str(error))
+                            if isinstance(error,BokkioCompletionUnknown):
+                                # Reconcile by observation only. A predicate
+                                # already true before dispatch cannot prove a
+                                # command happened; never repost unknown input.
+                                if attempted_action and before_satisfied is False:
+                                    try:
+                                        fresh=self.backend.snapshot(step['app'],step['window'])
+                                        resolved,resolution_checks=verify_conditions(fresh,step['success'])
+                                    except BokkioError:
+                                        resolved=False;resolution_checks=[]
+                                    event('unknown_completion_observed',step=step['id'],resolved=resolved,
+                                          checks=resolution_checks,input_reposted=False)
+                                    if resolved:
+                                        result={'action':decision.action,'before':target,'after':None,
+                                                'verification':'confirmed_by_changed_conditions',
+                                                'action_source':'unknown_native_call_reconciled_read_only'}
+                                        event('action',step=step['id'],subtask=step,result=result)
+                                        complete(step)
+                                        break
+                                return stop('blocked','Native completion is unknown; inspect the current UI/artifact before another attempt: '+str(error))
                             if isinstance(error,BokkioStaleSnapshot) and getattr(self.backend,'supports_stale_refresh',False):
                                 stale_refreshes+=1
                                 event('stale_decision_rejected',step=step['id'],dispatched=False,refresh=stale_refreshes)
@@ -616,7 +669,8 @@ class DesktopAgent:
                     observations = self._observations(apps, goal)
                     event("planner_observations", observations=observations)
                     progress = {"phase_completed": True, "completed_steps": trace["completed_steps"],
-                                "completed_subtasks": receipts()}
+                                "completed_subtasks": receipts(),
+                                "remaining_subtasks":copy.deepcopy(trace.get('deferred_subtasks',[]))}
                     plan, metadata = make_plan(observations, progress)
                     if plan is None: return stop("blocked", metadata)
                     trace["plan"] = plan

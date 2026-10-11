@@ -1,0 +1,9 @@
+{
+  "status": "interrupted",
+  "run": "office-r6",
+  "last_observed_task": "win_adm_l1_003",
+  "last_observed_action_attempts": 2,
+  "final_score": null,
+  "reason": "power_failure; temporary workspace disappeared; no surviving final run report",
+  "restarted_in_durable_workspace": "/Users/andrewyeoh/Library/Caches/Bokkio/acceptance/2026-10-10-after-power/office-r7"
+}

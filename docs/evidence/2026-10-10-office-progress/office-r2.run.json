@@ -1,0 +1,58 @@
+{
+  "schema": "bokkio.office_pilot_run.v1",
+  "revision": "fbccd464f94fec9e284e139f97bf96d0b192f580",
+  "scope": "adapted_macos_microsoft_office_pilot",
+  "environment": {
+    "ready": true,
+    "session_available": true,
+    "session_locked": false,
+    "permissions": {
+      "ax": true,
+      "capture": true,
+      "events": true
+    },
+    "reason": null
+  },
+  "applications": {
+    "Microsoft Word": {
+      "installed": true,
+      "version": "16.95.4"
+    },
+    "Microsoft Excel": {
+      "installed": true,
+      "version": "16.95.4"
+    },
+    "Microsoft PowerPoint": {
+      "installed": true,
+      "version": "16.95.4"
+    }
+  },
+  "planned": 3,
+  "started": 3,
+  "tasks": [
+    {
+      "task_id": "win_adm_l1_003",
+      "status": "environment_or_execution_error",
+      "reason": "Mac foreground activation failed: window_ambiguous_or_missing",
+      "score": null
+    },
+    {
+      "task_id": "win_acc_l1_001",
+      "status": "environment_or_execution_error",
+      "reason": "Mac foreground activation failed: front_window_unconfirmed",
+      "score": null
+    },
+    {
+      "task_id": "win_pro_l1_003",
+      "status": "environment_or_execution_error",
+      "reason": "Mac foreground activation failed: window_ambiguous_or_missing",
+      "score": null
+    }
+  ],
+  "official_score": false,
+  "judge_status": "upstream_rubric_pinned_not_official_VLM_execution",
+  "started_at_unix_ns": 1791567463879661000,
+  "setup_input_open_is_not_agent_action": true,
+  "status": "incomplete",
+  "passed": 0
+}

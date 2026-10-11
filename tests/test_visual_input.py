@@ -28,6 +28,48 @@ def test_cancel_before_native_dispatch(sample,monkeypatch):
     assert caught.value.code=='input_cancelled' and caught.value.details['dispatched']==0
 
 
+def test_button_click_binds_focused_selection_and_button_identity(sample,monkeypatch):
+    target={'ref':'button','platform':'macos','role':'button','name':'Clear Formatting','value':'0',
+            'state':{'enabled':True,'visible':True},'bounds':{'x':30,'y':40,'width':30,'height':20},
+            'platform_data':{'mac_unique_identity':True,'mac_owner_pid':10,'ax_native_identity':77,'ax_original_actions':['AXPress']}}
+    editor={'ref':'editor','platform':'macos','role':'text_area','state':{'selected_text':'body'},
+            'platform_data':{'mac_unique_identity':True,'mac_owner_pid':10,'ax_native_identity':88}}
+    requests=[]
+    receipt={'pid':10,'window_id':20,'status':'posted_unverified','dispatched':True,'events_posted':2}
+    monkeypatch.setattr(subprocess,'run',lambda *a,**k:requests.append(json.loads(k['input'])) or
+                        SimpleNamespace(stdout=json.dumps(receipt).encode(),returncode=0))
+    monkeypatch.setattr(inputs,'capture_window',lambda *a,**k:sample)
+    inputs.perform(*sample,'button','click',expect_text='Clear Formatting',_native_target=target,
+                   _native_selection=editor,_post_verify=lambda *a:{'passed':True})
+    assert requests[0]['native_button']=={'name':'Clear Formatting','identity':77,'bounds':target['bounds'],
+                                          'value':'0','selection_identity':88,'selected_text':'body'}
+    assert 'native_field' not in requests[0]
+    editor['state']['selected_text']=''
+    with pytest.raises(CaptureError,match='nonempty text selection'):
+        inputs.perform(*sample,'button','click',expect_text='Clear Formatting',_native_target=target,
+                       _native_selection=editor,_post_verify=lambda *a:{'passed':True})
+    assert len(requests)==1
+
+
+def test_numeric_text_field_uses_actual_role_and_finishes_edit_with_tab(sample,monkeypatch):
+    target={'ref':'spacing','platform':'macos','role':'text_field','name':'At:','value':'1.08',
+            'state':{'enabled':True},'bounds':{'x':30,'y':40,'width':30,'height':20},
+            'platform_data':{'mac_unique_identity':True,'mac_owner_pid':10,'ax_value_settable':True,
+                             'ax_identifier':'AtID','ax_original_actions':['AXConfirm']}}
+    requests=[];receipt={'pid':10,'window_id':20,'status':'posted_unverified','dispatched':True,'events_posted':8}
+    monkeypatch.setattr(subprocess,'run',lambda *a,**k:requests.append(json.loads(k['input'])) or
+                        SimpleNamespace(stdout=json.dumps(receipt).encode(),returncode=0))
+    monkeypatch.setattr(inputs,'capture_window',lambda *a,**k:sample)
+    inputs.perform(*sample,'At:','replace',value='1.15',expect_text='1.15',_native_target=target,
+                   _confirm=False,_end_field_edit=True,_post_verify=lambda *a:{'passed':True})
+    assert requests[0]['native_field']['role']=='AXTextField'
+    assert requests[0]['end_field_edit'] is True and requests[0]['confirm'] is False
+    target['platform_data']['ax_original_actions']=[]
+    with pytest.raises(CaptureError,match='uniquely bound'):
+        inputs.perform(*sample,'At:','replace',value='1.15',expect_text='1.15',_native_target=target)
+    assert len(requests)==1
+
+
 @pytest.mark.parametrize('action,value,expected',[('drag',None,'invalid_input'),('type','\n','invalid_input'),
                                                 ('type','x'*1001,'invalid_input'),('click','x','invalid_input'),
                                                 ('click',None,'verification_required')])
@@ -111,6 +153,22 @@ def test_native_bounds_target_does_not_require_ambiguous_ocr_glyph(sample,monkey
     assert len(requests)==1
 
 
+def test_draft_replacement_is_available_only_for_bound_native_fields(sample,monkeypatch):
+    receipt={'pid':10,'window_id':20,'status':'posted_unverified','dispatched':True,'events_posted':6}
+    requests=[]
+    def run(*a,**k):requests.append(json.loads(k['input']));return SimpleNamespace(stdout=json.dumps(receipt).encode(),returncode=0)
+    monkeypatch.setattr(subprocess,'run',run);monkeypatch.setattr(inputs,'capture_window',lambda *a,**k:sample)
+    target={'ref':'font','platform':'macos','role':'combo_box','state':{'enabled':True},
+            'bounds':{'x':30,'y':40,'width':30,'height':20},
+            'platform_data':{'mac_unique_identity':True,'mac_owner_pid':10,'ax_value_settable':True,'ax_original_actions':['AXConfirm']}}
+    result=inputs.perform(*sample,'font','replace',value='Calibri',expect_text='Calibri',
+                          _native_target=target,_post_verify=lambda *a:{'passed':True},_confirm=False)
+    assert result['status']=='confirmed' and requests[0]['confirm'] is False
+    with pytest.raises(CaptureError,match='bound native field'):
+        inputs.perform(*sample,'Run check','replace',value='Calibri',expect_text='Calibri',_confirm=False)
+    assert len(requests)==1
+
+
 def test_native_readback_failure_after_posting_remains_unknown(sample,monkeypatch):
     from bokkio.model import BokkioError
     receipt={'pid':10,'window_id':20,'status':'posted_unverified','dispatched':True,'events_posted':2}
@@ -144,3 +202,42 @@ def test_native_error_diagnostics_terminate_on_causal_cycle():
     from bokkio.model import BokkioError,native_error_details
     error=BokkioError('wrapped');error.__cause__=error
     assert native_error_details(error) is None
+
+
+def test_named_field_without_identifier_requires_native_identity_for_rebinding(sample,monkeypatch):
+    receipt={'pid':10,'window_id':20,'status':'posted_unverified','dispatched':True,'events_posted':8}
+    requests=[]
+    def run(*a,**k):requests.append(json.loads(k['input']));return SimpleNamespace(stdout=json.dumps(receipt).encode(),returncode=0)
+    monkeypatch.setattr(subprocess,'run',run);monkeypatch.setattr(inputs,'capture_window',lambda *a,**k:sample)
+    target={'ref':'font','name':'Font:','platform':'macos','role':'combo_box','value':'Arial','state':{'enabled':True},
+            'bounds':{'x':30,'y':40,'width':30,'height':20},
+            'platform_data':{'mac_unique_identity':True,'mac_owner_pid':10,'ax_native_identity':456,
+                             'ax_value_settable':True,'ax_original_actions':['AXConfirm']}}
+    inputs.perform(*sample,'Arial','replace',value='Calibri',expect_text='Calibri',_native_target=target,
+                   _post_verify=lambda *a:{'passed':True})
+    assert requests[0]['native_field']['name']=='Font:' and requests[0]['native_field']['identity']==456
+    target['platform_data'].pop('ax_native_identity')
+    inputs.perform(*sample,'Arial','replace',value='Calibri',expect_text='Calibri',_native_target=target,
+                   _post_verify=lambda *a:{'passed':True})
+    assert 'native_field' not in requests[1]
+
+
+@pytest.mark.parametrize('visible',[True,False])
+def test_readonly_option_input_requires_visible_bound_popup_context(sample,monkeypatch,visible):
+    receipt={'pid':10,'window_id':20,'status':'posted_unverified','dispatched':True,'events_posted':2}
+    requests=[]
+    def run(*a,**k):requests.append(json.loads(k['input']));return SimpleNamespace(stdout=json.dumps(receipt).encode(),returncode=0)
+    monkeypatch.setattr(subprocess,'run',run);monkeypatch.setattr(inputs,'capture_window',lambda *a,**k:sample)
+    target={'ref':'option','name':'Calibri','value':'Calibri','platform':'macos','role':'text_field',
+            'state':{'enabled':True,'visible':visible},'bounds':{'x':30,'y':40,'width':30,'height':20},
+            'platform_data':{'mac_unique_identity':True,'mac_owner_pid':10,'ax_native_identity':456,
+                'native_option_command':True,'ax_value_settable':False,'native_option_combo_identifier':'LatinID',
+                'native_option_viewport':{'x':30,'y':40,'width':100,'height':100}}}
+    if not visible:
+        with pytest.raises(CaptureError,match='readonly option'):
+            inputs.perform(*sample,'Calibri','click',expect_text='Calibri',_native_target=target,_native_option=True)
+        assert not requests
+    else:
+        inputs.perform(*sample,'Calibri','click',expect_text='Calibri',_native_target=target,_native_option=True,
+                       _post_verify=lambda *a:{'passed':True})
+        assert requests[0]['native_option']['identity']==456 and 'native_field' not in requests[0]

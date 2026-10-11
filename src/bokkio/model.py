@@ -75,8 +75,30 @@ def path_signature(role: str, name: str | None, occurrence: int) -> list[Any]:
 
 
 def tree_digest(trees: Any) -> str:
-    """Bind a decision to the complete observed tree, including current state."""
-    return stable_hash(trees)
+    """Bind semantic state; freshly resolved Mac menu handles are ephemeral.
+
+    Menu labels, paths, capabilities and states remain bound. Their CFHash is
+    an in-process dispatch handle, independently revalidated by MacAX.perform,
+    and can change on every observation of an otherwise identical command.
+    """
+    def semantic(value):
+        if isinstance(value,list):return [semantic(v) for v in value]
+        if isinstance(value,dict):
+            result={k:semantic(v) for k,v in value.items()}
+            data=result.get('platform_data')
+            if result.get('platform')=='macos' and isinstance(data,dict):
+                # Help text is not part of the decision's normalized UI state.
+                # Office updates unnamed status-button descriptions during
+                # background proofing, with identical identity/capabilities.
+                data.pop('AXHelp',None)
+                if result.get('role')=='button' and not result.get('name'):
+                    data.pop('AXDescription',None);data.pop('description',None)
+            if (result.get('platform')=='macos' and isinstance(data,dict)
+                    and data.get('native_menu_attribute')):
+                data.pop('ax_native_identity',None)
+            return result
+        return value
+    return stable_hash(semantic(trees))
 
 
 @dataclass(frozen=True)

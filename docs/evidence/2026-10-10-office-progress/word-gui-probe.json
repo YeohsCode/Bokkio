@@ -1,0 +1,8 @@
+{
+  "scope": "scripted_GUI_probe_not_full_Agent",
+  "checks": {
+    "preserved_content": true,
+    "heading1": true,
+    "body_font_size_spacing": true
+  }
+}

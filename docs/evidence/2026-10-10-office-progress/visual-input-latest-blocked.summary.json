@@ -1,0 +1,20 @@
+{
+  "scope": "owned_macos_visual_input_fixed_subtasks_real_jev",
+  "environment": {
+    "ready": false,
+    "session_available": true,
+    "session_locked": true,
+    "permissions": {
+      "ax": true,
+      "capture": true,
+      "events": true
+    },
+    "reason": "interactive_session_unavailable"
+  },
+  "planned": 3,
+  "rounds": [],
+  "status": "blocked",
+  "started": 0,
+  "passed": null,
+  "reason": "interactive_session_unavailable"
+}

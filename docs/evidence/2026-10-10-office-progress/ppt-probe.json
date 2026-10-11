@@ -1,0 +1,18 @@
+{
+  "scope": "scripted_native_setup_fixed_title_subtask_real_jev_then_scripted_save",
+  "full_agent_task": false,
+  "score": {
+    "task_id": "win_pro_l1_003",
+    "artifact_exists": true,
+    "sha256": "2808684dfc4e9534432e3ad3eee0c1a9920d1b033eba8e452278d6a891a3fd95",
+    "bytes": 14907,
+    "checks": {
+      "one_slide": true,
+      "title_placeholder": true,
+      "title_layout": true
+    },
+    "passed": true,
+    "official_score": false,
+    "evaluator": "independent_OOXML_adaptation"
+  }
+}

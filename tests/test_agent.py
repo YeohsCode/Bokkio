@@ -43,6 +43,12 @@ def test_required_command_cannot_be_skipped_by_an_already_true_predicate(tmp_pat
     assert 'requires_action' in variant['required']
 
 
+def test_selected_text_alone_cannot_certify_formatting():
+    p=plan();p['steps'][0].update(goal='Apply Heading 1 style to the selected title',allowed_values=['Title'])
+    p['steps'][0]['success']=[{'role':'text_area','name':'Content','field':'selected_text','equals':'Title'}]
+    with pytest.raises(BokkioError,match='only selection'):validate_plan(p,['TextEdit'])
+
+
 @pytest.mark.parametrize("reject_duplicate",[False,True])
 def test_rename_editor_triggers_a_fresh_plan_instead_of_reinvoking_rename(tmp_path,reject_duplicate):
     from test_cli import Element
@@ -1050,3 +1056,464 @@ def test_unknown_native_completion_preserves_diagnostics_without_replan(tmp_path
     assert error['native_error']['details']['verification']['actual']=='Arial'
     saved=json.loads((tmp_path/'trace.json').read_text())
     assert next(e for e in saved['events'] if e['kind']=='error')['native_error']==error['native_error']
+
+
+@pytest.mark.parametrize('already_true',[False,True])
+def test_unknown_command_reconciles_only_changed_success_without_reposting(tmp_path,already_true):
+    from bokkio.model import BokkioCompletionUnknown
+    backend,_,button=backend_with_button();posts=[]
+    if already_true:button.value='pressed'
+    def press():
+        posts.append(True);button.value='pressed'
+        raise BokkioCompletionUnknown('Delivery receipt was lost')
+    button.press=press
+    p=plan();p['steps'][0]['requires_action']=True
+    trace=DesktopAgent(backend,Planner(p),Provider()).run('Click Save',['TextEdit'],tmp_path/'trace.json')
+    assert len(posts)==1 and trace['actions']==1 and trace['replans']==0
+    assert trace['status']==('blocked' if already_true else 'completed')
+    resolved=[e for e in trace['events'] if e['kind']=='unknown_completion_observed']
+    if not already_true:
+        assert len(resolved)==1 and resolved[0]['resolved'] and not resolved[0]['input_reposted']
+    else:
+        assert not any(e.get('resolved') for e in resolved)
+
+
+def test_goal_narrowing_retains_visible_fields_needed_for_next_phase():
+    from test_cli import Element
+    backend,window,button=backend_with_button()
+    fields=[Element('combo_box','Styles','Normal'),Element('combo_box','Font:','Arial'),Element('button','New Slide')]
+    for field in fields:field.actions=['expand'];field.parent_value=window
+    noise=[Element('static_text',f'irrelevant-{i}') for i in range(300)]
+    for node in noise:node.parent_value=window
+    window.children_values=[button,*noise,*fields]
+    observed=planner_observation('Click Save',backend.snapshot('TextEdit'),backend.windows('TextEdit'),limit=40)
+    names={row['name'] for row in observed['nodes']}
+    assert {'Save','Styles','Font:','New Slide'}<=names and len(observed['nodes'])<=40
+
+
+def test_empty_native_parent_labels_are_exposed_as_unnamed():
+    from test_cli import Element
+    backend,window,button=backend_with_button();window.name=''
+    observed=planner_observation('Click Save',backend.snapshot('TextEdit'),backend.windows('TextEdit'))
+    assert next(n for n in observed['nodes'] if n['name']=='Save')['parent_name'] is None
+
+
+def test_enabled_hidden_menu_cannot_prove_opening():
+    p=plan();s=p['steps'][0];s.update(goal='Expand the File menu',requires_action=True,window=None)
+    s['success']=[{'role':'menu','name':'','parent_name':'File','field':'enabled','equals':True}]
+    with pytest.raises(BokkioError,match='menu is hidden'):
+        validate_plan(p,['TextEdit'],{'TextEdit':{'nodes':[]}})
+
+
+def test_empty_title_presentation_must_add_a_slide_before_save():
+    p=plan();p['goal']='Create a title slide and then save'
+    observations={'TextEdit':{'windows':[{'name':'Untitled'}],'nodes':[{'name':'Click to add first slide'}]}}
+    with pytest.raises(BokkioError,match='zero slides'):
+        validate_plan(p,['TextEdit'],observations)
+    p['goal']='Save an empty presentation'
+    assert validate_plan(p,['TextEdit'],observations)==p
+
+
+def test_planner_normalizes_only_dialog_presence_to_app_observation_scope():
+    p=plan();p['steps'][0]['success']=[{'role':'dialog','name':'Save','field':'present','equals':True}]
+    response={'choices':[{'finish_reason':'stop','message':{'content':json.dumps(p)}}]}
+    planner=OpenRouterPlanner(api_key='offline-secret',model='offline',
+                              opener=lambda *a,**k:BytesIO(json.dumps(response).encode()))
+    normalized,meta=planner.plan('Click Save',{'TextEdit':{'windows':[{'name':'Untitled'}],'nodes':[]}})
+    assert normalized['steps'][0]['window'] is None and normalized['steps'][0]['success']==p['steps'][0]['success']
+    assert meta['normalizations']==[{'step':'save','field':'window','reason':'dialog_presence_scope'}]
+    validate_plan(normalized,['TextEdit'])
+
+
+def test_planner_uses_observed_native_leaf_for_compound_menu_intent():
+    p=plan();p['steps'][0]['goal']='Expand the File menu and click Save As...'
+    p['steps'][0]['success']=[{'role':'dialog','name':'save','field':'present','equals':True}]
+    response={'choices':[{'finish_reason':'stop','message':{'content':json.dumps(p)}}]}
+    planner=OpenRouterPlanner(api_key='offline-secret',model='offline',
+                              opener=lambda *a,**k:BytesIO(json.dumps(response).encode()))
+    obs={'TextEdit':{'windows':[{'name':'Untitled'}],'nodes':[{'role':'menu_item','name':'Save As...',
+                'actions':['click'],'native_menu_command':True}]}}
+    normalized,meta=planner.plan('Save',obs)
+    assert normalized['steps'][0]['goal']=='Click Save As...'
+    assert normalized['steps'][0]['success']==p['steps'][0]['success']
+    assert any(n['reason']=='observed_native_leaf_command' for n in meta['normalizations'])
+
+
+def test_word_formatting_requires_observed_or_planned_exact_selection():
+    p=plan();p['steps'][0].update(goal='Expand Styles',window=None)
+    p['steps'][0]['success']=[{'role':'combo_box','name':'Styles','field':'expanded','equals':True}]
+    obs={'TextEdit':{'app':{'name':'Microsoft Word'},'nodes':[{'role':'text_area','name':'Page 1 content','value':'Title\nBody','actions':['select_text'],'state':{'selected_text':''}}]}}
+    with pytest.raises(BokkioError,match='Select the exact target'):
+        validate_plan(p,['TextEdit'],obs)
+    selection=dict(p['steps'][0],id='select',goal='Select main title',allowed_values=['Title'],success=[{'role':'text_area','name':'Page 1 content','field':'selected_text','equals':'Title'}])
+    p['steps'].insert(0,selection)
+    assert validate_plan(p,['TextEdit'],obs)==p
+    selection['allowed_values']=['Unseen'];selection['success'][0]['equals']='Unseen'
+    with pytest.raises(BokkioError,match='observed document'):
+        validate_plan(p,['TextEdit'],obs)
+
+
+def test_planner_removes_only_redundant_parent_menu_phase():
+    p=plan();s=p['steps'][0];s.update(goal='Expand File menu',window=None)
+    s['success']=[{'role':'menu_item','name':'Save As...','field':'present','equals':True}]
+    p['steps'].append(dict(s,id='save-as',goal='Click Save As... in File menu',success=[{'role':'dialog','name':'save','field':'present','equals':True}]))
+    response={'choices':[{'finish_reason':'stop','message':{'content':json.dumps(p)}}]}
+    planner=OpenRouterPlanner(api_key='offline-secret',model='offline',opener=lambda *a,**k:BytesIO(json.dumps(response).encode()))
+    obs={'TextEdit':{'nodes':[{'role':'menu_item','name':'Save As...','actions':['click'],'native_menu_command':True}]}}
+    normalized,meta=planner.plan('Save',obs)
+    assert [s['id'] for s in normalized['steps']]==['save-as']
+    assert normalized['steps'][0]['goal']=='Click Save As...'
+    assert any(n['reason']=='redundant_native_menu_open' for n in meta['normalizations'])
+    # A leaf unobserved or not bound does not justify deleting a phase.
+    untouched,_=planner.plan('Save',{'TextEdit':{'nodes':[]}})
+    assert len(untouched['steps'])==2
+
+
+def test_word_empty_selection_does_not_select_body():
+    p=plan();s=p['steps'][0];s.update(window=None,goal='Deselect the main title so the body text is selected for formatting')
+    s['success']=[{'role':'text_area','name':'Page 1 content','field':'selected_text','equals':''}]
+    obs={'TextEdit':{'app':{'name':'Microsoft Word'},'nodes':[{'role':'text_area','name':'Page 1 content','value':'Title\nBody','actions':['select_text'],'state':{'selected_text':'Title'}}]}}
+    with pytest.raises(BokkioError,match='does not select the body'):
+        validate_plan(p,['TextEdit'],obs)
+
+
+def test_native_save_as_command_is_not_ambiguous_with_save_prefix():
+    p=plan();s=p['steps'][0];s.update(window=None,goal="Expand the File menu and click 'Save As...' to open the save dialog.")
+    s['success']=[{'role':'dialog','name':'save','field':'present','equals':True}]
+    response={'choices':[{'finish_reason':'stop','message':{'content':json.dumps(p)}}]}
+    planner=OpenRouterPlanner(api_key='offline-secret',model='offline',opener=lambda *a,**k:BytesIO(json.dumps(response).encode()))
+    obs={'TextEdit':{'nodes':[{'role':'menu_item','name':n,'actions':['click'],'native_menu_command':True} for n in ['Save','Save As...']]}}
+    normalized,_=planner.plan('Save',obs)
+    assert normalized['steps'][0]['goal']=='Click Save As...'
+
+
+def test_observed_unique_font_leaf_binds_dialog_open_intent():
+    p=plan();s=p['steps'][0];s.update(window=None,goal='Open the Font dialog to set the body text font to Calibri')
+    s['success']=[{'role':'dialog','name':'Font','field':'present','equals':True}]
+    response={'choices':[{'finish_reason':'stop','message':{'content':json.dumps(p)}}]}
+    planner=OpenRouterPlanner(api_key='offline-secret',model='offline',opener=lambda *a,**k:BytesIO(json.dumps(response).encode()))
+    obs={'TextEdit':{'nodes':[{'role':'menu_item','name':'Font...','actions':['click'],'native_menu_command':True}, {'role':'combo_box','name':'Font Size:','actions':['expand']}]}}
+    normalized,_=planner.plan('Format the body',obs)
+    assert normalized['steps'][0]['goal']=='Click Font...'
+    assert normalized['steps'][0]['success']==s['success']
+    # A different dialog predicate cannot authorize the Font leaf.
+    s['success'][0]['name']='Paragraph'
+    response['choices'][0]['message']['content']=json.dumps(p)
+    normalized,_=planner.plan('Format the body',obs)
+    assert normalized['steps'][0]['goal']==s['goal']
+
+
+def test_title_slide_request_cannot_be_lost_in_save_phase_goal():
+    p=plan();p['goal']='Save the presentation';p['steps'][0].update(window=None,goal='Click Save As...')
+    obs={'TextEdit':{'nodes':[{'name':'Click to add title'}]}}
+    with pytest.raises(BokkioError,match='still blank'):
+        validate_plan(p,['TextEdit'],obs,requested_goal='Create a title slide with a project name and save')
+    obs['TextEdit']['nodes']=[{'name':'Click to add first slide'}]
+    p['steps'].insert(0,dict(p['steps'][0],id='add',goal='Click New Slide',success=[{'role':'combo_box','name':'Layout','field':'enabled','equals':True}]))
+    with pytest.raises(BokkioError,match='zero slides'):
+        validate_plan(p,['TextEdit'],obs,requested_goal='Create a title slide and save')
+
+
+def test_menu_normalization_leaves_malformed_steps_for_validation():
+    p=plan();p['steps'].insert(0,None)
+    response={'choices':[{'finish_reason':'stop','message':{'content':json.dumps(p)}}]}
+    planner=OpenRouterPlanner(api_key='offline-secret',model='offline',opener=lambda *a,**k:BytesIO(json.dumps(response).encode()))
+    normalized,_=planner.plan('Save',{'TextEdit':{'nodes':[]}})
+    with pytest.raises(BokkioError,match='Invalid subtask fields'):
+        validate_plan(normalized,['TextEdit'])
+
+
+def word_target_observations(selected=''):
+    return {'TextEdit':{'app':{'name':'Microsoft Word'},'windows':[{'name':'Untitled'},{'name':'Styles'}], 'nodes':[{
+        'role':'text_area','name':'Page 1 content','value':'Title\nBody','actions':['select_text'],
+        'window_name':'Untitled','parent_name':None,'state':{'selected_text':selected},
+        'selection_targets':{'main_title':'Title','body':'Body'}}]}}
+
+
+def test_declared_word_target_inserts_counted_selection_contract():
+    from bokkio.planner import normalize_word_targets
+    p=plan();p['steps'][0].update(goal='Apply Heading 1 style to the main title')
+    obs=word_target_observations()
+    changes=normalize_word_targets(p,obs)
+    selection=p['steps'][0]
+    assert selection['goal']=='Select the exact main title text'
+    assert selection['allowed_values']==['Title'] and selection['requires_action']
+    assert selection['success'][0]['equals']=='Title'
+    assert changes[0]['reason']=='required_native_text_selection'
+    validate_plan(p,['TextEdit'],obs)
+    assert normalize_word_targets(p,obs)==[]  # no duplicate prerequisites
+
+
+def test_declared_word_body_corrects_empty_selection_without_fixture_constants():
+    from bokkio.planner import normalize_word_targets
+    p=plan();p['steps'][0].update(goal='Deselect main title so body is selected')
+    p['steps'][0]['success']=[{'role':'text_area','name':'Page 1 content','field':'selected_text','equals':''}]
+    obs=word_target_observations('Title')
+    assert normalize_word_targets(p,obs)[0]['reason']=='declared_native_text_target'
+    assert p['steps'][0]['goal']=='Select the exact body text'
+    assert p['steps'][0]['allowed_values']==['Body'] and p['steps'][0]['success'][0]['equals']=='Body'
+    validate_plan(p,['TextEdit'],obs)
+    obs['TextEdit']['nodes'][0]['selection_targets']['body']='Unobserved'
+    p['steps'][0]['success'][0]['equals']=''
+    assert normalize_word_targets(p,obs)==[]
+
+
+def test_word_style_predicate_uses_actual_observed_radio():
+    from bokkio.planner import normalize_word_targets
+    p=plan();p['steps'][0].update(goal='Apply Heading 1 style to the selected title',window='Styles')
+    p['steps'][0]['success']=[{'role':'combo_box','name':'Styles','field':'value','equals':'Heading 1'}]
+    obs=word_target_observations('Title');obs['TextEdit']['nodes'].append({'role':'radio_button','name':'Heading 1','actions':['select'],'window_name':'Styles','parent_name':'Styles','state':{'checked':False}})
+    assert normalize_word_targets(p,obs)[0]['reason']=='observed_style_option'
+    assert p['steps'][0]['success']==[{'role':'radio_button','name':'Heading 1','parent_name':'Styles','field':'checked','equals':True}]
+    assert p['steps'][0]['goal']=='Select Heading 1 style'
+    validate_plan(p,['TextEdit'],obs)
+
+
+def test_declared_word_selection_already_held_needs_no_repeat_input():
+    from bokkio.planner import normalize_word_targets
+    p=plan();s=p['steps'][0];s.update(goal='Select the body text',requires_action=True,allowed_values=['Body'])
+    s['success']=[{'role':'text_area','name':'Page 1 content','field':'selected_text','equals':'Body'}]
+    assert normalize_word_targets(p,word_target_observations('Body'))[0]['reason']=='native_selection_already_matches'
+    assert s['requires_action'] is False
+
+
+def test_acquisition_defers_unobserved_style_contract_before_validation():
+    from bokkio.planner import defer_unobserved_controls
+    p=plan();s=p['steps'][0];s.update(goal='Expand Styles',window=None)
+    s['success']=[{'role':'combo_box','name':'Styles','field':'expanded','equals':True}]
+    invalid=dict(s,id='style',goal='Apply Heading 1 style',success=[{'role':'text_area','name':'Page 1 content','field':'selected_text','equals':'Title'}])
+    p['steps'].append(invalid)
+    obs={'TextEdit':{'nodes':[{'role':'combo_box','name':'Styles','actions':['expand'],'state':{'expanded':False}}]}}
+    changes,deferred=defer_unobserved_controls(p,obs)
+    assert p['steps']==[s] and p['continue_after_steps'] is True and deferred==[invalid]
+    assert changes[0]['reason']=='observe_new_controls_before_future_steps'
+    validate_plan(p,['TextEdit'],obs)
+    # No boundary is inferred for a disabled/unadvertised expansion.
+    p['steps'].append(invalid);obs['TextEdit']['nodes'][0]['actions']=[]
+    assert defer_unobserved_controls(p,obs)==([],[])
+
+
+def test_parent_file_menu_goal_does_not_invoke_future_save_command():
+    p=plan();s=p['steps'][0];s.update(goal='Expand File menu to access Save options',window=None)
+    s['success']=[{'role':'menu_item','name':'File','field':'expanded','equals':True}]
+    response={'choices':[{'finish_reason':'stop','message':{'content':json.dumps(p)}}]}
+    planner=OpenRouterPlanner(api_key='offline-secret',model='offline',opener=lambda *a,**k:BytesIO(json.dumps(response).encode()))
+    obs={'TextEdit':{'nodes':[{'role':'menu_item','name':'Save','actions':['click'],'native_menu_command':True}]}}
+    normalized,_=planner.plan('Save',obs)
+    assert normalized['steps'][0]['goal']==s['goal']
+
+
+def test_save_in_save_as_dialog_is_an_actual_save_not_dialog_acquisition():
+    p=plan();s=p['steps'][0];s.update(window=None,goal='Click Save in the Save As dialog',requires_action=True)
+    s['success']=[{'role':'dialog','name':'save','field':'present','equals':False}]
+    response={'choices':[{'finish_reason':'stop','message':{'content':json.dumps(p)}}]}
+    planner=OpenRouterPlanner(api_key='offline-secret',model='offline',opener=lambda *a,**k:BytesIO(json.dumps(response).encode()))
+    obs={'TextEdit':{'nodes':[{'role':'dialog','name':'save','state':{'visible':True}},
+                            {'role':'text_field','name':'Save As:','state':{'visible':True},'actions':['set_value']},
+                            {'role':'button','name':'Save','actions':['click']}]}}
+    normalized,_=planner.plan('Save the file',obs)
+    assert normalized['steps'][0]['goal']==s['goal'] and normalized['steps'][0]['requires_action']
+    assert normalized['steps'][0]['success']==s['success']
+
+
+def test_new_native_dialog_is_observed_without_reposting_alias_command(tmp_path):
+    from test_cli import Element
+    backend,window,save=backend_with_button()
+    dialog=Element('dialog','save');dialog.parent_value=window
+    finish=Element('button','Finish');finish.parent_value=dialog
+    dialog.children_values=[finish]
+    save.press=lambda:window.children_values.append(dialog)
+    finish.press=lambda:window.children_values.remove(dialog)
+    class DialogPlanner(Planner):
+        def plan(self,goal,observations,progress=None):
+            self.calls.append(progress)
+            if progress is None:
+                p=plan();p['steps'][0].update(window=None,requires_action=True)
+                p['steps'][0]['success']=[{'role':'dialog','name':'Save As','field':'present','equals':True}]
+                p['continue_after_steps']=True
+                return p,{}
+            assert progress['native_dialog_opened']['names']==['save']
+            p=plan();p['steps'][0].update(id='finish',window=None,goal='Click Finish',requires_action=True)
+            p['steps'][0]['success']=[{'role':'dialog','name':'save','field':'present','equals':False}]
+            return p,{}
+    planner=DialogPlanner()
+    trace=DesktopAgent(backend,planner,Provider()).run('Open save dialog then finish',['TextEdit'],tmp_path/'trace.json')
+    assert trace['status']=='completed' and trace['actions']==2 and trace['phases']==1 and trace['replans']==0
+    assert sum(e['kind']=='action' and e['result']['before']['name']=='Save' for e in trace['events'])==1
+    assert not any(e['kind']=='subtask_completed' and e['subtask']['id']=='save' for e in trace['events'])
+
+
+def test_pending_style_is_retained_only_with_current_observed_option():
+    from bokkio.planner import retain_pending_style,normalize_word_targets
+    p=plan();p['steps'][0].update(goal='Select body text',allowed_values=['Body'])
+    p['steps'][0]['success']=[{'role':'text_area','name':'Page 1 content','field':'selected_text','equals':'Body'}]
+    obs=word_target_observations('Title');obs['TextEdit']['nodes'].append({'role':'radio_button','name':'Heading 1','actions':['select'],'window_name':'Styles','parent_name':'Styles','state':{'checked':False}})
+    pending=dict(p['steps'][0],id='heading',goal='Apply Heading 1 style to the main title',allowed_values=['Heading 1'])
+    progress={'native_popup_opened':'Styles','remaining_subtasks':[pending]}
+    assert retain_pending_style(p,obs,progress)[0]['reason']=='retained_observed_pending_style'
+    assert p['steps'][0]['success'][0]['field']=='checked'
+    normalize_word_targets(p,obs);validate_plan(p,['TextEdit'],obs)
+    assert retain_pending_style(p,obs,progress)==[]
+    obs['TextEdit']['nodes'].pop();p['steps'].pop(0)
+    assert retain_pending_style(p,obs,progress)==[]
+
+
+def test_observed_pending_style_moves_before_body_selection():
+    from bokkio.planner import retain_pending_style
+    p=plan();body=p['steps'][0];body.update(goal='Select body text')
+    style=dict(body,id='style',goal='Select Heading 1 style')
+    p['steps'].append(style)
+    obs=word_target_observations('Title');obs['TextEdit']['nodes'].append(
+        {'role':'radio_button','name':'Heading 1','actions':['select'],'state':{'checked':False}})
+    changes=retain_pending_style(p,obs,{'native_popup_opened':'Styles','remaining_subtasks':[]},
+                                 "Apply 'Heading 1' style to the main title")
+    assert p['steps']==[style,body] and changes[0]['reason']=='pending_style_before_selection_change'
+    assert retain_pending_style(p,obs,{'native_popup_opened':'Styles','remaining_subtasks':[]},
+                                "Apply 'Heading 1' style to the main title")==[]
+
+
+def test_native_menu_save_is_observed_in_app_scope_not_document_filter():
+    p=plan();p['steps'][0]['goal']='Click the Save button to save the document'
+    response={'choices':[{'finish_reason':'stop','message':{'content':json.dumps(p)}}]}
+    planner=OpenRouterPlanner(api_key='offline-secret',model='offline',opener=lambda *a,**k:BytesIO(json.dumps(response).encode()))
+    obs={'TextEdit':{'nodes':[{'role':'menu_item','name':'Save','actions':['click'],'native_menu_command':True}]}}
+    normalized,_=planner.plan('Save the document',obs)
+    assert normalized['steps'][0]['goal']=='Click Save' and normalized['steps'][0]['window'] is None
+
+
+def test_file_menu_acquisition_uses_observed_app_bar_outside_document_window():
+    p=plan();s=p['steps'][0];s.update(goal='Expand the File menu to prepare for saving',requires_action=True)
+    s['success']=[{'role':'menu_item','name':'File','field':'expanded','equals':True}]
+    response={'choices':[{'finish_reason':'stop','message':{'content':json.dumps(p)}}]}
+    planner=OpenRouterPlanner(api_key='offline-secret',model='offline',opener=lambda *a,**k:BytesIO(json.dumps(response).encode()))
+    obs={'TextEdit':{'nodes':[{'role':'menu_item','name':'File','window_name':None,'actions':['click']}]}}
+    normalized,_=planner.plan('Save',obs)
+    assert normalized['steps'][0]['window'] is None and normalized['steps'][0]['goal']=='Click File'
+    assert normalized['steps'][0]['success']==s['success']
+
+
+def test_menu_then_dialog_leaf_keeps_requested_command_not_only_menu_bar():
+    p=plan();s=p['steps'][0];s.update(goal='Open the File menu and choose Save As...',window=None)
+    s['success']=[{'role':'dialog','name':'save','field':'present','equals':True}]
+    response={'choices':[{'finish_reason':'stop','message':{'content':json.dumps(p)}}]}
+    planner=OpenRouterPlanner(api_key='offline-secret',model='offline',opener=lambda *a,**k:BytesIO(json.dumps(response).encode()))
+    obs={'TextEdit':{'nodes':[{'role':'menu_item','name':'File','window_name':None,'actions':['click']},
+                            {'role':'menu_item','name':'Save As...','actions':['click'],'native_menu_command':True}]}}
+    normalized,_=planner.plan('Save presentation',obs)
+    assert normalized['steps'][0]['goal']=='Click Save As...' and normalized['steps'][0]['success']==s['success']
+
+
+def test_requested_title_style_survives_an_acquisition_only_initial_plan():
+    from bokkio.planner import retain_pending_style
+    p=plan();p['steps'][0].update(goal='Select body text')
+    obs=word_target_observations('Title');obs['TextEdit']['nodes'].append({'role':'radio_button','name':'Heading 1','actions':['select'],'window_name':'Styles','parent_name':'Styles','state':{'checked':False}})
+    changes=retain_pending_style(p,obs,{'native_popup_opened':'Styles','remaining_subtasks':[]},"Apply 'Heading 1' style to the main title, then format body")
+    assert changes and p['steps'][0]['success'][0]['name']=='Heading 1'
+    assert p['steps'][0]['requires_action'] is True
+
+
+def test_save_in_place_fact_binds_generic_save_to_app_menu():
+    p=plan();p['steps'][0].update(goal='Save the file to its required existing path',requires_action=True)
+    p['steps'][0]['success']=[{'role':'button','name':'Save','field':'enabled','equals':True}]
+    response={'choices':[{'finish_reason':'stop','message':{'content':json.dumps(p)}}]}
+    planner=OpenRouterPlanner(api_key='offline-secret',model='offline',opener=lambda *a,**k:BytesIO(json.dumps(response).encode()))
+    obs={'TextEdit':{'nodes':[{'role':'window','name':'Untitled','save_in_place_document':True},{'role':'menu_item','name':'Save','actions':['click'],'native_menu_command':True}]}}
+    normalized,_=planner.plan('Save',obs)
+    assert normalized['steps'][0]['goal']=='Click Save' and normalized['steps'][0]['window'] is None
+    obs['TextEdit']['nodes'][0].pop('save_in_place_document')
+    untouched,_=planner.plan('Save',obs)
+    assert untouched['steps'][0]['goal']==p['steps'][0]['goal']
+
+
+def test_future_in_place_save_keeps_app_menu_scope_while_format_dialog_is_open():
+    p=plan();s=p['steps'][0];s.update(goal='Save the document in place',requires_action=True)
+    s['success']=[{'role':'window','name':'Untitled','field':'present','equals':True}]
+    response={'choices':[{'finish_reason':'stop','message':{'content':json.dumps(p)}}]}
+    planner=OpenRouterPlanner(api_key='offline-secret',model='offline',opener=lambda *a,**k:BytesIO(json.dumps(response).encode()))
+    obs={'TextEdit':{'nodes':[{'role':'window','name':'Untitled','save_in_place_document':True},
+                            {'role':'dialog','name':'Paragraph'},
+                            {'role':'menu_item','name':'Save','actions':[],'state':{'enabled':False},'native_menu_command':True}]}}
+    normalized,_=planner.plan('Format and save',obs)
+    assert normalized['steps'][0]['goal']=='Click Save' and normalized['steps'][0]['window'] is None
+
+
+def test_bound_dialog_name_is_not_mistaken_for_unnamed_immediate_field_parent():
+    p=plan();s=p['steps'][0];s.update(goal='Set Asian text font to Calibri',window='Font',allowed_values=['Calibri'])
+    s['success']=[{'role':'combo_box','name':'Asian text font:','parent_name':'Font','field':'value','equals':'Calibri'}]
+    response={'choices':[{'finish_reason':'stop','message':{'content':json.dumps(p)}}]}
+    planner=OpenRouterPlanner(api_key='offline-secret',model='offline',opener=lambda *a,**k:BytesIO(json.dumps(response).encode()))
+    obs={'TextEdit':{'windows':[{'name':'Font'}],'nodes':[{'role':'combo_box','name':'Asian text font:',
+                'parent_name':None,'window_name':'Font','actions':['set_value'],'value':'Arial'}]}}
+    normalized,_=planner.plan('Format body',obs)
+    assert normalized['steps'][0]['success'][0]['parent_name'] is None
+
+
+def test_visible_native_save_panel_does_not_reopen_file_menu():
+    p=plan();s=p['steps'][0];s.update(goal='Expand File menu to access Save As.',window=None,requires_action=True)
+    s['success']=[{'role':'menu_item','name':'File','field':'expanded','equals':True}]
+    response={'choices':[{'finish_reason':'stop','message':{'content':json.dumps(p)}}]}
+    planner=OpenRouterPlanner(api_key='offline-secret',model='offline',opener=lambda *a,**k:BytesIO(json.dumps(response).encode()))
+    obs={'TextEdit':{'nodes':[{'role':'dialog','name':'save','state':{'visible':True}},{'role':'text_field','name':'Save As:','actions':['set_value'],'state':{'visible':True}}]}}
+    normalized,_=planner.plan('Save the presentation',obs)
+    assert normalized['steps'][0]['requires_action'] is False
+    assert normalized['steps'][0]['success'][0]['name']=='save'
+    obs['TextEdit']['nodes'][0]['state']['visible']=False
+    original,_=planner.plan('Save the presentation',obs)
+    assert original['steps'][0]['goal']==s['goal']
+
+
+def test_title_style_option_is_not_confused_with_main_title_words():
+    from bokkio.planner import retain_pending_style
+    p=plan();p['steps'][0]['goal']='Select body text'
+    obs=word_target_observations('Title')
+    for name in ['Heading 1','Title']:
+        obs['TextEdit']['nodes'].append({'role':'radio_button','name':name,'actions':['select'],'window_name':'Styles','parent_name':'Styles','state':{'checked':False}})
+    assert retain_pending_style(p,obs,{'native_popup_opened':'Styles','remaining_subtasks':[]},"Apply 'Heading 1' style to the main title")
+    assert p['steps'][0]['success'][0]['name']=='Heading 1'
+
+
+def test_filtered_window_parent_is_normalized_to_snapshot_root():
+    p=plan();s=p['steps'][0];s['success']=[{'role':'window','name':'Untitled','parent_name':'TextEdit','field':'present','equals':True}]
+    response={'choices':[{'finish_reason':'stop','message':{'content':json.dumps(p)}}]}
+    planner=OpenRouterPlanner(api_key='offline-secret',model='offline',opener=lambda *a,**k:BytesIO(json.dumps(response).encode()))
+    normalized,meta=planner.plan('Save',{'TextEdit':{'windows':[{'name':'Untitled'}],'nodes':[]}})
+    assert normalized['steps'][0]['success'][0]['parent_name'] is None
+    assert any(n['reason']=='filtered_window_root' for n in meta['normalizations'])
+    validate_plan(normalized,['TextEdit'],{'TextEdit':{'windows':[{'name':'Untitled'}],'nodes':[]}})
+
+
+def test_setting_already_matching_native_field_is_state_satisfaction():
+    p=plan();s=p['steps'][0];s.update(goal='Set the body Font Size: to 11',requires_action=True,allowed_values=['11'])
+    s['success']=[{'role':'combo_box','name':'Font Size:','field':'value','equals':'11'}]
+    response={'choices':[{'finish_reason':'stop','message':{'content':json.dumps(p)}}]}
+    planner=OpenRouterPlanner(api_key='offline-secret',model='offline',opener=lambda *a,**k:BytesIO(json.dumps(response).encode()))
+    obs={'TextEdit':{'nodes':[{'role':'combo_box','name':'Font Size:','value':'11','actions':['set_value']}]}}
+    normalized,_=planner.plan('Format body',obs)
+    assert normalized['steps'][0]['requires_action'] is False
+    obs['TextEdit']['nodes'][0]['value']='12'
+    unmatched,_=planner.plan('Format body',obs)
+    assert unmatched['steps'][0]['requires_action'] is True
+
+
+def test_style_popup_closure_is_command_receipt_not_format_property_proof():
+    from bokkio.planner import normalize_word_targets
+    p=plan();s=p['steps'][0];s.update(goal='Select Heading 1 style for the main title',window='Styles')
+    s['success']=[{'role':'radio_button','name':'Heading 1','field':'checked','equals':True}]
+    obs=word_target_observations('Title');obs['TextEdit']['nodes'].extend([
+        {'role':'combo_box','name':'Styles','parent_name':None,'state':{'expanded':True}},
+        {'role':'radio_button','name':'Heading 1','actions':['select'],'window_name':'Styles','parent_name':'Styles','state':{'checked':False}}])
+    changes=normalize_word_targets(p,obs)
+    assert changes[-1]['reason']=='style_popup_closed_property_deferred_to_artifact'
+    assert s['window'] is None and s['requires_action']
+    assert s['success']==[{'role':'combo_box','name':'Styles','parent_name':None,'field':'expanded','equals':False}]
+
+
+def test_save_in_place_canonicalization_keeps_final_file_verification_required():
+    p=plan();s=p['steps'][0];s.update(goal='Save the file to its existing required path',requires_action=True)
+    s['success']=[{'role':'window','name':'Untitled','field':'present','equals':True}]
+    response={'choices':[{'finish_reason':'stop','message':{'content':json.dumps(p)}}]}
+    planner=OpenRouterPlanner(api_key='offline-secret',model='offline',opener=lambda *a,**k:BytesIO(json.dumps(response).encode()))
+    obs={'TextEdit':{'nodes':[{'role':'window','name':'Untitled','save_in_place_document':True},{'role':'menu_item','name':'Save','actions':['click'],'native_menu_command':True}]}}
+    normalized,_=planner.plan('Save',obs)
+    assert normalized['steps'][0]['goal']=='Click Save' and normalized['steps'][0]['window'] is None
+    assert normalized['steps'][0]['requires_action'] is True and normalized['steps'][0]['success']==s['success']

@@ -1,6 +1,6 @@
 # P7：Mac 与公共视觉接口 / Mac and shared visual interface
 
-更新：2026-10-09。**公共OCR协议、Mac provider、Agent/Jev路由和CLI已实现。主机435/435；实机截图/OCR/观察与决策3/3；真实输入仍待可用交互会话。** Windows开发按用户要求暂缓。
+更新：2026-10-11。**公共 OCR、Mac provider、Agent/Jev 和 CLI 已实现；主机 519/519。固定子任务实机输入在三个新进程通过 3/3，各两次尝试。完整 Office 开发轮 r28、r30 各通过 3/3；最新完成轮 r33 为 0/3，连续三轮 3/3 尚未达到。按用户要求提交当前快照，实机验收暂停。** Windows 开发暂缓。
 
 ## 公共接口
 
@@ -23,7 +23,7 @@
 4. `visual_click`点击唯一文字；`visual_type`只作用于声明输入标签，文字来自allowed_values。有重复标签、已知禁用/只读/原生能力或歧义的同名目标时不通过OCR绕过。
 5. 捕获哈希、窗口/进程身份、几何、时效、前台与事件权限由既有helper复查；派发后重新观察并核对整个subtask success。
 6. 已经为真的静态条件不能证明一次视觉命令；错误原生success角色在输入前要求重规划为真实OCR角色。外部/破坏性风险和敏感文字目标拒绝。
-7. 未知完成停止，不换路径重试。明确零派发的过期/变化截图可在现有Agent预算内重新观察。
+7. 未知完成不换路径重试，仅只读核对一次；成功条件由假变真才继续，静态已真条件不能证明命令。无法确认时停止。明确零派发的过期/变化截图可在现有 Agent 预算内重新观察。
 
 视觉观察缓存只在有效截图合约内复用。恢复时窗口、输入标签与策略必须保持相同，已使用的OCR预算随trace保存。关闭进程/窗口和标题变化需要重新授权/绑定；本版不自动扩大范围。
 
@@ -40,7 +40,7 @@ uv run bokkio run --allow-app 123 \
   --trace /tmp/bokkio-visual-run.json
 ```
 
-默认run保持原生路径。视觉开关目前绑定数字PID和精确标题，不能使用模糊应用别名。跨窗口弹窗、标题变化、无标签输入、图标检测、replace/复杂键盘组合及视觉Workflow录制重放仍待扩展。现有Workflow不会把这些新动作当成已验收原生重放。
+默认 run 保持原生路径。视觉开关绑定数字 PID 和精确标题，不能使用模糊应用别名。Office 专用 wrapper 保留原生菜单/弹窗，只为 PPT 声明标题输入；原生 combo 的捕获边界输入另有字段身份/焦点核对。通用跨窗口、标题变化、无标签输入、图标检测、复杂键盘组合及视觉 Workflow 重放仍待扩展。
 
 Python调用示例：
 
@@ -58,10 +58,11 @@ backend = HybridBackend(
 
 ## 验证结果
 
-- 主机回归435/435，新增模块24项，涵盖原生零OCR、模拟click/type、原生与视觉混合、角色修复、范围/歧义、取消/预算、未知完成和恢复约束。
-- 最新3次独立自绘Mac进程：窗口身份、OCR目标、公共候选与Hybrid观察3/3；真实Jev visual_click三次置信度1.0。fixture计数OCR未通过高置信筛选，单独保留这一限制。
-- 当前锁屏；activation helper真实拒绝，业务状态未改变。模拟输入闭环不能替代真实鼠标/键盘验收，Office历史0/3仍是最新任务分数。
-- wheel构建与公共模块/Swift helper源码一致性检查通过。无新运行依赖，OCR本地执行；现有Jev/Planner仍按调用产生费用。
+- 主机回归 519/519，涵盖原生零 OCR、模拟 click/type、混合路径、角色修复、范围/歧义、取消/预算、未知完成只读核对和恢复约束；最新 Swift helper 编译通过。
+- 三个新自绘 Mac 进程：固定 Planner 两步合约、真实 Jev/Agent 输入、独立业务 JSON 3/3；每次恰好一次点击和 CODE1/2/3。原始版尝试 3/4/4；当前版各两次尝试。它不代表通用 Planner 验收，计数 OCR 高置信筛选仍有限制。
+- 完整 Office 开发轮 r28、r30 各通过 3/3；最新完成轮 r33 为 0/3，连续三轮 3/3 尚未达到。按用户要求提交当前快照，实机验收暂停。 Word/PPT 独立 GUI 探针全部文件检查通过，分别报告，不计入完整 Agent 成绩。
+- Mac 已解锁，断电后输入 r9 为 3/3，各两次尝试；固定合约测试不替代完整 Office 验收。
+- 当前 wheel 构建通过，29 个打包源码成员与当前源码一致，摘要见验证记录。OCR 本地执行，截图不上传业务模型；现有 Jev/Planner 文字调用仍计费，没有 Astra 依赖。
 
 命令：
 
@@ -70,12 +71,12 @@ uv run python scripts/verify_macos_visual_bridge.py \
   --fixture /path/to/BokkioVisual.app --output /tmp/new-bridge-evidence --model
 ```
 
-这条验收命令是只读截图/决策，不派发输入。详见[各轮证据](evidence/2026-10-09-visual-bridge/README.md)。
+这条命令只读截图/决策。真实输入命令使用 `scripts/verify_macos_visual_input.py`，相同 fixture/output 参数，启动三个新进程并独立读取业务状态。详见[本次证据](evidence/2026-10-10-office-progress/README.md)和[此前只读证据](evidence/2026-10-09-visual-bridge/README.md)。
 
 ## English
 
-Shared WindowScope/VisualObservation/VisualPolicy/VisualProvider interfaces and a MacVisionProvider are implemented. HybridBackend routes missing native targets to scoped OCR text candidates, with explicit input-label declarations, closed Jev choices and independent post-action conditions. Native targets retain their existing path. Resume preserves scope/policy and observation budgets; unknown completion never retries.
+Shared WindowScope/VisualObservation/VisualPolicy/VisualProvider interfaces and MacVisionProvider are implemented. HybridBackend routes missing native targets to scoped OCR candidates with declared input labels, closed Jev choices and post-action conditions. Resume preserves scope/policy/provider settings and observation budgets. Unknown completion never reposts input: a read-only check may continue only when success changed from false to true.
 
 The optional run CLI binds exact PID=TITLE windows and declared PID=TEXT input labels. OCR remains local, while existing text-model calls are still billed. Windows providers, visual Workflow replay, icons, unlabeled fields and changing-window/dialog flows remain pending.
 
-Host regression passes 435 tests. Native read-only Mac capture/OCR/Hybrid observation and real Jev decision acceptance passes 3/3; simulated click/type is separate. Counter OCR is not accepted. Locked-session activation rejects actual input, so no live-input or new Office score is claimed. Wheel source checks pass. See the [evidence](evidence/2026-10-09-visual-bridge/README.md).
+Host regression passes 519 tests. The current helper passed real click/type 3/3 in fresh processes with fixed Planner contracts and independent business checks. Full Office development rounds r28 and r30 each passed 3/3. The latest completed round r33 passed 0/3; three consecutive 3/3 rounds remain pending. Live acceptance is paused for the requested code snapshot. Wheel build passed; all 29 packaged source members match the recorded current source. See [latest evidence](evidence/2026-10-10-office-progress/README.md).

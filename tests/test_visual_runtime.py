@@ -307,3 +307,35 @@ def test_cli_visual_flags_are_opt_in_and_bind_to_exact_pid():
     assert args.visual_window==['100=Untitled'] and args.max_visual_captures==6
     args=build_parser().parse_args(['run','--goal','Click Save','--allow-app','100','--trace','/tmp/trace.json'])
     assert args.visual_window==[]
+
+
+def test_native_action_reobserves_painted_visual_outcome_without_ocr_input(tmp_path):
+    backend,vision,native,window,button=hybrid()
+    calls=[]
+    def press():calls.append(True);vision.text='Saved';button.value='pressed'
+    button.press=press
+    s=step('Click Save','Saved')
+    class Planner:
+        def plan(self,*a):return {'goal':'Click Save','steps':[s]},{}
+    trace=DesktopAgent(backend,Planner(),Provider(choice='click'),max_replans=0).run(
+        'Click Save',['100'],tmp_path/'trace.json')
+    assert trace['status']=='completed' and calls==[True] and not vision.posts
+    assert any(e['kind']=='outcome' and e['passed'] for e in trace['events'])
+
+
+def test_mac_input_activation_preserves_exact_document_binding(monkeypatch):
+    import bokkio.macos_activation as activation
+    calls=[]
+    monkeypatch.setattr(activation,'activate_window',lambda pid,title,**kwargs:calls.append((pid,title,kwargs)))
+    provider=MacVisionProvider();scope=WindowScope('macos',100,'Untitled',200,'/owned/Untitled.docx')
+    provider.prepare_input(scope)
+    assert calls==[(100,'Untitled',{'document':'/owned/Untitled.docx'})]
+    with pytest.raises(BokkioError,match='absolute Mac source'):
+        WindowScope('macos',100,'Untitled',document='relative.docx')
+
+
+def test_optional_document_binding_is_in_resume_contract_only_when_declared():
+    backend,*_=hybrid()
+    assert 'document' not in backend.execution_contract['visual_scopes']['100']
+    backend.scopes['100']=WindowScope('macos',100,'Untitled',document='/owned/Untitled.docx')
+    assert backend.execution_contract['visual_scopes']['100']['document']=='/owned/Untitled.docx'

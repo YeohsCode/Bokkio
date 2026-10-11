@@ -1,61 +1,46 @@
 # 总体进度 / Overall status
 
-更新：2026-10-09。**P6 Windows 原生验收完成，当前处于 P7 部分实现与验收阶段。Office 原题已实际执行十轮，最新三题独立评分 0/3。**
+更新：2026-10-11。**P6 Windows 原生验收完成，P7 部分实现；完整 Office 开发轮 r28、r30 各通过 3/3；最新完成轮 r33 为 0/3，连续三轮 3/3 尚未达到。按用户要求提交当前快照，实机验收暂停。**
 
 ## 阶段位置
 
 | 阶段 | 当前交付与验收 |
 |---|---|
-| P0–P3：环境、元素模型、原生 Runtime | 基础实现与 Windows/macOS 开发环境验收完成；应用与稳定性覆盖继续扩展 |
+| P0–P3：环境、元素模型、原生 Runtime | Windows/macOS 基础开发验收完成；应用覆盖和稳定性继续扩展 |
 | P4：Jev 局部决策 | 真实模型、难例与大树开发样本已有验收；通用应用覆盖待扩展 |
-| P5：规划与跨应用执行 | Windows 阶段恢复、文件交付与需求修订通过；Mac 原生 fixture 通过，Office Agent 全任务尚未通过 |
+| P5：规划与跨应用执行 | Windows 阶段恢复、文件交付与需求修订通过；Mac Office 单轮三题通过，连续稳定验收待完成 |
 | P6：Recorder / Workflow | Windows 原计划验收完成；Mac 基础重放通过，文件合约与跨进程扩展待完成 |
 | P7.1：截图与坐标 | Mac 包/CLI 与原生图像验收通过；Windows 接口与 fixture 已实现，实机像素验收待完成 |
-| P7.2：OCR / 视觉候选 | Mac公共OCR接口、授权窗口Agent/Jev/CLI降级已接入；只读观察/决策3/3，视觉Workflow重放待实现 |
-| P7.3：有界输入 | Excel 脚本探针确认两次替换及保存产物；最新 Agent 路径仍有零派发拒绝和派发后未知完成，Windows 输入待实现 |
-| P7.4–P7.5：可靠性与持续回归 | 已覆盖部分取消、身份、时效与未知完成拒绝；完整故障恢复和跨平台端到端验收待完成 |
+| P7.2：OCR / 视觉候选 | Mac 公共 OCR、授权窗口 Agent/Jev/CLI 降级已接入；只读观察/决策 3/3，视觉 Workflow 待实现 |
+| P7.3：有界输入 | 最新 Mac 自绘新进程固定子任务输入 3/3，各两次尝试；Excel 在开发轮重复通过；Word r26 全任务已通过，PPT r14 已通过 |
+| P7.4–P7.5：可靠性与持续回归 | 覆盖部分取消、身份、时效与未知完成只读核对；完整故障恢复及连续三轮验收未完成 |
 
-阶段按实际验收范围报告；单元测试和脚本探针不换算成通用 Computer Use 成功率。
+单元测试、固定子任务 fixture、脚本探针和完整 Agent 任务分别报告，不换算成通用 Computer Use 成功率。
 
 ## 最新结果
 
-- 主机隔离回归 **435/435**；Windows 历史回归 **373/373**，本轮未重跑 Windows。
-- Mac 恢复检查：原生 fixture 三轮通过，12 次滚动通过。第十轮 Office 启动时会话未锁、AX/capture/events 全部通过；该轮失败不能归因于锁屏。
-- 三道固定 WindowsWorld L1 原题，共十轮、30 次任务执行，各轮产物评分均 **0/3**。第三轮与 fixture 探针并发，已标注干扰；各轮代码也有变化，这些是开发诊断记录。
-- 最新 Word：4 次动作尝试，输入派发后确认失败，停止以避免重复输入；Excel：2 次尝试，`input_unavailable` 在输入前拒绝；PowerPoint：0 次动作，决策置信度不足。三题均 blocked，Word/Excel 未验证保存后的目标格式，PPT 目标文件不存在。
-- 独立 Excel 脚本探针完成 D 列选择、Currency 格式及保存，数据保持与货币格式校验通过。它使用较早的 OCR 字段定位版本，不能证明最新原生边界定位路径或 Agent 题目通过。
-- 已修复 executor 构造接口、AXConfirm 派发、同名跨窗口身份、真实前台激活、只读文本选区、下拉确认与弹窗阶段规划。真实任务的剩余失败保留。
-- 原始 VLM judge 未运行，没有官方榜单成绩。
+- 主机隔离回归 **519/519**；Swift capture helper 编译通过。Windows 保留历史 **373/373**，按用户要求暂缓。
+- 自绘 Mac 输入：三个新进程，固定 Planner 子任务、真实 Jev/Agent，独立业务 JSON **3/3**；每次恰好点击一次并输入正确 CODE。它不代表通用 Planner 的实机验收。
+- 断电后 Office r7–r12 各 **1/3**，均只有 Excel 完整任务通过。r12 Word 8 次尝试在正文选区衔接处失败；PPT 3 次尝试成功输入标题，Save As 尚未完成。各轮代码不同，属于开发诊断。
+- r14 完整轮 **2/3**：Excel 3 次尝试、PPT 6 次尝试，全部独立文件检查通过。该轮 Word 在空正文选区计划处停下；后续 r26 已完整通过。
+- Word 独立 GUI 探针保存后通过内容、Heading 1、正文 Calibri 11pt 和 1.15 行距全部检查；PPT 独立探针也通过标题页和保存检查。两者均不计入完整 Agent 成绩。
+- 当前 Mac 已解锁。断电后的输入 r9 在三个新进程通过 3/3，各两次尝试，独立业务状态正确；不是通用 Planner 验收。
+- 阶段重规划保留待办子任务；拒绝空选区 Word 格式化与静态菜单成功条件，修复 Save/Save As 前缀匹配。最新完整 Office 轮 r33 已结束；当前暂停实机验收以提交快照。
+- 原始 VLM judge 未运行，没有官方榜单成绩；现有 GPT-4.1 Planner + Jev 不调用 Astra，截图本机 OCR，业务模型仍有文字 token 费用。
 
-证据：[Office 实跑报告](evidence/2026-10-08-office-live/README.md)、[会话恢复](evidence/2026-10-08-macos-session-recovery/README.md)。
-
-## 公共视觉接入
-
-Mac本地OCR已通过HybridBackend接入Agent和CLI，声明输入标签、候选/观察预算及恢复合约有测试。最新三次原生只读观察与真实Jev决策3/3；锁屏输入守卫实际拒绝，完整GUI输入未验收。Windows工作暂缓。见[接入报告](P7-VISUAL-BRIDGE.md)。
-
-## 本轮后续修复
-
-输入守卫与原生回读错误的结构化诊断已贯穿Agent trace；同一字段可有限回读而不重发。显式split button点击消除了click/expand竞争，真实Jev对已记录PPT快照返回click、置信度1.0。Mac当前preflight锁屏，新GUI任务未开始；该决策探针没有产生新的题库成绩。见[修复证据](evidence/2026-10-09-office-fix/README.md)。
+最新证据：[输入与 Office 进展](evidence/2026-10-10-office-progress/README.md)。历史诊断：[Office 十轮实跑](evidence/2026-10-08-office-live/README.md)、[公共视觉接入](evidence/2026-10-09-visual-bridge/README.md)、[前次锁屏尝试](evidence/2026-10-09-office-rerun/README.md)。
 
 ## 下一步顺序
 
-1. 针对 Word 派发后确认、Excel 前台/窗口拒绝补齐诊断，分别验证字段真实值、保存结果和零派发原因；未知完成先检查当前状态。
-2. 修复 PowerPoint 可执行候选和阶段条件，保持 15 步预算与置信度阈值，完整复跑三题。
-3. 通用Mac文字降级已实现；继续视觉Workflow、输入与故障验收及Mac文件/进程恢复。Windows工作按用户要求暂缓。
-4. 三题稳定通过后扩展跨应用职业办公流程、原始 VLM 评分和上游环境对齐。
+1. 最新真实自绘输入 fixture 已通过；继续只清理明确属于测试的旧文档。
+2. 验证 Word 正文字体/字号/1.15 行距、标题样式及保存；完成 PPT 标题页输入和 Save As 全任务。
+3. 使用新隔离输入串行执行固定三题，每题保持 15 次动作尝试；达到连续三轮 3/3。
+4. 随后扩展故障恢复、视觉 Workflow、跨应用职业办公流程、原始 VLM 评分和性能优化。Windows 继续暂缓。
 
-详细剩余项见 [Pending](PENDING.md)。Windows Office 激活继续暂缓。
-
-## 最新题库重跑尝试（2026-10-09）
-
-公共视觉版本`4b6de28`已提交并推送；随后使用新输入启动三道Office原题。实际planned 3 / started 0 / blocked 3、score=null，原因为Mac锁屏且自动解锁失败，权限均通过。没有题目模型调用或动作；历史执行0/3不变。Windows保持暂缓。见[本次证据](evidence/2026-10-09-office-rerun/README.md)。
+详细缺口见 [Pending](PENDING.md)，公共接口见 [P7](P7-VISUAL-BRIDGE.md)。
 
 ## English
 
-Windows P6 acceptance is complete. P7 remains partial. Ten development rounds started all three pinned Office tasks (30 executions); every round scored 0/3 on independent artifacts. Round 3 had a concurrent fixture probe, and code changed across rounds. These are diagnostic runs, not an official benchmark score.
+Windows P6 is accepted; P7 remains partial. Host regression passes 519 tests. The current native helper passed real click/type in three fresh painted Mac processes with fixed Planner contracts and independent business checks, two attempts each. Full Office development rounds r28 and r30 each passed 3/3. The latest completed round r33 passed 0/3; three consecutive 3/3 rounds remain pending. Live acceptance is paused for the requested code snapshot. Scripted Word/PPT probes are separate from full Agent scores.
 
-The latest unlocked-session run stopped on Word post-input verification, Excel pre-input window/foreground refusal, and PowerPoint decision confidence. A separate scripted Excel probe confirmed two replacements and the saved currency format using an earlier OCR route; it does not establish Agent success or acceptance of the latest native-bounds transport. Host regression passes 435/435; Windows remains at its historical 373/373.
-
-Mac scoped OCR fallback is now connected through shared provider interfaces, Agent/Jev and CLI. Native read-only observation/decision acceptance passes 3/3; actual input remains blocked by the current locked session. Next: validate live input and Office completions, extend visual Workflow/reliability and professional workflows. Windows work is paused. See the [pending list](PENDING.md) and [live report](evidence/2026-10-08-office-live/README.md).
-
-Latest rerun attempt: commit 4b6de28, planned 3 / started 0 / blocked 3, null scores due to the locked Mac session and failed automatic unlock. No task/model action ran; historical executed scores remain unchanged. See [rerun evidence](evidence/2026-10-09-office-rerun/README.md).
+The Mac is unlocked. Continue fresh serial Office rounds under the original 15-attempt budget until three consecutive 3/3 rounds pass, then expand fault recovery and performance work. No Astra call, screenshot upload to business models or official VLM score is claimed. Windows stays paused.

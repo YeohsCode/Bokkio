@@ -1,0 +1,22 @@
+{
+  "scope": "scripted_native_button_transport_probe_not_full_agent",
+  "attempts": 8,
+  "native_size_before": "12",
+  "native_size_after": "11",
+  "native_save_dispatched": true,
+  "artifact_checks": {
+    "task_id": "win_adm_l1_003",
+    "artifact_exists": true,
+    "sha256": "dc5aaee8fc04f3ffdd666f8463bd2391be843abf0fa938e4b5a97cfa7ec6ae12",
+    "bytes": 12383,
+    "checks": {
+      "preserved_content": true,
+      "heading1": true,
+      "body_font_size_spacing": false
+    },
+    "passed": false,
+    "official_score": false,
+    "evaluator": "independent_OOXML_adaptation"
+  },
+  "complete_body_font_spacing_task_executed": false
+}

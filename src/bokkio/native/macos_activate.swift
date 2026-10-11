@@ -12,6 +12,7 @@ guard input.count<=16384, let args=try? JSONSerialization.jsonObject(with:input)
       let number=args["pid"] as? Int, number>0, number<=Int(Int32.max),
       let title=args["title"] as? String, !title.isEmpty, title.count<=1024 else {emit(["error":"invalid_scope"],1)}
 let pid=pid_t(number)
+let document=args["document"] as? String
 let session=CGSessionCopyCurrentDictionary() as? [String:Any]
 guard session != nil,session?["CGSSessionScreenIsLocked"] as? Bool != true,AXIsProcessTrusted() else {
     emit(["error":"interactive_session_unavailable"],1)
@@ -23,7 +24,14 @@ guard AXUIElementCopyAttributeValue(root,kAXWindowsAttribute as CFString,&value)
       let windows=value as? [AXUIElement] else {emit(["error":"window_unavailable"],1)}
 let matching=windows.filter { window in
     var name:CFTypeRef?
-    return AXUIElementCopyAttributeValue(window,kAXTitleAttribute as CFString,&name) == .success && name as? String == title
+    guard AXUIElementCopyAttributeValue(window,kAXTitleAttribute as CFString,&name) == .success && name as? String == title else { return false }
+    if let document=document {
+        var source:CFTypeRef?
+        guard AXUIElementCopyAttributeValue(window,kAXDocumentAttribute as CFString,&source) == .success,
+              let source=source as? String,let url=URL(string:source) else { return false }
+        return url.resolvingSymlinksInPath().standardizedFileURL.path == URL(fileURLWithPath:document).resolvingSymlinksInPath().standardizedFileURL.path
+    }
+    return true
 }
 guard matching.count==1,let app=NSRunningApplication(processIdentifier:pid),!app.isTerminated else {
     emit(["error":"window_ambiguous_or_missing"],1)
@@ -38,4 +46,36 @@ guard NSWorkspace.shared.frontmostApplication?.processIdentifier==pid else {
 }
 let raised=AXUIElementPerformAction(matching[0],kAXRaiseAction as CFString)
 guard raised == .success else {emit(["error":"window_raise_unconfirmed","ax_error":raised.rawValue],1)}
-emit(["status":"activated","pid":number,"title":title,"foreground_confirmed":true])
+if args["clear_hover"] as? Bool == true {
+    var pointValue:CFTypeRef?;var sizeValue:CFTypeRef?
+    var origin=CGPoint.zero;var size=CGSize.zero
+    guard CGPreflightPostEventAccess(),
+          AXUIElementCopyAttributeValue(matching[0],kAXPositionAttribute as CFString,&pointValue) == .success,
+          AXUIElementCopyAttributeValue(matching[0],kAXSizeAttribute as CFString,&sizeValue) == .success,
+          let position=pointValue,let extent=sizeValue,CFGetTypeID(position)==AXValueGetTypeID(),CFGetTypeID(extent)==AXValueGetTypeID(),
+          AXValueGetValue(position as! AXValue,.cgPoint,&origin),AXValueGetValue(extent as! AXValue,.cgSize,&size),
+          size.width>=40,size.height>=24,
+          let move=CGEvent(mouseEventSource:nil,mouseType:.mouseMoved,
+                           mouseCursorPosition:CGPoint(x:origin.x+size.width/2,y:origin.y+12),mouseButton:.left) else {
+        emit(["error":"hover_preparation_unavailable"],1)
+    }
+    move.flags=[];move.post(tap:.cghidEventTap)
+}
+func windowIsFrontmost() -> Bool {
+    let info=CGWindowListCopyWindowInfo([.optionOnScreenOnly,.excludeDesktopElements],kCGNullWindowID) as? [[String:Any]]
+    let levels=[NSWindow.Level.normal.rawValue,NSWindow.Level.floating.rawValue,NSWindow.Level.modalPanel.rawValue]
+    let top=info?.first(where:{ levels.contains($0[kCGWindowLayer as String] as? Int ?? -1) })
+    return NSWorkspace.shared.frontmostApplication?.processIdentifier==pid &&
+        top?[kCGWindowOwnerPID as String] as? Int==number && top?[kCGWindowName as String] as? String==title
+}
+// AXRaise is asynchronous. Observe its outcome before capturing an input target.
+let windowEnd=Date().addingTimeInterval(2)
+while Date()<windowEnd && !windowIsFrontmost() {
+    RunLoop.current.run(until:Date().addingTimeInterval(0.05))
+}
+guard windowIsFrontmost() else {emit(["error":"front_window_unconfirmed"],1)}
+let info=CGWindowListCopyWindowInfo([.optionOnScreenOnly,.excludeDesktopElements],kCGNullWindowID) as? [[String:Any]]
+let levels=[NSWindow.Level.normal.rawValue,NSWindow.Level.floating.rawValue,NSWindow.Level.modalPanel.rawValue]
+let top=info?.first(where:{ levels.contains($0[kCGWindowLayer as String] as? Int ?? -1) })
+emit(["status":"activated","pid":number,"title":title,"foreground_confirmed":true,"window_confirmed":true,
+      "window_id":top?[kCGWindowNumber as String] as Any? ?? NSNull()])

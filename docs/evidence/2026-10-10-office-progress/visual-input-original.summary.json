@@ -1,0 +1,54 @@
+{
+  "scope": "owned_macos_visual_input_fixed_subtasks_real_jev",
+  "environment": {
+    "ready": true,
+    "session_available": true,
+    "session_locked": false,
+    "permissions": {
+      "ax": true,
+      "capture": true,
+      "events": true
+    },
+    "reason": null
+  },
+  "planned": 3,
+  "rounds": [
+    {
+      "round": 1,
+      "status": "completed",
+      "actions": 3,
+      "business": {
+        "input": "CODE1",
+        "clicks": 1,
+        "pid": 82671
+      },
+      "expected_input": "CODE1",
+      "passed": true
+    },
+    {
+      "round": 2,
+      "status": "completed",
+      "actions": 4,
+      "business": {
+        "input": "CODE2",
+        "clicks": 1,
+        "pid": 82755
+      },
+      "expected_input": "CODE2",
+      "passed": true
+    },
+    {
+      "round": 3,
+      "status": "completed",
+      "actions": 4,
+      "business": {
+        "clicks": 1,
+        "pid": 82841,
+        "input": "CODE3"
+      },
+      "expected_input": "CODE3",
+      "passed": true
+    }
+  ],
+  "passed": 3
+}

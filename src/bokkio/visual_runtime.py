@@ -9,6 +9,7 @@ import copy
 import re
 from collections import Counter
 from dataclasses import asdict, dataclass
+from pathlib import Path
 from typing import Callable, Protocol
 
 from .model import BokkioActionError, BokkioCompletionUnknown, BokkioError, BokkioPermissionError, BokkioStaleSnapshot, stable_hash, tree_digest
@@ -23,12 +24,15 @@ class WindowScope:
     pid: int
     title: str
     window_id: int | None = None
+    document: str | None = None
 
     def __post_init__(self):
         if (self.platform not in {'macos', 'windows'} or type(self.pid) is not int or not 0 < self.pid <= 0x7fffffff
                 or not isinstance(self.title, str) or not self.title or len(self.title) > 1024
                 or (self.window_id is not None and (type(self.window_id) is not int or not 0 < self.window_id <= 0xffffffff))):
             raise BokkioError('Visual scope requires an exact platform/PID/window title and optional native window ID')
+        if self.document is not None and (self.platform!='macos' or not isinstance(self.document,str) or not Path(self.document).is_absolute()):
+            raise BokkioError('Visual document binding requires an absolute Mac source path')
 
 
 @dataclass(frozen=True)
@@ -76,6 +80,14 @@ class VisualProvider(Protocol):
 class MacVisionProvider:
     """ScreenCaptureKit + Apple Vision + the existing single-dispatch helper."""
 
+    def __init__(self,*,finish_typing=False):
+        if type(finish_typing) is not bool:raise BokkioError('Text editing completion must be boolean')
+        self.finish_typing=finish_typing
+
+    @property
+    def execution_contract(self):
+        return {'finish_typing':True} if self.finish_typing else None
+
     def capture(self, scope):
         if scope.platform != 'macos':
             raise CaptureError('unsupported_platform', 'This provider implements macOS only')
@@ -86,7 +98,7 @@ class MacVisionProvider:
     def prepare_input(self, scope):
         if scope.platform!='macos':raise CaptureError('unsupported_platform','This provider implements macOS only',dispatched=0)
         from .macos_activation import activate_window
-        activate_window(scope.pid, scope.title)
+        activate_window(scope.pid, scope.title, **({'document':scope.document} if scope.document is not None else {}))
 
     def execute(self, observation, text, action, *, value, verify, control):
         if observation.scope.platform!='macos':raise CaptureError('unsupported_platform','This provider implements macOS only',dispatched=0)
@@ -96,7 +108,8 @@ class MacVisionProvider:
         def post_verify(metadata, image):
             return verify(VisualObservation(observation.scope, metadata, image).validate())
         receipt = perform(observation.metadata, observation.image, text, action, value=value,
-                          expect_text=value or text, _post_verify=post_verify, control=control, _return_image=True)
+                          expect_text=value or text, _post_verify=post_verify, control=control, _return_image=True,
+                          _finish_typing=self.finish_typing and action=='type')
         image = receipt.pop('_observation_image')
         after = VisualObservation(observation.scope, receipt['observation'], image).validate()
         return receipt, after
@@ -164,8 +177,9 @@ class HybridBackend:
 
     @property
     def execution_contract(self):
-        return {'visual_scopes':{app:asdict(scope) for app,scope in self.scopes.items()},
-                'visual_policies':{app:asdict(self._policy(app)) for app in self.scopes}}
+        return {'visual_scopes':{app:{k:v for k,v in asdict(scope).items() if k!='document' or v is not None} for app,scope in self.scopes.items()},
+                'visual_policies':{app:asdict(self._policy(app)) for app in self.scopes},
+                **({'visual_provider':self.provider.execution_contract} if getattr(self.provider,'execution_contract',None) else {})}
 
     @property
     def visual_capture_counts(self):
@@ -248,7 +262,7 @@ class HybridBackend:
         window['children'].extend(ocr_nodes(observation, self._policy(app), window['ref'], nodes, mode))
         result['visual_observation'] = {'image_sha256': observation.metadata['image_sha256'],
                                         'window_id': observation.metadata['window_id'], 'captures': self._captures}
-        result['visual_fallback']=True
+        result['visual_fallback']=not bool(context and self._has_native_target(context['goal'],native))
         return result
 
     def snapshot(self, app, window=None):
@@ -299,13 +313,20 @@ class HybridBackend:
 
     def perform(self, app, action, *, ref=None, value=None, expected_snapshot=None, window=None, **kwargs):
         if not action.startswith('visual_'):
+            context=self._contexts.get(app)
+            visual_outcome=bool(context and any(c['role']=='visual_text' for c in context['success']))
             if app in self._active:
                 current=self.snapshot(app,window)
                 if expected_snapshot != tree_digest(current['windows']):
                     raise BokkioStaleSnapshot('Native/visual decision changed before input')
                 expected_snapshot=tree_digest(self._native_snapshot(app,window)['windows'])
             self._active.discard(app); self._contexts.pop(app, None)
-            return self.native.perform(app, action, ref=ref, value=value, expected_snapshot=expected_snapshot, window=window, **kwargs)
+            result=self.native.perform(app, action, ref=ref, value=value, expected_snapshot=expected_snapshot, window=window, **kwargs)
+            if visual_outcome:
+                # A native button can change text painted outside the AX tree.
+                # Reobserve that same scoped window without posting more input.
+                self._contexts[app]=context;self._active.add(app);self._observations.pop(app,None)
+            return result
         if app not in self._active or app not in self._contexts: raise BokkioActionError('Visual action has no current subtask contract')
         step = self._contexts[app]
         if step['risk'] not in {'read', 'local_write'}: raise BokkioActionError('Visual action risk is outside the local task scope')

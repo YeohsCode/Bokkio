@@ -123,15 +123,22 @@ def test_native_executor_constructs_real_agent_and_checks_saved_result(tmp_path,
     from bokkio.xa11y_backend import Xa11yBackend
     state=preparation(tmp_path);task=next(t for t in state['tasks'] if t['task_id']=='win_adm_l1_003')
     artifact=Path(task['artifact']);word(artifact,font='Arial')
+    monkeypatch.setattr(office_runner,'input_environment',lambda:{'ready':True})
     monkeypatch.setitem(sys.modules,'xa11y',SimpleNamespace(App=SimpleNamespace(by_name=lambda *a,**k:SimpleNamespace(pid=123,windows=lambda:[SimpleNamespace(name=artifact.stem,activate=lambda:None)]))))
     monkeypatch.setattr(office_runner.subprocess,'run',lambda *a,**k:None)
     monkeypatch.setattr(office_runner.time,'sleep',lambda *a:None)
-    monkeypatch.setattr(macos_activation,'activate_window',lambda *a:None)
-    monkeypatch.setattr(Xa11yBackend,'snapshot',lambda *a,**k:{'windows':[]})
+    monkeypatch.setattr(macos_activation,'activate_window',lambda *a,**k:None)
+    monkeypatch.setattr(Xa11yBackend,'snapshot',lambda *a,**k:{'windows':[
+        {'ref':'source-window','role':'window','name':artifact.stem,'children':[],
+         'platform_data':{'ax_document':artifact.as_uri()}}]})
     monkeypatch.setattr(planner,'OpenRouterPlanner',lambda:object())
     monkeypatch.setattr(jev,'JevProvider',lambda:object())
     def execute(agent,goal,apps,path):
         assert isinstance(agent,DesktopAgent) and apps==['123'] and agent.max_actions==15
+        monkeypatch.setattr(office_runner,'input_environment',lambda:{'ready':False})
+        with pytest.raises(BokkioError,match='interactive session changed'):
+            agent.backend._app_tree(object())
+        monkeypatch.setattr(office_runner,'input_environment',lambda:{'ready':True})
         assert agent.final_verifier({})[0] is False
         word(artifact)
         old=time.time_ns()-10_000_000_000

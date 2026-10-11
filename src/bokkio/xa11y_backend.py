@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import sys
 import math
+import time
 from collections import Counter
 from typing import Any
 
@@ -22,6 +23,7 @@ ACTION_METHODS = {
     "collapse": "collapse",
     "submit": "submit",
     "select_text": "select_text",
+    "open": "open",
 }
 
 NORMALIZED_ACTIONS = {
@@ -117,8 +119,11 @@ class Xa11yBackend:
         else:
             selected = self._select_windows(self._window_nodes(app_tree), window)
             trees = [{**node, "parent": None} for node in selected]
+        app_info=self._app_info(native_app)
+        if type(app_tree['platform_data'].get('ax_frontmost')) is bool:
+            app_info['is_foreground']=app_tree['platform_data']['ax_frontmost']
         return {
-            "app": self._app_info(native_app),
+            "app": app_info,
             "ref_strategy": "structural-v3",
             "window_filter": window,
             "windows": trees,
@@ -180,7 +185,9 @@ class Xa11yBackend:
         capability = "click" if action == "invoke" else action
         if action != "scroll" and capability not in before["actions"]:
             raise BokkioActionError(f"Action {action} is not advertised by target: {before['ref']}")
-        element = live[before["ref"]]
+        element = live.get(before["ref"])
+        if element is None and not mac_action:
+            raise BokkioActionError('Target has no bound live provider object')
         scope = before
         nodes = {n['ref']:n for n in flatten([before_tree])}
         while scope['role'] not in {'window','dialog'} and scope['parent'] in nodes:
@@ -205,10 +212,23 @@ class Xa11yBackend:
                         raise BokkioActionError('Text selection requires one exact nonempty literal in the current value')
                     start=len(text[:text.index(value)].encode('utf-16-le'))//2
                     end=start+len(value.encode('utf-16-le'))//2
+                    if before['platform_data'].get('ax_selection_focus_settable'):
+                        _call(element.focus)
                     _call(element.select_text,start,end)
-                    action_source='AXSelectedTextRange'
-                elif mac_action and action=='set_value' and before['role']=='combo_box' and hasattr(self,'visual_value_replace'):
+                    action_source='AXFocused_then_AXSelectedTextRange' if before['platform_data'].get('ax_selection_focus_settable') else 'AXSelectedTextRange'
+                elif (mac_action and action=='set_value' and hasattr(self,'visual_value_replace')
+                      and (before['role']=='combo_box' or (before['role']=='text_field'
+                           and before['platform_data'].get('value_submission')=='set_value_requires_dialog_commit'))):
                     native_result=_call(self.visual_value_replace,native_app,before,scope,value)
+                    action_source=native_result['action_source']
+                elif mac_action and action=='expand' and before['role']=='combo_box' and hasattr(self,'visual_expand'):
+                    native_result=_call(self.visual_expand,native_app,before,scope)
+                    action_source=native_result['action_source']
+                elif mac_action and action=='select' and before['platform_data'].get('native_option_command') and hasattr(self,'visual_option_select'):
+                    native_result=_call(self.visual_option_select,native_app,before,scope)
+                    action_source=native_result['action_source']
+                elif mac_action and action=='click' and before['platform_data'].get('click_transport')=='selection_bound_pointer' and hasattr(self,'visual_click'):
+                    native_result=_call(self.visual_click,native_app,before,scope)
                     action_source=native_result['action_source']
                 elif mac_action:
                     native_result=_call(self._native.perform,before,action,value)
@@ -241,7 +261,10 @@ class Xa11yBackend:
         except Exception as error:
             raise BokkioActionError(f"{action} failed for {before['ref']}: {error}") from error
 
-        after_tree = self._app_tree(native_app)
+        try:
+            after_tree = self._app_tree(native_app)
+        except BokkioError as error:
+            raise BokkioCompletionUnknown('Input returned but its fresh native observation failed: '+str(error)) from error
         after = self._find_by_ref(after_tree, before["ref"])
         verification = "observed"
         postcondition = None
@@ -288,6 +311,8 @@ class Xa11yBackend:
         if action_source=='bounded_visual_replace':
             result['input_commit']={'requested_value':value,'confirmation_posted':native_result['confirmation_posted'],
                                     'visual':native_result['visual_receipt']}
+        if action_source=='bounded_selection_button_click':
+            result['input_receipt']=native_result['visual_receipt']
         if scroll_plan is not None:
             result["scroll"], changed = observe_scroll(before_tree, after_tree, scroll_plan)
             result["verification"] = "confirmed" if changed else "unconfirmed"
@@ -335,7 +360,7 @@ class Xa11yBackend:
         if value.isdigit():
             if self._platform == "windows" and value in self._app_bindings:
                 return self._app_bindings[value]
-            resolved = _call(self._xa11y.App.by_pid, int(value), timeout=0)
+            resolved = _call(self._xa11y.App.by_pid, int(value), timeout=3 if self._platform=='macos' else 0)
             if self._platform == "windows":
                 # xa11y's synthesized App retains process creation identity;
                 # as_element/children still take fresh native snapshots and
@@ -360,7 +385,11 @@ class Xa11yBackend:
         identity = self._app_identity(app)
         element = _call(app.as_element)
         live = {} if live is None else live
-        tree = self._walk(element, identity, [], parent_ref=None, occurrence=0, live=live)
+        previous_deadline=getattr(self,'_observation_deadline',None)
+        self._observation_deadline=time.monotonic()+15 if self._platform=='macos' else None
+        try:
+            tree = self._walk(element, identity, [], parent_ref=None, occurrence=0, live=live)
+        finally:self._observation_deadline=previous_deadline
         if self._platform=='macos' and self._native is not None and hasattr(self._native,'annotate'):
             tree=_call(self._native.annotate,tree,app.pid)
         if self._platform == "windows":
@@ -407,12 +436,13 @@ class Xa11yBackend:
 
     def _window_nodes(self, app_tree: dict[str, Any]) -> list[dict[str, Any]]:
         result = []
-        def visit(node):
+        def visit(node,in_window=False):
             if node["role"] in {"window", "dialog"}:
-                result.append(node)
-                return
+                if not in_window or (self._platform=='macos' and node['role']=='dialog'):
+                    result.append(node)
+                in_window=True
             for child in node["children"]:
-                visit(child)
+                visit(child,in_window)
         visit(app_tree)
         return result
 
@@ -459,6 +489,9 @@ class Xa11yBackend:
         native_window: int | None = None,
         native_action_scope: int | None = None,
     ) -> dict[str, Any]:
+        deadline=getattr(self,'_observation_deadline',None)
+        if deadline is not None and time.monotonic()>deadline:
+            raise BokkioError('Mac AX provider observation exceeds time budget')
         if len(signature_path) >= 64:
             raise BokkioError("Accessibility tree exceeds 64 levels; provider may contain a cycle")
         role = self._role(element)

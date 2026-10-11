@@ -5,12 +5,15 @@ import os
 from pathlib import Path
 import subprocess
 import tempfile
-from .model import BokkioError
+from .model import BokkioError,BokkioStaleSnapshot
 
 
-def activate_window(pid,title):
+def activate_window(pid,title,*,document=None,clear_hover=False):
     if type(pid) is not int or not 0<pid<=0x7fffffff or not isinstance(title,str) or not title or len(title)>1024:
         raise BokkioError('Activation requires an exact PID and window title')
+    if document is not None and (not isinstance(document,str) or not Path(document).is_absolute()):
+        raise BokkioError('Document activation requires an absolute source path')
+    if type(clear_hover) is not bool:raise BokkioError('Hover preparation must be boolean')
     source=Path(__file__).parent/'native/macos_activate.swift'
     digest=hashlib.sha256(source.read_bytes()).hexdigest()
     cache=Path.home()/'Library/Caches/Bokkio/native/activation'/digest
@@ -24,9 +27,12 @@ def activate_window(pid,title):
             os.chmod(name,0o700);os.replace(name,helper)
         finally:Path(name).unlink(missing_ok=True)
     try:
-        result=subprocess.run([str(helper)],input=json.dumps({'pid':pid,'title':title}).encode(),capture_output=True,timeout=5)
+        result=subprocess.run([str(helper)],input=json.dumps({'pid':pid,'title':title, 'document':document,'clear_hover':clear_hover}).encode(),capture_output=True,timeout=5)
         receipt=json.loads(result.stdout)
     except (OSError,ValueError,subprocess.TimeoutExpired):raise BokkioError('Mac foreground activation is unconfirmed') from None
-    if result.returncode or receipt.get('status')!='activated' or receipt.get('pid')!=pid or receipt.get('title')!=title or receipt.get('foreground_confirmed') is not True:
+    if (result.returncode or receipt.get('status')!='activated' or receipt.get('pid')!=pid or receipt.get('title')!=title
+            or receipt.get('foreground_confirmed') is not True or receipt.get('window_confirmed') is not True):
+        if receipt.get('error')=='front_window_unconfirmed':
+            raise BokkioStaleSnapshot('Authorized Mac window has not reached foreground; no target input was posted')
         raise BokkioError('Mac foreground activation failed: '+str(receipt.get('error','invalid_receipt')))
     return receipt

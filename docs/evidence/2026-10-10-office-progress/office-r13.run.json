@@ -1,0 +1,105 @@
+{
+  "schema": "bokkio.office_pilot_run.v1",
+  "revision": "fbccd464f94fec9e284e139f97bf96d0b192f580",
+  "scope": "adapted_macos_microsoft_office_pilot",
+  "environment": {
+    "ready": true,
+    "session_available": true,
+    "session_locked": false,
+    "permissions": {
+      "ax": true,
+      "capture": true,
+      "events": true
+    },
+    "reason": null
+  },
+  "applications": {
+    "Microsoft Word": {
+      "installed": true,
+      "version": "16.95.4"
+    },
+    "Microsoft Excel": {
+      "installed": true,
+      "version": "16.95.4"
+    },
+    "Microsoft PowerPoint": {
+      "installed": true,
+      "version": "16.95.4"
+    }
+  },
+  "planned": 3,
+  "started": 3,
+  "tasks": [
+    {
+      "task_id": "win_adm_l1_003",
+      "execution_status": "blocked",
+      "actions": 5,
+      "status": "executed",
+      "trace": "win_adm_l1_003/agent.json",
+      "score": {
+        "task_id": "win_adm_l1_003",
+        "artifact_exists": true,
+        "sha256": "9aad4ce764eaa2f89cff03011e93c86f70a6b9103420b5ed39812e63c9ff1b5d",
+        "bytes": 5569,
+        "checks": {
+          "preserved_content": true,
+          "heading1": false,
+          "body_font_size_spacing": false
+        },
+        "passed": false,
+        "official_score": false,
+        "evaluator": "independent_OOXML_adaptation",
+        "saved_after_start": false
+      }
+    },
+    {
+      "task_id": "win_acc_l1_001",
+      "execution_status": "completed",
+      "actions": 4,
+      "status": "executed",
+      "trace": "win_acc_l1_001/agent.json",
+      "score": {
+        "task_id": "win_acc_l1_001",
+        "artifact_exists": true,
+        "sha256": "7117057f3566d5dd43ee95ff5b7eb476e886b817f67699d9ba74266202538621",
+        "bytes": 8310,
+        "checks": {
+          "preserved_values": true,
+          "currency_nonempty_D": true
+        },
+        "passed": true,
+        "official_score": false,
+        "evaluator": "independent_OOXML_adaptation",
+        "saved_after_start": true
+      }
+    },
+    {
+      "task_id": "win_pro_l1_003",
+      "execution_status": "blocked",
+      "actions": 7,
+      "status": "executed",
+      "trace": "win_pro_l1_003/agent.json",
+      "score": {
+        "task_id": "win_pro_l1_003",
+        "artifact_exists": true,
+        "sha256": "e63bf44618d19b55e7200846fadee1d706860c52b7d22a1ef12a3b6ff52b5f0c",
+        "bytes": 14601,
+        "checks": {
+          "one_slide": true,
+          "title_placeholder": false,
+          "title_layout": false
+        },
+        "passed": false,
+        "official_score": false,
+        "evaluator": "independent_OOXML_adaptation",
+        "saved_after_start": true
+      }
+    }
+  ],
+  "official_score": false,
+  "judge_status": "upstream_rubric_pinned_not_official_VLM_execution",
+  "started_at_unix_ns": 1791608177231968000,
+  "setup_input_open_is_not_agent_action": true,
+  "status": "completed",
+  "passed": 1
+}

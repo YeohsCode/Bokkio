@@ -44,7 +44,12 @@ def options(snapshot, values, *, include_selected=False):
         readonly_selection=(node['platform']=='macos' and node['role'] in {'text_area','text_field'}
                             and node['platform_data'].get('mac_unique_identity')
                             and 'select_text' in node['platform_data'].get('mac_verified_actions',[]))
-        if (node["state"].get("enabled") is False and not readonly_selection) or node["state"].get("visible") is False:
+        native_menu_command=(node['platform']=='macos'
+                             and ((node['role']=='menu_item' and node['platform_data'].get('native_menu_command'))
+                                  or (node['role']=='text_field' and node['platform_data'].get('native_option_command')))
+                             and node['platform_data'].get('mac_unique_identity')
+                             and bool(set(node['platform_data'].get('mac_verified_actions',[]))&{'click','select'}))
+        if (node["state"].get("enabled") is False and not readonly_selection) or (node["state"].get("visible") is False and not native_menu_command):
             continue
         identity = node["platform_data"].get("value_runtime_id")
         ambiguous = node["platform_data"].get("ambiguous_ref_identity")
@@ -53,9 +58,12 @@ def options(snapshot, values, *, include_selected=False):
         if ambiguous and not identity and not verified_actions and not mac_actions:
             continue
         for action in node["actions"]:
+            if action=='open' and not (node['platform']=='macos' and node['platform_data'].get('native_file_entry')
+                                      and node['platform_data'].get('mac_unique_identity') and 'open' in mac_actions):continue
+            if node['state'].get('visible') is False and action!='click' and not (action=='select' and node['platform_data'].get('native_option_command')):continue
             if node['state'].get('enabled') is False and action!='select_text':continue
             if ambiguous and not (action in {"set_value","submit"} and identity) and action not in verified_actions and action not in mac_actions: continue
-            if action not in {"click", "focus", "select", "select_text", "expand", "collapse", "type", "set_value", "scroll", "submit", "visual_click", "visual_type"}:
+            if action not in {"click", "open", "focus", "select", "select_text", "expand", "collapse", "type", "set_value", "scroll", "submit", "visual_click", "visual_type"}:
                 continue
             if action.startswith('visual_') and (node['role']!='visual_text' or node['platform_data'].get('source')!='OCR'):
                 continue
@@ -100,6 +108,7 @@ def options(snapshot, values, *, include_selected=False):
 
 
 ACTION_DESCRIPTIONS = {
+    "open": "Open one currently observed native file/folder entry through its advertised AXOpen action; do not edit its name. Verify the resulting folder or document state.",
     "visual_click": "Click one uniquely observed OCR text label in an explicitly authorized window; this label is not a native button. Requires independent post-action verification.",
     "visual_type": "Click and type one allowed literal into an explicitly declared OCR input label; OCR alone never declares an editable field. Requires post-action verification.",
     "select_text": "Select exactly one occurrence of an allowed literal in the current native text value; preserves text. Verify selected_text, not selected state.",
@@ -285,6 +294,25 @@ def decide(provider: DecisionProvider, goal: str, snapshot: dict[str, Any], valu
         raise BokkioError("Allowed values must be strings")
     snapshot_id = tree_digest(snapshot["windows"])
     full_snapshot = snapshot
+    # Later steps can acquire a dialog only after the previous modal closes.
+    # Ground that intent against the current snapshot, not the planning phase's
+    # disabled menu. Keep duplicate commands ambiguous and preserve outcomes.
+    intent,marker,encoded=goal.partition('\nRequired observable outcome: ')
+    if marker and re.match(r'^\s*(?:open|show)\b',intent,re.I):
+        try:checks=json.loads(encoded)
+        except ValueError:checks=[]
+        dialogs={c['name'] for c in checks if isinstance(c,dict) and c.get('role')=='dialog'
+                 and c.get('field')=='present' and c.get('equals') is True and isinstance(c.get('name'),str)} if isinstance(checks,list) else set()
+        current=flatten(snapshot['windows'])
+        if len(dialogs)==1:
+            name=next(iter(dialogs))
+            named=re.match(r'^\s*(?:open|show)\s+(?:the\s+)?[\'\"]?'+re.escape(name)+r'[\'\"]?\s+dialog\b',intent,re.I)
+            leaves=[n for n in current if n.get('role')=='menu_item' and n.get('platform_data',{}).get('native_menu_command')
+                    and isinstance(n.get('name'),str) and n['name'].rstrip('.…').casefold()==name.casefold()]
+            if named and leaves and not any(n['role']=='dialog' and n['name']==name and n['state'].get('visible') is not False for n in current):
+                if len(leaves)!=1 or leaves[0]['state'].get('enabled') is False or 'click' not in leaves[0].get('actions',[]):
+                    raise BokkioError('Requested dialog has no uniquely actionable native menu command; observe its current modal context')
+                goal='Click '+leaves[0]['name']+marker+encoded
     if narrow:
         snapshot = bounded_observation(goal, snapshot)
     choices = options(snapshot, values, include_selected=bool(require_action and re.match(r'^\s*select\b',goal,re.I)))
@@ -342,13 +370,15 @@ def decide(provider: DecisionProvider, goal: str, snapshot: dict[str, Any], valu
                 choices={k:c for k,c in choices.items() if c['action']!='click'
                          or observed[c['ref']]['name']!=name or k==direct[0]}
     intent, marker, encoded = goal.partition('\nRequired observable outcome: ')
-    # A split button can expose both invocation and menu expansion. An
-    # explicit click instruction for one observed label chooses invocation;
+    # An explicit click instruction for one observed label chooses invocation;
     # a generic "open/add" intent still goes through the normal choice set.
     command=re.match(r'^\s*(?:click|press|invoke)\s+(?:the\s+)?[\"\']?',intent,re.I)
-    if command and narrow:
+    if command:
         observed={n['ref']:n for n in flatten(snapshot['windows'])}
         remainder=intent[command.end():]
+        named=[n['name'].strip().rstrip(':') for n in flatten(full_snapshot['windows'])
+               if n.get('role') in {'button','menu_item','combo_box'} and isinstance(n.get('name'),str) and n['name'].strip()
+               and re.match(re.escape(n['name'].strip().rstrip(':'))+r'(?!\w)',remainder,re.I)]
         direct=[]
         for token,choice in choices.items():
             node=observed.get(choice.get('ref'),{})
@@ -356,8 +386,13 @@ def decide(provider: DecisionProvider, goal: str, snapshot: dict[str, Any], valu
             if (choice['action']=='click' and node.get('role') in {'button','menu_item','combo_box'}
                     and isinstance(name,str) and name.strip()
                     and re.match(re.escape(name.strip().rstrip(':'))+r'(?!\w)',remainder,re.I)):
-                direct.append(token)
-        if len(direct)==1 and any(c['action']=='expand' and c['ref']==choices[direct[0]]['ref'] for c in choices.values()):
+                direct.append((token,len(name.strip().rstrip(':'))))
+        if direct:
+            longest=max(len(name) for name in named)
+            direct=[token for token,length in direct if length==longest]
+            if not direct:
+                raise BokkioError('The explicitly named click control is not currently actionable; inspect the new native dialog rather than invoke a shorter command name')
+        if len(direct)==1 and narrow:
             choices={k:c for k,c in choices.items() if k==direct[0] or c['action']=='done'}
     if marker and re.match(r'^\s*select\b',intent,re.I):
         try: checks=json.loads(encoded)
@@ -392,7 +427,18 @@ def decide(provider: DecisionProvider, goal: str, snapshot: dict[str, Any], valu
                     and observed[choice['ref']]['role']=='radio_button' and observed[choice['ref']]['name']==condition.get('name')
                     and (condition.get('parent_name') is None or observed.get(observed[choice['ref']]['parent'],{}).get('name')==condition['parent_name'])]
             if len(direct)==1:choices={direct[0]:choices[direct[0]]}
-    if re.search(r'\b(?:submit|confirm|commit)\b',intent,re.I):
+    replacement=False
+    if marker and re.match(r'^\s*(?:set|replace|enter|type)\b',intent,re.I):
+        try:checks=json.loads(encoded)
+        except ValueError:checks=[]
+        observed={n['ref']:n for n in flatten(snapshot['windows'])}
+        needed=[(token,choice) for token,choice in choices.items() if choice['action']=='set_value'
+                and observed[choice['ref']]['value']!=choice.get('value')
+                and any(isinstance(c,dict) and c.get('field')=='value' and c.get('role')==observed[choice['ref']]['role']
+                        and c.get('name')==observed[choice['ref']]['name'] and c.get('equals')==choice.get('value') for c in checks)] if isinstance(checks,list) else []
+        if len(needed)==1:
+            token,choice=needed[0];choices={token:choice};replacement=True
+    if not replacement and re.search(r'\b(?:submit|confirm|commit)\b',intent,re.I):
         observed={n['ref']:n for n in flatten(snapshot['windows'])}
         direct=[token for token,choice in choices.items() if choice['action']=='submit'
                 and observed[choice['ref']]['platform']=='macos'

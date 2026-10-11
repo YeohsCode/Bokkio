@@ -1,0 +1,78 @@
+{
+  "date": "2026-10-11",
+  "latest_environment": {
+    "ready": true,
+    "session_available": true,
+    "session_locked": false,
+    "permissions": {
+      "ax": true,
+      "capture": true,
+      "events": true
+    },
+    "reason": null
+  },
+  "source_sha256": {
+    "src/bokkio/__init__.py": "e61059f0597557454bdeef3c9e8408fb5e858e2cdc6e81819872690bfc79cae5",
+    "src/bokkio/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "src/bokkio/agent.py": "4b4b4bd34579a8e011758138e7992aca59a3a764bf49dae29bebca950866b364",
+    "src/bokkio/arena.py": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f",
+    "src/bokkio/cli.py": "2d510c07bbbbb1cfd90acc255b9dd71808ef263dda4756401d410cc6bd3920f5",
+    "src/bokkio/decision.py": "fc860175c56f4d7385ff0d058e7dc0b18ffa3776f824f781905cec558b5491de",
+    "src/bokkio/jev.py": "637bc696117c59439bf8944d10bf4c9c34a45b9499cb5aef36326ae4596c0a59",
+    "src/bokkio/macos_activation.py": "81e4be99dab4052c8cb7c815431f6b008accfa609c3d91d2027719f3b9be28cd",
+    "src/bokkio/macos_ax.py": "475a1318f94a2dd19335e477d89b9298b04027b5de49691d91f513eb852394ca",
+    "src/bokkio/macos_capture.py": "cc605e631bd3834819337007b46dde09e1ead679fcd1b6d3d9d7217434db765f",
+    "src/bokkio/model.py": "a198bac7c60cdbdf99cdd5c72569962a74e0307cb1fa83d5c7f9e067c4df9d6a",
+    "src/bokkio/office_benchmark.py": "aa9349beb4f75f050efc34ca0a55e9e79773972e56db6abe21c42b2871682fc6",
+    "src/bokkio/office_judge.py": "8682d047ab635b8e63c863181b45ea89792bb6161b6c75462a1c76320eeab58e",
+    "src/bokkio/office_runner.py": "e657cb73d336c4e9599bf98d082234024fba09951a7411a6b6a9f86eb1627330",
+    "src/bokkio/office_visual.py": "c0fc46a96af22aaa1ca0f5b4ac94e1b5e64c6d405bb6775cdcbe5fb3101511ed",
+    "src/bokkio/planner.py": "ec3bb366b9bb2ad546550281a4da2dd5830500e363a8f9c9fa06244c880027fe",
+    "src/bokkio/scroll.py": "8852a17321ecf1039c4d2dbd2f5fde92ea7d63576dd5b591afe58ffa36842579",
+    "src/bokkio/selector.py": "277eb64ce00888d255daa4bd0dc78d91efcfd510b69b17d5022d2428104d446c",
+    "src/bokkio/visual.py": "614deaf749fb0360ac0c6614e23798fd0bb4eab821f515eb19f337d9dc33056b",
+    "src/bokkio/visual_input.py": "fd896f56c763e172e5c5ebe318ec89909bb7cc1e07b695feab266d7102a57fa7",
+    "src/bokkio/visual_runtime.py": "8e9edd794b4db06879939f0a04014e0adad90890b2f775c3dd92988fba1fb306",
+    "src/bokkio/windows_capture.py": "cfa9f52c6cc2a20edf6fdf3de7271c86f80d0f251354761b35569cc18a248c82",
+    "src/bokkio/windows_uia.py": "0f3eaf5140133c3b550de44665c10f8389003bfb21cf957b6048e889fe273468",
+    "src/bokkio/workflow.py": "18218c841b57ec9f172fb6a5036c1d730aab77dbf507e76f9000be44836d9a11",
+    "src/bokkio/workflow_inputs.py": "4025033f62d3008d0ac6b922ab21f9746ccffccfc0e192fd319a4dc03a9b803e",
+    "src/bokkio/workflow_repair.py": "91129cef36aeccdd9d9835a78c171868e28a1215ed6cadc77548a834c319de3c",
+    "src/bokkio/xa11y_backend.py": "a5678306565afcdc2c52a64d21820803dbcd72b8eaa3651046e470d2a699a81c",
+    "src/bokkio/native/macos_activate.swift": "84a8fdad427241622057be2a1968633962b44bef4e2f5c87a84b3bebb9d7c122",
+    "src/bokkio/native/macos_capture.swift": "7ba3add24eb6e3d3f6db72213279ccfb56326cfcf2b27da15093e5f10ad66c1d"
+  },
+  "latest_code_live_acceptance": "r33_finished_0_of_3_snapshot_acceptance_paused",
+  "acceptance_target": "three_consecutive_fresh_serial_rounds_3_of_3_with_15_attempts_per_task",
+  "acceptance_achieved": false,
+  "astra_called": false,
+  "screenshots_sent_to_business_models": false,
+  "best_full_office_round": {
+    "round": "r28",
+    "passed": 3,
+    "planned": 3
+  },
+  "latest_finished_full_office_round": {
+    "round": "r33",
+    "passed": 0,
+    "planned": 3,
+    "agent_started": 3,
+    "diagnostic_only": true
+  },
+  "unit_tests": 519,
+  "wheel": {
+    "sha256": "1953dd6769c04bd6f15055dbc6369a13671b0c36053fb54593326cc2d4033600",
+    "source_mismatches": [],
+    "members": 29
+  },
+  "current_helper_visual_input": {
+    "passed": 3,
+    "planned": 3,
+    "attempts": [
+      2,
+      2,
+      2
+    ]
+  },
+  "consecutive_complete_rounds": []
+}

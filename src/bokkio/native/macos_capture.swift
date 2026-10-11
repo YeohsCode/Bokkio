@@ -8,7 +8,9 @@ import Darwin
 // Establish the WindowServer/AppKit connection before asynchronous capture.
 _ = NSApplication.shared
 var postingStarted = false
+var restoreClipboard:(()->Void)?
 func emit(_ data: [String: Any], code: Int32 = 0) -> Never {
+    restoreClipboard?()
     if let encoded = try? JSONSerialization.data(withJSONObject: data, options: [.sortedKeys]),
        let text = String(data: encoded, encoding: .utf8) { print(text) }
     exit(code)
@@ -84,7 +86,8 @@ Task { @MainActor in
         func foregroundScope() -> [String:Any] {
             let front = NSWorkspace.shared.frontmostApplication?.processIdentifier
             let info = CGWindowListCopyWindowInfo([.optionOnScreenOnly,.excludeDesktopElements], kCGNullWindowID) as? [[String:Any]]
-            let top = info?.first(where: { ($0[kCGWindowLayer as String] as? Int) == 0 })
+            let levels=[NSWindow.Level.normal.rawValue,NSWindow.Level.floating.rawValue,NSWindow.Level.modalPanel.rawValue]
+            let top = info?.first(where: { levels.contains($0[kCGWindowLayer as String] as? Int ?? -1) })
             let topPID = top?[kCGWindowOwnerPID as String] as? Int
             let topID = top?[kCGWindowNumber as String] as? UInt32
             return ["expected_pid":number,"expected_window_id":window.windowID,
@@ -100,7 +103,6 @@ Task { @MainActor in
                 fail("input_desktop_unavailable", "Current input session reports a lock", ["dispatched": 0])
             }
             guard args["expected_birth"] as? String == born,
-                  args["image_sha256"] as? String == digest,
                   args["expected_content_rect"] as? [String:Double] == rect(contentRect),
                   args["expected_window_bounds"] as? [String:Double] == rect(window.frame) else {
                 fail("capture_changed", "Window identity or pixels changed before input", ["dispatched": 0])
@@ -113,13 +115,189 @@ Task { @MainActor in
                   Double(captured) <= Date().timeIntervalSince1970 * 1e9 else {
                 fail("invalid_input", "Input point, budget or action is invalid", ["dispatched": 0])
             }
+            func nativeFieldIsCurrent(focused:Bool=false,valueAfter:String?=nil) -> Bool {
+                guard let target=args["native_field"] as? [String:Any],
+                      action=="replace" || (action=="click" && target["expand"] as? Bool == true),
+                      let targetRole=target["role"] as? String,["AXComboBox","AXTextField"].contains(targetRole),
+                      let expected=target["bounds"] as? [String:Double] else { return false }
+                let app=AXUIElementCreateApplication(pid)
+                AXUIElementSetMessagingTimeout(app,0.3)
+                func attribute(_ element:AXUIElement,_ key:String) -> CFTypeRef? {
+                    var value:CFTypeRef?
+                    return AXUIElementCopyAttributeValue(element,key as CFString,&value) == .success ? value : nil
+                }
+                func matchesIdentity(_ element:AXUIElement) -> Bool {
+                    if let identifier=target["identifier"] as? String,!identifier.isEmpty {
+                        return attribute(element,"AXIdentifier") as? String==identifier
+                    }
+                    guard let name=target["name"] as? String,!name.isEmpty,
+                          let identity=target["identity"] as? UInt64,
+                          UInt64(CFHash(element))==identity else { return false }
+                    return attribute(element,"AXTitle") as? String==name ||
+                           attribute(element,"AXDescription") as? String==name
+                }
+                var hit:AXUIElement?
+                if focused {
+                    guard let value=attribute(app,"AXFocusedUIElement"),CFGetTypeID(value)==AXUIElementGetTypeID() else { return false }
+                    hit=value as! AXUIElement
+                } else {
+                    guard AXUIElementCopyElementAtPosition(app,Float(x),Float(y),&hit) == .success else { return false }
+                }
+                var current=hit
+                for _ in 0..<16 {
+                    guard let element=current else { return false }
+                    var owner:pid_t=0
+                    guard AXUIElementGetPid(element,&owner) == .success,owner==pid else { return false }
+                    if attribute(element,"AXRole") as? String==targetRole,
+                       matchesIdentity(element) {
+                        guard let position=attribute(element,"AXPosition"),let size=attribute(element,"AXSize"),
+                              CFGetTypeID(position)==AXValueGetTypeID(),CFGetTypeID(size)==AXValueGetTypeID() else { return false }
+                        var origin=CGPoint.zero;var extent=CGSize.zero
+                        guard AXValueGetValue(position as! AXValue,.cgPoint,&origin),
+                              AXValueGetValue(size as! AXValue,.cgSize,&extent) else { return false }
+                        let actual=["x":Double(Int(origin.x)),"y":Double(Int(origin.y)),
+                                    "width":Double(Int(extent.width)),"height":Double(Int(extent.height))]
+                        var settable:DarwinBoolean=false;var actions:CFArray?
+                        let rawValue=attribute(element,"AXValue")
+                        let actualValue=(rawValue as? String) ?? (rawValue.flatMap { CFGetTypeID($0)==CFNumberGetTypeID() ? ($0 as? NSNumber)?.stringValue : nil })
+                        guard actual==expected,CGRect(origin:origin,size:extent).contains(CGPoint(x:x,y:y)),
+                              attribute(element,"AXEnabled") as? Bool != false,
+                              AXUIElementIsAttributeSettable(element,"AXValue" as CFString,&settable) == .success,settable.boolValue,
+                              AXUIElementCopyActionNames(element,&actions) == .success,
+                              (actions as? [String])?.contains("AXConfirm")==true,
+                              (target["expand"] as? Bool != true || (actions as? [String])?.contains("AXShowMenu")==true),
+                              actualValue==(valueAfter ?? target["value"] as? String),
+                              let parentWindow=attribute(element,"AXWindow"),CFGetTypeID(parentWindow)==AXUIElementGetTypeID(),
+                              attribute(parentWindow as! AXUIElement,"AXTitle") as? String==window.title else { return false }
+                        return true
+                    }
+                    guard let parent=attribute(element,"AXParent"),CFGetTypeID(parent)==AXUIElementGetTypeID() else { return false }
+                    current=parent as! AXUIElement
+                }
+                return false
+            }
+            func nativeOptionIsCurrent() -> Bool {
+                guard action=="click",let target=args["native_option"] as? [String:Any],
+                      let label=target["value"] as? String,!label.isEmpty,
+                      let identity=target["identity"] as? UInt64,
+                      let expected=target["bounds"] as? [String:Double],
+                      let viewport=target["viewport"] as? [String:Double],
+                      let comboID=target["combo_identifier"] as? String,!comboID.isEmpty else { return false }
+                let app=AXUIElementCreateApplication(pid)
+                AXUIElementSetMessagingTimeout(app,0.3)
+                func attribute(_ element:AXUIElement,_ key:String) -> CFTypeRef? {
+                    var value:CFTypeRef?
+                    return AXUIElementCopyAttributeValue(element,key as CFString,&value) == .success ? value : nil
+                }
+                func bounds(_ element:AXUIElement) -> [String:Double]? {
+                    guard let p=attribute(element,"AXPosition"),let s=attribute(element,"AXSize"),
+                          CFGetTypeID(p)==AXValueGetTypeID(),CFGetTypeID(s)==AXValueGetTypeID() else { return nil }
+                    var point=CGPoint.zero;var size=CGSize.zero
+                    guard AXValueGetValue(p as! AXValue,.cgPoint,&point),AXValueGetValue(s as! AXValue,.cgSize,&size) else { return nil }
+                    return ["x":Double(Int(point.x)),"y":Double(Int(point.y)),"width":Double(Int(size.width)),"height":Double(Int(size.height))]
+                }
+                var hit:AXUIElement?
+                guard AXUIElementCopyElementAtPosition(app,Float(x),Float(y),&hit) == .success,let row=hit else { return false }
+                var owner:pid_t=0;var writable:DarwinBoolean=false
+                guard AXUIElementGetPid(row,&owner) == .success,owner==pid,UInt64(CFHash(row))==identity,
+                      attribute(row,"AXRole") as? String=="AXTextField",attribute(row,"AXValue") as? String==label,
+                      bounds(row)==expected,
+                      AXUIElementIsAttributeSettable(row,"AXValue" as CFString,&writable) == .success,!writable.boolValue else { return false }
+                var current=row;var clipped=false
+                for _ in 0..<16 {
+                    if attribute(current,"AXRole") as? String=="AXScrollArea",bounds(current)==viewport { clipped=true }
+                    if attribute(current,"AXRole") as? String=="AXComboBox",attribute(current,"AXIdentifier") as? String==comboID {
+                        guard clipped,let parent=attribute(current,"AXWindow"),CFGetTypeID(parent)==AXUIElementGetTypeID() else { return false }
+                        let parentWindow=parent as! AXUIElement
+                        return attribute(parentWindow,"AXTitle") as? String==window.title && bounds(parentWindow)==rect(window.frame)
+                    }
+                    guard let parent=attribute(current,"AXParent"),CFGetTypeID(parent)==AXUIElementGetTypeID() else { return false }
+                    current=parent as! AXUIElement
+                }
+                return false
+            }
+            func nativeButtonIsCurrent() -> Bool {
+                guard action=="click",let target=args["native_button"] as? [String:Any],
+                      let name=target["name"] as? String,!name.isEmpty,
+                      let identity=target["identity"] as? UInt64,
+                      let expected=target["bounds"] as? [String:Double],
+                      let selectionIdentity=target["selection_identity"] as? UInt64,
+                      let selected=target["selected_text"] as? String,!selected.isEmpty,selected.count<=4000 else { return false }
+                let app=AXUIElementCreateApplication(pid)
+                AXUIElementSetMessagingTimeout(app,0.3)
+                func attribute(_ element:AXUIElement,_ key:String) -> CFTypeRef? {
+                    var value:CFTypeRef?
+                    return AXUIElementCopyAttributeValue(element,key as CFString,&value) == .success ? value : nil
+                }
+                var hit:AXUIElement?
+                guard AXUIElementCopyElementAtPosition(app,Float(x),Float(y),&hit) == .success,let button=hit,
+                      UInt64(CFHash(button))==identity,attribute(button,"AXRole") as? String=="AXButton",
+                      attribute(button,"AXEnabled") as? Bool==true,
+                      attribute(button,"AXTitle") as? String==name || attribute(button,"AXDescription") as? String==name,
+                      let position=attribute(button,"AXPosition"),let size=attribute(button,"AXSize"),
+                      CFGetTypeID(position)==AXValueGetTypeID(),CFGetTypeID(size)==AXValueGetTypeID() else { return false }
+                var origin=CGPoint.zero;var extent=CGSize.zero;var owner:pid_t=0;var actions:CFArray?
+                guard AXValueGetValue(position as! AXValue,.cgPoint,&origin),AXValueGetValue(size as! AXValue,.cgSize,&extent) else { return false }
+                let actual:[String:Double]=["x":Double(Int(origin.x)),"y":Double(Int(origin.y)),
+                                           "width":Double(Int(extent.width)),"height":Double(Int(extent.height))]
+                guard actual==expected,AXUIElementGetPid(button,&owner) == .success,owner==pid,
+                      AXUIElementCopyActionNames(button,&actions) == .success,(actions as? [String])?.contains("AXPress")==true,
+                      let focusedValue=attribute(app,"AXFocusedUIElement"),CFGetTypeID(focusedValue)==AXUIElementGetTypeID(),
+                      let buttonWindow=attribute(button,"AXWindow"),CFGetTypeID(buttonWindow)==AXUIElementGetTypeID() else { return false }
+                let focused=focusedValue as! AXUIElement;let ownedWindow=buttonWindow as! AXUIElement
+                // Word can focus its Document Pane split group while keeping
+                // the selection in a descendant text area. Require that exact
+                // editor inside the currently focused document container.
+                guard ["AXTextArea","AXSplitGroup","AXScrollArea"].contains(attribute(focused,"AXRole") as? String ?? "") else { return false }
+                var pending=[focused];var seen=Set<AXUIElement>();var matches=[AXUIElement]()
+                for _ in 0..<1024 {
+                    if pending.isEmpty { break }
+                    let current=pending.removeLast()
+                    if !seen.insert(current).inserted { continue }
+                    if UInt64(CFHash(current))==selectionIdentity && attribute(current,"AXRole") as? String=="AXTextArea" { matches.append(current) }
+                    pending.append(contentsOf:attribute(current,"AXChildren") as? [AXUIElement] ?? [])
+                }
+                guard pending.isEmpty,matches.count==1 else { return false }
+                let editor=matches[0]
+                guard attribute(editor,"AXRole") as? String=="AXTextArea",
+                      AXUIElementGetPid(editor,&owner) == .success,owner==pid,
+                      attribute(editor,"AXSelectedText") as? String==selected,
+                      let editorWindow=attribute(editor,"AXWindow"),CFEqual(editorWindow,ownedWindow),
+                      attribute(ownedWindow,"AXTitle") as? String==window.title,
+                      attribute(ownedWindow,"AXMain") as? Bool==true else { return false }
+                return true
+            }
+            func optionPopupIsScoped() -> Bool {
+                guard nativeOptionIsCurrent(),let target=args["native_option"] as? [String:Any],
+                      let viewport=target["viewport"] as? [String:Double] else { return false }
+                let info=CGWindowListCopyWindowInfo([.optionOnScreenOnly,.excludeDesktopElements],kCGNullWindowID) as? [[String:Any]]
+                let levels=[NSWindow.Level.normal.rawValue,NSWindow.Level.floating.rawValue,NSWindow.Level.modalPanel.rawValue]
+                guard let top=info?.first(where:{levels.contains($0[kCGWindowLayer as String] as? Int ?? -1)}),
+                      top[kCGWindowOwnerPID as String] as? Int==number,
+                      let box=top[kCGWindowBounds as String] as? [String:Double],
+                      let frame=CGRect(dictionaryRepresentation:box as CFDictionary),frame.contains(CGPoint(x:x,y:y)) else { return false }
+                return rect(frame)==viewport
+            }
+            // OCR clicks require unchanged pixels. Native field replacement is
+            // instead re-bound by hit-testing its actual AX object, identifier,
+            // value, writable capability, geometry, owner and exact window.
+            // Caret/preview animation elsewhere cannot invalidate that object.
+            if args["native_button"] != nil {
+                guard nativeButtonIsCurrent() else { fail("native_button_changed","Native button or focused document selection changed",["dispatched":0]) }
+            } else if args["native_option"] != nil {
+                guard nativeOptionIsCurrent() else { fail("native_option_changed","Native option no longer matches its observed popup",["dispatched":0]) }
+            } else if args["native_field"] != nil {
+                guard nativeFieldIsCurrent() else { fail("native_field_changed","Native field no longer matches the observed binding",["dispatched":0]) }
+            } else if args["image_sha256"] as? String != digest {
+                fail("capture_changed","Window pixels changed before input",["dispatched":0])
+            }
             func foregroundIsScoped() -> Bool {
                 let scope = foregroundScope()
-                return scope["foreground_process_matches"] as? Bool == true && scope["top_window_matches"] as? Bool == true
+                return scope["foreground_process_matches"] as? Bool == true && (scope["top_window_matches"] as? Bool == true || optionPopupIsScoped())
             }
             let initialScope = foregroundScope()
             guard initialScope["foreground_process_matches"] as? Bool == true,
-                  initialScope["top_window_matches"] as? Bool == true,
+                  (initialScope["top_window_matches"] as? Bool == true || optionPopupIsScoped()),
                   initialScope["event_permission"] as? Bool == true else {
                 fail("input_unavailable", "Authorized window must own foreground input and event permission",
                      ["dispatched":0,"input_scope":initialScope])
@@ -135,37 +313,108 @@ Task { @MainActor in
                 fail("input_unavailable", "Could not construct input events", ["dispatched": 0])
             }
             events=[down,up]
+            down.flags=[];up.flags=[]
             if action != "click" {
                 if action == "replace" {
                     guard let selectDown=CGEvent(keyboardEventSource:nil,virtualKey:0,keyDown:true),
                           let selectUp=CGEvent(keyboardEventSource:nil,virtualKey:0,keyDown:false) else {
                         fail("input_unavailable", "Could not construct bounded field selection", ["dispatched":0])
                     }
-                    selectDown.flags = .maskCommand; selectUp.flags = .maskCommand
+                    selectDown.flags = .maskCommand; selectUp.flags = []
                     events.append(contentsOf:[selectDown,selectUp])
                 }
+                let usePaste=args["use_paste"] as? Bool == true
+                if usePaste {
+                    guard args["native_field"] != nil,action=="replace" else {fail("invalid_input","Paste requires a bound field",["dispatched":0])}
+                    let board=NSPasteboard.general;var saved:[NSPasteboardItem]=[];var bytes=0
+                    for item in board.pasteboardItems ?? [] {
+                        let copy=NSPasteboardItem()
+                        for type in item.types {
+                            guard let data=item.data(forType:type) else {fail("clipboard_snapshot_unavailable","Clipboard cannot be preserved",["dispatched":0])}
+                            bytes+=data.count
+                            guard bytes<=8388608 else {fail("clipboard_budget","Clipboard exceeds restoration budget",["dispatched":0])}
+                            copy.setData(data,forType:type)
+                        }
+                        saved.append(copy)
+                    }
+                    board.clearContents();board.setString(text,forType:.string)
+                    let temporary=board.changeCount
+                    restoreClipboard={if board.changeCount==temporary {board.clearContents();if !saved.isEmpty {board.writeObjects(saved)}}}
+                }
                 let units=Array(text.utf16)
-                guard let keyDown=CGEvent(keyboardEventSource:nil,virtualKey:0,keyDown:true),
-                      let keyUp=CGEvent(keyboardEventSource:nil,virtualKey:0,keyDown:false) else {
+                guard let keyDown=CGEvent(keyboardEventSource:nil,virtualKey:usePaste ? 9 : 0,keyDown:true),
+                      let keyUp=CGEvent(keyboardEventSource:nil,virtualKey:usePaste ? 9 : 0,keyDown:false) else {
                     fail("input_unavailable", "Could not construct keyboard events", ["dispatched": 0])
                 }
-                keyDown.keyboardSetUnicodeString(stringLength:units.count,unicodeString:units)
-                keyUp.keyboardSetUnicodeString(stringLength:units.count,unicodeString:units)
+                if !usePaste {
+                    keyDown.keyboardSetUnicodeString(stringLength:units.count,unicodeString:units)
+                    keyUp.keyboardSetUnicodeString(stringLength:units.count,unicodeString:units)
+                }
+                keyDown.flags=usePaste ? .maskCommand : [];keyUp.flags=[]
                 events.append(contentsOf:[keyDown,keyUp])
-                if action == "replace" {
+                if action=="type" && args["finish_typing"] as? Bool == true {
+                    guard let escapeDown=CGEvent(keyboardEventSource:nil,virtualKey:53,keyDown:true),
+                          let escapeUp=CGEvent(keyboardEventSource:nil,virtualKey:53,keyDown:false) else {
+                        fail("input_unavailable","Could not construct text editing completion",["dispatched":0])
+                    }
+                    escapeDown.flags=[];escapeUp.flags=[];events.append(contentsOf:[escapeDown,escapeUp])
+                }
+                if action=="replace" && args["confirm"] as? Bool == false && args["end_field_edit"] as? Bool == true {
+                    guard args["native_field"] != nil,
+                          let tabDown=CGEvent(keyboardEventSource:nil,virtualKey:48,keyDown:true),
+                          let tabUp=CGEvent(keyboardEventSource:nil,virtualKey:48,keyDown:false) else {
+                        fail("invalid_input","Draft completion requires a revalidated native field",["dispatched":0])
+                    }
+                    tabDown.flags=[];tabUp.flags=[];events.append(contentsOf:[tabDown,tabUp])
+                }
+                if action == "replace" && args["confirm"] as? Bool != false {
                     guard let confirmDown=CGEvent(keyboardEventSource:nil,virtualKey:36,keyDown:true),
                           let confirmUp=CGEvent(keyboardEventSource:nil,virtualKey:36,keyDown:false) else {
                         fail("input_unavailable", "Could not construct bounded field confirmation", ["dispatched":0])
                     }
                     events.append(contentsOf:[confirmDown,confirmUp])
+                    confirmDown.flags=[];confirmUp.flags=[]
                 }
+
             }
             guard foregroundIsScoped(), processIdentity()==born else {
                 fail("capture_changed", "Input scope changed before dispatch", ["dispatched": 0])
             }
+            if args["native_button"] != nil && !nativeButtonIsCurrent() {
+                fail("native_button_changed","Document selection changed before dispatch",["dispatched":0])
+            }
             // CGEventPost has no delivery acknowledgement. Once posting starts,
             // a lost scope is unknown completion and must never trigger retry.
             for (index,event) in events.enumerated() {
+                if index==4 && action=="type" && args["finish_typing"] as? Bool == true {
+                    RunLoop.current.run(until:Date().addingTimeInterval(0.1))
+                }
+                if index==2 && args["native_field"] != nil {
+                    let focusEnd=Date().addingTimeInterval(0.8)
+                    while Date()<focusEnd && !nativeFieldIsCurrent(focused:true) {
+                        RunLoop.current.run(until:Date().addingTimeInterval(0.02))
+                    }
+                    guard nativeFieldIsCurrent(focused:true) else {
+                        fail("input_completion_unknown","Clicked field did not acquire native keyboard focus",
+                             ["events_posted":index,"dispatched":true])
+                    }
+                }
+                if index==4 && args["native_field"] != nil {
+                    RunLoop.current.run(until:Date().addingTimeInterval(0.05))
+                    guard nativeFieldIsCurrent(focused:true) else {
+                        fail("input_completion_unknown","Native keyboard focus changed before text input",
+                             ["events_posted":index,"dispatched":true])
+                    }
+                }
+                if index==6 && args["use_paste"] as? Bool == true {
+                    let pasteEnd=Date().addingTimeInterval(1)
+                    while Date()<pasteEnd && !nativeFieldIsCurrent(focused:true,valueAfter:text) {
+                        RunLoop.current.run(until:Date().addingTimeInterval(0.02))
+                    }
+                    guard nativeFieldIsCurrent(focused:true,valueAfter:text) else {
+                        fail("input_completion_unknown","Bound paste did not show its literal before commit",["dispatched":true,"events_posted":index])
+                    }
+                }
                 if index>0 && !foregroundIsScoped() {
                     let release = index % 2 == 1
                     if release { events[index].post(tap:.cghidEventTap) }

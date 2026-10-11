@@ -1,0 +1,19 @@
+{
+  "scope": "scripted_full_word_gui_numeric_field_probe_not_full_agent",
+  "actions": 12,
+  "artifact_checks": {
+    "task_id": "win_adm_l1_003",
+    "artifact_exists": true,
+    "sha256": "345505d6dcd103cfd0365b6c54827a7a473871104ba2b0690c48b4f293e1af92",
+    "bytes": 12408,
+    "checks": {
+      "preserved_content": true,
+      "heading1": true,
+      "body_font_size_spacing": true
+    },
+    "passed": true,
+    "official_score": false,
+    "evaluator": "independent_OOXML_adaptation"
+  },
+  "numeric_field_transport": "bound_mouse_keyboard_Tab"
+}
