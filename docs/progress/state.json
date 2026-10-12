@@ -166,7 +166,20 @@
         "cache_privacy_boundary",
         "source_and_examples"
       ]
+    },
+    {
+      "id": "EVAL-00",
+      "platform": "macos_then_windows",
+      "status": "plan_ready_execution_pending",
+      "task": "Autonomous business evaluation strengthening: 12 frozen tasks / 3 callers, separate any-tool and GUI, stability, approval and runtime faults",
+      "plan": "docs/TEST-STRENGTHENING-PLAN.md",
+      "work_packages": "docs/progress/test-strengthening.json",
+      "business_attempts_planned_minimum": 72,
+      "business_attempts_completed": 0,
+      "replaces_existing_acceptance": false
     }
   ],
-  "harness_evidence": "docs/evidence/2026-10-12-harness/README.md"
+  "harness_evidence": "docs/evidence/2026-10-12-harness/README.md",
+  "evaluation_plan": "docs/TEST-STRENGTHENING-PLAN.md",
+  "evaluation_work_packages": "docs/progress/test-strengthening.json"
 }

@@ -54,6 +54,7 @@
 3. HARNESS-01：用户指定三种开发调用方的选定路径已 **3/3** 通过；当前 Codex 用 official MCP client bridge，当前 Hermes 与 DeepSeek 用 MCP code.run → 委派 SDK 原生动作。每种一份完整样本，审批为独立 fixture 管理员自动批准。Codex CLI 当前模型不兼容、DeepSeek 逐回合原生过期失败仍单列；客户实际部署与人工审批耗时尚待验收。
 4. WIN-01：另一台 Windows 电脑安装并验证 UIA、截图、鼠键、PowerShell 中文、取消、Browser、MCP/SDK、审批和日志。
 5. RELEASE-01：完成两端固定版本矩阵，再确认客户支持环境和发行范围。
+6. EVAL-00：已细化 [测试加强计划](../TEST-STRENGTHENING-PLAN.md) 与 [EVAL-01～08 工作包](test-strengthening.json)，新增评测尚未实施或执行。计划 12 题 × 三调用方 any-tool 36 次、GUI 对照 18 次、稳定性追加 18 次；分母各自统计，审批/故障另列。目标任务不提供步骤或完整代码。当前仍是业务尝试 0 次，不把写完计划计作通过。
 
 当前代码执行为明确授权的 trusted-host；OS 沙箱、远程 fleet、多租户 SSO、防篡改集中日志、签名安装器及离线依赖镜像不在已完成范围。详情见 [指南](../RUNTIME-GUIDE.md) 和 [交付报告](../RUNTIME-DELIVERY.md)。
 

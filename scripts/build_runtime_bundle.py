@@ -15,7 +15,7 @@ def build():
     files += sorted((project / "examples").glob("*.py")) + sorted((project / "examples").glob("*.json"))
     files += [project / "scripts" / name for name in ("install_runtime.sh", "install_runtime.ps1", "verify_runtime.py", "verify_runtime_visual.py", "verify_runtime_faults.py", "verify_runtime_audit.py", "verify_runtime_mcp_native.py", "verify_harness_clients.py", "build_native_fixture.py", "build_runtime_bundle.py")]
     files += [project / "tests" / name for name in ("test_runtime.py", "test_runtime_transports.py", "test_runtime_jobs.py")]
-    files += [project / "docs" / name for name in ("RUNTIME-GUIDE.md", "RUNTIME-DELIVERY.md", "PLAN-REPOSITIONING.md")]
+    files += [project / "docs" / name for name in ("RUNTIME-GUIDE.md", "RUNTIME-DELIVERY.md", "PLAN-REPOSITIONING.md", "TEST-STRENGTHENING-PLAN.md")]
     files += sorted((project / "docs/progress").glob("*.md")) + sorted((project / "docs/progress").glob("*.json"))
     # Explicit public/sanitized evidence only; legacy runtime directories may
     # have different privacy and checksum conventions.

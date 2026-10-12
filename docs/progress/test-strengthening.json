@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "updated": "2026-10-12",
+  "status": "planned_not_implemented_or_run",
+  "base_revision": "91fce36",
+  "plan": "docs/TEST-STRENGTHENING-PLAN.md",
+  "active_platform": "macos",
+  "windows_status": "deferred_to_user_windows_environment",
+  "existing_evidence_not_reclassified": {
+    "host_regression": 550,
+    "harness_fixed_flow_caller_coverage": 3,
+    "autonomous_business_suite_complete": false
+  },
+  "selection_state": "task_specs_only_apps_inputs_judges_and_budgets_not_yet_frozen",
+  "callers": [
+    "current_codex_mcp_client_bridge",
+    "current_system_hermes",
+    "deepseek_harness"
+  ],
+  "model_comparison_note": "Hermes/DeepSeek use existing GLM 5.3 Flash route; Codex retains current model. Not a model-controlled ranking of all three harnesses. Current Codex conversation retains context; fresh-session cold-start comparison is not claimed.",
+  "planned_matrix": {
+    "business_tasks": 12,
+    "any_tool_initial_attempts": 36,
+    "gui_task_ids": [
+      "T01",
+      "T03",
+      "T05",
+      "T07",
+      "T09",
+      "T11"
+    ],
+    "gui_attempts": 18,
+    "stability_task_ids": [
+      "T03",
+      "T09",
+      "T11"
+    ],
+    "stability_extra_attempts_same_revision": 18,
+    "business_attempts_minimum": 72,
+    "business_attempts_with_stability_revision_change_before_final_repeats": 81,
+    "revision_change_note": "Final suite claims additionally require rerunning affected main/GUI batches on that revision; 81 is not a cap.",
+    "delayed_admin_approval_attempts": 9,
+    "human_approval_attempts": 3,
+    "runtime_safety_contract_categories": 8
+  },
+  "proposed_budgets_to_freeze": {
+    "short_wall_seconds": 240,
+    "long_wall_seconds": 480,
+    "long_task_ids": [
+      "T09",
+      "T10"
+    ],
+    "max_core_write_dispatch_attempts": 60,
+    "max_model_turns": 40,
+    "max_known_zero_dispatch_reobservations": 2,
+    "host_code_internal_action_count_coverage": "not_fully_instrumented_disclose_in_report"
+  },
+  "proposed_targets": {
+    "any_tool_passed_per_caller": 10,
+    "any_tool_total_per_caller": 12,
+    "every_category_has_pass": true,
+    "real_desktop_tasks_minimum": 8,
+    "untuned_apps_minimum": 2,
+    "critical_family_samples_per_caller_same_final_revision": 3,
+    "runtime_safety_contract_passed": 8,
+    "runtime_safety_contract_total": 8,
+    "zero_core_scope_violations": true,
+    "zero_unknown_completion_blind_replay": true,
+    "does_not_replace_original_14_of_15_dual_platform_gate": true
+  },
+  "completion": {
+    "implemented_work_packages": 0,
+    "total_work_packages": 8,
+    "planned_business_attempts": 72,
+    "completed_business_attempts": 0,
+    "passed_business_attempts": null,
+    "meaning": "plan_created_only"
+  },
+  "work_packages": [
+    {
+      "id": "EVAL-01",
+      "priority": "P0",
+      "name": "freeze_business_suite",
+      "status": "planned",
+      "depends_on": [],
+      "completion_condition": "应用预检与12题冻结；至少8题真实桌面软件、2个未专门调优应用；输入、轨道、judge与预算有hash",
+      "evidence": null
+    },
+    {
+      "id": "EVAL-02",
+      "priority": "P0",
+      "name": "build_independent_judges_and_runner",
+      "status": "planned",
+      "depends_on": [
+        "EVAL-01"
+      ],
+      "completion_condition": "准备/执行/评分分离；judge正负例通过；三调用方薄接入，目标prompt不提供步骤或完整代码",
+      "evidence": null
+    },
+    {
+      "id": "EVAL-03",
+      "priority": "P0",
+      "name": "autonomous_any_tool_batch",
+      "status": "planned",
+      "depends_on": [
+        "EVAL-01",
+        "EVAL-02"
+      ],
+      "completion_condition": "先六题三调用方18次，再全部12题36次；首次/修复后分开，全部分母与失败保留",
+      "evidence": null
+    },
+    {
+      "id": "EVAL-04",
+      "priority": "P1",
+      "name": "gui_channel_comparison",
+      "status": "planned",
+      "depends_on": [
+        "EVAL-01",
+        "EVAL-02"
+      ],
+      "completion_condition": "六题三调用方18次；GUI通道合规、图像可见性与any-tool分数独立",
+      "evidence": null
+    },
+    {
+      "id": "EVAL-05",
+      "priority": "P0",
+      "name": "approval_wait_and_human_resume",
+      "status": "planned",
+      "depends_on": [
+        "EVAL-02"
+      ],
+      "completion_condition": "三调用方30/90/300秒延迟批准9次；真实人工3次单列，安全与可用性分别评分",
+      "evidence": null
+    },
+    {
+      "id": "EVAL-06",
+      "priority": "P0",
+      "name": "final_runtime_fault_contract",
+      "status": "planned",
+      "depends_on": [
+        "EVAL-02"
+      ],
+      "completion_condition": "最终代码八类Core治理合同8/8；真实锁屏/显示器缺口单列，未知完成无盲目重发",
+      "evidence": null
+    },
+    {
+      "id": "EVAL-07",
+      "priority": "P0",
+      "name": "fixed_revision_stability",
+      "status": "planned",
+      "depends_on": [
+        "EVAL-03"
+      ],
+      "completion_condition": "T03/T09/T11每调用方同最终版本三份输入样本；未改代码追加18次，改代码全部重跑27次",
+      "evidence": null
+    },
+    {
+      "id": "EVAL-08",
+      "priority": "P0",
+      "name": "publish_evaluation_and_handoff",
+      "status": "planned",
+      "depends_on": [
+        "EVAL-03",
+        "EVAL-04",
+        "EVAL-05",
+        "EVAL-06",
+        "EVAL-07"
+      ],
+      "completion_condition": "分轨/分平台/分调用方结果、来源与限制；共享进度/README/脱敏证据/hash提交推送 可以先发布部分报告；所有计划项有结果或具名阻塞后结算，不以所有测试通过作为发布失败报告的前置。",
+      "evidence": null
+    }
+  ],
+  "external_dependencies": [
+    "select_and_preflight_two_untuned_apps",
+    "customer_app_data_if_claiming_customer_acceptance",
+    "user_available_for_real_human_approval_and_unlock",
+    "additional_display_or_scale_if_claiming_those_environments",
+    "separate_windows_execution_environment"
+  ],
+  "publication_rule": "Keep credentials/raw traces/customer data private; commit plan, progress and sanitized evidence. Not-run/blocked remain in planned denominators."
+}

@@ -1,5 +1,6 @@
 include uv.lock
 include docs/PLAN-REPOSITIONING.md
+include docs/TEST-STRENGTHENING-PLAN.md
 include docs/RUNTIME-GUIDE.md
 include docs/RUNTIME-DELIVERY.md
 recursive-include examples *.json *.py

@@ -12,6 +12,8 @@ A model-independent computer use runtime for Windows and macOS: native/pixel act
 
 使用方法见 [Runtime 指南](docs/RUNTIME-GUIDE.md)，详细实测范围见 [交付报告](docs/RUNTIME-DELIVERY.md)。历史 `0.1.0` Planner/Jev/Workflow 内容保留在下文。
 
+**测试加强方案（待执行）：** [12 题自主业务测试计划](docs/TEST-STRENGTHENING-PLAN.md) · [EVAL 工作包](docs/progress/test-strengthening.json)。计划三调用方 any-tool 36 次、GUI 对照 18 次和稳定性追加 18 次，审批/故障另列；既有 550 项回归与 Harness 固定流程 3/3 不等于该题库已通过。
+
 [中文](#中文) · [English](#english)
 
 **项目知识库 / Project knowledge base:** [LLM Wiki](wiki/index.md) · [维护规则 / Maintenance schema](wiki/SCHEMA.md) · [维护日志 / Change log](wiki/log.md)
@@ -172,7 +174,7 @@ ref 是基于当前结构的引用。TextEdit、系统设置和固定应用的�
 
 ### Computer Use 测试集
 
-已固定 WindowsAgentArena 源码版本、154 份任务配置及五项原生 pilot。另选三项 Explorer/Notepad 多步任务，已在 ARM64 虚机实际运行 Planner → Jev → UIA，并复用指定版本的 evaluator 函数独立校验；所有尝试见 [实测报告](docs/P5-WAA-LONGCHAIN.md)。这些是明确改动环境与路径的开发试跑，不能作为官方榜单得分。原先五项 pilot 已执行，逐次派发、中间检查、独立评分和失败记录见 [pilot 报告](docs/P5-WAA-PILOT.md)。WindowsWorld 的微软 Office 原始三题已导入，实际任务未开始；OSWorld 2 仍为长流程设计参考。接入边界见 [测试集接入计划](docs/BENCHMARK-PLAN.md)。
+已固定 WindowsAgentArena 源码版本、154 份任务配置及五项原生 pilot。另选三项 Explorer/Notepad 多步任务，已在 ARM64 虚机实际运行 Planner → Jev → UIA，并复用指定版本的 evaluator 函数独立校验；所有尝试见 [实测报告](docs/P5-WAA-LONGCHAIN.md)。这些是明确改动环境与路径的开发试跑，不能作为官方榜单得分。原先五项 pilot 已执行，逐次派发、中间检查、独立评分和失败记录见 [pilot 报告](docs/P5-WAA-PILOT.md)。WindowsWorld 的微软 Office 三题已在 macOS 适配环境实际执行，r28/r30 各 3/3、最新完整轮 r33 为 0/3，未取得稳定或官方成绩，见 [最新 Office 记录](docs/evidence/2026-10-10-office-progress/README.md)；OSWorld 2 仍为长流程设计参考。以上为旧 Agent 的历史成绩，不替代当前 Runtime 自主业务评测。接入边界见 [测试集接入计划](docs/BENCHMARK-PLAN.md)。
 
 ### Jev 决策入口
 
@@ -387,7 +389,7 @@ Follow the [shared status and pending work](docs/progress/STATUS.md): macOS phys
 
 ### Computer Use benchmarks
 
-WindowsAgentArena preparation includes a pinned revision, 154 task files and a proposed five-task native pilot. Three additional Explorer/Notepad tasks have now run through the real Planner → Jev → UIA loop in the ARM64 VM, with independent checks using pinned evaluator functions. The [report](docs/P5-WAA-LONGCHAIN.md) preserves every attempt. These development runs adapt the environment and paths and do not provide official leaderboard scores. The original five-task pilot has run; its [report](docs/P5-WAA-PILOT.md) records steps, intermediate checks, scoring and failures. WindowsWorld and OSWorld 2 inform the design. See the [integration plan](docs/BENCHMARK-PLAN.md).
+WindowsAgentArena preparation includes a pinned revision, 154 task files and a proposed five-task native pilot. Three additional Explorer/Notepad tasks have now run through the real Planner → Jev → UIA loop in the ARM64 VM, with independent checks using pinned evaluator functions. The [report](docs/P5-WAA-LONGCHAIN.md) preserves every attempt. These development runs adapt the environment and paths and do not provide official leaderboard scores. The original five-task pilot has run; its [report](docs/P5-WAA-PILOT.md) records steps, intermediate checks, scoring and failures. WindowsWorld Office tasks have also run in the adapted macOS environment: r28/r30 each passed 3/3, while the latest complete r33 scored 0/3; see [latest Office evidence](docs/evidence/2026-10-10-office-progress/README.md). These legacy-agent results do not validate the current Runtime with autonomous tasks. OSWorld 2 remains a design reference. See the [integration plan](docs/BENCHMARK-PLAN.md) and [new evaluation plan](docs/TEST-STRENGTHENING-PLAN.md).
 
 ### Jev decision entry point
 

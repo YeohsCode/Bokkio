@@ -1,5 +1,7 @@
 # Computer Use 测试集接入 / Benchmark integration
 
+2026-10-12 状态说明：下文保留旧 Agent 的接入与历史准备记录。当前 Runtime 的自主业务加强方案见 [新计划](TEST-STRENGTHENING-PLAN.md)；WindowsWorld Office 已完成后续 macOS 适配实跑，r28/r30 各 3/3、最新完整轮 r33 为 0/3，原始 VLM 未运行，见 [最新证据](evidence/2026-10-10-office-progress/README.md)。历史“未开始”只表示对应准备时点，不是当前状态。
+
 ## 结论
 
 **Windows P5 阶段验收后，可以开始外部测试集的原生 UIA 子集；不必等待 P6 Recorder。** P7 增加视觉能力后再扩大覆盖。当前已实际进入 P6 录制/重放，WAA 开发评分与完整官方环境验收分别记录，未取得可比较的官方榜单成绩。

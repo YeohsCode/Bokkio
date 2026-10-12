@@ -6,6 +6,8 @@
 2. 使用项目 uv.lock 安装，Runtime 主线不需要模型 API Key。策略模板 examples/runtime-policy.json 默认为拒绝，按本机实际测试资源配置。
 3. 选取一个待办 ID，在状态中注明平台和进行中；完成后补充结果、失败、修订和证据路径。避免两端同时修改相同代码文件；推送前拉取并处理冲突。
 
+新业务评测按 [测试加强计划](../TEST-STRENGTHENING-PLAN.md) 和 test-strengthening.json 的 EVAL-01～08 接续。先冻结题目/输入/评分/预算，再准备薄 runner；不要沿用 verify_harness_clients.py 的精确代码提示作为自主任务。GUI/any-tool、首次/修复后、macOS/Windows 分轨计数；当前这些工作包均未开始。
+
 ## macOS
 
 ```sh
