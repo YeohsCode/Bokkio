@@ -6,7 +6,7 @@ A model-independent computer use runtime for Windows and macOS: native/pixel act
 
 **工作候选版本 / Working candidate:** `0.2.0` — 通用执行 Core，MCP、CLI、Python SDK、生成代码、Browser、审批、可查询统计的操作日志。
 
-**2026-10-12 状态：** 主机回归 **550/550**；macOS 原生字段、视觉中文输入/图标点击、代码和 Browser 各有 **3/3** 验证。新增真实进程故障 **5/5**、本机窗口/作业矩阵 **18/18**、Numbers/MCP 开发样本 **3/3**；新增原生/SQLite 审计合同 **9/9**；客户应用、客户 Harness 和 Windows 当前 Runtime 待验收。当前聚焦 macOS，Windows 可在另一台电脑接续。
+**2026-10-12 状态：** 主机回归 **550/550**；macOS 原生字段、视觉中文输入/图标点击、代码和 Browser 各有 **3/3** 验证。新增真实进程故障 **5/5**、本机窗口/作业矩阵 **18/18**、Numbers/MCP 开发样本 **3/3**；新增原生/SQLite 审计合同 **9/9**；新增用户指定三种开发调用方的选定路径 **3/3** 通过（当前 Codex MCP bridge；Hermes/DeepSeek 的 MCP 代码 → SDK 组合）；客户应用、客户部署/人工审批和 Windows 当前 Runtime 待验收。当前聚焦 macOS，Windows 可在另一台电脑接续。
 
 **跨环境 Agent 共享入口 / Shared handoff:** [计划、进度、完成度与待办](docs/progress/README.md) · [结构化状态](docs/progress/state.json) · [接续步骤](docs/progress/HANDOFF.md)。这些文档和脱敏验收报告由 Git 跟踪；每端完成工作后更新并推送。
 
@@ -22,7 +22,7 @@ A model-independent computer use runtime for Windows and macOS: native/pixel act
 
 Bokkio 为企业提供通用 Computer Use 执行工具。调用方的 Harness、Agent IDE 或 Agent 负责理解任务、选择通道和判断业务结果；Bokkio 负责获准资源上的观察、原生/视觉动作、生成代码/脚本、Browser、审批与操作证据。Core 不依赖固定模型或业务流程，DeepSeek Harness 是可选调用方。
 
-macOS 开发覆盖计划中的四类能力：原生、视觉、生成代码组合、Browser。客户应用类待确定，完整故障矩阵和客户 Agent 接入待验收。Windows 新 Runtime 已提供实现及安装脚本，当前实机验收尚未完成；先前保存的 VM 凭据已找回并成功登录。
+macOS 开发覆盖计划中的四类能力：原生、视觉、生成代码组合、Browser。客户应用类待确定，物理环境矩阵和客户部署/人工审批待验收。Windows 新 Runtime 已提供实现及安装脚本，当前实机验收尚未完成；先前保存的 VM 凭据已找回并成功登录。
 
 最新定位和三天交付门槛见 [实施计划](docs/PLAN-REPOSITIONING.md)，完成度及剩余工作统一维护在 [共享进度](docs/progress/STATUS.md)。统计分母是开发能力覆盖，不表示通用软件成功率或双平台生产验收完成。
 
@@ -168,7 +168,7 @@ ref 是基于当前结构的引用。TextEdit、系统设置和固定应用的�
 
 ### 后续工作
 
-当前按 [共享待办](docs/progress/STATUS.md) 执行：macOS 故障矩阵、客户应用任务、客户 Harness 接入，以及 Windows 独立实机验收。原 Office/Workflow 任务保留为历史诊断与可选回归，不持续向 Core 添加应用业务规则。
+当前按 [共享待办](docs/progress/STATUS.md) 执行：macOS 物理环境矩阵、客户应用任务、客户部署/人工审批，以及 Windows 独立实机验收；三种开发调用方的路径与限制见 [Harness 实测](docs/evidence/2026-10-12-harness/README.md)。原 Office/Workflow 任务保留为历史诊断与可选回归，不持续向 Core 添加应用业务规则。
 
 ### Computer Use 测试集
 
@@ -251,7 +251,7 @@ uv run python scripts/verify_native.py --output /tmp/bokkio-evidence
 
 Bokkio is an enterprise computer use execution tool. External harnesses, Agent IDEs and agents plan tasks and choose channels; the shared Core observes and acts on approved resources, runs generated code/scripts, controls an isolated browser, and records approvals and operation evidence. No model or application-specific planning loop is required.
 
-As of 2026-10-12, host regression passes **550/550**. Real process faults pass 5/5, the local desktop/job matrix scores 18/18, and the unadapted Numbers/MCP development sample passes 3/3. The native/SQLite audit contract passes 9/9; physical lock/display and customer acceptance remain pending. macOS has development evidence for native actions, pixel/Unicode input, generated-code combinations and browser operations. Customer application tasks, the complete physical fault matrix and customer Agent integration remain pending. Current-runtime Windows live acceptance is pending; the saved VM credentials were recovered and login succeeded.
+As of 2026-10-12, host regression passes **550/550**. Real process faults pass 5/5, the local desktop/job matrix scores 18/18, and the unadapted Numbers/MCP development sample passes 3/3. The native/SQLite audit contract passes 9/9; physical lock/display and customer acceptance remain pending. macOS has development evidence for native actions, pixel/Unicode input, generated-code combinations and browser operations. Three user-selected developer caller paths pass independent acceptance: current Codex through an official MCP client bridge, and installed Hermes/DeepSeek through MCP code.run plus delegated native SDK calls (GLM 5.3 Flash). Native Codex CLI attachment and DeepSeek per-model-turn native calls have separate unresolved results; see [harness evidence](docs/evidence/2026-10-12-harness/README.md). Customer application tasks, physical environment checks and deployment/manual approval remain pending. Current-runtime Windows live acceptance is pending; the saved VM credentials were recovered and login succeeded.
 
 Use the [shared progress folder](docs/progress/README.md) for the plan, completion counts, pending work and cross-environment handoff. These documents and sanitized evidence are tracked in Git. The candidate is not yet a fully accepted dual-platform release.
 

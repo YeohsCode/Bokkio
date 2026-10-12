@@ -16,7 +16,7 @@
 | Browser | 开发通过；最终包 3/3，持久页面及 origin 拒绝 | 待实机验收 |
 | 未专门适配的客户应用 | 待客户任务；Calculator 3/3 仅为系统样本 | 待客户任务及实机验收 |
 
-按能力类别覆盖计，macOS 开发通过 4/5、Windows 新 Runtime 0/5；不能换算为计划要求的最终任务成功率。macOS 还需要客户应用、完整故障矩阵及客户 Agent 接入；尚不满足最终 14/15 和 8/8 门槛。
+按能力类别覆盖计，macOS 开发通过 4/5、Windows 新 Runtime 0/5；不能换算为计划要求的最终任务成功率。macOS 还需要客户应用、物理环境矩阵及客户部署/人工审批；尚不满足最终 14/15 和 8/8 门槛。
 
 主机回归 550/550；官方 MCP client、CLI 和 SDK 已连通；管理员审批、代码执行和日志导出对账通过。最终独立 wheel 验证有 23 个工具、115 个事件、36 个逻辑操作，3 条生成代码父子关联。证据见 [摘要目录](../evidence/2026-10-11-runtime/README.md)。
 
@@ -39,7 +39,7 @@
 - Numbers 本地保存/关闭/重开 **1/3**：名称字段先聚焦并在写入后移出焦点，确认实际工作表标签；保存后关闭并重开，名称与单元格值正确。目录选择由 CUA 作准备，保存/关闭/重开由 Bokkio；不称纯 Bokkio 全流程。
 - 另外两份 Numbers 样本目前被系统授权窗口挡住；两次激活均未派发目标输入。只读 AppleScript 探针曾超时并遇到取消 PermissionError，进程已结束，没有接受新的系统权限。仍可在关闭/拒绝系统窗口后走原生路线。
 
-剩余 macOS 项目：真实锁屏/解锁、第二显示器或其他缩放、另外两份本地持久化样本、客户指定应用任务、客户实际 Harness。Windows 与最终双平台发行继续单列。明细见 state.json。
+剩余 macOS 项目：真实锁屏/解锁、第二显示器或其他缩放、另外两份本地持久化样本、客户指定应用任务、客户部署及人工审批。三种开发调用方已按下文路径验收。Windows 与最终双平台发行继续单列。明细见 state.json。
 
 ## 平台安排
 
@@ -51,8 +51,16 @@
 
 1. MAC-01：本机矩阵已 18/18；剩余真实锁屏/解锁、第二显示器/不同缩放。
 2. CLIENT-01：Numbers 自主开发样本已通过，仍需客户提供一个未参与核心调优的应用、可丢弃测试数据和独立判定条件，先完成 macOS 三轮。
-3. HARNESS-01：当前 Codex/MCP 开发调用已通过；仍需客户实际 Harness/Agent IDE 完成 MCP 读取、审批挂起/继续、动作与证据获取；官方 SDK client 成绩单列。
+3. HARNESS-01：用户指定三种开发调用方的选定路径已 **3/3** 通过；当前 Codex 用 official MCP client bridge，当前 Hermes 与 DeepSeek 用 MCP code.run → 委派 SDK 原生动作。每种一份完整样本，审批为独立 fixture 管理员自动批准。Codex CLI 当前模型不兼容、DeepSeek 逐回合原生过期失败仍单列；客户实际部署与人工审批耗时尚待验收。
 4. WIN-01：另一台 Windows 电脑安装并验证 UIA、截图、鼠键、PowerShell 中文、取消、Browser、MCP/SDK、审批和日志。
 5. RELEASE-01：完成两端固定版本矩阵，再确认客户支持环境和发行范围。
 
 当前代码执行为明确授权的 trusted-host；OS 沙箱、远程 fleet、多租户 SSO、防篡改集中日志、签名安装器及离线依赖镜像不在已完成范围。详情见 [指南](../RUNTIME-GUIDE.md) 和 [交付报告](../RUNTIME-DELIVERY.md)。
+
+## 用户指定的三种开发调用方
+
+2026-10-12 实际运行当前 Codex、已安装 Hermes（0.21.6+311.g2af85c3）和 DeepSeek Python SDK/runtime 0.1.5rc1。DeepSeek 与 Hermes 使用既有 OpenRouter 路由 z-ai/glm-5.3-flash，key 只在内存与子进程环境中使用；Core 没有新增模型依赖。三种选定路径各一份完整样本，通过调用方覆盖 **3/3**；不是每种连续三轮，也不合并为客户生产成功率。
+
+当前 Codex bridge r7、Hermes sdk-code r8、DeepSeek sdk-code r6 均真实完成原生 Search 写入和 CSV；独立 fixture 业务 JSON/CSV 核验、两项 consumed 审批、作业完成及 audit/metrics/产物读取均通过。两种 sdk-code 路径各有 6 次子请求父操作关联。MCP schema 现在对会话工具声明 session_id 必填并解释参数层级；主机回归保持 **550/550**。
+
+失败与恢复完整保留：DeepSeek 的直接逐回合原生路径受 15 秒观察时效拒绝；Hermes 原生 r2 通过，修复后 r7 实际业务完成但 CLI exit 1，未计整体成功。Codex 桌面 CLI 0.142.0 不接受当前配置模型，当前会话 bridge 不等于 CLI 原生挂载通过。没有放宽观察时效或关闭审批；客户人工审批尚未实测。详细版本、路径、失败轮次和脱敏摘要见 [Harness 证据](../evidence/2026-10-12-harness/README.md)。

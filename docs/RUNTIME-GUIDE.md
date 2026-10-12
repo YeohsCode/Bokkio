@@ -121,6 +121,10 @@ uv run python scripts/build_native_fixture.py --source fixtures/cocoa-runtime/ma
 
 examples/mcp_call.py 通过官方 MCP SDK 执行单次工具调用，并可跨 stdio 连接复用持久 session。scripts/verify_runtime_mcp_native.py 接受 app、精确 window、实际节点 match、写入 value 与独立 readback 的任务清单，不包含应用业务分支。模板见 examples/mcp-native-task.json。默认把挂起请求保存给独立管理员；观察过期后必须新观察、新请求和新批准。仅自有可丢弃 fixture 可显式使用 --approve-owned-fixture 自动化验证管理员入口，此成绩不等同于客户人工审批。
 
+MCP 工具使用统一 envelope：`{"arguments": {"业务字段": "值"}, "session_id": "session.open 返回的 ID", "operation_id": "调用方唯一 ID"}`。session_id、operation_id 与 arguments 同级；除了 capabilities/session.open，其他工具的 schema 明确要求 session_id。不能把 session_id 放进业务字段，也不能省略后不断重复同一个拒绝请求。
+
+三种用户指定开发调用方及复跑方式见 [Harness 实测](evidence/2026-10-12-harness/README.md)。耗时不稳定的模型可经 MCP code.run 提交明确批准的程序，通过 Client.from_environment() 组合观察/动作/读回，再让 Agent 获取 job/evidence/artifact/audit/metrics。SDK 子调用仍保留原生审批、15 秒观察时效与父操作关联；代码审批不自动覆盖子动作审批。本次子动作管理员自动批准的成绩不能替代人工耗时测试。Core 没有增加 Harness 或模型依赖。
+
 重复请求会记录 request.cached，不再次派发；缓存内容仍需要有效且同 OS 用户的 session。会话关闭或过期后，原 operation_id 不能绕过读取边界。metrics 的 attempts 统计所有接收/缓存/拒绝调用，execution_attempts 为进入处理的 request.received；cached_responses、rejected_requests 分别计数，logical_operations 与 known_dispatched 不因缓存命中增加。
 
 scripts/verify_runtime_audit.py 在自有原生 fixture 和真实 SQLite 上验证审计合同，明确区分 SQL/过期注入与未运行的物理锁屏。native verified 通常确认当前控件属性；编辑器可能还要求结束编辑后才更新业务模型，应独立检查业务标签、保存并重开。应用自己的默认保存位置和云同步不受 Core 文件工具路径检查拦截，测试初始化时核对位置；本轮只使用自有合成数据。

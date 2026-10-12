@@ -13,13 +13,13 @@ def build():
     files += sorted((project / "src/bokkio").glob("*.py"))
     files += sorted((project / "src/bokkio/native").glob("*.swift"))
     files += sorted((project / "examples").glob("*.py")) + sorted((project / "examples").glob("*.json"))
-    files += [project / "scripts" / name for name in ("install_runtime.sh", "install_runtime.ps1", "verify_runtime.py", "verify_runtime_visual.py", "verify_runtime_faults.py", "verify_runtime_audit.py", "verify_runtime_mcp_native.py", "build_native_fixture.py", "build_runtime_bundle.py")]
+    files += [project / "scripts" / name for name in ("install_runtime.sh", "install_runtime.ps1", "verify_runtime.py", "verify_runtime_visual.py", "verify_runtime_faults.py", "verify_runtime_audit.py", "verify_runtime_mcp_native.py", "verify_harness_clients.py", "build_native_fixture.py", "build_runtime_bundle.py")]
     files += [project / "tests" / name for name in ("test_runtime.py", "test_runtime_transports.py", "test_runtime_jobs.py")]
     files += [project / "docs" / name for name in ("RUNTIME-GUIDE.md", "RUNTIME-DELIVERY.md", "PLAN-REPOSITIONING.md")]
     files += sorted((project / "docs/progress").glob("*.md")) + sorted((project / "docs/progress").glob("*.json"))
     # Explicit public/sanitized evidence only; legacy runtime directories may
     # have different privacy and checksum conventions.
-    for name in ("2026-10-11-runtime", "2026-10-12-runtime-macos"):
+    for name in ("2026-10-11-runtime", "2026-10-12-runtime-macos", "2026-10-12-harness"):
         evidence = project / "docs/evidence" / name
         files += sorted(evidence.glob("*.json"))
         files += [evidence / name for name in ("README.md", "SHA256SUMS")]

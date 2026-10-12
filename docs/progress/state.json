@@ -70,7 +70,30 @@
       "vm_login": "verified_2026-10-11",
       "next_environment": "user_windows_computer"
     },
-    "final_matrix_complete": false
+    "final_matrix_complete": false,
+    "development_harnesses": {
+      "selected": [
+        "current_codex",
+        "current_system_hermes",
+        "deepseek_harness"
+      ],
+      "passed_callers": 3,
+      "total_callers": 3,
+      "samples_per_selected_path": 1,
+      "selected_paths": {
+        "current_codex": "official_mcp_stdio_client_bridge_direct_native_and_code",
+        "current_system_hermes": "mcp_code_run_delegated_sdk_native",
+        "deepseek_harness": "mcp_code_run_delegated_sdk_native"
+      },
+      "glm_model": "z-ai/glm-5.3-flash",
+      "approval_mode": "independent_exact_request_automated_fixture_admin",
+      "customer_human_approval_tested": false,
+      "codex_native_cli_mcp_passed": false,
+      "deepseek_direct_native_turn_loop_passed": false,
+      "hermes_direct_native_prior_passed": true,
+      "source_base_revision": "8a94cfa",
+      "evidence": "docs/evidence/2026-10-12-harness/results.json"
+    }
   },
   "pending": [
     {
@@ -107,9 +130,24 @@
     {
       "id": "HARNESS-01",
       "platform": "both",
-      "status": "development_mcp_loop_passed_needs_customer_harness",
-      "task": "Customer Harness MCP approval/action/evidence loop",
-      "development_evidence": "Current Codex via official MCP client bridge; generic manifest 3/3; explicit automated fixture admin approval"
+      "status": "development_selected_three_callers_complete_with_path_limits",
+      "task": "User-selected Codex/Hermes/DeepSeek developer integrations; customer deployment approval loop remains",
+      "development_evidence": "3/3 selected caller paths independently checked: current Codex MCP client bridge; current Hermes and DeepSeek MCP code.run -> delegated SDK native. All native/CSV checks, consumed approvals, completed jobs and audit/metrics pass.",
+      "completed": [
+        "three_user_selected_development_callers",
+        "glm_5_3_flash_route_from_existing_private_hermes_config",
+        "required_mcp_session_schema",
+        "independent_native_csv_approval_audit_checks"
+      ],
+      "remaining": [
+        "customer_environment_and_manual_approval_loop"
+      ],
+      "known_limits": [
+        "codex_current_model_unsupported_by_bundled_cli_native_mcp",
+        "deepseek_direct_native_per_model_turn_observation_expiry",
+        "hermes_native_r7_business_completed_but_cli_exit_1"
+      ],
+      "evidence": "docs/evidence/2026-10-12-harness/README.md"
     },
     {
       "id": "WIN-01",
@@ -129,5 +167,6 @@
         "source_and_examples"
       ]
     }
-  ]
+  ],
+  "harness_evidence": "docs/evidence/2026-10-12-harness/README.md"
 }

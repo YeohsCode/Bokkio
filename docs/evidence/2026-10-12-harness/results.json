@@ -1,0 +1,389 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-12",
+  "scope": "user_selected_development_harnesses_owned_disposable_native_and_csv_fixture",
+  "base_revision": "8a94cfa",
+  "source_sha256": {
+    "src/bokkio/mcp_server.py": "63a24f87c9498e488c7c087d74ff9d4dff3e989f376555ecd0be030ab345f868",
+    "tests/test_runtime_transports.py": "d056d2f1379bf5c4a34b7f3b983fe63315f7ea8a4f86f7cd1c5dd5d7c9991bce",
+    "scripts/verify_harness_clients.py": "fd96773d245774df0d70652f69f8c24b32b4d9dcb3672abddd225fa1f9f5f973"
+  },
+  "passed_callers": 3,
+  "selected_callers": 3,
+  "samples_per_selected_path": 1,
+  "host_regression": {
+    "passed": 550,
+    "total": 550
+  },
+  "model_route": {
+    "provider": "existing_Hermes_OpenRouter_route",
+    "model": "z-ai/glm-5.3-flash",
+    "model_catalog_verified": true,
+    "credentials": "resolved_in_memory_from_existing_private_config_injected_only_into_child_environment"
+  },
+  "results": [
+    {
+      "client": "codex-current",
+      "model": "current_Codex_conversation",
+      "exit_code": 0,
+      "duration_seconds": 64.816,
+      "native_independent_readback": true,
+      "csv_independent_check": true,
+      "approval_controller": true,
+      "tool_coverage": [
+        "approval.status",
+        "artifact.read",
+        "audit.query",
+        "capabilities",
+        "code.run",
+        "desktop.act",
+        "desktop.observe",
+        "evidence.check",
+        "job.get",
+        "metrics.summary",
+        "session.open"
+      ],
+      "missing_tools": [],
+      "audit_kinds": [
+        "approval.approved",
+        "approval.consumed",
+        "approval.requested",
+        "execution.finished",
+        "execution.intent",
+        "job.finished",
+        "job.started",
+        "request.received",
+        "session.opened"
+      ],
+      "passed": true,
+      "approval_states": [
+        "consumed",
+        "consumed"
+      ],
+      "job_states": [
+        "completed"
+      ],
+      "generated_code_parent_links": 0,
+      "approval_mode": "independent_exact_request_automated_fixture_admin",
+      "credential_exported": false,
+      "native_channel": "direct_mcp",
+      "caller_transport": "current_agent_official_stdio_client_bridge",
+      "operation_status_counts": {
+        "completed": 12,
+        "verified": 1,
+        "executed": 1
+      },
+      "event_count": 55,
+      "logical_operation_count": 14,
+      "judge_includes_session_close": true,
+      "round": "r7",
+      "collector_reconciled_from_private_db": true,
+      "version": "current desktop conversation; configured gpt-6.1-sol; bundled CLI 0.142.0 tested separately",
+      "reported_model_tokens": null,
+      "csv_sha256": "16b3c50b3c1d33879fbdf5053bfe921d6bfdbeb1c86010403e0d5603ad536b91",
+      "approved_code_sha256": "286af2d4c2ecfe5b1bfcdfb589a794e4ca6df3e06906a789c4ab6d74ce45541f"
+    },
+    {
+      "client": "hermes",
+      "model": "z-ai/glm-5.3-flash",
+      "exit_code": 0,
+      "duration_seconds": 88.914,
+      "native_independent_readback": true,
+      "csv_independent_check": true,
+      "approval_controller": true,
+      "tool_coverage": [
+        "approval.status",
+        "artifact.read",
+        "audit.query",
+        "capabilities",
+        "code.run",
+        "desktop.act",
+        "desktop.observe",
+        "evidence.check",
+        "job.get",
+        "metrics.summary",
+        "session.open"
+      ],
+      "missing_tools": [],
+      "audit_kinds": [
+        "approval.approved",
+        "approval.consumed",
+        "approval.requested",
+        "execution.finished",
+        "execution.intent",
+        "job.finished",
+        "job.started",
+        "request.received",
+        "session.opened"
+      ],
+      "passed": true,
+      "approval_states": [
+        "consumed",
+        "consumed"
+      ],
+      "job_states": [
+        "completed"
+      ],
+      "generated_code_parent_links": 6,
+      "approval_mode": "independent_exact_request_automated_fixture_admin",
+      "credential_exported": false,
+      "native_channel": "generated_code_delegated_sdk",
+      "caller_transport": "installed_harness_mcp_stdio",
+      "operation_status_counts": {
+        "completed": 13,
+        "executed": 1,
+        "verified": 1
+      },
+      "event_count": 58,
+      "logical_operation_count": 15,
+      "judge_includes_session_close": true,
+      "round": "r8",
+      "collector_reconciled_from_private_db": true,
+      "version": "0.21.6+311.g2af85c3 (2026.9.24); upstream dc140b70",
+      "reported_model_tokens": {
+        "input": 29568,
+        "output": 5421,
+        "total": 104109,
+        "cache_read": 69120,
+        "cache_write": 0
+      },
+      "csv_sha256": "788dbcc39a5a2de9b23fa8ac98064997911aea67d955239650e05186091048a5",
+      "approved_code_sha256": "b4075dbaab8813723b2f3b5e446cbc89a47fdbcf1bb89a97249abc041a3a88a1"
+    },
+    {
+      "client": "deepseek",
+      "model": "z-ai/glm-5.3-flash",
+      "exit_code": 0,
+      "duration_seconds": 46.268,
+      "native_independent_readback": true,
+      "csv_independent_check": true,
+      "approval_controller": true,
+      "tool_coverage": [
+        "approval.status",
+        "artifact.read",
+        "audit.query",
+        "capabilities",
+        "code.run",
+        "desktop.act",
+        "desktop.observe",
+        "evidence.check",
+        "job.get",
+        "metrics.summary",
+        "session.open"
+      ],
+      "missing_tools": [],
+      "audit_kinds": [
+        "approval.approved",
+        "approval.consumed",
+        "approval.requested",
+        "execution.finished",
+        "execution.intent",
+        "job.finished",
+        "job.started",
+        "request.received",
+        "session.opened"
+      ],
+      "passed": true,
+      "approval_states": [
+        "consumed",
+        "consumed"
+      ],
+      "job_states": [
+        "completed"
+      ],
+      "generated_code_parent_links": 6,
+      "approval_mode": "independent_exact_request_automated_fixture_admin",
+      "credential_exported": false,
+      "native_channel": "generated_code_delegated_sdk",
+      "caller_transport": "installed_harness_mcp_stdio",
+      "operation_status_counts": {
+        "completed": 13,
+        "executed": 1,
+        "verified": 1
+      },
+      "event_count": 58,
+      "logical_operation_count": 15,
+      "judge_includes_session_close": true,
+      "round": "r6",
+      "collector_reconciled_from_private_db": true,
+      "versions": {
+        "deepseek-harness-sdk": "0.1.5rc1",
+        "deepseek-harness-runtime-bin": "0.1.5rc1"
+      },
+      "profile": "sdk-minimal; llm-pi-ai + mcp-client patch; default bash/pwsh/direct DeepSeek adapter disabled",
+      "model_tool_calls": 10,
+      "model_tool_errors": 0,
+      "reported_model_tokens": null,
+      "csv_sha256": "0f9fe32ebcf58d19d284ca380ff5eab4fd5603124ffaa367afb856f4581b5c6f",
+      "approved_code_sha256": "9e86246d8a105116424747ae4e60e20bb60672b9f01723a6dee60dea2590d619"
+    }
+  ],
+  "history": [
+    {
+      "round": "r1",
+      "client": "hermes",
+      "passed": false,
+      "exit_code": 1,
+      "duration_seconds": 37.59,
+      "native_independent_readback": false,
+      "csv_independent_check": false,
+      "missing_tools": [
+        "artifact.read",
+        "audit.query",
+        "capabilities",
+        "code.run",
+        "desktop.act",
+        "desktop.observe",
+        "evidence.check",
+        "job.get",
+        "metrics.summary",
+        "session.open"
+      ]
+    },
+    {
+      "round": "r1",
+      "client": "deepseek",
+      "passed": false,
+      "exit_code": 1,
+      "duration_seconds": 3.769,
+      "native_independent_readback": false,
+      "csv_independent_check": false,
+      "missing_tools": [
+        "artifact.read",
+        "audit.query",
+        "capabilities",
+        "code.run",
+        "desktop.act",
+        "desktop.observe",
+        "evidence.check",
+        "job.get",
+        "metrics.summary",
+        "session.open"
+      ]
+    },
+    {
+      "round": "r1",
+      "client": "codex",
+      "passed": false,
+      "exit_code": 1,
+      "duration_seconds": 8.101,
+      "native_independent_readback": false,
+      "csv_independent_check": false,
+      "missing_tools": [
+        "artifact.read",
+        "audit.query",
+        "capabilities",
+        "code.run",
+        "desktop.act",
+        "desktop.observe",
+        "evidence.check",
+        "job.get",
+        "metrics.summary",
+        "session.open"
+      ]
+    },
+    {
+      "round": "r2",
+      "client": "hermes",
+      "passed": true,
+      "exit_code": 0,
+      "duration_seconds": 93.524,
+      "native_independent_readback": true,
+      "csv_independent_check": true,
+      "missing_tools": []
+    },
+    {
+      "round": "r2",
+      "client": "deepseek",
+      "passed": false,
+      "exit_code": 1,
+      "duration_seconds": 1.73,
+      "native_independent_readback": false,
+      "csv_independent_check": false,
+      "missing_tools": [
+        "artifact.read",
+        "audit.query",
+        "capabilities",
+        "code.run",
+        "desktop.act",
+        "desktop.observe",
+        "evidence.check",
+        "job.get",
+        "metrics.summary",
+        "session.open"
+      ]
+    },
+    {
+      "round": "r3",
+      "client": "deepseek",
+      "passed": false,
+      "exit_code": 124,
+      "duration_seconds": 270.018,
+      "native_independent_readback": false,
+      "csv_independent_check": false,
+      "missing_tools": [
+        "artifact.read",
+        "audit.query",
+        "code.run",
+        "evidence.check",
+        "job.get",
+        "metrics.summary"
+      ]
+    },
+    {
+      "round": "r4",
+      "client": "deepseek",
+      "passed": false,
+      "exit_code": 0,
+      "duration_seconds": 41.99,
+      "native_independent_readback": true,
+      "csv_independent_check": false,
+      "missing_tools": [
+        "artifact.read"
+      ]
+    },
+    {
+      "round": "r7",
+      "client": "codex-current",
+      "passed": true,
+      "exit_code": 0,
+      "duration_seconds": 64.816,
+      "native_independent_readback": true,
+      "csv_independent_check": true,
+      "missing_tools": []
+    },
+    {
+      "round": "r7",
+      "client": "hermes",
+      "passed": false,
+      "exit_code": 1,
+      "duration_seconds": 196.694,
+      "native_independent_readback": true,
+      "csv_independent_check": true,
+      "missing_tools": []
+    },
+    {
+      "round": "r5",
+      "client": "deepseek",
+      "passed": false,
+      "exit_code": -15,
+      "reason": "Stopped isolated process after repeated zero-dispatch calls missing session_id; collector initially encountered absent jobs table."
+    }
+  ],
+  "limits": [
+    "not_customer_human_approval",
+    "not_customer_application_acceptance",
+    "not_windows_acceptance",
+    "codex_native_cli_mcp_not_passed_current_model",
+    "deepseek_direct_native_per_model_turn_not_passed_observation_expiry",
+    "Hermes_r7_native_business_completed_but_cli_exit_1",
+    "not_three_consecutive_samples_per_caller"
+  ],
+  "credential_material_included": false,
+  "source_provenance_note": "Runtime MCP source unchanged across selected r6/r7/r8 paths; harness-runner fingerprint is the final published revision. Parent counters independently reconciled from private databases.",
+  "privacy_review": {
+    "configured_key_exact_match": false,
+    "gitleaks_public_review": "no_leaks_found",
+    "raw_traces_committed": false
+  }
+}

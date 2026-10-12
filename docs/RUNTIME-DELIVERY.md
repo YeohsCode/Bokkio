@@ -42,7 +42,7 @@
 
 2026-10-12：真实进程故障 5/5，本机完整窗口/作业矩阵 16/18；两项正向像素动作被系统通知挡住且零派发。修复忽略 SIGTERM 的残留子进程、worker 丢失后的长期 running、输入锁等待期间会话变化，以及审批轮询不更新过期状态。新增自包含原生 fixture、通用 MCP manifest runner 与单次 MCP 调用入口；原生/代码/Browser 和 manifest 字段分别三轮通过。Numbers 未增加 Core 应用规则的 MCP 开发样本 3/3，独立读回且源 CSV 未变。详见 [续测证据](evidence/2026-10-12-runtime-macos/README.md)。
 
-当前 Codex 通过官方 MCP client bridge 的闭环与开发管理员审批已验证；客户实际 Harness 和业务任务仍待指定。当前只有一个显示器、scale=1，真实锁屏往返及其他显示器/缩放未运行。
+当前 Codex 通过官方 MCP client bridge 的闭环与开发管理员审批已验证；用户指定的三种开发调用方已按下文选定路径验收；客户业务任务、实际部署和人工审批仍待验收。当前只有一个显示器、scale=1，真实锁屏往返及其他显示器/缩放未运行。
 
 ## 尚需完成的交付验收
 
@@ -53,4 +53,10 @@
 
 本版本采用明确授权的 trusted-host 执行，不提供独立 OS 代码沙箱、多租户 SSO 或防篡改集中审计；本地同用户执行权限的边界见指南。旧 `bokkio` Agent/Workflow 开发入口不纳入新执行边界。依赖锁定和安装脚本已提供，离线依赖镜像/原生签名安装器尚未声明完成。
 
-2026-10-12 后续：4d62a13 固定代码的窗口/作业 r8 18/18、视觉 r9 3/3；新审计合同 r2 9/9，修复缓存读取会话边界与请求统计。Numbers 本地保存/关闭/重开 1/3，CUA 仅作目录准备；两份继续验收需先关闭系统授权窗口。实际锁屏、其他显示器/缩放、客户任务与 Harness 仍未完成。
+2026-10-12 后续：4d62a13 固定代码的窗口/作业 r8 18/18、视觉 r9 3/3；新审计合同 r2 9/9，修复缓存读取会话边界与请求统计。Numbers 本地保存/关闭/重开 1/3，CUA 仅作目录准备；两份继续验收需先关闭系统授权窗口。实际锁屏、其他显示器/缩放、客户任务与生产部署/人工审批仍未完成。
+
+## 三种实际 Harness 开发验收
+
+用户指定当前 Codex、当前系统 Hermes、DeepSeek Harness。选定路径覆盖 **3/3**（每种一份完整样本）：Codex 当前会话通过官方 MCP stdio client bridge 直接原生/代码调用；Hermes 和 DeepSeek 经 MCP code.run → 委派 SDK 原生动作。后两者均使用 Hermes 现有 OpenRouter GLM 5.3 Flash 路由，凭据仅在内存/进程环境中使用。
+
+全部路径有 fixture 业务 JSON 与 CSV 独立核验、两项 consumed 审批、completed job、artifact/audit/metrics；SDK 子请求有父操作关联。MCP 会话 schema 的必填字段已修复，回归仍为 550/550。实际版本与全部失败轮次见 [证据](evidence/2026-10-12-harness/README.md)。Codex CLI 当前模型不兼容、DeepSeek 直接逐模型回合原生过期失败、Hermes 原生复验业务完成但 CLI exit 1 单列保留；不能用组合路径成功覆盖这些限制。审批是精确请求的独立 fixture 管理员自动批准，客户人工审批耗时未验收。

@@ -31,6 +31,8 @@ uv run python scripts/verify_runtime_visual.py --fixture /ABS/PATH/Test.app/Cont
 
 原生/代码/Browser 验收使用 scripts/verify_runtime.py。审计合同使用 scripts/verify_runtime_audit.py --fixture NATIVE_EXECUTABLE --output NEWDIR。窗口/作业故障使用 scripts/verify_runtime_faults.py --fixture VISUAL_EXECUTABLE --output NEWDIR，显式记录屏幕锁、显示器及前台阻塞。MCP 字段闭环使用 scripts/verify_runtime_mcp_native.py；examples/mcp-native-task.json 提供自有原生 fixture 模板，先配置本机 policy。自动管理员审批只有显式 --approve-owned-fixture 才启用，不能代替客户人工审批。
 
+用户已指定当前 Codex、系统 Hermes、DeepSeek Harness 三种开发调用方，见 [Harness 证据](../evidence/2026-10-12-harness/README.md)。scripts/verify_harness_clients.py 只做自有 fixture 验收；原生逐回合路径与 sdk-code 组合路径分别记录。DeepSeek 测试环境使用官方 SDK 0.1.5rc1，自带 native runtime，不新增 Core 模型依赖。本 Mac 的 Hermes 配置 key 仅在内存中读取并注入进程；其他环境使用自己的私有配置，不复制 key 到公共文件。Codex CLI 当前模型兼容性失败，与当前会话 MCP bridge 通过单列。
+
 ## Windows
 
 在已登录的交互桌面上，从 Git checkout 启动 PowerShell：

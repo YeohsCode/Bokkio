@@ -27,6 +27,14 @@ def test_official_mcp_client_and_cli_share_session(tmp_path):
                 names = {t.name for t in tools.tools}
                 assert {"desktop.pixel", "code.run", "audit.export", "events.follow"} <= names
                 assert "approval.approve" not in names
+                by_name = {t.name: t for t in tools.tools}
+                assert 'session_id' in by_name['code.run'].inputSchema['required']
+                assert 'arguments' in by_name['code.run'].inputSchema['required']
+                assert 'session_id' not in by_name['session.open'].inputSchema['required']
+                malformed = await client.call_tool('code.run', {'arguments': {'code': 'print(1)'}})
+                assert malformed.isError
+                with Runtime(tmp_path).store.connect() as db:
+                    assert db.execute("SELECT count(*) FROM operations WHERE tool='code.run'").fetchone()[0] == 0
                 opened = await client.call_tool("session.open", {"arguments": {}})
                 assert not opened.isError
                 session = opened.structuredContent["result"]["session_id"]

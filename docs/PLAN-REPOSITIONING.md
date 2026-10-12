@@ -210,7 +210,7 @@ Python SDK 是首个代码接口，CLI 的 JSON 模式服务其他语言和现�
 
 DeepSeek 完整配置文档支持第三方 provider 和自定义协议，但最小 SDK 的实际 profile/patch 仍需单独验证企业网关。[Provider 文档](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/user/guide/providers.md)
 
-**三天内只接通客户现有 Agent 与一个薄示例入口。** 没有客户 Harness 时首选 PydanticAI 精简 runner；第一天给企业网关接入最多 60 分钟验证，受阻则记录原因并使用已验证的客户/现有调用方推进工具交付。Pi、smolagents、DeepSeek 的新增实验按客户需要安排，不为选型比较占用交付主线。Core 不依赖这些选择。
+**2026-10-12 用户已指定开发验收调用方：当前 Codex、当前系统 Hermes、DeepSeek Harness。** DeepSeek 复用 Hermes 的 GLM key 和 GLM 5.3 Flash 路由；凭据仅在本机私有配置与进程环境中使用，不进入 Git。三者均走通用工具接口，允许原生动作或生成代码委派 SDK 的组合；分别记录实际 transport、模型、审批角色、独立结果与失败轮次。当前 Codex 的 MCP bridge 与 CLI 原生挂载单列，不能混称。实测见 [Harness 证据](evidence/2026-10-12-harness/README.md)。不再为三天主线安装额外 PydanticAI/Pi/smolagents；此前候选比较保留为背景。Core 不依赖这些选择。
 
 ### 5.2 Computer Use 执行方案：优先验证可复用底座
 

@@ -17,9 +17,12 @@ async def serve(runtime):
 
     @server.list_tools()
     async def list_tools():
-        return [types.Tool(name=tool, description=DESCRIPTIONS.get(tool, "Bokkio " + tool + "; resource scope is granted by the host policy."),
+        return [types.Tool(name=tool, description=DESCRIPTIONS.get(tool, "Bokkio " + tool + "; resource scope is granted by the host policy.")
+                           + " Put business fields inside arguments. session_id and operation_id are sibling envelope fields; use the session_id returned by session.open.",
                            inputSchema={"type": "object", "properties": {
                                "arguments": SCHEMAS[tool], "session_id": {"type": "string"}, "operation_id": {"type": "string"}},
+                               "required": ([] if tool in {"capabilities", "session.open"} else ["session_id"])
+                                   + (["arguments"] if SCHEMAS[tool]["required"] else []),
                                "additionalProperties": False},
                            annotations=types.ToolAnnotations(readOnlyHint=tool in READ_TOOLS and tool != "job.get",
                                                              destructiveHint=tool not in READ_TOOLS or tool == "job.get")) for tool in sorted(TOOLS)]

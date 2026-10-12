@@ -11,6 +11,7 @@
 | [详细交付报告](../RUNTIME-DELIVERY.md) | 实现和实测的具体边界 |
 | [Runtime 使用指南](../RUNTIME-GUIDE.md) | 配置、调用和信任边界 |
 | [验收证据](../evidence/2026-10-12-runtime-macos/README.md) | 脱敏摘要、历史失败和校验和 |
+| [三种 Harness 验收](../evidence/2026-10-12-harness/README.md) | 当前 Codex、系统 Hermes、DeepSeek Harness 的实际路径、版本与失败记录 |
 
 进度、计划、待办、验收摘要必须提交 Git，不放入 gitignore。每次完成一个待办，更新 STATUS.md 和 state.json，补充对应证据，并在提交说明中写清平台与验证结果。不要把旧平台成绩算作新 Runtime 验收。
 
