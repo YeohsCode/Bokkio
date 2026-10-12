@@ -1,0 +1,191 @@
+{
+  "platform": "Darwin",
+  "architecture": "arm64",
+  "scope": "current_source_isolated_wheel_acceptance",
+  "rounds": [
+    {
+      "round": 1,
+      "code": true,
+      "browser": true,
+      "receipts": [
+        "4f8e1b0434d14c23b8603cb070b1e656",
+        "7d607ba49d574898a82cb99df671f127",
+        "95cfcd099f19462eba102a6924d2f18a",
+        "6d341f2e610941258eb9ce61ef4571ef"
+      ]
+    },
+    {
+      "round": 2,
+      "code": true,
+      "browser": true,
+      "receipts": [
+        "bd3dc7655e1649539fd4babe9c19e558",
+        "460bc281354a4ce69bd12996d49a6ff9",
+        "a4bb938b0e964a9093ba39a6c4f4e86f",
+        "c40e65f4b7544868aa65af7cbe83c3c5"
+      ]
+    },
+    {
+      "round": 3,
+      "code": true,
+      "browser": true,
+      "receipts": [
+        "76751bafc6184fc0a0b3916214d2f689",
+        "7b5a78f29712414f8c82c49ea9198cc9",
+        "242802537e244330aa385933eecc2b83",
+        "299da9984d324f3f976d4f6a2bd3cb8a"
+      ]
+    }
+  ],
+  "native": [
+    {
+      "round": 1,
+      "passed": true,
+      "status": "verified",
+      "operation_id": "00bf330ad38f4f558f0ae5c159e76e77",
+      "attempts": [
+        {
+          "operation_id": "00bf330ad38f4f558f0ae5c159e76e77",
+          "status": "verified",
+          "dispatched": true
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "passed": true,
+      "status": "verified",
+      "operation_id": "c9d0718d5ca4474187ea9e255e5f1de8",
+      "attempts": [
+        {
+          "operation_id": "c9d0718d5ca4474187ea9e255e5f1de8",
+          "status": "verified",
+          "dispatched": true
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "passed": true,
+      "status": "verified",
+      "operation_id": "7e6dccc79fe94f83b5278a98d05d3bd6",
+      "attempts": [
+        {
+          "operation_id": "7e6dccc79fe94f83b5278a98d05d3bd6",
+          "status": "verified",
+          "dispatched": true
+        }
+      ]
+    }
+  ],
+  "mcp": {
+    "passed": true,
+    "tools": 23,
+    "client": "official_mcp_sdk"
+  },
+  "approval": {
+    "passed": true,
+    "mode": "automated_local_admin_cli_fixture",
+    "operation_id": "approval-fixture"
+  },
+  "cli": {
+    "passed": true
+  },
+  "audit": {
+    "events": 115,
+    "logical_operations": 36,
+    "reconciled": true,
+    "generated_code_parent_links": 3
+  },
+  "stats": {
+    "logical_operations": 36,
+    "by_tool_status": [
+      {
+        "status": "completed",
+        "tool": "audit.query",
+        "n": 1
+      },
+      {
+        "status": "completed",
+        "tool": "browser.observe",
+        "n": 3
+      },
+      {
+        "status": "completed",
+        "tool": "desktop.observe",
+        "n": 6
+      },
+      {
+        "status": "completed",
+        "tool": "evidence.check",
+        "n": 3
+      },
+      {
+        "status": "completed",
+        "tool": "job.get",
+        "n": 6
+      },
+      {
+        "status": "completed",
+        "tool": "metrics.summary",
+        "n": 1
+      },
+      {
+        "status": "completed",
+        "tool": "session.open",
+        "n": 1
+      },
+      {
+        "status": "executed",
+        "tool": "browser.act",
+        "n": 6
+      },
+      {
+        "status": "executed",
+        "tool": "browser.open",
+        "n": 3
+      },
+      {
+        "status": "executed",
+        "tool": "code.run",
+        "n": 3
+      },
+      {
+        "status": "verified",
+        "tool": "desktop.act",
+        "n": 3
+      }
+    ],
+    "events": {
+      "request.received": 36,
+      "execution.intent": 36,
+      "session.opened": 1,
+      "execution.finished": 36,
+      "job.started": 3,
+      "job.finished": 3
+    },
+    "attempts": 36,
+    "known_dispatched": 15,
+    "approval_wait_ms": [],
+    "execution_attempts": 36,
+    "cached_responses": 0,
+    "rejected_requests": 0,
+    "execution_channels": {
+      "session": 1,
+      "code": 3,
+      "job": 6,
+      "evidence": 3,
+      "browser": 12,
+      "desktop": 9,
+      "audit": 1,
+      "metrics": 1
+    },
+    "execution_duration_ms": {
+      "p50": 27.557,
+      "p95": 120.976
+    },
+    "model_tokens": null,
+    "business_success_rate": null
+  },
+  "date": "2026-10-12"
+}

@@ -1,0 +1,63 @@
+{
+  "scope": "owned_native_code_and_real_sqlite_audit",
+  "checks": [
+    {
+      "case": "resource_grants",
+      "passed": false
+    },
+    {
+      "case": "approval_and_native_readback",
+      "passed": true,
+      "trusted_os_actor": true
+    },
+    {
+      "case": "idempotency_and_attempt_statistics",
+      "passed": true,
+      "additional_calls": 2,
+      "additional_dispatches": 0
+    },
+    {
+      "case": "cross_session_observation",
+      "passed": true
+    },
+    {
+      "case": "revocation_expiry_and_code_hash",
+      "passed": true
+    },
+    {
+      "case": "sqlite_intent_failure_prevents_native_write",
+      "passed": true,
+      "fault": "real SQLite trigger rejection; not a physical disk-full claim"
+    },
+    {
+      "case": "code_artifact_approval_trace",
+      "passed": true,
+      "delegated_children": 1
+    },
+    {
+      "case": "export_privacy_cursor_and_reconciliation",
+      "passed": true,
+      "events": 78,
+      "logical_operations": 18,
+      "attempts": 25,
+      "cached_responses": 1
+    },
+    {
+      "case": "closed_session_cached_artifact_denied",
+      "passed": true
+    }
+  ],
+  "injected": [
+    "SQLite intent insert rejection",
+    "approval expiry set into past"
+  ],
+  "not_tested": [
+    "physical_screen_lock",
+    "second_display_or_different_scale",
+    "customer_harness"
+  ],
+  "passed": 8,
+  "total": 9,
+  "date": "2026-10-12",
+  "macos_version": "15.5"
+}

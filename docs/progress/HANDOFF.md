@@ -29,7 +29,7 @@ uv run python scripts/build_native_fixture.py --source fixtures/cocoa-runtime/ma
 uv run python scripts/verify_runtime_visual.py --fixture /ABS/PATH/Test.app/Contents/MacOS/Test --output /tmp/bokkio-runtime-visual-NEW
 ```
 
-原生/代码/Browser 验收使用 scripts/verify_runtime.py。窗口/作业故障使用 scripts/verify_runtime_faults.py --fixture VISUAL_EXECUTABLE --output NEWDIR，显式记录屏幕锁、显示器及前台阻塞。MCP 字段闭环使用 scripts/verify_runtime_mcp_native.py；examples/mcp-native-task.json 提供自有原生 fixture 模板，先配置本机 policy。自动管理员审批只有显式 --approve-owned-fixture 才启用，不能代替客户人工审批。
+原生/代码/Browser 验收使用 scripts/verify_runtime.py。审计合同使用 scripts/verify_runtime_audit.py --fixture NATIVE_EXECUTABLE --output NEWDIR。窗口/作业故障使用 scripts/verify_runtime_faults.py --fixture VISUAL_EXECUTABLE --output NEWDIR，显式记录屏幕锁、显示器及前台阻塞。MCP 字段闭环使用 scripts/verify_runtime_mcp_native.py；examples/mcp-native-task.json 提供自有原生 fixture 模板，先配置本机 policy。自动管理员审批只有显式 --approve-owned-fixture 才启用，不能代替客户人工审批。
 
 ## Windows
 

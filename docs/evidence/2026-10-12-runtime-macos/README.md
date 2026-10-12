@@ -17,3 +17,7 @@
 原始数据库、截图、账号身份、精确请求和运行输出在本机私有测试目录。此目录只保存可共享摘要和校验和。接续以 [共享状态](../../progress/STATUS.md) 为准。
 
 最终 wheel 安装到独立环境后的复测见 final-wheel-summary.json：原生/代码/Browser 各 3/3，官方 MCP/CLI、审批及日志对账通过。主机完整回归 546/546（9.02 秒），不替代上述未完成桌面和客户验收。
+
+后续固定 4d62a13：fault-matrix-r8-summary.json 为 18/18，visual-input-r9-summary.json 为 3/3。审计新版 audit-r2-summary.json 为 9/9（r1 8/9 保留）。numbers-persistence-summary.json 证明一份本地保存、关闭、重开后的真实工作表名与单元格值；目录为 CUA 准备，其余动作经过 Runtime。numbers-persistence-attempts.json 保留额外样本的系统窗口阻塞与 AppleScript 超时。整体客户验收仍未完成。
+
+当前修改源码的独立 wheel 复测见 wheel-r10-summary.json（原生/代码/Browser 各 3/3、MCP/CLI、审批及统计对账），回归 550/550，文件哈希 source-files-r10.json。

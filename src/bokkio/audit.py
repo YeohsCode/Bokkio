@@ -136,7 +136,7 @@ class AuditStore:
                 durations.append(data["duration_ms"])
             if isinstance(data.get("wait_ms"), (int, float)):
                 waits.append(data["wait_ms"])
-            if event["kind"] == "request.received":
+            if event["kind"] in {"request.received", "request.cached", "request.rejected"}:
                 attempts += 1
             if event["kind"] in {"execution.finished", "job.finished"} and data.get("dispatched") is True:
                 dispatched += 1
@@ -149,6 +149,8 @@ class AuditStore:
         return {"logical_operations": sum(r["n"] for r in operations),
                 "by_tool_status": [dict(r) for r in operations], "events": kinds,
                 "attempts": attempts, "known_dispatched": dispatched, "approval_wait_ms": waits,
+                "execution_attempts": kinds.get("request.received", 0),
+                "cached_responses": kinds.get("request.cached", 0), "rejected_requests": kinds.get("request.rejected", 0),
                 "execution_channels": channels, "execution_duration_ms": {"p50": percentile(.5), "p95": percentile(.95)},
                 "model_tokens": None, "business_success_rate": None}
 

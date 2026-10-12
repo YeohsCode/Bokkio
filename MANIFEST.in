@@ -17,3 +17,4 @@ recursive-include fixtures/cocoa-runtime *.swift
 recursive-include fixtures/cocoa-visual *.swift
 recursive-include fixtures/windows-visual *.cs *.csproj
 recursive-include docs/evidence/2026-10-12-runtime-macos *.json README.md SHA256SUMS
+include scripts/verify_runtime_audit.py

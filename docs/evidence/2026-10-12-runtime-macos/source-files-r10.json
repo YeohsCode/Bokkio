@@ -1,0 +1,8 @@
+{
+  "src/bokkio/runtime.py": "60446a97fd0bc58e4fb30cad2e47257aefc145b8c0bf4a34a1fe7d6bca3d110f",
+  "src/bokkio/audit.py": "7cf20c52a4d6427586b763c4cf4791f0f76a73c8f6354910eab1a1d785f8aff4",
+  "src/bokkio/macos_activation.py": "a61ecd39c97b108a0be0a9b02e06df3e802ae835edc4255da19f45cd8899be6c",
+  "src/bokkio/native/macos_activate.swift": "c9362f11e4003157fe81b7df968b361816184a471966b97466faedb7d02e57b4",
+  "scripts/verify_runtime_audit.py": "411d8e58e9ed819608304b2e1d4f618787bb3e647d78e2789660f798627a6dfd",
+  "tests/test_runtime.py": "edc99235edcb871fd0a482b3e6a7c0d433cb9372d70bb00a3cc3e3907a282173"
+}

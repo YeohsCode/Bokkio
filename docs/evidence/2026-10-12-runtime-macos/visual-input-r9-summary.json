@@ -1,0 +1,102 @@
+{
+  "platform": "Darwin",
+  "architecture": "arm64",
+  "scope": "owned_icon_and_unicode_without_ocr",
+  "rounds": [
+    {
+      "round": 1,
+      "passed": true,
+      "input_matches": true,
+      "clicks": 1,
+      "type_status": "executed",
+      "click_status": "executed",
+      "operation_ids": [
+        "69dc4f400f8448e1ade42799ee6e0790",
+        "3748f97bcf174531a90c269b2cba58cb"
+      ],
+      "attempts": {
+        "type": [
+          {
+            "operation_id": "69dc4f400f8448e1ade42799ee6e0790",
+            "status": "executed",
+            "dispatched": true,
+            "error_code": null
+          }
+        ],
+        "click": [
+          {
+            "operation_id": "3748f97bcf174531a90c269b2cba58cb",
+            "status": "executed",
+            "dispatched": true,
+            "error_code": null
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "round": 2,
+      "passed": true,
+      "input_matches": true,
+      "clicks": 1,
+      "type_status": "executed",
+      "click_status": "executed",
+      "operation_ids": [
+        "8ebc002153ef4d1286599396aa4a5e06",
+        "0775434126e04f76887dee61c9bb72d3"
+      ],
+      "attempts": {
+        "type": [
+          {
+            "operation_id": "8ebc002153ef4d1286599396aa4a5e06",
+            "status": "executed",
+            "dispatched": true,
+            "error_code": null
+          }
+        ],
+        "click": [
+          {
+            "operation_id": "0775434126e04f76887dee61c9bb72d3",
+            "status": "executed",
+            "dispatched": true,
+            "error_code": null
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "round": 3,
+      "passed": true,
+      "input_matches": true,
+      "clicks": 1,
+      "type_status": "executed",
+      "click_status": "executed",
+      "operation_ids": [
+        "7ba4cb2e60844a73820b567855ee1bbd",
+        "fb70cd63113d49369f3b7f32a44ad772"
+      ],
+      "attempts": {
+        "type": [
+          {
+            "operation_id": "7ba4cb2e60844a73820b567855ee1bbd",
+            "status": "executed",
+            "dispatched": true,
+            "error_code": null
+          }
+        ],
+        "click": [
+          {
+            "operation_id": "fb70cd63113d49369f3b7f32a44ad772",
+            "status": "executed",
+            "dispatched": true,
+            "error_code": null
+          }
+        ]
+      },
+      "errors": []
+    }
+  ],
+  "date": "2026-10-12",
+  "macos_version": "15.5"
+}

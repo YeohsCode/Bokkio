@@ -120,3 +120,7 @@ uv run python scripts/build_native_fixture.py --source fixtures/cocoa-runtime/ma
 启动该 App 后，以明确授权的 app/name/PID 运行 scripts/verify_runtime.py；自绘 fixture 使用 fixtures/cocoa-visual/main.swift。scripts/verify_runtime_faults.py 只操作自有 fixture 和进程，输出真实桌面/取消/崩溃矩阵；硬件或锁屏未测项明确列出。
 
 examples/mcp_call.py 通过官方 MCP SDK 执行单次工具调用，并可跨 stdio 连接复用持久 session。scripts/verify_runtime_mcp_native.py 接受 app、精确 window、实际节点 match、写入 value 与独立 readback 的任务清单，不包含应用业务分支。模板见 examples/mcp-native-task.json。默认把挂起请求保存给独立管理员；观察过期后必须新观察、新请求和新批准。仅自有可丢弃 fixture 可显式使用 --approve-owned-fixture 自动化验证管理员入口，此成绩不等同于客户人工审批。
+
+重复请求会记录 request.cached，不再次派发；缓存内容仍需要有效且同 OS 用户的 session。会话关闭或过期后，原 operation_id 不能绕过读取边界。metrics 的 attempts 统计所有接收/缓存/拒绝调用，execution_attempts 为进入处理的 request.received；cached_responses、rejected_requests 分别计数，logical_operations 与 known_dispatched 不因缓存命中增加。
+
+scripts/verify_runtime_audit.py 在自有原生 fixture 和真实 SQLite 上验证审计合同，明确区分 SQL/过期注入与未运行的物理锁屏。native verified 通常确认当前控件属性；编辑器可能还要求结束编辑后才更新业务模型，应独立检查业务标签、保存并重开。应用自己的默认保存位置和云同步不受 Core 文件工具路径检查拦截，测试初始化时核对位置；本轮只使用自有合成数据。

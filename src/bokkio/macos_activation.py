@@ -33,6 +33,9 @@ def activate_window(pid,title,*,document=None,clear_hover=False):
     if (result.returncode or receipt.get('status')!='activated' or receipt.get('pid')!=pid or receipt.get('title')!=title
             or receipt.get('foreground_confirmed') is not True or receipt.get('window_confirmed') is not True):
         if receipt.get('error')=='front_window_unconfirmed':
-            raise BokkioStaleSnapshot('Authorized Mac window has not reached foreground; no target input was posted')
+            error=BokkioStaleSnapshot('Authorized Mac window has not reached foreground; no target input was posted')
+            error.code='front_window_unconfirmed'
+            error.details={'dispatched':0, **{key:receipt[key] for key in ('foreground_pid','top_window_pid','top_title_matches','top_bounds') if key in receipt}}
+            raise error
         raise BokkioError('Mac foreground activation failed: '+str(receipt.get('error','invalid_receipt')))
     return receipt

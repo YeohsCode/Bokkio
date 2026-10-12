@@ -168,7 +168,7 @@ class Runtime:
         from .windows_capture import CaptureError
         try:
             scope = self._session(session_id)
-            self._validate(tool, args, scope)
+            self._validate(tool, args, scope, session_id=session_id)
             if "observation_id" in args:
                 self._get_observation(session_id, args["observation_id"])
             return scope
@@ -188,9 +188,25 @@ class Runtime:
             if existing:
                 if existing["hash"] != request_hash:
                     self.store.emit("request.rejected", session_id=session_id, operation_id=operation_id,
-                                    data={"reason": "operation_id_request_mismatch", "actor": identity()}, db=db)
+                                    data={"reason": "operation_id_request_mismatch", "actor": identity(), "tool": tool,
+                                          "request_sha256": request_hash, "attempt_id": identifier(), "dispatched_this_attempt": False}, db=db)
                     return {"status": "denied", "operation_id": operation_id, "error": "operation_id request mismatch", "dispatched": False}
                 if existing["status"] not in {"approval_required"}:
+                    cached_session = existing["session_id"]
+                    if tool not in {"capabilities", "session.close"}:
+                        try:
+                            self._session(cached_session)
+                        except ValueError as error:
+                            self.store.emit("request.rejected", session_id=cached_session, operation_id=operation_id,
+                                            data={"reason": "cached_session_unavailable", "tool": tool,
+                                                  "request_sha256": request_hash, "attempt_id": identifier(),
+                                                  "original_status": existing["status"], "dispatched_this_attempt": False}, db=db)
+                            return {"status": "denied", "session_id": cached_session, "operation_id": operation_id,
+                                    "dispatched": False, "original_status": existing["status"],
+                                    "error_code": "cached_session_unavailable", "error": str(error)}
+                    self.store.emit("request.cached", session_id=cached_session, operation_id=operation_id,
+                                    data={"tool": tool, "request_sha256": request_hash, "attempt_id": identifier(),
+                                          "original_status": existing["status"], "dispatched_this_attempt": False}, db=db)
                     return json.loads(existing["result"]) if existing["result"] else {
                         "status": "completion_unknown", "operation_id": operation_id, "dispatched": "unknown",
                         "error": "Operation already claimed; inspect audit evidence, do not redispatch"}
@@ -214,7 +230,7 @@ class Runtime:
             from .tool_schema import validate
             validate(tool, arguments)
             scope = self._session(session_id) if tool not in {"session.open", "capabilities"} else None
-            self._validate(tool, arguments, scope)
+            self._validate(tool, arguments, scope, session_id=session_id)
             write = tool in WRITE_TOOLS
             if write and self.policy["require_approval"]:
                 with self.store.connect() as db:
@@ -265,6 +281,7 @@ class Runtime:
             result = {"status": "completion_unknown" if uncertain else "failed" if claimed else "denied",
                       "operation_id": operation_id, "session_id": session_id, "error": str(error),
                       "error_type": type(error).__name__, "error_code": getattr(error, "code", None),
+                      **({"error_details": details} if details else {}),
                       "dispatched": details.get("dispatched", "unknown" if uncertain else False)}
         return self._finish(tool, session_id, operation_id, result, started)
 
@@ -283,7 +300,7 @@ class Runtime:
                     "error_code": "audit_result_unavailable", "error": "Result could not be persisted; inspect the original operation before retrying"}
         return result
 
-    def _validate(self, tool, args, scope):
+    def _validate(self, tool, args, scope, session_id=None):
         if tool == "desktop.act" and args["action"] in {"type", "set_value", "select_text"} and "value" not in args:
             raise ValueError("Text action requires a literal value")
         if tool == "desktop.pixel" and args["action"] == "type" and "value" not in args:
@@ -299,7 +316,14 @@ class Runtime:
         if tool in WRITE_TOOLS and not (scope["write"] and self.policy["write"]):
             raise ValueError("Writes are not granted")
         if tool.startswith("desktop.") and tool != "desktop.list":
-            self._app(scope, args.get("app"), args.get("window"))
+            app = self._app(scope, args.get("app"), args.get("window"))
+            if tool in {"desktop.act", "desktop.pixel"}:
+                observation = self._get_observation(session_id, args["observation_id"])
+                if observation["app"] != app or observation["window"] != args.get("window"):
+                    raise ValueError("Action scope differs from observation")
+                required = "snapshot" if tool == "desktop.act" else "metadata"
+                if required not in observation:
+                    raise ValueError("Action requires the matching native/pixel observation type")
         if tool in {"code.run", "process.run"}:
             if not scope["trusted_host"] or not self.policy["trusted_host"]:
                 raise ValueError("trusted-host execution is not granted")
@@ -316,6 +340,16 @@ class Runtime:
                     raise ValueError("Language unavailable on this platform")
             elif not isinstance(args.get("argv"), list) or not args["argv"] or any(not isinstance(v, str) for v in args["argv"]):
                 raise ValueError("Process requires an argv list")
+        if tool == "evidence.check":
+            self._path(scope, args["path"])
+        if tool == "artifact.read":
+            with self.store.connect() as db:
+                row = db.execute("SELECT path FROM artifacts WHERE id=? AND session_id=?", (args["artifact_id"], session_id)).fetchone()
+            if row is None:
+                raise ValueError("Artifact outside session")
+            path = Path(row["path"]).resolve()
+            if self.store.root not in path.parents:
+                self._path(scope, str(path))
         if tool.startswith("browser."):
             if not scope["origins"]:
                 raise ValueError("Browser origins are not granted")

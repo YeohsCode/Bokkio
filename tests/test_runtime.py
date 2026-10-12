@@ -159,7 +159,7 @@ def test_artifact_scope_and_changed_bytes(setup):
     assert client.call("artifact.read", {"artifact_id": artifact})["status"] == "completed"
     another = Client(client.runtime)
     another.open()
-    assert another.call("artifact.read", {"artifact_id": artifact})["status"] == "failed"
+    assert another.call("artifact.read", {"artifact_id": artifact})["status"] == "denied"
     file.write_text("changed")
     assert client.call("artifact.read", {"artifact_id": artifact})["status"] == "failed"
 
@@ -196,7 +196,7 @@ def test_revoked_grants_and_closed_session(setup):
     client.runtime.policy["apps"] = []
     assert client.call("desktop.observe", {"app": "Contract"})["status"] == "denied"
     client.runtime.policy["paths"] = []
-    assert client.call("evidence.check", {"path": str(root / "x")})["status"] == "failed"
+    assert client.call("evidence.check", {"path": str(root / "x")})["status"] == "denied"
     client.call("session.close")
     assert client.call("metrics.summary")["status"] == "denied"
 
@@ -211,7 +211,7 @@ def test_agent_cannot_approve(setup):
 def test_private_database_is_not_a_file_artifact(setup):
     client, _, _, _ = setup
     response = client.call("evidence.check", {"path": str(client.runtime.store.path)})
-    assert response["status"] == "failed"
+    assert response["status"] == "denied"
     assert "Private runtime state" in response["error"]
 
 
@@ -281,3 +281,57 @@ def test_approval_poll_records_expiry_once_and_stays_in_session(setup):
     events = client.runtime.store.query(operation_id='expire-without-retry')
     assert len([e for e in events if e['kind'] == 'approval.expired']) == 1
     assert desktop.dispatches == 0
+
+
+def test_cached_and_mismatched_requests_are_audited_without_dispatch(setup):
+    client, desktop, _, _ = setup
+    client.runtime.policy['require_approval'] = False
+    request = action(client)
+    original = client.call('desktop.act', request, 'cache-audit')
+    before = client.runtime.store.stats(client.session_id)
+    assert client.call('desktop.act', request, 'cache-audit') == original
+    assert client.call('desktop.act', {**request, 'value': 'changed'}, 'cache-audit')['status'] == 'denied'
+    after = client.runtime.store.stats(client.session_id)
+    assert desktop.dispatches == 1
+    assert after['logical_operations'] == before['logical_operations']
+    assert after['known_dispatched'] == before['known_dispatched']
+    assert after['attempts'] == before['attempts'] + 2
+    assert after['cached_responses'] == before['cached_responses'] + 1
+    assert after['rejected_requests'] == before['rejected_requests'] + 1
+    events = client.runtime.store.query(operation_id='cache-audit')
+    cached = next(e for e in events if e['kind'] == 'request.cached')
+    assert cached['data']['dispatched_this_attempt'] is False
+
+
+@pytest.mark.parametrize('end', ['close', 'expire'])
+def test_cached_artifact_bytes_require_active_session(setup, end):
+    client, _, _, root = setup
+    file = root / 'owned.txt'
+    file.write_text('private-test-marker')
+    artifact = client.call('evidence.check', {'path': str(file)})['result']['artifact']['artifact_id']
+    request = {'artifact_id': artifact}
+    original = client.call('artifact.read', request, 'cached-private-artifact')
+    assert original['status'] == 'completed'
+    if end == 'close':
+        client.call('session.close')
+    else:
+        with client.runtime.store.connect() as db:
+            db.execute('UPDATE sessions SET expires=0 WHERE id=?', (client.session_id,))
+    denied = client.call('artifact.read', request, 'cached-private-artifact')
+    assert denied['status'] == 'denied'
+    assert denied['dispatched'] is False
+    assert denied['error_code'] == 'cached_session_unavailable'
+    assert 'result' not in denied
+
+
+def test_foreign_observation_is_denied_before_execution_intent(setup):
+    client, desktop, policy, root = setup
+    other = Client(Runtime(root/'state', policy, desktop, lambda pid: 'birth'))
+    other.open()
+    foreign = other.call('desktop.observe', {'app': 'Contract'})
+    request = {'app':'Contract','ref':'field','action':'set_value','value':'never',
+               'observation_id':foreign['result']['observation_id']}
+    result = client.call('desktop.act', request, 'foreign-observation')
+    assert result['status'] == 'denied' and result['dispatched'] is False
+    assert desktop.dispatches == 0
+    assert not any(e['kind']=='execution.intent' for e in client.runtime.store.query(operation_id='foreign-observation'))

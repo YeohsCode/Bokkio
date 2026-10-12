@@ -1,0 +1,14 @@
+{
+  "scope": "numbers_native_save_close_reopen_with_cua_directory_preparation",
+  "saved_local_file": true,
+  "saved_bytes": 100815,
+  "saved_sha256": "123f5044390ea5256ac72f5923dd9bf0eb462cb42b3db1fbf280d620e33599e4",
+  "closed_confirmed": true,
+  "reopened_sheet_name_confirmed": true,
+  "reopened_cell_values_confirmed": true,
+  "passed": true,
+  "directory_preparation": "CUA Go To Folder; name-field commit/save/close and reopen via Bokkio Runtime",
+  "applescript_path": "Earlier named-document read timed out; this run used native actions instead",
+  "date": "2026-10-12",
+  "macos_version": "15.5"
+}

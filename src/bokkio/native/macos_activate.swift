@@ -73,7 +73,15 @@ let windowEnd=Date().addingTimeInterval(2)
 while Date()<windowEnd && !windowIsFrontmost() {
     RunLoop.current.run(until:Date().addingTimeInterval(0.05))
 }
-guard windowIsFrontmost() else {emit(["error":"front_window_unconfirmed"],1)}
+guard windowIsFrontmost() else {
+    let info=CGWindowListCopyWindowInfo([.optionOnScreenOnly,.excludeDesktopElements],kCGNullWindowID) as? [[String:Any]]
+    let levels=[NSWindow.Level.normal.rawValue,NSWindow.Level.floating.rawValue,NSWindow.Level.modalPanel.rawValue]
+    let top=info?.first(where:{levels.contains($0[kCGWindowLayer as String] as? Int ?? -1)})
+    emit(["error":"front_window_unconfirmed","foreground_pid":NSWorkspace.shared.frontmostApplication?.processIdentifier as Any? ?? NSNull(),
+          "top_window_pid":top?[kCGWindowOwnerPID as String] as Any? ?? NSNull(),
+          "top_title_matches":top?[kCGWindowName as String] as? String==title,
+          "top_bounds":top?[kCGWindowBounds as String] as Any? ?? NSNull()],1)
+}
 let info=CGWindowListCopyWindowInfo([.optionOnScreenOnly,.excludeDesktopElements],kCGNullWindowID) as? [[String:Any]]
 let levels=[NSWindow.Level.normal.rawValue,NSWindow.Level.floating.rawValue,NSWindow.Level.modalPanel.rawValue]
 let top=info?.first(where:{ levels.contains($0[kCGWindowLayer as String] as? Int ?? -1) })

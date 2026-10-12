@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-12",
+  "scope": "owned_numbers_additional_samples",
+  "completed_save_close_reopen": 1,
+  "intended_samples": 3,
+  "directory_setup": "CUA; data commit/save/close/reopen through Bokkio",
+  "additional_activation_attempts": {
+    "count": 2,
+    "dispatched": false,
+    "reason": "Foreground process Numbers, top window owned by system notification"
+  },
+  "applescript_read_probe": {
+    "status": "timed_out",
+    "termination_error": "PermissionError",
+    "followup_process_running": false
+  },
+  "not_claimed": [
+    "pure Bokkio directory navigation",
+    "three successful persistence rounds",
+    "customer acceptance"
+  ],
+  "app_location_observation": "An owned synthetic test document had a cloud URL before explicitly saving its copy into the local temporary directory. No customer data used."
+}
