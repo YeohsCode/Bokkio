@@ -1,0 +1,107 @@
+{
+  "scope": "judge_correction_replay_not_new_actor_attempts",
+  "initial_planned": 4,
+  "initial_passed": 2,
+  "corrected_passed": 2,
+  "grader_sha256": {
+    "evals/runtime_business.py": "5a7cfc90dd72a7321ffd7fe1243fcceb86ea5512bacaceb928805b1619d500c8",
+    "scripts/evaluate_runtime_business.py": "8e5e7e3dc57cc79d397f75d80b2ea8612ea46f305fbccdc7c3b9e5f6c7ae68a2",
+    "scripts/regrade_runtime_business.py": "c3f7d893eeae2f2becfa4e26c8fad420ecbe7f5a783f0cc68a1d2f95b4b1c4fd"
+  },
+  "results": [
+    {
+      "task": "T03",
+      "client": "hermes",
+      "initial_passed": true,
+      "corrected_passed": true,
+      "started": true,
+      "fresh_actor_attempt": false,
+      "supplementary_reopen_evidence": false,
+      "original_output_hashes_unchanged": true,
+      "business_correct": true,
+      "ui_correct": true,
+      "persistence_correct": true,
+      "protocol_completed": true,
+      "unknown_operations": 0,
+      "job_statuses_at_judge_start": [
+        "timed_out",
+        "completed",
+        "completed",
+        "completed",
+        "completed",
+        "completed",
+        "completed",
+        "completed",
+        "completed"
+      ],
+      "caller_finish_reason": null
+    },
+    {
+      "task": "T05",
+      "client": "hermes",
+      "initial_passed": true,
+      "corrected_passed": true,
+      "started": true,
+      "fresh_actor_attempt": false,
+      "supplementary_reopen_evidence": false,
+      "original_output_hashes_unchanged": true,
+      "business_correct": true,
+      "ui_correct": true,
+      "persistence_correct": true,
+      "protocol_completed": true,
+      "unknown_operations": 0,
+      "job_statuses_at_judge_start": [
+        "completed",
+        "completed"
+      ],
+      "caller_finish_reason": null
+    },
+    {
+      "task": "T09",
+      "client": "hermes",
+      "initial_passed": false,
+      "corrected_passed": false,
+      "started": true,
+      "fresh_actor_attempt": false,
+      "supplementary_reopen_evidence": false,
+      "original_output_hashes_unchanged": true,
+      "business_correct": false,
+      "ui_correct": true,
+      "persistence_correct": true,
+      "protocol_completed": true,
+      "unknown_operations": 0,
+      "job_statuses_at_judge_start": [
+        "completed",
+        "completed",
+        "completed",
+        "completed",
+        "completed",
+        "completed",
+        "completed"
+      ],
+      "caller_finish_reason": null
+    },
+    {
+      "task": "T11",
+      "client": "hermes",
+      "initial_passed": false,
+      "corrected_passed": false,
+      "started": true,
+      "fresh_actor_attempt": false,
+      "supplementary_reopen_evidence": false,
+      "original_output_hashes_unchanged": true,
+      "business_correct": true,
+      "ui_correct": true,
+      "persistence_correct": true,
+      "protocol_completed": false,
+      "unknown_operations": 0,
+      "job_statuses_at_judge_start": [
+        "completed",
+        "completed",
+        "completed",
+        "completed"
+      ],
+      "caller_finish_reason": null
+    }
+  ]
+}

@@ -156,7 +156,7 @@ def dsh_script(folder,python,project_python,policy,state,work):
                 input: [text]
                 contextWindow: 1048576
                 maxTokens: 4096
-                reasoningEfforts: false
+                reasoningEfforts: {{low: low}}
     - id: bokkio-mcp
       name: '@deepseek-ai/dsh-mcp-client'
       config:
@@ -172,10 +172,11 @@ def dsh_script(folder,python,project_python,policy,state,work):
 import os,json
 from deepseek_harness import DeepSeekHarness
 folder=Path(__file__).parent
-with DeepSeekHarness(dsh_home=str(folder/'dsh-home'),profile='sdk-minimal',provider='bokkio-glm',model='z-ai/glm-5.3-flash',max_tokens=4096,cwd=str(folder/'workspace'),patches=(str(folder/'dsh.patch.yml'),),env={'BOKKIO_GLM_KEY':os.environ['BOKKIO_GLM_KEY']},initialize_timeout_seconds=60,request_timeout_seconds=240) as harness:
+with DeepSeekHarness(dsh_home=str(folder/'dsh-home'),profile='sdk-minimal',provider='bokkio-glm',model='z-ai/glm-5.3-flash',reasoning_effort='low',max_tokens=4096,cwd=str(folder/'workspace'),patches=(str(folder/'dsh.patch.yml'),),env={'BOKKIO_GLM_KEY':os.environ['BOKKIO_GLM_KEY']},initialize_timeout_seconds=60,request_timeout_seconds=240) as harness:
  result=harness.run((folder/'prompt.txt').read_text(),session_id='bokkio-development-1')
  (folder/'dsh-result.json').write_text(json.dumps({'final':result.final_response,'finish_reason':result.finish_reason,'events':result.events,'notifications':result.notifications},default=str))
  print(result.final_response)
+ raise SystemExit(0 if result.finish_reason=='completed' and result.final_response else 1)
 ''')
     return [str(python),str(script)]
 

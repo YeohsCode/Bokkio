@@ -1,0 +1,33 @@
+{
+  "latest_two_samples": [
+    {
+      "sample": 6,
+      "scope": "native_numbers_persistence_recheck_not_business_score",
+      "preflight_ready": true,
+      "saved_closed_reopened": false,
+      "observation_status": "completed",
+      "activation_status": "executed",
+      "activation_error_type": null,
+      "activation_error_code": null,
+      "activation_dispatched": true,
+      "blocker": "save_dialog_workflow_not_completed_in_budget",
+      "source_unchanged": true
+    },
+    {
+      "sample": 7,
+      "scope": "native_numbers_persistence_recheck_not_business_score",
+      "preflight_ready": true,
+      "saved_closed_reopened": false,
+      "observation_status": "completed",
+      "activation_status": "executed",
+      "activation_error_type": null,
+      "activation_error_code": null,
+      "activation_dispatched": true,
+      "blocker": "save_dialog_workflow_not_completed_in_budget",
+      "source_unchanged": true
+    }
+  ],
+  "historical_passed": 1,
+  "historical_total": 3,
+  "all_new_samples_completed": false
+}

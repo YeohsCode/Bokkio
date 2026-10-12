@@ -19,10 +19,11 @@ import threading
 import time
 from urllib.parse import parse_qs,urlparse
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
-from evals.runtime_business import TASKS,FIRST,prepare,business_checks,snapshot_matches,sha
+from evals.runtime_business import TASKS,FIRST,prepare,business_checks,snapshot_matches,sha,rtf_text,rendered_text_matches
 from scripts.verify_harness_clients import glm_config,dsh_script
 from bokkio.runtime import Runtime
 from bokkio.sdk import Client
+from bokkio.windows_capture import CaptureError
 
 CATALOG=[{'id':'P01','name':'Axle','group':'Hardware','stock':'9'},{'id':'P02','name':'Bolt','group':'Hardware','stock':'3'},{'id':'P03','name':'Paper','group':'Office','stock':'2'},{'id':'P04','name':'Clamp','group':'Hardware','stock':'1'}]
 
@@ -61,12 +62,23 @@ def web_server(kind):
     return server,state,f'http://127.0.0.1:{server.server_port}'
 
 
-def preflight(case,folder):
+def preflight(case,folder,track='any-tool'):
     apps=[a['name'] for a in case['apps']]
     for app in case['apps']:
-        subprocess.run(['open','-a',app['name'],app['input']],capture_output=True,timeout=10)
+        if track=='gui' and app['name']!='Finder' and not app.get('gui_process_started'):
+            old=ps_app(app['name']);subprocess.run(['open','-n','-a',app['name'],app['input'],'--args','-ApplePersistenceIgnoreState','YES'],capture_output=True,timeout=10)
+            deadline=time.monotonic()+12
+            while not ps_app(app['name'])-old and time.monotonic()<deadline:time.sleep(.1)
+            new=ps_app(app['name'])-old
+            if len(new)!=1:return {'ready':False,'reason':'dedicated_gui_process_unavailable','windows_verified':[]}
+            app['pid']=next(iter(new));app['gui_owned_process']=True
+        elif not app.get('gui_process_started'):
+            subprocess.run(['open','-a',app['name'],app['input']],capture_output=True,timeout=10)
     if not apps:return {'ready':True,'windows_verified':[]}
-    runtime=Runtime(folder/'preflight-state',{'apps':apps,'write':False})
+    # A name may resolve to older instances before the new owned process has
+    # registered with NSWorkspace. Bind its PID so open retries registration.
+    selectors=[str(a['pid']) if a.get('gui_owned_process') else a['name'] for a in case['apps']]
+    runtime=Runtime(folder/'preflight-state',{'apps':selectors,'write':False})
     client=Client(runtime);deadline=time.monotonic()+15
     while True:
         try:client.open();break
@@ -78,7 +90,7 @@ def preflight(case,folder):
         while time.monotonic()<deadline:
             confirmed=[]
             for app in case['apps']:
-                for pid in sorted(ps_app(app['name'])):
+                for pid in ([app['pid']] if app.get('gui_owned_process') else sorted(ps_app(app['name']))):
                     obs=client.call('desktop.observe',{'app':str(pid),'window':app['windows'][0],'max_nodes':500})
                     if obs['status']=='completed' and any(n['role']=='window' and n.get('name')==app['windows'][0] for n in obs['result']['nodes']):
                         app['pid']=pid;confirmed.append(app['name']);break
@@ -91,7 +103,7 @@ def preflight(case,folder):
 
 
 def prompt(case,url,track):
-    resources=[{'app':a['name'],'app_selector':str(a['pid']),'exact_authorized_windows':a['windows']} for a in case['apps']]
+    resources=[{'app':a['name'],'app_selector':str(a['pid']),'initial_and_output_windows':a['windows'],'scope':'dedicated_owned_process_including_menus_and_dialogs' if a.get('gui_owned_process') else 'exact_listed_windows'} for a in case['apps']]
     paths={'inputs':case['inputs'],'outputs':case['out']}
     return f'''This is an authorized disposable business task. Use ONLY Bokkio tools to perform it. Do not use external shell/file/browser/CUA tools to do business work. Your client may offer tool schema discovery; that is permitted.
 Goal: {case['goal']}
@@ -99,8 +111,9 @@ Resources: {json.dumps(resources,ensure_ascii=False)}
 Workspace: {case['work']}; paths: {json.dumps(paths)}
 Web page: {url or 'not used'}
 Track: {track}. {'Native GUI and screenshot/pixel only. No generated code, processes, Browser DOM or business file reads. Independent judge reads output files.' if track=='gui' else 'You may choose native, visual, Browser and generated code/scripts through Bokkio. Generated code must run through code.run/process.run, not external shell. Python jobs may use the public Client.from_environment() delegated SDK. No solution script is supplied.'}
-The local administrator pre-granted only these disposable resources; approval is not required in this business batch. This is not a human approval test. Do not access unrelated documents/accounts/configuration, credentials or evaluator files. Do not overwrite input files. Only operate the exact authorized windows. Do not close or kill applications with unrelated documents. Leave displayed output windows and session available to the independent judge.
+The local administrator pre-granted only these disposable resources; approval is not required in this business batch. This is not a human approval test. Do not access unrelated documents/accounts/configuration, credentials or evaluator files. Do not overwrite input files. Only operate authorized resources. Dedicated GUI processes contain only owned documents and permit their menus/dialogs; other apps remain restricted to listed windows. Do not close or kill applications with unrelated documents. Leave displayed output windows and session available to the independent judge.
 Use capabilities and session.open with task_id="business-{case['task']}-{case['client']}" and the administrator defaults (no additional apps/paths/origins required). For native calls use the numeric app_selector in Resources; app names may have multiple running processes. MCP envelope: business fields inside arguments; session_id and operation_id are top-level siblings. Subsequent calls need the opened session_id. Get fresh observations and actual refs; never invent refs. Native observations expire after 15 seconds. For an explicitly zero-dispatch stale failure you may re-observe with a new operation ID at most twice; never repeat completion_unknown. Poll generated jobs to completion. Finish with a concise final JSON status and output paths; the independent judge, not your statement, determines success.
+General interface notes: job.get's envelope status is separate from result.status; terminal output is in result.result.stdout/stderr. Use artifact_id from the returned artifact descriptor, never a filesystem path as an artifact ID. The Python delegated SDK exposes Client.from_environment(), call(tool, arguments, operation_id=None), and wait_job(job_id, timeout=60). desktop.observe is read-only and does not require activating the application. Screenshot dimensions describe a window capture, not a document's intrinsic image dimensions. Read the authorized inputs before deriving facts; do not substitute remembered values. Operate using existing OS permissions; new system permission grants are outside this disposable task. End once the requested business evidence is verified; repeated optional probes consume the same budget.
 '''
 
 
@@ -118,7 +131,22 @@ def command_for(client,args,folder,policy,case,model):
     config={'model':{k:v for k,v in model.items() if k!='api_key'},'toolsets':['bokkio'],'agent':{'max_turns':40,'api_max_retries':1},'mcp_servers':{'bokkio':{'command':str(python),'args':['-m','bokkio.runtime_cli','--state',str(folder/'state'),'--policy',str(policy),'serve'],'enabled':True}},'checkpoints':{'enabled':False}}
     path=home/'config.yaml';path.write_text(json.dumps(config));path.chmod(0o600)
     env.update(HERMES_HOME=str(home),OPENROUTER_API_KEY=model['api_key'])
-    return [str(args.hermes),'chat','--query-file',str(folder/'prompt.txt'),'--oneshot','--ignore-rules','-t','bokkio','--max-turns','40','--run-budget',str(case['budget']),'--format','stream-json','--reasoning','none'],env
+    return [str(args.hermes),'chat','--query-file',str(folder/'prompt.txt'),'--oneshot','--ignore-rules','-t','bokkio','--max-turns','40','--run-budget',str(case['budget']),'--format','stream-json','--reasoning','low'],env
+
+
+def budget_stop(folder,runtime):
+    with runtime.store.connect() as db:
+        writes=sum(json.loads(row[0]).get('tool') in {'desktop.act','desktop.pixel','desktop.activate','browser.act','browser.open','code.run','process.run'} for row in db.execute("SELECT data FROM events WHERE kind='request.received'"))
+    if writes>60:return 'core_dispatch_budget'
+    sessions=folder/'dsh-home'/'sessions'
+    steps=0
+    if sessions.exists():
+        for log in sessions.rglob('*.jsonl'):
+            for line in log.read_text().splitlines():
+                try:r=json.loads(line)
+                except ValueError:continue
+                steps+=r.get('type')=='step/start'
+    return 'model_turn_budget' if steps>40 else None
 
 
 def supervise(cmd,env,folder,runtime,budget):
@@ -128,20 +156,10 @@ def supervise(cmd,env,folder,runtime,budget):
         process=subprocess.Popen(cmd,env=env,cwd=folder/'workspace',stdin=subprocess.DEVNULL,stdout=out,stderr=err,start_new_session=True)
         (folder/'client-process.json').write_text(json.dumps({'pid':process.pid}))
     while time.monotonic()-started<budget:
+        reason=budget_stop(folder,runtime)
+        if reason:break
         if process and process.poll() is not None:break
         if not process and (folder/'complete.json').exists():break
-        with runtime.store.connect() as db:
-            writes=sum(json.loads(row[0]).get('tool') in {'desktop.act','desktop.pixel','desktop.activate','browser.act','browser.open','code.run','process.run'} for row in db.execute("SELECT data FROM events WHERE kind='request.received'"))
-        if writes>60:reason='core_dispatch_budget';break
-        sessions=folder/'dsh-home'/'sessions'
-        if sessions.exists():
-            steps=0
-            for log in sessions.rglob('*.jsonl'):
-                for line in log.read_text().splitlines():
-                    try:r=json.loads(line)
-                    except ValueError:continue
-                    steps+=r.get('type')=='step/start'
-            if steps>40:reason='model_turn_budget';break
         time.sleep(.1)
     else:reason='wall_clock_budget'
     if reason and process and process.poll() is None:
@@ -149,8 +167,29 @@ def supervise(cmd,env,folder,runtime,budget):
         try:process.wait(timeout=5)
         except subprocess.TimeoutExpired:os.killpg(process.pid,signal.SIGKILL);process.wait()
     code=(process.wait() if process else 0 if (folder/'complete.json').exists() else 124)
+    # A fast final turn can end between the last poll and exit. Score its
+    # final counters too; caller completion must not hide a budget overrun.
+    reason=reason or budget_stop(folder,runtime)
     if process:out.close();err.close()
     return code,reason,round(time.monotonic()-started,3)
+
+
+def target_matches(target,nodes,pid,folder=None):
+    if Path(target['file']).suffix!='.rtf':
+        return snapshot_matches(target,nodes),{'channel':'native'}
+    file=Path(target['file']);title=file.stem
+    if not any(n['role']=='window' and n.get('name')==title for n in nodes):
+        return False,{'channel':'local_ocr','reason':'owned_window_unavailable'}
+    from bokkio.macos_capture import capture_window
+    meta,png=capture_window(int(pid),title=title,ocr=True)
+    text='\n'.join(r['text'] for r in meta['ocr']['observations'])
+    bound=meta['pid']==int(pid) and meta['window_title']==title
+    correct=bound and rendered_text_matches(rtf_text(file),text)
+    if folder:
+        folder.mkdir(exist_ok=True)
+        (folder/'owned-window.png').write_bytes(png)
+        (folder/'capture.json').write_text(json.dumps(meta))
+    return correct,{'channel':'local_ocr','capture_scope_verified':bound,'image_sha256':meta['image_sha256'],'ocr_engine':meta['ocr']['engine']}
 
 
 def judge_ui(case,runtime,sid):
@@ -159,16 +198,25 @@ def judge_ui(case,runtime,sid):
         file=Path(target['file']);title=file.stem if target['app'] in {'Numbers','Pages'} else file.name
         selector=str(next(a['pid'] for a in case['apps'] if a['name']==target['app']))
         response=runtime.call('desktop.observe',{'app':selector,'window':title,'max_nodes':2000,'max_bytes':1000000},session_id=sid,operation_id='independent-judge-'+target['app']+'-'+file.name)
-        try:valid=response['status']=='completed' and snapshot_matches(target,response['result']['nodes'])
-        except (OSError,ValueError):valid=False
-        results.append({'app':target['app'],'kind':target['kind'],'correct':valid,'observation_status':response['status']})
+        facts={}
+        try:
+            valid=False
+            if response['status']=='completed':valid,facts=target_matches(target,response['result']['nodes'],selector,runtime.store.root.parent/('judge-'+target['app']))
+        except (OSError,ValueError,RuntimeError,CaptureError,subprocess.SubprocessError) as e:valid=False;facts={'judge_error_type':type(e).__name__}
+        results.append({'app':target['app'],'kind':target['kind'],'correct':valid,'observation_status':response['status'],**facts})
     if not case['ui_outputs'] and case['apps']:
         for app in case['apps']:
             with runtime.store.connect() as db:
                 observations=db.execute('SELECT payload FROM observations WHERE session_id=?',(sid,)).fetchall()
-            observed=any(json.loads(r[0])['window']==app['windows'][0] and json.loads(r[0])['snapshot']['app']['name']==app['name'] for r in observations)
+            observed=source_window_observed([json.loads(r[0]) for r in observations],app['name'],app['windows'][0])
             results.append({'app':app['name'],'kind':'source_observed','correct':observed})
-    if case.get('web_kind'):
+    if case.get('web_kind') and case.get('track')=='gui':
+        app=next(a for a in case['apps'] if a.get('gui_browser'))
+        response=runtime.call('desktop.observe',{'app':str(app['pid']),'window':app['windows'][0],'max_nodes':2000},session_id=sid,operation_id='independent-judge-gui-browser')
+        pool='\n'.join(str(n.get('name') or '')+' '+str(n.get('value') or '') for n in response.get('result',{}).get('nodes',[]))
+        valid=response['status']=='completed' and all(v in pool for v in ['P02','P04']) and all(v not in pool for v in ['P01','P03'])
+        results.append({'app':'owned_gui_browser','kind':'business_page','correct':valid,'observation_status':response['status']})
+    elif case.get('web_kind'):
         response=runtime.call('browser.observe',session_id=sid,operation_id='independent-judge-browser')
         text=response.get('result',{}).get('text','')
         if case['task']=='T07':valid=response['status']=='completed' and 'P02' in text and 'P04' in text and 'P01' not in text and 'P03' not in text
@@ -179,6 +227,13 @@ def judge_ui(case,runtime,sid):
             used=db.execute("SELECT count(*) FROM operations WHERE tool='browser.act' AND status IN ('executed','verified','completed')").fetchone()[0]
         results.append({'app':'isolated_browser','kind':'business_page','correct':valid and used>0,'observation_status':response['status']})
     return results
+
+
+def source_window_observed(observations,app,window):
+    # Captures and native snapshots share the observation store. A screenshot
+    # has no native snapshot; it is not this source-inspection evidence.
+    return any(p.get('window')==window and p.get('snapshot',{}).get('app',{}).get('name')==app
+               for p in observations)
 
 
 def ps_app(name):
@@ -207,7 +262,7 @@ def reopen_check(case,folder):
                 c.call('session.close')
                 if observed['status']=='completed':
                     owned=True
-                    passed=snapshot_matches(target,observed['result']['nodes']);break
+                    passed,verification=target_matches(target,observed['result']['nodes'],pid,folder/'reopen-visual');break
             time.sleep(.2)
         if not born:reason='application_did_not_create_fresh_process'
     except Exception as e:reason=type(e).__name__
@@ -232,17 +287,45 @@ def protocol_complete(code,stop,sessions,open_sessions,jobs,unknown):
             and unknown==0)
 
 
+def caller_finished(folder,client):
+    if client=='codex-current':
+        file=folder/'complete.json'
+        if not file.exists():return False,'missing_completion_signal'
+        status=json.loads(file.read_text()).get('status')
+        return status=='completed',status
+    if client!='deepseek':return True,None
+    file=folder/'dsh-result.json'
+    if not file.exists():return False,'missing_sdk_result'
+    data=json.loads(file.read_text());reason=data.get('finish_reason')
+    return reason=='completed' and bool(data.get('final')),reason
+
+
+def gui_browser(case,folder,url):
+    from playwright.sync_api import sync_playwright
+    with sync_playwright() as p:executable=p.chromium.executable_path
+    name='Google Chrome for Testing'
+    process=subprocess.Popen([executable,'--user-data-dir='+str(folder/'gui-browser-profile'),'--app='+url,'--force-renderer-accessibility','--disable-background-networking','--no-first-run','--no-default-browser-check'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,start_new_session=True)
+    case['apps'].append({'name':name,'pid':process.pid,'input':url,'windows':['Bokkio disposable business'],'gui_browser':True,'gui_owned_process':True,'gui_process_started':True})
+    blank=folder/'gui-blank.txt';blank.write_text('')
+    case['apps'].append({'name':'TextEdit','input':str(blank),'windows':[blank.name,case['prefix']+'-result.csv']})
+    case['ui_outputs'].append({'app':'TextEdit','file':str(Path(case['out'])/(case['prefix']+'-result.csv')),'kind':'csv_text'})
+    return process
+
+
 def evaluate_one(args,task,client,model):
     folder=args.output/(task+'-'+client);folder.mkdir(mode=0o700)
     case=prepare(folder/'workspace',task,client,args.variant);case['budget']=480 if task in {'T09','T10'} else args.budget
+    case['track']=args.track
     server=None;web=None;url=None
     if case.get('web_kind'):server,web,url=web_server(case['web_kind'])
-    pf=preflight(case,folder)
-    policy={'apps':[str(a['pid']) for a in case['apps'] if 'pid' in a],'windows':{str(a['pid']):a['windows'] for a in case['apps'] if 'pid' in a},'paths':[case['work']] if args.track=='any-tool' else [],'origins':[url] if url and args.track=='any-tool' else [],'write':True,'trusted_host':args.track=='any-tool','require_approval':False}
+    browser_process=gui_browser(case,folder,url) if case.get('web_kind') and args.track=='gui' else None
+    pf=preflight(case,folder,args.track)
+    policy={'apps':[str(a['pid']) for a in case['apps'] if 'pid' in a],'windows':{str(a['pid']):a['windows'] for a in case['apps'] if 'pid' in a and not a.get('gui_owned_process')},'paths':[case['work']] if args.track=='any-tool' else [],'origins':[url] if url and args.track=='any-tool' else [],'write':True,'trusted_host':args.track=='any-tool','require_approval':False}
     runtime=Runtime(folder/'state',policy)
     policy_path=folder/'policy.json';policy_path.write_text(json.dumps(policy));(folder/'case.json').write_text(json.dumps(case))
     if not pf['ready']:
         if server:server.shutdown();server.server_close()
+        if browser_process:browser_process.terminate();browser_process.wait(timeout=5)
         return {'task':task,'client':client,'status':'blocked','started':False,'passed':False,'preflight':pf,'reason':'owned_application_window_unavailable'}
     (folder/'prompt.txt').write_text(prompt(case,url,args.track))
     cmd,env=command_for(client,args,folder,policy_path,case,model)
@@ -258,11 +341,12 @@ def evaluate_one(args,task,client,model):
             unknown=db.execute("SELECT count(*) FROM operations WHERE status='completion_unknown'").fetchone()[0]
         checks=business_checks(case,web);ui=judge_ui(case,runtime,open_sessions[-1]) if open_sessions else []
         protocol=protocol_complete(code,stop,sessions,open_sessions,jobs,unknown)
+        finished,finish_reason=caller_finished(folder,client);protocol=protocol and finished
         for sid in open_sessions:runtime.call('session.close',session_id=sid)
         persistence=reopen_check(case,folder) if checks['outputs_exist'] and ui and all(v['correct'] for v in ui) else {'required':case['requires_reopen'],'correct':False if case['requires_reopen'] else None,'reason':'business_ui_not_ready'}
         passed=checks['business_correct'] and checks['source_unchanged'] and bool(ui) and all(v['correct'] for v in ui) and protocol and (not persistence['required'] or persistence['correct'])
         result={'task':task,'client':client,'track':args.track,'variant':args.variant,'status':'passed' if passed else 'failed','started':bool(sessions),'passed':bool(passed),'client_exit_code':code,'termination':stop,'duration_seconds':elapsed,'business_checks':checks,'ui_checks':ui,'persistence':persistence,'protocol_completed':protocol,'tools':sorted(tools),'preflight':pf,'approval_mode':'administrator_pregranted_disposable_resources','conversation_context':'retained_and_evaluator_author' if client=='codex-current' else 'fresh_oneshot','model':'current_conversation' if client=='codex-current' else 'z-ai/glm-5.3-flash','raw_traces_public':False}
-        result.update(job_statuses=jobs,unknown_operations=unknown)
+        result.update(job_statuses=jobs,unknown_operations=unknown,caller_finish_reason=finish_reason)
         with runtime.store.connect() as db:
             result['audit_events']=db.execute('SELECT count(*) FROM events').fetchone()[0]
             result['logical_operations']=db.execute('SELECT count(*) FROM operations').fetchone()[0]
@@ -274,13 +358,14 @@ def evaluate_one(args,task,client,model):
         with runtime.store.connect() as db:remaining=[r[0] for r in db.execute("SELECT id FROM sessions WHERE status='open'")]
         for sid in remaining:runtime.call('session.close',session_id=sid)
         if server:server.shutdown();server.server_close()
+        if browser_process and browser_process.poll() is None:browser_process.terminate();browser_process.wait(timeout=5)
 
 
 def main(args):
     args.output.mkdir(parents=True,exist_ok=False,mode=0o700)
     model=glm_config(args.hermes_python,args.hermes_home)
     selected=[(t,c) for c in args.clients for t in args.tasks]
-    files=[Path(__file__).relative_to(Path.cwd()),Path('evals/runtime_business.py')]+[p for p in sorted(Path('src/bokkio').rglob('*')) if p.is_file() and p.suffix in {'.py','.swift'}]
+    files=[Path(__file__).relative_to(Path.cwd()),Path('evals/runtime_business.py'),Path('scripts/verify_harness_clients.py')]+[p for p in sorted(Path('src/bokkio').rglob('*')) if p.is_file() and p.suffix in {'.py','.swift'}]
     sources={str(p):sha(p) for p in files}
     report={'scope':'autonomous_synthetic_business_any_tool_internal_eval_not_official_benchmark','base_revision':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'source_sha256':sources,'track':args.track,'planned':len(selected),'results':[],'limits':['current_Codex_retained_context_and_authored_evaluator_not_blind','trusted_host_not_OS_sandbox','customer_and_Windows_not_tested']}
     (args.output/'frozen-run.json').write_text(json.dumps({'tasks':args.tasks,'clients':args.clients,'variant':args.variant,'sources':sources,'budgets':{'short':args.budget,'long':480},'suite_catalog_sha256':sha('fixtures/runtime-business-eval/suite.json')},indent=2))

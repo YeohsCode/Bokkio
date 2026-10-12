@@ -1,0 +1,306 @@
+{
+  "scope": "fixed_source_main_36_and_three_sample_critical_families",
+  "main_passed": 26,
+  "main_total": 36,
+  "callers": {
+    "codex-current": {
+      "passed": 12,
+      "total": 12,
+      "families_passed": [
+        "browser",
+        "cross_app",
+        "document",
+        "files",
+        "spreadsheet",
+        "untuned_app"
+      ],
+      "family_coverage": 6,
+      "family_total": 6
+    },
+    "hermes": {
+      "passed": 8,
+      "total": 12,
+      "families_passed": [
+        "browser",
+        "cross_app",
+        "document",
+        "spreadsheet",
+        "untuned_app"
+      ],
+      "family_coverage": 5,
+      "family_total": 6
+    },
+    "deepseek": {
+      "passed": 6,
+      "total": 12,
+      "families_passed": [
+        "browser",
+        "cross_app",
+        "document",
+        "spreadsheet"
+      ],
+      "family_coverage": 4,
+      "family_total": 6
+    }
+  },
+  "critical_passed": 17,
+  "critical_total": 27,
+  "families": [
+    {
+      "client": "codex-current",
+      "task": "T03",
+      "passed_samples": 3,
+      "total_samples": 3
+    },
+    {
+      "client": "codex-current",
+      "task": "T09",
+      "passed_samples": 3,
+      "total_samples": 3
+    },
+    {
+      "client": "codex-current",
+      "task": "T11",
+      "passed_samples": 3,
+      "total_samples": 3
+    },
+    {
+      "client": "hermes",
+      "task": "T03",
+      "passed_samples": 1,
+      "total_samples": 3
+    },
+    {
+      "client": "hermes",
+      "task": "T09",
+      "passed_samples": 1,
+      "total_samples": 3
+    },
+    {
+      "client": "hermes",
+      "task": "T11",
+      "passed_samples": 2,
+      "total_samples": 3
+    },
+    {
+      "client": "deepseek",
+      "task": "T03",
+      "passed_samples": 2,
+      "total_samples": 3
+    },
+    {
+      "client": "deepseek",
+      "task": "T09",
+      "passed_samples": 0,
+      "total_samples": 3
+    },
+    {
+      "client": "deepseek",
+      "task": "T11",
+      "passed_samples": 2,
+      "total_samples": 3
+    }
+  ],
+  "results": [
+    {
+      "batch": "final-main-v31",
+      "task": "T03",
+      "client": "codex-current",
+      "variant": 31,
+      "passed": true
+    },
+    {
+      "batch": "final-main-v31",
+      "task": "T09",
+      "client": "codex-current",
+      "variant": 31,
+      "passed": true
+    },
+    {
+      "batch": "final-main-v31",
+      "task": "T11",
+      "client": "codex-current",
+      "variant": 31,
+      "passed": true
+    },
+    {
+      "batch": "final-main-v31",
+      "task": "T03",
+      "client": "hermes",
+      "variant": 31,
+      "passed": false
+    },
+    {
+      "batch": "final-main-v31",
+      "task": "T09",
+      "client": "hermes",
+      "variant": 31,
+      "passed": false
+    },
+    {
+      "batch": "final-main-v31",
+      "task": "T11",
+      "client": "hermes",
+      "variant": 31,
+      "passed": true
+    },
+    {
+      "batch": "final-main-v31",
+      "task": "T03",
+      "client": "deepseek",
+      "variant": 31,
+      "passed": true
+    },
+    {
+      "batch": "final-main-v31",
+      "task": "T09",
+      "client": "deepseek",
+      "variant": 31,
+      "passed": false
+    },
+    {
+      "batch": "final-main-v31",
+      "task": "T11",
+      "client": "deepseek",
+      "variant": 31,
+      "passed": false
+    },
+    {
+      "batch": "stability-v32",
+      "task": "T03",
+      "client": "codex-current",
+      "variant": 32,
+      "passed": true
+    },
+    {
+      "batch": "stability-v32",
+      "task": "T09",
+      "client": "codex-current",
+      "variant": 32,
+      "passed": true
+    },
+    {
+      "batch": "stability-v32",
+      "task": "T11",
+      "client": "codex-current",
+      "variant": 32,
+      "passed": true
+    },
+    {
+      "batch": "stability-v32",
+      "task": "T03",
+      "client": "hermes",
+      "variant": 32,
+      "passed": true
+    },
+    {
+      "batch": "stability-v32",
+      "task": "T09",
+      "client": "hermes",
+      "variant": 32,
+      "passed": true
+    },
+    {
+      "batch": "stability-v32",
+      "task": "T11",
+      "client": "hermes",
+      "variant": 32,
+      "passed": true
+    },
+    {
+      "batch": "stability-v32",
+      "task": "T03",
+      "client": "deepseek",
+      "variant": 32,
+      "passed": false
+    },
+    {
+      "batch": "stability-v32",
+      "task": "T09",
+      "client": "deepseek",
+      "variant": 32,
+      "passed": false
+    },
+    {
+      "batch": "stability-v32",
+      "task": "T11",
+      "client": "deepseek",
+      "variant": 32,
+      "passed": true
+    },
+    {
+      "batch": "stability-v33",
+      "task": "T03",
+      "client": "codex-current",
+      "variant": 33,
+      "passed": true
+    },
+    {
+      "batch": "stability-v33",
+      "task": "T09",
+      "client": "codex-current",
+      "variant": 33,
+      "passed": true
+    },
+    {
+      "batch": "stability-v33",
+      "task": "T11",
+      "client": "codex-current",
+      "variant": 33,
+      "passed": true
+    },
+    {
+      "batch": "stability-v33",
+      "task": "T03",
+      "client": "hermes",
+      "variant": 33,
+      "passed": false
+    },
+    {
+      "batch": "stability-v33",
+      "task": "T09",
+      "client": "hermes",
+      "variant": 33,
+      "passed": false
+    },
+    {
+      "batch": "stability-v33",
+      "task": "T11",
+      "client": "hermes",
+      "variant": 33,
+      "passed": false
+    },
+    {
+      "batch": "stability-v33",
+      "task": "T03",
+      "client": "deepseek",
+      "variant": 33,
+      "passed": true
+    },
+    {
+      "batch": "stability-v33",
+      "task": "T09",
+      "client": "deepseek",
+      "variant": 33,
+      "passed": false
+    },
+    {
+      "batch": "stability-v33",
+      "task": "T11",
+      "client": "deepseek",
+      "variant": 33,
+      "passed": true
+    }
+  ],
+  "all_planned_business_cases_recorded": true,
+  "quality_target_met": false,
+  "gui_pending": false,
+  "human_pending": true,
+  "gui_planned": 18,
+  "gui_recorded": 18,
+  "gui_started": 18,
+  "gui_passed": 0,
+  "delayed_admin_passed": 9,
+  "delayed_admin_total": 9,
+  "macos_automated_plan_case_results_recorded": true
+}

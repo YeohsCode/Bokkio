@@ -1,0 +1,11 @@
+{
+  "scope": "installed_wheel_official_MCP_client_image_delivery_not_model_visual_understanding",
+  "passed": true,
+  "mime": "image/png",
+  "width": 480,
+  "height": 248,
+  "image_sha256": "85860198f160d301e6466963eab581a9669e11d7d893d9be8b9c0a9c204c5bed",
+  "image_blocks": 1,
+  "structured_base64_omitted": true,
+  "model_image_consumption_confirmed": null
+}

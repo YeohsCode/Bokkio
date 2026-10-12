@@ -1,0 +1,328 @@
+{
+  "batch": "stability-v32",
+  "notes": [
+    "null means unavailable; read requests are not claimed as retries",
+    "Core request attempts do not count every internal trusted-host script action",
+    "Codex uses retained evaluator-author conversation through official MCP client bridge"
+  ],
+  "results": [
+    {
+      "run_id": "stability-v32/T03-codex-current",
+      "task": "T03",
+      "client": "codex-current",
+      "variant": 32,
+      "track": "any-tool",
+      "failure_layer": null,
+      "input_sha256": {
+        "T03-codex-current-v32-invoices.csv": "8fee366512c3e960769d09cadfec58a551822a30278b9170b8c51205d79620db"
+      },
+      "output_sha256": {
+        "T03-codex-current-v32-result.csv": "9068f57427b1fba9cee1b84c55481353ca6ef8f2f577af5d6e06e6422352703a"
+      },
+      "wall_seconds": 5.013,
+      "wall_budget_seconds": 240,
+      "core_write_request_attempts": 1,
+      "core_read_observation_requests": 3,
+      "actual_physical_dispatches": null,
+      "generated_code_internal_file_api_actions": null,
+      "tokens_provider_reported": null,
+      "cost_usd_provider_reported": null,
+      "model_settings": {
+        "model": "current_conversation",
+        "reasoning": "current_conversation",
+        "max_model_turns": null,
+        "max_output_tokens": null
+      },
+      "manual_intervention": false,
+      "approval_records": [],
+      "generated_code_parent_child_links": [],
+      "source_fingerprint": "stability-v32-frozen.json"
+    },
+    {
+      "run_id": "stability-v32/T09-codex-current",
+      "task": "T09",
+      "client": "codex-current",
+      "variant": 32,
+      "track": "any-tool",
+      "failure_layer": null,
+      "input_sha256": {
+        "T09-codex-current-v32-invoices.csv": "8fee366512c3e960769d09cadfec58a551822a30278b9170b8c51205d79620db",
+        "T09-codex-current-v32-context.txt": "b59adc041a2302e89a4cb859a860e07a181de121f8e88d8cbff1088d430e0f70"
+      },
+      "output_sha256": {
+        "T09-codex-current-v32-report.txt": "f0dde2adba4e196294ba6ed256c91e6377e6d62a7521e14e7783c1c88d8fc31e",
+        "T09-codex-current-v32-result.csv": "9068f57427b1fba9cee1b84c55481353ca6ef8f2f577af5d6e06e6422352703a"
+      },
+      "wall_seconds": 6.01,
+      "wall_budget_seconds": 480,
+      "core_write_request_attempts": 1,
+      "core_read_observation_requests": 6,
+      "actual_physical_dispatches": null,
+      "generated_code_internal_file_api_actions": null,
+      "tokens_provider_reported": null,
+      "cost_usd_provider_reported": null,
+      "model_settings": {
+        "model": "current_conversation",
+        "reasoning": "current_conversation",
+        "max_model_turns": null,
+        "max_output_tokens": null
+      },
+      "manual_intervention": false,
+      "approval_records": [],
+      "generated_code_parent_child_links": [],
+      "source_fingerprint": "stability-v32-frozen.json"
+    },
+    {
+      "run_id": "stability-v32/T11-codex-current",
+      "task": "T11",
+      "client": "codex-current",
+      "variant": 32,
+      "track": "any-tool",
+      "failure_layer": null,
+      "input_sha256": {
+        "T11-codex-current-v32-large.png": "e05f944b0597c91002b39f054d02ba4a97d93908791281826442805592a28793",
+        "T11-codex-current-v32-small.png": "05095781c6f00e0cf6e23b93c7d1e0f4a2ce3cb5627d25bf0cb20dbf191837fe",
+        "T11-codex-current-v32-wide.png": "374a885a3818adedd9095f01151d2197ced88a66d43bb90e195b011623d6b5a4"
+      },
+      "output_sha256": {
+        "T11-codex-current-v32-result.png": "65f4894afda0fb3e2fe2d30b7043e69f568245d572aa05d401caa934c55b42c4"
+      },
+      "wall_seconds": 4.479,
+      "wall_budget_seconds": 240,
+      "core_write_request_attempts": 1,
+      "core_read_observation_requests": 3,
+      "actual_physical_dispatches": null,
+      "generated_code_internal_file_api_actions": null,
+      "tokens_provider_reported": null,
+      "cost_usd_provider_reported": null,
+      "model_settings": {
+        "model": "current_conversation",
+        "reasoning": "current_conversation",
+        "max_model_turns": null,
+        "max_output_tokens": null
+      },
+      "manual_intervention": false,
+      "approval_records": [],
+      "generated_code_parent_child_links": [],
+      "source_fingerprint": "stability-v32-frozen.json"
+    },
+    {
+      "run_id": "stability-v32/T03-hermes",
+      "task": "T03",
+      "client": "hermes",
+      "variant": 32,
+      "track": "any-tool",
+      "failure_layer": null,
+      "input_sha256": {
+        "T03-hermes-v32-invoices.csv": "8fee366512c3e960769d09cadfec58a551822a30278b9170b8c51205d79620db"
+      },
+      "output_sha256": {
+        "T03-hermes-v32-result.csv": "9068f57427b1fba9cee1b84c55481353ca6ef8f2f577af5d6e06e6422352703a"
+      },
+      "wall_seconds": 132.538,
+      "wall_budget_seconds": 240,
+      "core_write_request_attempts": 2,
+      "core_read_observation_requests": 5,
+      "actual_physical_dispatches": null,
+      "generated_code_internal_file_api_actions": null,
+      "tokens_provider_reported": {
+        "input": 27141,
+        "output": 4474,
+        "total": 202367,
+        "cache_read": 170752,
+        "cache_write": 0
+      },
+      "cost_usd_provider_reported": null,
+      "model_settings": {
+        "model": "z-ai/glm-5.3-flash",
+        "reasoning": "low",
+        "max_model_turns": 40,
+        "max_output_tokens": null
+      },
+      "manual_intervention": false,
+      "approval_records": [],
+      "generated_code_parent_child_links": [],
+      "source_fingerprint": "stability-v32-frozen.json"
+    },
+    {
+      "run_id": "stability-v32/T09-hermes",
+      "task": "T09",
+      "client": "hermes",
+      "variant": 32,
+      "track": "any-tool",
+      "failure_layer": null,
+      "input_sha256": {
+        "T09-hermes-v32-invoices.csv": "8fee366512c3e960769d09cadfec58a551822a30278b9170b8c51205d79620db",
+        "T09-hermes-v32-context.txt": "b59adc041a2302e89a4cb859a860e07a181de121f8e88d8cbff1088d430e0f70"
+      },
+      "output_sha256": {
+        "T09-hermes-v32-result.csv": "41f429168b178f2340d624485475b17753d18cae00a0a0020166a1c9599b3c89",
+        "T09-hermes-v32-report.txt": "bd7593b71484a059cce13de98d9cc73f1b3c5bd3aee7a925c09afbab7700eeb8"
+      },
+      "wall_seconds": 123.593,
+      "wall_budget_seconds": 480,
+      "core_write_request_attempts": 5,
+      "core_read_observation_requests": 6,
+      "actual_physical_dispatches": null,
+      "generated_code_internal_file_api_actions": null,
+      "tokens_provider_reported": {
+        "input": 222805,
+        "output": 4435,
+        "total": 275112,
+        "cache_read": 47872,
+        "cache_write": 0
+      },
+      "cost_usd_provider_reported": null,
+      "model_settings": {
+        "model": "z-ai/glm-5.3-flash",
+        "reasoning": "low",
+        "max_model_turns": 40,
+        "max_output_tokens": null
+      },
+      "manual_intervention": false,
+      "approval_records": [],
+      "generated_code_parent_child_links": [],
+      "source_fingerprint": "stability-v32-frozen.json"
+    },
+    {
+      "run_id": "stability-v32/T11-hermes",
+      "task": "T11",
+      "client": "hermes",
+      "variant": 32,
+      "track": "any-tool",
+      "failure_layer": null,
+      "input_sha256": {
+        "T11-hermes-v32-wide.png": "374a885a3818adedd9095f01151d2197ced88a66d43bb90e195b011623d6b5a4",
+        "T11-hermes-v32-small.png": "05095781c6f00e0cf6e23b93c7d1e0f4a2ce3cb5627d25bf0cb20dbf191837fe",
+        "T11-hermes-v32-large.png": "e05f944b0597c91002b39f054d02ba4a97d93908791281826442805592a28793"
+      },
+      "output_sha256": {
+        "T11-hermes-v32-result.png": "65f4894afda0fb3e2fe2d30b7043e69f568245d572aa05d401caa934c55b42c4"
+      },
+      "wall_seconds": 200.893,
+      "wall_budget_seconds": 240,
+      "core_write_request_attempts": 4,
+      "core_read_observation_requests": 3,
+      "actual_physical_dispatches": null,
+      "generated_code_internal_file_api_actions": null,
+      "tokens_provider_reported": {
+        "input": 108136,
+        "output": 4302,
+        "total": 226102,
+        "cache_read": 113664,
+        "cache_write": 0
+      },
+      "cost_usd_provider_reported": null,
+      "model_settings": {
+        "model": "z-ai/glm-5.3-flash",
+        "reasoning": "low",
+        "max_model_turns": 40,
+        "max_output_tokens": null
+      },
+      "manual_intervention": false,
+      "approval_records": [],
+      "generated_code_parent_child_links": [],
+      "source_fingerprint": "stability-v32-frozen.json"
+    },
+    {
+      "run_id": "stability-v32/T03-deepseek",
+      "task": "T03",
+      "client": "deepseek",
+      "variant": 32,
+      "track": "any-tool",
+      "failure_layer": "caller_completion_or_budget",
+      "input_sha256": {
+        "T03-deepseek-v32-invoices.csv": "8fee366512c3e960769d09cadfec58a551822a30278b9170b8c51205d79620db"
+      },
+      "output_sha256": {
+        "T03-deepseek-v32-result.csv": "9068f57427b1fba9cee1b84c55481353ca6ef8f2f577af5d6e06e6422352703a"
+      },
+      "wall_seconds": 94.192,
+      "wall_budget_seconds": 240,
+      "core_write_request_attempts": 5,
+      "core_read_observation_requests": 18,
+      "actual_physical_dispatches": null,
+      "generated_code_internal_file_api_actions": null,
+      "tokens_provider_reported": null,
+      "cost_usd_provider_reported": null,
+      "model_settings": {
+        "model": "z-ai/glm-5.3-flash",
+        "reasoning": "low",
+        "max_model_turns": 40,
+        "max_output_tokens": 4096
+      },
+      "manual_intervention": false,
+      "approval_records": [],
+      "generated_code_parent_child_links": [],
+      "source_fingerprint": "stability-v32-frozen.json"
+    },
+    {
+      "run_id": "stability-v32/T09-deepseek",
+      "task": "T09",
+      "client": "deepseek",
+      "variant": 32,
+      "track": "any-tool",
+      "failure_layer": "caller_completion_or_budget",
+      "input_sha256": {
+        "T09-deepseek-v32-context.txt": "b59adc041a2302e89a4cb859a860e07a181de121f8e88d8cbff1088d430e0f70",
+        "T09-deepseek-v32-invoices.csv": "8fee366512c3e960769d09cadfec58a551822a30278b9170b8c51205d79620db"
+      },
+      "output_sha256": {
+        "T09-deepseek-v32-report.txt": "b533cc6bb0e5d95bc2cbedd6bf93edc8669aba424f77fc40c937cfac6854e7ce",
+        "T09-deepseek-v32-result.csv": "41f429168b178f2340d624485475b17753d18cae00a0a0020166a1c9599b3c89"
+      },
+      "wall_seconds": 80.372,
+      "wall_budget_seconds": 480,
+      "core_write_request_attempts": 7,
+      "core_read_observation_requests": 8,
+      "actual_physical_dispatches": null,
+      "generated_code_internal_file_api_actions": null,
+      "tokens_provider_reported": null,
+      "cost_usd_provider_reported": null,
+      "model_settings": {
+        "model": "z-ai/glm-5.3-flash",
+        "reasoning": "low",
+        "max_model_turns": 40,
+        "max_output_tokens": 4096
+      },
+      "manual_intervention": false,
+      "approval_records": [],
+      "generated_code_parent_child_links": [],
+      "source_fingerprint": "stability-v32-frozen.json"
+    },
+    {
+      "run_id": "stability-v32/T11-deepseek",
+      "task": "T11",
+      "client": "deepseek",
+      "variant": 32,
+      "track": "any-tool",
+      "failure_layer": null,
+      "input_sha256": {
+        "T11-deepseek-v32-small.png": "05095781c6f00e0cf6e23b93c7d1e0f4a2ce3cb5627d25bf0cb20dbf191837fe",
+        "T11-deepseek-v32-large.png": "e05f944b0597c91002b39f054d02ba4a97d93908791281826442805592a28793",
+        "T11-deepseek-v32-wide.png": "374a885a3818adedd9095f01151d2197ced88a66d43bb90e195b011623d6b5a4"
+      },
+      "output_sha256": {
+        "T11-deepseek-v32-result.png": "65f4894afda0fb3e2fe2d30b7043e69f568245d572aa05d401caa934c55b42c4"
+      },
+      "wall_seconds": 18.193,
+      "wall_budget_seconds": 240,
+      "core_write_request_attempts": 3,
+      "core_read_observation_requests": 2,
+      "actual_physical_dispatches": null,
+      "generated_code_internal_file_api_actions": null,
+      "tokens_provider_reported": null,
+      "cost_usd_provider_reported": null,
+      "model_settings": {
+        "model": "z-ai/glm-5.3-flash",
+        "reasoning": "low",
+        "max_model_turns": 40,
+        "max_output_tokens": 4096
+      },
+      "manual_intervention": false,
+      "approval_records": [],
+      "generated_code_parent_child_links": [],
+      "source_fingerprint": "stability-v32-frozen.json"
+    }
+  ]
+}

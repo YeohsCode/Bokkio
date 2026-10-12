@@ -1,0 +1,34 @@
+{
+  "latest_two_samples": [
+    {
+      "sample": 4,
+      "scope": "native_numbers_persistence_recheck_not_business_score",
+      "preflight_ready": true,
+      "saved_closed_reopened": false,
+      "observation_status": "completed",
+      "activation_status": "executed",
+      "activation_error_type": null,
+      "activation_error_code": null,
+      "activation_dispatched": true,
+      "blocker": "owned_window_activation_guard_refused; no business input dispatched",
+      "source_unchanged": true
+    },
+    {
+      "sample": 5,
+      "scope": "native_numbers_persistence_recheck_not_business_score",
+      "preflight_ready": true,
+      "saved_closed_reopened": false,
+      "observation_status": "completed",
+      "activation_status": "executed",
+      "activation_error_type": null,
+      "activation_error_code": null,
+      "activation_dispatched": true,
+      "blocker": "owned_window_activation_guard_refused; no business input dispatched",
+      "source_unchanged": true
+    }
+  ],
+  "historical_passed": 1,
+  "historical_total": 3,
+  "all_new_samples_completed": false,
+  "diagnostic_correction": "Initial helper erroneously treated executed activation as refused. Activation actually dispatched; no document edit or persistence sequence attempted. This report is not a guard refusal proof."
+}

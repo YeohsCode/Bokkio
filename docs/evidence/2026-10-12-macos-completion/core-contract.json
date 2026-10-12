@@ -1,0 +1,53 @@
+{
+  "scope": "eight_core_safety_categories_at_least_one_real_local_case_each",
+  "passed": 8,
+  "total": 8,
+  "checks": [
+    {
+      "category": "scope",
+      "evidence_case": "resource_grants",
+      "passed": true
+    },
+    {
+      "category": "stale_rebuilt_ambiguous",
+      "evidence_case": "same_title_ambiguous_window",
+      "passed": true
+    },
+    {
+      "category": "foreground_takeover",
+      "evidence_case": "nonforeground_fresh_pixels",
+      "passed": true
+    },
+    {
+      "category": "approval_pause_resume",
+      "evidence_case": "approval_and_native_readback",
+      "passed": true
+    },
+    {
+      "category": "approval_revocation_expiry_and_changed_request",
+      "evidence_case": "revocation_expiry_and_code_hash",
+      "passed": true
+    },
+    {
+      "category": "crash_unknown_no_replay",
+      "evidence_case": "worker_crash_unknown_never_replayed",
+      "passed": true
+    },
+    {
+      "category": "audit_intent_failure",
+      "evidence_case": "sqlite_intent_failure_prevents_native_write",
+      "passed": true
+    },
+    {
+      "category": "artifact_export_statistics",
+      "evidence_case": "export_privacy_cursor_and_reconciliation",
+      "passed": true
+    }
+  ],
+  "full_window_matrix_passed": 18,
+  "full_window_matrix_total": 18,
+  "blocked_positive_controls": 0,
+  "physical_screen_lock_tested": false,
+  "human_approval_tested": false,
+  "source_fingerprint": "final-source-files.json"
+}

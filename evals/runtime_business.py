@@ -7,6 +7,8 @@ import json
 from pathlib import Path
 import re
 import struct
+import subprocess
+import unicodedata
 import zlib
 
 TASKS = [
@@ -29,6 +31,21 @@ def png(width,height):
 
 def read_csv(path):
     with Path(path).open(encoding='utf-8-sig',newline='') as f:return list(csv.DictReader(f))
+
+
+def rtf_text(path):
+    """Decode with the platform renderer; raw RTF comments are not content."""
+    if not Path(path).read_bytes().lstrip().startswith(b'{\\rtf'):
+        raise ValueError('Expected RTF document')
+    result=subprocess.run(['textutil','-format','rtf','-convert','txt','-stdout',str(path)],
+                          capture_output=True,timeout=10,check=True)
+    return result.stdout.decode('utf-8').replace('\r\n','\n').strip()
+
+
+def rendered_text_matches(expected,ocr_text):
+    normalize=lambda text:re.sub(r'\s+',' ',unicodedata.normalize('NFKC',text)).strip()
+    pool=normalize(ocr_text)
+    return all(normalize(line) in pool for line in expected.splitlines() if line.strip())
 
 
 def write_csv(path,columns,rows):
@@ -149,7 +166,7 @@ def business_checks(case,web_state=None):
                 checks['report_correct']=all(checks[k] for k in ['report_owner_correct','report_project_deadline_correct','report_invoices_correct','report_total_correct'])
             checks['business_correct']=checks['table_correct'] and checks.get('report_correct',True)
         elif task=='T04':
-            checks['outputs_exist']=True;checks['business_correct']=read_csv(p('result.csv'))==[{'id':'A','name':'Apex','qty':'5'},{'id':'B','name':'Birch','qty':'4'},{'id':'C','name':'Cedar','qty':'0'}]
+            actual=read_csv(p('result.csv'));checks['outputs_exist']=True;checks['business_correct']=actual==[{'id':'A','name':'Apex','qty':'5'},{'id':'B','name':'Birch','qty':'4'},{'id':'C','name':'Cedar','qty':'0'}]
         elif task in {'T05','T06'}:
             text=p('report.txt').read_text(encoding='utf-8');source=(inputs/(prefix+'-notes.txt')).read_text(encoding='utf-8');checks['outputs_exist']=True
             if task=='T05':
@@ -163,7 +180,7 @@ def business_checks(case,web_state=None):
             else:checks['business_correct']=text==source.replace('Budget CNY 48000','Budget CNY 52000').replace('Deadline 2026-11-03','Deadline 2026-11-10')
         elif task=='T07':
             expected=[{'id':'P02','name':'Bolt','group':'Hardware','stock':'3'},{'id':'P04','name':'Clamp','group':'Hardware','stock':'1'}]
-            checks['outputs_exist']=True;checks['business_correct']=read_csv(p('result.csv'))==expected
+            actual=read_csv(p('result.csv'));checks['outputs_exist']=True;checks['business_correct']=actual==expected
             checks['web_result_correct']=bool(web_state and web_state.get('selected')==['P02','P04'])
         elif task=='T08':
             expected={'name':'林安','project':'Beacon','quantity':'7','note':'内部测试草稿'}
@@ -176,9 +193,9 @@ def business_checks(case,web_state=None):
             text=p('index.txt').read_text();checks['outputs_exist']=True
             checks['business_correct']=bool(re.search(r'large\.png\s*[, ]\s*240\s*[, ]\s*120',text) and re.search(r'wide\.png\s*[, ]\s*160\s*[, ]\s*80',text) and 'small.png' not in text and text.index('large.png')<text.index('wide.png'))
         else:
-            data=p('result.rtf').read_text();checks['outputs_exist']=True
-            checks['business_correct']=all(s in data for s in ['Project Beacon','Budget 52000','Deadline 2026-11-03','Keep appendix.']) and 'Budget 48000' not in data
-    except (OSError,ValueError,KeyError,struct.error,csv.Error,StopIteration):pass
+            source=rtf_text(inputs/(prefix+'-notes.rtf'));data=rtf_text(p('result.rtf'));checks['outputs_exist']=True
+            checks['business_correct']=data==source.replace('Budget 48000','Budget 52000')
+    except (OSError,ValueError,KeyError,struct.error,csv.Error,StopIteration,subprocess.SubprocessError):pass
     return checks
 
 
@@ -209,6 +226,8 @@ def snapshot_matches(target,nodes):
         return all(numeric_equal(cells.get((row,col),''),value) for row,values in enumerate(matrix,1) for col,value in enumerate(values,1))
     if kind=='text' and file.suffix=='.txt':
         contents=file.read_text(encoding='utf-8');return any(n['role']=='text_area' and n.get('value')==contents for n in nodes)
+    if kind=='csv_text':
+        return any(n['role']=='text_area' and n.get('value')==file.read_text(encoding='utf-8') for n in nodes)
     if kind=='image':
         from urllib.parse import unquote,urlparse
         bound=any(Path(unquote(urlparse(n.get('platform_data',{}).get('ax_document') or '').path)).resolve()==file.resolve() for n in windows)

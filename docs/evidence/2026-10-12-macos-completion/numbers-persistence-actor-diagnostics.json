@@ -1,0 +1,38 @@
+{
+  "scope": "supplementary_preserved_actor_evidence_not_new_passes",
+  "results": [
+    {
+      "saved_closed_reopened": false,
+      "blocker": "native_save_menu_completion_unknown_no_replay",
+      "unknown_operations": 1,
+      "native_field_write_verified": true,
+      "source_unchanged": true,
+      "sample": 6,
+      "worksheet_name_commit_verified": false,
+      "saved_file_exists": false,
+      "source_input_sha256": "a4aa76799af3a3e8f6b4e917f8cfa2ff8cedd3d98c66222fe28620a6a6b19d76",
+      "failure_layer": "disabled_save_target_and_conservative_Core_unknown_status",
+      "backend_error": "Target is disabled",
+      "unknown_request_replayed": false
+    },
+    {
+      "saved_closed_reopened": false,
+      "blocker": "native_save_menu_completion_unknown_no_replay",
+      "unknown_operations": 1,
+      "native_field_write_verified": true,
+      "source_unchanged": true,
+      "sample": 7,
+      "worksheet_name_commit_verified": false,
+      "saved_file_exists": false,
+      "source_input_sha256": "1b2dd7d3b407e7a2ba820c1d8933f6174105469e6d7dbad7b12bd202737cc9fb",
+      "failure_layer": "disabled_save_target_and_conservative_Core_unknown_status",
+      "backend_error": "Target is disabled",
+      "unknown_request_replayed": false
+    }
+  ],
+  "historical_persistence_passed": 1,
+  "historical_persistence_total": 3,
+  "latest_samples_passed": 0,
+  "latest_samples_total": 2,
+  "note": "Field value verification does not prove worksheet-model commit. Disabled targets were rejected by backend before action; Core nevertheless reports completion_unknown. No save action was repeated."
+}

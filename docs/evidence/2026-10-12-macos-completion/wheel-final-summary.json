@@ -1,0 +1,31 @@
+{
+  "scope": "fresh_venv_locked_dependencies_installed_wheel_with_owned_native_fixture",
+  "passed": true,
+  "installed_module_outside_checkout": true,
+  "wheel_sha256": "47e4eb8734f4ea21c9caaf931e2ff9b9a0374fb779e2a609eb5c517f5bdfd968",
+  "native_passed": 3,
+  "native_total": 3,
+  "code_passed": 3,
+  "browser_passed": 3,
+  "rounds": 3,
+  "mcp": {
+    "passed": true,
+    "tools": 23,
+    "client": "official_mcp_sdk"
+  },
+  "cli": {
+    "passed": true
+  },
+  "approval": {
+    "passed": true,
+    "mode": "automated_local_admin_cli_fixture",
+    "operation_id": "approval-fixture"
+  },
+  "audit": {
+    "events": 115,
+    "logical_operations": 36,
+    "reconciled": true,
+    "generated_code_parent_links": 3
+  },
+  "error_type": null
+}

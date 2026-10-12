@@ -6,7 +6,7 @@
 2. 使用项目 uv.lock 安装，Runtime 主线不需要模型 API Key。策略模板 examples/runtime-policy.json 默认为拒绝，按本机实际测试资源配置。
 3. 选取一个待办 ID，在状态中注明平台和进行中；完成后补充结果、失败、修订和证据路径。避免两端同时修改相同代码文件；推送前拉取并处理冲突。
 
-新业务评测按 [测试加强计划](../TEST-STRENGTHENING-PLAN.md) 和 test-strengthening.json 的 EVAL-01～08 接续。先冻结题目/输入/评分/预算，再准备薄 runner；不要沿用 verify_harness_clients.py 的精确代码提示作为自主任务。GUI/any-tool、首次/修复后、macOS/Windows 分轨计数；首轮及修复复测已开始，详见[执行报告](../evidence/2026-10-12-business-eval/README.md)。不要将旧轮补分或重评分计成新调用方尝试。
+新业务评测按 [测试加强计划](../TEST-STRENGTHENING-PLAN.md) 和 test-strengthening.json 的 EVAL-01～08 接续。先冻结题目/输入/评分/预算，再准备薄 runner；不要沿用 verify_harness_clients.py 的精确代码提示作为自主任务。GUI/any-tool、首次/修复后、macOS/Windows 分轨计数；自动主批、GUI 与稳定性已执行，详见[结算报告](../evidence/2026-10-12-macos-completion/README.md)。不要将旧轮补分或重评分计成新调用方尝试。
 
 ## macOS
 
@@ -76,4 +76,12 @@ uv run python scripts/evaluate_runtime_business.py --output /tmp/bokkio-business
 
 历史证据可用 `scripts/regrade_runtime_business.py` 重评分；必须验证原产物哈希未改，只使用评分开始之前的作业完成事件。原始分数和更正分数并列；重评分不是新尝试。macOS 原生表格 judge 处理表名空单元格，文档 judge 校验章节内事实、逐发票金额、任一章节的总额与原样 appendix，不能要求未在目标中规定的标签格式。Windows 需换成对应应用并增加实机评分，不直接运行本 Mac 的应用绑定。
 
-最新重点矩阵为 Codex 4/4、Hermes 2/4、DeepSeek 3/4。不要自动放宽预算来补分：Hermes 错负责人、两种调用方 Preview 超预算需要在新的冻结轮次处理。最新本机故障 16/18，UserNotificationCenter 顶层窗口阻塞两项正向输入；保持零派发守卫，待正常解除遮挡后补测。
+最新完整主批为 Codex 12/12、Hermes 8/12、DeepSeek 6/12；关键家族同一冻结源码三份样本合计 17/27，产品目标未达标。见[接续报告](../evidence/2026-10-12-macos-completion/README.md)。旧选取四题矩阵因 SDK 终态核验从 9/12 更正为 7/12，旧原始报告保留。不得提高预算、换题或选择最佳轮次补分。
+
+GUI 用 `--track gui`，专属新 PID 等待系统注册；只授权该进程的菜单/对话框，原有 Finder 仍按精确窗口限制，code/process/DOM 禁用。T01 的 Finder-only 与 SHA256 清单要求存在范围可行性限制，不能将该分数用于通用 GUI 排名。当前 Codex 的 `complete.json` 必须明确 `status=completed`；failed/waiting 不计协议完成。
+
+延迟审批用 `scripts/evaluate_approval_wait.py --fixture NATIVE_EXECUTABLE --output NEWDIR`（此脚本仅适用于可丢弃 fixture 自动管理员合同），结果 9/9 为自动独立管理员合同，不是人工。Hermes 用原 CLI session resume，DeepSeek 必须保持相同 SDK/native runtime 进程；创建新实例复用旧 session ID 不能当作恢复。观察 15 秒和批准 300 秒 TTL 保持原值，过时请求拒绝后新观察、新申请，代码与原生子动作分别审阅。
+
+物理输入继续按实际守卫结果记录；不得绕过系统前台/权限窗口或把模拟锁屏作为真实验收。人工审批与锁屏解锁需要实际用户参与，第二显示器/不同缩放和 Windows 需对应设备。Windows Agent 先跑当前 Core 合同，再实现本平台业务绑定，不复制 macOS 成绩。首次与复测、范围与失败层次、输入/源码哈希、提供方 token/费用、原始日志关联单列；API key、截图、模型 trace 和 SQLite 不进入 Git。
+
+2026-10-13 最终本机复核：587 回归、审计 9/9、窗口／作业 18/18，独立 wheel 原生／代码／Browser 各3/3。旧两项正向输入阻塞本次已解除。Numbers 最新两份未保存：编辑字段与工作表提交不同，Save 目标为 disabled，backend 先拒绝而 Core 记录 unknown；保留诊断，不盲重发。人工与物理测试仍等待实际参与。

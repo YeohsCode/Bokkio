@@ -1,0 +1,730 @@
+{
+  "scope": "readonly_terminal_counter_audit_not_new_actor_attempts",
+  "core_write_limit": 60,
+  "model_turn_limit": 40,
+  "all_passed_results_within_limits": true,
+  "external_poll_guard_atomic_maximum_claimed": false,
+  "note": "External supervision may see the first excess request/step; such attempts must fail, not pass. Final runner also checks counters after caller exit. Hermes enforces its own 40-turn option; actual turn count unavailable here. Internal script actions are not counted as Core requests.",
+  "results": [
+    {
+      "run_id": "final-main-v31/T01-codex-current",
+      "passed": true,
+      "core_write_attempts": 1,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-main-v31/T03-codex-current",
+      "passed": true,
+      "core_write_attempts": 1,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-main-v31/T05-codex-current",
+      "passed": true,
+      "core_write_attempts": 1,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-main-v31/T07-codex-current",
+      "passed": true,
+      "core_write_attempts": 5,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-main-v31/T09-codex-current",
+      "passed": true,
+      "core_write_attempts": 1,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-main-v31/T11-codex-current",
+      "passed": true,
+      "core_write_attempts": 1,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-main-v31/T01-hermes",
+      "passed": false,
+      "core_write_attempts": 10,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-main-v31/T03-hermes",
+      "passed": false,
+      "core_write_attempts": 5,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-main-v31/T05-hermes",
+      "passed": true,
+      "core_write_attempts": 3,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-main-v31/T07-hermes",
+      "passed": true,
+      "core_write_attempts": 7,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-main-v31/T09-hermes",
+      "passed": false,
+      "core_write_attempts": 3,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-main-v31/T11-hermes",
+      "passed": true,
+      "core_write_attempts": 2,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-main-v31/T01-deepseek",
+      "passed": false,
+      "core_write_attempts": 5,
+      "DSH_step_starts": 11,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-main-v31/T03-deepseek",
+      "passed": true,
+      "core_write_attempts": 4,
+      "DSH_step_starts": 20,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-main-v31/T05-deepseek",
+      "passed": true,
+      "core_write_attempts": 3,
+      "DSH_step_starts": 10,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-main-v31/T07-deepseek",
+      "passed": false,
+      "core_write_attempts": 7,
+      "DSH_step_starts": 11,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-main-v31/T09-deepseek",
+      "passed": false,
+      "core_write_attempts": 4,
+      "DSH_step_starts": 41,
+      "within_scoring_limits": false,
+      "terminal_budget_reason": "model_turn_budget"
+    },
+    {
+      "run_id": "final-main-v31/T11-deepseek",
+      "passed": false,
+      "core_write_attempts": 5,
+      "DSH_step_starts": 41,
+      "within_scoring_limits": false,
+      "terminal_budget_reason": "model_turn_budget"
+    },
+    {
+      "run_id": "final-remaining-v31/T02-codex-current",
+      "passed": true,
+      "core_write_attempts": 1,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-remaining-v31/T04-codex-current",
+      "passed": true,
+      "core_write_attempts": 1,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-remaining-v31/T06-codex-current",
+      "passed": true,
+      "core_write_attempts": 1,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-remaining-v31/T08-codex-current",
+      "passed": true,
+      "core_write_attempts": 6,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-remaining-v31/T10-codex-current",
+      "passed": true,
+      "core_write_attempts": 1,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-remaining-v31/T12-codex-current",
+      "passed": true,
+      "core_write_attempts": 1,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-remaining-v31/T02-hermes",
+      "passed": false,
+      "core_write_attempts": 7,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-remaining-v31/T04-hermes",
+      "passed": true,
+      "core_write_attempts": 5,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-remaining-v31/T06-hermes",
+      "passed": true,
+      "core_write_attempts": 6,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-remaining-v31/T08-hermes",
+      "passed": true,
+      "core_write_attempts": 6,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-remaining-v31/T10-hermes",
+      "passed": true,
+      "core_write_attempts": 4,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-remaining-v31/T12-hermes",
+      "passed": true,
+      "core_write_attempts": 11,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-remaining-v31/T02-deepseek",
+      "passed": false,
+      "core_write_attempts": 2,
+      "DSH_step_starts": 41,
+      "within_scoring_limits": false,
+      "terminal_budget_reason": "model_turn_budget"
+    },
+    {
+      "run_id": "final-remaining-v31/T04-deepseek",
+      "passed": true,
+      "core_write_attempts": 6,
+      "DSH_step_starts": 23,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-remaining-v31/T06-deepseek",
+      "passed": true,
+      "core_write_attempts": 3,
+      "DSH_step_starts": 16,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-remaining-v31/T08-deepseek",
+      "passed": true,
+      "core_write_attempts": 7,
+      "DSH_step_starts": 11,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-remaining-v31/T10-deepseek",
+      "passed": true,
+      "core_write_attempts": 7,
+      "DSH_step_starts": 20,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "final-remaining-v31/T12-deepseek",
+      "passed": false,
+      "core_write_attempts": 4,
+      "DSH_step_starts": 41,
+      "within_scoring_limits": false,
+      "terminal_budget_reason": "model_turn_budget"
+    },
+    {
+      "run_id": "stability-v32/T03-codex-current",
+      "passed": true,
+      "core_write_attempts": 1,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "stability-v32/T09-codex-current",
+      "passed": true,
+      "core_write_attempts": 1,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "stability-v32/T11-codex-current",
+      "passed": true,
+      "core_write_attempts": 1,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "stability-v32/T03-hermes",
+      "passed": true,
+      "core_write_attempts": 2,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "stability-v32/T09-hermes",
+      "passed": true,
+      "core_write_attempts": 5,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "stability-v32/T11-hermes",
+      "passed": true,
+      "core_write_attempts": 4,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "stability-v32/T03-deepseek",
+      "passed": false,
+      "core_write_attempts": 5,
+      "DSH_step_starts": 41,
+      "within_scoring_limits": false,
+      "terminal_budget_reason": "model_turn_budget"
+    },
+    {
+      "run_id": "stability-v32/T09-deepseek",
+      "passed": false,
+      "core_write_attempts": 7,
+      "DSH_step_starts": 41,
+      "within_scoring_limits": false,
+      "terminal_budget_reason": "model_turn_budget"
+    },
+    {
+      "run_id": "stability-v32/T11-deepseek",
+      "passed": true,
+      "core_write_attempts": 3,
+      "DSH_step_starts": 10,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "stability-v33/T03-codex-current",
+      "passed": true,
+      "core_write_attempts": 1,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "stability-v33/T09-codex-current",
+      "passed": true,
+      "core_write_attempts": 1,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "stability-v33/T11-codex-current",
+      "passed": true,
+      "core_write_attempts": 1,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "stability-v33/T03-hermes",
+      "passed": false,
+      "core_write_attempts": 3,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "stability-v33/T09-hermes",
+      "passed": false,
+      "core_write_attempts": 3,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "stability-v33/T11-hermes",
+      "passed": false,
+      "core_write_attempts": 6,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "stability-v33/T03-deepseek",
+      "passed": true,
+      "core_write_attempts": 3,
+      "DSH_step_starts": 27,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "stability-v33/T09-deepseek",
+      "passed": false,
+      "core_write_attempts": 4,
+      "DSH_step_starts": 15,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "stability-v33/T11-deepseek",
+      "passed": true,
+      "core_write_attempts": 7,
+      "DSH_step_starts": 19,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v40/T01-codex-current",
+      "passed": false,
+      "core_write_attempts": 0,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v40/T03-codex-current",
+      "passed": false,
+      "core_write_attempts": 1,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v40/T05-codex-current",
+      "passed": false,
+      "core_write_attempts": 1,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v40/T07-codex-current",
+      "passed": false,
+      "core_write_attempts": 3,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v40/T09-codex-current",
+      "passed": false,
+      "core_write_attempts": 0,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v40/T11-codex-current",
+      "passed": false,
+      "core_write_attempts": 0,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v40/T01-hermes",
+      "passed": false,
+      "core_write_attempts": 2,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v40/T03-hermes",
+      "passed": false,
+      "core_write_attempts": 0,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v40/T05-hermes",
+      "passed": false,
+      "core_write_attempts": 0,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v40/T07-hermes",
+      "passed": false,
+      "core_write_attempts": 7,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v40/T09-hermes",
+      "passed": false,
+      "core_write_attempts": 0,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v40/T11-hermes",
+      "passed": false,
+      "core_write_attempts": 0,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v40/T01-deepseek",
+      "passed": false,
+      "core_write_attempts": 8,
+      "DSH_step_starts": 32,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": "wall_clock_budget"
+    },
+    {
+      "run_id": "gui-v40/T03-deepseek",
+      "passed": false,
+      "core_write_attempts": 0,
+      "DSH_step_starts": 0,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v40/T05-deepseek",
+      "passed": false,
+      "core_write_attempts": 0,
+      "DSH_step_starts": 0,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v40/T07-deepseek",
+      "passed": false,
+      "core_write_attempts": 19,
+      "DSH_step_starts": 36,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": "wall_clock_budget"
+    },
+    {
+      "run_id": "gui-v40/T09-deepseek",
+      "passed": false,
+      "core_write_attempts": 0,
+      "DSH_step_starts": 0,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v40/T11-deepseek",
+      "passed": false,
+      "core_write_attempts": 0,
+      "DSH_step_starts": 0,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v41/T01-codex-current",
+      "passed": false,
+      "core_write_attempts": 0,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v41/T03-codex-current",
+      "passed": false,
+      "core_write_attempts": 1,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v41/T05-codex-current",
+      "passed": false,
+      "core_write_attempts": 4,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v41/T07-codex-current",
+      "passed": false,
+      "core_write_attempts": 3,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v41/T09-codex-current",
+      "passed": false,
+      "core_write_attempts": 1,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v41/T11-codex-current",
+      "passed": false,
+      "core_write_attempts": 4,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v41/T01-hermes",
+      "passed": false,
+      "core_write_attempts": 2,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": "wall_clock_budget"
+    },
+    {
+      "run_id": "gui-v41/T03-hermes",
+      "passed": false,
+      "core_write_attempts": 0,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": "wall_clock_budget"
+    },
+    {
+      "run_id": "gui-v41/T05-hermes",
+      "passed": false,
+      "core_write_attempts": 0,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": "wall_clock_budget"
+    },
+    {
+      "run_id": "gui-v41/T07-hermes",
+      "passed": false,
+      "core_write_attempts": 5,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v41/T09-hermes",
+      "passed": false,
+      "core_write_attempts": 3,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v41/T11-hermes",
+      "passed": false,
+      "core_write_attempts": 2,
+      "DSH_step_starts": null,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v41/T01-deepseek",
+      "passed": false,
+      "core_write_attempts": 0,
+      "DSH_step_starts": 9,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v41/T03-deepseek",
+      "passed": false,
+      "core_write_attempts": 0,
+      "DSH_step_starts": 5,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v41/T05-deepseek",
+      "passed": false,
+      "core_write_attempts": 12,
+      "DSH_step_starts": 30,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": "wall_clock_budget"
+    },
+    {
+      "run_id": "gui-v41/T07-deepseek",
+      "passed": false,
+      "core_write_attempts": 16,
+      "DSH_step_starts": 40,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": "wall_clock_budget"
+    },
+    {
+      "run_id": "gui-v41/T09-deepseek",
+      "passed": false,
+      "core_write_attempts": 8,
+      "DSH_step_starts": 29,
+      "within_scoring_limits": true,
+      "terminal_budget_reason": null
+    },
+    {
+      "run_id": "gui-v41/T11-deepseek",
+      "passed": false,
+      "core_write_attempts": 0,
+      "DSH_step_starts": 41,
+      "within_scoring_limits": false,
+      "terminal_budget_reason": "model_turn_budget"
+    }
+  ]
+}

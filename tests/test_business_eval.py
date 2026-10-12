@@ -1,17 +1,20 @@
 """Business judge counterexamples; no application mutation in these tests."""
 from pathlib import Path
 import shutil
+import sys
 import pytest
 from evals.runtime_business import prepare,business_checks,expected_invoices,write_csv,png
 
 
 def populate(case):
     inputs=Path(case['inputs']);out=Path(case['out']);p=case['prefix'];task=case['task']
-    if task=='T01':
+    if task in {'T01','T02'}:
         (out/'deliverables').mkdir()
-        names=sorted(n for n in case['input_sha256'] if n.startswith('2026-10-') and n.endswith('.txt'))
-        for n in names:shutil.copyfile(inputs/n,out/'deliverables'/n)
-        write_csv(out/(p+'-manifest.csv'),['filename','sha256'],[{'filename':n,'sha256':case['input_sha256'][n]} for n in names])
+        names=sorted(n for n in case['input_sha256'] if task=='T02' or n.startswith('2026-10-') and n.endswith('.txt'))
+        renamed={n:n.replace('_','-') if task=='T02' and n.endswith('.txt') else n for n in names}
+        for n in names:shutil.copyfile(inputs/n,out/'deliverables'/renamed[n])
+        if task=='T01':write_csv(out/(p+'-manifest.csv'),['filename','sha256'],[{'filename':n,'sha256':case['input_sha256'][n]} for n in names])
+        else:write_csv(out/(p+'-changes.csv'),['old_name','new_name','sha256'],[{'old_name':n,'new_name':renamed[n],'sha256':case['input_sha256'][n]} for n in names])
     elif task in {'T03','T09'}:
         write_csv(out/(p+'-result.csv'),['invoice','qty','unit_price','amount'],expected_invoices(case))
         if task=='T09':(out/(p+'-report.txt')).write_text('Summary\nProject Beacon 林安 2026-11-03\nInvoices\n'+'\n'.join(r['invoice']+' '+r['amount'] for r in expected_invoices(case)))
@@ -19,12 +22,18 @@ def populate(case):
         source=(inputs/(p+'-notes.txt')).read_text()
         (out/(p+'-report.txt')).write_text('Summary\n'+source.split('Action A:')[0]+'Actions\nAction A:'+source.split('Action A:')[1].split('Appendix:')[0]+'Appendix\nAppendix:'+source.split('Appendix:')[1])
     elif task=='T11':(out/(p+'-result.png')).write_bytes(png(120,60))
+    elif task=='T04':write_csv(out/(p+'-result.csv'),['id','name','qty'],[{'id':'A','name':'Apex','qty':'5'},{'id':'B','name':'Birch','qty':'4'},{'id':'C','name':'Cedar','qty':'0'}])
+    elif task=='T06':(out/(p+'-report.txt')).write_text((inputs/(p+'-notes.txt')).read_text().replace('Budget CNY 48000','Budget CNY 52000').replace('Deadline 2026-11-03','Deadline 2026-11-10'))
+    elif task=='T10':(out/(p+'-index.txt')).write_text(f'{p}-large.png,240,120\n{p}-wide.png,160,80\n')
+    elif task=='T12':(out/(p+'-result.rtf')).write_bytes((inputs/(p+'-notes.rtf')).read_bytes().replace(b'48000',b'52000'))
 
 
-@pytest.mark.parametrize('task',['T01','T03','T05','T09','T11'])
+@pytest.mark.parametrize('task',['T01','T02','T03','T04','T05','T06','T09','T10','T11',
+    pytest.param('T12',marks=pytest.mark.skipif(sys.platform!='darwin',reason='Uses macOS textutil RTF renderer'))])
 def test_business_judge_missing_positive_and_changed_source(tmp_path,task):
     case=prepare(tmp_path/'work',task,'judge-test')
     assert not business_checks(case)['business_correct']
+    assert not business_checks(case)['outputs_exist']
     populate(case)
     checks=business_checks(case)
     assert checks['business_correct'] and checks['source_unchanged'],checks
@@ -120,3 +129,35 @@ def test_cross_app_total_may_be_in_summary_but_wrong_owner_still_fails(tmp_path)
     checks=business_checks(case)
     assert checks['report_invoices_correct'] and checks['report_total_correct']
     assert not checks['report_owner_correct'] and not checks['business_correct']
+
+
+@pytest.mark.skipif(sys.platform!='darwin',reason='Uses macOS textutil RTF renderer')
+def test_rtf_hidden_gold_is_not_rendered_business_content(tmp_path):
+    case=prepare(tmp_path/'work','T12','judge-test');file=Path(case['ui_outputs'][0]['file'])
+    file.write_text(r'{\rtf1\ansi Wrong document{\*\comment Project Beacon Budget 52000 Deadline 2026-11-03 Keep appendix.}}')
+    assert not business_checks(case)['business_correct']
+    populate(case)
+    from evals.runtime_business import rtf_text,rendered_text_matches
+    text=rtf_text(file)
+    assert rendered_text_matches(text,'Toolbar\n'+text+'\nFooter')
+    assert not rendered_text_matches(text,text.replace('52000','48000'))
+
+
+def test_browser_draft_and_catalog_business_states(tmp_path):
+    case=prepare(tmp_path/'draft','T08','judge-test')
+    good={'draft':{'name':'林安','project':'Beacon','quantity':'7','note':'内部测试草稿'},'sent':False}
+    assert not business_checks(case)['business_correct']
+    assert business_checks(case,good)['business_correct']
+    assert not business_checks(case,{**good,'sent':True})['business_correct']
+    case=prepare(tmp_path/'catalog','T07','judge-test');file=Path(case['out'])/(case['prefix']+'-result.csv')
+    write_csv(file,['id','name','group','stock'],[{'id':'P02','name':'Bolt','group':'Hardware','stock':'3'},{'id':'P04','name':'Clamp','group':'Hardware','stock':'1'}])
+    assert business_checks(case,{'selected':['P02','P04']})['business_correct']
+    assert not business_checks(case,{'selected':['P01']})['web_result_correct']
+
+
+def test_sdk_finish_reason_is_not_equivalent_to_zero_process_exit(tmp_path):
+    from scripts.evaluate_runtime_business import caller_finished
+    import json
+    for reason,final,valid in [('completed','done',True),('max-tokens','',False),('error','partial',False)]:
+        (tmp_path/'dsh-result.json').write_text(json.dumps({'finish_reason':reason,'final':final}))
+        assert caller_finished(tmp_path,'deepseek')[0] is valid

@@ -1,0 +1,7 @@
+{
+  "passed": 587,
+  "total": 587,
+  "seconds": 7.41,
+  "execution": "serialized_after_GUI",
+  "earlier_contention_report": "regression-contention-initial.json"
+}

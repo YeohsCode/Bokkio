@@ -1,0 +1,1213 @@
+{
+  "scope": "observed_Hermes_and_DSH_tool_events_not_OS_process_sandbox_proof",
+  "results": [
+    {
+      "run_id": "final-main-v31/T01-deepseek",
+      "tool_calls_observed": 13,
+      "direct_tool_names": [
+        "mcp__bokkio__code_run_82d1cfc9eae8",
+        "mcp__bokkio__desktop_capture_54c93eb49f10",
+        "mcp__bokkio__desktop_observe_3c13831890e1",
+        "mcp__bokkio__job_get_d75cab84b8db",
+        "mcp__bokkio__session_open_60ff9d7f2687"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "final-main-v31/T01-hermes",
+      "tool_calls_observed": 41,
+      "direct_tool_names": [
+        "mcp__bokkio__capabilities",
+        "mcp__bokkio__code_run",
+        "mcp__bokkio__desktop_capture",
+        "mcp__bokkio__desktop_list",
+        "mcp__bokkio__desktop_observe",
+        "mcp__bokkio__job_get",
+        "mcp__bokkio__process_run",
+        "mcp__bokkio__session_open",
+        "tool_call",
+        "tool_describe",
+        "tool_search"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [
+        {
+          "requested_names": [
+            "search_files"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "read_file"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "read_file"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "read_file"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "read_file"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "read_file"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        }
+      ],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "final-main-v31/T03-deepseek",
+      "tool_calls_observed": 19,
+      "direct_tool_names": [
+        "mcp__bokkio__artifact_read_d9474977e445",
+        "mcp__bokkio__code_run_82d1cfc9eae8",
+        "mcp__bokkio__desktop_capture_54c93eb49f10",
+        "mcp__bokkio__desktop_list_565d2d257c1d",
+        "mcp__bokkio__desktop_observe_3c13831890e1",
+        "mcp__bokkio__job_get_d75cab84b8db",
+        "mcp__bokkio__process_run_16465223657f",
+        "mcp__bokkio__session_open_60ff9d7f2687"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "final-main-v31/T03-hermes",
+      "tool_calls_observed": 37,
+      "direct_tool_names": [
+        "mcp__bokkio__artifact_read",
+        "mcp__bokkio__desktop_activate",
+        "mcp__bokkio__desktop_capture",
+        "mcp__bokkio__desktop_list",
+        "mcp__bokkio__desktop_observe",
+        "mcp__bokkio__job_get",
+        "mcp__bokkio__process_run",
+        "mcp__bokkio__session_open",
+        "tool_describe"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "final-main-v31/T05-deepseek",
+      "tool_calls_observed": 9,
+      "direct_tool_names": [
+        "mcp__bokkio__code_run_82d1cfc9eae8",
+        "mcp__bokkio__desktop_observe_3c13831890e1",
+        "mcp__bokkio__job_get_d75cab84b8db",
+        "mcp__bokkio__session_open_60ff9d7f2687"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "final-main-v31/T05-hermes",
+      "tool_calls_observed": 14,
+      "direct_tool_names": [
+        "mcp__bokkio__code_run",
+        "mcp__bokkio__desktop_list",
+        "mcp__bokkio__desktop_observe",
+        "mcp__bokkio__job_get",
+        "mcp__bokkio__session_open",
+        "tool_call",
+        "tool_describe"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [
+        {
+          "requested_names": [
+            "tool_call"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        }
+      ],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "final-main-v31/T07-deepseek",
+      "tool_calls_observed": 10,
+      "direct_tool_names": [
+        "mcp__bokkio__browser_act_57423dac76a4",
+        "mcp__bokkio__browser_open_79c3d72639a0",
+        "mcp__bokkio__code_run_82d1cfc9eae8",
+        "mcp__bokkio__evidence_check_606ef3e6e1c1",
+        "mcp__bokkio__job_get_d75cab84b8db",
+        "mcp__bokkio__session_open_60ff9d7f2687"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "final-main-v31/T07-hermes",
+      "tool_calls_observed": 11,
+      "direct_tool_names": [
+        "mcp__bokkio__browser_act",
+        "mcp__bokkio__browser_observe",
+        "mcp__bokkio__browser_open",
+        "mcp__bokkio__code_run",
+        "mcp__bokkio__job_get",
+        "mcp__bokkio__session_open"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "final-main-v31/T09-deepseek",
+      "tool_calls_observed": 41,
+      "direct_tool_names": [
+        "mcp__bokkio__code_run_82d1cfc9eae8",
+        "mcp__bokkio__desktop_capture_54c93eb49f10",
+        "mcp__bokkio__desktop_list_565d2d257c1d",
+        "mcp__bokkio__desktop_observe_3c13831890e1",
+        "mcp__bokkio__job_get_d75cab84b8db",
+        "mcp__bokkio__session_open_60ff9d7f2687"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "final-main-v31/T09-hermes",
+      "tool_calls_observed": 16,
+      "direct_tool_names": [
+        "mcp__bokkio__code_run",
+        "mcp__bokkio__desktop_list",
+        "mcp__bokkio__evidence_check",
+        "mcp__bokkio__job_get",
+        "mcp__bokkio__session_open",
+        "tool_call",
+        "tool_describe"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [
+        {
+          "requested_names": [
+            "unresolved_wrapper"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "unresolved_wrapper"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "unresolved_wrapper"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        }
+      ],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "final-main-v31/T11-deepseek",
+      "tool_calls_observed": 40,
+      "direct_tool_names": [
+        "mcp__bokkio__code_run_82d1cfc9eae8",
+        "mcp__bokkio__desktop_capture_54c93eb49f10",
+        "mcp__bokkio__desktop_list_565d2d257c1d",
+        "mcp__bokkio__job_get_d75cab84b8db",
+        "mcp__bokkio__process_run_16465223657f",
+        "mcp__bokkio__session_open_60ff9d7f2687"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "final-main-v31/T11-hermes",
+      "tool_calls_observed": 12,
+      "direct_tool_names": [
+        "mcp__bokkio__code_run",
+        "mcp__bokkio__desktop_capture",
+        "mcp__bokkio__desktop_list",
+        "mcp__bokkio__desktop_observe",
+        "mcp__bokkio__evidence_check",
+        "mcp__bokkio__job_get",
+        "mcp__bokkio__session_open",
+        "tool_describe"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "final-remaining-v31/T02-deepseek",
+      "tool_calls_observed": 40,
+      "direct_tool_names": [
+        "mcp__bokkio__code_run_82d1cfc9eae8",
+        "mcp__bokkio__desktop_capture_54c93eb49f10",
+        "mcp__bokkio__desktop_list_565d2d257c1d",
+        "mcp__bokkio__job_get_d75cab84b8db",
+        "mcp__bokkio__process_run_16465223657f",
+        "mcp__bokkio__session_open_60ff9d7f2687"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "final-remaining-v31/T02-hermes",
+      "tool_calls_observed": 27,
+      "direct_tool_names": [
+        "mcp__bokkio__code_run",
+        "mcp__bokkio__desktop_list",
+        "mcp__bokkio__job_get",
+        "mcp__bokkio__session_open",
+        "tool_call",
+        "tool_describe"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [
+        {
+          "requested_names": [
+            "unresolved_wrapper"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "unresolved_wrapper"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "unresolved_wrapper"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "unresolved_wrapper"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "unresolved_wrapper"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "unresolved_wrapper"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "unresolved_wrapper"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "unresolved_wrapper"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "unresolved_wrapper"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "unresolved_wrapper"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "unresolved_wrapper"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "unresolved_wrapper"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "unresolved_wrapper"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        }
+      ],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "final-remaining-v31/T04-deepseek",
+      "tool_calls_observed": 26,
+      "direct_tool_names": [
+        "mcp__bokkio__artifact_read_d9474977e445",
+        "mcp__bokkio__capabilities",
+        "mcp__bokkio__code_run_82d1cfc9eae8",
+        "mcp__bokkio__desktop_capture_54c93eb49f10",
+        "mcp__bokkio__desktop_list_565d2d257c1d",
+        "mcp__bokkio__desktop_observe_3c13831890e1",
+        "mcp__bokkio__evidence_check_606ef3e6e1c1",
+        "mcp__bokkio__job_get_d75cab84b8db",
+        "mcp__bokkio__session_open_60ff9d7f2687"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "final-remaining-v31/T04-hermes",
+      "tool_calls_observed": 24,
+      "direct_tool_names": [
+        "mcp__bokkio__artifact_read",
+        "mcp__bokkio__code_run",
+        "mcp__bokkio__desktop_capture",
+        "mcp__bokkio__desktop_list",
+        "mcp__bokkio__desktop_observe",
+        "mcp__bokkio__job_get",
+        "mcp__bokkio__session_open",
+        "tool_describe"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "final-remaining-v31/T06-deepseek",
+      "tool_calls_observed": 15,
+      "direct_tool_names": [
+        "mcp__bokkio__code_run_82d1cfc9eae8",
+        "mcp__bokkio__desktop_list_565d2d257c1d",
+        "mcp__bokkio__desktop_observe_3c13831890e1",
+        "mcp__bokkio__evidence_check_606ef3e6e1c1",
+        "mcp__bokkio__job_get_d75cab84b8db",
+        "mcp__bokkio__session_open_60ff9d7f2687"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "final-remaining-v31/T06-hermes",
+      "tool_calls_observed": 15,
+      "direct_tool_names": [
+        "mcp__bokkio__code_run",
+        "mcp__bokkio__desktop_activate",
+        "mcp__bokkio__desktop_list",
+        "mcp__bokkio__desktop_observe",
+        "mcp__bokkio__job_get",
+        "mcp__bokkio__process_run",
+        "mcp__bokkio__session_open",
+        "tool_describe"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "final-remaining-v31/T08-deepseek",
+      "tool_calls_observed": 10,
+      "direct_tool_names": [
+        "mcp__bokkio__browser_act_57423dac76a4",
+        "mcp__bokkio__browser_observe_bcef3b5ebd22",
+        "mcp__bokkio__browser_open_79c3d72639a0",
+        "mcp__bokkio__code_run_82d1cfc9eae8",
+        "mcp__bokkio__job_get_d75cab84b8db",
+        "mcp__bokkio__session_open_60ff9d7f2687"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "final-remaining-v31/T08-hermes",
+      "tool_calls_observed": 11,
+      "direct_tool_names": [
+        "mcp__bokkio__browser_act",
+        "mcp__bokkio__browser_observe",
+        "mcp__bokkio__browser_open",
+        "mcp__bokkio__session_open",
+        "tool_describe"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "final-remaining-v31/T10-deepseek",
+      "tool_calls_observed": 22,
+      "direct_tool_names": [
+        "mcp__bokkio__code_run_82d1cfc9eae8",
+        "mcp__bokkio__desktop_act_fd7e15be9e12",
+        "mcp__bokkio__desktop_activate_72b8a2076809",
+        "mcp__bokkio__desktop_list_565d2d257c1d",
+        "mcp__bokkio__desktop_observe_3c13831890e1",
+        "mcp__bokkio__evidence_check_606ef3e6e1c1",
+        "mcp__bokkio__job_get_d75cab84b8db",
+        "mcp__bokkio__process_run_16465223657f",
+        "mcp__bokkio__session_open_60ff9d7f2687"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "final-remaining-v31/T10-hermes",
+      "tool_calls_observed": 25,
+      "direct_tool_names": [
+        "mcp__bokkio__artifact_read",
+        "mcp__bokkio__capabilities",
+        "mcp__bokkio__code_run",
+        "mcp__bokkio__desktop_list",
+        "mcp__bokkio__desktop_observe",
+        "mcp__bokkio__evidence_check",
+        "mcp__bokkio__job_get",
+        "mcp__bokkio__process_run",
+        "mcp__bokkio__session_open",
+        "tool_call",
+        "tool_describe"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [
+        {
+          "requested_names": [
+            "__bridge__"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        }
+      ],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "final-remaining-v31/T12-deepseek",
+      "tool_calls_observed": 40,
+      "direct_tool_names": [
+        "mcp__bokkio__code_run_82d1cfc9eae8",
+        "mcp__bokkio__desktop_list_565d2d257c1d",
+        "mcp__bokkio__job_cancel_24b904443d61",
+        "mcp__bokkio__job_get_d75cab84b8db",
+        "mcp__bokkio__session_open_60ff9d7f2687"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "final-remaining-v31/T12-hermes",
+      "tool_calls_observed": 36,
+      "direct_tool_names": [
+        "mcp__bokkio__capabilities",
+        "mcp__bokkio__desktop_capture",
+        "mcp__bokkio__desktop_list",
+        "mcp__bokkio__desktop_observe",
+        "mcp__bokkio__evidence_check",
+        "mcp__bokkio__job_get",
+        "mcp__bokkio__process_run",
+        "mcp__bokkio__session_open",
+        "tool_call",
+        "tool_describe"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [
+        {
+          "requested_names": [
+            "unresolved_wrapper"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        }
+      ],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "stability-v32/T03-deepseek",
+      "tool_calls_observed": 40,
+      "direct_tool_names": [
+        "mcp__bokkio__code_run_82d1cfc9eae8",
+        "mcp__bokkio__desktop_capture_54c93eb49f10",
+        "mcp__bokkio__desktop_list_565d2d257c1d",
+        "mcp__bokkio__desktop_observe_3c13831890e1",
+        "mcp__bokkio__job_get_d75cab84b8db",
+        "mcp__bokkio__session_open_60ff9d7f2687"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "stability-v32/T03-hermes",
+      "tool_calls_observed": 17,
+      "direct_tool_names": [
+        "mcp__bokkio__artifact_read",
+        "mcp__bokkio__code_run",
+        "mcp__bokkio__desktop_capture",
+        "mcp__bokkio__desktop_list",
+        "mcp__bokkio__desktop_observe",
+        "mcp__bokkio__job_get",
+        "mcp__bokkio__session_open",
+        "tool_describe"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "stability-v32/T09-deepseek",
+      "tool_calls_observed": 42,
+      "direct_tool_names": [
+        "mcp__bokkio__artifact_read_d9474977e445",
+        "mcp__bokkio__code_run_82d1cfc9eae8",
+        "mcp__bokkio__desktop_activate_72b8a2076809",
+        "mcp__bokkio__desktop_capture_54c93eb49f10",
+        "mcp__bokkio__desktop_list_565d2d257c1d",
+        "mcp__bokkio__desktop_observe_3c13831890e1",
+        "mcp__bokkio__events_follow_043566f56186",
+        "mcp__bokkio__job_cancel_24b904443d61",
+        "mcp__bokkio__job_get_d75cab84b8db",
+        "mcp__bokkio__session_open_60ff9d7f2687"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "stability-v32/T09-hermes",
+      "tool_calls_observed": 27,
+      "direct_tool_names": [
+        "mcp__bokkio__artifact_read",
+        "mcp__bokkio__code_run",
+        "mcp__bokkio__desktop_capture",
+        "mcp__bokkio__desktop_list",
+        "mcp__bokkio__job_cancel",
+        "mcp__bokkio__job_get",
+        "mcp__bokkio__session_open",
+        "tool_call",
+        "tool_describe"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [
+        {
+          "requested_names": [
+            "tool_call"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        }
+      ],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "stability-v32/T11-deepseek",
+      "tool_calls_observed": 9,
+      "direct_tool_names": [
+        "mcp__bokkio__artifact_read_d9474977e445",
+        "mcp__bokkio__code_run_82d1cfc9eae8",
+        "mcp__bokkio__desktop_capture_54c93eb49f10",
+        "mcp__bokkio__job_get_d75cab84b8db",
+        "mcp__bokkio__process_run_16465223657f",
+        "mcp__bokkio__session_open_60ff9d7f2687"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "stability-v32/T11-hermes",
+      "tool_calls_observed": 20,
+      "direct_tool_names": [
+        "mcp__bokkio__artifact_read",
+        "mcp__bokkio__capabilities",
+        "mcp__bokkio__code_run",
+        "mcp__bokkio__desktop_capture",
+        "mcp__bokkio__desktop_list",
+        "mcp__bokkio__desktop_observe",
+        "mcp__bokkio__evidence_check",
+        "mcp__bokkio__job_get",
+        "mcp__bokkio__process_run",
+        "mcp__bokkio__session_open",
+        "tool_call",
+        "tool_describe"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [
+        {
+          "requested_names": [
+            "unresolved_wrapper"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        }
+      ],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "stability-v33/T03-deepseek",
+      "tool_calls_observed": 26,
+      "direct_tool_names": [
+        "mcp__bokkio__artifact_read_d9474977e445",
+        "mcp__bokkio__code_run_82d1cfc9eae8",
+        "mcp__bokkio__desktop_capture_54c93eb49f10",
+        "mcp__bokkio__desktop_list_565d2d257c1d",
+        "mcp__bokkio__desktop_observe_3c13831890e1",
+        "mcp__bokkio__job_get_d75cab84b8db",
+        "mcp__bokkio__process_run_16465223657f",
+        "mcp__bokkio__session_open_60ff9d7f2687"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "stability-v33/T03-hermes",
+      "tool_calls_observed": 14,
+      "direct_tool_names": [
+        "mcp__bokkio__artifact_read",
+        "mcp__bokkio__code_run",
+        "mcp__bokkio__desktop_capture",
+        "mcp__bokkio__desktop_list",
+        "mcp__bokkio__desktop_observe",
+        "mcp__bokkio__job_get",
+        "mcp__bokkio__process_run",
+        "mcp__bokkio__session_open",
+        "tool_describe"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "stability-v33/T09-deepseek",
+      "tool_calls_observed": 14,
+      "direct_tool_names": [
+        "mcp__bokkio__code_run_82d1cfc9eae8",
+        "mcp__bokkio__desktop_list_565d2d257c1d",
+        "mcp__bokkio__desktop_observe_3c13831890e1",
+        "mcp__bokkio__job_get_d75cab84b8db",
+        "mcp__bokkio__session_open_60ff9d7f2687"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "stability-v33/T09-hermes",
+      "tool_calls_observed": 33,
+      "direct_tool_names": [
+        "mcp__bokkio__approval_status",
+        "mcp__bokkio__artifact_read",
+        "mcp__bokkio__audit_query",
+        "mcp__bokkio__capabilities",
+        "mcp__bokkio__code_run",
+        "mcp__bokkio__desktop_list",
+        "mcp__bokkio__desktop_observe",
+        "mcp__bokkio__job_get",
+        "mcp__bokkio__metrics_summary",
+        "mcp__bokkio__process_run",
+        "mcp__bokkio__session_close",
+        "mcp__bokkio__session_open",
+        "tool_call",
+        "tool_describe"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [
+        {
+          "requested_names": [
+            "unresolved_wrapper"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "unresolved_wrapper"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        }
+      ],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "stability-v33/T11-deepseek",
+      "tool_calls_observed": 18,
+      "direct_tool_names": [
+        "mcp__bokkio__code_run_82d1cfc9eae8",
+        "mcp__bokkio__desktop_activate_72b8a2076809",
+        "mcp__bokkio__desktop_list_565d2d257c1d",
+        "mcp__bokkio__desktop_observe_3c13831890e1",
+        "mcp__bokkio__events_follow_043566f56186",
+        "mcp__bokkio__job_get_d75cab84b8db",
+        "mcp__bokkio__process_run_16465223657f",
+        "mcp__bokkio__session_open_60ff9d7f2687"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "stability-v33/T11-hermes",
+      "tool_calls_observed": 29,
+      "direct_tool_names": [
+        "mcp__bokkio__code_run",
+        "mcp__bokkio__desktop_capture",
+        "mcp__bokkio__desktop_list",
+        "mcp__bokkio__job_cancel",
+        "mcp__bokkio__job_get",
+        "mcp__bokkio__session_open",
+        "tool_describe",
+        "tool_search"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "gui-v40/T01-deepseek",
+      "tool_calls_observed": 32,
+      "direct_tool_names": [
+        "mcp__bokkio__artifact_read_d9474977e445",
+        "mcp__bokkio__capabilities",
+        "mcp__bokkio__code_run_82d1cfc9eae8",
+        "mcp__bokkio__desktop_act_fd7e15be9e12",
+        "mcp__bokkio__desktop_activate_72b8a2076809",
+        "mcp__bokkio__desktop_capture_54c93eb49f10",
+        "mcp__bokkio__desktop_list_565d2d257c1d",
+        "mcp__bokkio__desktop_observe_3c13831890e1",
+        "mcp__bokkio__process_run_16465223657f",
+        "mcp__bokkio__session_open_60ff9d7f2687"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "gui-v40/T01-hermes",
+      "tool_calls_observed": 17,
+      "direct_tool_names": [
+        "mcp__bokkio__artifact_read",
+        "mcp__bokkio__capabilities",
+        "mcp__bokkio__code_run",
+        "mcp__bokkio__desktop_activate",
+        "mcp__bokkio__desktop_capture",
+        "mcp__bokkio__desktop_list",
+        "mcp__bokkio__desktop_observe",
+        "mcp__bokkio__session_open",
+        "tool_call",
+        "tool_describe",
+        "tool_search"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [
+        {
+          "requested_names": [
+            "read_file"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "read_file"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "read_file"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        }
+      ],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "gui-v40/T03-deepseek",
+      "tool_calls_observed": 0,
+      "direct_tool_names": [],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "gui-v40/T05-deepseek",
+      "tool_calls_observed": 0,
+      "direct_tool_names": [],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "gui-v40/T07-deepseek",
+      "tool_calls_observed": 36,
+      "direct_tool_names": [
+        "mcp__bokkio__capabilities",
+        "mcp__bokkio__desktop_act_fd7e15be9e12",
+        "mcp__bokkio__desktop_activate_72b8a2076809",
+        "mcp__bokkio__desktop_capture_54c93eb49f10",
+        "mcp__bokkio__desktop_list_565d2d257c1d",
+        "mcp__bokkio__desktop_observe_3c13831890e1",
+        "mcp__bokkio__evidence_check_606ef3e6e1c1",
+        "mcp__bokkio__session_open_60ff9d7f2687"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "gui-v40/T07-hermes",
+      "tool_calls_observed": 24,
+      "direct_tool_names": [
+        "mcp__bokkio__artifact_read",
+        "mcp__bokkio__browser_open",
+        "mcp__bokkio__capabilities",
+        "mcp__bokkio__desktop_act",
+        "mcp__bokkio__desktop_activate",
+        "mcp__bokkio__desktop_list",
+        "mcp__bokkio__desktop_observe",
+        "mcp__bokkio__session_open",
+        "tool_call",
+        "tool_describe",
+        "tool_search"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [
+        {
+          "requested_names": [
+            "read_file"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        }
+      ],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "gui-v40/T09-deepseek",
+      "tool_calls_observed": 0,
+      "direct_tool_names": [],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "gui-v40/T11-deepseek",
+      "tool_calls_observed": 0,
+      "direct_tool_names": [],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "gui-v41/T01-deepseek",
+      "tool_calls_observed": 9,
+      "direct_tool_names": [
+        "mcp__bokkio__artifact_read_d9474977e445",
+        "mcp__bokkio__capabilities",
+        "mcp__bokkio__desktop_capture_54c93eb49f10",
+        "mcp__bokkio__desktop_list_565d2d257c1d",
+        "mcp__bokkio__desktop_observe_3c13831890e1",
+        "mcp__bokkio__session_open_60ff9d7f2687"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "gui-v41/T01-hermes",
+      "tool_calls_observed": 26,
+      "direct_tool_names": [
+        "mcp__bokkio__artifact_read",
+        "mcp__bokkio__capabilities",
+        "mcp__bokkio__code_run",
+        "mcp__bokkio__desktop_capture",
+        "mcp__bokkio__desktop_list",
+        "mcp__bokkio__desktop_observe",
+        "mcp__bokkio__desktop_pixel",
+        "mcp__bokkio__session_open",
+        "tool_call",
+        "tool_describe",
+        "tool_search"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [
+        {
+          "requested_names": [
+            "read_file"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "read_file"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "tool_call",
+            "tool_call"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "read_file"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "read_file"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        }
+      ],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "gui-v41/T03-deepseek",
+      "tool_calls_observed": 4,
+      "direct_tool_names": [
+        "mcp__bokkio__capabilities",
+        "mcp__bokkio__desktop_list_565d2d257c1d",
+        "mcp__bokkio__desktop_observe_3c13831890e1",
+        "mcp__bokkio__session_open_60ff9d7f2687"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "gui-v41/T03-hermes",
+      "tool_calls_observed": 4,
+      "direct_tool_names": [
+        "mcp__bokkio__capabilities",
+        "mcp__bokkio__desktop_list",
+        "mcp__bokkio__session_open",
+        "tool_describe"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "gui-v41/T05-deepseek",
+      "tool_calls_observed": 30,
+      "direct_tool_names": [
+        "mcp__bokkio__artifact_read_d9474977e445",
+        "mcp__bokkio__capabilities",
+        "mcp__bokkio__desktop_act_fd7e15be9e12",
+        "mcp__bokkio__desktop_activate_72b8a2076809",
+        "mcp__bokkio__desktop_list_565d2d257c1d",
+        "mcp__bokkio__desktop_observe_3c13831890e1",
+        "mcp__bokkio__session_open_60ff9d7f2687"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "gui-v41/T05-hermes",
+      "tool_calls_observed": 12,
+      "direct_tool_names": [
+        "mcp__bokkio__desktop_list",
+        "mcp__bokkio__desktop_observe",
+        "mcp__bokkio__session_open",
+        "tool_describe",
+        "tool_search"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "gui-v41/T07-deepseek",
+      "tool_calls_observed": 40,
+      "direct_tool_names": [
+        "mcp__bokkio__artifact_read_d9474977e445",
+        "mcp__bokkio__capabilities",
+        "mcp__bokkio__desktop_act_fd7e15be9e12",
+        "mcp__bokkio__desktop_activate_72b8a2076809",
+        "mcp__bokkio__desktop_capture_54c93eb49f10",
+        "mcp__bokkio__desktop_list_565d2d257c1d",
+        "mcp__bokkio__desktop_observe_3c13831890e1",
+        "mcp__bokkio__session_open_60ff9d7f2687"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "gui-v41/T07-hermes",
+      "tool_calls_observed": 29,
+      "direct_tool_names": [
+        "mcp__bokkio__artifact_read",
+        "mcp__bokkio__desktop_act",
+        "mcp__bokkio__desktop_capture",
+        "mcp__bokkio__desktop_list",
+        "mcp__bokkio__desktop_observe",
+        "mcp__bokkio__session_open",
+        "tool_describe",
+        "tool_search"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "gui-v41/T09-deepseek",
+      "tool_calls_observed": 30,
+      "direct_tool_names": [
+        "mcp__bokkio__artifact_read_d9474977e445",
+        "mcp__bokkio__desktop_act_fd7e15be9e12",
+        "mcp__bokkio__desktop_capture_54c93eb49f10",
+        "mcp__bokkio__desktop_list_565d2d257c1d",
+        "mcp__bokkio__desktop_observe_3c13831890e1",
+        "mcp__bokkio__desktop_pixel_6057d31dee2a",
+        "mcp__bokkio__session_open_60ff9d7f2687"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "gui-v41/T09-hermes",
+      "tool_calls_observed": 23,
+      "direct_tool_names": [
+        "mcp__bokkio__capabilities",
+        "mcp__bokkio__desktop_act",
+        "mcp__bokkio__desktop_capture",
+        "mcp__bokkio__desktop_list",
+        "mcp__bokkio__desktop_observe",
+        "mcp__bokkio__metrics_summary",
+        "mcp__bokkio__session_open",
+        "tool_call",
+        "tool_describe",
+        "tool_search"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [
+        {
+          "requested_names": [
+            "unresolved_wrapper"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "unresolved_wrapper"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "unresolved_wrapper"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        },
+        {
+          "requested_names": [
+            "unresolved_wrapper"
+          ],
+          "wrapper_reported_error": true,
+          "inner_dispatch_not_inferred_from_outer_error": true
+        }
+      ],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "gui-v41/T11-deepseek",
+      "tool_calls_observed": 40,
+      "direct_tool_names": [
+        "mcp__bokkio__desktop_capture_54c93eb49f10",
+        "mcp__bokkio__desktop_list_565d2d257c1d",
+        "mcp__bokkio__desktop_observe_3c13831890e1",
+        "mcp__bokkio__session_open_60ff9d7f2687"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    },
+    {
+      "run_id": "gui-v41/T11-hermes",
+      "tool_calls_observed": 13,
+      "direct_tool_names": [
+        "mcp__bokkio__capabilities",
+        "mcp__bokkio__desktop_act",
+        "mcp__bokkio__desktop_capture",
+        "mcp__bokkio__desktop_list",
+        "mcp__bokkio__desktop_observe",
+        "mcp__bokkio__session_open",
+        "tool_describe",
+        "tool_search"
+      ],
+      "direct_non_bokkio_tool_calls": [],
+      "non_bokkio_or_unresolved_wrapper_attempts": [],
+      "unfinished_wrapper_results": 0
+    }
+  ],
+  "direct_non_bokkio_tool_execution_events_detected": false,
+  "all_observed_wrapper_non_bokkio_or_unresolved_attempts_reported_error": true,
+  "GUI_running": false
+}

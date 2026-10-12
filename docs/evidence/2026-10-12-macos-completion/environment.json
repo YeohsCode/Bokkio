@@ -1,0 +1,47 @@
+{
+  "os": "macOS",
+  "os_version": "15.5",
+  "architecture": "arm64",
+  "python": "3.13.13",
+  "apps": {
+    "Finder": {
+      "version": "15.5",
+      "build": "1732.6.3"
+    },
+    "TextEdit": {
+      "version": "1.20",
+      "build": "409"
+    },
+    "Numbers": {
+      "version": "14.1",
+      "build": "7040.0.73"
+    },
+    "Pages": {
+      "version": "14.1",
+      "build": "7040.0.73"
+    },
+    "Preview": {
+      "version": "11.0",
+      "build": "1069.5.2"
+    }
+  },
+  "harness": {
+    "current_codex": "retained_conversation_official_mcp_stdio_bridge_evaluator_author",
+    "hermes": "0.21.6+311.g2af85c3",
+    "deepseek_harness_sdk_native_runtime": "0.1.5rc1",
+    "hermes_and_deepseek_model": "z-ai/glm-5.3-flash",
+    "reasoning": "low",
+    "deepseek_max_output_tokens": 4096
+  },
+  "credentials_published": false,
+  "raw_model_native_data_published": false,
+  "python_packages": {
+    "bokkio": "0.2.0",
+    "xa11y": "0.15.0",
+    "mcp": "1.30.0",
+    "playwright": "1.63.0",
+    "pytest": "9.1.1"
+  },
+  "rebuilt_wheel_sha256": "47e4eb8734f4ea21c9caaf931e2ff9b9a0374fb779e2a609eb5c517f5bdfd968",
+  "locked_dependencies": "uv.lock"
+}

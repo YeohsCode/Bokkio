@@ -207,6 +207,9 @@ class MacAX:
             if self.ax.AXUIElementGetPid(element,c.byref(owner)) or owner.value!=pid:continue
             role=self._text(self._attr(element,'AXRole'))
             title=self._text(self._attr(element,'AXTitle'))
+            scope_titles=tree['platform_data'].get('window_scope_titles')
+            if role=='AXWindow' and scope_titles and title not in scope_titles:
+                continue
             description=self._text(self._attr(element,'AXDescription'))
             identifier=self._text(self._attr(element,'AXIdentifier'))
             bounds=self._bounds(element)

@@ -113,7 +113,7 @@ class Xa11yBackend:
 
     def snapshot(self, app: str, window: str | None = None) -> dict[str, Any]:
         native_app = self._resolve_app(app)
-        app_tree = self._app_tree(native_app)
+        app_tree = self._app_tree(native_app, window_selector=window)
         if window is None:
             trees = [app_tree]
         else:
@@ -165,7 +165,7 @@ class Xa11yBackend:
 
         native_app = self._resolve_app(app)
         live: dict[str, Any] = {}
-        before_tree = self._app_tree(native_app, live)
+        before_tree = self._app_tree(native_app, live, window_selector=window)
         before_scope = ([before_tree] if window is None else
                         [{**n, "parent": None} for n in self._select_windows(self._window_nodes(before_tree), window)])
         if expected_snapshot is not None and tree_digest(before_scope) != expected_snapshot:
@@ -264,7 +264,7 @@ class Xa11yBackend:
             raise BokkioActionError(f"{action} failed for {before['ref']}: {error}") from error
 
         try:
-            after_tree = self._app_tree(native_app)
+            after_tree = self._app_tree(native_app, window_selector=window)
         except BokkioError as error:
             raise BokkioCompletionUnknown('Input returned but its fresh native observation failed: '+str(error)) from error
         after = self._find_by_ref(after_tree, before["ref"])
@@ -383,14 +383,15 @@ class Xa11yBackend:
     def _app_identity(self, app: Any) -> list[Any]:
         return ["app", app.pid, app.name]
 
-    def _app_tree(self, app: Any, live: dict[str, Any] | None = None) -> dict[str, Any]:
+    def _app_tree(self, app: Any, live: dict[str, Any] | None = None, window_selector: str | None = None) -> dict[str, Any]:
         identity = self._app_identity(app)
         element = _call(app.as_element)
         live = {} if live is None else live
         previous_deadline=getattr(self,'_observation_deadline',None)
         self._observation_deadline=time.monotonic()+15 if self._platform=='macos' else None
         try:
-            tree = self._walk(element, identity, [], parent_ref=None, occurrence=0, live=live)
+            tree = self._walk(element, identity, [], parent_ref=None, occurrence=0, live=live,
+                              window_selector=window_selector if self._platform=='macos' else None)
         finally:self._observation_deadline=previous_deadline
         if self._platform=='macos' and self._native is not None and hasattr(self._native,'annotate'):
             tree=_call(self._native.annotate,tree,app.pid)
@@ -497,6 +498,7 @@ class Xa11yBackend:
         ambiguous_identity: bool = False,
         native_window: int | None = None,
         native_action_scope: int | None = None,
+        window_selector: str | None = None,
     ) -> dict[str, Any]:
         deadline=getattr(self,'_observation_deadline',None)
         if deadline is not None and time.monotonic()>deadline:
@@ -531,10 +533,17 @@ class Xa11yBackend:
         native_ids = [_call(lambda: child.stable_id) for child, _, _ in child_elements]
         native_counts = Counter(native_ids)
         signature_counts = Counter((child_role, child_name) for _, child_role, child_name in child_elements)
+        # Exact title requests do not need to read every unrelated document.
+        # Count all sibling identities first so scoped and full refs agree.
+        scoped_titles={child_name for _,child_role,child_name in child_elements
+                       if child_role in {'window','dialog'} and child_name and window_selector
+                       and child_name.casefold()==window_selector.casefold()}
         for (child, child_role, child_name), native_id in zip(child_elements, native_ids):
             signature = (child_role, child_name)
             child_occurrence = counts.get(signature, 0)
             counts[signature] = child_occurrence + 1
+            if scoped_titles and child_name not in scoped_titles:
+                continue
             # A single passive label is a value of its parent, not an action identity.
             # Keep names in interactive identities so changed controls invalidate refs.
             stable_label = (
@@ -572,6 +581,8 @@ class Xa11yBackend:
             node['platform_data']['invalid_bounds'] = True
             node['actions'] = []
             node['state']['visible'] = False
+        if scoped_titles:
+            node['platform_data']['window_scope_titles']=sorted(scoped_titles)
         if ambiguous_identity:
             node["platform_data"]["ambiguous_ref_identity"] = True
         if self._platform=='windows' and native_action_scope is not None:

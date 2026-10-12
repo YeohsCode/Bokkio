@@ -11,7 +11,7 @@ import sqlite3
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from evals.runtime_business import business_checks,snapshot_matches,sha
-from scripts.evaluate_runtime_business import protocol_complete
+from scripts.evaluate_runtime_business import protocol_complete,caller_finished
 from bokkio.selector import flatten
 
 
@@ -49,12 +49,13 @@ def regrade(batch,late_reopen=None):
         # Initial runner collected sessions while the caller was finished and
         # before evaluator cleanup. Its tool list proves a session was opened;
         # native/browser UI evidence was then captured from the open session.
-        protocol=protocol_complete(old['client_exit_code'],old['termination'],[True],[True],jobs,unknown)
+        finished,finish_reason=caller_finished(folder,old['client'])
+        protocol=protocol_complete(old['client_exit_code'],old['termination'],[True],[True],jobs,unknown) and finished
         result.update(corrected_passed=bool(unchanged and checks['business_correct'] and checks['source_unchanged']
                                            and ui and persisted and protocol),
                       original_output_hashes_unchanged=unchanged,business_correct=checks['business_correct'],
                       ui_correct=ui,persistence_correct=persisted,protocol_completed=protocol,
-                      unknown_operations=unknown,job_statuses_at_judge_start=jobs)
+                      unknown_operations=unknown,job_statuses_at_judge_start=jobs,caller_finish_reason=finish_reason)
         results.append(result)
     source_files=[Path('evals/runtime_business.py'),Path('scripts/evaluate_runtime_business.py'),Path(__file__).relative_to(Path.cwd())]
     return {'scope':'judge_correction_replay_not_new_actor_attempts','initial_planned':initial['planned'],

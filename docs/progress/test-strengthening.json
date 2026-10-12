@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "updated": "2026-10-12",
-  "status": "first_batch_and_targeted_retests_published_full_matrix_incomplete",
+  "updated": "2026-10-13",
+  "status": "macos_automated_execution_settled_quality_and_external_acceptance_pending",
   "base_revision": "841c46c",
   "plan": "docs/TEST-STRENGTHENING-PLAN.md",
   "active_platform": "macos",
@@ -69,70 +69,85 @@
     "does_not_replace_original_14_of_15_dual_platform_gate": true
   },
   "completion": {
-    "implemented_work_packages": 1,
+    "implemented_work_packages": 8,
     "total_work_packages": 8,
     "planned_business_attempts": 72,
-    "completed_business_attempts": 26,
-    "passed_business_attempts": 20,
-    "meaning": "26_actor_starts_across_46_case_records_with_retests_20_corrected_passes_not_20_of_72_matrix_slots",
-    "original_plan_case_results_recorded": 18,
-    "original_plan_matrix_complete": false
+    "completed_business_attempts": 72,
+    "passed_business_attempts": 38,
+    "meaning": "8 work packages have implementation/results or explicit pending; 72 latest matrix slots: main36+GUI18+stability extras18, passes26/0/12 separate; human/physical/product targets incomplete",
+    "original_plan_case_results_recorded": 72,
+    "original_plan_matrix_complete": true,
+    "fully_executed_work_packages": [
+      "EVAL-01",
+      "EVAL-02",
+      "EVAL-03",
+      "EVAL-04",
+      "EVAL-07",
+      "EVAL-08"
+    ],
+    "work_packages_with_external_pending": [
+      "EVAL-05",
+      "EVAL-06"
+    ]
   },
   "work_packages": [
     {
       "id": "EVAL-01",
       "priority": "P0",
       "name": "freeze_business_suite",
-      "status": "in_progress",
+      "status": "completed_execution",
       "depends_on": [],
       "completion_condition": "应用预检与12题冻结；至少8题真实桌面软件、2个未专门调优应用；输入、轨道、judge与预算有hash",
-      "evidence": "docs/evidence/2026-10-12-business-eval/README.md"
+      "evidence": "docs/evidence/2026-10-12-macos-completion/README.md"
     },
     {
       "id": "EVAL-02",
       "priority": "P0",
       "name": "build_independent_judges_and_runner",
-      "status": "in_progress",
+      "status": "completed_execution",
       "depends_on": [
         "EVAL-01"
       ],
       "completion_condition": "准备/执行/评分分离；judge正负例通过；三调用方薄接入，目标prompt不提供步骤或完整代码",
-      "evidence": "docs/evidence/2026-10-12-business-eval/README.md"
+      "evidence": "docs/evidence/2026-10-12-macos-completion/README.md"
     },
     {
       "id": "EVAL-03",
       "priority": "P0",
       "name": "autonomous_any_tool_batch",
-      "status": "in_progress",
+      "status": "completed_execution",
       "depends_on": [
         "EVAL-01",
         "EVAL-02"
       ],
       "completion_condition": "先六题三调用方18次，再全部12题36次；首次/修复后分开，全部分母与失败保留",
-      "evidence": "docs/evidence/2026-10-12-business-eval/README.md"
+      "evidence": "docs/evidence/2026-10-12-macos-completion/README.md"
     },
     {
       "id": "EVAL-04",
       "priority": "P1",
       "name": "gui_channel_comparison",
-      "status": "planned",
+      "status": "completed_execution_not_passing_with_scope_limits",
       "depends_on": [
         "EVAL-01",
         "EVAL-02"
       ],
       "completion_condition": "六题三调用方18次；GUI通道合规、图像可见性与any-tool分数独立",
-      "evidence": null
+      "evidence": "docs/evidence/2026-10-12-macos-completion/README.md"
     },
     {
       "id": "EVAL-05",
       "priority": "P0",
       "name": "approval_wait_and_human_resume",
-      "status": "planned",
+      "status": "automated_delay_complete_human_participation_pending",
       "depends_on": [
         "EVAL-02"
       ],
       "completion_condition": "三调用方30/90/300秒延迟批准9次；真实人工3次单列，安全与可用性分别评分",
-      "evidence": null
+      "evidence": "docs/evidence/2026-10-12-macos-completion/README.md",
+      "remaining": [
+        "three_real_human_approvals"
+      ]
     },
     {
       "id": "EVAL-06",
@@ -143,9 +158,8 @@
         "EVAL-02"
       ],
       "completion_condition": "最终代码八类Core治理合同8/8；真实锁屏/显示器缺口单列，未知完成无盲目重发",
-      "evidence": "docs/evidence/2026-10-12-business-eval/core-contract.json",
+      "evidence": "docs/evidence/2026-10-12-macos-completion/README.md",
       "remaining": [
-        "two_positive_inputs_blocked_by_UserNotificationCenter",
         "physical_lock_unlock",
         "second_display_or_scale"
       ]
@@ -154,18 +168,18 @@
       "id": "EVAL-07",
       "priority": "P0",
       "name": "fixed_revision_stability",
-      "status": "planned",
+      "status": "completed_execution_quality_target_not_met",
       "depends_on": [
         "EVAL-03"
       ],
       "completion_condition": "T03/T09/T11每调用方同最终版本三份输入样本；未改代码追加18次，改代码全部重跑27次",
-      "evidence": null
+      "evidence": "docs/evidence/2026-10-12-macos-completion/README.md"
     },
     {
       "id": "EVAL-08",
       "priority": "P0",
       "name": "publish_evaluation_and_handoff",
-      "status": "partial_report_published_full_plan_settlement_pending",
+      "status": "completed_publication_with_named_pending",
       "depends_on": [
         "EVAL-03",
         "EVAL-04",
@@ -174,90 +188,167 @@
         "EVAL-07"
       ],
       "completion_condition": "分轨/分平台/分调用方结果、来源与限制；共享进度/README/脱敏证据/hash提交推送 可以先发布部分报告；所有计划项有结果或具名阻塞后结算，不以所有测试通过作为发布失败报告的前置。",
-      "evidence": "docs/evidence/2026-10-12-business-eval/README.md"
+      "evidence": "docs/evidence/2026-10-12-macos-completion/README.md"
     }
   ],
   "external_dependencies": [
     "customer_app_data_if_claiming_customer_acceptance",
-    "user_available_for_real_human_approval_and_unlock",
+    "user_available_for_three_real_human_approvals_and_unlock",
     "additional_display_or_scale_if_claiming_those_environments",
     "separate_windows_execution_environment"
   ],
   "publication_rule": "Keep credentials/raw traces/customer data private; commit plan, progress and sanitized evidence. Not-run/blocked remain in planned denominators.",
   "execution": {
-    "evidence": "docs/evidence/2026-10-12-business-eval/README.md",
-    "summary": "docs/evidence/2026-10-12-business-eval/summary.json",
-    "batches": [
-      {
-        "batch": "r1",
-        "planned": 18,
-        "recorded": 18,
-        "started": 8,
-        "initial_passed": 3,
-        "corrected_passed": 6
-      },
-      {
-        "batch": "r2",
-        "planned": 12,
-        "recorded": 12,
-        "started": 6,
-        "initial_passed": 3,
-        "corrected_passed": 5
-      },
-      {
-        "batch": "r3",
-        "planned": 12,
-        "recorded": 12,
-        "started": 8,
-        "initial_passed": 6,
-        "corrected_passed": 7
-      },
-      {
-        "batch": "r4",
-        "planned": 4,
-        "recorded": 4,
-        "started": 4,
-        "initial_passed": 2,
-        "corrected_passed": 2
-      }
-    ],
-    "case_records_with_retests": 46,
-    "actual_actor_starts_with_retests": 26,
-    "corrected_passes_with_retests": 20,
-    "latest_selected_four_task_matrix": {
-      "passed": 9,
-      "total": 12,
-      "codex_current": {
-        "passed": 4,
-        "total": 4
-      },
-      "hermes": {
-        "passed": 2,
-        "total": 4
-      },
-      "deepseek": {
-        "passed": 3,
-        "total": 4
-      }
-    },
-    "host_regression_latest": 571,
+    "evidence": "docs/evidence/2026-10-12-macos-completion/README.md",
+    "summary": "docs/evidence/2026-10-12-macos-completion/business-summary.json",
+    "host_regression_latest": 587,
     "audit_passed": 9,
     "audit_total": 9,
-    "fault_matrix_passed": 16,
+    "fault_matrix_passed": 18,
     "fault_matrix_total": 18,
     "core_safety_categories_passed": 8,
     "core_safety_categories_total": 8,
     "raw_scores_preserved": true,
     "regrading_is_not_new_attempt": true,
-    "full_matrix_complete": false
+    "full_matrix_complete": true,
+    "active_followup_evidence": "docs/evidence/2026-10-12-macos-completion/README.md",
+    "remaining_six_initial": {
+      "planned": 18,
+      "recorded": 18,
+      "started": 17,
+      "passed": 14
+    },
+    "prior_sdk_terminal_correction": {
+      "r3_corrected_passed": 5,
+      "prior_selected_matrix_passed": 7,
+      "prior_selected_matrix_total": 12
+    },
+    "final_main_matrix": {
+      "passed": 26,
+      "total": 36,
+      "recorded": 36,
+      "started": 36,
+      "callers": {
+        "codex-current": 12,
+        "hermes": 8,
+        "deepseek": 6
+      }
+    },
+    "stability_extra": {
+      "v32": 7,
+      "v33": 5,
+      "total": 18
+    },
+    "historical_execution": {
+      "batches": [
+        {
+          "batch": "r1",
+          "planned": 18,
+          "recorded": 18,
+          "started": 8,
+          "initial_passed": 3,
+          "corrected_passed": 6
+        },
+        {
+          "batch": "r2",
+          "planned": 12,
+          "recorded": 12,
+          "started": 6,
+          "initial_passed": 3,
+          "corrected_passed": 5
+        },
+        {
+          "batch": "r3",
+          "planned": 12,
+          "recorded": 12,
+          "started": 8,
+          "initial_passed": 6,
+          "corrected_passed": 7,
+          "sdk_terminal_corrected_passed": 5
+        },
+        {
+          "batch": "r4",
+          "planned": 4,
+          "recorded": 4,
+          "started": 4,
+          "initial_passed": 2,
+          "corrected_passed": 2
+        }
+      ],
+      "case_records_with_retests": 46,
+      "actual_actor_starts_with_retests": 26,
+      "corrected_passes_with_retests": 18,
+      "latest_selected_four_task_matrix": {
+        "passed": 7,
+        "total": 12,
+        "codex_current": {
+          "passed": 4,
+          "total": 4
+        },
+        "hermes": {
+          "passed": 2,
+          "total": 4
+        },
+        "deepseek": {
+          "passed": 1,
+          "total": 4
+        }
+      },
+      "legacy_report_scores_preserved": true
+    },
+    "critical_three_sample_matrix": {
+      "passed": 17,
+      "total": 27,
+      "all_families_three_samples_recorded": true
+    },
+    "delayed_approval": {
+      "passed": 9,
+      "total": 9,
+      "human": false,
+      "initial_passed": 3,
+      "initial_total": 9,
+      "retest_passed": 6,
+      "retest_total": 6
+    },
+    "gui_initial": {
+      "planned": 18,
+      "recorded": 18,
+      "started_reported": 7,
+      "passed": 0,
+      "blocked": 10,
+      "runner_errors": 1
+    },
+    "gui_retest": {
+      "planned": 18,
+      "recorded": 18,
+      "started": 18,
+      "passed": 0,
+      "status": "completed_execution_with_scope_and_workflow_limits"
+    },
+    "quality_target_met": false,
+    "automated_matrix_execution_complete": true,
+    "customer_acceptance_complete": false,
+    "numbers_persistence_latest": {
+      "passed": 0,
+      "total": 2,
+      "historical_passed": 1,
+      "historical_total": 3,
+      "unknown_not_replayed": true
+    },
+    "MCP_image_delivery_passed": true,
+    "provider_image_probe": {
+      "initial_passed": 2,
+      "retest_passed": 3,
+      "total": 3,
+      "not_harness_image_consumption": true
+    },
+    "independent_wheel_passed": true
   },
   "local_engineering_pending": [
-    "remaining_six_business_goals_three_callers",
-    "Pages_RTF_and_visual_reopen_judge",
-    "GUI_comparison",
-    "delayed_admin_approval",
-    "fixed_revision_stability",
-    "caller_owner_grounding_and_bounded_image_verification",
-    "system_notification_blocked_positive_inputs"
+    "product_success_and_stability_targets_not_met",
+    "GUI_edit_commit_menu_and_save_workflows",
+    "disabled_target_zero_dispatch_status_and_two_numbers_persistence_samples",
+    "Harness_image_consumption_confirmation",
+    "GUI_T01_scope_feasibility_new_suite_revision"
   ]
 }

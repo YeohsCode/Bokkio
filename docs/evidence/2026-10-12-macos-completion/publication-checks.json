@@ -1,0 +1,9 @@
+{
+  "credentials_exact_key_scan": "no_actual_key_found",
+  "gitleaks_changed_publication": "no_leaks_found",
+  "absolute_user_paths_in_evidence": false,
+  "raw_screenshots_SQLite_and_model_traces_published": false,
+  "evidence_JSON_parse_passed": true,
+  "current_source_matches_final_fingerprint": true,
+  "wheel_core_files_match_current_source": true
+}

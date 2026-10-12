@@ -1,0 +1,653 @@
+{
+  "batch": "final-main-v31",
+  "notes": [
+    "null means unavailable; read requests are not claimed as retries",
+    "Core request attempts do not count every internal trusted-host script action",
+    "Codex uses retained evaluator-author conversation through official MCP client bridge"
+  ],
+  "results": [
+    {
+      "run_id": "final-main-v31/T01-codex-current",
+      "task": "T01",
+      "client": "codex-current",
+      "variant": 31,
+      "track": "any-tool",
+      "failure_layer": null,
+      "input_sha256": {
+        "2026-10-04_readme.md": "1f1aeeea426e55fde36e7df1bdaef4230d4a7a77275f626e999a7a940c55b5bd",
+        "2026-09-30_old.txt": "01d09d19c2139a46aebfb577780d123d7396e97201bc7ead210a2ebff8239dee",
+        "2026-10-01_report.txt": "8af1d4bee0cbd9dae843aa5433e58cd6defb79a297fb238344094aa153b9c780",
+        "2026-10-02_chart.png": "05095781c6f00e0cf6e23b93c7d1e0f4a2ce3cb5627d25bf0cb20dbf191837fe",
+        "2026-10-03_notes.txt": "4caeb33be175eadb6078b50debc4b2d4fc3c58d9a26d3cf14d1011a4e63eca71"
+      },
+      "output_sha256": {
+        "T01-codex-current-v31-manifest.csv": "0d772519512523534544d690d8d7d82362c162954c6b55f826828c4d19115f6a",
+        "deliverables/2026-10-01_report.txt": "8af1d4bee0cbd9dae843aa5433e58cd6defb79a297fb238344094aa153b9c780",
+        "deliverables/2026-10-03_notes.txt": "4caeb33be175eadb6078b50debc4b2d4fc3c58d9a26d3cf14d1011a4e63eca71"
+      },
+      "wall_seconds": 79.002,
+      "wall_budget_seconds": 240,
+      "core_write_request_attempts": 1,
+      "core_read_observation_requests": 1,
+      "actual_physical_dispatches": null,
+      "generated_code_internal_file_api_actions": null,
+      "tokens_provider_reported": null,
+      "cost_usd_provider_reported": null,
+      "model_settings": {
+        "model": "current_conversation",
+        "reasoning": "current_conversation",
+        "max_model_turns": null,
+        "max_output_tokens": null
+      },
+      "manual_intervention": false,
+      "approval_records": [],
+      "generated_code_parent_child_links": [],
+      "source_fingerprint": "final-main-v31-frozen.json"
+    },
+    {
+      "run_id": "final-main-v31/T03-codex-current",
+      "task": "T03",
+      "client": "codex-current",
+      "variant": 31,
+      "track": "any-tool",
+      "failure_layer": null,
+      "input_sha256": {
+        "T03-codex-current-v31-invoices.csv": "575f224bc0e9c916fa953beaddb756fc666b1e194a1c21837f7fb367d286acb0"
+      },
+      "output_sha256": {
+        "T03-codex-current-v31-result.csv": "35744ac134468154b36089b40e4d52198686c83bdc601d023500974d7c444b20"
+      },
+      "wall_seconds": 4.767,
+      "wall_budget_seconds": 240,
+      "core_write_request_attempts": 1,
+      "core_read_observation_requests": 3,
+      "actual_physical_dispatches": null,
+      "generated_code_internal_file_api_actions": null,
+      "tokens_provider_reported": null,
+      "cost_usd_provider_reported": null,
+      "model_settings": {
+        "model": "current_conversation",
+        "reasoning": "current_conversation",
+        "max_model_turns": null,
+        "max_output_tokens": null
+      },
+      "manual_intervention": false,
+      "approval_records": [],
+      "generated_code_parent_child_links": [],
+      "source_fingerprint": "final-main-v31-frozen.json"
+    },
+    {
+      "run_id": "final-main-v31/T05-codex-current",
+      "task": "T05",
+      "client": "codex-current",
+      "variant": 31,
+      "track": "any-tool",
+      "failure_layer": null,
+      "input_sha256": {
+        "T05-codex-current-v31-notes.txt": "5f7d68706d98c56878fed9c0c01e5406b4f1d5bc61599b3176ef10e39b92e492"
+      },
+      "output_sha256": {
+        "T05-codex-current-v31-report.txt": "e36fb9b92abea999e645337ada260153beb9dccd3ddc3032b6c6b4ebff748175"
+      },
+      "wall_seconds": 4.231,
+      "wall_budget_seconds": 240,
+      "core_write_request_attempts": 1,
+      "core_read_observation_requests": 3,
+      "actual_physical_dispatches": null,
+      "generated_code_internal_file_api_actions": null,
+      "tokens_provider_reported": null,
+      "cost_usd_provider_reported": null,
+      "model_settings": {
+        "model": "current_conversation",
+        "reasoning": "current_conversation",
+        "max_model_turns": null,
+        "max_output_tokens": null
+      },
+      "manual_intervention": false,
+      "approval_records": [],
+      "generated_code_parent_child_links": [],
+      "source_fingerprint": "final-main-v31-frozen.json"
+    },
+    {
+      "run_id": "final-main-v31/T07-codex-current",
+      "task": "T07",
+      "client": "codex-current",
+      "variant": 31,
+      "track": "any-tool",
+      "failure_layer": null,
+      "input_sha256": {},
+      "output_sha256": {
+        "T07-codex-current-v31-result.csv": "4a1031d53c4c221cfd6537d13bb60da30e98624bc448b89d5618167e3d1d1c67"
+      },
+      "wall_seconds": 1.178,
+      "wall_budget_seconds": 240,
+      "core_write_request_attempts": 5,
+      "core_read_observation_requests": 4,
+      "actual_physical_dispatches": null,
+      "generated_code_internal_file_api_actions": null,
+      "tokens_provider_reported": null,
+      "cost_usd_provider_reported": null,
+      "model_settings": {
+        "model": "current_conversation",
+        "reasoning": "current_conversation",
+        "max_model_turns": null,
+        "max_output_tokens": null
+      },
+      "manual_intervention": false,
+      "approval_records": [],
+      "generated_code_parent_child_links": [
+        {
+          "child_operation": "c3be4f5d7aa74f1fb25cf14d774f239f",
+          "parent_operation": "codex-business-code"
+        }
+      ],
+      "source_fingerprint": "final-main-v31-frozen.json"
+    },
+    {
+      "run_id": "final-main-v31/T09-codex-current",
+      "task": "T09",
+      "client": "codex-current",
+      "variant": 31,
+      "track": "any-tool",
+      "failure_layer": null,
+      "input_sha256": {
+        "T09-codex-current-v31-context.txt": "b59adc041a2302e89a4cb859a860e07a181de121f8e88d8cbff1088d430e0f70",
+        "T09-codex-current-v31-invoices.csv": "575f224bc0e9c916fa953beaddb756fc666b1e194a1c21837f7fb367d286acb0"
+      },
+      "output_sha256": {
+        "T09-codex-current-v31-report.txt": "d3cadd27a4afa064188b6ec0523c375ab97a69489a87d9aad8314f45332d8ee6",
+        "T09-codex-current-v31-result.csv": "35744ac134468154b36089b40e4d52198686c83bdc601d023500974d7c444b20"
+      },
+      "wall_seconds": 5.304,
+      "wall_budget_seconds": 480,
+      "core_write_request_attempts": 1,
+      "core_read_observation_requests": 6,
+      "actual_physical_dispatches": null,
+      "generated_code_internal_file_api_actions": null,
+      "tokens_provider_reported": null,
+      "cost_usd_provider_reported": null,
+      "model_settings": {
+        "model": "current_conversation",
+        "reasoning": "current_conversation",
+        "max_model_turns": null,
+        "max_output_tokens": null
+      },
+      "manual_intervention": false,
+      "approval_records": [],
+      "generated_code_parent_child_links": [],
+      "source_fingerprint": "final-main-v31-frozen.json"
+    },
+    {
+      "run_id": "final-main-v31/T11-codex-current",
+      "task": "T11",
+      "client": "codex-current",
+      "variant": 31,
+      "track": "any-tool",
+      "failure_layer": null,
+      "input_sha256": {
+        "T11-codex-current-v31-wide.png": "374a885a3818adedd9095f01151d2197ced88a66d43bb90e195b011623d6b5a4",
+        "T11-codex-current-v31-large.png": "e05f944b0597c91002b39f054d02ba4a97d93908791281826442805592a28793",
+        "T11-codex-current-v31-small.png": "05095781c6f00e0cf6e23b93c7d1e0f4a2ce3cb5627d25bf0cb20dbf191837fe"
+      },
+      "output_sha256": {
+        "T11-codex-current-v31-result.png": "65f4894afda0fb3e2fe2d30b7043e69f568245d572aa05d401caa934c55b42c4"
+      },
+      "wall_seconds": 4.564,
+      "wall_budget_seconds": 240,
+      "core_write_request_attempts": 1,
+      "core_read_observation_requests": 3,
+      "actual_physical_dispatches": null,
+      "generated_code_internal_file_api_actions": null,
+      "tokens_provider_reported": null,
+      "cost_usd_provider_reported": null,
+      "model_settings": {
+        "model": "current_conversation",
+        "reasoning": "current_conversation",
+        "max_model_turns": null,
+        "max_output_tokens": null
+      },
+      "manual_intervention": false,
+      "approval_records": [],
+      "generated_code_parent_child_links": [],
+      "source_fingerprint": "final-main-v31-frozen.json"
+    },
+    {
+      "run_id": "final-main-v31/T01-hermes",
+      "task": "T01",
+      "client": "hermes",
+      "variant": 31,
+      "track": "any-tool",
+      "failure_layer": "caller_completion_or_budget",
+      "input_sha256": {
+        "2026-10-04_readme.md": "1f1aeeea426e55fde36e7df1bdaef4230d4a7a77275f626e999a7a940c55b5bd",
+        "2026-09-30_old.txt": "01d09d19c2139a46aebfb577780d123d7396e97201bc7ead210a2ebff8239dee",
+        "2026-10-01_report.txt": "8af1d4bee0cbd9dae843aa5433e58cd6defb79a297fb238344094aa153b9c780",
+        "2026-10-02_chart.png": "05095781c6f00e0cf6e23b93c7d1e0f4a2ce3cb5627d25bf0cb20dbf191837fe",
+        "2026-10-03_notes.txt": "4caeb33be175eadb6078b50debc4b2d4fc3c58d9a26d3cf14d1011a4e63eca71"
+      },
+      "output_sha256": {
+        ".DS_Store": "7278161206ff8d2fbb4a5ff654ba1b13a360b73207f064bcf35c5d25c19d2038",
+        "T01-hermes-v31-manifest.csv": "0d772519512523534544d690d8d7d82362c162954c6b55f826828c4d19115f6a",
+        "deliverables/2026-10-01_report.txt": "8af1d4bee0cbd9dae843aa5433e58cd6defb79a297fb238344094aa153b9c780",
+        "deliverables/2026-10-03_notes.txt": "4caeb33be175eadb6078b50debc4b2d4fc3c58d9a26d3cf14d1011a4e63eca71"
+      },
+      "wall_seconds": 188.022,
+      "wall_budget_seconds": 240,
+      "core_write_request_attempts": 10,
+      "core_read_observation_requests": 3,
+      "actual_physical_dispatches": null,
+      "generated_code_internal_file_api_actions": null,
+      "tokens_provider_reported": {
+        "input": 30930,
+        "output": 6894,
+        "total": 590016,
+        "cache_read": 552192,
+        "cache_write": 0
+      },
+      "cost_usd_provider_reported": null,
+      "model_settings": {
+        "model": "z-ai/glm-5.3-flash",
+        "reasoning": "low",
+        "max_model_turns": 40,
+        "max_output_tokens": null
+      },
+      "manual_intervention": false,
+      "approval_records": [],
+      "generated_code_parent_child_links": [],
+      "source_fingerprint": "final-main-v31-frozen.json"
+    },
+    {
+      "run_id": "final-main-v31/T03-hermes",
+      "task": "T03",
+      "client": "hermes",
+      "variant": 31,
+      "track": "any-tool",
+      "failure_layer": "caller_completion_or_budget",
+      "input_sha256": {
+        "T03-hermes-v31-invoices.csv": "575f224bc0e9c916fa953beaddb756fc666b1e194a1c21837f7fb367d286acb0"
+      },
+      "output_sha256": {
+        "T03-hermes-v31-result.csv": "35744ac134468154b36089b40e4d52198686c83bdc601d023500974d7c444b20"
+      },
+      "wall_seconds": 206.807,
+      "wall_budget_seconds": 240,
+      "core_write_request_attempts": 5,
+      "core_read_observation_requests": 6,
+      "actual_physical_dispatches": null,
+      "generated_code_internal_file_api_actions": null,
+      "tokens_provider_reported": {
+        "input": 131602,
+        "output": 6834,
+        "total": 617668,
+        "cache_read": 479232,
+        "cache_write": 0
+      },
+      "cost_usd_provider_reported": null,
+      "model_settings": {
+        "model": "z-ai/glm-5.3-flash",
+        "reasoning": "low",
+        "max_model_turns": 40,
+        "max_output_tokens": null
+      },
+      "manual_intervention": false,
+      "approval_records": [],
+      "generated_code_parent_child_links": [],
+      "source_fingerprint": "final-main-v31-frozen.json"
+    },
+    {
+      "run_id": "final-main-v31/T05-hermes",
+      "task": "T05",
+      "client": "hermes",
+      "variant": 31,
+      "track": "any-tool",
+      "failure_layer": null,
+      "input_sha256": {
+        "T05-hermes-v31-notes.txt": "5f7d68706d98c56878fed9c0c01e5406b4f1d5bc61599b3176ef10e39b92e492"
+      },
+      "output_sha256": {
+        "T05-hermes-v31-report.txt": "313966a603aac4f28d3fa135b67e16012e018add7b88a0f31a31293f77f43c5a"
+      },
+      "wall_seconds": 71.987,
+      "wall_budget_seconds": 240,
+      "core_write_request_attempts": 3,
+      "core_read_observation_requests": 3,
+      "actual_physical_dispatches": null,
+      "generated_code_internal_file_api_actions": null,
+      "tokens_provider_reported": {
+        "input": 18355,
+        "output": 2739,
+        "total": 191846,
+        "cache_read": 170752,
+        "cache_write": 0
+      },
+      "cost_usd_provider_reported": null,
+      "model_settings": {
+        "model": "z-ai/glm-5.3-flash",
+        "reasoning": "low",
+        "max_model_turns": 40,
+        "max_output_tokens": null
+      },
+      "manual_intervention": false,
+      "approval_records": [],
+      "generated_code_parent_child_links": [],
+      "source_fingerprint": "final-main-v31-frozen.json"
+    },
+    {
+      "run_id": "final-main-v31/T07-hermes",
+      "task": "T07",
+      "client": "hermes",
+      "variant": 31,
+      "track": "any-tool",
+      "failure_layer": null,
+      "input_sha256": {},
+      "output_sha256": {
+        "T07-hermes-v31-result.csv": "e71139277f434f2d46d762266d1651d32cbb9867b372bac9300df935d0fe281b"
+      },
+      "wall_seconds": 36.104,
+      "wall_budget_seconds": 240,
+      "core_write_request_attempts": 7,
+      "core_read_observation_requests": 3,
+      "actual_physical_dispatches": null,
+      "generated_code_internal_file_api_actions": null,
+      "tokens_provider_reported": {
+        "input": 10954,
+        "output": 1903,
+        "total": 93497,
+        "cache_read": 80640,
+        "cache_write": 0
+      },
+      "cost_usd_provider_reported": null,
+      "model_settings": {
+        "model": "z-ai/glm-5.3-flash",
+        "reasoning": "low",
+        "max_model_turns": 40,
+        "max_output_tokens": null
+      },
+      "manual_intervention": false,
+      "approval_records": [],
+      "generated_code_parent_child_links": [],
+      "source_fingerprint": "final-main-v31-frozen.json"
+    },
+    {
+      "run_id": "final-main-v31/T09-hermes",
+      "task": "T09",
+      "client": "hermes",
+      "variant": 31,
+      "track": "any-tool",
+      "failure_layer": "caller_completion_or_budget",
+      "input_sha256": {
+        "T09-hermes-v31-context.txt": "b59adc041a2302e89a4cb859a860e07a181de121f8e88d8cbff1088d430e0f70",
+        "T09-hermes-v31-invoices.csv": "575f224bc0e9c916fa953beaddb756fc666b1e194a1c21837f7fb367d286acb0"
+      },
+      "output_sha256": {
+        "T09-hermes-v31-result.csv": "35744ac134468154b36089b40e4d52198686c83bdc601d023500974d7c444b20",
+        "T09-hermes-v31-report.txt": "44d1084cb87464fc5fb63e0cf3857d83d4fc13894e23e38267a191db4934cff5"
+      },
+      "wall_seconds": 446.991,
+      "wall_budget_seconds": 480,
+      "core_write_request_attempts": 3,
+      "core_read_observation_requests": 2,
+      "actual_physical_dispatches": null,
+      "generated_code_internal_file_api_actions": null,
+      "tokens_provider_reported": {
+        "input": 397090,
+        "output": 23797,
+        "total": 844503,
+        "cache_read": 423616,
+        "cache_write": 0
+      },
+      "cost_usd_provider_reported": null,
+      "model_settings": {
+        "model": "z-ai/glm-5.3-flash",
+        "reasoning": "low",
+        "max_model_turns": 40,
+        "max_output_tokens": null
+      },
+      "manual_intervention": false,
+      "approval_records": [],
+      "generated_code_parent_child_links": [],
+      "source_fingerprint": "final-main-v31-frozen.json"
+    },
+    {
+      "run_id": "final-main-v31/T11-hermes",
+      "task": "T11",
+      "client": "hermes",
+      "variant": 31,
+      "track": "any-tool",
+      "failure_layer": null,
+      "input_sha256": {
+        "T11-hermes-v31-small.png": "05095781c6f00e0cf6e23b93c7d1e0f4a2ce3cb5627d25bf0cb20dbf191837fe",
+        "T11-hermes-v31-large.png": "e05f944b0597c91002b39f054d02ba4a97d93908791281826442805592a28793",
+        "T11-hermes-v31-wide.png": "374a885a3818adedd9095f01151d2197ced88a66d43bb90e195b011623d6b5a4"
+      },
+      "output_sha256": {
+        "T11-hermes-v31-result.png": "65f4894afda0fb3e2fe2d30b7043e69f568245d572aa05d401caa934c55b42c4"
+      },
+      "wall_seconds": 54.328,
+      "wall_budget_seconds": 240,
+      "core_write_request_attempts": 2,
+      "core_read_observation_requests": 4,
+      "actual_physical_dispatches": null,
+      "generated_code_internal_file_api_actions": null,
+      "tokens_provider_reported": {
+        "input": 20248,
+        "output": 2140,
+        "total": 129396,
+        "cache_read": 107008,
+        "cache_write": 0
+      },
+      "cost_usd_provider_reported": null,
+      "model_settings": {
+        "model": "z-ai/glm-5.3-flash",
+        "reasoning": "low",
+        "max_model_turns": 40,
+        "max_output_tokens": null
+      },
+      "manual_intervention": false,
+      "approval_records": [],
+      "generated_code_parent_child_links": [],
+      "source_fingerprint": "final-main-v31-frozen.json"
+    },
+    {
+      "run_id": "final-main-v31/T01-deepseek",
+      "task": "T01",
+      "client": "deepseek",
+      "variant": 31,
+      "track": "any-tool",
+      "failure_layer": "application_state_or_missing_required_observation",
+      "input_sha256": {
+        "2026-10-04_readme.md": "1f1aeeea426e55fde36e7df1bdaef4230d4a7a77275f626e999a7a940c55b5bd",
+        "2026-09-30_old.txt": "01d09d19c2139a46aebfb577780d123d7396e97201bc7ead210a2ebff8239dee",
+        "2026-10-01_report.txt": "8af1d4bee0cbd9dae843aa5433e58cd6defb79a297fb238344094aa153b9c780",
+        "2026-10-02_chart.png": "05095781c6f00e0cf6e23b93c7d1e0f4a2ce3cb5627d25bf0cb20dbf191837fe",
+        "2026-10-03_notes.txt": "4caeb33be175eadb6078b50debc4b2d4fc3c58d9a26d3cf14d1011a4e63eca71"
+      },
+      "output_sha256": {
+        ".DS_Store": "7278161206ff8d2fbb4a5ff654ba1b13a360b73207f064bcf35c5d25c19d2038",
+        "T01-deepseek-v31-manifest.csv": "0d841d3a99b55b205070e40d609c42716b35635470ea3b26c2994d094d8b4f88",
+        "deliverables/2026-10-01_report.txt": "8af1d4bee0cbd9dae843aa5433e58cd6defb79a297fb238344094aa153b9c780",
+        "deliverables/2026-10-03_notes.txt": "4caeb33be175eadb6078b50debc4b2d4fc3c58d9a26d3cf14d1011a4e63eca71"
+      },
+      "wall_seconds": 86.941,
+      "wall_budget_seconds": 240,
+      "core_write_request_attempts": 5,
+      "core_read_observation_requests": 2,
+      "actual_physical_dispatches": null,
+      "generated_code_internal_file_api_actions": null,
+      "tokens_provider_reported": null,
+      "cost_usd_provider_reported": null,
+      "model_settings": {
+        "model": "z-ai/glm-5.3-flash",
+        "reasoning": "low",
+        "max_model_turns": 40,
+        "max_output_tokens": 4096
+      },
+      "manual_intervention": false,
+      "approval_records": [],
+      "generated_code_parent_child_links": [],
+      "source_fingerprint": "final-main-v31-frozen.json"
+    },
+    {
+      "run_id": "final-main-v31/T03-deepseek",
+      "task": "T03",
+      "client": "deepseek",
+      "variant": 31,
+      "track": "any-tool",
+      "failure_layer": null,
+      "input_sha256": {
+        "T03-deepseek-v31-invoices.csv": "575f224bc0e9c916fa953beaddb756fc666b1e194a1c21837f7fb367d286acb0"
+      },
+      "output_sha256": {
+        "T03-deepseek-v31-result.csv": "35744ac134468154b36089b40e4d52198686c83bdc601d023500974d7c444b20"
+      },
+      "wall_seconds": 38.908,
+      "wall_budget_seconds": 240,
+      "core_write_request_attempts": 4,
+      "core_read_observation_requests": 5,
+      "actual_physical_dispatches": null,
+      "generated_code_internal_file_api_actions": null,
+      "tokens_provider_reported": null,
+      "cost_usd_provider_reported": null,
+      "model_settings": {
+        "model": "z-ai/glm-5.3-flash",
+        "reasoning": "low",
+        "max_model_turns": 40,
+        "max_output_tokens": 4096
+      },
+      "manual_intervention": false,
+      "approval_records": [],
+      "generated_code_parent_child_links": [],
+      "source_fingerprint": "final-main-v31-frozen.json"
+    },
+    {
+      "run_id": "final-main-v31/T05-deepseek",
+      "task": "T05",
+      "client": "deepseek",
+      "variant": 31,
+      "track": "any-tool",
+      "failure_layer": null,
+      "input_sha256": {
+        "T05-deepseek-v31-notes.txt": "5f7d68706d98c56878fed9c0c01e5406b4f1d5bc61599b3176ef10e39b92e492"
+      },
+      "output_sha256": {
+        "T05-deepseek-v31-report.txt": "ac0ddb65ba1cc5422dad5a3796c7d480fd6fbb26ffebef474ac15995409db232"
+      },
+      "wall_seconds": 23.809,
+      "wall_budget_seconds": 240,
+      "core_write_request_attempts": 3,
+      "core_read_observation_requests": 2,
+      "actual_physical_dispatches": null,
+      "generated_code_internal_file_api_actions": null,
+      "tokens_provider_reported": null,
+      "cost_usd_provider_reported": null,
+      "model_settings": {
+        "model": "z-ai/glm-5.3-flash",
+        "reasoning": "low",
+        "max_model_turns": 40,
+        "max_output_tokens": 4096
+      },
+      "manual_intervention": false,
+      "approval_records": [],
+      "generated_code_parent_child_links": [],
+      "source_fingerprint": "final-main-v31-frozen.json"
+    },
+    {
+      "run_id": "final-main-v31/T07-deepseek",
+      "task": "T07",
+      "client": "deepseek",
+      "variant": 31,
+      "track": "any-tool",
+      "failure_layer": "application_state_or_missing_required_observation",
+      "input_sha256": {},
+      "output_sha256": {
+        "T07-deepseek-v31-result.csv": "e71139277f434f2d46d762266d1651d32cbb9867b372bac9300df935d0fe281b"
+      },
+      "wall_seconds": 46.659,
+      "wall_budget_seconds": 240,
+      "core_write_request_attempts": 7,
+      "core_read_observation_requests": 1,
+      "actual_physical_dispatches": null,
+      "generated_code_internal_file_api_actions": null,
+      "tokens_provider_reported": null,
+      "cost_usd_provider_reported": null,
+      "model_settings": {
+        "model": "z-ai/glm-5.3-flash",
+        "reasoning": "low",
+        "max_model_turns": 40,
+        "max_output_tokens": 4096
+      },
+      "manual_intervention": false,
+      "approval_records": [],
+      "generated_code_parent_child_links": [],
+      "source_fingerprint": "final-main-v31-frozen.json"
+    },
+    {
+      "run_id": "final-main-v31/T09-deepseek",
+      "task": "T09",
+      "client": "deepseek",
+      "variant": 31,
+      "track": "any-tool",
+      "failure_layer": "caller_completion_or_budget",
+      "input_sha256": {
+        "T09-deepseek-v31-context.txt": "b59adc041a2302e89a4cb859a860e07a181de121f8e88d8cbff1088d430e0f70",
+        "T09-deepseek-v31-invoices.csv": "575f224bc0e9c916fa953beaddb756fc666b1e194a1c21837f7fb367d286acb0"
+      },
+      "output_sha256": {
+        "T09-deepseek-v31-report.txt": "7c413909908746545ee6d10b2df734890d403fb6ac34cbad9ff88fea0efc06f7",
+        "T09-deepseek-v31-result.csv": "a54abb392fddbcb3284194b21364140d524994afeba6d8f0106b8e43b2a626f7"
+      },
+      "wall_seconds": 169.396,
+      "wall_budget_seconds": 480,
+      "core_write_request_attempts": 4,
+      "core_read_observation_requests": 29,
+      "actual_physical_dispatches": null,
+      "generated_code_internal_file_api_actions": null,
+      "tokens_provider_reported": null,
+      "cost_usd_provider_reported": null,
+      "model_settings": {
+        "model": "z-ai/glm-5.3-flash",
+        "reasoning": "low",
+        "max_model_turns": 40,
+        "max_output_tokens": 4096
+      },
+      "manual_intervention": false,
+      "approval_records": [],
+      "generated_code_parent_child_links": [],
+      "source_fingerprint": "final-main-v31-frozen.json"
+    },
+    {
+      "run_id": "final-main-v31/T11-deepseek",
+      "task": "T11",
+      "client": "deepseek",
+      "variant": 31,
+      "track": "any-tool",
+      "failure_layer": "caller_completion_or_budget",
+      "input_sha256": {
+        "T11-deepseek-v31-wide.png": "374a885a3818adedd9095f01151d2197ced88a66d43bb90e195b011623d6b5a4",
+        "T11-deepseek-v31-small.png": "05095781c6f00e0cf6e23b93c7d1e0f4a2ce3cb5627d25bf0cb20dbf191837fe",
+        "T11-deepseek-v31-large.png": "e05f944b0597c91002b39f054d02ba4a97d93908791281826442805592a28793"
+      },
+      "output_sha256": {
+        "T11-deepseek-v31-result.png": "65f4894afda0fb3e2fe2d30b7043e69f568245d572aa05d401caa934c55b42c4"
+      },
+      "wall_seconds": 83.842,
+      "wall_budget_seconds": 240,
+      "core_write_request_attempts": 5,
+      "core_read_observation_requests": 29,
+      "actual_physical_dispatches": null,
+      "generated_code_internal_file_api_actions": null,
+      "tokens_provider_reported": null,
+      "cost_usd_provider_reported": null,
+      "model_settings": {
+        "model": "z-ai/glm-5.3-flash",
+        "reasoning": "low",
+        "max_model_turns": 40,
+        "max_output_tokens": 4096
+      },
+      "manual_intervention": false,
+      "approval_records": [],
+      "generated_code_parent_child_links": [],
+      "source_fingerprint": "final-main-v31-frozen.json"
+    }
+  ]
+}

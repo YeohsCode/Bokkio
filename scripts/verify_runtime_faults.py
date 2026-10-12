@@ -35,6 +35,17 @@ def live(pid):
     return bool(result.stdout.strip()) and not result.stdout.strip().startswith("Z")
 
 
+def input_guard_facts(receipt):
+    scope=receipt.get('error_details',{}).get('input_scope',{})
+    if not scope:return {}
+    facts={k:scope.get(k) for k in ('event_permission','foreground_process_matches','top_window_matches')}
+    pid=scope.get('top_window_pid')
+    if type(pid) is int and pid>0:
+        owner=subprocess.run(['ps','-p',str(pid),'-o','comm='],capture_output=True,text=True)
+        facts['system_notification_overlay_confirmed']=(Path(owner.stdout.strip()).name=='UserNotificationCenter') if owner.returncode==0 else None
+    return {'input_guard':facts}
+
+
 class Fixture:
     def __init__(self, executable, folder, windows=1):
         folder.mkdir(parents=True)
@@ -46,7 +57,11 @@ class Fixture:
                "BOKKIO_VISUAL_STATE": str(self.state), "BOKKIO_VISUAL_RESULT": str(self.business),
                "BOKKIO_VISUAL_CONTROL": str(self.control)}
         self.process = subprocess.Popen([str(executable)], env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        wait_for(lambda: self.state.exists() and self.business.exists())
+        # Launch writes an initial window record before its complete state.
+        # Wait for display/input geometry used by this matrix; file existence
+        # alone can race that initialization.
+        wait_for(lambda: self.business.exists() and
+                 json.loads(self.state.read_text()).get('displays'))
         self.client = Client(Runtime(folder / "runtime", {"apps": [str(self.process.pid)], "paths": [str(folder)],
                                                           "write": True, "require_approval": False}))
         wait_for(self.client.open)
@@ -196,7 +211,9 @@ def run(executable, output):
         receipt = fixture.click(observed)
         if receipt["dispatched"] is True:
             wait_for(lambda: fixture.clicks() == before + 1)
-        report["checks"].append({"case": "fresh_window_after_rebuild", "passed": receipt["dispatched"] is True and fixture.clicks() == before + 1})
+        report["checks"].append({"case": "fresh_window_after_rebuild", "passed": receipt["dispatched"] is True and fixture.clicks() == before + 1,
+                                 "status": receipt["status"], "dispatched": receipt["dispatched"], "error_code": receipt.get("error_code"),
+                                 **input_guard_facts(receipt)})
         observed = fixture.capture()
         # Real wall-clock expiry, no injected clock or altered persisted observation.
         time.sleep(15.1)
@@ -212,7 +229,8 @@ def run(executable, output):
             meta = observed["result"]["metadata"]
             report["checks"].append({"case": "physical_display_coordinate_mapping", "display_index": display["index"],
                                      "scale": meta["point_pixel_scale"], "passed": receipt["dispatched"] is True and fixture.clicks() == before + 1,
-                                     "dispatched": receipt["dispatched"], "error_code": receipt.get("error_code")})
+                                     "dispatched": receipt["dispatched"], "error_code": receipt.get("error_code"),
+                                     **input_guard_facts(receipt)})
         observed = fixture.capture()
         before = fixture.clicks()
         from bokkio.desktop_input import desktop_lock

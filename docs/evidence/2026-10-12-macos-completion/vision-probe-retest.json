@@ -1,0 +1,61 @@
+{
+  "scope": "direct_provider_synthetic_image_probe_not_Bokkio_business_score_or_Harness_image_consumption",
+  "model": "z-ai/glm-5.3-flash",
+  "reasoning": "low",
+  "max_output_tokens": 1024,
+  "results": [
+    {
+      "expected_color": "blue",
+      "input_image_sha256": "269dbe8feeb33e58a00224cffd7f698322c7ccba107ee3c297597df417f098d4",
+      "http_status": 200,
+      "color_correct": true,
+      "normalized_color_response": "blue",
+      "final_response_present": true,
+      "finish_reason": "stop",
+      "explicit_image_rejection": false,
+      "provider_reported_usage": {
+        "prompt_tokens": 49,
+        "completion_tokens": 5,
+        "total_tokens": 54,
+        "cost": 3.68e-06
+      }
+    },
+    {
+      "expected_color": "red",
+      "input_image_sha256": "038a62cee5f4829db0c879118693bee52a98ffc6729ce715fc5489bc3f6ce846",
+      "http_status": 200,
+      "color_correct": true,
+      "normalized_color_response": "red",
+      "final_response_present": true,
+      "finish_reason": "stop",
+      "explicit_image_rejection": false,
+      "provider_reported_usage": {
+        "prompt_tokens": 49,
+        "completion_tokens": 5,
+        "total_tokens": 54,
+        "cost": 3.68e-06
+      }
+    },
+    {
+      "expected_color": "green",
+      "input_image_sha256": "293f594213b0e282e3dcef88ab8718b54a2028da935bbfd87e503a2e88adc868",
+      "http_status": 200,
+      "color_correct": true,
+      "normalized_color_response": "green",
+      "final_response_present": true,
+      "finish_reason": "stop",
+      "explicit_image_rejection": false,
+      "provider_reported_usage": {
+        "prompt_tokens": 49,
+        "completion_tokens": 11,
+        "total_tokens": 60,
+        "cost": 3.98e-06
+      }
+    }
+  ],
+  "passed": 3,
+  "total": 3,
+  "declared_DSH_model_inputs_in_business_config": [
+    "text"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "scope": "host_regression_run_during_real_GUI_execution",
+  "passed": 584,
+  "total": 585,
+  "failed_case": "test_approval_exact_request_and_idempotence",
+  "error": "Another Bokkio operation holds desktop input",
+  "failure_layer": "concurrent_test_environment",
+  "resolution": "Serialize final host regression after GUI; do not remove desktop input lock",
+  "final_result_pending": false,
+  "final_serial_passed": 587
+}

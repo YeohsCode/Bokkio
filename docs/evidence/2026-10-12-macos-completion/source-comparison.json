@@ -1,0 +1,15 @@
+{
+  "frozen_batches": [
+    "final-main-v31-frozen.json",
+    "final-remaining-v31-frozen.json",
+    "stability-v32-frozen.json",
+    "stability-v33-frozen.json",
+    "gui-initial-v40-frozen.json"
+  ],
+  "all_business_and_stability_sources_identical": true,
+  "all_core_sources_identical": true,
+  "current_core_matches_business_frozen": true,
+  "GUI_and_final_runner_scoring_preparation_fixes_separately_fingerprinted": true,
+  "gui_final_core_matches_business": true,
+  "final_runner_terminal_budget_hardening_separate_from_frozen_business_runs": true
+}
