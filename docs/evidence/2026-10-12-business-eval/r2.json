@@ -1,0 +1,498 @@
+{
+  "scope": "autonomous_synthetic_business_any_tool_internal_eval_not_official_benchmark",
+  "base_revision": "841c46c22c2f8a707f99ac4fea0918f66c0b861d",
+  "source_sha256": {
+    "scripts/evaluate_runtime_business.py": "e8e8880550ace9836bc620a55763c8cf0927f2331bc6686a1a3b151c3795206a",
+    "evals/runtime_business.py": "9a2d50797508ba23c42911e9efb2b91b56e42f09595c24bc168b012e84b0eb5f",
+    "src/bokkio/mcp_server.py": "63a24f87c9498e488c7c087d74ff9d4dff3e989f376555ecd0be030ab345f868"
+  },
+  "track": "any-tool",
+  "planned": 12,
+  "results": [
+    {
+      "task": "T03",
+      "client": "codex-current",
+      "track": "any-tool",
+      "variant": 1,
+      "status": "failed",
+      "started": true,
+      "passed": false,
+      "client_exit_code": 0,
+      "termination": null,
+      "duration_seconds": 10.748,
+      "business_checks": {
+        "source_unchanged": true,
+        "outputs_exist": true,
+        "business_correct": true,
+        "table_correct": true
+      },
+      "ui_checks": [
+        {
+          "app": "Numbers",
+          "kind": "csv",
+          "correct": false,
+          "observation_status": "completed"
+        }
+      ],
+      "persistence": {
+        "required": false,
+        "correct": null,
+        "reason": "business_ui_not_ready"
+      },
+      "protocol_completed": true,
+      "tools": [
+        "capabilities",
+        "code.run",
+        "desktop.observe",
+        "job.get",
+        "session.open"
+      ],
+      "preflight": {
+        "ready": true,
+        "windows_verified": [
+          "Numbers"
+        ],
+        "last_errors": {}
+      },
+      "approval_mode": "administrator_pregranted_disposable_resources",
+      "conversation_context": "retained_and_evaluator_author",
+      "model": "current_conversation",
+      "raw_traces_public": false,
+      "job_statuses": [
+        "completed"
+      ],
+      "unknown_operations": 0,
+      "audit_events": 57,
+      "logical_operations": 18,
+      "generated_code_parent_links": 0,
+      "output_sha256": {
+        "T03-codex-current-v1-result.csv": "40cc6fc0c457ff0f39fbe477818878cd8b96d847a146d937db462f8e7d795f00"
+      }
+    },
+    {
+      "task": "T05",
+      "client": "codex-current",
+      "track": "any-tool",
+      "variant": 1,
+      "status": "passed",
+      "started": true,
+      "passed": true,
+      "client_exit_code": 0,
+      "termination": null,
+      "duration_seconds": 27.381,
+      "business_checks": {
+        "source_unchanged": true,
+        "outputs_exist": true,
+        "business_correct": true
+      },
+      "ui_checks": [
+        {
+          "app": "TextEdit",
+          "kind": "text",
+          "correct": true,
+          "observation_status": "completed"
+        }
+      ],
+      "persistence": {
+        "required": true,
+        "correct": true,
+        "new_process_verified": true,
+        "reason": null,
+        "original_process_terminated": false
+      },
+      "protocol_completed": true,
+      "tools": [
+        "capabilities",
+        "code.run",
+        "desktop.observe",
+        "job.get",
+        "session.open"
+      ],
+      "preflight": {
+        "ready": true,
+        "windows_verified": [
+          "TextEdit"
+        ],
+        "last_errors": {}
+      },
+      "approval_mode": "administrator_pregranted_disposable_resources",
+      "conversation_context": "retained_and_evaluator_author",
+      "model": "current_conversation",
+      "raw_traces_public": false,
+      "job_statuses": [
+        "completed"
+      ],
+      "unknown_operations": 0,
+      "audit_events": 57,
+      "logical_operations": 18,
+      "generated_code_parent_links": 0,
+      "output_sha256": {
+        "T05-codex-current-v1-report.txt": "e36fb9b92abea999e645337ada260153beb9dccd3ddc3032b6c6b4ebff748175"
+      }
+    },
+    {
+      "task": "T09",
+      "client": "codex-current",
+      "status": "runner_error",
+      "passed": false,
+      "started": null,
+      "error_type": "AttributeError"
+    },
+    {
+      "task": "T11",
+      "client": "codex-current",
+      "track": "any-tool",
+      "variant": 1,
+      "status": "passed",
+      "started": true,
+      "passed": true,
+      "client_exit_code": 0,
+      "termination": null,
+      "duration_seconds": 56.617,
+      "business_checks": {
+        "source_unchanged": true,
+        "outputs_exist": true,
+        "business_correct": true
+      },
+      "ui_checks": [
+        {
+          "app": "Preview",
+          "kind": "image",
+          "correct": true,
+          "observation_status": "completed"
+        }
+      ],
+      "persistence": {
+        "required": true,
+        "correct": true,
+        "new_process_verified": true,
+        "reason": null,
+        "original_process_terminated": false
+      },
+      "protocol_completed": true,
+      "tools": [
+        "capabilities",
+        "code.run",
+        "desktop.observe",
+        "job.get",
+        "session.open"
+      ],
+      "preflight": {
+        "ready": true,
+        "windows_verified": [
+          "Preview"
+        ],
+        "last_errors": {}
+      },
+      "approval_mode": "administrator_pregranted_disposable_resources",
+      "conversation_context": "retained_and_evaluator_author",
+      "model": "current_conversation",
+      "raw_traces_public": false,
+      "job_statuses": [
+        "completed"
+      ],
+      "unknown_operations": 0,
+      "audit_events": 57,
+      "logical_operations": 18,
+      "generated_code_parent_links": 0,
+      "output_sha256": {
+        "T11-codex-current-v1-result.png": "65f4894afda0fb3e2fe2d30b7043e69f568245d572aa05d401caa934c55b42c4"
+      }
+    },
+    {
+      "task": "T03",
+      "client": "hermes",
+      "status": "runner_error",
+      "passed": false,
+      "started": null,
+      "error_type": "AttributeError"
+    },
+    {
+      "task": "T05",
+      "client": "hermes",
+      "track": "any-tool",
+      "variant": 1,
+      "status": "failed",
+      "started": false,
+      "passed": false,
+      "client_exit_code": -15,
+      "termination": "wall_clock_budget",
+      "duration_seconds": 240.101,
+      "business_checks": {
+        "source_unchanged": true,
+        "outputs_exist": false,
+        "business_correct": false
+      },
+      "ui_checks": [],
+      "persistence": {
+        "required": true,
+        "correct": false,
+        "reason": "business_ui_not_ready"
+      },
+      "protocol_completed": false,
+      "tools": [],
+      "preflight": {
+        "ready": true,
+        "windows_verified": [
+          "TextEdit"
+        ],
+        "last_errors": {}
+      },
+      "approval_mode": "administrator_pregranted_disposable_resources",
+      "conversation_context": "fresh_oneshot",
+      "model": "z-ai/glm-5.3-flash",
+      "raw_traces_public": false,
+      "job_statuses": [],
+      "unknown_operations": 0,
+      "audit_events": 0,
+      "logical_operations": 0,
+      "generated_code_parent_links": 0,
+      "output_sha256": {}
+    },
+    {
+      "task": "T09",
+      "client": "hermes",
+      "status": "runner_error",
+      "passed": false,
+      "started": null,
+      "error_type": "AttributeError"
+    },
+    {
+      "task": "T11",
+      "client": "hermes",
+      "track": "any-tool",
+      "variant": 1,
+      "status": "failed",
+      "started": true,
+      "passed": false,
+      "client_exit_code": 130,
+      "termination": "wall_clock_budget",
+      "duration_seconds": 242.033,
+      "business_checks": {
+        "source_unchanged": true,
+        "outputs_exist": true,
+        "business_correct": true
+      },
+      "ui_checks": [
+        {
+          "app": "Preview",
+          "kind": "image",
+          "correct": true,
+          "observation_status": "completed"
+        }
+      ],
+      "persistence": {
+        "required": true,
+        "correct": true,
+        "new_process_verified": true,
+        "reason": null,
+        "original_process_terminated": false
+      },
+      "protocol_completed": false,
+      "tools": [
+        "capabilities",
+        "code.run",
+        "desktop.list",
+        "evidence.check",
+        "job.get",
+        "process.run",
+        "session.open"
+      ],
+      "preflight": {
+        "ready": true,
+        "windows_verified": [
+          "Preview"
+        ],
+        "last_errors": {}
+      },
+      "approval_mode": "administrator_pregranted_disposable_resources",
+      "conversation_context": "fresh_oneshot",
+      "model": "z-ai/glm-5.3-flash",
+      "raw_traces_public": false,
+      "job_statuses": [
+        "failed",
+        "completed",
+        "completed",
+        "completed",
+        "completed",
+        "completed",
+        "completed"
+      ],
+      "unknown_operations": 0,
+      "audit_events": 80,
+      "logical_operations": 22,
+      "generated_code_parent_links": 0,
+      "output_sha256": {
+        "T11-hermes-v1-result.png": "65f4894afda0fb3e2fe2d30b7043e69f568245d572aa05d401caa934c55b42c4"
+      }
+    },
+    {
+      "task": "T03",
+      "client": "deepseek",
+      "status": "runner_error",
+      "passed": false,
+      "started": null,
+      "error_type": "AttributeError"
+    },
+    {
+      "task": "T05",
+      "client": "deepseek",
+      "track": "any-tool",
+      "variant": 1,
+      "status": "failed",
+      "started": true,
+      "passed": false,
+      "client_exit_code": 0,
+      "termination": null,
+      "duration_seconds": 47.363,
+      "business_checks": {
+        "source_unchanged": true,
+        "outputs_exist": true,
+        "business_correct": false
+      },
+      "ui_checks": [
+        {
+          "app": "TextEdit",
+          "kind": "text",
+          "correct": true,
+          "observation_status": "completed"
+        }
+      ],
+      "persistence": {
+        "required": true,
+        "correct": true,
+        "new_process_verified": true,
+        "reason": null,
+        "original_process_terminated": false
+      },
+      "protocol_completed": true,
+      "tools": [
+        "artifact.read",
+        "code.run",
+        "desktop.list",
+        "desktop.observe",
+        "job.get",
+        "process.run",
+        "session.open"
+      ],
+      "preflight": {
+        "ready": true,
+        "windows_verified": [
+          "TextEdit"
+        ],
+        "last_errors": {}
+      },
+      "approval_mode": "administrator_pregranted_disposable_resources",
+      "conversation_context": "fresh_oneshot",
+      "model": "z-ai/glm-5.3-flash",
+      "raw_traces_public": false,
+      "job_statuses": [
+        "failed",
+        "completed",
+        "completed",
+        "completed",
+        "completed",
+        "completed"
+      ],
+      "unknown_operations": 0,
+      "audit_events": 80,
+      "logical_operations": 23,
+      "generated_code_parent_links": 0,
+      "output_sha256": {
+        "T05-deepseek-v1-report.txt": "f909b268298395f34da421cbcbf724a3112423d7e00fe04e3e0d9b2b5c06b4cf"
+      }
+    },
+    {
+      "task": "T09",
+      "client": "deepseek",
+      "status": "runner_error",
+      "passed": false,
+      "started": null,
+      "error_type": "AttributeError"
+    },
+    {
+      "task": "T11",
+      "client": "deepseek",
+      "track": "any-tool",
+      "variant": 1,
+      "status": "passed",
+      "started": true,
+      "passed": true,
+      "client_exit_code": 0,
+      "termination": null,
+      "duration_seconds": 107.262,
+      "business_checks": {
+        "source_unchanged": true,
+        "outputs_exist": true,
+        "business_correct": true
+      },
+      "ui_checks": [
+        {
+          "app": "Preview",
+          "kind": "image",
+          "correct": true,
+          "observation_status": "completed"
+        }
+      ],
+      "persistence": {
+        "required": true,
+        "correct": true,
+        "new_process_verified": true,
+        "reason": null,
+        "original_process_terminated": false
+      },
+      "protocol_completed": true,
+      "tools": [
+        "artifact.read",
+        "capabilities",
+        "code.run",
+        "desktop.activate",
+        "desktop.capture",
+        "desktop.list",
+        "desktop.observe",
+        "evidence.check",
+        "job.get",
+        "process.run",
+        "session.open"
+      ],
+      "preflight": {
+        "ready": true,
+        "windows_verified": [
+          "Preview"
+        ],
+        "last_errors": {}
+      },
+      "approval_mode": "administrator_pregranted_disposable_resources",
+      "conversation_context": "fresh_oneshot",
+      "model": "z-ai/glm-5.3-flash",
+      "raw_traces_public": false,
+      "job_statuses": [
+        "completed",
+        "failed",
+        "completed",
+        "completed",
+        "completed",
+        "completed",
+        "completed"
+      ],
+      "unknown_operations": 0,
+      "audit_events": 104,
+      "logical_operations": 31,
+      "generated_code_parent_links": 0,
+      "output_sha256": {
+        "T11-deepseek-v1-result.png": "65f4894afda0fb3e2fe2d30b7043e69f568245d572aa05d401caa934c55b42c4"
+      }
+    }
+  ],
+  "limits": [
+    "current_Codex_retained_context_and_authored_evaluator_not_blind",
+    "trusted_host_not_OS_sandbox",
+    "customer_and_Windows_not_tested"
+  ],
+  "passed": 3,
+  "started": 6,
+  "not_run": 0,
+  "batch": "r2_retest_variant_1",
+  "runner_errors": 5,
+  "grader_version": "r2_empty_cell_prefix_and_summary_labels_still_overstrict"
+}

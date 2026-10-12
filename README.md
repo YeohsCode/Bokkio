@@ -6,13 +6,13 @@ A model-independent computer use runtime for Windows and macOS: native/pixel act
 
 **工作候选版本 / Working candidate:** `0.2.0` — 通用执行 Core，MCP、CLI、Python SDK、生成代码、Browser、审批、可查询统计的操作日志。
 
-**2026-10-12 状态：** 主机回归 **550/550**；macOS 原生字段、视觉中文输入/图标点击、代码和 Browser 各有 **3/3** 验证。新增真实进程故障 **5/5**、本机窗口/作业矩阵 **18/18**、Numbers/MCP 开发样本 **3/3**；新增原生/SQLite 审计合同 **9/9**；新增用户指定三种开发调用方的选定路径 **3/3** 通过（当前 Codex MCP bridge；Hermes/DeepSeek 的 MCP 代码 → SDK 组合）；客户应用、客户部署/人工审批和 Windows 当前 Runtime 待验收。当前聚焦 macOS，Windows 可在另一台电脑接续。
+**2026-10-12 状态：** 主机回归 **571/571**；macOS 原生字段、视觉中文输入/图标点击、代码和 Browser 各有 **3/3** 验证。新增真实进程故障 **5/5**；窗口/作业矩阵历史 **18/18**，本轮 **16/18**（两项正向点击受系统通知阻塞）、Numbers/MCP 开发样本 **3/3**；新增原生/SQLite 审计合同 **9/9**；新增用户指定三种开发调用方的选定路径 **3/3** 通过（当前 Codex MCP bridge；Hermes/DeepSeek 的 MCP 代码 → SDK 组合）；客户应用、客户部署/人工审批和 Windows 当前 Runtime 待验收。当前聚焦 macOS，Windows 可在另一台电脑接续。
 
 **跨环境 Agent 共享入口 / Shared handoff:** [计划、进度、完成度与待办](docs/progress/README.md) · [结构化状态](docs/progress/state.json) · [接续步骤](docs/progress/HANDOFF.md)。这些文档和脱敏验收报告由 Git 跟踪；每端完成工作后更新并推送。
 
 使用方法见 [Runtime 指南](docs/RUNTIME-GUIDE.md)，详细实测范围见 [交付报告](docs/RUNTIME-DELIVERY.md)。历史 `0.1.0` Planner/Jev/Workflow 内容保留在下文。
 
-**测试加强方案（待执行）：** [12 题自主业务测试计划](docs/TEST-STRENGTHENING-PLAN.md) · [EVAL 工作包](docs/progress/test-strengthening.json)。计划三调用方 any-tool 36 次、GUI 对照 18 次和稳定性追加 18 次，审批/故障另列；既有 550 项回归与 Harness 固定流程 3/3 不等于该题库已通过。
+**测试加强（已开始执行）：** [12 题自主业务测试计划](docs/TEST-STRENGTHENING-PLAN.md) · [EVAL 工作包](docs/progress/test-strengthening.json)。计划三调用方 any-tool 36 次、GUI 对照 18 次和稳定性追加 18 次，审批/故障另列；首轮与三轮复测已保存 46 个用例结果、26 个实际业务启动；四个重点任务最新为 Codex 4/4、Hermes 2/4、DeepSeek 3/4，完整矩阵尚未完成。原始／更正评分及安全复核见[执行报告](docs/evidence/2026-10-12-business-eval/README.md)。回归与固定流程通过不等于业务题库已通过。
 
 [中文](#中文) · [English](#english)
 

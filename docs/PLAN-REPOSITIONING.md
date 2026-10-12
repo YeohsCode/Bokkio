@@ -353,7 +353,7 @@ evals/           # fixtures、未知应用、独立 judge、调用方矩阵
 
 ## 9. 评测：证明通用能力，而不是继续扩大应用补丁
 
-2026-10-12 补充：[测试加强计划](TEST-STRENGTHENING-PLAN.md) 将自主业务评测拆为 12 个冻结任务、三种指定调用方、any-tool/GUI 分轨、稳定性、审批等待与故障合同。工作包见 [结构化清单](progress/test-strengthening.json)。这是待实施的加强方案，不改写既有成绩，也不取消本节双平台验收门槛。
+2026-10-12 补充：[测试加强计划](TEST-STRENGTHENING-PLAN.md) 将自主业务评测拆为 12 个冻结任务、三种指定调用方、any-tool/GUI 分轨、稳定性、审批等待与故障合同。工作包见 [结构化清单](progress/test-strengthening.json)。首批已执行，修复复测与评分器更正单列于[业务报告](evidence/2026-10-12-business-eval/README.md)；完整加强矩阵仍待完成，不取消本节双平台验收门槛。
 
 ### 9.1 三天客户验收矩阵
 

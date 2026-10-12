@@ -1,0 +1,18 @@
+{
+  "scope": "setup_and_readonly_diagnostics_not_new_business_attempts",
+  "items": [
+    {
+      "batch": "r1",
+      "task": "T03",
+      "client": "codex-current",
+      "note": "After blocked preflight, operator read-only diagnostic opened a session and confirmed the same nonfinite geometry error; no business code/action dispatched. Not counted as a launched business task."
+    },
+    {
+      "batch": "r2_setup_variant0_aborted",
+      "task": "T03",
+      "client": "codex-current",
+      "note": "Prepared duplicate variant 0 filenames; supervisor stopped before business caller execution. Restarted with unique variant 1 windows.",
+      "core_operations": 0
+    }
+  ]
+}

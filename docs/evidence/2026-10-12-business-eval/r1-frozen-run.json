@@ -1,0 +1,26 @@
+{
+  "tasks": [
+    "T01",
+    "T03",
+    "T05",
+    "T07",
+    "T09",
+    "T11"
+  ],
+  "clients": [
+    "codex-current",
+    "hermes",
+    "deepseek"
+  ],
+  "variant": 0,
+  "sources": {
+    "scripts/evaluate_runtime_business.py": "b5e537ee577ba8b0d92c4d55964ac7ca53d06b359e87477269c26ef1b7ab870a",
+    "evals/runtime_business.py": "9a2d50797508ba23c42911e9efb2b91b56e42f09595c24bc168b012e84b0eb5f",
+    "src/bokkio/mcp_server.py": "63a24f87c9498e488c7c087d74ff9d4dff3e989f376555ecd0be030ab345f868"
+  },
+  "budgets": {
+    "short": 240,
+    "long": 480
+  },
+  "suite_catalog_sha256": "49f88070d0ad6bc414e03a122c5a788d9dad7bde9eca664bf0957dcd7f3a88bc"
+}

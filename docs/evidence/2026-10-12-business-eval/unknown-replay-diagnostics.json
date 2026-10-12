@@ -1,0 +1,16 @@
+[
+  {
+    "client": "hermes",
+    "task": "T01",
+    "unknown_tool": "desktop.activate",
+    "same_request_new_id_after_unknown": 0,
+    "later_statuses": []
+  },
+  {
+    "client": "deepseek",
+    "task": "T01",
+    "unknown_tool": "desktop.activate",
+    "same_request_new_id_after_unknown": 0,
+    "later_statuses": []
+  }
+]

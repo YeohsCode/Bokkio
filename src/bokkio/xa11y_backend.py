@@ -171,6 +171,8 @@ class Xa11yBackend:
         if expected_snapshot is not None and tree_digest(before_scope) != expected_snapshot:
             raise BokkioStaleSnapshot("Snapshot changed since decision; observe and decide again")
         before = choose(before_scope, ref=ref, role=role, name=name, parent=parent)
+        if before['platform_data'].get('invalid_bounds'):
+            raise BokkioActionError('Target has nonfinite provider geometry; no action dispatched')
         native_value_write = action in {"set_value","submit"} and before["platform_data"].get("value_runtime_id") and hasattr(self._native, "submit" if action=='submit' else "set_value")
         native_action = (action in before['platform_data'].get('verified_native_actions', [])
                          and before['platform_data'].get('action_runtime_id') and hasattr(self._native,'perform_action'))
@@ -418,6 +420,13 @@ class Xa11yBackend:
                 coordinate = axis(node)
                 if scope is not None and coordinate and scope["platform_data"]["scroll"][coordinate]["scrollable"]:
                     node["actions"] = sorted(set(node["actions"]) | {"scroll"})
+        # Providers can expose virtual/offscreen cells with infinite geometry.
+        # Retain their readable data, but never advertise a dispatch target.
+        # Native annotation may add actions, so enforce this after annotation.
+        for node in flatten([tree]):
+            if node['platform_data'].get('invalid_bounds'):
+                node['actions'] = []
+                node['state']['visible'] = False
         return tree
 
     def _capture_action(self, node, element, scope):
@@ -544,11 +553,12 @@ class Xa11yBackend:
                                   signature_counts[signature] > 1 and hwnd_identity is None))
             children.append(node)
             child_refs.append(node["ref"])
+        bounds, invalid_bounds = self._element_bounds(element)
         node = self._node(
             role=role,
             name=name,
             value=_call(lambda: element.value),
-            bounds=self._bounds(_call(lambda: element.bounds)),
+            bounds=bounds,
             parent=parent_ref,
             children=children,
             identity=identity,
@@ -558,6 +568,10 @@ class Xa11yBackend:
             element=element,
             native_window=native_window,
         )
+        if invalid_bounds:
+            node['platform_data']['invalid_bounds'] = True
+            node['actions'] = []
+            node['state']['visible'] = False
         if ambiguous_identity:
             node["platform_data"]["ambiguous_ref_identity"] = True
         if self._platform=='windows' and native_action_scope is not None:
@@ -697,6 +711,18 @@ class Xa11yBackend:
         if bounds is None:
             return None
         return {"x": bounds.x, "y": bounds.y, "width": bounds.width, "height": bounds.height}
+
+    def _element_bounds(self, element):
+        try:
+            bounds = self._bounds(_call(lambda: element.bounds))
+        except BokkioError as error:
+            # Do not hide permission failures or unrelated provider errors.
+            if not isinstance(error.__cause__, OverflowError):
+                raise
+            return None, True
+        if bounds is not None and not all(math.isfinite(v) for v in bounds.values()):
+            return None, True
+        return bounds, False
 
     def _safe_raw(self, element: Any) -> dict[str, Any]:
         try:

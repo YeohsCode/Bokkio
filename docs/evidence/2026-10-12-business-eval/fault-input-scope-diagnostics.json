@@ -1,0 +1,21 @@
+{
+  "scope": "readonly_failure_scope_flags",
+  "input_scopes": [
+    {
+      "event_permission": true,
+      "foreground_process_matches": false,
+      "top_window_matches": false
+    },
+    {
+      "event_permission": true,
+      "foreground_process_matches": true,
+      "top_window_matches": false
+    },
+    {
+      "event_permission": true,
+      "foreground_process_matches": true,
+      "top_window_matches": false
+    }
+  ],
+  "no_unrelated_window_titles_published": true
+}

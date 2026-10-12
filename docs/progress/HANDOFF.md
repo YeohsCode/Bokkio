@@ -6,7 +6,7 @@
 2. 使用项目 uv.lock 安装，Runtime 主线不需要模型 API Key。策略模板 examples/runtime-policy.json 默认为拒绝，按本机实际测试资源配置。
 3. 选取一个待办 ID，在状态中注明平台和进行中；完成后补充结果、失败、修订和证据路径。避免两端同时修改相同代码文件；推送前拉取并处理冲突。
 
-新业务评测按 [测试加强计划](../TEST-STRENGTHENING-PLAN.md) 和 test-strengthening.json 的 EVAL-01～08 接续。先冻结题目/输入/评分/预算，再准备薄 runner；不要沿用 verify_harness_clients.py 的精确代码提示作为自主任务。GUI/any-tool、首次/修复后、macOS/Windows 分轨计数；当前这些工作包均未开始。
+新业务评测按 [测试加强计划](../TEST-STRENGTHENING-PLAN.md) 和 test-strengthening.json 的 EVAL-01～08 接续。先冻结题目/输入/评分/预算，再准备薄 runner；不要沿用 verify_harness_clients.py 的精确代码提示作为自主任务。GUI/any-tool、首次/修复后、macOS/Windows 分轨计数；首轮及修复复测已开始，详见[执行报告](../evidence/2026-10-12-business-eval/README.md)。不要将旧轮补分或重评分计成新调用方尝试。
 
 ## macOS
 
@@ -61,3 +61,19 @@ uv run python scripts/verify_runtime_visual.py --fixture fixtures/windows-visual
 ## 本机凭据记录
 
 此前 Windows VM 登录凭据已在 Mac 私有目录保存，2026-10-11 已验证可登录。凭据不进入公共进度文件或 Git，其他 Windows 设备使用各自账户。无需在其他环境复制旧 VM 的密码或自动登录设置。
+
+## 自主业务评测接续
+
+本机 runner 为 macOS：`scripts/evaluate_runtime_business.py`；12 题输入和只读业务判定在 `evals/runtime_business.py`，catalog 为 `fixtures/runtime-business-eval/suite.json`。每轮使用新的私有输出目录；命令示例：
+
+```sh
+uv run python scripts/evaluate_runtime_business.py --output /tmp/bokkio-business-NEW --tasks T03 T05 T09 T11 --variant 3 --pregranted-disposable-only
+```
+
+配置本机 Hermes、DeepSeek Python 路径；`--hermes-runtime` 可指定已经准备好的私有 Hermes 数据根。直接复制 Hermes 环境会保留绝对路径记录，不能假定复制后可启动。启动/安装时间计入用例墙钟；不要在统计时悄悄扣除。该 runner 不改用户原配置，key 仅从私有 Hermes 读取并传入子进程环境。
+
+当前 Codex bridge：runner 发出 ready 后，阅读目标 prompt，以 official MCP client 调用 Core 完成目标，随后写 ready 所属目录的 complete.json，仅作调用方完成信号。其他调用方由 runner 自主运行；不要给它们提供业务解法代码。Codex 保留上下文且编写评分器，报告须继续披露。
+
+历史证据可用 `scripts/regrade_runtime_business.py` 重评分；必须验证原产物哈希未改，只使用评分开始之前的作业完成事件。原始分数和更正分数并列；重评分不是新尝试。macOS 原生表格 judge 处理表名空单元格，文档 judge 校验章节内事实、逐发票金额、任一章节的总额与原样 appendix，不能要求未在目标中规定的标签格式。Windows 需换成对应应用并增加实机评分，不直接运行本 Mac 的应用绑定。
+
+最新重点矩阵为 Codex 4/4、Hermes 2/4、DeepSeek 3/4。不要自动放宽预算来补分：Hermes 错负责人、两种调用方 Preview 超预算需要在新的冻结轮次处理。最新本机故障 16/18，UserNotificationCenter 顶层窗口阻塞两项正向输入；保持零派发守卫，待正常解除遮挡后补测。

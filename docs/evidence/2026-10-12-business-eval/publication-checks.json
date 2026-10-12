@@ -1,0 +1,12 @@
+{
+  "date": "2026-10-12",
+  "gitleaks_changed_files": "passed_no_leaks",
+  "exact_existing_GLM_provider_key_scan": "absent_from_publishable_files",
+  "public_evidence_private_host_path_scan": "absent",
+  "raw_AX_images_databases_and_model_traces": "kept_private_not_published",
+  "diff_whitespace_check": "passed",
+  "host_tests": {
+    "passed": 571,
+    "total": 571
+  }
+}

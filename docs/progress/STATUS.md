@@ -18,7 +18,7 @@
 
 按能力类别覆盖计，macOS 开发通过 4/5、Windows 新 Runtime 0/5；不能换算为计划要求的最终任务成功率。macOS 还需要客户应用、物理环境矩阵及客户部署/人工审批；尚不满足最终 14/15 和 8/8 门槛。
 
-主机回归 550/550；官方 MCP client、CLI 和 SDK 已连通；管理员审批、代码执行和日志导出对账通过。最终独立 wheel 验证有 23 个工具、115 个事件、36 个逻辑操作，3 条生成代码父子关联。证据见 [摘要目录](../evidence/2026-10-11-runtime/README.md)。
+主机回归 571/571（含新增评测反例及非有限坐标防派发验证）；官方 MCP client、CLI 和 SDK 已连通；管理员审批、代码执行和日志导出对账通过。最终独立 wheel 验证有 23 个工具、115 个事件、36 个逻辑操作，3 条生成代码父子关联。证据见 [摘要目录](../evidence/2026-10-11-runtime/README.md)。
 
 ## macOS 续测（2026-10-12）
 
@@ -49,12 +49,12 @@
 
 ## 待完成与限制
 
-1. MAC-01：本机矩阵已 18/18；剩余真实锁屏/解锁、第二显示器/不同缩放。
+1. MAC-01：历史矩阵 18/18；本次最终代码复核为 16/18，UserNotificationCenter 再次挡住两项正向点击，事件权限为 true 且零派发。待补这两项及真实锁屏/解锁、第二显示器/不同缩放。
 2. CLIENT-01：Numbers 自主开发样本已通过，仍需客户提供一个未参与核心调优的应用、可丢弃测试数据和独立判定条件，先完成 macOS 三轮。
 3. HARNESS-01：用户指定三种开发调用方的选定路径已 **3/3** 通过；当前 Codex 用 official MCP client bridge，当前 Hermes 与 DeepSeek 用 MCP code.run → 委派 SDK 原生动作。每种一份完整样本，审批为独立 fixture 管理员自动批准。Codex CLI 当前模型不兼容、DeepSeek 逐回合原生过期失败仍单列；客户实际部署与人工审批耗时尚待验收。
 4. WIN-01：另一台 Windows 电脑安装并验证 UIA、截图、鼠键、PowerShell 中文、取消、Browser、MCP/SDK、审批和日志。
 5. RELEASE-01：完成两端固定版本矩阵，再确认客户支持环境和发行范围。
-6. EVAL-00：已细化 [测试加强计划](../TEST-STRENGTHENING-PLAN.md) 与 [EVAL-01～08 工作包](test-strengthening.json)，新增评测尚未实施或执行。计划 12 题 × 三调用方 any-tool 36 次、GUI 对照 18 次、稳定性追加 18 次；分母各自统计，审批/故障另列。目标任务不提供步骤或完整代码。当前仍是业务尝试 0 次，不把写完计划计作通过。
+6. EVAL-00：已细化 [测试加强计划](../TEST-STRENGTHENING-PLAN.md) 与 [EVAL-01～08 工作包](test-strengthening.json)，首轮已执行，见[业务报告](../evidence/2026-10-12-business-eval/README.md)。计划 12 题 × 三调用方 any-tool 36 次、GUI 对照 18 次、稳定性追加 18 次；分母各自统计，审批/故障另列。目标任务不提供步骤或完整代码。首轮 18 个结果／8 个启动，原始 3 个通过、评分器更正后 6 个通过。首轮与三轮复测共 46 个用例结果、26 个业务启动；四个重点任务最新为 Codex 4/4、Hermes 2/4、DeepSeek 3/4。更正不算新尝试；完整 36 次主批、GUI、审批等待和稳定性矩阵未完成。
 
 当前代码执行为明确授权的 trusted-host；OS 沙箱、远程 fleet、多租户 SSO、防篡改集中日志、签名安装器及离线依赖镜像不在已完成范围。详情见 [指南](../RUNTIME-GUIDE.md) 和 [交付报告](../RUNTIME-DELIVERY.md)。
 
@@ -65,3 +65,9 @@
 当前 Codex bridge r7、Hermes sdk-code r8、DeepSeek sdk-code r6 均真实完成原生 Search 写入和 CSV；独立 fixture 业务 JSON/CSV 核验、两项 consumed 审批、作业完成及 audit/metrics/产物读取均通过。两种 sdk-code 路径各有 6 次子请求父操作关联。MCP schema 现在对会话工具声明 session_id 必填并解释参数层级；主机回归保持 **550/550**。
 
 失败与恢复完整保留：DeepSeek 的直接逐回合原生路径受 15 秒观察时效拒绝；Hermes 原生 r2 通过，修复后 r7 实际业务完成但 CLI exit 1，未计整体成功。Codex 桌面 CLI 0.142.0 不接受当前配置模型，当前会话 bridge 不等于 CLI 原生挂载通过。没有放宽观察时效或关闭审批；客户人工审批尚未实测。详细版本、路径、失败轮次和脱敏摘要见 [Harness 证据](../evidence/2026-10-12-harness/README.md)。
+
+## 自主业务与最终安全复核（最新）
+
+详见[新报告](../evidence/2026-10-12-business-eval/README.md)。修复通用非有限 AX 几何读取、PID 预检、重新打开启动等待及事实判定器。负责人错误、未知完成、超时／超回合不补分。最后审计合同 9/9、八类本机 Core 安全至少一例 8/8；窗口／作业矩阵 16/18，不能用此前 18/18 填本轮。Pages 已完成原生窗口与 OCR 正文预检，仍需连接 RTF/视觉业务评分。
+
+接下来可在本 Mac 做：剩余六题的三调用方 any-tool、GUI 对照、延迟管理员审批、固定版本稳定性、调用方事实读取与图像验证收尾，以及通知阻塞的正向输入复测。人工审批、真实锁屏和额外显示器需要对应参与／设备；Windows 按既定安排留待另一环境。

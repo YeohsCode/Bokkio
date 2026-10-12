@@ -1,0 +1,113 @@
+[
+  {
+    "task": "T01",
+    "client": "codex-current",
+    "operations_by_status": {
+      "completed": 5,
+      "executed": 1
+    },
+    "job_statuses": [
+      "completed"
+    ],
+    "strict_initial_passed": true
+  },
+  {
+    "task": "T05",
+    "client": "codex-current",
+    "operations_by_status": {
+      "completed": 7,
+      "executed": 1
+    },
+    "job_statuses": [
+      "completed"
+    ],
+    "strict_initial_passed": false
+  },
+  {
+    "task": "T07",
+    "client": "codex-current",
+    "operations_by_status": {
+      "completed": 7,
+      "executed": 5
+    },
+    "job_statuses": [
+      "completed"
+    ],
+    "strict_initial_passed": true
+  },
+  {
+    "task": "T11",
+    "client": "codex-current",
+    "operations_by_status": {
+      "completed": 7,
+      "executed": 1
+    },
+    "job_statuses": [
+      "completed"
+    ],
+    "strict_initial_passed": false
+  },
+  {
+    "task": "T01",
+    "client": "hermes",
+    "operations_by_status": {
+      "completed": 15,
+      "completion_unknown": 1,
+      "denied": 1,
+      "executed": 3,
+      "failed": 3
+    },
+    "job_statuses": [
+      "completed",
+      "completed",
+      "completed"
+    ],
+    "strict_initial_passed": false
+  },
+  {
+    "task": "T07",
+    "client": "hermes",
+    "operations_by_status": {
+      "completed": 8,
+      "executed": 5,
+      "failed": 3
+    },
+    "job_statuses": [
+      "failed",
+      "completed"
+    ],
+    "strict_initial_passed": false
+  },
+  {
+    "task": "T01",
+    "client": "deepseek",
+    "operations_by_status": {
+      "completed": 26,
+      "completion_unknown": 1,
+      "denied": 1,
+      "executed": 4,
+      "failed": 6,
+      "timed_out": 1
+    },
+    "job_statuses": [
+      "completed",
+      "completed",
+      "completed",
+      "timed_out",
+      "completed"
+    ],
+    "strict_initial_passed": false
+  },
+  {
+    "task": "T07",
+    "client": "deepseek",
+    "operations_by_status": {
+      "completed": 7,
+      "executed": 5
+    },
+    "job_statuses": [
+      "completed"
+    ],
+    "strict_initial_passed": true
+  }
+]

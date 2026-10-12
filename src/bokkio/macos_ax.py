@@ -8,6 +8,7 @@ geometry alone never establishes identity. No pointer or key events are used.
 from __future__ import annotations
 
 import ctypes as c
+import math
 import time
 from collections import defaultdict
 
@@ -137,6 +138,8 @@ class MacAX:
         p=Point();s=Size()
         if not self.ax.AXValueGetValue(point,1,c.byref(p)) or not self.ax.AXValueGetValue(size,2,c.byref(s)):return None
         # xa11y reports integer point geometry.
+        if not all(math.isfinite(v) for v in (p.x,p.y,s.width,s.height)):
+            return None
         return (int(p.x),int(p.y),int(s.width),int(s.height))
 
     @staticmethod

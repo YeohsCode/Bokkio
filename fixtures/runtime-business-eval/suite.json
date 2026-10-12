@@ -1,0 +1,428 @@
+{
+  "suite_id": "macos-business-v1",
+  "source": "internal_synthetic_business_goals_not_official_benchmark",
+  "first_batch": [
+    "T01",
+    "T03",
+    "T05",
+    "T07",
+    "T09",
+    "T11"
+  ],
+  "tasks": [
+    {
+      "task": "T01",
+      "client": "CALLER",
+      "variant": 0,
+      "work": "${WORK}",
+      "inputs": "${WORK}/T01-CALLER-v0-input",
+      "out": "${WORK}/output",
+      "prefix": "T01-CALLER-v0",
+      "apps": [
+        {
+          "name": "Finder",
+          "input": "${WORK}/T01-CALLER-v0-input",
+          "windows": [
+            "T01-CALLER-v0-input",
+            "deliverables"
+          ]
+        }
+      ],
+      "ui_outputs": [],
+      "requires_reopen": false,
+      "goal": "From ${WORK}/T01-CALLER-v0-input, collect only .txt files dated in October 2026 into ${WORK}/output/deliverables, preserving their bytes. Create ${WORK}/output/T01-CALLER-v0-manifest.csv with columns filename,sha256, sorted by filename. Keep every input file unchanged. The source folder must be visibly inspected in Finder.",
+      "input_sha256": {
+        "2026-10-04_readme.md": "1f1aeeea426e55fde36e7df1bdaef4230d4a7a77275f626e999a7a940c55b5bd",
+        "2026-09-30_old.txt": "01d09d19c2139a46aebfb577780d123d7396e97201bc7ead210a2ebff8239dee",
+        "2026-10-01_report.txt": "8af1d4bee0cbd9dae843aa5433e58cd6defb79a297fb238344094aa153b9c780",
+        "2026-10-02_chart.png": "05095781c6f00e0cf6e23b93c7d1e0f4a2ce3cb5627d25bf0cb20dbf191837fe",
+        "2026-10-03_notes.txt": "4caeb33be175eadb6078b50debc4b2d4fc3c58d9a26d3cf14d1011a4e63eca71"
+      },
+      "family": "files"
+    },
+    {
+      "task": "T02",
+      "client": "CALLER",
+      "variant": 0,
+      "work": "${WORK}",
+      "inputs": "${WORK}/T02-CALLER-v0-input",
+      "out": "${WORK}/output",
+      "prefix": "T02-CALLER-v0",
+      "apps": [
+        {
+          "name": "Finder",
+          "input": "${WORK}/T02-CALLER-v0-input",
+          "windows": [
+            "T02-CALLER-v0-input",
+            "deliverables"
+          ]
+        }
+      ],
+      "ui_outputs": [],
+      "requires_reopen": false,
+      "goal": "Copy the input files into ${WORK}/output/deliverables and rename .txt files by replacing each underscore with a hyphen; keep other names. Create ${WORK}/output/T02-CALLER-v0-changes.csv with columns old_name,new_name,sha256, sorted by old_name, for every file. Preserve source bytes. Inspect the source folder in Finder.",
+      "input_sha256": {
+        "2026-10-04_readme.md": "1f1aeeea426e55fde36e7df1bdaef4230d4a7a77275f626e999a7a940c55b5bd",
+        "2026-09-30_old.txt": "01d09d19c2139a46aebfb577780d123d7396e97201bc7ead210a2ebff8239dee",
+        "2026-10-01_report.txt": "8af1d4bee0cbd9dae843aa5433e58cd6defb79a297fb238344094aa153b9c780",
+        "2026-10-02_chart.png": "05095781c6f00e0cf6e23b93c7d1e0f4a2ce3cb5627d25bf0cb20dbf191837fe",
+        "2026-10-03_notes.txt": "4caeb33be175eadb6078b50debc4b2d4fc3c58d9a26d3cf14d1011a4e63eca71"
+      },
+      "family": "files"
+    },
+    {
+      "task": "T03",
+      "client": "CALLER",
+      "variant": 0,
+      "work": "${WORK}",
+      "inputs": "${WORK}/T03-CALLER-v0-input",
+      "out": "${WORK}/output",
+      "prefix": "T03-CALLER-v0",
+      "apps": [
+        {
+          "name": "Numbers",
+          "input": "${WORK}/T03-CALLER-v0-input/T03-CALLER-v0-invoices.csv",
+          "windows": [
+            "T03-CALLER-v0-invoices",
+            "T03-CALLER-v0-result"
+          ]
+        }
+      ],
+      "ui_outputs": [
+        {
+          "app": "Numbers",
+          "file": "${WORK}/output/T03-CALLER-v0-result.csv",
+          "kind": "csv"
+        }
+      ],
+      "requires_reopen": false,
+      "goal": "Calculate amount = qty times unit_price for each invoice in ${WORK}/T03-CALLER-v0-input/T03-CALLER-v0-invoices.csv, rounded to two decimal places. Create ${WORK}/output/T03-CALLER-v0-result.csv with columns invoice,qty,unit_price,amount, retain input order and append a TOTAL row (blank qty/unit_price, summed amount). Keep the input unchanged. Display the resulting table in Numbers; its actual visible cells must match the saved CSV.",
+      "input_sha256": {
+        "T03-CALLER-v0-invoices.csv": "3f908827757e95ca6ebd5b4a743b861373a897aa159dacb48508633634291553"
+      },
+      "family": "spreadsheet"
+    },
+    {
+      "task": "T04",
+      "client": "CALLER",
+      "variant": 0,
+      "work": "${WORK}",
+      "inputs": "${WORK}/T04-CALLER-v0-input",
+      "out": "${WORK}/output",
+      "prefix": "T04-CALLER-v0",
+      "apps": [
+        {
+          "name": "Numbers",
+          "input": "${WORK}/T04-CALLER-v0-input/T04-CALLER-v0-left.csv",
+          "windows": [
+            "T04-CALLER-v0-left",
+            "T04-CALLER-v0-result"
+          ]
+        }
+      ],
+      "ui_outputs": [
+        {
+          "app": "Numbers",
+          "file": "${WORK}/output/T04-CALLER-v0-result.csv",
+          "kind": "csv"
+        }
+      ],
+      "requires_reopen": false,
+      "goal": "Merge ${WORK}/T04-CALLER-v0-input/T04-CALLER-v0-left.csv and ${WORK}/T04-CALLER-v0-input/T04-CALLER-v0-right.csv, group by id, sum qty (empty means zero), preserve each name and sort by id. Save ${WORK}/output/T04-CALLER-v0-result.csv with columns id,name,qty and display the table in Numbers. Leave inputs unchanged.",
+      "input_sha256": {
+        "T04-CALLER-v0-right.csv": "893f7e55e59e3364f3e948861508b57ea543e3bbff59be3610d2d3b5581a49f4",
+        "T04-CALLER-v0-left.csv": "a3c1ca1996ab6846422a51b091f23d918062188459b4a5c661360bdddd0dd769"
+      },
+      "family": "spreadsheet"
+    },
+    {
+      "task": "T05",
+      "client": "CALLER",
+      "variant": 0,
+      "work": "${WORK}",
+      "inputs": "${WORK}/T05-CALLER-v0-input",
+      "out": "${WORK}/output",
+      "prefix": "T05-CALLER-v0",
+      "apps": [
+        {
+          "name": "TextEdit",
+          "input": "${WORK}/T05-CALLER-v0-input/T05-CALLER-v0-notes.txt",
+          "windows": [
+            "T05-CALLER-v0-notes.txt",
+            "T05-CALLER-v0-report.txt"
+          ]
+        }
+      ],
+      "ui_outputs": [
+        {
+          "app": "TextEdit",
+          "file": "${WORK}/output/T05-CALLER-v0-report.txt",
+          "kind": "text"
+        }
+      ],
+      "requires_reopen": true,
+      "goal": "Use ${WORK}/T05-CALLER-v0-input/T05-CALLER-v0-notes.txt to create a report ${WORK}/output/T05-CALLER-v0-report.txt with headings Summary, Actions and Appendix. Include the project, owner, deadline, budget and both complete action descriptions, preserving the appendix line exactly. Keep source unchanged. Display the saved report in TextEdit; it must remain correct when reopened independently.",
+      "input_sha256": {
+        "T05-CALLER-v0-notes.txt": "5f7d68706d98c56878fed9c0c01e5406b4f1d5bc61599b3176ef10e39b92e492"
+      },
+      "family": "document"
+    },
+    {
+      "task": "T06",
+      "client": "CALLER",
+      "variant": 0,
+      "work": "${WORK}",
+      "inputs": "${WORK}/T06-CALLER-v0-input",
+      "out": "${WORK}/output",
+      "prefix": "T06-CALLER-v0",
+      "apps": [
+        {
+          "name": "TextEdit",
+          "input": "${WORK}/T06-CALLER-v0-input/T06-CALLER-v0-notes.txt",
+          "windows": [
+            "T06-CALLER-v0-notes.txt",
+            "T06-CALLER-v0-report.txt"
+          ]
+        }
+      ],
+      "ui_outputs": [
+        {
+          "app": "TextEdit",
+          "file": "${WORK}/output/T06-CALLER-v0-report.txt",
+          "kind": "text"
+        }
+      ],
+      "requires_reopen": true,
+      "goal": "Create ${WORK}/output/T06-CALLER-v0-report.txt from ${WORK}/T06-CALLER-v0-input/T06-CALLER-v0-notes.txt, changing only Budget CNY 48000 to Budget CNY 52000 and Deadline 2026-11-03 to Deadline 2026-11-10. Preserve every other character/line. Keep source unchanged and display the saved revision in TextEdit; it must remain correct when reopened.",
+      "input_sha256": {
+        "T06-CALLER-v0-notes.txt": "5f7d68706d98c56878fed9c0c01e5406b4f1d5bc61599b3176ef10e39b92e492"
+      },
+      "family": "document"
+    },
+    {
+      "task": "T07",
+      "client": "CALLER",
+      "variant": 0,
+      "work": "${WORK}",
+      "inputs": "${WORK}/T07-CALLER-v0-input",
+      "out": "${WORK}/output",
+      "prefix": "T07-CALLER-v0",
+      "apps": [],
+      "ui_outputs": [],
+      "requires_reopen": false,
+      "web_kind": "catalog",
+      "goal": "Use the web catalog to find group Hardware items with stock less than 5. Leave the actual browser on the filtered results. Save ${WORK}/output/T07-CALLER-v0-result.csv with columns id,name,group,stock, sorted by id. Do not change catalog data.",
+      "input_sha256": {},
+      "family": "browser"
+    },
+    {
+      "task": "T08",
+      "client": "CALLER",
+      "variant": 0,
+      "work": "${WORK}",
+      "inputs": "${WORK}/T08-CALLER-v0-input",
+      "out": "${WORK}/output",
+      "prefix": "T08-CALLER-v0",
+      "apps": [],
+      "ui_outputs": [],
+      "requires_reopen": false,
+      "web_kind": "draft",
+      "goal": "Correct the invalid zero-quantity draft on the web page: name 林安, project Beacon, quantity 7, note \"内部测试草稿\". Save a draft only and leave the browser showing the saved draft. No send or publish operation is authorized.",
+      "input_sha256": {},
+      "family": "browser"
+    },
+    {
+      "task": "T09",
+      "client": "CALLER",
+      "variant": 0,
+      "work": "${WORK}",
+      "inputs": "${WORK}/T09-CALLER-v0-input",
+      "out": "${WORK}/output",
+      "prefix": "T09-CALLER-v0",
+      "apps": [
+        {
+          "name": "Numbers",
+          "input": "${WORK}/T09-CALLER-v0-input/T09-CALLER-v0-invoices.csv",
+          "windows": [
+            "T09-CALLER-v0-invoices",
+            "T09-CALLER-v0-result"
+          ]
+        },
+        {
+          "name": "TextEdit",
+          "input": "${WORK}/T09-CALLER-v0-input/T09-CALLER-v0-context.txt",
+          "windows": [
+            "T09-CALLER-v0-context.txt",
+            "T09-CALLER-v0-report.txt"
+          ]
+        }
+      ],
+      "ui_outputs": [
+        {
+          "app": "Numbers",
+          "file": "${WORK}/output/T09-CALLER-v0-result.csv",
+          "kind": "csv"
+        },
+        {
+          "app": "TextEdit",
+          "file": "${WORK}/output/T09-CALLER-v0-report.txt",
+          "kind": "text"
+        }
+      ],
+      "requires_reopen": false,
+      "goal": "Calculate amount = qty times unit_price for each invoice in ${WORK}/T09-CALLER-v0-input/T09-CALLER-v0-invoices.csv, rounded to two decimal places. Create ${WORK}/output/T09-CALLER-v0-result.csv with columns invoice,qty,unit_price,amount, retain input order and append a TOTAL row (blank qty/unit_price, summed amount). Keep the input unchanged. Display the resulting table in Numbers; its actual visible cells must match the saved CSV. Also use ${WORK}/T09-CALLER-v0-input/T09-CALLER-v0-context.txt to create ${WORK}/output/T09-CALLER-v0-report.txt with headings Summary and Invoices, project/owner/deadline, every invoice and amount, and the identical grand total. Display the saved report in TextEdit. Both applications must show the result, not just generated files.",
+      "input_sha256": {
+        "T09-CALLER-v0-context.txt": "b59adc041a2302e89a4cb859a860e07a181de121f8e88d8cbff1088d430e0f70",
+        "T09-CALLER-v0-invoices.csv": "3f908827757e95ca6ebd5b4a743b861373a897aa159dacb48508633634291553"
+      },
+      "family": "cross_app"
+    },
+    {
+      "task": "T10",
+      "client": "CALLER",
+      "variant": 0,
+      "work": "${WORK}",
+      "inputs": "${WORK}/T10-CALLER-v0-input",
+      "out": "${WORK}/output",
+      "prefix": "T10-CALLER-v0",
+      "apps": [
+        {
+          "name": "Preview",
+          "input": "${WORK}/T10-CALLER-v0-input/T10-CALLER-v0-small.png",
+          "windows": [
+            "T10-CALLER-v0-small.png",
+            "T10-CALLER-v0-large.png"
+          ]
+        },
+        {
+          "name": "TextEdit",
+          "input": "${WORK}/T10-CALLER-v0-input/T10-CALLER-v0-instructions.txt",
+          "windows": [
+            "T10-CALLER-v0-instructions.txt",
+            "T10-CALLER-v0-index.txt"
+          ]
+        }
+      ],
+      "ui_outputs": [
+        {
+          "app": "Preview",
+          "file": "${WORK}/T10-CALLER-v0-input/T10-CALLER-v0-large.png",
+          "kind": "image"
+        },
+        {
+          "app": "TextEdit",
+          "file": "${WORK}/output/T10-CALLER-v0-index.txt",
+          "kind": "text"
+        }
+      ],
+      "requires_reopen": false,
+      "goal": "Create ${WORK}/output/T10-CALLER-v0-index.txt listing only PNG images from ${WORK}/T10-CALLER-v0-input with width at least 150 pixels, each with filename,width,height, sorted by filename. Display the index in TextEdit and the largest matching image in Preview. Keep all sources unchanged.",
+      "input_sha256": {
+        "T10-CALLER-v0-instructions.txt": "f221c1f8a6b8fcee1f92cb03bbcbbc48323a57fad51e77534da07f2739f7aa1f",
+        "T10-CALLER-v0-wide.png": "374a885a3818adedd9095f01151d2197ced88a66d43bb90e195b011623d6b5a4",
+        "T10-CALLER-v0-large.png": "e05f944b0597c91002b39f054d02ba4a97d93908791281826442805592a28793",
+        "T10-CALLER-v0-small.png": "05095781c6f00e0cf6e23b93c7d1e0f4a2ce3cb5627d25bf0cb20dbf191837fe"
+      },
+      "family": "cross_app"
+    },
+    {
+      "task": "T11",
+      "client": "CALLER",
+      "variant": 0,
+      "work": "${WORK}",
+      "inputs": "${WORK}/T11-CALLER-v0-input",
+      "out": "${WORK}/output",
+      "prefix": "T11-CALLER-v0",
+      "apps": [
+        {
+          "name": "Preview",
+          "input": "${WORK}/T11-CALLER-v0-input/T11-CALLER-v0-small.png",
+          "windows": [
+            "T11-CALLER-v0-small.png",
+            "T11-CALLER-v0-result.png"
+          ]
+        }
+      ],
+      "ui_outputs": [
+        {
+          "app": "Preview",
+          "file": "${WORK}/output/T11-CALLER-v0-result.png",
+          "kind": "image"
+        }
+      ],
+      "requires_reopen": true,
+      "goal": "Resize ${WORK}/T11-CALLER-v0-input/T11-CALLER-v0-small.png from 80x40 to exactly 120x60 pixels, preserving aspect ratio and its image content. Save as ${WORK}/output/T11-CALLER-v0-result.png, without altering any source image. Show the resized saved image in Preview. It must remain correct when reopened independently.",
+      "input_sha256": {
+        "T11-CALLER-v0-wide.png": "374a885a3818adedd9095f01151d2197ced88a66d43bb90e195b011623d6b5a4",
+        "T11-CALLER-v0-large.png": "e05f944b0597c91002b39f054d02ba4a97d93908791281826442805592a28793",
+        "T11-CALLER-v0-small.png": "05095781c6f00e0cf6e23b93c7d1e0f4a2ce3cb5627d25bf0cb20dbf191837fe"
+      },
+      "family": "untuned_app"
+    },
+    {
+      "task": "T12",
+      "client": "CALLER",
+      "variant": 0,
+      "work": "${WORK}",
+      "inputs": "${WORK}/T12-CALLER-v0-input",
+      "out": "${WORK}/output",
+      "prefix": "T12-CALLER-v0",
+      "apps": [
+        {
+          "name": "Pages",
+          "input": "${WORK}/T12-CALLER-v0-input/T12-CALLER-v0-notes.rtf",
+          "windows": [
+            "T12-CALLER-v0-notes",
+            "T12-CALLER-v0-result"
+          ]
+        }
+      ],
+      "ui_outputs": [
+        {
+          "app": "Pages",
+          "file": "${WORK}/output/T12-CALLER-v0-result.rtf",
+          "kind": "text"
+        }
+      ],
+      "requires_reopen": true,
+      "goal": "Read ${WORK}/T12-CALLER-v0-input/T12-CALLER-v0-notes.rtf in Pages. Create ${WORK}/output/T12-CALLER-v0-result.rtf changing Budget 48000 to Budget 52000 and keeping all other text. Display the saved result in Pages, correct after reopening; source must remain unchanged.",
+      "input_sha256": {
+        "T12-CALLER-v0-notes.rtf": "42ce9ea4ec4a3473bedd6299e391e87c92758cb35a6c3c992a2169a55f270cdc"
+      },
+      "family": "untuned_app"
+    }
+  ],
+  "variant": 0,
+  "pregranted": true,
+  "requires_new_process_reopen": [
+    "T05",
+    "T06",
+    "T11",
+    "T12"
+  ],
+  "apps_not_special_cased_in_current_Core": [
+    "Preview",
+    "Pages"
+  ],
+  "primary_track": "any-tool",
+  "gui_subset": [
+    "T01",
+    "T03",
+    "T05",
+    "T07",
+    "T09",
+    "T11"
+  ],
+  "short_budget_seconds": 240,
+  "long_budget_seconds": 480,
+  "max_model_turns": 40,
+  "max_core_write_dispatch_attempts": 60,
+  "gold_not_in_actor_workspace": true,
+  "codex_context": "retained_and_authored_eval_not_blind",
+  "source_hashes": {
+    "evals/runtime_business.py": "9a2d50797508ba23c42911e9efb2b91b56e42f09595c24bc168b012e84b0eb5f",
+    "scripts/evaluate_runtime_business.py": "b5e537ee577ba8b0d92c4d55964ac7ca53d06b359e87477269c26ef1b7ab870a",
+    "tests/test_business_eval.py": "b6162831f00ad00ea1ad7f8149dadd4ffb32139e43e9d1f29529dd5f83546fbd",
+    "src/bokkio/mcp_server.py": "63a24f87c9498e488c7c087d74ff9d4dff3e989f376555ecd0be030ab345f868"
+  }
+}

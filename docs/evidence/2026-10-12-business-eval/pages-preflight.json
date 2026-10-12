@@ -1,0 +1,8 @@
+{
+  "app": "Pages",
+  "owned_window": "T12-preflight-v9-notes",
+  "native_body_exposed": false,
+  "visual_body_observable": true,
+  "ocr_engine": "Apple.Vision",
+  "new_actor_attempt": false
+}

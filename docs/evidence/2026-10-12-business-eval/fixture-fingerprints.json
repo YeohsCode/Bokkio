@@ -1,0 +1,6 @@
+{
+  "current_visual_source_sha256": "d167c061d53f8ebafc2281c44144e25ce283df9213d4a072ccda9eb57ee41fea",
+  "current_visual_binary_sha256": "8fe525889a371bd3521e491dbbdca91faab594c495b429c6802415f192d98c37",
+  "audit_binary_sha256": "3e649ad7417c9a35e1df09598eaad8ed969f77221239680627cde16ed62018d3",
+  "audit_binary_note": "existing owned native contract binary; validated independent Search/business behavior; not rebuilt in this turn"
+}

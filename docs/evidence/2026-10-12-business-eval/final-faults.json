@@ -1,0 +1,157 @@
+{
+  "platform": "Darwin",
+  "architecture": "arm64",
+  "scope": "owned_fixture_physical_faults_and_real_processes",
+  "source_revision": "841c46c22c2f8a707f99ac4fea0918f66c0b861d",
+  "working_tree_changes": true,
+  "checks": [
+    {
+      "case": "window_moved",
+      "passed": true,
+      "dispatched": 0,
+      "error_code": "capture_changed",
+      "status": "failed",
+      "business_clicks_unchanged": true
+    },
+    {
+      "case": "window_resized",
+      "passed": true,
+      "dispatched": 0,
+      "error_code": "capture_changed",
+      "status": "failed",
+      "business_clicks_unchanged": true
+    },
+    {
+      "case": "pixels_changed",
+      "passed": true,
+      "dispatched": 0,
+      "error_code": "capture_changed",
+      "status": "failed",
+      "business_clicks_unchanged": true
+    },
+    {
+      "case": "other_process_takes_foreground",
+      "passed": true,
+      "dispatched": 0,
+      "error_code": "capture_changed",
+      "status": "failed",
+      "business_clicks_unchanged": true
+    },
+    {
+      "case": "nonforeground_fresh_pixels",
+      "passed": true,
+      "dispatched": 0,
+      "error_code": "input_unavailable",
+      "status": "failed",
+      "business_clicks_unchanged": true
+    },
+    {
+      "case": "window_rebuilt_same_title",
+      "passed": true,
+      "dispatched": 0,
+      "error_code": "window_not_visible",
+      "status": "failed",
+      "business_clicks_unchanged": true
+    },
+    {
+      "case": "fresh_window_after_rebuild",
+      "passed": false
+    },
+    {
+      "case": "real_observation_expired",
+      "passed": true,
+      "dispatched": false,
+      "error_code": null,
+      "status": "denied",
+      "business_clicks_unchanged": true
+    },
+    {
+      "case": "physical_display_coordinate_mapping",
+      "display_index": 0,
+      "scale": 1,
+      "passed": false,
+      "dispatched": 0,
+      "error_code": "input_unavailable"
+    },
+    {
+      "case": "session_closed_while_waiting_input_lock",
+      "passed": true,
+      "error_code": "dispatch_scope_changed"
+    },
+    {
+      "case": "same_title_ambiguous_window",
+      "passed": true,
+      "error_code": "window_ambiguous"
+    },
+    {
+      "case": "terminated_process",
+      "passed": true,
+      "status": "denied"
+    },
+    {
+      "case": "minimized_window_capture_rejected",
+      "passed": true,
+      "error_code": "window_not_visible"
+    },
+    {
+      "case": "cancel_descendant_ignoring_sigterm",
+      "passed": true,
+      "job_status": "cancelled",
+      "descendant_running": false
+    },
+    {
+      "case": "timeout_terminates_process_tree",
+      "passed": true,
+      "job_status": "timed_out",
+      "descendant_running": false
+    },
+    {
+      "case": "worker_crash_unknown_never_replayed",
+      "passed": true,
+      "job_status": "completion_unknown",
+      "duplicate_status": "completion_unknown",
+      "descendant_running": false,
+      "worker_lost_event": true
+    },
+    {
+      "case": "output_drained_and_bounded",
+      "passed": true,
+      "output_bytes": {
+        "stderr": 90000,
+        "stdout": 200000
+      },
+      "truncated": {
+        "stderr": true,
+        "stdout": true
+      }
+    },
+    {
+      "case": "session_close_cancels_running_tree",
+      "passed": true,
+      "job_status": "cancelled",
+      "descendant_running": false
+    }
+  ],
+  "displays": [
+    {
+      "frame": {
+        "height": 1440,
+        "width": 2560,
+        "x": 0,
+        "y": 0
+      },
+      "index": 0,
+      "scale": 1
+    }
+  ],
+  "not_tested": [
+    "physical_screen_lock_and_unlock",
+    "customer_application",
+    "customer_harness",
+    "second_physical_display_or_different_scale"
+  ],
+  "passed": 16,
+  "total": 18,
+  "source_fingerprint": "r4-frozen-run.json: Core unchanged since that batch",
+  "positive_input_blocker": "UserNotificationCenter top window; event permission true; no bypass or input dispatch"
+}

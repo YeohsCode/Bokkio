@@ -1,0 +1,602 @@
+{
+  "scope": "autonomous_synthetic_business_any_tool_internal_eval_not_official_benchmark",
+  "base_revision": "841c46c22c2f8a707f99ac4fea0918f66c0b861d",
+  "source_sha256": {
+    "scripts/evaluate_runtime_business.py": "b5e537ee577ba8b0d92c4d55964ac7ca53d06b359e87477269c26ef1b7ab870a",
+    "evals/runtime_business.py": "9a2d50797508ba23c42911e9efb2b91b56e42f09595c24bc168b012e84b0eb5f",
+    "src/bokkio/mcp_server.py": "63a24f87c9498e488c7c087d74ff9d4dff3e989f376555ecd0be030ab345f868"
+  },
+  "track": "any-tool",
+  "planned": 18,
+  "results": [
+    {
+      "task": "T01",
+      "client": "codex-current",
+      "track": "any-tool",
+      "variant": 0,
+      "status": "passed",
+      "started": true,
+      "passed": true,
+      "client_exit_code": 0,
+      "termination": null,
+      "duration_seconds": 89.646,
+      "business_checks": {
+        "source_unchanged": true,
+        "outputs_exist": true,
+        "business_correct": true,
+        "file_set_correct": true,
+        "file_bytes_correct": true,
+        "manifest_correct": true
+      },
+      "ui_checks": [
+        {
+          "app": "Finder",
+          "kind": "source_observed",
+          "correct": true
+        }
+      ],
+      "persistence": {
+        "required": false,
+        "correct": null
+      },
+      "protocol_completed": true,
+      "tools": [
+        "capabilities",
+        "code.run",
+        "desktop.observe",
+        "job.get",
+        "session.open"
+      ],
+      "preflight": {
+        "ready": true,
+        "windows_verified": [
+          "Finder"
+        ]
+      },
+      "approval_mode": "administrator_pregranted_disposable_resources",
+      "conversation_context": "retained_and_evaluator_author",
+      "model": "current_conversation",
+      "raw_traces_public": false,
+      "audit_events": 21,
+      "logical_operations": 6,
+      "generated_code_parent_links": 0,
+      "output_sha256": {
+        "T01-codex-current-v0-manifest.csv": "0d772519512523534544d690d8d7d82362c162954c6b55f826828c4d19115f6a",
+        "deliverables/2026-10-01_report.txt": "8af1d4bee0cbd9dae843aa5433e58cd6defb79a297fb238344094aa153b9c780",
+        "deliverables/2026-10-03_notes.txt": "4caeb33be175eadb6078b50debc4b2d4fc3c58d9a26d3cf14d1011a4e63eca71"
+      }
+    },
+    {
+      "task": "T03",
+      "client": "codex-current",
+      "status": "blocked",
+      "started": false,
+      "passed": false,
+      "preflight": {
+        "ready": false,
+        "windows_verified": []
+      },
+      "reason": "owned_application_window_unavailable"
+    },
+    {
+      "task": "T05",
+      "client": "codex-current",
+      "track": "any-tool",
+      "variant": 0,
+      "status": "failed",
+      "started": true,
+      "passed": false,
+      "client_exit_code": 0,
+      "termination": null,
+      "duration_seconds": 175.848,
+      "business_checks": {
+        "source_unchanged": true,
+        "outputs_exist": true,
+        "business_correct": true
+      },
+      "ui_checks": [
+        {
+          "app": "TextEdit",
+          "kind": "text",
+          "correct": true,
+          "observation_status": "completed"
+        }
+      ],
+      "persistence": {
+        "required": true,
+        "correct": false,
+        "new_process_verified": true,
+        "reason": "RuntimeError",
+        "original_process_terminated": false
+      },
+      "protocol_completed": true,
+      "tools": [
+        "capabilities",
+        "code.run",
+        "desktop.observe",
+        "job.get",
+        "session.open"
+      ],
+      "preflight": {
+        "ready": true,
+        "windows_verified": [
+          "TextEdit"
+        ]
+      },
+      "approval_mode": "administrator_pregranted_disposable_resources",
+      "conversation_context": "retained_and_evaluator_author",
+      "model": "current_conversation",
+      "raw_traces_public": false,
+      "audit_events": 27,
+      "logical_operations": 8,
+      "generated_code_parent_links": 0,
+      "output_sha256": {
+        "T05-codex-current-v0-report.txt": "ac0ddb65ba1cc5422dad5a3796c7d480fd6fbb26ffebef474ac15995409db232"
+      }
+    },
+    {
+      "task": "T07",
+      "client": "codex-current",
+      "track": "any-tool",
+      "variant": 0,
+      "status": "passed",
+      "started": true,
+      "passed": true,
+      "client_exit_code": 0,
+      "termination": null,
+      "duration_seconds": 92.082,
+      "business_checks": {
+        "source_unchanged": true,
+        "outputs_exist": true,
+        "business_correct": true,
+        "web_result_correct": true
+      },
+      "ui_checks": [
+        {
+          "app": "isolated_browser",
+          "kind": "business_page",
+          "correct": true,
+          "observation_status": "completed"
+        }
+      ],
+      "persistence": {
+        "required": false,
+        "correct": null
+      },
+      "protocol_completed": true,
+      "tools": [
+        "browser.act",
+        "browser.observe",
+        "browser.open",
+        "capabilities",
+        "code.run",
+        "job.get",
+        "session.open"
+      ],
+      "preflight": {
+        "ready": true,
+        "windows_verified": []
+      },
+      "approval_mode": "administrator_pregranted_disposable_resources",
+      "conversation_context": "retained_and_evaluator_author",
+      "model": "current_conversation",
+      "raw_traces_public": false,
+      "audit_events": 39,
+      "logical_operations": 12,
+      "generated_code_parent_links": 1,
+      "output_sha256": {
+        "T07-codex-current-v0-result.csv": "4a1031d53c4c221cfd6537d13bb60da30e98624bc448b89d5618167e3d1d1c67"
+      }
+    },
+    {
+      "task": "T09",
+      "client": "codex-current",
+      "status": "blocked",
+      "started": false,
+      "passed": false,
+      "preflight": {
+        "ready": false,
+        "windows_verified": []
+      },
+      "reason": "owned_application_window_unavailable"
+    },
+    {
+      "task": "T11",
+      "client": "codex-current",
+      "track": "any-tool",
+      "variant": 0,
+      "status": "failed",
+      "started": true,
+      "passed": false,
+      "client_exit_code": 0,
+      "termination": null,
+      "duration_seconds": 95.143,
+      "business_checks": {
+        "source_unchanged": true,
+        "outputs_exist": true,
+        "business_correct": true
+      },
+      "ui_checks": [
+        {
+          "app": "Preview",
+          "kind": "image",
+          "correct": true,
+          "observation_status": "completed"
+        }
+      ],
+      "persistence": {
+        "required": true,
+        "correct": false,
+        "new_process_verified": true,
+        "reason": "RuntimeError",
+        "original_process_terminated": false
+      },
+      "protocol_completed": true,
+      "tools": [
+        "capabilities",
+        "code.run",
+        "desktop.observe",
+        "job.get",
+        "session.open"
+      ],
+      "preflight": {
+        "ready": true,
+        "windows_verified": [
+          "Preview"
+        ]
+      },
+      "approval_mode": "administrator_pregranted_disposable_resources",
+      "conversation_context": "retained_and_evaluator_author",
+      "model": "current_conversation",
+      "raw_traces_public": false,
+      "audit_events": 27,
+      "logical_operations": 8,
+      "generated_code_parent_links": 0,
+      "output_sha256": {
+        "T11-codex-current-v0-result.png": "65f4894afda0fb3e2fe2d30b7043e69f568245d572aa05d401caa934c55b42c4"
+      }
+    },
+    {
+      "task": "T01",
+      "client": "hermes",
+      "track": "any-tool",
+      "variant": 0,
+      "status": "failed",
+      "started": true,
+      "passed": false,
+      "client_exit_code": 130,
+      "termination": "wall_clock_budget",
+      "duration_seconds": 242.006,
+      "business_checks": {
+        "source_unchanged": true,
+        "outputs_exist": true,
+        "business_correct": true,
+        "file_set_correct": true,
+        "file_bytes_correct": true,
+        "manifest_correct": true
+      },
+      "ui_checks": [
+        {
+          "app": "Finder",
+          "kind": "source_observed",
+          "correct": true
+        }
+      ],
+      "persistence": {
+        "required": false,
+        "correct": null
+      },
+      "protocol_completed": false,
+      "tools": [
+        "capabilities",
+        "code.run",
+        "desktop.activate",
+        "desktop.list",
+        "desktop.observe",
+        "evidence.check",
+        "job.get",
+        "session.open"
+      ],
+      "preflight": {
+        "ready": true,
+        "windows_verified": [
+          "Finder"
+        ]
+      },
+      "approval_mode": "administrator_pregranted_disposable_resources",
+      "conversation_context": "fresh_oneshot",
+      "model": "z-ai/glm-5.3-flash",
+      "raw_traces_public": false,
+      "audit_events": 76,
+      "logical_operations": 23,
+      "generated_code_parent_links": 0,
+      "output_sha256": {
+        "T01-hermes-v0-manifest.csv": "0d772519512523534544d690d8d7d82362c162954c6b55f826828c4d19115f6a",
+        "deliverables/2026-10-01_report.txt": "8af1d4bee0cbd9dae843aa5433e58cd6defb79a297fb238344094aa153b9c780",
+        "deliverables/2026-10-03_notes.txt": "4caeb33be175eadb6078b50debc4b2d4fc3c58d9a26d3cf14d1011a4e63eca71"
+      }
+    },
+    {
+      "task": "T03",
+      "client": "hermes",
+      "status": "blocked",
+      "started": false,
+      "passed": false,
+      "preflight": {
+        "ready": false,
+        "windows_verified": []
+      },
+      "reason": "owned_application_window_unavailable"
+    },
+    {
+      "task": "T05",
+      "client": "hermes",
+      "status": "blocked",
+      "started": false,
+      "passed": false,
+      "preflight": {
+        "ready": false,
+        "windows_verified": []
+      },
+      "reason": "owned_application_window_unavailable"
+    },
+    {
+      "task": "T07",
+      "client": "hermes",
+      "track": "any-tool",
+      "variant": 0,
+      "status": "failed",
+      "started": true,
+      "passed": false,
+      "client_exit_code": 0,
+      "termination": null,
+      "duration_seconds": 70.748,
+      "business_checks": {
+        "source_unchanged": true,
+        "outputs_exist": true,
+        "business_correct": true,
+        "web_result_correct": true
+      },
+      "ui_checks": [
+        {
+          "app": "isolated_browser",
+          "kind": "business_page",
+          "correct": true,
+          "observation_status": "completed"
+        }
+      ],
+      "persistence": {
+        "required": false,
+        "correct": null
+      },
+      "protocol_completed": false,
+      "tools": [
+        "browser.act",
+        "browser.observe",
+        "browser.open",
+        "capabilities",
+        "code.run",
+        "job.get",
+        "session.open"
+      ],
+      "preflight": {
+        "ready": true,
+        "windows_verified": []
+      },
+      "approval_mode": "administrator_pregranted_disposable_resources",
+      "conversation_context": "fresh_oneshot",
+      "model": "z-ai/glm-5.3-flash",
+      "raw_traces_public": false,
+      "audit_events": 53,
+      "logical_operations": 16,
+      "generated_code_parent_links": 0,
+      "output_sha256": {
+        "T07-hermes-v0-result.csv": "e71139277f434f2d46d762266d1651d32cbb9867b372bac9300df935d0fe281b"
+      }
+    },
+    {
+      "task": "T09",
+      "client": "hermes",
+      "status": "blocked",
+      "started": false,
+      "passed": false,
+      "preflight": {
+        "ready": false,
+        "windows_verified": []
+      },
+      "reason": "owned_application_window_unavailable"
+    },
+    {
+      "task": "T11",
+      "client": "hermes",
+      "status": "blocked",
+      "started": false,
+      "passed": false,
+      "preflight": {
+        "ready": false,
+        "windows_verified": []
+      },
+      "reason": "owned_application_window_unavailable"
+    },
+    {
+      "task": "T01",
+      "client": "deepseek",
+      "track": "any-tool",
+      "variant": 0,
+      "status": "failed",
+      "started": true,
+      "passed": false,
+      "client_exit_code": 0,
+      "termination": null,
+      "duration_seconds": 200.972,
+      "business_checks": {
+        "source_unchanged": true,
+        "outputs_exist": true,
+        "business_correct": true,
+        "file_set_correct": true,
+        "file_bytes_correct": true,
+        "manifest_correct": true
+      },
+      "ui_checks": [
+        {
+          "app": "Finder",
+          "kind": "source_observed",
+          "correct": true
+        }
+      ],
+      "persistence": {
+        "required": false,
+        "correct": null
+      },
+      "protocol_completed": false,
+      "tools": [
+        "artifact.read",
+        "capabilities",
+        "code.run",
+        "desktop.activate",
+        "desktop.capture",
+        "desktop.list",
+        "desktop.observe",
+        "events.follow",
+        "evidence.check",
+        "job.cancel",
+        "job.get",
+        "process.run",
+        "session.open"
+      ],
+      "preflight": {
+        "ready": true,
+        "windows_verified": [
+          "Finder"
+        ]
+      },
+      "approval_mode": "administrator_pregranted_disposable_resources",
+      "conversation_context": "fresh_oneshot",
+      "model": "z-ai/glm-5.3-flash",
+      "raw_traces_public": false,
+      "audit_events": 128,
+      "logical_operations": 39,
+      "generated_code_parent_links": 0,
+      "output_sha256": {
+        "T01-deepseek-v0-manifest.csv": "0d772519512523534544d690d8d7d82362c162954c6b55f826828c4d19115f6a",
+        "deliverables/2026-10-01_report.txt": "8af1d4bee0cbd9dae843aa5433e58cd6defb79a297fb238344094aa153b9c780",
+        "deliverables/2026-10-03_notes.txt": "4caeb33be175eadb6078b50debc4b2d4fc3c58d9a26d3cf14d1011a4e63eca71"
+      }
+    },
+    {
+      "task": "T03",
+      "client": "deepseek",
+      "status": "blocked",
+      "started": false,
+      "passed": false,
+      "preflight": {
+        "ready": false,
+        "windows_verified": []
+      },
+      "reason": "owned_application_window_unavailable"
+    },
+    {
+      "task": "T05",
+      "client": "deepseek",
+      "status": "blocked",
+      "started": false,
+      "passed": false,
+      "preflight": {
+        "ready": false,
+        "windows_verified": []
+      },
+      "reason": "owned_application_window_unavailable"
+    },
+    {
+      "task": "T07",
+      "client": "deepseek",
+      "track": "any-tool",
+      "variant": 0,
+      "status": "passed",
+      "started": true,
+      "passed": true,
+      "client_exit_code": 0,
+      "termination": null,
+      "duration_seconds": 67.635,
+      "business_checks": {
+        "source_unchanged": true,
+        "outputs_exist": true,
+        "business_correct": true,
+        "web_result_correct": true
+      },
+      "ui_checks": [
+        {
+          "app": "isolated_browser",
+          "kind": "business_page",
+          "correct": true,
+          "observation_status": "completed"
+        }
+      ],
+      "persistence": {
+        "required": false,
+        "correct": null
+      },
+      "protocol_completed": true,
+      "tools": [
+        "browser.act",
+        "browser.observe",
+        "browser.open",
+        "code.run",
+        "evidence.check",
+        "job.get",
+        "session.open"
+      ],
+      "preflight": {
+        "ready": true,
+        "windows_verified": []
+      },
+      "approval_mode": "administrator_pregranted_disposable_resources",
+      "conversation_context": "fresh_oneshot",
+      "model": "z-ai/glm-5.3-flash",
+      "raw_traces_public": false,
+      "audit_events": 39,
+      "logical_operations": 12,
+      "generated_code_parent_links": 0,
+      "output_sha256": {
+        "T07-deepseek-v0-result.csv": "4a1031d53c4c221cfd6537d13bb60da30e98624bc448b89d5618167e3d1d1c67"
+      }
+    },
+    {
+      "task": "T09",
+      "client": "deepseek",
+      "status": "blocked",
+      "started": false,
+      "passed": false,
+      "preflight": {
+        "ready": false,
+        "windows_verified": []
+      },
+      "reason": "owned_application_window_unavailable"
+    },
+    {
+      "task": "T11",
+      "client": "deepseek",
+      "status": "blocked",
+      "started": false,
+      "passed": false,
+      "preflight": {
+        "ready": false,
+        "windows_verified": []
+      },
+      "reason": "owned_application_window_unavailable"
+    }
+  ],
+  "limits": [
+    "current_Codex_retained_context_and_authored_evaluator_not_blind",
+    "trusted_host_not_OS_sandbox",
+    "customer_and_Windows_not_tested"
+  ],
+  "passed": 3,
+  "started": 8,
+  "not_run": 0,
+  "batch": "r1_initial_preserved",
+  "blocked": 10,
+  "failed": 5,
+  "grader_version": "r1_all_jobs_completed_and_immediate_reopen_registry",
+  "suite_catalog_sha256": "49f88070d0ad6bc414e03a122c5a788d9dad7bde9eca664bf0957dcd7f3a88bc"
+}

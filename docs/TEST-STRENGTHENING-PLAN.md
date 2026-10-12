@@ -1,6 +1,6 @@
 # Computer Use 测试加强计划
 
-日期：2026-10-12。基线：91fce36 / Runtime 0.2.0。状态：计划已细化，以下新增评测尚未实施或运行。共享执行清单见 [test-strengthening.json](progress/test-strengthening.json)。
+日期：2026-10-12。基线：91fce36 / Runtime 0.2.0。状态：首批已执行，评测器已实现并在独立轮次修复复测；完整矩阵尚未完成。执行结果见[报告](evidence/2026-10-12-business-eval/README.md)。共享执行清单见 [test-strengthening.json](progress/test-strengthening.json)。
 
 目标是证明获准资源上的通用执行、业务交付和多调用方接入。沿用三天内快速交付的约束，按自动化产物与执行批次推进；不增加 Harness 选型或 Core 重写。当前先完成 macOS，Windows 由另一环境接续。标准 benchmark 改编、产品 any-tool 与纯 GUI 分别报告。
 
@@ -31,7 +31,7 @@
 
 ## 3. 第一批业务任务：12 题
 
-以下为选题规格，尚不是已冻结或已执行题库。应用、输入和精确目标在 EVAL-01 固定。至少 8 题要真实打开并操作桌面软件；2 个新应用未就绪时留在分母中标注未开始，不用测试窗口代替。
+以下规格已落实到 fixtures/runtime-business-eval/suite.json 与输入生成器；第一组六题已预检并执行。Pages 窗口可打开，但正文未由原生树暴露，其独立内容评分还需验证。每轮在 frozen-run.json 固定输入变体、源码、轨道与预算。至少 8 题要真实打开并操作桌面软件；2 个新应用未就绪时留在分母中标注未开始，不用测试窗口代替。
 
 | ID | 类型与候选任务 | 独立评分 | 轨道 |
 |---|---|---|---|

@@ -1,0 +1,18 @@
+{
+  "task": "T09",
+  "client": "hermes",
+  "expected_owner": "林安",
+  "saved_report_owner": "张伟",
+  "checks": {
+    "source_unchanged": true,
+    "outputs_exist": true,
+    "business_correct": false,
+    "table_correct": true,
+    "report_owner_correct": false,
+    "report_project_deadline_correct": true,
+    "report_invoices_correct": true,
+    "report_total_correct": true,
+    "report_correct": false
+  },
+  "new_actor_attempt": false
+}

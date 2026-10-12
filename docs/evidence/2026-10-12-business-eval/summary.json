@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-12",
+  "platform": "macos",
+  "batches": [
+    {
+      "batch": "r1",
+      "planned": 18,
+      "recorded": 18,
+      "started": 8,
+      "initial_passed": 3,
+      "corrected_passed": 6
+    },
+    {
+      "batch": "r2",
+      "planned": 12,
+      "recorded": 12,
+      "started": 6,
+      "initial_passed": 3,
+      "corrected_passed": 5
+    },
+    {
+      "batch": "r3",
+      "planned": 12,
+      "recorded": 12,
+      "started": 8,
+      "initial_passed": 6,
+      "corrected_passed": 7
+    },
+    {
+      "batch": "r4",
+      "planned": 4,
+      "recorded": 4,
+      "started": 4,
+      "initial_passed": 2,
+      "corrected_passed": 2
+    }
+  ],
+  "all_recorded_cases": 46,
+  "all_started_business_attempts": 26,
+  "initial_plus_retest_counts_not_a_unseen_benchmark_rate": true,
+  "latest_selected_four_task_matrix": {
+    "passed": 9,
+    "total": 12,
+    "results": [
+      {
+        "task": "T03",
+        "client": "codex-current",
+        "batch": "r3",
+        "passed": true
+      },
+      {
+        "task": "T05",
+        "client": "codex-current",
+        "batch": "r3",
+        "passed": true
+      },
+      {
+        "task": "T09",
+        "client": "codex-current",
+        "batch": "r3",
+        "passed": true
+      },
+      {
+        "task": "T11",
+        "client": "codex-current",
+        "batch": "r3",
+        "passed": true
+      },
+      {
+        "task": "T03",
+        "client": "hermes",
+        "batch": "r4",
+        "passed": true
+      },
+      {
+        "task": "T05",
+        "client": "hermes",
+        "batch": "r4",
+        "passed": true
+      },
+      {
+        "task": "T09",
+        "client": "hermes",
+        "batch": "r4",
+        "passed": false
+      },
+      {
+        "task": "T11",
+        "client": "hermes",
+        "batch": "r4",
+        "passed": false
+      },
+      {
+        "task": "T03",
+        "client": "deepseek",
+        "batch": "r3",
+        "passed": true
+      },
+      {
+        "task": "T05",
+        "client": "deepseek",
+        "batch": "r3",
+        "passed": true
+      },
+      {
+        "task": "T09",
+        "client": "deepseek",
+        "batch": "r3",
+        "passed": true
+      },
+      {
+        "task": "T11",
+        "client": "deepseek",
+        "batch": "r3",
+        "passed": false
+      }
+    ]
+  },
+  "original_plan_matrix_case_results_recorded": 18,
+  "original_plan_business_matrix_minimum": 72,
+  "original_matrix_completion_note": "Retests and regrades do not fill GUI, remaining six any-tool tasks or fixed-revision stability slots automatically.",
+  "host_regression": {
+    "passed": 571,
+    "total": 571
+  },
+  "judge_counterexample_tests": 14,
+  "nonfinite_geometry_tests": 7,
+  "audit_contract": {
+    "passed": 9,
+    "total": 9
+  },
+  "fault_matrix": {
+    "passed": 16,
+    "total": 18
+  },
+  "core_categories": {
+    "passed": 8,
+    "total": 8
+  },
+  "full_strengthening_plan_complete": false
+}

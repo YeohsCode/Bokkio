@@ -1,0 +1,23 @@
+{
+  "platform": "macOS",
+  "os_version": "15.5",
+  "os_build": "24F74",
+  "architecture": "arm64",
+  "project_python": "3.13.13",
+  "runtime_version": "0.2.0",
+  "apps": {
+    "Numbers": "14.1",
+    "Pages": "14.1",
+    "TextEdit": "1.20",
+    "Preview": "11.0",
+    "Finder": "15.5"
+  },
+  "hermes": "0.21.6+311.g2af85c3",
+  "hermes_upstream": "dc140b70",
+  "deepseek_sdk_native_runtime": "0.1.5rc1",
+  "model_hermes_deepseek": "z-ai/glm-5.3-flash",
+  "current_codex": "current_conversation_official_mcp_client_bridge",
+  "mouse_controlled_by": "Bokkio_when_used",
+  "physical_displays": 1,
+  "raw_traces_public": false
+}

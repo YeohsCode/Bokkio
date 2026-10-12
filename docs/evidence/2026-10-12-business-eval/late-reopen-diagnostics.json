@@ -1,0 +1,16 @@
+[
+  {
+    "task": "T05",
+    "original_judge": "startup registry not ready",
+    "late_readonly_reopen_correct": true,
+    "fresh_owned_process_cleaned": false,
+    "raw_initial_score_unchanged": true
+  },
+  {
+    "task": "T11",
+    "original_judge": "startup registry not ready",
+    "late_readonly_reopen_correct": true,
+    "fresh_owned_process_cleaned": false,
+    "raw_initial_score_unchanged": true
+  }
+]

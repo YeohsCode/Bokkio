@@ -1,0 +1,10 @@
+{
+  "scope": "setup_failure_before_fault_case_execution",
+  "status": "fixture_binary_schema_mismatch",
+  "planned_fault_checks": 18,
+  "executed_fault_checks": 0,
+  "error_type": "KeyError",
+  "field": "displays",
+  "action": "rebuild_current_cocoa_visual_source_and_run_in_new_directory",
+  "original_binary_sha256": "9386b0876063e6a160911c355cf3af31b76165489b750b2c388086c7a37a1cd3"
+}
