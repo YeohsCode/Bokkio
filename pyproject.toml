@@ -14,6 +14,9 @@ bokkio = "bokkio.cli:main"
 bokkio-runtime = "bokkio.runtime_cli:main"
 
 [project.optional-dependencies]
+office = [
+    "openpyxl>=3.1.5,<4",
+]
 browser = [
     "playwright>=1.50,<2",
 ]

@@ -1,0 +1,372 @@
+---
+source_path: docs/progress/state.json
+source_version: working-tree-based-on-78c3289a42369aa5c0eb276e2092dece83b6b7e6
+ingested: 2026-10-13
+sha256: 03f77abb19684edf56c0915fb618fb816a85d8000700d32f9520494169fc255f
+---
+
+{
+  "schema_version": 1,
+  "updated": "2026-10-13",
+  "version": "0.2.0",
+  "overall_status": "implementation_delivered_acceptance_incomplete",
+  "plan": "docs/PLAN-REPOSITIONING.md",
+  "guide": "docs/RUNTIME-GUIDE.md",
+  "evidence": "docs/evidence/2026-10-12-runtime-macos/README.md",
+  "implementation": {
+    "completed_groups": 8,
+    "total_groups": 8,
+    "meaning": "code_delivery_only"
+  },
+  "acceptance": {
+    "macos": {
+      "development_capability_categories_passed": 4,
+      "total_categories": 5,
+      "customer_acceptance_complete": false,
+      "host_tests_passed": 647,
+      "fault_matrix": {
+        "passed": 18,
+        "total": 18,
+        "status": "completed_latest_local_matrix",
+        "source_revision": "575ed6f_plus_worktree_sha256",
+        "source_fingerprint": "docs/evidence/2026-10-12-macos-completion/final-source-files.json",
+        "blocked_cases": [],
+        "blocker": null
+      },
+      "real_job_faults": {
+        "passed": 5,
+        "total": 5
+      },
+      "unadapted_local_app": {
+        "app": "Numbers",
+        "passed": 3,
+        "total": 3,
+        "customer_selected": false
+      },
+      "mcp_manifest": {
+        "passed": 3,
+        "total": 3,
+        "approval_mode": "automated_admin_owned_fixture"
+      },
+      "physical_environment": {
+        "displays": 1,
+        "scale": 1
+      },
+      "screen_lock_tested": false,
+      "audit_contract": {
+        "passed": 9,
+        "total": 9,
+        "real_sqlite_fault_injection": true,
+        "physical_lock_not_included": true
+      },
+      "latest_visual_input": {
+        "passed": 3,
+        "total": 3,
+        "source_revision": "4d62a13"
+      },
+      "numbers_persistence": {
+        "passed": 1,
+        "target_samples": 3,
+        "directory_preparation": "CUA",
+        "save_close_reopen": "Bokkio Runtime",
+        "customer_selected": false,
+        "latest_samples_passed": 0,
+        "latest_samples_total": 2,
+        "latest_failure": "disabled_save_targets; Core conservative unknown; no replay",
+        "evidence": "docs/evidence/2026-10-12-macos-completion/numbers-persistence-actor-diagnostics.json"
+      },
+      "previous_fault_matrix": {
+        "passed": 18,
+        "total": 18,
+        "status": "completed_local_matrix",
+        "source_revision": "4d62a13",
+        "blocked_cases": []
+      },
+      "latest_business_evaluation": {
+        "main_passed": 26,
+        "main_total": 36,
+        "main_started": 36,
+        "callers": {
+          "codex-current": 12,
+          "hermes": 8,
+          "deepseek": 6
+        },
+        "critical_three_sample_passed": 17,
+        "critical_three_sample_total": 27,
+        "gui_initial_passed": 0,
+        "gui_initial_total": 18,
+        "gui_retest_running": false,
+        "delayed_admin_passed": 9,
+        "delayed_admin_total": 9,
+        "full_suite_execution_complete": true,
+        "quality_target_met": false,
+        "evidence": "docs/evidence/2026-10-12-macos-completion/README.md",
+        "gui_passed": 0,
+        "gui_total": 18,
+        "gui_started": 18
+      },
+      "evidence": "docs/evidence/2026-10-12-macos-completion/README.md",
+      "independent_wheel_latest": {
+        "passed": true,
+        "native_code_browser_rounds_each": 3,
+        "evidence": "docs/evidence/2026-10-12-macos-completion/wheel-final-summary.json"
+      }
+    },
+    "windows": {
+      "development_capability_categories_passed": 0,
+      "total_categories": 5,
+      "current_runtime_live_tested": false,
+      "vm_login": "verified_2026-10-11",
+      "next_environment": "user_windows_computer"
+    },
+    "final_matrix_complete": false,
+    "development_harnesses": {
+      "selected": [
+        "current_codex",
+        "current_system_hermes",
+        "deepseek_harness"
+      ],
+      "passed_callers": 3,
+      "total_callers": 3,
+      "samples_per_selected_path": 1,
+      "selected_paths": {
+        "current_codex": "official_mcp_stdio_client_bridge_direct_native_and_code",
+        "current_system_hermes": "mcp_code_run_delegated_sdk_native",
+        "deepseek_harness": "mcp_code_run_delegated_sdk_native"
+      },
+      "glm_model": "z-ai/glm-5.3-flash",
+      "approval_mode": "independent_exact_request_automated_fixture_admin",
+      "customer_human_approval_tested": false,
+      "codex_native_cli_mcp_passed": false,
+      "deepseek_direct_native_turn_loop_passed": false,
+      "hermes_direct_native_prior_passed": true,
+      "source_base_revision": "8a94cfa",
+      "evidence": "docs/evidence/2026-10-12-harness/results.json"
+    }
+  },
+  "pending": [
+    {
+      "id": "MAC-01",
+      "platform": "macos",
+      "status": "latest_local_matrix_18_of_18_physical_hardware_pending",
+      "task": "Physical focus/window/display and cancellation/unknown-completion fault matrix",
+      "completed": [
+        "process_tree_cancel_timeout_session_close",
+        "worker_loss_unknown_no_replay",
+        "output_limits",
+        "window_geometry_pixels_ref_visibility_and_real_expiry",
+        "post_lock_session_revalidation",
+        "two_positive_pixel_checks",
+        "local_matrix_18_of_18",
+        "real_native_sqlite_audit_9_of_9"
+      ],
+      "remaining": [
+        "physical_lock_unlock",
+        "second_display_or_different_scale"
+      ],
+      "latest_evidence": "docs/evidence/2026-10-12-macos-completion/README.md"
+    },
+    {
+      "id": "MAC-NATIVE-02",
+      "platform": "macos",
+      "status": "failed_samples_recorded_needs_generic_fix_and_retest",
+      "task": "Disabled target zero-dispatch classification and edit commit/native .numbers save-close-reopen",
+      "evidence": "docs/evidence/2026-10-12-macos-completion/numbers-persistence-actor-diagnostics.json",
+      "remaining": [
+        "do_not_advertise_or_dispatch_disabled_actions",
+        "classify_known_predispatch_rejection_as_zero",
+        "verify_model_edit_commit_before_save",
+        "repeat_native_persistence_without_unknown_replay"
+      ]
+    },
+    {
+      "id": "CLIENT-01",
+      "platform": "macos_then_windows",
+      "status": "development_sample_passed_needs_customer_task",
+      "task": "Unadapted customer application task with disposable data and independent checks",
+      "development_evidence": "Numbers CSV/MCP history3/3; .numbers persistence history1/3 with CUA directory setup; current two samples failed before save with disabled targets and conservative unknown, not replayed.",
+      "remaining": [
+        "complete_two_more_local_persistence_samples",
+        "customer_application_task_and_judge"
+      ]
+    },
+    {
+      "id": "HARNESS-01",
+      "platform": "both",
+      "status": "development_selected_three_callers_complete_with_path_limits",
+      "task": "User-selected Codex/Hermes/DeepSeek developer integrations; customer deployment approval loop remains",
+      "development_evidence": "3/3 selected caller paths independently checked: current Codex MCP client bridge; current Hermes and DeepSeek MCP code.run -> delegated SDK native. All native/CSV checks, consumed approvals, completed jobs and audit/metrics pass.",
+      "completed": [
+        "three_user_selected_development_callers",
+        "glm_5_3_flash_route_from_existing_private_hermes_config",
+        "required_mcp_session_schema",
+        "independent_native_csv_approval_audit_checks"
+      ],
+      "remaining": [
+        "customer_environment_and_manual_approval_loop",
+        "business_quality_target_and_Harness_image_consumption"
+      ],
+      "known_limits": [
+        "codex_current_model_unsupported_by_bundled_cli_native_mcp",
+        "deepseek_direct_native_per_model_turn_observation_expiry",
+        "hermes_native_r7_business_completed_but_cli_exit_1",
+        "hermes_T09_wrong_owner",
+        "hermes_Preview_timeout",
+        "deepseek_Preview_turn_budget_and_unfinished_job"
+      ],
+      "evidence": "docs/evidence/2026-10-12-harness/README.md",
+      "autonomous_business_evidence": "docs/evidence/2026-10-12-macos-completion/README.md"
+    },
+    {
+      "id": "WIN-01",
+      "platform": "windows",
+      "status": "deferred_to_windows_environment",
+      "task": "Current runtime native/pixel/code/browser/transports/approval/audit acceptance"
+    },
+    {
+      "id": "RELEASE-01",
+      "platform": "both",
+      "status": "macos_progressed_dual_platform_acceptance_pending",
+      "task": "Freeze version, complete final customer and fault matrices, declare support scope",
+      "completed_macos": [
+        "local_matrix_and_visual",
+        "audit_reconciliation",
+        "cache_privacy_boundary",
+        "source_and_examples",
+        "current_source_locked_independent_wheel",
+        "full_automated_eval_records_with_failures"
+      ]
+    },
+    {
+      "id": "EVAL-00",
+      "platform": "macos_then_windows",
+      "status": "macos_automated_plan_executed_quality_and_external_items_pending",
+      "task": "Autonomous business evaluation strengthening: 12 frozen tasks / 3 callers, separate any-tool and GUI, stability, approval and runtime faults",
+      "plan": "docs/TEST-STRENGTHENING-PLAN.md",
+      "work_packages": "docs/progress/test-strengthening.json",
+      "business_attempts_planned_minimum": 72,
+      "business_attempts_completed": 72,
+      "replaces_existing_acceptance": false,
+      "evidence": "docs/evidence/2026-10-12-macos-completion/README.md",
+      "case_results_with_retests": 46,
+      "original_plan_case_results_recorded": 72,
+      "latest_selected_passed": 7,
+      "latest_selected_total": 12,
+      "remaining": [
+        "product_success_and_stability_targets_not_met",
+        "GUI_edit_commit_menu_and_save_workflows",
+        "disabled_target_zero_dispatch_status_and_two_numbers_persistence_samples",
+        "Harness_image_consumption_confirmation",
+        "GUI_T01_scope_feasibility_new_suite_revision",
+        "customer_app_data_if_claiming_customer_acceptance",
+        "user_available_for_three_real_human_approvals_and_unlock",
+        "additional_display_or_scale_if_claiming_those_environments",
+        "separate_windows_execution_environment"
+      ],
+      "latest_main_matrix": {
+        "passed": 26,
+        "total": 36
+      },
+      "latest_GUI_matrix": {
+        "passed": 0,
+        "total": 18
+      },
+      "latest_critical_three_samples": {
+        "passed": 17,
+        "total": 27
+      },
+      "historical_sdk_terminal_corrected_selected_matrix": {
+        "passed": 7,
+        "total": 12
+      }
+    }
+  ],
+  "harness_evidence": "docs/evidence/2026-10-12-harness/README.md",
+  "evaluation_plan": "docs/TEST-STRENGTHENING-PLAN.md",
+  "evaluation_work_packages": "docs/progress/test-strengthening.json",
+  "evaluation_evidence": "docs/evidence/2026-10-12-macos-completion/README.md",
+  "workflow_studio": {
+    "status": "macos_feature_delivered_background_native_verified",
+    "guide": "docs/WORKFLOW-STUDIO.md",
+    "evidence": "docs/evidence/2026-10-13-workflow-studio/README.md",
+    "format": "JSON: bokkio.runtime-workflow.v1",
+    "UX": [
+      "create",
+      "record",
+      "view",
+      "edit",
+      "reorder",
+      "version",
+      "archive",
+      "replay",
+      "run_history"
+    ],
+    "modes": [
+      "headed",
+      "headless_background_native_browser_code"
+    ],
+    "background_native": {
+      "passed": 5,
+      "total": 5,
+      "interactive_desktop_required": true,
+      "foreground_and_pointer_unchanged": true
+    },
+    "physical_OS_generated_record_replay": {
+      "passed": 5,
+      "total": 5,
+      "human_input": false
+    },
+    "runtime_integration": {
+      "passed": 9,
+      "total": 9
+    },
+    "regression_passed": 613,
+    "mcp_actual_verified": true,
+    "pending": [
+      "Windows manual listener and current platform acceptance",
+      "human/customer application demonstration",
+      "additional physical display/scaling"
+    ],
+    "business_matrix_retested_on_this_revision": false
+  },
+  "capability_modules": {
+    "status": "opt_in_contract_poc_delivered",
+    "plan": "docs/CAPABILITY-MODULE-PLAN.md",
+    "guide": "docs/CAPABILITY-MODULES.md",
+    "evidence": "docs/evidence/2026-10-13-capability-modules/README.md",
+    "registered_modules": [
+      "office.xlsx"
+    ],
+    "default_enabled": false,
+    "discovery_tools": [
+      "module.list",
+      "capability.list",
+      "capability.get"
+    ],
+    "invoke_tool": "capability.invoke",
+    "host_regression": {
+      "passed": 647,
+      "total": 647
+    },
+    "new_contract_tests": {
+      "passed": 34,
+      "total": 34
+    },
+    "controlled_file_comparison": {
+      "passed": 6,
+      "total": 6,
+      "autonomous_business": false,
+      "speed_or_token_improvement_demonstrated": false
+    },
+    "package_scope": "wheel_inclusion_and_extracted_import",
+    "native_refusal_status": "fixed_with_synthetic_backend_contract_live_numbers_retest_pending",
+    "acceptance_remaining": [
+      "Windows",
+      "customer_tasks",
+      "real_Numbers_commit_save",
+      "autonomous_Harness_benefit",
+      "legacy_Office_GUI_adapter_migration"
+    ],
+    "full_business_rerun": "still_paused_by_user"
+  }
+}

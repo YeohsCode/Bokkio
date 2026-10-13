@@ -3,6 +3,7 @@
   "windows": {},
   "paths": [],
   "origins": [],
+  "modules": [],
   "write": false,
   "trusted_host": false,
   "require_approval": true,

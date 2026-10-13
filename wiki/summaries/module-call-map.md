@@ -4,90 +4,85 @@ created: "2026-10-13"
 updated: "2026-10-13"
 type: "summary"
 tags: ["architecture", "runtime", "maintenance"]
-sources: ["src/bokkio/__init__.py", "src/bokkio/__main__.py", "src/bokkio/agent.py", "src/bokkio/arena.py", "src/bokkio/audit.py", "src/bokkio/browser_driver.py", "src/bokkio/cli.py", "src/bokkio/decision.py", "src/bokkio/desktop_input.py", "src/bokkio/executor.py", "src/bokkio/jev.py", "src/bokkio/macos_activation.py", "src/bokkio/macos_ax.py", "src/bokkio/macos_capture.py", "src/bokkio/mcp_server.py", "src/bokkio/model.py", "src/bokkio/office_benchmark.py", "src/bokkio/office_judge.py", "src/bokkio/office_runner.py", "src/bokkio/office_visual.py", "src/bokkio/planner.py", "src/bokkio/runtime.py", "src/bokkio/runtime_cli.py", "src/bokkio/scroll.py", "src/bokkio/sdk.py", "src/bokkio/selector.py", "src/bokkio/tool_schema.py", "src/bokkio/visual.py", "src/bokkio/visual_input.py", "src/bokkio/visual_runtime.py", "src/bokkio/windows_capture.py", "src/bokkio/windows_uia.py", "src/bokkio/workflow.py", "src/bokkio/workflow_inputs.py", "src/bokkio/workflow_repair.py", "src/bokkio/xa11y_backend.py", "src/bokkio/native/macos_capture.swift", "src/bokkio/native/macos_activate.swift", "pyproject.toml", "docs/RUNTIME-GUIDE.md"]
+sources: ["pyproject.toml", "src/bokkio/xa11y_backend.py", "src/bokkio/runtime.py", "src/bokkio/mcp_server.py", "src/bokkio/executor.py", "src/bokkio/capability_registry.py", "src/bokkio/runtime_workflow.py", "src/bokkio/model.py", "src/bokkio/cli.py", "src/bokkio/agent.py", "src/bokkio/decision.py", "src/bokkio/workflow.py", "src/bokkio/office_runner.py", "docs/RUNTIME-GUIDE.md"]
 confidence: "high"
 ---
 
 # 模块调用关系与完整代码地图
 
-本页依据 2026-10-13 工作树和提交基线核对；箭头表示实际调用/委派，跨进程边界显式标注。新 Core 与旧扩展分开阅读。^[src/bokkio/runtime.py#L368]
+本页描述当前工作树的调用与文件地图；功能分组见 [[summaries/architecture-map]]，新旧Workflow分别列出。^[src/bokkio/runtime.py#L390]
 
-## 当前 Core 模块调用图
+## 模块调用图
 
 ```mermaid
-flowchart LR
+flowchart TB
     Entry["MCP / CLI / SDK"] --> Call["Runtime.call"]
-    Call --> Check["schema / session / grants / approval"]
+    Call --> Check["Schema / Session / Grants / Approval"]
     Check --> Dispatch["Runtime._execute"]
-    Dispatch --> NT["单一原生线程 · _native_call"]
-    NT --> XA["Xa11yBackend.snapshot / perform"]
-    XA --> Win["WindowsUIA"]
-    XA --> Mac["MacAX"]
-    Dispatch --> Input["desktop_input.capture / activate / perform"]
-    Input --> WC["windows_capture.py"]
-    Input --> MC["macos_capture.py + Swift helper"]
-    Input --> MA["macos_activation.py + Swift helper"]
-    Dispatch --> EX["executor.launch / get / cancel"]
-    EX --> EW["executor.worker · 子进程"]
-    EW -.-> Client["sdk.Client.from_environment"]
-    Client --> Call
+    Call --> Audit["AuditStore<br/>Operations / Jobs / Approvals"]
+    Dispatch --> Registry["capability_registry<br/>Discover / Contract / Prepare"]
+    Registry --> Manifest["office_xlsx_contract.py<br/>只读元数据"]
+    Registry --> EX["executor.launch / get / cancel"]
+    Dispatch --> EX
+    EX --> EW["executor.worker<br/>脚本子进程 / 结构化结果"]
+    EW --> XLSX["modules.office_xlsx.main<br/>openpyxl / 源哈希 / 发布 / 读回"]
+    EW -.-> SDK["sdk.Client<br/>生成代码可选子动作"]
+    SDK --> Reentry["Runtime.call 子动作<br/>再次授权 / 审批 / 审计"]
+    Dispatch --> WF["RuntimeWorkflowRunner<br/>版本 / 子操作 / 检查点"]
+    WF --> SDK
+    Dispatch --> NT["_native_call<br/>专用原生线程"]
+    NT --> XA["Xa11yBackend"]
+    XA --> OS["MacAX / WindowsUIA"]
+    Dispatch --> Input["desktop_input<br/>capture / activate / perform"]
+    Input --> Capture["平台采集 / Swift / SendInput"]
     Dispatch --> BC["browser_driver.call"]
-    BC --> BW["browser_driver.worker · 本地 HTTP / token"]
-    BW --> PW["Playwright"]
-    Call <--> Audit["AuditStore · events / operations / approvals"]
+    BC --> BW["持久 Browser worker<br/>Playwright"]
     EW --> Audit
     BW --> Audit
 ```
 
-## 工具到实现的路由
+## 工具路由
 
-| 工具 | 实际调用链 | 状态/证据 |
+| 工具 | 实际调用链 | 结果与证据 |
 |---|---|---|
-| capabilities / session.open / session.close | 入口 → Runtime.call → _execute → AuditStore；开原生会话时调用 backend.apps 和 process_birth | 能力描述、授权绑定、会话状态 |
-| desktop.list | _execute → scope.bindings | 仅返回会话绑定应用 |
-| desktop.observe | _native_call → Xa11yBackend.snapshot → xa11y + 平台补充 → _observation / _artifact | 有界 nodes、完整 snapshot artifact、observation_id |
-| desktop.act | _get_observation → desktop_lock → _dispatch_scope → _native_call(perform) → Xa11yBackend.perform | snapshot digest、ref、读回与 verification |
-| desktop.activate | desktop_lock → _dispatch_scope → desktop_input.activate → Mac helper / Win32 | 精确窗口激活回执 |
-| desktop.capture | desktop_input.capture → 平台 capture_window → PNG → _artifact / _observation | 带身份/几何/时间的截图观察 |
-| desktop.pixel | _get_observation → desktop_lock → _dispatch_scope → desktop_input.perform → Swift input / SendInput | 坐标输入派发回执，业务结果需新观察 |
-| code.run / process.run | executor.launch → 新 Python worker → executor.worker → 脚本/argv 子进程 | queued + job_id；最终作业状态/输出 |
-| job.get / job.cancel | executor.get / cancel → SQLite；get 会核对 worker 身份并处理 worker_lost | job 终态；查询可能清理已丢失 worker 的子进程 |
-| browser.open / observe / act | desktop_lock → _dispatch_scope → browser_driver.call → loopback HTTP/token → worker → Playwright | 持久页面、URL、正文/字段；动作要求唯一 selector |
-| evidence.check / artifact.read | Runtime 文件/会话/预算检查 → 哈希/CSV 核验或读取 → artifact | 文件事实；MCP 图片使用 ImageContent |
-| audit.query / audit.export / events.follow / metrics.summary / approval.status | Runtime → AuditStore.query / export / stats / approvals | 会话范围事件、统计、审批、导出 artifact |
+| capabilities / session.open / session.close | Runtime → 能力描述／AuditStore；应用绑定使用backend.apps与process_birth | 能力入口、授权Session |
+| module.list / capability.list / capability.get | Runtime → capability_registry → office_xlsx_contract | 摘要、健康、完整合同与SHA256；无实现导入 |
+| capability.invoke | Runtime校验／审批 → registry.prepare → executor.launch → worker → office_xlsx.main | queued；job.get.result.output含模块核验与文件证据 |
+| workflow.list / workflow.get | Runtime → WorkflowLibrary | 获准版本库 |
+| workflow.run / workflow.resume / workflow.status / workflow.cancel | Runtime → RuntimeWorkflowRunner → sdk.Client.call → Core子操作 | run_id、检查点、审批、步骤回执 |
+| desktop.list / desktop.launch | Session bindings／app_launch → 精确安装身份 → 新PID绑定 | 获准应用和启动回执 |
+| desktop.observe / desktop.act | _native_call → Xa11yBackend → MacAX／WindowsUIA | 有界树、observation_id、ref、后置读回；明确拒绝带零派发事实 |
+| desktop.capture / desktop.activate / desktop.pixel | desktop_input → 平台采集／激活／输入 | 身份、几何、新鲜截图绑定 |
+| code.run / process.run | executor.launch → 独立worker／脚本子进程 | queued、作业输出、取消与超时 |
+| job.get / job.cancel | executor → SQLite／worker身份核对 | 终态、worker_lost、未知完成不重放 |
+| browser.open / observe / act | 桌面锁 → browser_driver → 持久worker → Playwright | 精确Origin、URL、selector |
+| evidence.check / artifact.read | Runtime → 文件范围／哈希／CSV或artifact读取 | 文件事实／MCP图片 |
+| audit.query / audit.export / events.follow / metrics.summary / approval.status | Runtime → AuditStore | Session范围日志、审批、查询统计 |
 
-路由依据：^[src/bokkio/runtime.py#L368] ^[src/bokkio/mcp_server.py#L39] ^[src/bokkio/executor.py#L79]
+依据：^[src/bokkio/runtime.py#L390] ^[src/bokkio/mcp_server.py#L19] ^[src/bokkio/executor.py#L148]
 
-## 新 Core 文件地图
+## 当前代码文件布局
 
-以下路径均相对仓库根目录；`src/bokkio/` 为模块目录。
-
-| 模块 | 直接协作 / 主要责任 |
+| 文件（相对src/bokkio） | 协作／职责 |
 |---|---|
-| runtime_cli.py | Runtime + AuditStore；call/serve 走 Core，approve/管理员日志命令直接访问本地 store |
-| mcp_server.py | Runtime + tool_schema；官方 MCP SDK stdio 工具发现、调用、结构化结果与图片 |
-| sdk.py | Runtime + AuditStore；普通客户端或 from_environment 委派会话，wait_job 轮询 |
-| runtime.py | tool_schema、audit、model、selector、xa11y_backend、desktop_input、executor、browser_driver；统一边界与分派 |
-| tool_schema.py | schema、工具说明、输入校验；由 MCP 与 Core 共用 |
-| audit.py | SQLite、文件、OS identity；会话/操作/审批/事件/产物与摘要导出、统计 |
-| executor.py | AuditStore + runtime.process_birth；worker/子进程生命周期、输出/超时/取消与父子操作关联 |
-| browser_driver.py | AuditStore + Playwright；每会话本地 HTTP worker、origin/URL/selector 验证 |
-| desktop_input.py | capture/activation + 平台输入；跨进程锁、输入会话检查、图像身份和坐标 |
-| xa11y_backend.py | xa11y、model、selector、scroll、WindowsUIA / MacAX；统一树、ref、能力和动作读回 |
-| model.py | 通用错误、RefResolver、stable_hash、tree_digest、元素规范化；为原生/决策/视觉等共享 |
-| selector.py | 树 flatten / 语义查找 / ref 解析；调用方无需持有 OS 对象指针 |
-| scroll.py | model + selector；滚动计划和位置/内容观察 |
-| windows_uia.py | comtypes UIA + Win32；Value/Scroll/Selection/Invoke 等补充及经典字段提交 |
-| macos_ax.py | ctypes AX/CoreFoundation + model/selector；能力/属性/菜单补充及有界动作 |
-| windows_capture.py | Win32/DPI/GDI；窗口身份、客户区 PNG 与 CaptureError |
-| macos_capture.py | native/macos_capture.swift 编译/调用；窗口 PNG、几何、时间和可选 Vision OCR |
-| macos_activation.py | native/macos_activate.swift；精确窗口前台/进程身份检查 |
-| native/macos_capture.swift | ScreenCaptureKit / Vision / 原生事件；capture/OCR/受约束输入 helper |
-| native/macos_activate.swift | NSRunningApplication / AX；激活并核验目标窗口 |
+| mcp_server.py / runtime_cli.py / sdk.py / tool_schema.py | 三入口和公共参数合同 |
+| runtime.py / audit.py | 会话、授权、精确审批、幂等、分派、SQLite与证据 |
+| capability_registry.py | 静态注册、渐进发现、健康、合同绑定和作业准备 |
+| modules/__init__.py / modules/office_xlsx_contract.py / modules/office_xlsx.py | 可选模块包、只读元数据、openpyxl文件实现与独立核验 |
+| workflow_studio.py / studio/app.js / studio/index.html / studio/studio.css | 本机管理UX／版本／运行记录 |
+| manual_recording.py / native/macos_record.swift | 被动录制与文本读回，未识别手势待审阅 |
+| runtime_workflow.py / app_launch.py | JSON版本库、精确启动／PID重绑、子操作与检查点 |
+| executor.py / browser_driver.py | 代码／进程及Browser worker、作业生命周期 |
+| desktop_input.py | 桌面锁、截图／激活／像素输入 |
+| xa11y_backend.py / macos_ax.py / windows_uia.py | 原生树、能力与动作传输 |
+| model.py / selector.py / scroll.py | 通用错误与派发事实、元素身份、查找和滚动 |
+| windows_capture.py / macos_capture.py / macos_activation.py | 平台采集与激活 |
+| native/macos_capture.swift / native/macos_activate.swift | Mac原生助手 |
 
-入口和公共支持依据：^[pyproject.toml#L12] ^[src/bokkio/xa11y_backend.py#L55] ^[src/bokkio/desktop_input.py#L93]
+依据：^[src/bokkio/capability_registry.py#L55] ^[src/bokkio/runtime_workflow.py#L133] ^[src/bokkio/model.py#L31]
 
 ## 旧扩展、业务适配与评测地图
+
 
 | 模块 / 目录 | 直接协作 / 主要责任 |
 |---|---|

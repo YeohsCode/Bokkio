@@ -1,0 +1,223 @@
+---
+source_path: src/bokkio/desktop_input.py
+source_version: 78c3289a42369aa5c0eb276e2092dece83b6b7e6
+ingested: 2026-10-13
+sha256: 0f94fbafb87f54ba1373f3f0fea00ae8dde9421a8a7b2bd9f9f161348f8e308a
+---
+
+"""Window-bound pixel input; no OCR label or application-specific recipe required."""
+from __future__ import annotations
+
+from contextlib import contextmanager
+import ctypes as c
+import hashlib
+import json
+import math
+import os
+from pathlib import Path
+import subprocess
+import sys
+import struct
+import time
+
+from .windows_capture import CaptureError
+
+
+def require_input_session():
+    """Check the active desktop without prompting for additional permissions."""
+    if sys.platform == "darwin":
+        app = c.CDLL('/System/Library/Frameworks/ApplicationServices.framework/ApplicationServices')
+        cf = c.CDLL('/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation')
+        ptr = c.c_void_p
+        app.CGSessionCopyCurrentDictionary.restype = ptr
+        cf.CFStringCreateWithCString.argtypes, cf.CFStringCreateWithCString.restype = [ptr, c.c_char_p, c.c_uint], ptr
+        cf.CFDictionaryGetValue.argtypes, cf.CFDictionaryGetValue.restype = [ptr, ptr], ptr
+        cf.CFBooleanGetValue.argtypes, cf.CFBooleanGetValue.restype = [ptr], c.c_bool
+        cf.CFGetTypeID.argtypes, cf.CFGetTypeID.restype = [ptr], c.c_ulong
+        cf.CFBooleanGetTypeID.restype = c.c_ulong
+        cf.CFRelease.argtypes = [ptr]
+        session = app.CGSessionCopyCurrentDictionary()
+        if not session:
+            raise CaptureError("input_desktop_unavailable", "Interactive Mac session is unavailable", dispatched=0)
+        key = cf.CFStringCreateWithCString(None, b'CGSSessionScreenIsLocked', 0x08000100)
+        try:
+            value = cf.CFDictionaryGetValue(session, key)
+            if value and (cf.CFGetTypeID(value) != cf.CFBooleanGetTypeID() or cf.CFBooleanGetValue(value)):
+                raise CaptureError("input_desktop_unavailable", "Mac screen is locked", dispatched=0)
+        finally:
+            cf.CFRelease(key)
+            cf.CFRelease(session)
+    elif sys.platform == "win32":
+        from ctypes import wintypes as w
+        user = c.WinDLL("user32", use_last_error=True)
+        user.OpenInputDesktop.argtypes, user.OpenInputDesktop.restype = [w.DWORD, w.BOOL, w.DWORD], w.HANDLE
+        user.CloseDesktop.argtypes = [w.HANDLE]
+        user.GetUserObjectInformationW.argtypes = [w.HANDLE, c.c_int, w.LPVOID, w.DWORD, c.POINTER(w.DWORD)]
+        desktop = user.OpenInputDesktop(0, False, 1)
+        if not desktop:
+            raise CaptureError("input_desktop_unavailable", "Normal Windows input desktop is unavailable", dispatched=0)
+        try:
+            name, needed = c.create_unicode_buffer(256), w.DWORD()
+            if not user.GetUserObjectInformationW(desktop, 2, name, c.sizeof(name), c.byref(needed)) or name.value != "Default":
+                raise CaptureError("input_desktop_unavailable", "Normal Windows input desktop is unavailable", dispatched=0)
+        finally:
+            user.CloseDesktop(desktop)
+
+
+@contextmanager
+def desktop_lock(timeout=5):
+    root = Path(os.environ.get("LOCALAPPDATA", Path.home())) / ".bokkio"
+    root.mkdir(parents=True, exist_ok=True, mode=0o700)
+    with (root / "desktop.lock").open("a+b") as lock:
+        if lock.seek(0, os.SEEK_END) == 0:
+            lock.write(b"0")
+            lock.flush()
+        deadline = time.monotonic() + timeout
+        while True:
+            try:
+                if os.name == "nt":
+                    import msvcrt
+                    lock.seek(0)
+                    msvcrt.locking(lock.fileno(), msvcrt.LK_NBLCK, 1)
+                else:
+                    import fcntl
+                    fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                break
+            except (OSError, BlockingIOError):
+                if time.monotonic() >= deadline:
+                    raise CaptureError("desktop_busy", "Another Bokkio operation holds desktop input", dispatched=0)
+                time.sleep(.05)
+        try:
+            yield
+        finally:
+            if os.name == "nt":
+                lock.seek(0)
+                msvcrt.locking(lock.fileno(), msvcrt.LK_UNLCK, 1)
+            else:
+                fcntl.flock(lock, fcntl.LOCK_UN)
+
+
+def capture(pid, window_id=None, title=None):
+    if sys.platform == "darwin":
+        from .macos_capture import capture_window
+        return capture_window(pid, window_id=window_id, title=title)
+    from .windows_capture import capture_window
+    return capture_window(pid, window_id)
+
+
+def activate(pid, title, window_id=None):
+    if sys.platform == "darwin":
+        from .macos_activation import activate_window
+        return activate_window(pid, title)
+    if sys.platform != "win32":
+        raise CaptureError("unsupported_platform", "Activation needs Windows or macOS", dispatched=0)
+    from ctypes import wintypes as w
+    from .windows_capture import capture_window
+    metadata, _ = capture_window(pid, window_id)
+    if metadata.get("window_title") != title:
+        raise CaptureError("scope_mismatch", "Window title differs from activation grant", dispatched=0)
+    user = c.WinDLL("user32", use_last_error=True)
+    user.SetForegroundWindow.argtypes, user.SetForegroundWindow.restype = [w.HWND], w.BOOL
+    user.GetForegroundWindow.restype = w.HWND
+    if not user.SetForegroundWindow(metadata["hwnd"]) or user.GetForegroundWindow() != metadata["hwnd"]:
+        raise CaptureError("activation_unconfirmed", "Windows foreground activation refused", dispatched="unknown")
+    return {"status": "activated", "pid": pid, "hwnd": metadata["hwnd"], "foreground_confirmed": True}
+
+
+def perform(metadata, png, action, x, y, value=None):
+    # Pixel input must also work without an OCR engine or text labels.
+    if (metadata.get("schema") != "bokkio.window_capture.v1" or metadata.get("platform") not in {"macos", "windows"}
+            or type(metadata.get("pid")) is not int or metadata["pid"] <= 0
+            or any(type(metadata.get(k)) is not int or metadata[k] <= 0 for k in ("width", "height"))
+            or len(png) < 24 or png[:8] != b"\x89PNG\r\n\x1a\n"
+            or struct.unpack(">II", png[16:24]) != (metadata["width"], metadata["height"])
+            or hashlib.sha256(png).hexdigest() != metadata.get("image_sha256")):
+        raise CaptureError("invalid_capture", "Pixel capture identity/bytes invalid", dispatched=0)
+    captured = metadata.get("captured_at_unix_ns")
+    if type(captured) is not int or not 0 <= time.time_ns() - captured <= 15000000000:
+        raise CaptureError("capture_stale", "Pixel observation expired", dispatched=0)
+    if action not in {"click", "type"}:
+        raise CaptureError("invalid_action", "Pixel input supports click and type", dispatched=0)
+    if any(type(v) not in {int, float} or not math.isfinite(v) for v in (x, y)) or not (0 <= x < metadata["width"] and 0 <= y < metadata["height"]):
+        raise CaptureError("invalid_coordinates", "Point outside observation pixels", dispatched=0)
+    if action == "type" and (not isinstance(value, str) or not value or len(value.encode("utf-16-le")) > 2000 or any(ord(ch) < 32 for ch in value)):
+        raise CaptureError("invalid_input", "Type needs bounded literal text", dispatched=0)
+    if sys.platform == "darwin":
+        from .macos_capture import _helper
+        rect = metadata["content_rect"]
+        request = {"operation": "input", "pid": metadata["pid"], "window_id": metadata["window_id"],
+                   "output": "unused", "expected_birth": metadata["process_started_seconds_microseconds"],
+                   "expected_content_rect": rect, "expected_window_bounds": metadata["window_bounds"],
+                   "image_sha256": metadata["image_sha256"], "captured_at_unix_ns": metadata["captured_at_unix_ns"],
+                   "point": {"x": rect["x"] + x * rect["width"] / metadata["width"],
+                             "y": rect["y"] + y * rect["height"] / metadata["height"]},
+                   "action": action, "text": value or ""}
+        try:
+            output = subprocess.run([str(_helper())], input=json.dumps(request).encode(), capture_output=True, timeout=15)
+            result = json.loads(output.stdout)
+        except (OSError, subprocess.TimeoutExpired, ValueError) as error:
+            raise CaptureError("completion_unknown", "Pixel input receipt unavailable", dispatched="unknown") from error
+        if "error" in result:
+            raise CaptureError(result["error"], result["message"], **result.get("details", {}))
+        if output.returncode or result.get("dispatched") is not True:
+            raise CaptureError("completion_unknown", "Invalid pixel receipt", dispatched="unknown")
+        return result
+    if sys.platform != "win32":
+        raise CaptureError("unsupported_platform", "Desktop input needs Windows or macOS", dispatched=0)
+    return _windows(metadata, action, x, y, value)
+
+
+def _windows(metadata, action, x, y, value):
+    from ctypes import wintypes as w
+    user = c.WinDLL("user32", use_last_error=True)
+    user.SetThreadDpiAwarenessContext.argtypes, user.SetThreadDpiAwarenessContext.restype = [w.HANDLE], w.HANDLE
+    previous = user.SetThreadDpiAwarenessContext(w.HANDLE(-4))
+    if not previous:
+        raise CaptureError("dpi_unavailable", "Could not bind physical input coordinates", dispatched=0)
+    try:
+        return _windows_native(metadata, action, x, y, value)
+    finally:
+        user.SetThreadDpiAwarenessContext(previous)
+
+
+def _windows_native(metadata, action, x, y, value):
+    from ctypes import wintypes as w
+    fresh, _ = capture(metadata["pid"], metadata["hwnd"])
+    for key in ("pid", "hwnd", "process_created_filetime", "window_bounds", "client_screen_origin", "window_dpi", "image_sha256"):
+        if metadata[key] != fresh[key]:
+            raise CaptureError("stale_observation", "Window identity/geometry changed", dispatched=0)
+    user = c.WinDLL("user32", use_last_error=True)
+    user.GetForegroundWindow.restype = w.HWND
+    user.GetAncestor.argtypes, user.GetAncestor.restype = [w.HWND, w.UINT], w.HWND
+    user.WindowFromPoint.argtypes, user.WindowFromPoint.restype = [w.POINT], w.HWND
+    if user.GetForegroundWindow() != metadata["hwnd"]:
+        raise CaptureError("foreground_changed", "Authorized window must be foreground", dispatched=0)
+    point = w.POINT(round(fresh["client_screen_origin"]["x"] + x), round(fresh["client_screen_origin"]["y"] + y))
+    if user.GetAncestor(user.WindowFromPoint(point), 2) != metadata["hwnd"]:
+        raise CaptureError("window_occluded", "Input point is covered by another window", dispatched=0)
+    # Structures use pointer-sized fields on both Windows x64 and ARM64.
+    class Mouse(c.Structure):
+        _fields_ = [("dx", w.LONG), ("dy", w.LONG), ("data", w.DWORD), ("flags", w.DWORD), ("time", w.DWORD), ("extra", c.c_size_t)]
+    class Keyboard(c.Structure):
+        _fields_ = [("vk", w.WORD), ("scan", w.WORD), ("flags", w.DWORD), ("time", w.DWORD), ("extra", c.c_size_t)]
+    class Union(c.Union):
+        _fields_ = [("mouse", Mouse), ("keyboard", Keyboard)]
+    class Input(c.Structure):
+        _fields_ = [("type", w.DWORD), ("data", Union)]
+    user.SendInput.argtypes, user.SendInput.restype = [w.UINT, c.POINTER(Input), c.c_int], w.UINT
+    user.SetCursorPos.argtypes, user.SetCursorPos.restype = [c.c_int, c.c_int], w.BOOL
+    if not user.SetCursorPos(point.x, point.y):
+        raise CaptureError("input_failed", "Could not position pointer", dispatched=0)
+    if user.GetForegroundWindow() != metadata["hwnd"] or user.GetAncestor(user.WindowFromPoint(point), 2) != metadata["hwnd"]:
+        raise CaptureError("foreground_changed", "Window changed before dispatch", dispatched=0)
+    events = [Input(0, Union(mouse=Mouse(0, 0, 0, flag, 0, 0))) for flag in (2, 4)]
+    if action == "type":
+        encoded = value.encode("utf-16-le")
+        for offset in range(0, len(encoded), 2):
+            unit = int.from_bytes(encoded[offset:offset+2], "little")
+            events.extend(Input(1, Union(keyboard=Keyboard(0, unit, flag, 0, 0))) for flag in (4, 6))
+    array = (Input * len(events))(*events)
+    count = user.SendInput(len(events), array, c.sizeof(Input))
+    if count != len(events):
+        raise CaptureError("completion_unknown", "Partial Windows input; inspect before retry", dispatched=count)
+    return {"status": "posted_unverified", "dispatched": True, "input_events": count, "pid": metadata["pid"], "hwnd": metadata["hwnd"]}

@@ -88,4 +88,6 @@ GUI 用 `--track gui`，专属新 PID 等待系统注册；只授权该进程的
 
 ## Workflow 新入口接续
 
+能力模块接续：先阅读 [保存计划](../CAPABILITY-MODULE-PLAN.md)、[用法](../CAPABILITY-MODULES.md) 和 [报告](../evidence/2026-10-13-capability-modules/README.md)。默认 modules=[]，office.xlsx 要显式安装 office extra／授予模块与原有代码权限；同 operation ID 查回既有作业，不自动切换实现。最新完整隔离回归647/647和文件对照6/6不替代自主业务／GUI／Windows验收。继续真实Numbers任务时仍需核验提交与保存；本轮仅修复了backend拒绝分类。
+
 读取 docs/WORKFLOW-STUDIO.md 和 fixtures/workflow-recording/suite.json。新模块为 runtime_workflow、manual_recording、workflow_studio、app_launch；录制器源为 native/macos_record.swift。运行 `uv run bokkio-runtime studio` 进入本机 UX；保存 Workflow 与运行数据默认同 Runtime state。实机脚本为 verify_workflow_recording、verify_manual_recording、verify_physical_recording、verify_workflow_mcp，均仅使用自有 Lab 数据；不要拿保存的 PID 或屏幕坐标当作跨进程身份。Windows 尚需监听器和本平台实测，不能用 macOS 生成事件分数填 Windows 验收。

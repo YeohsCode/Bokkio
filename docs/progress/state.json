@@ -16,7 +16,7 @@
       "development_capability_categories_passed": 4,
       "total_categories": 5,
       "customer_acceptance_complete": false,
-      "host_tests_passed": 613,
+      "host_tests_passed": 647,
       "fault_matrix": {
         "passed": 18,
         "total": 18,
@@ -321,5 +321,45 @@
       "additional physical display/scaling"
     ],
     "business_matrix_retested_on_this_revision": false
+  },
+  "capability_modules": {
+    "status": "opt_in_contract_poc_delivered",
+    "plan": "docs/CAPABILITY-MODULE-PLAN.md",
+    "guide": "docs/CAPABILITY-MODULES.md",
+    "evidence": "docs/evidence/2026-10-13-capability-modules/README.md",
+    "registered_modules": [
+      "office.xlsx"
+    ],
+    "default_enabled": false,
+    "discovery_tools": [
+      "module.list",
+      "capability.list",
+      "capability.get"
+    ],
+    "invoke_tool": "capability.invoke",
+    "host_regression": {
+      "passed": 647,
+      "total": 647
+    },
+    "new_contract_tests": {
+      "passed": 34,
+      "total": 34
+    },
+    "controlled_file_comparison": {
+      "passed": 6,
+      "total": 6,
+      "autonomous_business": false,
+      "speed_or_token_improvement_demonstrated": false
+    },
+    "package_scope": "wheel_inclusion_and_extracted_import",
+    "native_refusal_status": "fixed_with_synthetic_backend_contract_live_numbers_retest_pending",
+    "acceptance_remaining": [
+      "Windows",
+      "customer_tasks",
+      "real_Numbers_commit_save",
+      "autonomous_Harness_benefit",
+      "legacy_Office_GUI_adapter_migration"
+    ],
+    "full_business_rerun": "still_paused_by_user"
   }
 }

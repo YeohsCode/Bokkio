@@ -1,0 +1,47 @@
+{
+  "scope": "isolated_regression_and_synthetic_native_provider_not_live_GUI",
+  "passed": 647,
+  "failed": 0,
+  "errors": 0,
+  "skipped": 0,
+  "new_contract_tests": {
+    "tests.test_action_dispatch_facts": 4,
+    "tests.test_capability_modules": 30
+  },
+  "command": ".venv/bin/python -m pytest -q --junitxml=PRIVATE_OUTPUT",
+  "attempts": [
+    {
+      "stage": "initial_sandbox",
+      "passed": 11,
+      "failed": 3,
+      "notes": [
+        "ps blocked by sandbox",
+        "unknown capability initially classified failed after claim"
+      ]
+    },
+    {
+      "stage": "first_escalated",
+      "passed": 56,
+      "failed": 2,
+      "notes": [
+        "unknown capability validation moved before claim",
+        "CLI test corrected from --arguments to existing --args"
+      ]
+    },
+    {
+      "stage": "targeted",
+      "passed": 91,
+      "failed": 0
+    },
+    {
+      "stage": "first_full",
+      "passed": 645,
+      "failed": 0
+    },
+    {
+      "stage": "final_full",
+      "passed": 647,
+      "failed": 0
+    }
+  ]
+}

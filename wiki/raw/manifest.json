@@ -2,7 +2,7 @@
   "schema": "bokkio.wiki.sources.v1",
   "created": "2026-10-08",
   "basis_commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d",
-  "source_count": 157,
+  "source_count": 198,
   "records": [
     {
       "path": "README.md",
@@ -1217,8 +1217,336 @@
       "bytes": 57782,
       "commit": null,
       "version": "working-tree-current-runtime-final"
+    },
+    {
+      "path": "README.md",
+      "snapshot": "raw/source-snapshots/capability-workflow/README.md.txt",
+      "sha256": "8c629108f9e7292eba252ef88bf8bda20e7707c589964e06b9e763c725b06828",
+      "bytes": 63008,
+      "commit": null,
+      "version": "working-tree-capability-workflow"
+    },
+    {
+      "path": "docs/CAPABILITY-MODULE-PLAN.md",
+      "snapshot": "raw/source-snapshots/capability-workflow/docs/CAPABILITY-MODULE-PLAN.md.txt",
+      "sha256": "440e500df8a1188f0e08b60b0fe5cd0b38ed416935f35cad1a5ada3f41681ccc",
+      "bytes": 3718,
+      "commit": null,
+      "version": "working-tree-capability-workflow"
+    },
+    {
+      "path": "docs/CAPABILITY-MODULES.md",
+      "snapshot": "raw/source-snapshots/capability-workflow/docs/CAPABILITY-MODULES.md.txt",
+      "sha256": "d59f4f255c00fbc5106ce3ce4ac3ba94593fa59f333f2709a3391a1a254d576c",
+      "bytes": 7544,
+      "commit": null,
+      "version": "working-tree-capability-workflow"
+    },
+    {
+      "path": "docs/RUNTIME-GUIDE.md",
+      "snapshot": "raw/source-snapshots/capability-workflow/docs/RUNTIME-GUIDE.md.txt",
+      "sha256": "64a4e54af64884a3ff1535e32e79012d3f918e36f6788e93a495a1ec7d7d72d6",
+      "bytes": 13331,
+      "commit": null,
+      "version": "working-tree-capability-workflow"
+    },
+    {
+      "path": "docs/WORKFLOW-STUDIO.md",
+      "snapshot": "raw/source-snapshots/capability-workflow/docs/WORKFLOW-STUDIO.md.txt",
+      "sha256": "9c73b9cad0987120b00389582f7b55b3f4df73ea18d760e1af00074b791b9234",
+      "bytes": 8378,
+      "commit": "78c3289a42369aa5c0eb276e2092dece83b6b7e6",
+      "version": "capability-workflow"
+    },
+    {
+      "path": "docs/evidence/2026-10-13-capability-modules/README.md",
+      "snapshot": "raw/source-snapshots/capability-workflow/docs/evidence/2026-10-13-capability-modules/README.md.txt",
+      "sha256": "a6472603af6171657b4eeff072d86813b22d77a7c3cedfdb4d9576cef1236733",
+      "bytes": 3950,
+      "commit": null,
+      "version": "working-tree-capability-workflow"
+    },
+    {
+      "path": "docs/evidence/2026-10-13-capability-modules/SHA256SUMS",
+      "snapshot": "raw/source-snapshots/capability-workflow/docs/evidence/2026-10-13-capability-modules/SHA256SUMS.txt",
+      "sha256": "ceeeca20a61e851e1e2b0b4e6c0555511361aa22e19807023f478e1eb3ee06fb",
+      "bytes": 415,
+      "commit": null,
+      "version": "working-tree-capability-workflow"
+    },
+    {
+      "path": "docs/evidence/2026-10-13-capability-modules/comparison-final.json",
+      "snapshot": "raw/source-snapshots/capability-workflow/docs/evidence/2026-10-13-capability-modules/comparison-final.json.txt",
+      "sha256": "482173e6fe539546e41cae029049d2c5f0932482e982d1478745224c1b5d2d2a",
+      "bytes": 3698,
+      "commit": null,
+      "version": "working-tree-capability-workflow"
+    },
+    {
+      "path": "docs/evidence/2026-10-13-capability-modules/comparison-initial.json",
+      "snapshot": "raw/source-snapshots/capability-workflow/docs/evidence/2026-10-13-capability-modules/comparison-initial.json.txt",
+      "sha256": "f235608e883e7a5503f0950cc64ea48b175e1ebdf4045cea15f833ed13678558",
+      "bytes": 2632,
+      "commit": null,
+      "version": "working-tree-capability-workflow"
+    },
+    {
+      "path": "docs/evidence/2026-10-13-capability-modules/package.json",
+      "snapshot": "raw/source-snapshots/capability-workflow/docs/evidence/2026-10-13-capability-modules/package.json.txt",
+      "sha256": "4661904a00ca4107a3dbc01a1cec69980d5eb0e81f5db3d4d1de0397eaf60fbb",
+      "bytes": 356,
+      "commit": null,
+      "version": "working-tree-capability-workflow"
+    },
+    {
+      "path": "docs/evidence/2026-10-13-capability-modules/regression.json",
+      "snapshot": "raw/source-snapshots/capability-workflow/docs/evidence/2026-10-13-capability-modules/regression.json.txt",
+      "sha256": "513c2013cfd7cf871a1338fbb232d3bd9b14bf2c7cba518def9dc7267dc2a83b",
+      "bytes": 1038,
+      "commit": null,
+      "version": "working-tree-capability-workflow"
+    },
+    {
+      "path": "docs/progress/STATUS.md",
+      "snapshot": "raw/source-snapshots/capability-workflow/docs/progress/STATUS.md.txt",
+      "sha256": "f4b879c2eb782d95662fede7f33c09b999035efeb9d3d1753881bc1b68fb9d25",
+      "bytes": 6787,
+      "commit": null,
+      "version": "working-tree-capability-workflow"
+    },
+    {
+      "path": "docs/progress/state.json",
+      "snapshot": "raw/source-snapshots/capability-workflow/docs/progress/state.json.txt",
+      "sha256": "03f77abb19684edf56c0915fb618fb816a85d8000700d32f9520494169fc255f",
+      "bytes": 13065,
+      "commit": null,
+      "version": "working-tree-capability-workflow"
+    },
+    {
+      "path": "pyproject.toml",
+      "snapshot": "raw/source-snapshots/capability-workflow/pyproject.toml.txt",
+      "sha256": "9ef7d099f1835726824927aa996451923c228625fb6c41e954924ffe7f3d2491",
+      "bytes": 976,
+      "commit": null,
+      "version": "working-tree-capability-workflow"
+    },
+    {
+      "path": "scripts/validate_wiki.py",
+      "snapshot": "raw/source-snapshots/capability-workflow/scripts/validate_wiki.py.txt",
+      "sha256": "272fdde02a0a5cf284feff9306ea0c6942c426870040147de06e783c66f5b5d4",
+      "bytes": 7367,
+      "commit": null,
+      "version": "working-tree-capability-workflow"
+    },
+    {
+      "path": "scripts/verify_capability_modules.py",
+      "snapshot": "raw/source-snapshots/capability-workflow/scripts/verify_capability_modules.py.txt",
+      "sha256": "cd442c006af20c635ea3164b8e7a903a00689cfb0a95691db97a04b36816bb6c",
+      "bytes": 6039,
+      "commit": null,
+      "version": "working-tree-capability-workflow"
+    },
+    {
+      "path": "src/bokkio/agent.py",
+      "snapshot": "raw/source-snapshots/capability-workflow/src/bokkio/agent.py.txt",
+      "sha256": "4b4b4bd34579a8e011758138e7992aca59a3a764bf49dae29bebca950866b364",
+      "bytes": 50392,
+      "commit": "78c3289a42369aa5c0eb276e2092dece83b6b7e6",
+      "version": "capability-workflow"
+    },
+    {
+      "path": "src/bokkio/app_launch.py",
+      "snapshot": "raw/source-snapshots/capability-workflow/src/bokkio/app_launch.py.txt",
+      "sha256": "1bde44dd49e88218cad92a90b7cade6acf6af886767315b2f46b9b86fd870c1e",
+      "bytes": 5631,
+      "commit": "78c3289a42369aa5c0eb276e2092dece83b6b7e6",
+      "version": "capability-workflow"
+    },
+    {
+      "path": "src/bokkio/audit.py",
+      "snapshot": "raw/source-snapshots/capability-workflow/src/bokkio/audit.py.txt",
+      "sha256": "7cf20c52a4d6427586b763c4cf4791f0f76a73c8f6354910eab1a1d785f8aff4",
+      "bytes": 11490,
+      "commit": "78c3289a42369aa5c0eb276e2092dece83b6b7e6",
+      "version": "capability-workflow"
+    },
+    {
+      "path": "src/bokkio/capability_registry.py",
+      "snapshot": "raw/source-snapshots/capability-workflow/src/bokkio/capability_registry.py.txt",
+      "sha256": "a3f99c49e02b5afac7dcc8e832975716e677b3dc49b5faa34beb9767805a936e",
+      "bytes": 4813,
+      "commit": null,
+      "version": "working-tree-capability-workflow"
+    },
+    {
+      "path": "src/bokkio/cli.py",
+      "snapshot": "raw/source-snapshots/capability-workflow/src/bokkio/cli.py.txt",
+      "sha256": "2d510c07bbbbb1cfd90acc255b9dd71808ef263dda4756401d410cc6bd3920f5",
+      "bytes": 19720,
+      "commit": "78c3289a42369aa5c0eb276e2092dece83b6b7e6",
+      "version": "capability-workflow"
+    },
+    {
+      "path": "src/bokkio/decision.py",
+      "snapshot": "raw/source-snapshots/capability-workflow/src/bokkio/decision.py.txt",
+      "sha256": "fc860175c56f4d7385ff0d058e7dc0b18ffa3776f824f781905cec558b5491de",
+      "bytes": 38603,
+      "commit": "78c3289a42369aa5c0eb276e2092dece83b6b7e6",
+      "version": "capability-workflow"
+    },
+    {
+      "path": "src/bokkio/desktop_input.py",
+      "snapshot": "raw/source-snapshots/capability-workflow/src/bokkio/desktop_input.py.txt",
+      "sha256": "0f94fbafb87f54ba1373f3f0fea00ae8dde9421a8a7b2bd9f9f161348f8e308a",
+      "bytes": 12317,
+      "commit": "78c3289a42369aa5c0eb276e2092dece83b6b7e6",
+      "version": "capability-workflow"
+    },
+    {
+      "path": "src/bokkio/executor.py",
+      "snapshot": "raw/source-snapshots/capability-workflow/src/bokkio/executor.py.txt",
+      "sha256": "afee7046cfca4acc643aeae72460b877394e8a46fac5ac513cd8149a5748f06d",
+      "bytes": 15196,
+      "commit": null,
+      "version": "working-tree-capability-workflow"
+    },
+    {
+      "path": "src/bokkio/manual_recording.py",
+      "snapshot": "raw/source-snapshots/capability-workflow/src/bokkio/manual_recording.py.txt",
+      "sha256": "d7aa893f5f5cc41c150003cc88b296754bd67dd3bdc4c6d24c84ecd38dc8a418",
+      "bytes": 6693,
+      "commit": "78c3289a42369aa5c0eb276e2092dece83b6b7e6",
+      "version": "capability-workflow"
+    },
+    {
+      "path": "src/bokkio/mcp_server.py",
+      "snapshot": "raw/source-snapshots/capability-workflow/src/bokkio/mcp_server.py.txt",
+      "sha256": "63a24f87c9498e488c7c087d74ff9d4dff3e989f376555ecd0be030ab345f868",
+      "bytes": 2728,
+      "commit": "78c3289a42369aa5c0eb276e2092dece83b6b7e6",
+      "version": "capability-workflow"
+    },
+    {
+      "path": "src/bokkio/model.py",
+      "snapshot": "raw/source-snapshots/capability-workflow/src/bokkio/model.py.txt",
+      "sha256": "2753b17ebec0b27145521c6e4268ea5f4e153d8baa37d6a9204a363e1a17d035",
+      "bytes": 5082,
+      "commit": null,
+      "version": "working-tree-capability-workflow"
+    },
+    {
+      "path": "src/bokkio/modules/office_xlsx.py",
+      "snapshot": "raw/source-snapshots/capability-workflow/src/bokkio/modules/office_xlsx.py.txt",
+      "sha256": "1a61a1b1e3e49d90d719cfc4e79df9a7f1210bb0fec7b1fa4ade0e0ffbd8cfa9",
+      "bytes": 9795,
+      "commit": null,
+      "version": "working-tree-capability-workflow"
+    },
+    {
+      "path": "src/bokkio/modules/office_xlsx_contract.py",
+      "snapshot": "raw/source-snapshots/capability-workflow/src/bokkio/modules/office_xlsx_contract.py.txt",
+      "sha256": "20f49b17c2996df52d59f6409f51bd885deefdffed4d0fa95b88ee61d0249997",
+      "bytes": 2747,
+      "commit": null,
+      "version": "working-tree-capability-workflow"
+    },
+    {
+      "path": "src/bokkio/native/macos_record.swift",
+      "snapshot": "raw/source-snapshots/capability-workflow/src/bokkio/native/macos_record.swift.txt",
+      "sha256": "ae97eb9e4dc05e2b1b8fde4e1026914fe2de5ece89ecf7b5f2345d86f0782c87",
+      "bytes": 9177,
+      "commit": "78c3289a42369aa5c0eb276e2092dece83b6b7e6",
+      "version": "capability-workflow"
+    },
+    {
+      "path": "src/bokkio/office_runner.py",
+      "snapshot": "raw/source-snapshots/capability-workflow/src/bokkio/office_runner.py.txt",
+      "sha256": "e657cb73d336c4e9599bf98d082234024fba09951a7411a6b6a9f86eb1627330",
+      "bytes": 19558,
+      "commit": "78c3289a42369aa5c0eb276e2092dece83b6b7e6",
+      "version": "capability-workflow"
+    },
+    {
+      "path": "src/bokkio/runtime.py",
+      "snapshot": "raw/source-snapshots/capability-workflow/src/bokkio/runtime.py.txt",
+      "sha256": "ee58f3389818bf857fed27ffb8588e6ad920abc6af7f97a17450d944863f5bb0",
+      "bytes": 43113,
+      "commit": null,
+      "version": "working-tree-capability-workflow"
+    },
+    {
+      "path": "src/bokkio/runtime_cli.py",
+      "snapshot": "raw/source-snapshots/capability-workflow/src/bokkio/runtime_cli.py.txt",
+      "sha256": "cd043ef7cb7e3284377db7d9c7446c259d98f4c7a96c2763064c3b0a3600d66b",
+      "bytes": 8267,
+      "commit": "78c3289a42369aa5c0eb276e2092dece83b6b7e6",
+      "version": "capability-workflow"
+    },
+    {
+      "path": "src/bokkio/runtime_workflow.py",
+      "snapshot": "raw/source-snapshots/capability-workflow/src/bokkio/runtime_workflow.py.txt",
+      "sha256": "a2ab0d3048243387a87a276a45a2b1a08eef1c9bc081de81447c4a4d51cb978a",
+      "bytes": 18860,
+      "commit": "78c3289a42369aa5c0eb276e2092dece83b6b7e6",
+      "version": "capability-workflow"
+    },
+    {
+      "path": "src/bokkio/tool_schema.py",
+      "snapshot": "raw/source-snapshots/capability-workflow/src/bokkio/tool_schema.py.txt",
+      "sha256": "8d73734f0821f600ab966a0ec60e0aecb1b9e887b4f052418238639fb4d864bc",
+      "bytes": 8370,
+      "commit": null,
+      "version": "working-tree-capability-workflow"
+    },
+    {
+      "path": "src/bokkio/visual_runtime.py",
+      "snapshot": "raw/source-snapshots/capability-workflow/src/bokkio/visual_runtime.py.txt",
+      "sha256": "8e9edd794b4db06879939f0a04014e0adad90890b2f775c3dd92988fba1fb306",
+      "bytes": 25333,
+      "commit": "78c3289a42369aa5c0eb276e2092dece83b6b7e6",
+      "version": "capability-workflow"
+    },
+    {
+      "path": "src/bokkio/workflow.py",
+      "snapshot": "raw/source-snapshots/capability-workflow/src/bokkio/workflow.py.txt",
+      "sha256": "18218c841b57ec9f172fb6a5036c1d730aab77dbf507e76f9000be44836d9a11",
+      "bytes": 35885,
+      "commit": "78c3289a42369aa5c0eb276e2092dece83b6b7e6",
+      "version": "capability-workflow"
+    },
+    {
+      "path": "src/bokkio/workflow_studio.py",
+      "snapshot": "raw/source-snapshots/capability-workflow/src/bokkio/workflow_studio.py.txt",
+      "sha256": "273588045c5628324896f10142cdc68e391dc3b0a248fdd9281593c83211a2d5",
+      "bytes": 12811,
+      "commit": "78c3289a42369aa5c0eb276e2092dece83b6b7e6",
+      "version": "capability-workflow"
+    },
+    {
+      "path": "src/bokkio/xa11y_backend.py",
+      "snapshot": "raw/source-snapshots/capability-workflow/src/bokkio/xa11y_backend.py.txt",
+      "sha256": "e8fc0fd2d57e5918f81bb2ab9edcd8855c8bc9c0008d58ffb47a29fa52f010b3",
+      "bytes": 40379,
+      "commit": null,
+      "version": "working-tree-capability-workflow"
+    },
+    {
+      "path": "tests/test_action_dispatch_facts.py",
+      "snapshot": "raw/source-snapshots/capability-workflow/tests/test_action_dispatch_facts.py.txt",
+      "sha256": "b1b504df9afb75b89abdcb4bf6c170c3e7342169c1544441e0c1faa89c9463a3",
+      "bytes": 2613,
+      "commit": null,
+      "version": "working-tree-capability-workflow"
+    },
+    {
+      "path": "tests/test_capability_modules.py",
+      "snapshot": "raw/source-snapshots/capability-workflow/tests/test_capability_modules.py.txt",
+      "sha256": "779a28b2f1093904d6f894975c011d27b00447aaa53002f5013d0127dda73f00",
+      "bytes": 14170,
+      "commit": null,
+      "version": "working-tree-capability-workflow"
     }
   ],
-  "latest_refresh": "2026-10-13-current-runtime",
-  "latest_basis_commit": "0feda6de6e3d3b117a516ed48a5352574b438a29"
+  "latest_refresh": "2026-10-13-capability-workflow",
+  "latest_basis_commit": "78c3289a42369aa5c0eb276e2092dece83b6b7e6"
 }

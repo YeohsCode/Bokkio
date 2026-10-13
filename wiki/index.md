@@ -10,15 +10,18 @@ confidence: high
 
 # Bokkio LLM Wiki
 
-项目代码与证据的可维护知识库。Last updated: 2026-10-13 | Total compiled pages: 22
+项目代码与证据的可维护知识库。Last updated: 2026-10-13 | Total compiled pages: 27
 
 先读 [[SCHEMA]]；维护记录见 [[log]]。
 
 快速入口：[[summaries/architecture-map]]、[[summaries/module-call-map]]、[[entities/runtime-core]]、[[concepts/runtime-contracts]]、[[summaries/current-status]]、[[summaries/pending-and-known-gaps]]。
 
-当前主线为 **0.2.0 通用 Runtime**。当前架构/调用关系/Core/生命周期/状态页已刷新；旧 Planner/Jev/Workflow/Office/视觉专题保留各页 updated 日期的历史范围，最新验收及待办以当前状态和共享 progress 为准。
+当前主线为 **0.2.0 通用 Runtime**。当前架构／功能布局／调用关系／Core／Workflow／能力模块／状态页已刷新；旧 Planner/Jev/Workflow/Office/视觉专题保留各页 updated 日期的历史范围，最新验收及待办以当前状态和共享 progress 为准。
 
 ## Entities
+
+- [[entities/capability-modules|能力模块：发现、合同与Office文件实现]] — 默认关闭的模块目录、精确合同与文件证据，复用既有worker。
+- [[entities/runtime-workflow|Runtime Workflow：Studio、录制与回放]] — 新版本库、精确启动身份、Core子动作与检查点；区别于历史直接backend引擎。
 
 - [[entities/benchmark-adapters|外部 Benchmark 适配入口]] — WAA 逐步适配与 WindowsWorld Office pilot 是不同入口，历史适配专题，成绩不可换算为当前 Runtime 业务验收。
 - [[entities/bokkio|Bokkio：项目目标与边界]] — 通用 Computer Use Runtime；调用方规划并独立验收业务，Core 执行并提供证据。
@@ -56,9 +59,9 @@ confidence: high
 
 - [[summaries/architecture-map|架构与代码导航]] — 当前系统设计、部署/线程/进程边界与旧扩展的位置。
 - [[summaries/module-call-map|模块调用关系与完整代码地图]] — Core 模块图、全部工具路由、原生支持和旧扩展/评测文件地图。
-- [[summaries/current-status|当前阶段与证据快照]] — 2026-10-13：587 项回归、业务主批 26/36、稳定性 17/27、GUI 0/18；客户及 Windows 当前 Runtime 待验收。
+- [[summaries/current-status|当前阶段与证据快照]] — 2026-10-13：647隔离回归／受控文件6/6；旧冻结业务主批 26/36、稳定性 17/27、GUI 0/18；客户及 Windows 当前 Runtime 待验收。
 - [[summaries/pending-and-known-gaps|Pending 与已知集成缺口]] — 当前 MAC/EVAL/CLIENT/HARNESS/WIN/RELEASE 工作包及真实环境/客户验收缺口。
 
 ## Raw sources
 
-初始42份来源及历次追加版本保留为不可变文本快照。本次追加 current-runtime 版本，记录逐文件 commit/working-tree、正文 SHA-256；基线及记录见 raw/manifest.json。页面溯源指向仓库代码/文档，旧来源快照不覆盖。
+初始42份来源及历次追加版本保留为不可变文本快照。本次追加 capability-workflow 版本，记录逐文件 commit/working-tree、正文 SHA-256；基线及记录见 raw/manifest.json。页面溯源指向仓库代码/文档，旧来源快照不覆盖。

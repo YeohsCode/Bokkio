@@ -12,6 +12,12 @@ N = {"type": "number"}
 APP = {"app": S, "window": S}
 OBS = {**APP, "observation_id": S}
 SCHEMAS = {
+    "module.list": schema(),
+    "capability.list": schema({"module_id": S}),
+    "capability.get": schema({"capability_id": S}, ["capability_id"]),
+    "capability.invoke": schema({"capability_id": S, "version": S, "contract_sha256": S,
+                                  "implementation": S, "inputs": {"type": "object"}},
+                                 ["capability_id", "version", "contract_sha256", "inputs"]),
     "workflow.list": schema(),
     "workflow.get": schema({"workflow_id": S}, ["workflow_id"]),
     "workflow.run": schema({"workflow_id": S, "mode": {"type":"string","enum":["headed","headless"]}}, ["workflow_id"]),
@@ -46,6 +52,10 @@ SCHEMAS = {
 }
 
 DESCRIPTIONS = {
+    "module.list": "List local module summaries, administrator enablement and dependency health. No implementation imports or installation.",
+    "capability.list": "Discover compact capability summaries, optionally in one module. Fetch capability.get for exact inputs and limits.",
+    "capability.get": "Read one complete capability contract and its SHA256 binding. Pass that digest and exact version to capability.invoke.",
+    "capability.invoke": "Queue an opt-in, version-and-contract-bound module through the existing code executor. Requires module/path/write/trusted-host grants and exact approval. Poll job.get; its result.output contains capability verification and evidence. Unknown completion never retries or switches implementations.",
     "workflow.run": "Start an administrator-granted versioned workflow through Runtime. Poll workflow.status. Child actions each retain their own scope, exact approval and audit. Headless rejects native desktop steps before launching any app.",
     "workflow.resume": "Resume the original live-session workflow checkpoint after a human approves its exact pending child operation. Unknown completion is never redispatched.",
     "desktop.launch": "Start or bind one application from the administrator's exact launch_apps allowlist. No caller-supplied executable or shell. Subject to write grants, approval and audit; subsequent native calls use the returned PID.",
@@ -77,7 +87,8 @@ def validate(tool, arguments):
     for key, value in arguments.items():
         definition = contract["properties"][key]
         valid = {"string": isinstance(value, str), "integer": type(value) is int,
-                 "number": type(value) in {int, float}, "array": isinstance(value, list), "boolean": type(value) is bool}[definition["type"]]
+                 "number": type(value) in {int, float}, "array": isinstance(value, list), "boolean": type(value) is bool,
+                 "object": isinstance(value, dict)}[definition["type"]]
         if not valid or ("enum" in definition and value not in definition["enum"]):
             raise ValueError("Invalid argument: " + key)
         if definition["type"] == "array" and any(not isinstance(item, str) for item in value):

@@ -1,0 +1,45 @@
+---
+source_path: pyproject.toml
+source_version: working-tree-based-on-78c3289a42369aa5c0eb276e2092dece83b6b7e6
+ingested: 2026-10-13
+sha256: 9ef7d099f1835726824927aa996451923c228625fb6c41e954924ffe7f3d2491
+---
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bokkio"
+version = "0.2.0"
+description = "Model-independent computer use runtime with native actions, code, approvals and audit"
+requires-python = ">=3.9"
+dependencies = ["xa11y>=0.15,<0.16", "certifi>=2025.1,<2027", "comtypes>=1.4.17,<2; sys_platform == 'win32'"]
+
+[project.scripts]
+bokkio = "bokkio.cli:main"
+bokkio-runtime = "bokkio.runtime_cli:main"
+
+[project.optional-dependencies]
+office = [
+    "openpyxl>=3.1.5,<4",
+]
+browser = [
+    "playwright>=1.50,<2",
+]
+mcp = [
+    "mcp>=1.12,<2 ; python_full_version >= '3.10'",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+bokkio = ["native/*.swift", "studio/*.html", "studio/*.js", "studio/*.css"]
+
+[dependency-groups]
+test = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["browser_live: real isolated Chromium worker contract (requires installed browser)"]

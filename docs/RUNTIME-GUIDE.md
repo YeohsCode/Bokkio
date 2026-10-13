@@ -33,6 +33,8 @@ Windows 路径用 JSON 转义，例如 `C:\\BokkioScratch`。`apps` 是当前应
 
 ## CLI 与 SDK
 
+可选模块先通过 `module.list`／`capability.list` 读取摘要，再用 `capability.get` 获取版本与合同，`capability.invoke` 返回现有作业。首个 `office.xlsx` 默认关闭，需 office extra 和管理员模块允许列表；完整用法、读写权限与文件范围见 [能力模块指南](CAPABILITY-MODULES.md)。
+
 ```sh
 uv run bokkio-runtime --state /absolute/path/to/private-state --policy /absolute/path/to/policy.json call session.open
 uv run bokkio-runtime --state /absolute/path/to/private-state --policy /absolute/path/to/policy.json call desktop.observe --session SESSION --args '{"app":"BokkioRuntimeNative"}'

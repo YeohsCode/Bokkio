@@ -1,0 +1,205 @@
+"""Bounded saved-XLSX operations. Never edits an open Excel/Numbers document."""
+from __future__ import annotations
+
+import hashlib
+import io
+import json
+import math
+import os
+from pathlib import Path
+import re
+import tempfile
+import zipfile
+
+MAX_CELLS = 1000
+
+
+def coordinate(value):
+    if not isinstance(value, str) or not re.fullmatch(r"[A-Z]{1,3}[1-9][0-9]{0,6}", value):
+        raise ValueError("Invalid A1 cell coordinate")
+    letters, row = re.fullmatch(r"([A-Z]+)([0-9]+)", value).groups()
+    col = 0
+    for letter in letters:
+        col = col * 26 + ord(letter) - 64
+    if col > 16384 or int(row) > 1048576:
+        raise ValueError("Cell outside XLSX bounds")
+    return col, int(row)
+
+
+def literal(value):
+    if value is None or type(value) is bool:
+        return
+    if type(value) in {int, float} and math.isfinite(value):
+        return
+    if isinstance(value, str) and len(value) <= 32767 and not value.startswith("=") and not re.search(r"[\x00-\x08\x0b\x0c\x0e-\x1f]", value):
+        return
+    raise ValueError("Cells require finite literal values; formulas and control characters are unsupported")
+
+
+def validate_inputs(cid, inputs):
+    from ..capability_registry import contract
+    schema = contract(cid)["input_schema"]
+    if not isinstance(inputs, dict) or set(inputs) != set(schema["required"]):
+        raise ValueError("Capability inputs must exactly match its contract")
+    for key in ("path", "sheet", "expected_sha256"):
+        if not isinstance(inputs[key], str) or not inputs[key]:
+            raise ValueError("Capability input must be a nonempty string: " + key)
+    if not Path(inputs["path"]).is_absolute() or Path(inputs["path"]).suffix.lower() != ".xlsx":
+        raise ValueError("Capability requires an absolute saved .xlsx path")
+    if not re.fullmatch("[a-f0-9]{64}", inputs["expected_sha256"]):
+        raise ValueError("Source SHA256 is required")
+    if "range" in inputs:
+        if not isinstance(inputs["range"], str):
+            raise ValueError("Range must be an A1 string")
+        pair = inputs["range"].split(":")
+        if len(pair) not in {1, 2}:
+            raise ValueError("Invalid cell range")
+        a, b = coordinate(pair[0]), coordinate(pair[-1])
+        if a[0] > b[0] or a[1] > b[1] or (b[0]-a[0]+1)*(b[1]-a[1]+1) > MAX_CELLS:
+            raise ValueError("Range exceeds 1000 cells or is reversed")
+    if "cells" in inputs:
+        cells = inputs["cells"]
+        if not isinstance(cells, dict) or not 1 <= len(cells) <= MAX_CELLS:
+            raise ValueError("Expected 1..1000 cells")
+        for key, value in cells.items():
+            coordinate(key)
+            literal(value)
+    if "output_path" in inputs:
+        value = inputs["output_path"]
+        if not isinstance(value, str) or not Path(value).is_absolute() or Path(value).suffix.lower() != ".xlsx":
+            raise ValueError("Output requires an absolute new .xlsx path")
+
+
+def sha(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def source_bytes(path, expected):
+    with Path(path).open("rb") as stream:
+        data = stream.read(10 * 1024 * 1024 + 1)
+    if len(data) > 10 * 1024 * 1024:
+        raise ValueError("XLSX source exceeds 10 MiB")
+    if sha(data) != expected:
+        raise ValueError("Source SHA256 changed; inspect before a new request")
+    with zipfile.ZipFile(io.BytesIO(data)) as archive:
+        names = archive.namelist()
+        if len(names) != len(set(names)) or len(names) > 10000 or sum(i.file_size for i in archive.infolist()) > 50 * 1024 * 1024:
+            raise ValueError("Invalid or oversized XLSX package")
+        if "xl/workbook.xml" not in names or any("vbaProject" in n for n in names):
+            raise ValueError("Ordinary XLSX workbook required")
+    return data
+
+
+def read_values(sheet, keys):
+    values = {}
+    for key in keys:
+        cell = sheet[key]
+        if cell.data_type in {"f", "e"}:
+            raise ValueError("Formula/error cells require another capability")
+        literal(cell.value)
+        values[key] = cell.value
+    return values
+
+
+def compare(actual, expected):
+    # A bool must not silently equal 1; numeric JSON integers/floats are equivalent.
+    return all(actual[k] == v and (type(actual[k]) is bool) == (type(v) is bool) for k, v in expected.items())
+
+
+def execute(binding, inputs):
+    from openpyxl import load_workbook
+    from openpyxl.utils.cell import get_column_letter
+    from ..capability_registry import health, enabled, IMPLEMENTATION, VERSION
+    from ..sdk import Client
+
+    cid = binding["id"]
+    from ..capability_registry import contract
+    current = contract(cid)
+    if any(binding.get(k) != current[k] for k in ("version", "module_version", "contract_sha256")):
+        raise ValueError("Capability contract changed before worker execution")
+    validate_inputs(cid, inputs)
+    client = Client.from_environment()
+    scope = client.runtime._session(client.session_id)
+    if not enabled(client.runtime.policy, scope) or not health()["available"]:
+        raise ValueError("Module grant or dependency unavailable before execution")
+    path = client.runtime._path(scope, inputs["path"])
+    data = source_bytes(path, inputs["expected_sha256"])
+    write = cid == "xlsx.update_cells"
+    if write:
+        output = client.runtime._path(scope, inputs["output_path"])
+        if output == path or output.exists() or not output.parent.is_dir():
+            raise ValueError("Output must not exist")
+        with zipfile.ZipFile(io.BytesIO(data)) as package:
+            rejected = ("xl/drawings/", "xl/charts/", "xl/pivot", "xl/externalLinks/", "xl/tables/", "customXml/", "customUI/")
+            if any(n.startswith(rejected) for n in package.namelist()):
+                raise ValueError("Update supports simple literal workbooks only; unsupported package features")
+    workbook = load_workbook(io.BytesIO(data), read_only=not write, data_only=False, keep_links=False)
+    published = False
+    try:
+        if inputs["sheet"] not in workbook.sheetnames:
+            raise ValueError("Requested sheet is missing")
+        sheet = workbook[inputs["sheet"]]
+        if "range" in inputs:
+            pair = inputs["range"].split(":")
+            a, b = coordinate(pair[0]), coordinate(pair[-1])
+            keys = [get_column_letter(c) + str(r) for r in range(a[1], b[1]+1) for c in range(a[0], b[0]+1)]
+        else:
+            keys = list(inputs["cells"])
+        if write:
+            # Avoid pretending that openpyxl recalculates formulas or preserves arbitrary app features.
+            if any(s.protection.sheet or s.max_row * s.max_column > 100000 for s in workbook):
+                raise ValueError("Protected or oversized workbook cannot be updated")
+            if any(c.data_type == "f" for s in workbook for row in s for c in row):
+                raise ValueError("Formula workbooks cannot be updated by this implementation")
+            if any(key in merged for key in keys for merged in sheet.merged_cells.ranges):
+                raise ValueError("Merged targets are unsupported")
+            for key, value in inputs["cells"].items():
+                sheet[key] = value
+            fd, temporary = tempfile.mkstemp(prefix=".bokkio-xlsx-", suffix=".xlsx", dir=output.parent)
+            os.close(fd)
+            try:
+                workbook.save(temporary)
+                check = load_workbook(temporary, read_only=True, data_only=False)
+                try:
+                    if not compare(read_values(check[inputs["sheet"]], keys), inputs["cells"]):
+                        raise ValueError("Saved values did not match requested values")
+                finally:
+                    check.close()
+                source_bytes(path, inputs["expected_sha256"])
+                client.runtime._session(client.session_id)
+                client.runtime._path(scope, str(path))
+                client.runtime._path(scope, str(output))
+                # Publish complete bytes atomically without replacing any existing path.
+                os.link(temporary, output)
+                published = True
+            finally:
+                Path(temporary).unlink(missing_ok=True)
+            reopened = load_workbook(output, read_only=True, data_only=False)
+            try:
+                values = read_values(reopened[inputs["sheet"]], keys)
+                if not compare(values, inputs["cells"]):
+                    raise ValueError("Published XLSX values differ")
+            finally:
+                reopened.close()
+        else:
+            values = read_values(sheet, keys)
+            if cid == "xlsx.verify_cells" and not compare(values, inputs["cells"]):
+                raise ValueError("Saved cell values do not match the expected contract")
+        source_bytes(path, inputs["expected_sha256"])
+        return {"status": "verified" if cid != "xlsx.read_range" else "completed", "capability": binding,
+                "implementation": {"id": IMPLEMENTATION, "version": VERSION, **health()},
+                "values": values, "evidence": {"source_sha256": inputs["expected_sha256"], "source_unchanged": True,
+                **({"output_path": str(output), "output_sha256": sha(output.read_bytes()), "reopened_cells_match": True} if write else {"path": str(path)})}}
+    except Exception as error:
+        if published:
+            return {"status": "completion_unknown", "capability": binding,
+                    "implementation": {"id": IMPLEMENTATION, "version": VERSION},
+                    "evidence": {"output_path": str(output), "published": True}, "error": str(error)}
+        raise
+    finally:
+        workbook.close()
+
+
+def main(request_json):
+    request = json.loads(request_json)
+    print(json.dumps(execute(request["capability"], request["inputs"]), ensure_ascii=False, allow_nan=False))

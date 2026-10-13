@@ -163,3 +163,17 @@ confidence: high
 - 157 份不可变来源正文 SHA-256/字节数验证；本次追加49份（含最终图布局修订后的 README 版本），之前108份保持原样；新增来源凭据模式扫描零命中。
 - README 与 Wiki 共7处 Mermaid 块语法通过，4种独立图在 headless Chromium 实际渲染；检查系统图/调用图/时序，移除反馈连线标签遮挡。
 - _meta/validation.json 记录本次文档检查和历史验证；587项等产品成绩仅引用已有报告，本次没有新增 GUI/产品回归成绩。
+
+## [2026-10-13] refresh | Capability modules and Runtime Workflow
+
+- 更新6个当前架构／调用／Core／项目边界／状态／待办页；新建capability-modules、runtime-workflow两实体，索引27个编译页。历史直接backend Workflow专题保留其日期与范围。
+- README更新系统架构、功能布局、模块调用图和中英文职责表；按当前代码描述模块通过已有worker运行、新Workflow子动作回到同一Core。功能布局采用窄幅树形排列，回调以同名Core子动作节点说明。
+- 新增41份capability-workflow不可变来源，之前157份快照逐字保留；当前未提交来源明确标working-tree、已提交来源记录78c3289基线与SHA256。
+- 647隔离回归／6份受控文件核验引用上一实施轮证据，保留34项新合同、初轮失败、模块额外校验成本和客户／Windows待验收。业务26/36、稳定性17/27、GUI0/18保持原冻结版本；完整业务复测继续暂停。
+
+## [2026-10-13] lint | Capability/Workflow architecture validated
+
+- scripts/validate_wiki.py检查27个编译页／30个Markdown、169条wikilinks、225处来源行号、66个来源文件，零断链／孤立页／索引或元数据错误；44个Python模块与34个公开工具映射完整。
+- 198份不可变来源SHA256与frontmatter校验通过，新41份来源凭据模式扫描无命中。
+- README／Wiki共8处Mermaid语法通过；4种独立图在本机Chromium渲染，架构／功能布局／调用图已视觉检查。结果保存wiki/_meta/validation.json。
+- 本轮只更新文档及维护校验工具；没有恢复已暂停的自主业务或GUI矩阵。

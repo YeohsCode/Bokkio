@@ -11,11 +11,14 @@ def build():
     dist.mkdir(exist_ok=True)
     files = [project / name for name in ("pyproject.toml", "uv.lock", "MANIFEST.in")]
     files += sorted((project / "src/bokkio").glob("*.py"))
+    files += sorted((project / "src/bokkio/modules").glob("*.py"))
     files += sorted((project / "src/bokkio/native").glob("*.swift"))
     files += sorted((project / "examples").glob("*.py")) + sorted((project / "examples").glob("*.json"))
     files += [project / "scripts" / name for name in ("install_runtime.sh", "install_runtime.ps1", "verify_runtime.py", "verify_runtime_visual.py", "verify_runtime_faults.py", "verify_runtime_audit.py", "verify_runtime_mcp_native.py", "verify_harness_clients.py", "build_native_fixture.py", "build_runtime_bundle.py")]
-    files += [project / "tests" / name for name in ("test_runtime.py", "test_runtime_transports.py", "test_runtime_jobs.py")]
+    files += [project / "scripts/verify_capability_modules.py"]
+    files += [project / "tests" / name for name in ("test_runtime.py", "test_runtime_transports.py", "test_runtime_jobs.py", "test_capability_modules.py")]
     files += [project / "docs" / name for name in ("RUNTIME-GUIDE.md", "RUNTIME-DELIVERY.md", "PLAN-REPOSITIONING.md", "TEST-STRENGTHENING-PLAN.md")]
+    files += [project / "docs" / name for name in ("CAPABILITY-MODULE-PLAN.md", "CAPABILITY-MODULES.md")]
     files += sorted((project / "docs/progress").glob("*.md")) + sorted((project / "docs/progress").glob("*.json"))
     # Explicit public/sanitized evidence only; legacy runtime directories may
     # have different privacy and checksum conventions.
@@ -44,7 +47,7 @@ Windows/macOS 的通用执行工具：MCP、CLI、Python SDK、原生/截图输�
 macOS 运行 `sh scripts/install_runtime.sh`；Windows 运行 `powershell -File scripts/install_runtime.ps1`。
 这两条命令从锁定依赖安装，需要可用包源。先阅读 docs/RUNTIME-GUIDE.md，人工配置 examples/runtime-policy.json；默认拒绝资源访问。
 
-packages/ 内含 wheel、源码归档、锁定 requirements 和本机依赖元数据清单；不是离线依赖镜像。仓库回归 550 项，本包携带 31 项 Runtime 核心/transport 测试。
+packages/ 内含 wheel、源码归档、锁定 requirements 和本机依赖元数据清单；不是离线依赖镜像。实际测试成绩以对应源码的交付报告为准。Office 文件模块为可选依赖，详见 docs/CAPABILITY-MODULES.md。
 
 实际完成范围和待验收项见 docs/RUNTIME-DELIVERY.md。Windows 实机和客户业务样本尚待验收，本包不标为双平台已验收正式发行。
 """)

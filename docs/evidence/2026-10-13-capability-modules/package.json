@@ -1,0 +1,11 @@
+{
+  "wheel_sha256": "4d6da160bffe79dc3c81d5405c8adcf2851302fd83b42c37ebf352614949ec87",
+  "module_files_packaged": true,
+  "office_extra_declared": true,
+  "extracted_wheel_discovery": {
+    "module_list": true,
+    "default_disabled": true,
+    "contract": true
+  },
+  "scope": "wheel_build_and_extracted_import_not_independent_full_install_or_release"
+}

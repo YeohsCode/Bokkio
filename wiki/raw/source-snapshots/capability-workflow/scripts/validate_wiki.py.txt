@@ -1,0 +1,112 @@
+---
+source_path: scripts/validate_wiki.py
+source_version: working-tree-based-on-78c3289a42369aa5c0eb276e2092dece83b6b7e6
+ingested: 2026-10-13
+sha256: 272fdde02a0a5cf284feff9306ea0c6942c426870040147de06e783c66f5b5d4
+---
+
+"""Validate repository-local LLM Wiki sources, links and architecture coverage."""
+from pathlib import Path
+import argparse
+import ast
+import hashlib
+import json
+import re
+
+
+def validate(root, diagrams_path=None):
+    wiki = root / "wiki"
+    errors, compiled, referenced = [], [], set()
+    links = citations = 0
+    tags = set("project architecture runtime selector native windows macos agent planner jev workflow recovery vision office benchmark evidence safety configuration maintenance meta".split())
+    pages = [p for p in wiki.rglob("*.md") if "raw" not in p.relative_to(wiki).parts]
+    graph = {p.relative_to(wiki).with_suffix("").as_posix(): set() for p in pages}
+    index = (wiki / "index.md").read_text()
+    for p in pages:
+        text = p.read_text();name = p.relative_to(wiki).as_posix()
+        match = re.match(r"---\n(.*?)\n---\n", text, re.S)
+        if not match:errors.append("Missing frontmatter: " + name);continue
+        fields = {}
+        for row in match[1].splitlines():
+            key, separator, value = row.partition(":")
+            if separator:
+                value = value.strip()
+                try:fields[key] = json.loads(value)
+                except json.JSONDecodeError:
+                    fields[key] = [v.strip().strip("\"'") for v in value[1:-1].split(",") if v.strip()] if value.startswith("[") else value.strip("\"'")
+        if set(("title", "created", "updated", "type", "tags", "sources", "confidence")) - set(fields):errors.append("Missing metadata: " + name)
+        if set(fields.get("tags", [])) - tags:errors.append("Unknown tags: " + name)
+        if fields.get("type") != "meta":
+            compiled.append(p)
+            if len(text.splitlines()) > 200:errors.append("Over 200 lines: " + name)
+            target = p.relative_to(wiki).with_suffix("").as_posix()
+            if not re.search(r"\[\[" + re.escape(target) + r"(?:\||\]\])", index):errors.append("Not indexed: " + name)
+        for source in fields.get("sources", []):
+            referenced.add(source)
+            if not (root / source).is_file():errors.append("Missing source: " + source)
+        targets = re.findall(r"\[\[([^\]|]+)(?:\|[^\]]*)?\]\]", text)
+        if fields.get("type") != "meta" and len(set(targets)) < 2:errors.append("Fewer than two links: " + name)
+        for target in targets:
+            links += 1;target = target.split("#")[0]
+            if target not in graph:errors.append("Broken wiki link: " + target)
+            else:graph[p.relative_to(wiki).with_suffix("").as_posix()].add(target)
+        for source, number in re.findall(r"\^\[([^\]#]+)#L(\d+)\]", text):
+            citations += 1;referenced.add(source);path = root / source
+            if not path.is_file() or not 1 <= int(number) <= len(path.read_text().splitlines()):errors.append("Invalid source line: " + source + "#" + number)
+            if source not in fields.get("sources", []):errors.append("Citation absent in sources: " + name + " " + source)
+    seen, pending = set(), ["index"]
+    while pending:
+        key = pending.pop()
+        if key not in seen:seen.add(key);pending.extend(graph.get(key, set()) - seen)
+    orphans = sorted(set(graph) - seen)
+    if orphans:errors.append("Orphans: " + ",".join(orphans))
+    manifest = json.loads((wiki / "raw/manifest.json").read_text())
+    if manifest["source_count"] != len(manifest["records"]):errors.append("Snapshot count mismatch")
+    findings = []
+    secret = re.compile(r"(?:sk-[A-Za-z0-9_-]{20,}|gh[pousr]_[A-Za-z0-9]{30,}|AKIA[0-9A-Z]{16}|-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----)")
+    for record in manifest["records"]:
+        path = wiki / record["snapshot"];data = path.read_bytes();body = data[-record["bytes"]:] if record["bytes"] else b""
+        header = data[:len(data)-len(body)]
+        if not re.fullmatch(rb"---\n.*?\n---\n\n?", header, re.S) or hashlib.sha256(body).hexdigest() != record["sha256"]:errors.append("Snapshot mismatch: " + record["snapshot"])
+        if "capability-workflow" in record.get("version", ""):
+            for n, row in enumerate(body.decode().splitlines(), 1):
+                if secret.search(row):findings.append({"file": record["snapshot"], "line": n})
+    if findings:errors.append("Credential pattern findings require review")
+    module_map = (wiki / "summaries/module-call-map.md").read_text()
+    modules = list((root / "src/bokkio").rglob("*.py"))
+    for p in modules:
+        if p.name not in module_map:errors.append("Unmapped module: " + p.relative_to(root).as_posix())
+    # Evaluate only the literal set definitions, including additive module/Workflow tools.
+    sets = {}
+    def evaluate(node):
+        if isinstance(node, ast.Set):return ast.literal_eval(node)
+        if isinstance(node, ast.Name):return sets[node.id]
+        if isinstance(node, ast.BinOp) and isinstance(node.op, ast.BitOr):return evaluate(node.left) | evaluate(node.right)
+        raise ValueError("Unsupported tool-set expression")
+    for node in ast.parse((root / "src/bokkio/runtime.py").read_text()).body:
+        if isinstance(node, ast.Assign) and isinstance(node.targets[0], ast.Name) and node.targets[0].id in {"READ_TOOLS", "WRITE_TOOLS", "TOOLS"}:
+            sets[node.targets[0].id] = evaluate(node.value)
+        if isinstance(node, ast.AugAssign) and isinstance(node.target, ast.Name) and node.target.id in sets:
+            sets[node.target.id] |= evaluate(node.value)
+    for tool in sorted(sets["TOOLS"]):
+        if tool not in module_map and not (tool.startswith("browser.") and "browser.open / observe / act" in module_map):errors.append("Unmapped tool: " + tool)
+    diagrams = []
+    for p in [root / "README.md", *pages]:
+        for i, source in enumerate(re.findall(r"```mermaid\n(.*?)\n```", p.read_text(), re.S), 1):
+            diagrams.append({"file": p.relative_to(root).as_posix(), "index": i, "source": source})
+    if diagrams_path:
+        diagrams_path.parent.mkdir(parents=True, exist_ok=True);diagrams_path.write_text(json.dumps(diagrams, ensure_ascii=False, indent=2))
+    for target in re.findall(r"\[[^\]]+\]\(([^)]+)\)", (root / "README.md").read_text()):
+        if not target.startswith(("http:", "https:", "#", "mailto:")) and not (root / target.split("#")[0]).exists():errors.append("README broken local link: " + target)
+    return {"refresh": "2026-10-13-capability-workflow", "compiled_pages": len(compiled), "markdown_pages": len(pages),
+            "resolved_wikilinks": links, "source_line_citations": citations, "referenced_source_files": len(referenced),
+            "source_snapshots_verified": len(manifest["records"]), "current_source_modules_mapped": len(modules), "public_tools_mapped": len(sets["TOOLS"]),
+            "orphan_pages": orphans, "errors": errors, "privacy_scan": {"scope": "new capability-workflow source snapshots", "credential_pattern_findings": findings},
+            "mermaid_blocks": len(diagrams)}
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser();parser.add_argument("--output", type=Path);parser.add_argument("--diagrams", type=Path)
+    args = parser.parse_args();result = validate(Path(__file__).resolve().parents[1], args.diagrams)
+    if args.output:args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n")
+    print(json.dumps(result, ensure_ascii=False, indent=2));raise SystemExit(bool(result["errors"]))

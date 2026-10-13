@@ -1,0 +1,105 @@
+---
+source_path: docs/evidence/2026-10-13-capability-modules/comparison-final.json
+source_version: working-tree-based-on-78c3289a42369aa5c0eb276e2092dece83b6b7e6
+ingested: 2026-10-13
+sha256: 482173e6fe539546e41cae029049d2c5f0932482e982d1478745224c1b5d2d2a
+---
+
+{
+  "schema": "bokkio.capability-evaluation.v1",
+  "platform": "Darwin",
+  "samples": [
+    {
+      "sample": 1,
+      "trials": [
+        {
+          "route": "code",
+          "passed": true,
+          "elapsed_ms": 127.45,
+          "execution_requests": 1,
+          "independent_cells_match": true,
+          "source_unchanged": true,
+          "output_sha256": "d932292786565d17a7c686b27f5237565dfe166b618640178911ee7298ffbdad"
+        },
+        {
+          "route": "module",
+          "passed": true,
+          "elapsed_ms": 248.08,
+          "execution_requests": 1,
+          "independent_cells_match": true,
+          "source_unchanged": true,
+          "output_sha256": "54fb024b6e941eb3c2c47212a2b34b3dee76e60ee3bbbcc804c9298b4f5e16bc"
+        }
+      ]
+    },
+    {
+      "sample": 2,
+      "trials": [
+        {
+          "route": "code",
+          "passed": true,
+          "elapsed_ms": 129.21,
+          "execution_requests": 1,
+          "independent_cells_match": true,
+          "source_unchanged": true,
+          "output_sha256": "3a27af178374c79878e03f7c852431a047f33ea9816b2896f9ac14ead0844752"
+        },
+        {
+          "route": "module",
+          "passed": true,
+          "elapsed_ms": 245.15,
+          "execution_requests": 1,
+          "independent_cells_match": true,
+          "source_unchanged": true,
+          "output_sha256": "3a27af178374c79878e03f7c852431a047f33ea9816b2896f9ac14ead0844752"
+        }
+      ]
+    },
+    {
+      "sample": 3,
+      "trials": [
+        {
+          "route": "code",
+          "passed": true,
+          "elapsed_ms": 235.33,
+          "execution_requests": 1,
+          "independent_cells_match": true,
+          "source_unchanged": true,
+          "output_sha256": "aee7ad72a73576befcca6a78411842df76ab6e47b3cb1d5c8ed27f8e236ec345"
+        },
+        {
+          "route": "module",
+          "passed": true,
+          "elapsed_ms": 251.27,
+          "execution_requests": 1,
+          "independent_cells_match": true,
+          "source_unchanged": true,
+          "output_sha256": "aee7ad72a73576befcca6a78411842df76ab6e47b3cb1d5c8ed27f8e236ec345"
+        }
+      ]
+    }
+  ],
+  "source_files": {
+    "src/bokkio/runtime.py": "ee58f3389818bf857fed27ffb8588e6ad920abc6af7f97a17450d944863f5bb0",
+    "src/bokkio/executor.py": "afee7046cfca4acc643aeae72460b877394e8a46fac5ac513cd8149a5748f06d",
+    "src/bokkio/tool_schema.py": "8d73734f0821f600ab966a0ec60e0aecb1b9e887b4f052418238639fb4d864bc",
+    "src/bokkio/model.py": "2753b17ebec0b27145521c6e4268ea5f4e153d8baa37d6a9204a363e1a17d035",
+    "src/bokkio/xa11y_backend.py": "e8fc0fd2d57e5918f81bb2ab9edcd8855c8bc9c0008d58ffb47a29fa52f010b3",
+    "src/bokkio/capability_registry.py": "a3f99c49e02b5afac7dcc8e832975716e677b3dc49b5faa34beb9767805a936e",
+    "src/bokkio/modules/office_xlsx.py": "1a61a1b1e3e49d90d719cfc4e79df9a7f1210bb0fec7b1fa4ade0e0ffbd8cfa9",
+    "src/bokkio/modules/office_xlsx_contract.py": "20f49b17c2996df52d59f6409f51bd885deefdffed4d0fa95b88ee61d0249997",
+    "scripts/verify_capability_modules.py": "cd442c006af20c635ea3164b8e7a903a00689cfb0a95691db97a04b36816bb6c",
+    "pyproject.toml": "9ef7d099f1835726824927aa996451923c228625fb6c41e954924ffe7f3d2491",
+    "uv.lock": "531f4afcaa8a398c0e2ce0a5794e562a87e6b08a785879f68e1a4ed9834b8868"
+  },
+  "passed": 6,
+  "total": 6,
+  "module_contract_sha256": "9a7183908e7836d1b7900196072a116a27e03a7f8f74550b3ee5d985e5575ef4",
+  "scope": "controlled_file_operations_not_autonomous_business_or_GUI",
+  "limitations": [
+    "baseline includes supplied exact code",
+    "no LLM tokens or business success measurement",
+    "latency is descriptive, not a performance benchmark",
+    "Windows not executed"
+  ]
+}

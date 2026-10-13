@@ -5,6 +5,8 @@
 | 文件 | 用途 |
 |---|---|
 | [实施计划](../PLAN-REPOSITIONING.md) | 产品定位、三天目标、契约和原始验收门槛，保留指定路径 |
+| [能力模块计划](../CAPABILITY-MODULE-PLAN.md) | 轻量契约、按需发现和Office文件模块的本轮实现及验证 |
+| [能力模块指南](../CAPABILITY-MODULES.md) | 默认关闭、模块授权、版本绑定、调用与文件支持范围 |
 | [测试加强计划](../TEST-STRENGTHENING-PLAN.md) | 12题业务保留集、三调用方、分轨评分、审批/故障与执行顺序；完整自动批次已执行，失败与外部依赖单列 |
 | [测试工作包](test-strengthening.json) | EVAL-01～08 的依赖、验收条件与计划分母，主批 26/36、稳定性 17/27、GUI 0/18、延迟审批 9/9；原始、复测与终态更正单列 |
 | [当前状态与完成度](STATUS.md) | 已完成范围、证据、待验收、暂缓事项 |
@@ -26,3 +28,5 @@
 2026-10-13 完整复测已按用户要求暂停；部分结果及未运行范围见 [暂停报告](../evidence/2026-10-13-full-rerun-paused/README.md)。未修复失败，未更新上一完整批次成绩。
 
 2026-10-13 新增 [Workflow Studio](../WORKFLOW-STUDIO.md)：版本库、手工录制、Runtime 回放与独立测试。状态和初次失败见 [Workflow 报告](../evidence/2026-10-13-workflow-studio/README.md)。
+
+2026-10-13 能力模块试点已执行：隔离回归647/647、受控文件对照6/6；初始失败与范围见 [模块报告](../evidence/2026-10-13-capability-modules/README.md)。未恢复已暂停的完整业务矩阵，未填入客户／Windows成绩。

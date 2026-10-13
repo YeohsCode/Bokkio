@@ -1,0 +1,143 @@
+---
+source_path: docs/RUNTIME-GUIDE.md
+source_version: working-tree-based-on-78c3289a42369aa5c0eb276e2092dece83b6b7e6
+ingested: 2026-10-13
+sha256: 64a4e54af64884a3ff1535e32e79012d3f918e36f6788e93a495a1ec7d7d72d6
+---
+
+# Bokkio Computer Use Runtime
+
+新入口为 `bokkio-runtime`，核心不调用模型，也不要求 Planner/Jev。MCP、CLI、Python SDK 使用同一个执行与授权入口。旧 `bokkio act/run/workflow` 仍是历史开发接口，**不属于新企业执行边界**；生产集成使用新入口。API 版本为 `bokkio.runtime.v1`。
+
+## 安装
+
+macOS：在源码交付包中运行 `sh scripts/install_runtime.sh`。Windows：运行 `powershell -File scripts/install_runtime.ps1`。脚本使用 `uv.lock`，安装 MCP/Browser extras 和 Chromium；需要可用的包源。它们是可复现安装脚本，不宣称已提供离线依赖镜像或签名原生安装器。
+
+Core 支持 Python 3.9+；官方 MCP SDK 要求 Python 3.10+。macOS 安装脚本优先保留现有解释器和授权，Windows 脚本默认使用 x64 Python 3.12，因为当前 xa11y 分发使用 win_amd64 wheel。macOS 原生助手需要 Apple Command Line Tools、Accessibility/录屏/输入权限。Windows 需要已解锁的交互会话；UAC、安全桌面不会被绕过。实际验收平台与未完成项见 [交付状态](RUNTIME-DELIVERY.md)。
+
+## 人工配置权限
+
+从 `examples/runtime-policy.json` 复制一份本地配置。默认无应用/路径/域名权限，写入和宿主脚本禁用。管理员选择必要资源，例如只授权自己的可丢弃测试应用：
+
+```json
+{
+  "apps": ["BokkioRuntimeNative"],
+  "windows": {},
+  "paths": ["/absolute/path/to/disposable-workspace"],
+  "origins": ["http://127.0.0.1:8080"],
+  "write": true,
+  "trusted_host": false,
+  "require_approval": true,
+  "ttl": 3600
+}
+```
+
+Windows 路径用 JSON 转义，例如 `C:\\BokkioScratch`。`apps` 是当前应用名或 PID，打开会话时绑定进程创建身份；应用重启后重新开会话。`windows` 可用应用名映射精确窗口标题列表；留空表示授权整个应用，包括其弹窗。资源范围由人工配置，不由 Agent 的 session 请求扩大。
+
+`trusted_host: true` 是明确给予宿主 Python/Shell/PowerShell/argv 执行权限，**不是沙箱**；cwd 约束不能阻止脚本直接访问其他文件、UI 或网络。私有 SQLite 同宿主用户可访问，具有任意宿主执行权限的脚本也可能影响本地审批/审计；需要抵抗该行为时必须接入隔离 worker/独立服务身份，本版本尚不承诺此保证。审批工具不通过 MCP 暴露，但不是 OS 隔离的替代品。
+
+`require_approval: false` 只应由人工为已经授权的受限任务设置，操作日志会记录策略哈希；不意味着所有任务均获准。策略变更后重启 MCP 服务；关闭会话会拒绝后续请求，并触发作业取消。已派发操作的副作用不能撤销。
+
+## CLI 与 SDK
+
+可选模块先通过 `module.list`／`capability.list` 读取摘要，再用 `capability.get` 获取版本与合同，`capability.invoke` 返回现有作业。首个 `office.xlsx` 默认关闭，需 office extra 和管理员模块允许列表；完整用法、读写权限与文件范围见 [能力模块指南](CAPABILITY-MODULES.md)。
+
+```sh
+uv run bokkio-runtime --state /absolute/path/to/private-state --policy /absolute/path/to/policy.json call session.open
+uv run bokkio-runtime --state /absolute/path/to/private-state --policy /absolute/path/to/policy.json call desktop.observe --session SESSION --args '{"app":"BokkioRuntimeNative"}'
+```
+
+动作使用上次返回的 `observation_id` 和元素 `ref`，同一 app/window；观察有效期 15 秒。`desktop.capture` 返回截图 artifact；`desktop.pixel` 使用图像像素 x/y，不要求 OCR 或目标文本。像素输入前窗口须处于前台且未被遮挡；可用 `desktop.activate` 激活精确获准窗口。读回或业务文件检查负责判断是否完成。
+
+```python
+from bokkio.sdk import Client
+
+client = Client.from_policy("/absolute/private-state", "/absolute/policy.json")
+client.open()
+observation = client.call("desktop.observe", {"app": "BokkioRuntimeNative"})
+# 从 observation 的 nodes 选择实际观察到的 ref。
+response = client.call("desktop.act", {
+    "app": "BokkioRuntimeNative", "action": "set_value",
+    "ref": observed_ref, "value": "hello",
+    "observation_id": observation["result"]["observation_id"]
+}, operation_id="caller-generated-unique-id")
+```
+
+通过 `examples/runtime_client.py` 可调用 SDK。完整工具 schema 由 MCP `tools/list` 提供，也在 `bokkio.tool_schema.SCHEMAS` 中。每次返回 operation_id、session_id、状态、派发事实和结果；业务完成与动作派发区分。原生字段后置检查确认时返回 `verified`；其他动作的 `executed` 需再验证。
+
+## 审批与恢复
+
+需要审批的请求返回 `approval_required`、`approval_id` 和 `operation_id`，不派发。人工先查看精确私有请求，再决定：
+
+```sh
+uv run bokkio-runtime --state STATE approvals --id APPROVAL --show-request
+uv run bokkio-runtime --state STATE approve APPROVAL --decision approved --reason '授权的测试窗口写入'
+```
+
+客户端使用**原 operation_id、原工具和原参数**重试。参数或代码改变不能沿用旧 ID/审批。可选决定为 approved、denied、revoked；批准有效期五分钟，使用后 consumed。观察/截图仍受自己的时效限制，批准不延长观察有效期。过期观察须重新观察并提交新请求。
+
+重复已完成 operation_id 返回记录，不再次执行。正在执行或崩溃后没有结果的操作返回 `completion_unknown`，先检查 UI/文件和日志，禁止盲目重发。job.get 会检测丢失的 worker、核对进程出生身份、终止仍可确认属于该作业的进程树，并保存 completion_unknown。未成功持久化子进程身份的崩溃间隙不能承诺自动清理；未知状态始终需要独立核对。旧版未记录 worker 身份的未结束作业需管理员检查。取消无法撤销已经发生的副作用。此幂等机制不承诺 GUI exactly-once。
+
+## 生成代码、进程与 Browser
+
+`code.run` 参数：code、language（python/shell/powershell）、cwd、timeout（≤300 秒）、output_limit（≤1 MB）。`process.run` 使用 argv 数组，不做 shell 拼接。二者需写入及 trusted-host 授权，返回 queued 和 job_id。用 `job.get` 查询并处理 worker 丢失、`job.cancel` 取消，或 SDK `client.wait_job(job_id)`。
+
+生成 Python 代码用 `Client.from_environment()` 继承已批准 session；SDK 子调用的日志带父 operation_id。`examples/generated_code.py` 演示 CSV 处理与独立结果检查。stdout/stderr 有上限，持续排空后丢弃超限部分并标记 truncated；超时/取消停止可跟踪的进程组/树：POSIX 使用同一进程组，Windows 使用 taskkill /T；主动脱离进程组的 trusted-host 程序不保证清理。启动 worker 不代表脚本已派发，实际派发由 job.started/job.finished 和最终 receipt 报告。
+
+Browser 用独立 Playwright worker 保存每会话页面状态，CLI/SDK 跨进程仍可连续操作。`browser.open` 指定 URL；`browser.act` 支持唯一 CSS selector 的 fill/click/press，并要求 expected_url 为上次 open/observe 返回的精确 URL，避免审批等待期间目标悄悄切到另一页面；`browser.observe` 返回有界正文和表单值。网络请求与 WebSocket 受精确 origin 限制，服务 worker 禁用；这不是针对恶意 Chromium 或宿主脚本的 OS 网络沙箱。
+
+`evidence.check` 支持获准文件的存在、哈希及 CSV 行/列检查，返回注册 artifact。`artifact.read` 校验 session、大小和保存时哈希；图片通过 MCP 原生 ImageContent 返回。业务语义正确性由调用者/独立 judge 决定。
+
+## 日志、统计、追溯
+
+所有工具请求、授权、审批、意图、派发结果和代码作业写入私有 SQLite。派发前意图持久化失败则拒绝执行；未完成记录保持可追溯，不自动重发。日志包含可信 OS 身份、平台/架构、task/session/operation/attempt/父操作、请求哈希和结果摘要；普通审计导出不包含任意代码/输入/输出正文。session.open 可指定只含字母/数字/点/冒号/横线的 task_id，否则自动生成关联 ID；不要把敏感业务正文放入此标识。
+
+```sh
+uv run bokkio-runtime --state STATE events --session SESSION --follow --after 0
+uv run bokkio-runtime --state STATE events --operation OPERATION
+uv run bokkio-runtime --state STATE stats --session SESSION
+uv run bokkio-runtime --state STATE export --session SESSION --format csv --output audit.csv
+```
+
+Agent 可用 session 限定的 `audit.query`、`events.follow`、`metrics.summary`、`approval.status` 和 `audit.export`。支持时间、工具、状态、事件和操作过滤；after 是持久递增序号。导出通过 artifact 获取。逻辑操作、调用尝试、实际派发、审批等待和耗时分别统计；没有客户端模型费用/业务 judge 时，费用和业务成功率返回 null。
+
+本地管理员 CLI 可以查询全部本机记录；MCP 工具只读取自身 session。私有请求、截图和作业输出仍在本地状态目录，应按企业数据策略管理。会话过期会阻止读取，但本版本尚未自动物理清理所有历史数据；不要把它描述为防篡改集中审计库。
+
+## MCP 配置
+
+```json
+{
+  "mcpServers": {
+    "bokkio": {
+      "command": "/absolute/path/to/Bokkio/.venv/bin/bokkio-runtime",
+      "args": ["--state", "/absolute/private-state", "--policy", "/absolute/policy.json", "serve"]
+    }
+  }
+}
+```
+
+Windows command 使用虚拟环境的 `Scripts/bokkio-runtime.exe`。stdio 服务采用官方 MCP SDK，stdout 仅用于协议。工具参数格式为 `{"arguments": {具体工具参数}, "session_id": "SESSION", "operation_id": "可选唯一ID"}`。session.open 返回会话 ID；不要安装或授权额外模型服务才能调用 Core。
+
+## 可重复的 macOS 与 MCP 开发验收
+
+不依赖 vendor 的原生 fixture：
+
+```sh
+uv run python scripts/build_native_fixture.py --source fixtures/cocoa-runtime/main.swift --output /tmp/BokkioRuntimeContract.app --name BokkioRuntimeContract
+```
+
+启动该 App 后，以明确授权的 app/name/PID 运行 scripts/verify_runtime.py；自绘 fixture 使用 fixtures/cocoa-visual/main.swift。scripts/verify_runtime_faults.py 只操作自有 fixture 和进程，输出真实桌面/取消/崩溃矩阵；硬件或锁屏未测项明确列出。
+
+examples/mcp_call.py 通过官方 MCP SDK 执行单次工具调用，并可跨 stdio 连接复用持久 session。scripts/verify_runtime_mcp_native.py 接受 app、精确 window、实际节点 match、写入 value 与独立 readback 的任务清单，不包含应用业务分支。模板见 examples/mcp-native-task.json。默认把挂起请求保存给独立管理员；观察过期后必须新观察、新请求和新批准。仅自有可丢弃 fixture 可显式使用 --approve-owned-fixture 自动化验证管理员入口，此成绩不等同于客户人工审批。
+
+MCP 工具使用统一 envelope：`{"arguments": {"业务字段": "值"}, "session_id": "session.open 返回的 ID", "operation_id": "调用方唯一 ID"}`。session_id、operation_id 与 arguments 同级；除了 capabilities/session.open，其他工具的 schema 明确要求 session_id。不能把 session_id 放进业务字段，也不能省略后不断重复同一个拒绝请求。
+
+三种用户指定开发调用方及复跑方式见 [Harness 实测](evidence/2026-10-12-harness/README.md)。耗时不稳定的模型可经 MCP code.run 提交明确批准的程序，通过 Client.from_environment() 组合观察/动作/读回，再让 Agent 获取 job/evidence/artifact/audit/metrics。SDK 子调用仍保留原生审批、15 秒观察时效与父操作关联；代码审批不自动覆盖子动作审批。本次子动作管理员自动批准的成绩不能替代人工耗时测试。Core 没有增加 Harness 或模型依赖。
+
+重复请求会记录 request.cached，不再次派发；缓存内容仍需要有效且同 OS 用户的 session。会话关闭或过期后，原 operation_id 不能绕过读取边界。metrics 的 attempts 统计所有接收/缓存/拒绝调用，execution_attempts 为进入处理的 request.received；cached_responses、rejected_requests 分别计数，logical_operations 与 known_dispatched 不因缓存命中增加。
+
+scripts/verify_runtime_audit.py 在自有原生 fixture 和真实 SQLite 上验证审计合同，明确区分 SQL/过期注入与未运行的物理锁屏。native verified 通常确认当前控件属性；编辑器可能还要求结束编辑后才更新业务模型，应独立检查业务标签、保存并重开。应用自己的默认保存位置和云同步不受 Core 文件工具路径检查拦截，测试初始化时核对位置；本轮只使用自有合成数据。
+
+## Workflow Studio 与受控启动
+
+新 `bokkio-runtime studio` 是本机录制／版本管理／回放 UX；`bokkio-runtime workflow` 和 MCP `workflow.*` 使用当前企业 Core。安装身份由 `launch_apps` 配置，MCP 工作流 ID 由 `workflows` 配置；所有实际子动作各自核验原有授权与审批。见 [完整指南](WORKFLOW-STUDIO.md) 和 [实测报告](evidence/2026-10-13-workflow-studio/README.md)。这与旧 `bokkio workflow` 是两个入口，不能混淆其执行边界。

@@ -6,7 +6,7 @@ import time
 from collections import Counter
 from typing import Any
 
-from .model import BokkioActionError, BokkioCompletionUnknown, BokkioError, BokkioPermissionError, BokkioStaleSnapshot, path_signature, stable_hash, tree_digest
+from .model import BokkioActionError, BokkioActionRefused, BokkioCompletionUnknown, BokkioError, BokkioPermissionError, BokkioStaleSnapshot, path_signature, stable_hash, tree_digest
 from .selector import choose, flatten
 from .scroll import DIRECTIONS, axis, observe_scroll, plan_scroll
 
@@ -173,7 +173,7 @@ class Xa11yBackend:
             raise BokkioStaleSnapshot("Snapshot changed since decision; observe and decide again")
         before = choose(before_scope, ref=ref, role=role, name=name, parent=parent)
         if before['platform_data'].get('invalid_bounds'):
-            raise BokkioActionError('Target has nonfinite provider geometry; no action dispatched')
+            raise BokkioActionRefused('Target has nonfinite provider geometry; no action dispatched', 'invalid_geometry')
         native_value_write = action in {"set_value","submit"} and before["platform_data"].get("value_runtime_id") and hasattr(self._native, "submit" if action=='submit' else "set_value")
         native_action = (action in before['platform_data'].get('verified_native_actions', [])
                          and before['platform_data'].get('action_runtime_id') and hasattr(self._native,'perform_action'))
@@ -193,23 +193,23 @@ class Xa11yBackend:
             from .app_launch import desktop_environment
             background_before=desktop_environment()['foreground_pid']
         if expected_snapshot is not None and before["platform_data"].get("ambiguous_ref_identity") and not (native_value_write or native_action or mac_action):
-            raise BokkioActionError("Target has indistinguishable siblings without a unique native identity")
+            raise BokkioActionRefused("Target has indistinguishable siblings without a unique native identity", 'ambiguous_target')
         radio_select = action == "select" and before["role"] == "radio_button"
         readonly_selection=(mac_action and action=='select_text' and before['role'] in {'text_area','text_field'})
         if before["state"].get("enabled") is False and not readonly_selection:
-            raise BokkioActionError(f"Target is disabled: {before['ref']}")
+            raise BokkioActionRefused(f"Target is disabled: {before['ref']}", 'target_disabled')
         capability = "click" if action == "invoke" else action
         if action != "scroll" and capability not in before["actions"]:
-            raise BokkioActionError(f"Action {action} is not advertised by target: {before['ref']}")
+            raise BokkioActionRefused(f"Action {action} is not advertised by target: {before['ref']}")
         element = live.get(before["ref"])
         if element is None and not mac_action:
-            raise BokkioActionError('Target has no bound live provider object')
+            raise BokkioActionRefused('Target has no bound live provider object')
         scope = before
         nodes = {n['ref']:n for n in flatten([before_tree])}
         while scope['role'] not in {'window','dialog'} and scope['parent'] in nodes:
             scope = nodes[scope['parent']]
         if scope['role'] in {'window','dialog'} and scope['state'].get('enabled') is False:
-            raise BokkioActionError("Target window is disabled by a modal dialog; observe the active dialog")
+            raise BokkioActionRefused("Target window is disabled by a modal dialog; observe the active dialog", 'window_disabled')
         scroll_plan = plan_scroll(before_tree, before, direction, amount) if action == "scroll" else None
         write_source = None
         action_source = None
@@ -225,7 +225,7 @@ class Xa11yBackend:
                 if mac_action and action=='select_text':
                     text=before['value']
                     if not isinstance(value,str) or not value or not isinstance(text,str) or text.count(value)!=1:
-                        raise BokkioActionError('Text selection requires one exact nonempty literal in the current value')
+                        raise BokkioActionRefused('Text selection requires one exact nonempty literal in the current value')
                     start=len(text[:text.index(value)].encode('utf-16-le'))//2
                     end=start+len(value.encode('utf-16-le'))//2
                     if before['platform_data'].get('ax_selection_focus_settable'):
@@ -252,7 +252,7 @@ class Xa11yBackend:
                 elif action=='submit':
                     data=before['platform_data']
                     if not data.get('submit_available') or not hasattr(self._native,'submit'):
-                        raise BokkioActionError('Native Enter submission is not available for this field')
+                        raise BokkioActionRefused('Native Enter submission is not available for this field')
                     submission=_call(self._native.submit,element,data['value_scope_hwnd'],
                                      data['value_runtime_id'],before['value'])
                     action_source=submission['action_source']
@@ -272,7 +272,7 @@ class Xa11yBackend:
                         _call(method)
                     else:
                         _call(method, value)
-        except (BokkioPermissionError,BokkioCompletionUnknown):
+        except (BokkioPermissionError,BokkioCompletionUnknown,BokkioActionRefused):
             raise
         except Exception as error:
             raise BokkioActionError(f"{action} failed for {before['ref']}: {error}") from error

@@ -1,0 +1,118 @@
+---
+source_path: docs/CAPABILITY-MODULES.md
+source_version: working-tree-based-on-78c3289a42369aa5c0eb276e2092dece83b6b7e6
+ingested: 2026-10-13
+sha256: d59f4f255c00fbc5106ce3ce4ac3ba94593fa59f333f2709a3391a1a254d576c
+---
+
+# 轻量能力模块
+
+Runtime 的可选模块是通用原语之上的语义能力；目标分解、任务规划与最终业务验收仍由 Harness 负责。本轮是一个内置 Office 文件模块的契约试点，不是动态插件安装平台。
+
+## 安装和启用
+
+默认 Core 不依赖 Office 库，模块发现不导入 openpyxl。需要执行时显式安装可选依赖；源码环境：
+
+```sh
+uv sync --frozen --extra mcp --extra browser --extra office --group test
+uv run --extra office --extra mcp --extra browser bokkio-runtime --help
+```
+
+wheel 安装使用 `bokkio[office,mcp]`。不要用默认 `uv sync` 删除 extra 后继续假定 Office 模块可用；发现接口会返回 `missing_dependency`。安装器默认仍只安装 MCP／Browser，Office 不自动安装。
+
+管理员策略示例（路径需要替换为自己的可丢弃工作区）：
+
+```json
+{
+  "apps": [],
+  "paths": ["/absolute/disposable-workspace"],
+  "origins": [],
+  "modules": ["office.xlsx"],
+  "write": true,
+  "trusted_host": true,
+  "require_approval": true
+}
+```
+
+模块允许列表与原有权限取交集；新会话继承管理员策略，调用方不能扩大它。关闭／撤销模块会阻止新派发；策略文件变更仍按现有 Runtime 要求重启服务，并为需要扩大授权的任务新开会话。已经启动的 trusted-host worker 使用委派的会话策略，不提供任意宿主代码的实时 OS 隔离或撤销已经产生的副作用。
+
+即使能力本身只读，首版通过宿主代码作业执行，故 `capability.invoke` 统一要求 write／trusted_host，并进入精确审批；`module.list`、`capability.list/get` 是只读发现。能力声明的 side_effect 与执行通道的授权要求分别描述。
+
+## 渐进式发现与调用
+
+三种 transport 使用相同的工具与参数：
+
+| 工具 | 用途 |
+|---|---|
+| `module.list` | 模块摘要、分类标签、是否启用、依赖健康，不加载全部输入合同 |
+| `capability.list` | 能力摘要；可传 `module_id` 筛选 |
+| `capability.get` | 精确 ID 的完整输入／输出、前置条件、预期效果、实现范围、恢复规则和合同 SHA256 |
+| `capability.invoke` | 指定能力 ID、版本、合同 SHA256、inputs；可指定精确 implementation；返回 job_id |
+| `job.get/cancel` | 沿用现有作业查询、取消和 worker 丢失处理 |
+
+`capabilities` 会提示模块发现入口。MCP 仍只公开少量通用发现／调用工具，不把每个模块动作加入全局工具列表。当前使用本地静态注册，只有 `office.xlsx` 一个模块；元数据在 `modules/office_xlsx_contract.py`，实现位于 `modules/office_xlsx.py`。新增模块按相同合同显式注册；不接受来自调用方的 import 路径、安装命令或任意执行器。独立 wheel 插件加载、在线搜索与热升级留待有真实需求时增加。
+
+合同 SHA256 绑定元数据、实现源码 SHA256 和实际依赖版本。升级改变合同后，旧请求零派发拒绝；需要重新发现并创建新的精确审批请求。worker 开始时再次检查合同，运行不自动换实现。
+
+SDK 样例：
+
+```python
+import hashlib
+from pathlib import Path
+from bokkio.sdk import Client
+
+client = Client.from_policy("/absolute/private-state", "/absolute/policy.json")
+client.open(apps=[])
+client.call("module.list")
+client.call("capability.list", {"module_id": "office.xlsx"})
+contract = client.call("capability.get", {"capability_id": "xlsx.update_cells"})["result"]
+source = Path("/absolute/disposable-workspace/source.xlsx")
+request = {
+    "capability_id": contract["id"],
+    "version": contract["version"],
+    "contract_sha256": contract["contract_sha256"],
+    "inputs": {
+        "path": str(source), "sheet": "Summary",
+        "expected_sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+        "output_path": "/absolute/disposable-workspace/updated.xlsx",
+        "cells": {"A2": 370, "B2": "林安"}
+    }
+}
+receipt = client.call("capability.invoke", request, operation_id="caller-unique-operation-id")
+# approval_required 时由管理员查看并批准，再用原 request、原 operation_id 恢复。
+if receipt["status"] == "queued":
+    final = client.wait_job(receipt["result"]["job_id"])
+    if final["result"]["status"] == "completed":
+        result = final["result"]["result"]["output"]
+        assert result["status"] == "verified", result
+        print(result["evidence"])
+```
+
+CLI 沿用 `call TOOL --session ID --args-file request.json`，MCP 参数仍包含外层 `arguments/session_id/operation_id`。两者与 SDK 共用 schema、授权、精确请求审批和相同 Runtime。
+
+## Office 支持范围
+
+| 能力 | 必需 inputs | 返回事实 |
+|---|---|---|
+| `xlsx.read_range` | path、sheet、expected_sha256、range（A1 或 A1:B4） | 有界字面值、源哈希；status=completed |
+| `xlsx.update_cells` | path、sheet、expected_sha256、output_path、cells | 新文件、单元格读回、源／产物哈希；status=verified |
+| `xlsx.verify_cells` | path、sheet、expected_sha256、cells | 独立打开文件并比较实际字面值；匹配时 status=verified |
+
+路径必须为获准范围内的绝对 `.xlsx`；一次最多1000个单元格、源10 MiB、ZIP展开50 MiB。输入为字符串、有限数字、布尔或 null；日期／公式／错误值不是首版字面值合同。清空单元格使用 null；空字符串可能无法按原样持久化，读回不符时拒绝发布。
+
+更新仅支持普通静态值工作簿，拒绝公式工作簿、受保护工作表、合并目标以及已识别的宏、绘图、图表、透视、表格和外部链接等特征。不承诺复杂格式无损、公式缓存或重算。该实现读写磁盘文件，与当前打开的 Excel／Numbers 文档不是等价通道。
+
+源文件在执行前后校验 SHA256；输出目录必须已存在，输出不得为源路径或既有路径。先写临时文件并读回，再以不覆盖的原子 hard-link 发布，并重新打开产物核验；目标文件系统若不支持 hard-link，会明确失败，不降级为可覆盖写入。源发生变化时不自作主张继续。
+
+`queued` 和作业进程退出成功均不代表整项业务成功。`job.get` 的 `result.output` 是模块结构化结果；缺失／格式错误／绑定不符会成为 unknown。已发布产物但无法确认读回时为 completion_unknown；查证产物后由调用方决定下一步。同 operation ID 只返回既有作业／回执，不重复发布。
+
+## 验证
+
+`tests/test_capability_modules.py` 覆盖发现、权限、模块禁用、依赖缺失、版本／合同变化、审批、越界、篡改、独立文件读回、并发输出创建、发布后未知完成和 MCP／CLI／SDK 接入。`tests/test_action_dispatch_facts.py` 使用实际 Xa11yBackend 的合成 provider 验证禁用目标零派发和派发后未知完成；不冒充实机 Numbers 提交／保存。
+
+```sh
+uv run --extra office --extra mcp --extra browser --group test pytest -q
+uv run --extra office python scripts/verify_capability_modules.py --output /tmp/bokkio-capability-NEW
+```
+
+对照脚本比较三个可丢弃文件样本的通用 `code.run` 与模块调用，两路均独立核验源和产物。通用路径提供了精确解法代码，因此不是自主 Harness 评测；耗时仅是描述性记录，不能证明模块降低了模型 token、工具回合或提升了业务成功率。完整业务矩阵继续暂停，Windows、客户任务和旧 Office GUI 兼容层迁移未验收。

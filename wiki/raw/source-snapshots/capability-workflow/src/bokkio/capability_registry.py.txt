@@ -1,0 +1,101 @@
+---
+source_path: src/bokkio/capability_registry.py
+source_version: working-tree-based-on-78c3289a42369aa5c0eb276e2092dece83b6b7e6
+ingested: 2026-10-13
+sha256: a3f99c49e02b5afac7dcc8e832975716e677b3dc49b5faa34beb9767805a936e
+---
+
+"""Local, opt-in module contracts. Discovery never imports an implementation."""
+from __future__ import annotations
+
+import copy
+import importlib.metadata
+import json
+import platform
+from pathlib import Path
+
+
+from .modules.office_xlsx_contract import VERSION, MODULE, IMPLEMENTATION, CONTRACTS
+
+
+def health():
+    try:
+        version = importlib.metadata.version("openpyxl")
+    except importlib.metadata.PackageNotFoundError:
+        return {"available": False, "reason": "missing_dependency", "install_extra": "office"}
+    # Supported final 3.x releases; prereleases/unknown versions are conservative refusals.
+    parts = version.split(".")
+    supported = len(parts) == 3 and all(p.isdigit() for p in parts) and (3, 1, 5) <= tuple(map(int, parts)) < (4, 0, 0)
+    return {"available": supported, "reason": None if supported else "unsupported_dependency_version", "dependency_version": version}
+
+
+def enabled(policy, scope):
+    return MODULE in policy.get("modules", []) and MODULE in scope.get("modules", [])
+
+
+def modules(policy, scope):
+    return [{"id": MODULE, "version": VERSION, "categories": ["office", "spreadsheet", "file"],
+             "description": "Optional saved-XLSX file operations; no GUI or business planning.",
+             "enabled": enabled(policy, scope), "health": health(), "capability_count": len(CONTRACTS)}]
+
+
+def discover(policy, scope, module_id=None):
+    if module_id not in {None, MODULE}:
+        raise ValueError("Unknown module")
+    return [{"id": c["id"], "version": c["version"], "module_id": MODULE, "description": c["description"],
+             "side_effect": c["side_effect"], "enabled": enabled(policy, scope), "health": health()} for c in CONTRACTS.values()]
+
+
+def contract(cid):
+    if cid not in CONTRACTS:
+        raise ValueError("Unknown capability")
+    from .audit import digest
+    import hashlib
+    value = copy.deepcopy(CONTRACTS[cid])
+    source = Path(__file__).parent / "modules" / "office_xlsx.py"
+    value["implementations"][0]["source_sha256"] = hashlib.sha256(source.read_bytes()).hexdigest()
+    value["implementations"][0]["dependency_version"] = health().get("dependency_version")
+    value["contract_sha256"] = digest(value)
+    return value
+
+
+def prepare(runtime, scope, request):
+    c = contract(request["capability_id"])
+    if not enabled(runtime.policy, scope):
+        raise ValueError("Capability module is disabled or revoked")
+    if request["version"] != c["version"]:
+        raise ValueError("Capability version mismatch; rediscover its contract")
+    if request["contract_sha256"] != c["contract_sha256"]:
+        raise ValueError("Capability contract changed; rediscover and approve a new request")
+    if request.get("implementation", IMPLEMENTATION) != IMPLEMENTATION:
+        raise ValueError("Unsupported capability implementation")
+    state = health()
+    if not state["available"]:
+        raise ValueError("Capability unavailable: " + state["reason"])
+    if platform.system() not in c["implementations"][0]["platforms"]:
+        raise ValueError("Capability platform unsupported")
+    if not (scope["trusted_host"] and runtime.policy["trusted_host"]):
+        raise ValueError("Capability code jobs require trusted-host execution")
+    from .modules.office_xlsx import validate_inputs
+    inputs = copy.deepcopy(request["inputs"])
+    validate_inputs(c["id"], inputs)
+    source = runtime._path(scope, inputs["path"])
+    if not source.is_file():
+        raise ValueError("Capability source file is unavailable")
+    inputs["path"] = str(source)
+    if "output_path" in inputs:
+        output = runtime._path(scope, inputs["output_path"])
+        if output == source or output.exists() or not output.parent.is_dir():
+            raise ValueError("Capability output must be a new file in an existing granted directory")
+        inputs["output_path"] = str(output)
+    from .modules.office_xlsx import source_bytes
+    source_bytes(source, inputs["expected_sha256"])
+    binding = {"id": c["id"], "version": c["version"], "module_id": MODULE, "module_version": c["module_version"],
+               "contract_sha256": c["contract_sha256"]}
+    # JSON data is quoted as a Python literal; input values cannot become code.
+    code = "from bokkio.modules.office_xlsx import main\nmain(" + repr(json.dumps({"capability": binding, "inputs": inputs}, ensure_ascii=False)) + ")\n"
+    return {"language": "python", "code": code, "cwd": str(source.parent), "timeout": 30,
+            "output_limit": 1000000, "structured_output": True, "capability": binding,
+            "output_schema": c["output_schema"], "output_bindings": {"capability": binding},
+            "implementation": {"id": IMPLEMENTATION, "version": VERSION,
+                               "source_sha256": c["implementations"][0]["source_sha256"], **state}}

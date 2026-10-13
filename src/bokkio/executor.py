@@ -235,6 +235,32 @@ def worker(root, job_id):
                   "truncated": {k: counts[k] > len(buffers[k]) for k in counts},
                   "duration_ms": round((time.monotonic() - start) * 1000, 3),
                   "execution_mode": "trusted-host", "dispatched": True}
+        if request.get("structured_output") and status == "completed":
+            try:
+                if result["truncated"]["stdout"]:
+                    raise ValueError("Structured job output was truncated")
+                output = json.loads(result["stdout"])
+                if not isinstance(output, dict):
+                    raise ValueError("Structured job output must be an object")
+                result["output"] = output
+                if output.get("status") == "completion_unknown":
+                    status = "completion_unknown"
+                else:
+                    contract = request.get("output_schema", {})
+                    if set(contract.get("required", [])) - set(output):
+                        raise ValueError("Structured job output omitted required evidence")
+                    for key, definition in contract.get("properties", {}).items():
+                        if key not in output:continue
+                        if definition.get("type") == "object" and not isinstance(output[key], dict):
+                            raise ValueError("Invalid structured output field")
+                        if "enum" in definition and output[key] not in definition["enum"]:
+                            raise ValueError("Invalid structured output status")
+                    if any(output.get(k) != v for k, v in request.get("output_bindings", {}).items()):
+                        raise ValueError("Structured output binding differs from its request")
+            except (ValueError, TypeError):
+                # A process ran but no durable module result survived: do not replay.
+                status = "completion_unknown"
+                result["output_error"] = "Structured job result unavailable; inspect evidence"
     except Exception as error:
         result = {"error": type(error).__name__, "message": str(error), "dispatched": process is not None}
         if process is not None and process.poll() is None:

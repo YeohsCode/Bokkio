@@ -22,6 +22,8 @@ READ_TOOLS = {"capabilities", "desktop.list", "desktop.observe", "desktop.captur
               "evidence.check", "audit.query", "audit.export", "events.follow", "metrics.summary", "approval.status", "browser.observe"}
 WRITE_TOOLS = {"desktop.act", "desktop.activate", "desktop.launch", "desktop.pixel", "code.run", "process.run", "browser.open", "browser.act"}
 READ_TOOLS |= {"workflow.list", "workflow.get", "workflow.status"}
+READ_TOOLS |= {"module.list", "capability.list", "capability.get"}
+WRITE_TOOLS |= {"capability.invoke"}
 TOOLS = READ_TOOLS | WRITE_TOOLS | {"session.open", "session.close", "job.cancel", "workflow.run", "workflow.resume", "workflow.cancel"}
 
 
@@ -67,6 +69,8 @@ class Runtime:
         for key in ("apps", "paths", "origins"):
             if not isinstance(self.policy[key], list) or any(not isinstance(v, (str, int)) for v in self.policy[key]):
                 raise ValueError("Policy " + key + " must be a list of resource identifiers")
+        if not isinstance(self.policy.get("modules", []), list) or any(not isinstance(v, str) for v in self.policy.get("modules", [])):
+            raise ValueError("Policy modules must be a list of module identifiers")
         if type(self.policy["ttl"]) is not int or not 1 <= self.policy["ttl"] <= 86400:
             raise ValueError("Policy ttl must be 1..86400 seconds")
         self._backend = backend
@@ -269,7 +273,7 @@ class Runtime:
                 with self.store.connect() as db:
                     db.execute("UPDATE operations SET session_id=? WHERE id=?", (session_id, operation_id))
                     db.execute("UPDATE events SET session_id=? WHERE operation_id=?", (session_id, operation_id))
-            queued = tool in {"code.run", "process.run"}
+            queued = tool in {"code.run", "process.run", "capability.invoke"}
             verification = payload.get("verification") if isinstance(payload, dict) else None
             verified = verification == "confirmed" or isinstance(verification, dict) and verification.get("status") == "confirmed"
             result = {"status": "queued" if queued else "verified" if write and verified else "executed" if write else "completed", "operation_id": operation_id,
@@ -302,6 +306,15 @@ class Runtime:
         return result
 
     def _validate(self, tool, args, scope, session_id=None):
+        if tool == "capability.get":
+            from .capability_registry import contract
+            contract(args["capability_id"])
+        if tool == "capability.list":
+            from .capability_registry import discover
+            discover(self.policy, scope, args.get("module_id"))
+        if tool == "capability.invoke":
+            from .capability_registry import prepare
+            prepare(self, scope, args)
         if tool.startswith("workflow."):
             if tool in {"workflow.run", "workflow.resume"} and not (scope['write'] and self.policy['write']):
                 raise ValueError('Workflow writes are not granted')
@@ -375,6 +388,20 @@ class Runtime:
             raise ValueError("Audit queries cannot choose another session")
 
     def _execute(self, tool, args, scope, session_id, operation_id):
+        if tool in {"module.list", "capability.list", "capability.get", "capability.invoke"}:
+            from . import capability_registry as registry
+            if tool == "module.list":return registry.modules(self.policy, scope)
+            if tool == "capability.list":return registry.discover(self.policy, scope, args.get("module_id"))
+            if tool == "capability.get":
+                c = registry.contract(args["capability_id"])
+                return {**c, "enabled": registry.enabled(self.policy, scope), "health": registry.health()}
+            request = registry.prepare(self, scope, args)
+            self.store.emit("capability.resolved", session_id=session_id, operation_id=operation_id,
+                            data={"capability": request["capability"], "implementation": request["implementation"],
+                                  "contract_sha256": args["contract_sha256"]})
+            from .executor import launch
+            return {**launch(self.store, session_id, operation_id, request),
+                    "capability": request["capability"], "implementation": request["implementation"]}
         if tool.startswith('workflow.'):
             from .runtime_workflow import WorkflowLibrary, RuntimeWorkflowRunner
             from .sdk import Client
@@ -406,6 +433,7 @@ class Runtime:
             return {"schema": "bokkio.runtime.v1", "platform": platform.system(), "architecture": platform.machine(),
                     "tools": sorted(TOOLS), "browser_installed": importlib.util.find_spec("playwright") is not None,
                     "execution_mode": "trusted-host", "approval": self.policy["require_approval"],
+                    "module_discovery": {"schema": "bokkio.capability.v1", "summary_tool": "module.list", "detail_tool": "capability.get"},
                     "legacy_cli": "Legacy act/run/workflow are outside this enterprise boundary; use bokkio-runtime"}
         if tool == "session.open":
             granted_apps = [str(v) for v in self.policy["apps"]]

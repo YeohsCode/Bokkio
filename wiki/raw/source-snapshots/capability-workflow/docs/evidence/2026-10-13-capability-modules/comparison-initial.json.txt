@@ -1,0 +1,93 @@
+---
+source_path: docs/evidence/2026-10-13-capability-modules/comparison-initial.json
+source_version: working-tree-based-on-78c3289a42369aa5c0eb276e2092dece83b6b7e6
+ingested: 2026-10-13
+sha256: f235608e883e7a5503f0950cc64ea48b175e1ebdf4045cea15f833ed13678558
+---
+
+{
+  "schema": "bokkio.capability-evaluation.v1",
+  "platform": "Darwin",
+  "samples": [
+    {
+      "sample": 1,
+      "trials": [
+        {
+          "route": "code",
+          "passed": true,
+          "elapsed_ms": 126.88,
+          "execution_requests": 1,
+          "independent_cells_match": true,
+          "source_unchanged": true,
+          "output_sha256": "28e28e783ae2deed4dd79522d3aa302002bcfb0e45b12fc300f6c2c47000a802"
+        },
+        {
+          "route": "module",
+          "passed": true,
+          "elapsed_ms": 246.03,
+          "execution_requests": 1,
+          "independent_cells_match": true,
+          "source_unchanged": true,
+          "output_sha256": "7bda212db594bb339b532acae2e7d69c0b901cb7c4e7406b494c4044108fa187"
+        }
+      ]
+    },
+    {
+      "sample": 2,
+      "trials": [
+        {
+          "route": "code",
+          "passed": true,
+          "elapsed_ms": 127.15,
+          "execution_requests": 1,
+          "independent_cells_match": true,
+          "source_unchanged": true,
+          "output_sha256": "2643640409b6725dbb3272d275e75222d8fdc7ada0f66429988ea53eaa99909d"
+        },
+        {
+          "route": "module",
+          "passed": true,
+          "elapsed_ms": 248.07,
+          "execution_requests": 1,
+          "independent_cells_match": true,
+          "source_unchanged": true,
+          "output_sha256": "2643640409b6725dbb3272d275e75222d8fdc7ada0f66429988ea53eaa99909d"
+        }
+      ]
+    },
+    {
+      "sample": 3,
+      "trials": [
+        {
+          "route": "code",
+          "passed": true,
+          "elapsed_ms": 129.51,
+          "execution_requests": 1,
+          "independent_cells_match": true,
+          "source_unchanged": true,
+          "output_sha256": "829b512fa69b7f45b11a4c3e85d6ef1ec49bf123d62c80c7ac9326a3d0eb2506"
+        },
+        {
+          "route": "module",
+          "passed": true,
+          "elapsed_ms": 238.98,
+          "execution_requests": 1,
+          "independent_cells_match": true,
+          "source_unchanged": true,
+          "output_sha256": "829b512fa69b7f45b11a4c3e85d6ef1ec49bf123d62c80c7ac9326a3d0eb2506"
+        }
+      ]
+    }
+  ],
+  "passed": 6,
+  "total": 6,
+  "module_contract_sha256": "9a7183908e7836d1b7900196072a116a27e03a7f8f74550b3ee5d985e5575ef4",
+  "scope": "controlled_file_operations_not_autonomous_business_or_GUI",
+  "limitations": [
+    "baseline includes supplied exact code",
+    "no LLM tokens or business success measurement",
+    "latency is descriptive, not a performance benchmark",
+    "Windows not executed"
+  ],
+  "source_fingerprint_status": "not_captured_in_initial_controlled_run"
+}

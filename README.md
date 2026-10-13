@@ -10,6 +10,8 @@ A model-independent computer use runtime for Windows and macOS: native/pixel act
 
 **Workflow 新增（2026-10-13）：** 本机 Studio、macOS 录制、JSON 版本库和通过当前 Runtime 的有头／后台无头回放已实现。最新回归 **613/613**，后台启动和完整录制流程的独立前台／鼠标见证 **5/5**；结果与限制见 [Workflow 报告](docs/evidence/2026-10-13-workflow-studio/README.md)。旧业务完整复测已由用户暂停，旧分数不填入这次源码。
 
+**能力模块新增（2026-10-13）：** 默认关闭的本地模块摘要／能力合同／精确调用，首个可选 `office.xlsx` 提供磁盘文件读取、另存更新和独立读回核验，复用当前 Runtime 的审批、作业与审计。最新隔离回归 **647/647**，文件对照 **6/6**；不含客户／Windows／完整自主业务验收，也未证明速度或模型成本提升。[保存的计划](docs/CAPABILITY-MODULE-PLAN.md) · [用法与边界](docs/CAPABILITY-MODULES.md) · [执行报告](docs/evidence/2026-10-13-capability-modules/README.md)。Optional capability contracts and XLSX file operations keep planning in the external Harness.
+
 **跨环境 Agent 共享入口 / Shared handoff:** [计划、进度、完成度与待办](docs/progress/README.md) · [结构化状态](docs/progress/state.json) · [接续步骤](docs/progress/HANDOFF.md)。这些文档和脱敏验收报告由 Git 跟踪；每端完成工作后更新并推送。
 
 使用方法见 [Runtime 指南](docs/RUNTIME-GUIDE.md)，详细实测范围见 [交付报告](docs/RUNTIME-DELIVERY.md)。历史 `0.1.0` Planner/Jev/Workflow 内容保留在下文。
@@ -44,31 +46,26 @@ macOS 开发覆盖计划中的四类能力：原生、视觉、生成代码组�
 
 ```mermaid
 flowchart TB
-    Caller["Harness / Agent IDE / Agent"]
-    Studio["本机 Workflow Studio / 手工录制"] --> WF["Runtime Workflow / 版本库 / 检查点"]
-    WF --> SDK
-    Caller --> MCP["MCP stdio · mcp_server.py"]
-    Caller --> CLI["CLI JSON · runtime_cli.py"]
-    Caller --> SDK["Python SDK · sdk.Client"]
-    MCP --> Core["Runtime.call · runtime.py"]
-    CLI --> Core
-    SDK --> Core
-    Schema["tool_schema.py · 工具参数合同"] --> Core
-    Policy["管理员策略 · Session / 资源授权 / 审批"] --> Core
-    Core <--> Store["audit.AuditStore · SQLite / Artifact 文件"]
-    Admin["本地管理员 CLI · approve"] --> Store
-    Core --> Native["原生通道 · Xa11yBackend"]
-    Core --> Pixel["截图 / 像素输入 · desktop_input.py"]
-    Core --> Jobs["代码 / 进程 · executor.py worker"]
-    Core --> Browser["Browser · browser_driver.py worker"]
-    Native --> AX["macOS AX / Windows UIA"]
-    Pixel --> Capture["Swift ScreenCaptureKit / Windows capture + SendInput"]
-    Jobs --> Script["Python / Shell / PowerShell / argv"]
-    Browser --> Chromium["Playwright · 持久 Chromium 页面"]
-    Jobs --> Store
-    Browser --> Store
-    AX --> Desktop["获准桌面应用"]
-    Capture --> Desktop
+    Caller["Harness / Agent IDE / Agent<br/>目标规划与业务验收"] --> API["MCP · CLI JSON · Python SDK"]
+    Studio["Workflow Studio<br/>管理 / 被动录制"] --> WF["Runtime Workflow<br/>版本库 / 回放 / 检查点"]
+    WF --> API
+    API --> Core["Runtime.call<br/>Session / 授权 / 精确审批 / 幂等"]
+    Policy["管理员策略<br/>资源与模块允许列表"] --> Core
+    Core <--> Audit["AuditStore<br/>操作 / 作业 / 审批 / Artifact"]
+    Admin["本地管理员审批 CLI"] --> Audit
+    Core -.-> WF
+    Core --> Native["Native<br/>macOS AX / Windows UIA"]
+    Core --> Pixel["Capture / Pixel<br/>窗口身份与新鲜截图"]
+    Core --> Browser["Browser worker<br/>Playwright / Origin 约束"]
+    Core --> Jobs["Code / Process worker<br/>作业 / 取消 / 结构化结果"]
+    Core --> Registry["可选能力目录<br/>摘要 / 合同 / 精确解析"]
+    Registry --> Meta["模块元数据<br/>版本 / 源码与依赖绑定"]
+    Registry --> Jobs
+    Jobs --> XLSX["office.xlsx · 可选<br/>文件读写与独立核验"]
+    Native --> Apps["获准桌面应用"]
+    Pixel --> Apps
+    Browser --> Web["获准网页"]
+    XLSX --> Files["获准磁盘文件<br/>源哈希 / 新输出 / 读回"]
 ```
 
 | 层 / 模块 | 责任与调用关系 |
@@ -80,34 +77,58 @@ flowchart TB
 | 代码与进程 | `executor.launch` → 独立 worker → Python/Shell/PowerShell/argv；生成 Python 可通过 `Client.from_environment()` 继承会话并回调 Core |
 | Browser | `browser_driver.call` → 每会话持久 worker → Playwright Chromium；精确 origin 和 `expected_url` 约束操作 |
 | 审批与证据 | `AuditStore` 保存 SQLite 会话、操作、审批、事件及 artifact 元数据；管理员 CLI 决定审批；Agent 查询状态、日志、统计与产物 |
+| 能力目录与 Office 文件模块 | `capability_registry` → 元数据合同／精确解析 → `executor` → `modules.office_xlsx`；默认关闭、版本／源码／依赖绑定，读写磁盘 XLSX并核验新产物 |
 | Workflow Studio | `workflow_studio` / `manual_recording` / `runtime_workflow` → `Client.call` → Core；版本库、精确启动身份、检查点、MCP workflow 工具 |
 | 可选旧扩展 | `cli` → `DesktopAgent` → Planner/Jev，或 Recorder/WorkflowReplay → backend；仍直接使用 backend，不自动获得新 Core 的授权与审计合同 |
 
-原生调用在单一专用线程执行；原生动作、激活、像素和 Browser 派发共用跨进程桌面锁，锁等待后再次核验范围。代码/进程在独立 worker 运行，以 `job.get`/`job.cancel` 管理。SQLite 和私有文件保存跨进程状态；当前是单机架构，trusted-host 代码与 GUI 不提供逐文件 OS 沙箱。
+原生调用在单一专用线程执行；原生动作、激活、像素和 Browser 派发共用跨进程桌面锁，锁等待后再次核验范围。代码/进程与能力模块在既有独立 worker 运行，以 `job.get`/`job.cancel` 管理。模块发现只读元数据；精确调用需模块／路径／write／trusted-host 授权和原有审批，返回结构化核验与证据。SQLite 和私有文件保存跨进程状态；当前是单机架构，trusted-host 代码与 GUI 不提供逐文件 OS 沙箱。
+
+#### 功能模块布局图
+
+箭头表示功能归属；真实调用关系见下一图。Office 分类是模块标签，当前只有一个默认关闭的磁盘 XLSX 模块。新 Workflow 与能力模块复用既有 Core，任务规划仍由外部 Harness 负责。
+
+```mermaid
+flowchart LR
+    Package["Bokkio 0.2.0 功能布局"]
+    Package --> Entry["接入与公共协议"]
+    Entry --> Transports["mcp_server / runtime_cli / sdk<br/>tool_schema"]
+    Package --> Governance["执行与治理底座"]
+    Governance --> Kernel["runtime / audit / model<br/>授权 · 审批 · 幂等 · 证据"]
+    Package --> Channels["四类执行通道"]
+    Channels --> Desktop["xa11y_backend / desktop_input<br/>AX · UIA · Capture · Pixel"]
+    Channels --> Workers["executor / browser_driver<br/>代码 · 进程 · Browser"]
+    Package --> Extensions["可选复用能力"]
+    Extensions --> Workflow["workflow_studio / manual_recording<br/>runtime_workflow / app_launch"]
+    Extensions --> Modules["capability_registry<br/>modules/office_xlsx_contract.py<br/>modules/office_xlsx.py"]
+    Package -.-> Legacy["历史开发与评测"]
+    Legacy --> Old["cli / agent / planner / jev<br/>workflow / office_visual / benchmark"]
+```
 
 #### 模块调用图
 
 ```mermaid
-flowchart LR
+flowchart TB
     Entry["MCP / CLI / SDK"] --> Call["Runtime.call"]
-    Call --> Check["schema / session / grants / approval"]
+    Call --> Check["Schema / Session / Grants / Approval"]
     Check --> Dispatch["Runtime._execute"]
-    Dispatch --> NT["单一原生线程 · _native_call"]
-    NT --> XA["Xa11yBackend.snapshot / perform"]
-    XA --> Win["WindowsUIA"]
-    XA --> Mac["MacAX"]
-    Dispatch --> Input["desktop_input.capture / activate / perform"]
-    Input --> WC["windows_capture.py"]
-    Input --> MC["macos_capture.py + Swift helper"]
-    Input --> MA["macos_activation.py + Swift helper"]
-    Dispatch --> EX["executor.launch / get / cancel"]
-    EX --> EW["executor.worker · 子进程"]
-    EW -.-> Client["sdk.Client.from_environment"]
-    Client --> Call
+    Call --> Audit["AuditStore<br/>Operations / Jobs / Approvals"]
+    Dispatch --> Registry["capability_registry<br/>Discover / Contract / Prepare"]
+    Registry --> Manifest["office_xlsx_contract.py<br/>只读元数据"]
+    Registry --> EX["executor.launch / get / cancel"]
+    Dispatch --> EX
+    EX --> EW["executor.worker<br/>脚本子进程 / 结构化结果"]
+    EW --> XLSX["modules.office_xlsx.main<br/>openpyxl / 源哈希 / 发布 / 读回"]
+    EW -.-> SDK["sdk.Client<br/>生成代码可选子动作"]
+    SDK --> Reentry["Runtime.call 子动作<br/>再次授权 / 审批 / 审计"]
+    Dispatch --> WF["RuntimeWorkflowRunner<br/>版本 / 子操作 / 检查点"]
+    WF --> SDK
+    Dispatch --> NT["_native_call<br/>专用原生线程"]
+    NT --> XA["Xa11yBackend"]
+    XA --> OS["MacAX / WindowsUIA"]
+    Dispatch --> Input["desktop_input<br/>capture / activate / perform"]
+    Input --> Capture["平台采集 / Swift / SendInput"]
     Dispatch --> BC["browser_driver.call"]
-    BC --> BW["browser_driver.worker · 本地 HTTP / token"]
-    BW --> PW["Playwright"]
-    Call <--> Audit["AuditStore · events / operations / approvals"]
+    BC --> BW["持久 Browser worker<br/>Playwright"]
     EW --> Audit
     BW --> Audit
 ```
@@ -364,13 +385,13 @@ uv run python scripts/verify_native.py --output /tmp/bokkio-evidence
 
 Bokkio is an enterprise computer use execution tool. External harnesses, Agent IDEs and agents plan tasks and choose channels; the shared Core observes and acts on approved resources, runs generated code/scripts, controls an isolated browser, and records approvals and operation evidence. No model or application-specific planning loop is required.
 
-As of 2026-10-12, host regression passes **550/550**. Real process faults pass 5/5, the local desktop/job matrix scores 18/18, and the unadapted Numbers/MCP development sample passes 3/3. The native/SQLite audit contract passes 9/9; physical lock/display and customer acceptance remain pending. macOS has development evidence for native actions, pixel/Unicode input, generated-code combinations and browser operations. Three user-selected developer caller paths pass independent acceptance: current Codex through an official MCP client bridge, and installed Hermes/DeepSeek through MCP code.run plus delegated native SDK calls (GLM 5.3 Flash). Native Codex CLI attachment and DeepSeek per-model-turn native calls have separate unresolved results; see [harness evidence](docs/evidence/2026-10-12-harness/README.md). Customer application tasks, physical environment checks and deployment/manual approval remain pending. Current-runtime Windows live acceptance is pending; the saved VM credentials were recovered and login succeeded.
+As of 2026-10-13, the latest capability-module source passes **647/647** isolated regression tests and **6/6** controlled file comparisons. Workflow Studio and Runtime-backed replay are implemented. The full business rerun remains paused; the prior frozen main batch scored **26/36**, stability **17/27**, and GUI **0/18**. These denominators do not establish current customer or Windows acceptance. Earlier 2026-10-12 evidence follows: Real process faults pass 5/5, the local desktop/job matrix scores 18/18, and the unadapted Numbers/MCP development sample passes 3/3. The native/SQLite audit contract passes 9/9; physical lock/display and customer acceptance remain pending. macOS has development evidence for native actions, pixel/Unicode input, generated-code combinations and browser operations. Three user-selected developer caller paths pass independent acceptance: current Codex through an official MCP client bridge, and installed Hermes/DeepSeek through MCP code.run plus delegated native SDK calls (GLM 5.3 Flash). Native Codex CLI attachment and DeepSeek per-model-turn native calls have separate unresolved results; see [harness evidence](docs/evidence/2026-10-12-harness/README.md). Customer application tasks, physical environment checks and deployment/manual approval remain pending. Current-runtime Windows live acceptance is pending; the saved VM credentials were recovered and login succeeded.
 
 Use the [shared progress folder](docs/progress/README.md) for the plan, completion counts, pending work and cross-environment handoff. These documents and sanitized evidence are tracked in Git. The candidate is not yet a fully accepted dual-platform release.
 
 ### Current architecture (0.2.0)
 
-The Python implementation shares `Runtime.call()` across MCP stdio, CLI JSON and the Python SDK. The caller owns model selection, planning, channel selection and business verification. Core owns sessions, resource checks, approvals, execution, jobs and evidence. The [Chinese architecture section](#当前系统架构020) includes the system diagram, module call graph and request sequence; [Wiki architecture](wiki/summaries/architecture-map.md) and the [complete module map](wiki/summaries/module-call-map.md) link these relationships to code.
+The Python implementation shares `Runtime.call()` across MCP stdio, CLI JSON and the Python SDK. The caller owns model selection, planning, channel selection and business verification. Core owns sessions, resource checks, approvals, execution, jobs and evidence. The [Chinese architecture section](#当前系统架构020) includes the system diagram, functional module layout, module call graph and request sequence; [Wiki architecture](wiki/summaries/architecture-map.md) and the [complete module map](wiki/summaries/module-call-map.md) link these relationships to code.
 
 | Module | Calls and responsibility |
 |---|---|
@@ -381,6 +402,8 @@ The Python implementation shares `Runtime.call()` across MCP stdio, CLI JSON and
 | `executor` | Durable code/process workers, output limits, timeout and cancellation; generated Python can call the delegated SDK |
 | `browser_driver` | Persistent per-session Playwright worker with granted origins and exact `expected_url` checks |
 | `audit` | SQLite sessions/operations/approvals/events and artifact metadata; local admin CLI grants approval |
+| `capability_registry`, `modules/office_xlsx*` | Opt-in discovery and exact contract-bound invocation through existing code jobs; saved XLSX operations with source hashes and readback evidence |
+| `workflow_studio`, `manual_recording`, `runtime_workflow`, `app_launch` | Versioned recorded workflows; exact app startup and checkpointed child calls through the same Core |
 | Legacy Agent/Workflow | Optional direct-backend clients; existing paths do not pass through the new Runtime authorization/audit boundary |
 
 Native calls use one dedicated thread. Native actions, activation, pixel input and Browser calls share a cross-process desktop lock and revalidate after waiting. Code/process jobs run in independent workers. This is a local architecture; trusted-host scripts and GUI operations do not provide a per-file OS sandbox.

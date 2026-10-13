@@ -8,7 +8,13 @@
 
 原完整业务复测已由用户暂停，暂停前只有 Codex 流程重放的 12 个记录（4 通过、2 失败、6 预检阻塞），不能称完整分数；[暂停证据](../evidence/2026-10-13-full-rerun-paused/README.md)保留。下表为此前冻结版本的成绩；新增源码尚未重跑三调用方完整业务矩阵。
 
-## 上一冻结版本测试结果
+## 能力模块新增（2026-10-13）
+
+轻量 module.list／capability.list/get/invoke 和可选 office.xlsx 文件模块已实现；默认关闭，模块／路径／write／trusted-host授权、精确合同与审批、既有作业及审计共用。完整隔离回归647/647（新增34项合同），三份样本的通用代码／模块两路独立文件核验6/6；wheel包含／导入检查通过。模块路径有额外校验成本，尚未证明自主成功率、速度或token收益。
+
+通用 backend 禁用目标等零派发分类已修复并经过合成 provider 的 Runtime 合同验证，真实 Numbers 提交／保存尚未续测。完整业务矩阵仍暂停。见 [保存计划](../CAPABILITY-MODULE-PLAN.md)、[用法](../CAPABILITY-MODULES.md) 和 [报告](../evidence/2026-10-13-capability-modules/README.md)。
+
+## 上一冻结版本测试结果（保留原分母）
 
 | 项目 | 结果 | 含义 |
 |---|---:|---|
@@ -40,7 +46,7 @@ Workflow：用户本人端到端演示与客户软件任务；Windows 输入监�
 
 
 1. MAC-01：真实锁屏／解锁、第二物理显示器或不同缩放；本轮两项正向输入已完成。
-2. MAC-NATIVE-02：禁用目标的零派发分类、编辑提交／菜单路径与两份 .numbers 持久化；保守 unknown 不能升级通过或盲重发。
+2. MAC-NATIVE-02：禁用目标零派发分类已修复并通过backend合同，真实Numbers现场分类仍需复核；编辑提交／菜单路径与两份 .numbers 持久化仍待完成，保守 unknown 不能升级通过或盲重发。
 3. EVAL-QUALITY：Hermes/DeepSeek 完整终态、事实读取、GUI 保存／编辑、Harness 图片消费；GUI T01 的范围可行性需新 suite revision，不能覆盖 v1 失败。新 Core／适配修订后冻结并重跑受影响主批和三份稳定性。
 4. CLIENT-01：客户指定未参与调优应用、可丢弃数据及独立评分条件；当前开发样本不等于客户验收。
 5. HARNESS-01：三种开发接入路径历史各一份完整样本通过；真实人工批准、客户部署和实际等待成本未验收。延迟自动批准不替代人工。

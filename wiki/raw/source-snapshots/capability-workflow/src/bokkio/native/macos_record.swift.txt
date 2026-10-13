@@ -1,0 +1,160 @@
+---
+source_path: src/bokkio/native/macos_record.swift
+source_version: 78c3289a42369aa5c0eb276e2092dece83b6b7e6
+ingested: 2026-10-13
+sha256: ae97eb9e4dc05e2b1b8fde4e1026914fe2de5ece89ecf7b5f2345d86f0782c87
+---
+
+import Cocoa
+import ApplicationServices
+import Darwin
+
+// Passive only: no events are swallowed, replaced or posted by the recorder.
+func emit(_ body:[String:Any]) {
+    if let data=try? JSONSerialization.data(withJSONObject:body,options:[.sortedKeys]) {
+        FileHandle.standardOutput.write(data);FileHandle.standardOutput.write(Data([10]))
+    }
+}
+func apps()->[[String:Any]] {
+    NSWorkspace.shared.runningApplications.filter{$0.activationPolicy == .regular}.compactMap { a in
+        guard let path=a.bundleURL?.path, let name=a.localizedName else{return nil}
+        return ["pid":Int(a.processIdentifier),"name":name,"path":path,"bundle_id":a.bundleIdentifier ?? ""]
+    }
+}
+if CommandLine.arguments.contains("--apps") {emit(["apps":apps()]);exit(0)}
+if CommandLine.arguments.contains("--environment") {
+    let point=CGEvent(source:nil)?.location ?? CGPoint.zero
+    emit(["foreground_pid":Int(NSWorkspace.shared.frontmostApplication?.processIdentifier ?? 0),"pointer":["x":point.x,"y":point.y]])
+    exit(0)
+}
+let permitted=Set(CommandLine.arguments.dropFirst().compactMap{Int32($0)})
+let recordingParent=getppid()
+if permitted.isEmpty {emit(["error":"Select applications before recording"]);exit(1)}
+if !AXIsProcessTrusted() {emit(["error":"Accessibility permission is required; no permission prompt was requested"]);exit(1)}
+let system=AXUIElementCreateSystemWide()
+AXUIElementSetMessagingTimeout(system,0.15)
+func attr(_ e:AXUIElement,_ name:String)->CFTypeRef? {
+    var v:CFTypeRef?;return AXUIElementCopyAttributeValue(e,name as CFString,&v) == .success ? v:nil
+}
+func text(_ e:AXUIElement,_ name:String)->String {return attr(e,name) as? String ?? ""}
+func describe(_ e:AXUIElement)->[String:Any]? {
+    var pid:pid_t=0;guard AXUIElementGetPid(e,&pid) == .success,permitted.contains(pid) else{return nil}
+    AXUIElementSetMessagingTimeout(e,0.15)
+    let role=text(e,"AXRole"),sub=text(e,"AXSubrole")
+    if sub == "AXSecureTextField" {return ["pid":Int(pid),"kind":"unsupported","reason":"Secure input is excluded"]}
+    var ancestors:[[String:String]]=[];var current=e
+    for _ in 0..<32 {
+        guard let p=attr(current,"AXParent"),CFGetTypeID(p) == AXUIElementGetTypeID() else{break}
+        current=unsafeBitCast(p,to:AXUIElement.self)
+        let r=text(current,"AXRole")
+        if r == "AXApplication" {break}
+        ancestors.append(["role":r,"name":text(current,"AXTitle").isEmpty ? text(current,"AXDescription"):text(current,"AXTitle")])
+    }
+    let name=text(e,"AXTitle").isEmpty ? text(e,"AXDescription"):text(e,"AXTitle")
+    var window=""
+    if let w=attr(e,"AXWindow"),CFGetTypeID(w) == AXUIElementGetTypeID() {window=text(unsafeBitCast(w,to:AXUIElement.self),"AXTitle")}
+    if window.isEmpty {
+        let app=AXUIElementCreateApplication(pid)
+        if let w=attr(app,"AXFocusedWindow"),CFGetTypeID(w) == AXUIElementGetTypeID() {window=text(unsafeBitCast(w,to:AXUIElement.self),"AXTitle")}
+    }
+    return ["pid":Int(pid),"role":role,"name":name,"identifier":text(e,"AXIdentifier"),"ancestors":ancestors,"window":window]
+}
+var editWork:DispatchWorkItem?
+var editTarget:AXUIElement?
+var clickTarget:AXUIElement?
+var scrolling:DispatchWorkItem?
+func focused()->AXUIElement? {
+    guard let p=attr(system,"AXFocusedUIElement"),CFGetTypeID(p) == AXUIElementGetTypeID() else{return nil}
+    return unsafeBitCast(p,to:AXUIElement.self)
+}
+func emitEdit(_ element:AXUIElement) {
+    guard var body=describe(element) else{return}
+    if body["kind"] as? String == "unsupported" {emit(body);return}
+    let role=text(element,"AXRole")
+    guard ["AXTextField","AXTextArea","AXComboBox"].contains(role) else {
+        body["kind"]="unsupported";body["reason"]="Keyboard interaction has no editable accessibility target";emit(body);return
+    }
+    guard let value=attr(element,"AXValue") as? String,value.count<=32000 else {
+        body["kind"]="unsupported";body["reason"]="Editable value is unavailable or too large";emit(body);return
+    }
+    body["kind"]="edit";body["value"]=value;emit(body)
+}
+let observationQueue=DispatchQueue(label:"bokkio.record-observations",qos:.userInitiated)
+var dragReported=false
+func allowed(_ e:AXUIElement)->Bool {var pid:pid_t=0;return AXUIElementGetPid(e,&pid) == .success && permitted.contains(pid)}
+let callback:CGEventTapCallBack={ _,type,event,_ in
+    if type == .tapDisabledByTimeout || type == .tapDisabledByUserInput {
+        emit(["error":"Recording event tap stopped; recording is incomplete"]);CFRunLoopStop(CFRunLoopGetMain());return Unmanaged.passUnretained(event)
+    }
+    if type == .leftMouseDown {
+        dragReported=false
+        if let target=editTarget {editWork?.cancel();observationQueue.async{emitEdit(target)};editTarget=nil;editWork=nil}
+        var target:AXUIElement?
+        if AXUIElementCopyElementAtPosition(system,Float(event.location.x),Float(event.location.y),&target) == .success {clickTarget=target}
+    } else if type == .leftMouseUp {
+        if let target=clickTarget,allowed(target) {
+            let doubleClick=event.getIntegerValueField(.mouseEventClickState)>1
+            observationQueue.asyncAfter(deadline:.now()+0.1){
+                if var body=describe(target) {
+                    if body["kind"] == nil {body["kind"]="click";body["double_click"]=doubleClick}
+                    emit(body)
+                }
+            }
+        };clickTarget=nil
+    } else if type == .keyDown {
+        guard let target=focused(),allowed(target) else{return Unmanaged.passUnretained(event)}
+        let command=event.flags.contains(.maskCommand) || event.flags.contains(.maskControl)
+        let code=event.getIntegerValueField(.keyboardEventKeycode)
+        // No keystroke text or clipboard contents leave the callback.
+        if command && code != 9 {
+            observationQueue.async{if var body=describe(target){body["kind"]="unsupported";body["reason"]="Shortcut requires an explicit reviewed workflow step";emit(body)}}
+        } else {
+            editWork?.cancel();editTarget=target;let work=DispatchWorkItem{emitEdit(target)};editWork=work
+            observationQueue.asyncAfter(deadline:.now()+0.35,execute:work)
+        }
+    } else if type == .scrollWheel {
+        var target:AXUIElement?
+        if AXUIElementCopyElementAtPosition(system,Float(event.location.x),Float(event.location.y),&target) == .success,let e=target,allowed(e) {
+            scrolling?.cancel()
+            let work=DispatchWorkItem{if var body=describe(e){body["kind"]="unsupported";body["reason"]="Scroll gesture captured; add a reviewed semantic scroll step";emit(body)}}
+            scrolling=work;observationQueue.asyncAfter(deadline:.now()+0.3,execute:work)
+        }
+    } else if type == .rightMouseDown || type == .leftMouseDragged && !dragReported {
+        dragReported=true
+        if let e=focused(),allowed(e) {observationQueue.async{if var body=describe(e){body["kind"]="unsupported";body["reason"]="Drag or context-menu gesture needs a reviewed step";emit(body)}}}
+    }
+    return Unmanaged.passUnretained(event)
+}
+let types:[CGEventType]=[.leftMouseDown,.leftMouseUp,.keyDown,.scrollWheel,.rightMouseDown,.leftMouseDragged]
+let mask=types.reduce(CGEventMask(0)){$0 | (CGEventMask(1)<<$1.rawValue)}
+guard let tap=CGEvent.tapCreate(tap:.cgSessionEventTap,place:.headInsertEventTap,options:.listenOnly,eventsOfInterest:mask,callback:callback,userInfo:nil) else {
+    emit(["error":"Input Monitoring permission is required or the session is unavailable; no permission prompt was requested"]);exit(1)
+}
+let source=CFMachPortCreateRunLoopSource(kCFAllocatorDefault,tap,0)
+CFRunLoopAddSource(CFRunLoopGetMain(),source,.commonModes);CGEvent.tapEnable(tap:tap,enable:true)
+// Readback also covers IME commits/accessibility editors that update values
+// without ordinary keyDown events. Baselines are never emitted as input.
+var values:[String:String]=[:]
+let pollGate=DispatchSemaphore(value:1)
+let poll=Timer(timeInterval:0.2,repeats:true){_ in
+    if getppid() != recordingParent {CFRunLoopStop(CFRunLoopGetMain());return}
+    guard pollGate.wait(timeout:.now()) == .success else{return}
+    observationQueue.async{
+    defer{pollGate.signal()}
+    for pid in permitted {
+    let app=AXUIElementCreateApplication(pid);AXUIElementSetMessagingTimeout(app,0.15)
+    guard let p=attr(app,"AXFocusedUIElement"),CFGetTypeID(p) == AXUIElementGetTypeID() else{continue}
+    let e=unsafeBitCast(p,to:AXUIElement.self)
+    guard let body=describe(e),body["kind"] == nil,
+          ["AXTextField","AXTextArea","AXComboBox"].contains(text(e,"AXRole")),
+          let value=attr(e,"AXValue") as? String,value.count<=32000 else{continue}
+    let identity:[String:Any]=["pid":body["pid"] ?? 0,"role":body["role"] ?? "","name":body["name"] ?? "","identifier":body["identifier"] ?? "","ancestors":body["ancestors"] ?? []]
+    guard let bytes=try? JSONSerialization.data(withJSONObject:identity,options:[.sortedKeys]),let key=String(data:bytes,encoding:.utf8) else{continue}
+    if let old=values[key],old != value {emitEdit(e)}
+    values[key]=value
+    }
+    }
+}
+RunLoop.main.add(poll,forMode:.common)
+emit(["status":"recording","pids":permitted.sorted()])
+CFRunLoopRun()

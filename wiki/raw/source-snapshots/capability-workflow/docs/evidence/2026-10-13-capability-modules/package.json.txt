@@ -1,0 +1,18 @@
+---
+source_path: docs/evidence/2026-10-13-capability-modules/package.json
+source_version: working-tree-based-on-78c3289a42369aa5c0eb276e2092dece83b6b7e6
+ingested: 2026-10-13
+sha256: 4661904a00ca4107a3dbc01a1cec69980d5eb0e81f5db3d4d1de0397eaf60fbb
+---
+
+{
+  "wheel_sha256": "4d6da160bffe79dc3c81d5405c8adcf2851302fd83b42c37ebf352614949ec87",
+  "module_files_packaged": true,
+  "office_extra_declared": true,
+  "extracted_wheel_discovery": {
+    "module_list": true,
+    "default_disabled": true,
+    "contract": true
+  },
+  "scope": "wheel_build_and_extracted_import_not_independent_full_install_or_release"
+}

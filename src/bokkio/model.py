@@ -28,6 +28,15 @@ class BokkioActionError(BokkioError):
     pass
 
 
+class BokkioActionRefused(BokkioActionError):
+    """A backend precondition failed before invoking any action transport."""
+
+    def __init__(self, message, code="action_unavailable"):
+        self.code = code
+        self.details = {"dispatched": False}
+        super().__init__(message)
+
+
 class BokkioCompletionUnknown(BokkioActionError):
     """A native call started; its business effect needs manual inspection."""
 
