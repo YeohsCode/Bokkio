@@ -12,21 +12,28 @@ N = {"type": "number"}
 APP = {"app": S, "window": S}
 OBS = {**APP, "observation_id": S}
 SCHEMAS = {
+    "workflow.list": schema(),
+    "workflow.get": schema({"workflow_id": S}, ["workflow_id"]),
+    "workflow.run": schema({"workflow_id": S, "mode": {"type":"string","enum":["headed","headless"]}}, ["workflow_id"]),
+    "workflow.status": schema({"run_id": S}, ["run_id"]),
+    "workflow.resume": schema({"run_id": S}, ["run_id"]),
+    "workflow.cancel": schema({"run_id": S}, ["run_id"]),
     "capabilities": schema(),
     "session.open": schema({"apps": {"type": "array", "items": S}, "ttl": I, "task_id": S}),
     "session.close": schema(),
     "desktop.list": schema(),
+    "desktop.launch": schema({"app": S,"background":{"type":"boolean"}}, ["app"]),
     "desktop.observe": schema({**APP, "max_nodes": I, "max_bytes": I}, ["app"]),
     "desktop.capture": schema({**APP, "window_id": I}, ["app"]),
     "desktop.activate": schema({**APP, "window_id": I}, ["app", "window"]),
-    "desktop.act": schema({**OBS, "ref": S, "action": {"type": "string", "enum": ["click", "invoke", "type", "set_value", "select", "focus", "scroll", "expand", "collapse", "submit", "select_text", "open"]},
+    "desktop.act": schema({**OBS, "background":{"type":"boolean"}, "ref": S, "action": {"type": "string", "enum": ["click", "invoke", "type", "set_value", "select", "focus", "scroll", "expand", "collapse", "submit", "select_text", "open"]},
                            "value": S, "direction": S, "amount": N, "expected_value": S}, ["app", "observation_id", "ref", "action"]),
     "desktop.pixel": schema({**OBS, "action": {"type": "string", "enum": ["click", "type"]}, "x": N, "y": N, "value": S}, ["app", "observation_id", "action", "x", "y"]),
     "code.run": schema({"code": S, "language": {"type": "string", "enum": ["python", "shell", "powershell"]}, "cwd": S, "timeout": N, "output_limit": I}, ["code"]),
     "process.run": schema({"argv": {"type": "array", "items": S}, "cwd": S, "timeout": N, "output_limit": I}, ["argv"]),
     "job.get": schema({"job_id": S}, ["job_id"]),
     "job.cancel": schema({"job_id": S}, ["job_id"]),
-    "browser.open": schema({"url": S}, ["url"]),
+    "browser.open": schema({"url": S, "headless": {"type": "boolean"}}, ["url"]),
     "browser.observe": schema(),
     "browser.act": schema({"action": {"type": "string", "enum": ["click", "fill", "press"]}, "selector": S, "expected_url": S, "value": S, "key": S}, ["action", "selector", "expected_url"]),
     "artifact.read": schema({"artifact_id": S, "max_bytes": I}, ["artifact_id"]),
@@ -39,6 +46,9 @@ SCHEMAS = {
 }
 
 DESCRIPTIONS = {
+    "workflow.run": "Start an administrator-granted versioned workflow through Runtime. Poll workflow.status. Child actions each retain their own scope, exact approval and audit. Headless rejects native desktop steps before launching any app.",
+    "workflow.resume": "Resume the original live-session workflow checkpoint after a human approves its exact pending child operation. Unknown completion is never redispatched.",
+    "desktop.launch": "Start or bind one application from the administrator's exact launch_apps allowlist. No caller-supplied executable or shell. Subject to write grants, approval and audit; subsequent native calls use the returned PID.",
     "session.open": "Open a session, optionally narrowing the host-approved app list and TTL. Returns session_id for subsequent calls.",
     "desktop.observe": "Read a bounded accessibility snapshot of a granted app/window; refs and observation_id bind subsequent native actions. Refresh before input.",
     "desktop.act": "Act on an observed native ref. Needs matching app/window/observation_id. Approval may be required; reuse operation_id after human approval.",
@@ -67,7 +77,7 @@ def validate(tool, arguments):
     for key, value in arguments.items():
         definition = contract["properties"][key]
         valid = {"string": isinstance(value, str), "integer": type(value) is int,
-                 "number": type(value) in {int, float}, "array": isinstance(value, list)}[definition["type"]]
+                 "number": type(value) in {int, float}, "array": isinstance(value, list), "boolean": type(value) is bool}[definition["type"]]
         if not valid or ("enum" in definition and value not in definition["enum"]):
             raise ValueError("Invalid argument: " + key)
         if definition["type"] == "array" and any(not isinstance(item, str) for item in value):

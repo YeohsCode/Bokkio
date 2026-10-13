@@ -1,0 +1,7 @@
+{
+  "passed": 613,
+  "total": 613,
+  "seconds": 8.53,
+  "execution": "serialized_feature_validation",
+  "not_business_benchmark": true
+}

@@ -1,0 +1,31 @@
+{
+  "verification": "current_Codex_in_app_browser_CUA_software_test",
+  "recorded_text_source": "AX_readback_from_test_input_not_human_attendance",
+  "saved_revisions": 3,
+  "native_target_picker_added_button": true,
+  "input_edits_persisted": true,
+  "refresh_keeps_local_authorization": true,
+  "custom_HTML_dialogs_replaced_unsupported_browser_prompt": true,
+  "run_records": [
+    {
+      "id": "5fffdc1e16514e59b78a42c916d5cc7b",
+      "status": "cancelled",
+      "mode": "headed",
+      "index": 0
+    },
+    {
+      "id": "90d7301f53db461dbb763bee7cdefdd9",
+      "status": "completed",
+      "mode": "headless",
+      "index": 2
+    },
+    {
+      "id": "7ab0c0de43c2419a84baf7c235adbae7",
+      "status": "completed",
+      "mode": "headed",
+      "index": 1
+    }
+  ],
+  "screenshot_published_to_Git": false,
+  "desktop_headless_UI_enabled": true
+}

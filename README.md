@@ -6,7 +6,9 @@ A model-independent computer use runtime for Windows and macOS: native/pixel act
 
 **工作候选版本 / Working candidate:** `0.2.0` — 通用执行 Core，MCP、CLI、Python SDK、生成代码、Browser、审批、可查询统计的操作日志。
 
-**2026-10-13 状态：** 回归 **587/587**，macOS 审计 **9/9**、窗口/作业矩阵 **18/18**；完整自主业务主批 **26/36**（当前 Codex 12/12、Hermes 8/12、DeepSeek 6/12），关键家族三份样本 **17/27**，GUI **0/18**，三调用方延迟自动管理员审批恢复 **9/9**。本轮自动测试已执行，产品成功率目标、客户人工审批、物理环境与 Windows 当前 Runtime 验收尚未完成。当前 Codex 保留会话且编写评测器，其 bridge 成绩不称盲测或公平排名。
+**上一冻结版本成绩：** 回归 **587/587**，macOS 审计 **9/9**、窗口/作业矩阵 **18/18**；完整自主业务主批 **26/36**（当前 Codex 12/12、Hermes 8/12、DeepSeek 6/12），关键家族三份样本 **17/27**，GUI **0/18**，三调用方延迟自动管理员审批恢复 **9/9**。本轮自动测试已执行，产品成功率目标、客户人工审批、物理环境与 Windows 当前 Runtime 验收尚未完成。当前 Codex 保留会话且编写评测器，其 bridge 成绩不称盲测或公平排名。
+
+**Workflow 新增（2026-10-13）：** 本机 Studio、macOS 录制、JSON 版本库和通过当前 Runtime 的有头／后台无头回放已实现。最新回归 **613/613**，后台启动和完整录制流程的独立前台／鼠标见证 **5/5**；结果与限制见 [Workflow 报告](docs/evidence/2026-10-13-workflow-studio/README.md)。旧业务完整复测已由用户暂停，旧分数不填入这次源码。
 
 **跨环境 Agent 共享入口 / Shared handoff:** [计划、进度、完成度与待办](docs/progress/README.md) · [结构化状态](docs/progress/state.json) · [接续步骤](docs/progress/HANDOFF.md)。这些文档和脱敏验收报告由 Git 跟踪；每端完成工作后更新并推送。
 
@@ -28,6 +30,14 @@ macOS 开发覆盖计划中的四类能力：原生、视觉、生成代码组�
 
 最新定位和三天交付门槛见 [实施计划](docs/PLAN-REPOSITIONING.md)，完成度及剩余工作统一维护在 [共享进度](docs/progress/STATUS.md)。统计分母是开发能力覆盖，不表示通用软件成功率或双平台生产验收完成。
 
+### Workflow Studio（新 Runtime 入口）
+
+现在提供本机浏览器管理界面：`uv run bokkio-runtime studio`。可新建、手工录制、查看、编辑／调整步骤、保存版本、归档和回放；也可通过 CLI、Python SDK 和 MCP 调用保存的流程。原生回放按控件身份和窗口上下文重新定位，窗口移动不依赖旧坐标，应用未运行时通过获准的 `desktop.launch` 启动并绑定新 PID。
+
+桌面步骤也支持无头后台原生回放（不抢前台／不使用鼠标，仍需解锁的桌面会话）；网页／脚本可用无头模式。回放进入当前 Core 的授权、精确审批、操作日志和检查点，未知完成停止，不自动重复动作。macOS 录制使用被动输入监听和文本读回；未支持手势须审阅，Windows 人工监听待本平台实现／验收。
+
+使用及接口见 [Workflow Studio 指南](docs/WORKFLOW-STUDIO.md)，专用测试及初次失败见 [执行报告](docs/evidence/2026-10-13-workflow-studio/README.md)。旧业务测试矩阵已按用户要求暂停，旧分数不代表本次新增源码的完整验收。
+
 ### 当前系统架构（0.2.0）
 
 当前实现是 Python 包，三种入口共用 `Runtime.call()`：MCP stdio、CLI JSON 和 Python SDK。调用方负责模型、任务规划、通道选择及业务验收；Core 负责会话授权、审批、执行、作业和可追溯证据。以下图描述当前代码，Rust 与完整 CUP 适配仍是后续方向。
@@ -35,6 +45,8 @@ macOS 开发覆盖计划中的四类能力：原生、视觉、生成代码组�
 ```mermaid
 flowchart TB
     Caller["Harness / Agent IDE / Agent"]
+    Studio["本机 Workflow Studio / 手工录制"] --> WF["Runtime Workflow / 版本库 / 检查点"]
+    WF --> SDK
     Caller --> MCP["MCP stdio · mcp_server.py"]
     Caller --> CLI["CLI JSON · runtime_cli.py"]
     Caller --> SDK["Python SDK · sdk.Client"]
@@ -68,6 +80,7 @@ flowchart TB
 | 代码与进程 | `executor.launch` → 独立 worker → Python/Shell/PowerShell/argv；生成 Python 可通过 `Client.from_environment()` 继承会话并回调 Core |
 | Browser | `browser_driver.call` → 每会话持久 worker → Playwright Chromium；精确 origin 和 `expected_url` 约束操作 |
 | 审批与证据 | `AuditStore` 保存 SQLite 会话、操作、审批、事件及 artifact 元数据；管理员 CLI 决定审批；Agent 查询状态、日志、统计与产物 |
+| Workflow Studio | `workflow_studio` / `manual_recording` / `runtime_workflow` → `Client.call` → Core；版本库、精确启动身份、检查点、MCP workflow 工具 |
 | 可选旧扩展 | `cli` → `DesktopAgent` → Planner/Jev，或 Recorder/WorkflowReplay → backend；仍直接使用 backend，不自动获得新 Core 的授权与审计合同 |
 
 原生调用在单一专用线程执行；原生动作、激活、像素和 Browser 派发共用跨进程桌面锁，锁等待后再次核验范围。代码/进程在独立 worker 运行，以 `job.get`/`job.cancel` 管理。SQLite 和私有文件保存跨进程状态；当前是单机架构，trusted-host 代码与 GUI 不提供逐文件 OS 沙箱。

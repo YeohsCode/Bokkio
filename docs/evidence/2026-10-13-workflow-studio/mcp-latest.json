@@ -1,0 +1,27 @@
+{
+  "scope": "actual_official_MCP_owned_fixture_not_Harness_autonomous_business",
+  "passed": true,
+  "status": "completed",
+  "tool_count": 30,
+  "workflow_tools": [
+    "workflow.cancel",
+    "workflow.get",
+    "workflow.list",
+    "workflow.resume",
+    "workflow.run",
+    "workflow.status"
+  ],
+  "steps": [
+    {
+      "step_id": "856a6528e2a640fea552fc41f03f5345",
+      "operation_id": "22a715a2e50c43c59af866653c8fe730",
+      "status": "completed"
+    },
+    {
+      "step_id": "cf4a7de80d554a0c9100cd166fbf1632",
+      "operation_id": "e5e3e71ab54a46a0918984b169cc4d53",
+      "status": "completed"
+    }
+  ],
+  "independent_business_state_correct": true
+}

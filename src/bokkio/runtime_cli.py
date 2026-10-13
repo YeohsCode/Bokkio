@@ -24,6 +24,17 @@ def parser():
     call.add_argument("--session")
     call.add_argument("--operation")
     commands.add_parser("serve", help="Start official SDK MCP stdio server")
+    studio = commands.add_parser('studio', help='Local human recording and Workflow management UI')
+    studio.add_argument('--port', type=int, default=0)
+    studio.add_argument('--no-open', action='store_true')
+    workflows = commands.add_parser('workflow', help='Runtime-backed workflow library and replay')
+    wf = workflows.add_subparsers(dest='workflow_command', required=True)
+    wf.add_parser('list')
+    show = wf.add_parser('show');show.add_argument('id')
+    replay = wf.add_parser('replay');replay.add_argument('id');replay.add_argument('--mode', choices=['headed','headless'], default='headed')
+    resume = wf.add_parser('resume');resume.add_argument('run_id')
+    status = wf.add_parser('status');status.add_argument('run_id')
+    cancel = wf.add_parser('cancel');cancel.add_argument('run_id')
     approvals = commands.add_parser("approvals", help="Local human/admin inspection; never an Agent MCP tool")
     approvals.add_argument("--id")
     approvals.add_argument("--show-request", action="store_true", help="Show private exact request to review before approval")
@@ -48,8 +59,29 @@ def parser():
 def main(argv=None):
     args = parser().parse_args(argv)
     try:
+        if args.command == 'studio':
+            from .workflow_studio import serve_studio
+            serve_studio(args.state, load_policy(args.policy) if args.policy else None,args.port,not args.no_open)
+            return 0
         store = AuditStore(args.state)
-        if args.command in {"call", "serve"}:
+        if args.command == 'workflow':
+            from .runtime_workflow import WorkflowLibrary,RuntimeWorkflowRunner
+            from .sdk import Client
+            library=WorkflowLibrary(store.root/'workflows')
+            if args.workflow_command=='list':result=library.list()
+            elif args.workflow_command=='show':result=library.get(args.id)
+            else:
+                runtime=Runtime(args.state,load_policy(args.policy) if args.policy else None)
+                client=Client(runtime);runner=RuntimeWorkflowRunner(client,store.root/'workflow-runs')
+                if args.workflow_command=='replay':
+                    client.open(apps=[],task_id='workflow-cli');run=runner.start(library.get(args.id),args.mode)
+                    result=runner.run(run['id'])
+                else:
+                    run=runner.load(args.run_id);client.session_id=run['session_id']
+                    if args.workflow_command=='status':result=run
+                    elif args.workflow_command=='cancel':runner.cancel(args.run_id);result={'cancel_requested':True}
+                    else:result=runner.resume(args.run_id)
+        elif args.command in {"call", "serve"}:
             runtime = Runtime(args.state, load_policy(args.policy) if args.policy else None)
             if args.command == "serve":
                 from .mcp_server import serve
@@ -99,6 +131,8 @@ def main(argv=None):
                 time.sleep(.2)
             return 0
         print(json.dumps(result, ensure_ascii=False, indent=2))
+        if args.command=='workflow' and args.workflow_command in {'replay','resume'}:
+            return 0 if result.get('status')=='completed' else 2 if result.get('status') in {'waiting_approval','paused'} else 1
         return 1 if isinstance(result, dict) and result.get("status") in {"denied", "failed", "completion_unknown"} else 0
     except KeyboardInterrupt:
         return 130

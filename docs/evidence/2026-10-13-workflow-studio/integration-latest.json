@@ -1,0 +1,77 @@
+{
+  "scope": "owned_macOS_workflow_Runtime_integration_not_autonomous_business_benchmark",
+  "human_physical_recording_tested": false,
+  "checks": [
+    {
+      "case": "native_replay_moved_window_1",
+      "passed": true,
+      "status": "completed",
+      "steps": 2,
+      "operation_ids": [
+        "5589f0af01b14b979a5ce6a0fcb687d6",
+        "5e4583e321d94d2bb470329aaf2c42c1"
+      ]
+    },
+    {
+      "case": "native_replay_moved_window_2",
+      "passed": true,
+      "status": "completed",
+      "steps": 2,
+      "operation_ids": [
+        "bd0298618d3542e8ae4210095aec7547",
+        "6899abd97a5a4342b6aaa55615921762"
+      ]
+    },
+    {
+      "case": "native_replay_moved_window_3",
+      "passed": true,
+      "status": "completed",
+      "steps": 2,
+      "operation_ids": [
+        "12e4dc31c853454698fde5b14f9089d0",
+        "b32d120532ad4046a31a6a60914fefea"
+      ]
+    },
+    {
+      "case": "app_not_running_auto_launch_new_pid",
+      "passed": true,
+      "status": "completed",
+      "new_pid_confirmed": true
+    },
+    {
+      "case": "ambiguous_control_zero_dispatch",
+      "passed": true,
+      "status": "failed"
+    },
+    {
+      "case": "native_headless_background_replay",
+      "passed": true,
+      "status": "completed"
+    },
+    {
+      "case": "audit_step_operation_links",
+      "passed": true
+    },
+    {
+      "case": "web_and_code_headless",
+      "passed": true,
+      "status": "completed",
+      "browser_mode_verified": true
+    },
+    {
+      "case": "web_and_code_headed",
+      "passed": true,
+      "status": "completed",
+      "browser_mode_verified": false
+    }
+  ],
+  "passed": 9,
+  "total": 9,
+  "sources": {
+    "src/bokkio/runtime_workflow.py": "a2ab0d3048243387a87a276a45a2b1a08eef1c9bc081de81447c4a4d51cb978a",
+    "src/bokkio/manual_recording.py": "d7aa893f5f5cc41c150003cc88b296754bd67dd3bdc4c6d24c84ecd38dc8a418",
+    "src/bokkio/workflow_studio.py": "273588045c5628324896f10142cdc68e391dc3b0a248fdd9281593c83211a2d5",
+    "src/bokkio/native/macos_record.swift": "ae97eb9e4dc05e2b1b8fde4e1026914fe2de5ece89ecf7b5f2345d86f0782c87",
+    "fixtures/workflow-recording/main.swift": "e2458e7d242e2f77abf994592df7739cbd92b41a34908fb8444d8bbf3857b208"
+  }
+}

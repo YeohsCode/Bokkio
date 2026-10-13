@@ -1,0 +1,117 @@
+{
+  "schema": "bokkio.workflow-eval.v1",
+  "revision": 2,
+  "scope": "workflow feature contracts and owned macOS integrations, not autonomous business benchmark",
+  "cases": [
+    {
+      "id": "WF-R01",
+      "goal": "Window movement and changed refs preserve semantic target",
+      "contract": "test_moved_window_and_new_refs",
+      "live": "native_replay_moved_window_1..3"
+    },
+    {
+      "id": "WF-R02",
+      "goal": "Closed app starts at its exact installed identity and binds a new PID",
+      "contract": "test_launch_waits_for_exact_identity_and_rejects_multiple",
+      "live": "app_not_running_auto_launch_new_pid"
+    },
+    {
+      "id": "WF-R03",
+      "goal": "Ambiguous target causes zero input",
+      "contract": "test_ambiguous_control_dispatches_nothing",
+      "live": "ambiguous_control_zero_dispatch"
+    },
+    {
+      "id": "WF-R04",
+      "goal": "Capture selected app value edits without dispatching again",
+      "contract": "test_manual_capture_not_dispatch_and_coalesces_value",
+      "live": "actual_passive_AX_value_readback"
+    },
+    {
+      "id": "WF-R05",
+      "goal": "Pause terminates input tap; resume preserves pause boundary",
+      "live": "pause_terminates_capture_and_excludes_changes; resume_preserves_pause_boundary"
+    },
+    {
+      "id": "WF-R06",
+      "goal": "Unknown completion never redispatches",
+      "contract": "test_unknown_completion_never_replays"
+    },
+    {
+      "id": "WF-R07",
+      "goal": "Crash after dispatch resumes using cached operation",
+      "contract": "test_crash_after_dispatch_resume_uses_same_cached_operation"
+    },
+    {
+      "id": "WF-R08",
+      "goal": "Approval after stale observation requires a fresh exact approval",
+      "contract": "test_approval_and_stale_request_requires_new_approval"
+    },
+    {
+      "id": "WF-R09",
+      "goal": "Reject unauthorized executable, modified grant and selector overrides",
+      "contract": "test_launch_never_executes_unlisted_path; test_native_arguments_cannot_override_selector_binding"
+    },
+    {
+      "id": "WF-R10",
+      "goal": "Desktop headless uses background native APIs with no foreground/pointer fallback",
+      "contract": "test_headless_native_runs_and_requests_background_transport; test_background_never_uses_visual_value_fallback",
+      "live": "native_headless_background_replay; background native witness matrix"
+    },
+    {
+      "id": "WF-R11",
+      "goal": "Browser and code workflows run in both modes",
+      "live": "web_and_code_headed; web_and_code_headless"
+    },
+    {
+      "id": "WF-R12",
+      "goal": "CLI, Studio, SDK and MCP share Runtime and durable operations",
+      "contract": "test_mcp_runtime_workflow_scope_and_audit",
+      "live": "official_MCP_workflow_replay"
+    },
+    {
+      "id": "WF-R13",
+      "goal": "Version editing, conflict checks, history and archive",
+      "contract": "test_version_edit_conflict_and_immutable_previous; test_library_path_traversal_and_tamper"
+    },
+    {
+      "id": "WF-R14",
+      "goal": "Authenticated local UX CRUD and cross-origin rejection",
+      "contract": "test_ui_loopback_token_origin_and_real_crud",
+      "live": "Studio recording draft, v1/v2 and replay"
+    },
+    {
+      "id": "WF-R15",
+      "goal": "Cancellation denies pending approval and prevents resume",
+      "contract": "test_cancel_pending_approval_revokes_and_cannot_resume"
+    },
+    {
+      "id": "WF-R16",
+      "goal": "Concurrent resume dispatches once",
+      "contract": "test_two_runner_instances_resume_same_run_dispatch_once"
+    },
+    {
+      "id": "WF-R17",
+      "goal": "Refresh known-zero stale request and finish under pregrant",
+      "contract": "test_pregranted_stale_zero_dispatch_refresh_finishes"
+    },
+    {
+      "id": "WF-P00",
+      "goal": "Real generated OS pointer/keyboard events record and replay",
+      "live": "verify_physical_recording.py",
+      "human_input": false
+    },
+    {
+      "id": "WF-P01",
+      "goal": "Actual human mouse and keyboard capture -> saved workflow -> replay",
+      "requires": "user participation and unobstructed normal input desktop",
+      "status": "pending_human_customer_demonstration"
+    },
+    {
+      "id": "WF-W01",
+      "goal": "Windows manual input listener, native replay and Studio acceptance",
+      "requires": "Windows environment",
+      "status": "pending"
+    }
+  ]
+}

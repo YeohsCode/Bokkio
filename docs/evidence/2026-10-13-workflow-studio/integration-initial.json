@@ -1,0 +1,73 @@
+{
+  "scope": "owned_macOS_workflow_Runtime_integration_not_autonomous_business_benchmark",
+  "human_physical_recording_tested": false,
+  "checks": [
+    {
+      "case": "native_replay_moved_window_1",
+      "passed": false,
+      "status": "failed",
+      "steps": 1,
+      "operation_ids": [
+        "2137cee1c015418684a9bce9b0a18eab"
+      ]
+    },
+    {
+      "case": "native_replay_moved_window_2",
+      "passed": false,
+      "status": "failed",
+      "steps": 1,
+      "operation_ids": [
+        "305a621782b14a03b1d911bd08142e90"
+      ]
+    },
+    {
+      "case": "native_replay_moved_window_3",
+      "passed": false,
+      "status": "failed",
+      "steps": 1,
+      "operation_ids": [
+        "b87d408137b74fe4b90dad2e2ec7233f"
+      ]
+    },
+    {
+      "case": "app_not_running_auto_launch_new_pid",
+      "passed": false,
+      "status": "failed",
+      "new_pid_confirmed": true
+    },
+    {
+      "case": "ambiguous_control_zero_dispatch",
+      "passed": true,
+      "status": "failed"
+    },
+    {
+      "case": "native_headless_rejected_before_start",
+      "passed": true
+    },
+    {
+      "case": "audit_step_operation_links",
+      "passed": true
+    },
+    {
+      "case": "web_and_code_headless",
+      "passed": true,
+      "status": "completed",
+      "browser_mode_verified": true
+    },
+    {
+      "case": "web_and_code_headed",
+      "passed": true,
+      "status": "completed",
+      "browser_mode_verified": false
+    }
+  ],
+  "passed": 5,
+  "total": 9,
+  "sources": {
+    "src/bokkio/runtime_workflow.py": "dd84fc66224e11ec03696614c4bb155ef8918aa23e50c5af243515eba9f8dc49",
+    "src/bokkio/manual_recording.py": "0e37010c9b9cbf9696c2c74ea4e6081cbd5e13112b5bd471a71eb26c7189c89f",
+    "src/bokkio/workflow_studio.py": "716ca4f7e00423b6d1f12f159244701d01a53a39f90ec698d4d939a0c8fdd448",
+    "src/bokkio/native/macos_record.swift": "72dd48bccd4571a8166619c95cc8ecb6b204ab1e2a7f4f599283878738087ffe",
+    "fixtures/workflow-recording/main.swift": "47b3c231e1148918e198f784d853355c9c660259fc50b2d02291c6cd8c4888d9"
+  }
+}

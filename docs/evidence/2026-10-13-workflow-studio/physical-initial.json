@@ -1,0 +1,48 @@
+{
+  "scope": "actual_OS_posted_pointer_keyboard_capture_not_human_demonstration",
+  "human_input": false,
+  "checks": [],
+  "input_receipts": [
+    {
+      "status": "failed",
+      "dispatched": 0,
+      "error_code": "capture_changed",
+      "operation_id": "4140715a2f8b4e259302fb18b59c0249"
+    },
+    {
+      "status": "failed",
+      "dispatched": 0,
+      "error_code": "capture_changed",
+      "operation_id": "da20777ddb674b3d802aacdb2dbc9875"
+    },
+    {
+      "status": "executed",
+      "dispatched": true,
+      "error_code": null,
+      "operation_id": "daa4a240281a4d9cbdef4f5536b2ec2a"
+    },
+    {
+      "status": "failed",
+      "dispatched": 0,
+      "error_code": "capture_changed",
+      "operation_id": "44313d3e37be4ec2b7e17cfe6b69213f"
+    },
+    {
+      "status": "failed",
+      "dispatched": 0,
+      "error_code": "capture_changed",
+      "operation_id": "3995ca5cd9ff4675bad3695f699a51ad"
+    },
+    {
+      "status": "failed",
+      "dispatched": 0,
+      "error_code": "capture_changed",
+      "operation_id": "82439c8c70bb47e2978ce12226f4cd2b"
+    }
+  ],
+  "passed": 0,
+  "total": 0,
+  "status": "failed",
+  "error_type": "RuntimeError",
+  "error": "Input remained unavailable after bounded zero-dispatch observations"
+}

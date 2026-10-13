@@ -1,0 +1,7 @@
+{
+  "wheel_sha256": "bf5324829aaaf6040c14630bc0def6cd5f9722ee77e7e28195449085fe3fd414",
+  "all_bundled_source_and_UI_bytes_match_checkout": true,
+  "native_recorder_source_included": true,
+  "installed_outside_checkout_verified": true,
+  "core_version": "0.2.0"
+}

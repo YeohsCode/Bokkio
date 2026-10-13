@@ -16,7 +16,7 @@
       "development_capability_categories_passed": 4,
       "total_categories": 5,
       "customer_acceptance_complete": false,
-      "host_tests_passed": 587,
+      "host_tests_passed": 613,
       "fault_matrix": {
         "passed": 18,
         "total": 18,
@@ -277,5 +277,49 @@
   "harness_evidence": "docs/evidence/2026-10-12-harness/README.md",
   "evaluation_plan": "docs/TEST-STRENGTHENING-PLAN.md",
   "evaluation_work_packages": "docs/progress/test-strengthening.json",
-  "evaluation_evidence": "docs/evidence/2026-10-12-macos-completion/README.md"
+  "evaluation_evidence": "docs/evidence/2026-10-12-macos-completion/README.md",
+  "workflow_studio": {
+    "status": "macos_feature_delivered_background_native_verified",
+    "guide": "docs/WORKFLOW-STUDIO.md",
+    "evidence": "docs/evidence/2026-10-13-workflow-studio/README.md",
+    "format": "JSON: bokkio.runtime-workflow.v1",
+    "UX": [
+      "create",
+      "record",
+      "view",
+      "edit",
+      "reorder",
+      "version",
+      "archive",
+      "replay",
+      "run_history"
+    ],
+    "modes": [
+      "headed",
+      "headless_background_native_browser_code"
+    ],
+    "background_native": {
+      "passed": 5,
+      "total": 5,
+      "interactive_desktop_required": true,
+      "foreground_and_pointer_unchanged": true
+    },
+    "physical_OS_generated_record_replay": {
+      "passed": 5,
+      "total": 5,
+      "human_input": false
+    },
+    "runtime_integration": {
+      "passed": 9,
+      "total": 9
+    },
+    "regression_passed": 613,
+    "mcp_actual_verified": true,
+    "pending": [
+      "Windows manual listener and current platform acceptance",
+      "human/customer application demonstration",
+      "additional physical display/scaling"
+    ],
+    "business_matrix_retested_on_this_revision": false
+  }
 }

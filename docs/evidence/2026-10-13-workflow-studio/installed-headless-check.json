@@ -1,0 +1,6 @@
+{
+  "module_outside_checkout": true,
+  "UI_desktop_headless_option_packaged": true,
+  "background_native_argument_schema": true,
+  "manual_recorder_source_packaged": true
+}

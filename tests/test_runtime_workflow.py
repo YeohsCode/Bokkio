@@ -1,0 +1,247 @@
+import copy,json,os,time,threading,urllib.request,urllib.error
+from pathlib import Path
+import pytest
+from bokkio.runtime import Runtime
+from bokkio.sdk import Client
+from bokkio.audit import identifier
+from bokkio.runtime_workflow import WorkflowLibrary,RuntimeWorkflowRunner,SCHEMA,find_target
+from bokkio.workflow_studio import Studio,create_server
+from bokkio.app_launch import ensure_running
+from bokkio.model import BokkioStaleSnapshot
+
+class Desktop:
+    def __init__(self):self.value='';self.clicks=0;self.x=10;self.ref='input';self.duplicate=False
+    def apps(self):return [{'pid':os.getpid(),'name':'Lab'}]
+    def snapshot(self,app,window=None):
+        win={'ref':'window','role':'window','name':'Lab Window','value':None,'parent':None,'state':{'enabled':True},'actions':[],'children':[],'platform_data':{}}
+        field={'ref':self.ref,'role':'text_field','name':'Input','value':self.value,'parent':'window','state':{'enabled':True},'actions':['set_value','focus'],'children':[],'platform':'macos','bounds':{'x':self.x,'y':10,'width':100,'height':20},'platform_data':{'ax_identifier':'input','ax_role':'AXTextField'}}
+        win['children']=[field]
+        if self.duplicate:win['children'].append({**field,'ref':'duplicate'})
+        return {'app':{'pid':os.getpid(),'name':'Lab'},'windows':[win]}
+    def perform(self,app,action,**args):
+        self.clicks+=1
+        if action=='set_value':self.value=args['value']
+        return {'verification':{'status':'confirmed'}}
+
+def document():
+    return {'schema':SCHEMA,'id':identifier(),'name':'Test','revision':1,'parent_sha256':None,'apps':{'lab':{'name':'Lab','path':'/Applications/Lab.app'}},'steps':[{'id':'input','kind':'native','app':'lab','window':'Lab Window','action':'set_value','arguments':{'value':'中文 hello'},'target':{'ref':'old-ref','role':'text_field','name':'Input','identifier':'input','ancestors':[{'role':'window','name':'Lab Window'}]},'verify':[{'role':'text_field','name':'Input','field':'value','equals':'中文 hello'}],'wait':[]}]}
+
+@pytest.fixture
+def setup(tmp_path,monkeypatch):
+    desktop=Desktop();grant=document()['apps']['lab'];app=tmp_path/'Lab.app';app.mkdir();grant['path']=str(app)
+    policy={'apps':['Lab'],'launch_apps':{'lab':grant},'write':True,'require_approval':False}
+    runtime=Runtime(tmp_path/'state',policy,desktop,lambda p:'birth');client=Client(runtime);client.open(apps=[])
+    monkeypatch.setattr('bokkio.app_launch.ensure_running',lambda grant,**kw:{'pid':os.getpid(),'name':'Lab','launched':False})
+    library=WorkflowLibrary(tmp_path/'library');doc=document();doc['apps']={'lab':grant};doc=library.save(doc)
+    return desktop,client,RuntimeWorkflowRunner(client,tmp_path/'runs'),doc,library
+
+@pytest.mark.parametrize('x,ref',[(10,'input'),(1500,'new-pid-ref'),(-800,'other-display-ref')])
+def test_moved_window_and_new_refs(setup,x,ref):
+    desktop,client,runner,doc,_=setup;desktop.x=x;desktop.ref=ref
+    run=runner.start(doc);result=runner.run(run['id'])
+    assert result['status']=='completed' and desktop.value=='中文 hello' and desktop.clicks==1
+    assert client.runtime.store.query(kind='workflow.checkpoint')
+
+def test_ambiguous_control_dispatches_nothing(setup):
+    d,c,r,doc,_=setup;d.duplicate=True;doc['steps'][0]['timeout']=.01
+    result=r.run(r.start(doc)['id']);assert result['status']=='failed' and d.clicks==0
+
+def test_headless_native_runs_and_requests_background_transport(setup):
+    d,c,r,doc,_=setup
+    run=r.start(doc,'headless');result=r.run(run['id'])
+    assert result['status']=='completed' and d.clicks==1
+    with c.runtime.store.connect() as db:
+        requests=[json.loads(x[0])for x in db.execute("SELECT request FROM operations WHERE tool IN ('desktop.launch','desktop.act')")]
+    assert requests and all(x['background']is True for x in requests)
+
+def test_version_edit_conflict_and_immutable_previous(setup):
+    _,_,_,doc,lib=setup;edited=copy.deepcopy(doc);edited['name']='New';latest=lib.save(edited,doc['sha256'])
+    assert latest['revision']==2 and latest['parent_sha256']==doc['sha256']
+    assert lib.get(doc['id'],1)==doc
+    with pytest.raises(ValueError,match='changed'):lib.save(edited,doc['sha256'])
+    lib.archive(doc['id'],latest['sha256']);assert lib.list()==[] and lib.get(doc['id'],1)==doc
+
+def test_library_path_traversal_and_tamper(setup):
+    *_,doc,lib=setup
+    with pytest.raises(ValueError):lib.get('../outside')
+    path=lib.folder(doc['id'])/'1.json';bad=json.loads(path.read_text());bad['name']='Tampered';path.write_text(json.dumps(bad))
+    with pytest.raises(ValueError,match='modified'):lib.get(doc['id'])
+
+def test_launch_waits_for_exact_identity_and_rejects_multiple():
+    grant={'name':'Lab','path':'/Applications/Lab.app','bundle_id':'lab'};calls=[];launch=[]
+    def inventory():
+        calls.append(1)
+        return [] if len(calls)<3 else [{**grant,'pid':42}]
+    receipt=ensure_running(grant,inventory=inventory,launch=lambda g:launch.append(g),timeout=1)
+    assert receipt['pid']==42 and receipt['launched'] and len(launch)==1
+    with pytest.raises(ValueError,match='Multiple'):ensure_running(grant,inventory=lambda:[{**grant,'pid':1},{**grant,'pid':2}])
+
+def test_launch_never_executes_unlisted_path(setup):
+    _,c,_,_,_=setup
+    assert c.call('desktop.launch',{'app':'evil'})['status']=='denied'
+    c.runtime.policy['launch_apps']['lab']['path']='/tmp/missing.app'
+    assert c.call('desktop.launch',{'app':'lab'})['status']=='denied'
+
+def test_approval_and_stale_request_requires_new_approval(setup):
+    d,c,r,doc,_=setup;c.runtime.policy['require_approval']=True
+    run=r.start(doc);pending=r.run(run['id']);assert pending['status']=='waiting_approval' and d.clicks==0
+    c.runtime.store.decide(pending['approval_id'],'approved','test launch')
+    pending=r.run(run['id']);assert pending['status']=='waiting_approval'
+    old=pending['approval_id'];c.runtime.store.decide(old,'approved','test input')
+    with c.runtime.store.connect() as db:
+        rows=db.execute('SELECT id,payload FROM observations').fetchall()
+        for row in rows:
+            x=json.loads(row['payload']);x['time']=0;db.execute('UPDATE observations SET payload=? WHERE id=?',(json.dumps(x),row['id']))
+    fresh=r.run(run['id']);assert fresh['status']=='waiting_approval' and fresh['approval_id']!=old and d.clicks==0
+    c.runtime.store.decide(fresh['approval_id'],'approved','fresh input')
+    assert r.run(run['id'])['status']=='completed' and d.clicks==1
+
+def test_approval_denial_never_dispatches(setup):
+    d,c,r,doc,_=setup;c.runtime.policy['require_approval']=True;run=r.start(doc);x=r.run(run['id'])
+    c.runtime.store.decide(x['approval_id'],'denied','no');assert r.run(run['id'])['status']=='failed' and d.clicks==0
+
+def test_unknown_completion_never_replays(setup,monkeypatch):
+    d,c,r,doc,_=setup
+    def broken(*a,**kw):d.clicks+=1;raise OSError('Lost receipt')
+    monkeypatch.setattr(d,'perform',broken)
+    run=r.start(doc);assert r.run(run['id'])['status']=='completion_unknown'
+    assert r.run(run['id'])['status']=='completion_unknown' and d.clicks==1
+
+def test_crash_after_dispatch_resume_uses_same_cached_operation(setup,monkeypatch):
+    d,c,r,doc,_=setup;original=r._verify
+    class Crash(BaseException):pass
+    monkeypatch.setattr(r,'_verify',lambda *a:(_ for _ in ()).throw(Crash()))
+    run=r.start(doc)
+    with pytest.raises(Crash):r.run(run['id'])
+    assert d.clicks==1 and r.load(run['id'])['pending']
+    monkeypatch.setattr(r,'_verify',original)
+    assert r.run(run['id'])['status']=='completed' and d.clicks==1
+
+def test_pause_cancel_and_resume_completed_do_not_dispatch(setup):
+    d,c,r,doc,_=setup;run=r.start(doc);r.pause(run['id']);assert r.run(run['id'])['status']=='paused' and d.clicks==0
+    assert r.resume(run['id'])['status']=='completed';assert r.resume(run['id'])['status']=='completed' and d.clicks==1
+    other=r.start(doc);r.cancel(other['id']);assert r.run(other['id'])['status']=='cancelled' and d.clicks==1
+
+def test_manual_capture_not_dispatch_and_coalesces_value(setup):
+    d,c,r,doc,_=setup
+    c.call('desktop.launch',{'app':'lab'})
+    from bokkio.manual_recording import ManualRecorder
+    rec=ManualRecorder(c,[{'pid':os.getpid(),**doc['apps']['lab']}])
+    event={'pid':os.getpid(),'kind':'edit','role':'AXTextField','name':'Input','identifier':'input','window':'Lab Window','value':'a'}
+    rec.ingest(event);rec.ingest({**event,'value':'中文'});rec.ingest({**event,'pid':99999,'value':'outside'})
+    assert len(rec.doc['steps'])==1 and rec.doc['steps'][0]['arguments']['value']=='中文' and d.clicks==0
+    rec.ingest({'pid':os.getpid(),'kind':'unsupported','reason':'Secure input excluded'})
+    assert len(rec.issues)==1
+    assert '中文' not in json.dumps(c.runtime.store.query(kind='recording.step'))
+
+def test_ui_loopback_token_origin_and_real_crud(tmp_path):
+    studio=Studio(tmp_path);server,url=create_server(studio,token='test-token');thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
+    base=url.split('/#')[0]
+    def request(route,body=None,token='test-token',origin=None):
+        headers={'X-Bokkio-Token':token,'Content-Type':'application/json'}
+        if origin:headers['Origin']=origin
+        req=urllib.request.Request(base+route,data=json.dumps(body).encode() if body is not None else None,headers=headers)
+        return urllib.request.build_opener(urllib.request.ProxyHandler({})).open(req)
+    try:
+        assert request('/').status==200
+        with pytest.raises(urllib.error.HTTPError) as e:request('/api/workflows',token='bad')
+        assert e.value.code==403
+        with pytest.raises(urllib.error.HTTPError):request('/api/workflows',origin='https://evil.invalid')
+        doc=document();saved=json.load(request('/api/workflows/save',{'document':doc}));assert saved['revision']==1
+        assert json.load(request('/api/workflow?id='+doc['id']))['sha256']==saved['sha256']
+        saved['name']='Edited';edited=json.load(request('/api/workflows/save',{'document':saved,'expected_sha256':saved['sha256']}));assert edited['revision']==2
+        assert json.load(request('/api/revisions?id='+doc['id']))==[1,2]
+        json.load(request('/api/workflows/archive',{'id':doc['id'],'expected_sha256':edited['sha256']}));assert json.load(request('/api/workflows'))==[]
+    finally:server.shutdown();server.server_close()
+
+def test_mcp_runtime_workflow_scope_and_audit(setup):
+    d,c,r,doc,_=setup;lib=WorkflowLibrary(c.runtime.store.root/'workflows');doc=lib.save(doc)
+    assert c.call('workflow.get',{'workflow_id':doc['id']})['status']=='denied'
+    c.runtime.policy['workflows']=[doc['id']]
+    assert c.call('workflow.list')['result'][0]['id']==doc['id']
+    result=c.call('workflow.run',{'workflow_id':doc['id']});rid=result['result']['run_id']
+    deadline=time.monotonic()+3
+    while time.monotonic()<deadline:
+        status=c.call('workflow.status',{'run_id':rid})
+        if status['result']['status']=='completed':break
+        time.sleep(.05)
+    assert status['result']['status']=='completed' and d.clicks==1
+    c.runtime.policy['workflows']=[]
+    assert c.call('workflow.status',{'run_id':rid})['status']=='failed'
+
+def test_two_runner_instances_resume_same_run_dispatch_once(setup):
+    d,c,r,doc,_=setup;run=r.start(doc);other=RuntimeWorkflowRunner(c,r.root);results=[]
+    threads=[threading.Thread(target=lambda runner=rr:results.append(runner.run(run['id'])))for rr in [r,other]]
+    for t in threads:t.start()
+    for t in threads:t.join(timeout=3)
+    assert len(results)==2 and all(x['status']=='completed'for x in results) and d.clicks==1
+
+def test_missing_process_between_steps_relaunches_without_repeating_prior_step(setup,monkeypatch):
+    d,c,r,doc,_=setup;doc['steps'].append(copy.deepcopy(doc['steps'][0]));doc['steps'][1]['id']='second';doc['steps'][1]['arguments']['value']='second';doc['steps'][1]['verify'][0]['equals']='second'
+    probes=[];launches=[]
+    monkeypatch.setattr('bokkio.app_launch.ensure_running',lambda grant:(launches.append(1) or {'pid':os.getpid(),'name':'Lab','launched':len(launches)>1}))
+    def probe(pid):
+        probes.append(1)
+        if len(probes)==4:raise ValueError('not running')
+        return 'birth'
+    # Simulate a known process disappearance when the next step begins.
+    original=r._save
+    fired=False
+    def save(value):
+        nonlocal fired
+        original(value)
+        if value['index']==1 and not fired:
+            fired=True
+            with c.runtime.store.connect() as db:
+                row=db.execute('SELECT policy FROM sessions WHERE id=?',(c.session_id,)).fetchone();scope=json.loads(row['policy']);scope['bindings'][str(os.getpid())]['birth']='old-birth';db.execute('UPDATE sessions SET policy=? WHERE id=?',(json.dumps(scope),c.session_id))
+    monkeypatch.setattr(r,'_save',save)
+    result=r.run(r.start(doc)['id'])
+    assert result['status']=='completed' and d.clicks==2 and len(launches)==2 and d.value=='second'
+
+def test_native_arguments_cannot_override_selector_binding(setup):
+    *_,doc,_=setup;doc['steps'][0]['arguments']['app']='Other'
+    from bokkio.runtime_workflow import validate_document
+    with pytest.raises(ValueError):validate_document(doc)
+
+def test_pregranted_stale_zero_dispatch_refresh_finishes(setup,monkeypatch):
+    d,c,r,doc,_=setup;original=d.perform;attempts=[]
+    def perform(*args,**kwargs):
+        attempts.append(1)
+        if len(attempts)==1:raise BokkioStaleSnapshot('Changed before input')
+        return original(*args,**kwargs)
+    monkeypatch.setattr(d,'perform',perform)
+    result=r.run(r.start(doc)['id'])
+    assert result['status']=='completed' and len(attempts)==2 and d.clicks==1
+
+def test_cancel_pending_approval_revokes_and_cannot_resume(setup):
+    d,c,r,doc,_=setup;c.runtime.policy['require_approval']=True;run=r.start(doc);pending=r.run(run['id'])
+    r.cancel(run['id']);assert r.load(run['id'])['status']=='cancelled'
+    assert c.runtime.store.approvals(pending['approval_id'])[0]['status']=='denied'
+    assert r.resume(run['id'])['status']=='cancelled' and d.clicks==0
+
+def test_studio_control_window_is_not_recorded(setup):
+    d,c,r,doc,_=setup
+    from bokkio.manual_recording import ManualRecorder
+    rec=ManualRecorder(c,[{'pid':os.getpid(),**doc['apps']['lab']}],excluded_window_prefixes=('Bokkio · Workflow Studio',))
+    rec.ingest({'pid':os.getpid(),'kind':'edit','window':'Bokkio · Workflow Studio - Browser','value':'control-panel-value'})
+    assert rec.doc['steps']==[] and d.clicks==0
+
+@pytest.mark.parametrize('action',['type','select_text'])
+def test_background_rejects_keyboard_dependent_steps_before_start(setup,action):
+    d,c,r,doc,_=setup;doc['steps'][0]['action']=action
+    with pytest.raises(ValueError,match='deterministic'):r.start(doc,'headless')
+    assert d.clicks==0
+
+def test_background_never_uses_visual_value_fallback(monkeypatch):
+    from types import SimpleNamespace
+    from bokkio.xa11y_backend import Xa11yBackend
+    from bokkio.model import BokkioActionError
+    called=[]
+    backend=Xa11yBackend(module=SimpleNamespace(),platform='macos',native=SimpleNamespace(perform=lambda *a:called.append('native')))
+    node={'ref':'field','role':'text_field','name':'Input','value':'','actions':['set_value'],'state':{'enabled':True},'parent':'window','children':[],'platform_data':{'mac_unique_identity':True,'mac_verified_actions':['set_value'],'value_submission':'set_value_requires_dialog_commit'}}
+    tree={'ref':'window','role':'window','name':'Lab Window','value':None,'actions':[],'state':{'enabled':True},'parent':None,'children':[node],'platform_data':{}}
+    monkeypatch.setattr(backend,'_resolve_app',lambda app:SimpleNamespace(pid=1))
+    monkeypatch.setattr(backend,'_app_tree',lambda *a,**kw:tree)
+    backend.visual_value_replace=lambda *a:called.append('pointer')
+    with pytest.raises(BokkioActionError)as e:backend.perform('1','set_value',ref='field',value='new',background=True)
+    assert e.value.code=='background_transport_unavailable' and e.value.details['dispatched']==0 and called==[]

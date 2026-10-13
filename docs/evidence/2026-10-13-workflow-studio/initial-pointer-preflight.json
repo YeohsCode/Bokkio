@@ -1,0 +1,9 @@
+{
+  "scope": "physical_input_guard_preflight_not_human_recording_score",
+  "status": "blocked",
+  "receipt_status": "failed",
+  "dispatched": 0,
+  "error_code": "front_window_unconfirmed",
+  "system_notification_top_window": false,
+  "guard_bypassed": false
+}

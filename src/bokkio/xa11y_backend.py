@@ -145,6 +145,7 @@ class Xa11yBackend:
         expected_snapshot: str | None = None,
         window: str | None = None,
         capture_observation: bool = False,
+        background: bool = False,
     ) -> dict[str, Any]:
         if action not in ACTION_METHODS:
             raise BokkioActionError(f"Unsupported action: {action}")
@@ -178,6 +179,19 @@ class Xa11yBackend:
                          and before['platform_data'].get('action_runtime_id') and hasattr(self._native,'perform_action'))
         mac_action = (before['platform_data'].get('mac_unique_identity') and action in before['platform_data'].get('mac_verified_actions', [])
                       and hasattr(self._native,'perform'))
+        background_before=None
+        if background:
+            data=before['platform_data']
+            visual_fallback=(data.get('click_transport')=='selection_bound_pointer'
+                             or data.get('value_submission')=='set_value_requires_dialog_commit'
+                             or before['role']=='combo_box' and action in {'set_value','expand','select'}
+                             or data.get('native_option_command'))
+            supported=(mac_action and action not in {'type','select_text'} and not visual_fallback) if self._platform=='macos' else (native_value_write or native_action)
+            if not supported:
+                error=BokkioActionError('Target has no verified background-native transport; no pointer/keyboard fallback is allowed')
+                error.code='background_transport_unavailable';error.details={'dispatched':0};raise error
+            from .app_launch import desktop_environment
+            background_before=desktop_environment()['foreground_pid']
         if expected_snapshot is not None and before["platform_data"].get("ambiguous_ref_identity") and not (native_value_write or native_action or mac_action):
             raise BokkioActionError("Target has indistinguishable siblings without a unique native identity")
         radio_select = action == "select" and before["role"] == "radio_button"
@@ -262,6 +276,11 @@ class Xa11yBackend:
             raise
         except Exception as error:
             raise BokkioActionError(f"{action} failed for {before['ref']}: {error}") from error
+
+        if background_before is not None:
+            from .app_launch import desktop_environment
+            if background_before!=native_app.pid and desktop_environment()['foreground_pid']==native_app.pid:
+                raise BokkioCompletionUnknown('Application activated itself during a background action; stop and inspect its effect')
 
         try:
             after_tree = self._app_tree(native_app, window_selector=window)

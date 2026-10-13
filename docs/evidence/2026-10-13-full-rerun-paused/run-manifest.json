@@ -1,0 +1,75 @@
+{
+  "base_revision": "f6e2c6c99141b5aea883245b95dd0a41aad9add7",
+  "plans": [
+    [
+      "main",
+      [
+        "T01",
+        "T02",
+        "T03",
+        "T04",
+        "T05",
+        "T06",
+        "T07",
+        "T08",
+        "T09",
+        "T10",
+        "T11",
+        "T12"
+      ],
+      60,
+      "any-tool"
+    ],
+    [
+      "gui",
+      [
+        "T01",
+        "T03",
+        "T05",
+        "T07",
+        "T09",
+        "T11"
+      ],
+      61,
+      "gui"
+    ],
+    [
+      "stability-1",
+      [
+        "T03",
+        "T09",
+        "T11"
+      ],
+      62,
+      "any-tool"
+    ],
+    [
+      "stability-2",
+      [
+        "T03",
+        "T09",
+        "T11"
+      ],
+      63,
+      "any-tool"
+    ]
+  ],
+  "code_changes_allowed": false,
+  "failure_retests_allowed": false,
+  "codex_mode": "existing_authored_MCP_workflow_replay_not_fresh_autonomous_model_run",
+  "actor_sha256": {
+    "drive_codex.py": "e1f4af56048070e90e7b987098f8e0dda0259c04f07a5ae55a2d7365dda5fce6",
+    "drive_gui_codex_v41.py": "aba964ccd5ce8d6e5ba10913810d786a115520ce0d79727d60705fb3b5aa9814",
+    "codex-select-files.py": "79e5a1f0a418bd302a3b7b0ea5946a29cff9770fc542868db9f872bceeb7b390",
+    "codex-files.py": "f8254fe8b41a43d5add627b6d1d52550bb4363a6e33bbebcdbe21627d8316125",
+    "codex-invoices.py": "c89fd686edda31cc964960d9f4101b6a87d37b1bf9396487cf35343b20ed3904",
+    "codex-merge.py": "daae8dc369179787f26095148f9f30bdc2b2827f750570be556031c3a18a0b60",
+    "codex-document.py": "0fadd8445aa6d717d0f5a50c55930437ca1c84809d91ac1234197954bec13b7c",
+    "codex-revision.py": "d80c05b291c0e4fc34edaaf0787641c10f5f41610774d94c436581c086a443b9",
+    "codex-catalog.py": "3523cfc7f99f18682394ab629d2d3dd25e9c4ca58569f9d4f8ed506f51d4cbad",
+    "codex-index.py": "018af1383f92dd862161a84721c43f2b6a6a3e6f3a96c9fb959fbf811088973c",
+    "codex-image.py": "ec85995da36678f32e01412334e90a908eea134051f7ea0331b6a46afdf5787b",
+    "codex-rtf.py": "88c8041ed8ea8eeaf041d3aad0b0b6d33d61d508c73d7d68a1a6df75beb6135c"
+  },
+  "desktop_execution": "serial"
+}

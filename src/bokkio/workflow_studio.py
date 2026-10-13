@@ -1,0 +1,180 @@
+"""Loopback-only human Workflow Studio; uses the same Runtime as MCP and CLI."""
+from __future__ import annotations
+import copy,json,secrets,threading,webbrowser
+from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
+from pathlib import Path
+from urllib.parse import urlparse,parse_qs
+from .app_launch import installed_running_apps
+from .audit import identifier
+from .runtime import Runtime
+from .sdk import Client
+from .runtime_workflow import WorkflowLibrary,RuntimeWorkflowRunner,runtime_snapshot
+from .workflow import selector_for
+from .manual_recording import ManualRecorder
+from .workflow import save_json
+
+class Studio:
+    def __init__(self,state,policy=None):
+        self.state=Path(state);self.library=WorkflowLibrary(self.state/'workflows');self.policy=policy
+        self.record=None;self.runners={};self.threads={};self.lock=threading.RLock()
+    def busy(self):return any(t.is_alive() for t in self.threads.values())
+    def apps(self):
+        rows=installed_running_apps()
+        return [a for a in rows if self.policy is None or a['name'] in self.policy.get('apps',[]) or str(a['pid']) in self.policy.get('apps',[])]
+    def recorder_start(self,pids,name):
+        with self.lock:
+            if self.busy() or self.record and self.record.state in {'recording','paused'}:raise ValueError('Stop the current recording or replay first')
+            apps=[a for a in self.apps() if a['pid'] in pids]
+            if not apps or len(apps)!=len(set(pids)):raise ValueError('Selected applications changed; reload the app list')
+            policy={'apps':[str(a['pid']) for a in apps],'write':False,'require_approval':True}
+            if self.policy is not None:policy={**self.policy,'apps':policy['apps'],'write':False}
+            client=Client(Runtime(self.state,policy));client.open(task_id='recording-'+identifier())
+            self.record=ManualRecorder(client,apps,name,excluded_window_prefixes=('Bokkio · Workflow Studio',))
+            try:self.record.start()
+            except Exception:client.call('session.close');self.record=None;raise
+            return self.record.preview()
+    def runner(self,rid):
+        if rid not in self.runners:
+            r=json.loads((self.state/'workflow-runs'/(rid+'.json')).read_text())
+            policy=json.loads((self.state/'workflow-run-policies'/(rid+'.json')).read_text())
+            self.runners[rid]=RuntimeWorkflowRunner(Client(Runtime(self.state,self.policy or policy),r['session_id']),self.state/'workflow-runs')
+        return self.runners[rid]
+    def spawn(self,rid):
+        with self.lock:
+            if self.busy():raise ValueError('A workflow is already running')
+            runner=self.runner(rid)
+            def execute():
+                try:runner.resume(rid)
+                except Exception as e:
+                    r=runner.load(rid);r.update(status='failed',error={'message':str(e)});save_json(runner.path(rid),r)
+            t=threading.Thread(target=execute,daemon=True);self.threads[rid]=t;t.start()
+    def start_run(self,wid,mode,pregranted):
+        with self.lock:
+            if self.busy() or self.record and self.record.state in {'recording','paused'}:raise ValueError('Stop the current recording or replay first')
+            if type(pregranted) is not bool:raise ValueError('Explicit run authorization is required')
+            doc=self.library.get(wid)
+            grants={'apps':[a['name']for a in doc['apps'].values()],'launch_apps':doc['apps'],'write':True,'trusted_host':any(s['kind']=='code.run' for s in doc['steps']),'require_approval':not pregranted,**doc.get('resources',{})}
+            if self.policy is not None:
+                # A supplied administrator policy is an upper bound, never expanded by the UI.
+                for key in ['apps','paths','origins']:
+                    if not set(grants.get(key,[])).issubset(set(self.policy.get(key,[]))):raise ValueError('Workflow resources exceed administrator policy: '+key)
+                if any(self.policy.get('launch_apps',{}).get(k)!=v for k,v in grants['launch_apps'].items()):raise ValueError('Workflow launch identities exceed administrator policy')
+                grants=copy.deepcopy(self.policy)
+            client=Client(Runtime(self.state,grants));client.open(apps=[],task_id='workflow-'+identifier())
+            runner=RuntimeWorkflowRunner(client,self.state/'workflow-runs')
+            try:r=runner.start(doc,mode)
+            except Exception:client.call('session.close');raise
+            rid=r['id'];self.runners[rid]=runner;save_json(self.state/'workflow-run-policies'/(rid+'.json'),grants)
+            self.spawn(rid);return {'id':rid,'status':'running'}
+    def runs(self):
+        rows=[]
+        for p in sorted((self.state/'workflow-runs').glob('*.json'),key=lambda p:p.stat().st_mtime,reverse=True):
+            r=json.loads(p.read_text());rows.append({k:r.get(k) for k in ['id','status','index','workflow_sha256','mode']})
+        return rows[:100]
+    def native_targets(self,grant,window):
+        matches=[a for a in self.apps() if a['path']==grant.get('path') and a['name']==grant.get('name')]
+        if len(matches)!=1:raise ValueError('Start the target app first; multiple matching instances need an explicit binding')
+        pid=matches[0]['pid'];client=Client(Runtime(self.state,{'apps':[str(pid)],'write':False}))
+        client.open(task_id='workflow-editor-'+identifier())
+        try:
+            _,snapshot=runtime_snapshot(client,pid,window)
+            rows=[]
+            for n in snapshot['windows']:
+                if not n['actions'] or n.get('platform_data',{}).get('ax_subrole')=='AXSecureTextField':continue
+                target=selector_for(snapshot,n)
+                if n.get('platform_data',{}).get('ax_identifier'):target['identifier']=n['platform_data']['ax_identifier']
+                rows.append({'target':target,'actions':n['actions'],'name':n['name'],'role':n['role']})
+            return rows
+        finally:client.call('session.close')
+    def run_view(self,rid):
+        runner=self.runner(rid);r=runner.load(rid)
+        if r.get('approval_id'):
+            with runner.client.runtime.store.connect() as db:
+                row=db.execute('SELECT o.tool,o.request,a.status,a.expires FROM approvals a JOIN operations o ON o.id=a.operation_id WHERE a.id=? AND o.session_id=?',(r['approval_id'],r['session_id'])).fetchone()
+                if row:
+                    request=json.loads(row['request']);preview={**dict(row),'request':request}
+                    if row['tool']=='desktop.launch':preview['application_identity']=r['workflow']['apps'].get(request['app'])
+                    if request.get('observation_id'):
+                        observed=db.execute('SELECT payload FROM observations WHERE id=? AND session_id=?',(request['observation_id'],r['session_id'])).fetchone()
+                        if observed:
+                            payload=json.loads(observed['payload'])
+                            from .selector import flatten
+                            preview['observed_target']=[{k:n.get(k)for k in ['role','name','value']}for n in flatten(payload.get('snapshot',{}).get('windows',[]))if n['ref']==request.get('ref')]
+                    r['approval_preview']=preview
+        return r
+    def approve(self,rid,decision):
+        runner=self.runner(rid);r=runner.load(rid)
+        if r['status']!='waiting_approval':raise ValueError('Run is not waiting for approval')
+        if decision not in {'approved','denied'}:raise ValueError('Invalid approval decision')
+        runner.client.runtime.store.decide(r['approval_id'],decision,'Workflow Studio human reviewed exact request')
+        self.spawn(rid);return {'status':'resuming'}
+    def close(self):
+        if self.record and self.record.state in {'recording','paused'}:self.record.stop()
+        for rid,t in self.threads.items():
+            if t.is_alive():self.runner(rid).cancel(rid)
+
+
+def create_server(studio,port=0,token=None):
+    token=token or secrets.token_urlsafe(32);assets=Path(__file__).parent/'studio'
+    class Handler(BaseHTTPRequestHandler):
+        def log_message(self,*args):pass
+        def send(self,status,data,mime='application/json'):
+            raw=json.dumps(data,ensure_ascii=False).encode() if mime=='application/json' else data
+            self.send_response(status);self.send_header('Content-Type',mime);self.send_header('Content-Length',str(len(raw)))
+            self.send_header('Cache-Control','no-store');self.send_header('X-Content-Type-Options','nosniff')
+            self.send_header('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; frame-ancestors 'none'; base-uri 'none'")
+            self.end_headers();self.wfile.write(raw)
+        def allowed(self,api=True):
+            host=f'127.0.0.1:{self.server.server_port}'
+            if self.headers.get('Host')!=host:return False
+            if self.headers.get('Origin') not in {None,'http://'+host}:return False
+            return not api or secrets.compare_digest(self.headers.get('X-Bokkio-Token',''),token)
+        def do_GET(self):
+            path=urlparse(self.path).path
+            if not self.allowed(path.startswith('/api/')):self.send(403,{'error':'Local Studio authorization required'});return
+            if path in {'/','/app.js','/studio.css'}:
+                name={'/':'index.html','/app.js':'app.js','/studio.css':'studio.css'}[path]
+                self.send(200,(assets/name).read_bytes(),{'index.html':'text/html; charset=utf-8','app.js':'text/javascript; charset=utf-8','studio.css':'text/css; charset=utf-8'}[name]);return
+            try:
+                q=parse_qs(urlparse(self.path).query)
+                if path=='/api/apps':data=studio.apps()
+                elif path=='/api/workflows':data=studio.library.list()
+                elif path=='/api/workflow':data=studio.library.get(q['id'][0],int(q['revision'][0]) if 'revision' in q else None)
+                elif path=='/api/revisions':data=studio.library.revisions(q['id'][0])
+                elif path=='/api/record':data=studio.record.preview() if studio.record else {'status':'idle'}
+                elif path=='/api/runs':data=studio.runs()
+                elif path=='/api/run':data=studio.run_view(q['id'][0])
+                else:self.send(404,{'error':'Unknown route'});return
+                self.send(200,data)
+            except Exception as e:self.send(400,{'error':str(e)})
+        def do_POST(self):
+            if not self.allowed():self.send(403,{'error':'Local Studio authorization required'});return
+            try:
+                size=int(self.headers.get('Content-Length','0'))
+                if not 0<size<=1000000:raise ValueError('Invalid request size')
+                data=json.loads(self.rfile.read(size));path=urlparse(self.path).path
+                if path=='/api/workflows/save':result=studio.library.save(data['document'],data.get('expected_sha256'))
+                elif path=='/api/workflows/archive':studio.library.archive(data['id'],data['expected_sha256']);result={'archived':True}
+                elif path=='/api/record/start':result=studio.recorder_start(data['pids'],data.get('name','新 Workflow'))
+                elif path=='/api/record/pause':studio.record.pause();result=studio.record.preview()
+                elif path=='/api/record/resume':studio.record.start();result=studio.record.preview()
+                elif path=='/api/record/stop':result=studio.record.stop()
+                elif path=='/api/native-targets':result=studio.native_targets(data['app'],data['window'])
+                elif path=='/api/runs/start':result=studio.start_run(data['id'],data.get('mode','headed'),data.get('pregranted',False))
+                elif path=='/api/runs/resume':studio.spawn(data['id']);result={'status':'resuming'}
+                elif path=='/api/runs/pause':studio.runner(data['id']).pause(data['id']);result={'status':'pause_requested'}
+                elif path=='/api/runs/cancel':studio.runner(data['id']).cancel(data['id']);result={'status':'cancel_requested'}
+                elif path=='/api/runs/approve':result=studio.approve(data['id'],data['decision'])
+                else:self.send(404,{'error':'Unknown route'});return
+                self.send(200,result)
+            except Exception as e:self.send(400,{'error':str(e)})
+    server=ThreadingHTTPServer(('127.0.0.1',port),Handler)
+    return server,f'http://127.0.0.1:{server.server_port}/#'+token
+
+
+def serve_studio(state,policy=None,port=0,open_browser=True):
+    studio=Studio(state,policy);server,url=create_server(studio,port)
+    print(json.dumps({'studio_url':url,'state':str(Path(state).expanduser().resolve())}),flush=True)
+    if open_browser:webbrowser.open(url)
+    try:server.serve_forever()
+    finally:studio.close();server.server_close()

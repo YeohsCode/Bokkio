@@ -28,7 +28,7 @@ def call(store, session_id, arguments, origins):
     if row is None:
         # Core desktop lock also serializes creation of the session browser.
         with (store.root / "browser-worker.log").open("ab") as log:
-            subprocess.Popen([sys.executable, "-m", "bokkio.browser_driver", str(store.root), session_id],
+            subprocess.Popen([sys.executable, "-m", "bokkio.browser_driver", str(store.root), session_id, str(arguments.get('headless',True)).lower()],
                              stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=log,
                              **({"creationflags": subprocess.CREATE_NO_WINDOW} if os.name == "nt" else {"start_new_session": True}))
         deadline = time.monotonic() + 15
@@ -54,14 +54,14 @@ def call(store, session_id, arguments, origins):
     return result
 
 
-def worker(root, session_id):
+def worker(root, session_id, headless=True):
     from http.server import BaseHTTPRequestHandler, HTTPServer
     from playwright.sync_api import sync_playwright
 
     store = AuditStore(root)
     token = identifier() + identifier()
     with sync_playwright() as pw:
-        browser = pw.chromium.launch(headless=True)
+        browser = pw.chromium.launch(headless=headless)
         context = browser.new_context(service_workers="block")
         page = context.new_page()
         allowed = set()
@@ -129,7 +129,7 @@ def worker(root, session_id):
                     # Read-only snapshot with bounded text and observed form values.
                     content = page.locator("body").inner_text(timeout=5000) if page.url != "about:blank" else ""
                     fields = page.locator("input,textarea,select").evaluate_all("els => els.slice(0,100).map(e=>({tag:e.tagName,id:e.id,type:e.type,value:e.type==='password'?null:e.value}))")
-                    result = {"url": page.url, "title": page.title(), "text": content[:20000],
+                    result = {"url": page.url, "title": page.title(), "headless": headless, "text": content[:20000],
                               "truncated": len(content) > 20000, "fields": fields, "action": action}
                 except Exception as error:
                     result = {"error": str(error), "dispatched": dispatched}
@@ -159,4 +159,4 @@ def worker(root, session_id):
 
 
 if __name__ == "__main__":
-    worker(sys.argv[1], sys.argv[2])
+    worker(sys.argv[1], sys.argv[2],len(sys.argv)<4 or sys.argv[3]=='true')

@@ -1,0 +1,25 @@
+{
+  "scope": "actual_native_passive_readback_with_separate_Runtime_input_generator_not_human_or_pointer_capture",
+  "passed": 4,
+  "total": 4,
+  "checks": [
+    {
+      "case": "actual_passive_AX_value_readback",
+      "passed": true
+    },
+    {
+      "case": "pause_terminates_capture_and_excludes_changes",
+      "passed": true
+    },
+    {
+      "case": "resume_preserves_pause_boundary",
+      "passed": true
+    },
+    {
+      "case": "recorder_zero_dispatched_writes",
+      "passed": true
+    }
+  ],
+  "issues": [],
+  "physical_mouse_capture_tested": false
+}

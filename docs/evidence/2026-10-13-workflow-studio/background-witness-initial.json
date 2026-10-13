@@ -1,0 +1,9 @@
+{
+  "scope": "witness_preparation_failure_not_a_native_workflow_score",
+  "status": "not_started",
+  "receipt_status": "completion_unknown",
+  "error_code": null,
+  "reason": "witness_window_was_not_ready",
+  "unknown_operation_replayed": false,
+  "subsequent_readiness_check_added_to_test_fixture_runner": true
+}

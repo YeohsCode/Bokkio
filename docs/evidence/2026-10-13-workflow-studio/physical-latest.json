@@ -1,0 +1,53 @@
+{
+  "scope": "actual_OS_posted_pointer_keyboard_capture_not_human_demonstration",
+  "human_input": false,
+  "checks": [
+    {
+      "case": "capture_actual_pointer_button",
+      "passed": true
+    },
+    {
+      "case": "capture_actual_OS_typed_value",
+      "passed": true
+    },
+    {
+      "case": "no_recording_issues",
+      "passed": true
+    },
+    {
+      "case": "recording_never_redispatches",
+      "passed": true
+    },
+    {
+      "case": "same_recorded_workflow_replays",
+      "passed": true,
+      "replay_status": "completed",
+      "steps": 5
+    }
+  ],
+  "input_receipts": [
+    {
+      "status": "executed",
+      "dispatched": true,
+      "error_code": null,
+      "operation_id": "1a91aa237ac742d29da1eab76853b1c4"
+    },
+    {
+      "status": "executed",
+      "dispatched": true,
+      "error_code": null,
+      "operation_id": "7baac4b33d314f2d96c83471826b769b"
+    },
+    {
+      "status": "executed",
+      "dispatched": true,
+      "error_code": null,
+      "operation_id": "dc6e2adc0b5849fba8790bacb9f1a944"
+    }
+  ],
+  "passed": 5,
+  "total": 5,
+  "status": "completed",
+  "planned": 5,
+  "not_run": 0
+}

@@ -85,3 +85,7 @@ GUI 用 `--track gui`，专属新 PID 等待系统注册；只授权该进程的
 物理输入继续按实际守卫结果记录；不得绕过系统前台/权限窗口或把模拟锁屏作为真实验收。人工审批与锁屏解锁需要实际用户参与，第二显示器/不同缩放和 Windows 需对应设备。Windows Agent 先跑当前 Core 合同，再实现本平台业务绑定，不复制 macOS 成绩。首次与复测、范围与失败层次、输入/源码哈希、提供方 token/费用、原始日志关联单列；API key、截图、模型 trace 和 SQLite 不进入 Git。
 
 2026-10-13 最终本机复核：587 回归、审计 9/9、窗口／作业 18/18，独立 wheel 原生／代码／Browser 各3/3。旧两项正向输入阻塞本次已解除。Numbers 最新两份未保存：编辑字段与工作表提交不同，Save 目标为 disabled，backend 先拒绝而 Core 记录 unknown；保留诊断，不盲重发。人工与物理测试仍等待实际参与。
+
+## Workflow 新入口接续
+
+读取 docs/WORKFLOW-STUDIO.md 和 fixtures/workflow-recording/suite.json。新模块为 runtime_workflow、manual_recording、workflow_studio、app_launch；录制器源为 native/macos_record.swift。运行 `uv run bokkio-runtime studio` 进入本机 UX；保存 Workflow 与运行数据默认同 Runtime state。实机脚本为 verify_workflow_recording、verify_manual_recording、verify_physical_recording、verify_workflow_mcp，均仅使用自有 Lab 数据；不要拿保存的 PID 或屏幕坐标当作跨进程身份。Windows 尚需监听器和本平台实测，不能用 macOS 生成事件分数填 Windows 验收。

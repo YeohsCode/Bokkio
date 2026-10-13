@@ -248,6 +248,9 @@ class MacAX:
             if data.get('ax_role')=='AXPopUpButton' and 'AXPress' in actions:native.append('expand')
             writable=node['role'] in {'text_field','text_area','combo_box'} and self._settable(element,'AXValue')
             if writable:native.append('set_value')
+            focus_settable=node['role'] in {'text_field','text_area','combo_box'} and self._settable(element,'AXFocused')
+            if focus_settable:native.append('focus')
+            data['ax_focus_settable']=focus_settable
             if node['role']=='combo_box' and 'AXConfirm' in actions:
                 native.append('submit')
                 if 'AXPress' not in actions:
@@ -349,6 +352,11 @@ class MacAX:
             try:error=self.ax.AXUIElementSetAttributeValue(element,key,text)
             finally:self.cf.CFRelease(key);self.cf.CFRelease(text)
             source='AXUIElementSetAttributeValue.AXValue'
+        elif action=='focus':
+            key=self._string('AXFocused');truth=c.c_void_p.in_dll(self.cf,'kCFBooleanTrue').value
+            try:error=self.ax.AXUIElementSetAttributeValue(element,key,truth)
+            finally:self.cf.CFRelease(key)
+            source='AXUIElementSetAttributeValue.AXFocused'
         elif action=='select' and node['platform_data'].get('mac_selection_source')=='AXSelected_then_combo_confirm':
             key=self._string('AXSelected')
             truth=c.c_void_p.in_dll(self.cf,'kCFBooleanTrue').value

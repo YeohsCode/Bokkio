@@ -128,3 +128,7 @@ MCP 工具使用统一 envelope：`{"arguments": {"业务字段": "值"}, "sessi
 重复请求会记录 request.cached，不再次派发；缓存内容仍需要有效且同 OS 用户的 session。会话关闭或过期后，原 operation_id 不能绕过读取边界。metrics 的 attempts 统计所有接收/缓存/拒绝调用，execution_attempts 为进入处理的 request.received；cached_responses、rejected_requests 分别计数，logical_operations 与 known_dispatched 不因缓存命中增加。
 
 scripts/verify_runtime_audit.py 在自有原生 fixture 和真实 SQLite 上验证审计合同，明确区分 SQL/过期注入与未运行的物理锁屏。native verified 通常确认当前控件属性；编辑器可能还要求结束编辑后才更新业务模型，应独立检查业务标签、保存并重开。应用自己的默认保存位置和云同步不受 Core 文件工具路径检查拦截，测试初始化时核对位置；本轮只使用自有合成数据。
+
+## Workflow Studio 与受控启动
+
+新 `bokkio-runtime studio` 是本机录制／版本管理／回放 UX；`bokkio-runtime workflow` 和 MCP `workflow.*` 使用当前企业 Core。安装身份由 `launch_apps` 配置，MCP 工作流 ID 由 `workflows` 配置；所有实际子动作各自核验原有授权与审批。见 [完整指南](WORKFLOW-STUDIO.md) 和 [实测报告](evidence/2026-10-13-workflow-studio/README.md)。这与旧 `bokkio workflow` 是两个入口，不能混淆其执行边界。

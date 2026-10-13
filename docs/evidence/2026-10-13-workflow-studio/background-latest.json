@@ -1,0 +1,31 @@
+{
+  "scope": "background_native_with_unlocked_interactive_desktop_not_displayless_execution",
+  "passed": 5,
+  "total": 5,
+  "checks": [
+    {
+      "case": "background_launch_and_full_recorded_replay",
+      "passed": true
+    },
+    {
+      "case": "foreground_witness_unchanged",
+      "passed": true
+    },
+    {
+      "case": "pointer_unchanged",
+      "passed": true
+    },
+    {
+      "case": "independent_field_and_button_state",
+      "passed": true
+    },
+    {
+      "case": "no_pixel_or_activation_in_workflow",
+      "passed": true
+    }
+  ],
+  "run_status": "completed",
+  "error": null,
+  "initial_app_not_running": true,
+  "no_foreground_or_pointer_fallback": true
+}

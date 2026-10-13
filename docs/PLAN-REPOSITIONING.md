@@ -410,3 +410,7 @@ evals/           # fixtures、未知应用、独立 judge、调用方矩阵
 **实施按 Day 1 立即展开：当天让外部调用方在无需本项目 Planner/Jev 的情况下，通过相同接口完成 Windows/macOS 真实观察、动作与留痕；第三天交付代码/脚本、Browser、审批、统计和可追溯验收包。**
 
 2026-10-13 测试加强结算：完整自主主批 26/36、关键家族同冻结版本三份样本 17/27、GUI 0/18、延迟管理员审批恢复 9/9；最终回归 587/587、审计 9/9、窗口／作业 18/18。自动测试有逐项结果，产品目标、客户／人工／额外物理环境与 Windows 验收仍待完成，详见[接续报告](evidence/2026-10-12-macos-completion/README.md)。这些结果不取消本计划双平台原始门槛。
+
+## 2026-10-13 补充：人工录制与 Workflow Studio
+
+按新增需求交付本机 UX、被动 macOS 录制、版本化维护与当前 Runtime 回放。窗口身份不依赖位置；已获准应用未启动时先启动，等待注册并绑定新 PID。新工作流可由 GUI、CLI、SDK、MCP 调用，保留操作／审批／检查点。测试冻结目录为 fixtures/workflow-recording，结果见 [Workflow 报告](evidence/2026-10-13-workflow-studio/README.md)，用法见 [指南](WORKFLOW-STUDIO.md)。Windows 人工录制、用户本人演示、客户实际应用和额外物理显示环境继续单列；本功能不更改既有业务成功率门槛。

@@ -20,8 +20,9 @@ from .model import BokkioCompletionUnknown, BokkioStaleSnapshot, tree_digest
 
 READ_TOOLS = {"capabilities", "desktop.list", "desktop.observe", "desktop.capture", "job.get", "artifact.read",
               "evidence.check", "audit.query", "audit.export", "events.follow", "metrics.summary", "approval.status", "browser.observe"}
-WRITE_TOOLS = {"desktop.act", "desktop.activate", "desktop.pixel", "code.run", "process.run", "browser.open", "browser.act"}
-TOOLS = READ_TOOLS | WRITE_TOOLS | {"session.open", "session.close", "job.cancel"}
+WRITE_TOOLS = {"desktop.act", "desktop.activate", "desktop.launch", "desktop.pixel", "code.run", "process.run", "browser.open", "browser.act"}
+READ_TOOLS |= {"workflow.list", "workflow.get", "workflow.status"}
+TOOLS = READ_TOOLS | WRITE_TOOLS | {"session.open", "session.close", "job.cancel", "workflow.run", "workflow.resume", "workflow.cancel"}
 
 
 def load_policy(path):
@@ -301,6 +302,11 @@ class Runtime:
         return result
 
     def _validate(self, tool, args, scope, session_id=None):
+        if tool.startswith("workflow."):
+            if tool in {"workflow.run", "workflow.resume"} and not (scope['write'] and self.policy['write']):
+                raise ValueError('Workflow writes are not granted')
+            if 'workflow_id' in args and args['workflow_id'] not in self.policy.get('workflows',[]):
+                raise ValueError('Workflow is outside administrator grants')
         if tool == "desktop.act" and args["action"] in {"type", "set_value", "select_text"} and "value" not in args:
             raise ValueError("Text action requires a literal value")
         if tool == "desktop.pixel" and args["action"] == "type" and "value" not in args:
@@ -315,7 +321,10 @@ class Runtime:
                 raise ValueError("task_id must be a bounded opaque identifier")
         if tool in WRITE_TOOLS and not (scope["write"] and self.policy["write"]):
             raise ValueError("Writes are not granted")
-        if tool.startswith("desktop.") and tool != "desktop.list":
+        if tool == "desktop.launch":
+            from .app_launch import launch_grant
+            launch_grant(self.policy, args["app"], scope)
+        if tool.startswith("desktop.") and tool not in {"desktop.list", "desktop.launch"}:
             app = self._app(scope, args.get("app"), args.get("window"))
             if tool in {"desktop.act", "desktop.pixel"}:
                 observation = self._get_observation(session_id, args["observation_id"])
@@ -366,6 +375,33 @@ class Runtime:
             raise ValueError("Audit queries cannot choose another session")
 
     def _execute(self, tool, args, scope, session_id, operation_id):
+        if tool.startswith('workflow.'):
+            from .runtime_workflow import WorkflowLibrary, RuntimeWorkflowRunner
+            from .sdk import Client
+            import threading
+            library = WorkflowLibrary(self.store.root/'workflows')
+            if tool == 'workflow.list':
+                return [d for d in library.list() if d['id'] in self.policy.get('workflows',[])]
+            if tool == 'workflow.get':return library.get(args['workflow_id'])
+            runner = RuntimeWorkflowRunner(Client(self,session_id),self.store.root/'workflow-runs')
+            if tool == 'workflow.run':
+                run = runner.start(library.get(args['workflow_id']),args.get('mode','headed'))
+            else:
+                run = runner.load(args['run_id'])
+                if run['session_id'] != session_id or run['workflow']['id'] not in self.policy.get('workflows',[]):
+                    raise ValueError('Workflow run is outside this session or revoked')
+            if tool == 'workflow.status':return run
+            if tool == 'workflow.cancel':runner.cancel(run['id']);return {'run_id':run['id'],'cancel_requested':True}
+            if not hasattr(self,'_workflow_threads'):self._workflow_threads = {}
+            if any(t.is_alive() for t in self._workflow_threads.values()):raise ValueError('A workflow is already active')
+            def execute():
+                try:runner.resume(run['id'])
+                except Exception as error:
+                    value=runner.load(run['id']);value.update(status='failed',error={'message':str(error)})
+                    runner._save(value)
+            thread=threading.Thread(target=execute,daemon=True)
+            self._workflow_threads[run['id']]=thread;thread.start()
+            return {'run_id':run['id'],'status':'running'}
         if tool == "capabilities":
             return {"schema": "bokkio.runtime.v1", "platform": platform.system(), "architecture": platform.machine(),
                     "tools": sorted(TOOLS), "browser_installed": importlib.util.find_spec("playwright") is not None,
@@ -405,6 +441,16 @@ class Runtime:
             return {"closed": True}
         if tool == "desktop.list":
             return [{"pid": int(pid), **info} for pid, info in scope["bindings"].items()]
+        if tool == "desktop.launch":
+            from .app_launch import launch_grant, ensure_running
+            grant = launch_grant(self.policy, args["app"], scope)
+            receipt = ensure_running(grant,**({'background':True} if args.get('background') else {}))
+            pid = str(receipt["pid"])
+            scope["bindings"][pid] = {"name": grant["name"], "birth": self.birth_probe(int(pid)),
+                                      "windows": self.policy.get("windows", {}).get(grant["name"], [])}
+            with self.store.connect() as db:
+                db.execute("UPDATE sessions SET policy=? WHERE id=?", (canonical(scope), session_id))
+            return receipt
         if tool == "desktop.observe":
             app = self._app(scope, args["app"], args.get("window"))
             snapshot = self._native_call("snapshot", app, args.get("window"))
@@ -459,7 +505,7 @@ class Runtime:
                                             _session_guard=session_id,
                                             _dispatch_request=(tool, args),
                                             expected_snapshot=tree_digest(observation["snapshot"]["windows"]),
-                                            **{k: args[k] for k in ("value", "direction", "amount", "expected_value") if k in args})
+                                            **{k: args[k] for k in ("value", "direction", "amount", "expected_value", "background") if k in args})
         if tool == "desktop.activate":
             from .desktop_input import desktop_lock, activate
             app = self._app(scope, args["app"], args["window"])

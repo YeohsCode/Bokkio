@@ -22,3 +22,7 @@
 [自主业务测试报告](../evidence/2026-10-12-business-eval/README.md)：保留首轮失败与评分器缺陷，新增轮次单列。
 
 [macOS 自动测试结算](../evidence/2026-10-12-macos-completion/README.md)：587 回归、审计 9/9、窗口矩阵 18/18；产品成功率目标和人工／客户／Windows 验收未达到。
+
+2026-10-13 完整复测已按用户要求暂停；部分结果及未运行范围见 [暂停报告](../evidence/2026-10-13-full-rerun-paused/README.md)。未修复失败，未更新上一完整批次成绩。
+
+2026-10-13 新增 [Workflow Studio](../WORKFLOW-STUDIO.md)：版本库、手工录制、Runtime 回放与独立测试。状态和初次失败见 [Workflow 报告](../evidence/2026-10-13-workflow-studio/README.md)。
