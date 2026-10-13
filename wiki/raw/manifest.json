@@ -2,7 +2,7 @@
   "schema": "bokkio.wiki.sources.v1",
   "created": "2026-10-08",
   "basis_commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d",
-  "source_count": 108,
+  "source_count": 157,
   "records": [
     {
       "path": "README.md",
@@ -825,6 +825,400 @@
       "bytes": 1540,
       "commit": null,
       "version": "working-tree-office-rerun"
+    },
+    {
+      "path": "src/bokkio/__init__.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/__init__.py.txt",
+      "sha256": "2f196ef2ec1f1d56bfaf6709d4767327f092df28bbbd61aa7e8aefb49e7cf52c",
+      "bytes": 211,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/__main__.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/__main__.py.txt",
+      "sha256": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+      "bytes": 48,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/agent.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/agent.py.txt",
+      "sha256": "4b4b4bd34579a8e011758138e7992aca59a3a764bf49dae29bebca950866b364",
+      "bytes": 50392,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/arena.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/arena.py.txt",
+      "sha256": "6e86711667441b2f6707897c0ef981d0baac59302f0962e3ae67562f70f5dd0f",
+      "bytes": 8653,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/audit.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/audit.py.txt",
+      "sha256": "7cf20c52a4d6427586b763c4cf4791f0f76a73c8f6354910eab1a1d785f8aff4",
+      "bytes": 11490,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/browser_driver.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/browser_driver.py.txt",
+      "sha256": "deaedc9f098878a88e8a98a0a6c9104208988040a9563b6cb5de3a2c8781b93a",
+      "bytes": 8668,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/cli.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/cli.py.txt",
+      "sha256": "2d510c07bbbbb1cfd90acc255b9dd71808ef263dda4756401d410cc6bd3920f5",
+      "bytes": 19720,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/decision.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/decision.py.txt",
+      "sha256": "fc860175c56f4d7385ff0d058e7dc0b18ffa3776f824f781905cec558b5491de",
+      "bytes": 38603,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/desktop_input.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/desktop_input.py.txt",
+      "sha256": "0f94fbafb87f54ba1373f3f0fea00ae8dde9421a8a7b2bd9f9f161348f8e308a",
+      "bytes": 12317,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/executor.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/executor.py.txt",
+      "sha256": "fdad38235d40dc37336133be1a4204f9ac6165ab6e923b405709d3eef432e9eb",
+      "bytes": 13433,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/jev.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/jev.py.txt",
+      "sha256": "637bc696117c59439bf8944d10bf4c9c34a45b9499cb5aef36326ae4596c0a59",
+      "bytes": 4152,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/macos_activation.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/macos_activation.py.txt",
+      "sha256": "a61ecd39c97b108a0be0a9b02e06df3e802ae835edc4255da19f45cd8899be6c",
+      "bytes": 2622,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/macos_ax.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/macos_ax.py.txt",
+      "sha256": "0f40e1d3877dc58ed5dcc08121e7dee32d6bf60f01a131d1f70a1a835a061126",
+      "bytes": 22493,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/macos_capture.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/macos_capture.py.txt",
+      "sha256": "cc605e631bd3834819337007b46dde09e1ead679fcd1b6d3d9d7217434db765f",
+      "bytes": 5205,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/mcp_server.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/mcp_server.py.txt",
+      "sha256": "63a24f87c9498e488c7c087d74ff9d4dff3e989f376555ecd0be030ab345f868",
+      "bytes": 2728,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/model.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/model.py.txt",
+      "sha256": "a198bac7c60cdbdf99cdd5c72569962a74e0307cb1fa83d5c7f9e067c4df9d6a",
+      "bytes": 4791,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/office_benchmark.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/office_benchmark.py.txt",
+      "sha256": "aa9349beb4f75f050efc34ca0a55e9e79773972e56db6abe21c42b2871682fc6",
+      "bytes": 13142,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/office_judge.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/office_judge.py.txt",
+      "sha256": "8682d047ab635b8e63c863181b45ea89792bb6161b6c75462a1c76320eeab58e",
+      "bytes": 3910,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/office_runner.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/office_runner.py.txt",
+      "sha256": "e657cb73d336c4e9599bf98d082234024fba09951a7411a6b6a9f86eb1627330",
+      "bytes": 19558,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/office_visual.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/office_visual.py.txt",
+      "sha256": "c0fc46a96af22aaa1ca0f5b4ac94e1b5e64c6d405bb6775cdcbe5fb3101511ed",
+      "bytes": 15437,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/planner.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/planner.py.txt",
+      "sha256": "ec3bb366b9bb2ad546550281a4da2dd5830500e363a8f9c9fa06244c880027fe",
+      "bytes": 63012,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/runtime.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/runtime.py.txt",
+      "sha256": "60446a97fd0bc58e4fb30cad2e47257aefc145b8c0bf4a34a1fe7d6bca3d110f",
+      "bytes": 37875,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/runtime_cli.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/runtime_cli.py.txt",
+      "sha256": "fa0d78e5696dcd479651119687cd9be85199fe8971c75b1c7a81f30a419c720d",
+      "bytes": 5876,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/scroll.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/scroll.py.txt",
+      "sha256": "8852a17321ecf1039c4d2dbd2f5fde92ea7d63576dd5b591afe58ffa36842579",
+      "bytes": 5766,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/sdk.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/sdk.py.txt",
+      "sha256": "f88f99ca43acb28c67ae830b6f80d2f30d550d6bb967b65a9e1e8498f4bbca9f",
+      "bytes": 1841,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/selector.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/selector.py.txt",
+      "sha256": "277eb64ce00888d255daa4bd0dc78d91efcfd510b69b17d5022d2428104d446c",
+      "bytes": 2016,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/tool_schema.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/tool_schema.py.txt",
+      "sha256": "610e9f8c77c5f0302637dce2ddf02bd571224561a9f71873bcb1a1ffd3f8953f",
+      "bytes": 5915,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/visual.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/visual.py.txt",
+      "sha256": "614deaf749fb0360ac0c6614e23798fd0bb4eab821f515eb19f337d9dc33056b",
+      "bytes": 5532,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/visual_input.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/visual_input.py.txt",
+      "sha256": "fd896f56c763e172e5c5ebe318ec89909bb7cc1e07b695feab266d7102a57fa7",
+      "bytes": 12013,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/visual_runtime.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/visual_runtime.py.txt",
+      "sha256": "8e9edd794b4db06879939f0a04014e0adad90890b2f775c3dd92988fba1fb306",
+      "bytes": 25333,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/windows_capture.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/windows_capture.py.txt",
+      "sha256": "f3a7e0da70d00c284c41e7655f2c884be972c980dc69d77870199a4d419b0f4b",
+      "bytes": 15101,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/windows_uia.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/windows_uia.py.txt",
+      "sha256": "0f3eaf5140133c3b550de44665c10f8389003bfb21cf957b6048e889fe273468",
+      "bytes": 16868,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/workflow.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/workflow.py.txt",
+      "sha256": "18218c841b57ec9f172fb6a5036c1d730aab77dbf507e76f9000be44836d9a11",
+      "bytes": 35885,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/workflow_inputs.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/workflow_inputs.py.txt",
+      "sha256": "4025033f62d3008d0ac6b922ab21f9746ccffccfc0e192fd319a4dc03a9b803e",
+      "bytes": 7305,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/workflow_repair.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/workflow_repair.py.txt",
+      "sha256": "91129cef36aeccdd9d9835a78c171868e28a1215ed6cadc77548a834c319de3c",
+      "bytes": 4453,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/xa11y_backend.py",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/xa11y_backend.py.txt",
+      "sha256": "97bcdfa6b49d62a89588a00331c8277bf5cd59d241b74e0df8e6c5c24218549a",
+      "bytes": 38852,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/native/macos_capture.swift",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/native/macos_capture.swift.txt",
+      "sha256": "b3da29d8ea90ab15b64326069e313d428549e03d45ad5d27cb792bef57a21c7a",
+      "bytes": 34526,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "src/bokkio/native/macos_activate.swift",
+      "snapshot": "raw/source-snapshots/current-runtime/src/bokkio/native/macos_activate.swift.txt",
+      "sha256": "c9362f11e4003157fe81b7df968b361816184a471966b97466faedb7d02e57b4",
+      "bytes": 5719,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "pyproject.toml",
+      "snapshot": "raw/source-snapshots/current-runtime/pyproject.toml.txt",
+      "sha256": "eb1fcf3019ad01fdf9b774de05382d537963f09f4df168f79776be499cf2ae4e",
+      "bytes": 889,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "README.md",
+      "snapshot": "raw/source-snapshots/current-runtime/README.md.txt",
+      "sha256": "5398432bba2467e922f41a4b1d74b4732f06c27a99fc6ce4e354d036d275e6ea",
+      "bytes": 57874,
+      "commit": null,
+      "version": "current-runtime"
+    },
+    {
+      "path": "docs/RUNTIME-GUIDE.md",
+      "snapshot": "raw/source-snapshots/current-runtime/docs/RUNTIME-GUIDE.md.txt",
+      "sha256": "25d4b3c449a0f064af8e821fc8407ec6973a2cf38a78d427ee3a8d3735baee83",
+      "bytes": 12486,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "docs/RUNTIME-DELIVERY.md",
+      "snapshot": "raw/source-snapshots/current-runtime/docs/RUNTIME-DELIVERY.md.txt",
+      "sha256": "7f259da2854bc923c3b42687ed37ea3f7671130f33d1078f3bba40818fc3104e",
+      "bytes": 7397,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "docs/PLAN-REPOSITIONING.md",
+      "snapshot": "raw/source-snapshots/current-runtime/docs/PLAN-REPOSITIONING.md.txt",
+      "sha256": "e04b303e7dafb1b0c41a54855d8583f263fce7887daf48762736f34f3aef50e6",
+      "bytes": 45766,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "docs/progress/STATUS.md",
+      "snapshot": "raw/source-snapshots/current-runtime/docs/progress/STATUS.md.txt",
+      "sha256": "84e2edd1cf5f5f012846e2e4c9ef53716258073c0c38171f50541bcbfcedcf8f",
+      "bytes": 4640,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "docs/progress/HANDOFF.md",
+      "snapshot": "raw/source-snapshots/current-runtime/docs/progress/HANDOFF.md.txt",
+      "sha256": "f10e809372ae4084a75a756fd9ad88eb8e21660b1f0e4fa8939bf3b77c4536f1",
+      "bytes": 9212,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "docs/progress/state.json",
+      "snapshot": "raw/source-snapshots/current-runtime/docs/progress/state.json.txt",
+      "sha256": "ca70f20d5d92d4b0fa5b80a01ffddea3222267729d5b74e8070f07cb413d2a64",
+      "bytes": 10723,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "docs/progress/test-strengthening.json",
+      "snapshot": "raw/source-snapshots/current-runtime/docs/progress/test-strengthening.json.txt",
+      "sha256": "a185c23dcaf1276d30a3d1d3417370c4c1129ebf9c133b5ba059c8ce1404d5f9",
+      "bytes": 11554,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "docs/evidence/2026-10-12-macos-completion/README.md",
+      "snapshot": "raw/source-snapshots/current-runtime/docs/evidence/2026-10-12-macos-completion/README.md.txt",
+      "sha256": "d8df521b6a9a560e0ccd08f853c43afad9d2b2d950a50e2a9f50641b721cbac8",
+      "bytes": 9345,
+      "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+      "version": "current-runtime"
+    },
+    {
+      "path": "README.md",
+      "snapshot": "raw/source-snapshots/current-runtime/README.final.md.txt",
+      "sha256": "45ef1f12adc5709df42c70f6dcd1c9e62d73bd8a5e4f8239f682360f9c3ed6e1",
+      "bytes": 57782,
+      "commit": null,
+      "version": "working-tree-current-runtime-final"
     }
-  ]
+  ],
+  "latest_refresh": "2026-10-13-current-runtime",
+  "latest_basis_commit": "0feda6de6e3d3b117a516ed48a5352574b438a29"
 }

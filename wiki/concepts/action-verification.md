@@ -4,7 +4,7 @@ created: "2026-10-08"
 updated: "2026-10-08"
 type: "concept"
 tags: ["safety", "runtime", "evidence"]
-sources: ["src/bokkio/xa11y_backend.py", "src/bokkio/workflow.py", "src/bokkio/visual_input.py", "src/bokkio/agent.py"]
+sources: ["src/bokkio/xa11y_backend.py", "src/bokkio/workflow.py", "src/bokkio/visual_input.py", "src/bokkio/agent.py", "docs/PENDING.md"]
 confidence: "high"
 ---
 

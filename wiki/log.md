@@ -1,10 +1,10 @@
 ---
 title: Bokkio Wiki Log
 created: 2026-10-08
-updated: 2026-10-09
+updated: 2026-10-13
 type: meta
 tags: [meta, maintenance]
-sources: [docs/STATUS.md]
+sources: [docs/STATUS.md, docs/progress/STATUS.md]
 confidence: high
 ---
 
@@ -147,3 +147,19 @@ confidence: high
 - 公共视觉代码4b6de28已提交并推送；新工作区三题初始化通过目标负例检查。
 - 实际runner planned3/started0/blocked3、score=null；Mac锁屏且自动解锁失败，权限均通过，零模型/题目动作。
 - 保留原题15步预算与历史执行成绩；Windows维持暂缓，原始VLM未调用。更新当前状态与证据，追加不可变来源版本。
+
+## [2026-10-13] refresh | Current Runtime architecture and module calls
+
+- 依据 0feda6d 工作树更新 README 中英文当前架构；当前设计移至历史 P0–P7 前，增加系统图、模块调用图、观察/审批/派发时序和模块职责。
+- 刷新 architecture-map、bokkio、native-runtime、current-status、pending-and-known-gaps；新建 runtime-core、module-call-map、runtime-contracts；同步 index 与 SCHEMA。
+- 明确 Runtime.call 与 Xa11yBackend 的层级、三入口/四通道、专用原生线程、桌面锁、独立代码/Browser worker、SDK 父子调用与独立审批。
+- 更新共享状态至 2026-10-13：587/587、审计 9/9、矩阵 18/18、业务 26/36、稳定性 17/27、GUI 0/18；保留旧失败/评分更正和人工/客户/Windows 待验收。
+- 追加 current-runtime 不可变来源快照，逐文件核对 HEAD；README 未提交版本标 working-tree，旧快照不覆写。旧专题保留其 dated 范围，由当前状态链接后续事实。
+
+## [2026-10-13] lint | Current Runtime refresh validated
+
+- 28 个 Markdown 文件、25 个编译页、149 条已解析 wikilinks；零断链/孤立页，frontmatter/tags/index/200 行限制通过。
+- 199 处来源行号、65 个来源文件、36 个 Python 模块及 23 个公开工具路由核对通过；修复四页 sources 遗漏，正文历史日期不改。
+- 157 份不可变来源正文 SHA-256/字节数验证；本次追加49份（含最终图布局修订后的 README 版本），之前108份保持原样；新增来源凭据模式扫描零命中。
+- README 与 Wiki 共7处 Mermaid 块语法通过，4种独立图在 headless Chromium 实际渲染；检查系统图/调用图/时序，移除反馈连线标签遮挡。
+- _meta/validation.json 记录本次文档检查和历史验证；587项等产品成绩仅引用已有报告，本次没有新增 GUI/产品回归成绩。

@@ -1,0 +1,81 @@
+---
+source_path: src/bokkio/tool_schema.py
+source_version: 0feda6de6e3d3b117a516ed48a5352574b438a29
+ingested: 2026-10-13
+sha256: 610e9f8c77c5f0302637dce2ddf02bd571224561a9f71873bcb1a1ffd3f8953f
+---
+
+"""Discoverable input contracts; the same validation is used by every transport."""
+from __future__ import annotations
+
+
+def schema(properties=None, required=()):
+    return {"type": "object", "properties": properties or {}, "required": list(required), "additionalProperties": False}
+
+
+S = {"type": "string"}
+I = {"type": "integer"}
+N = {"type": "number"}
+APP = {"app": S, "window": S}
+OBS = {**APP, "observation_id": S}
+SCHEMAS = {
+    "capabilities": schema(),
+    "session.open": schema({"apps": {"type": "array", "items": S}, "ttl": I, "task_id": S}),
+    "session.close": schema(),
+    "desktop.list": schema(),
+    "desktop.observe": schema({**APP, "max_nodes": I, "max_bytes": I}, ["app"]),
+    "desktop.capture": schema({**APP, "window_id": I}, ["app"]),
+    "desktop.activate": schema({**APP, "window_id": I}, ["app", "window"]),
+    "desktop.act": schema({**OBS, "ref": S, "action": {"type": "string", "enum": ["click", "invoke", "type", "set_value", "select", "focus", "scroll", "expand", "collapse", "submit", "select_text", "open"]},
+                           "value": S, "direction": S, "amount": N, "expected_value": S}, ["app", "observation_id", "ref", "action"]),
+    "desktop.pixel": schema({**OBS, "action": {"type": "string", "enum": ["click", "type"]}, "x": N, "y": N, "value": S}, ["app", "observation_id", "action", "x", "y"]),
+    "code.run": schema({"code": S, "language": {"type": "string", "enum": ["python", "shell", "powershell"]}, "cwd": S, "timeout": N, "output_limit": I}, ["code"]),
+    "process.run": schema({"argv": {"type": "array", "items": S}, "cwd": S, "timeout": N, "output_limit": I}, ["argv"]),
+    "job.get": schema({"job_id": S}, ["job_id"]),
+    "job.cancel": schema({"job_id": S}, ["job_id"]),
+    "browser.open": schema({"url": S}, ["url"]),
+    "browser.observe": schema(),
+    "browser.act": schema({"action": {"type": "string", "enum": ["click", "fill", "press"]}, "selector": S, "expected_url": S, "value": S, "key": S}, ["action", "selector", "expected_url"]),
+    "artifact.read": schema({"artifact_id": S, "max_bytes": I}, ["artifact_id"]),
+    "evidence.check": schema({"path": S, "sha256": S, "csv_rows": I, "csv_columns": {"type": "array", "items": S}}, ["path"]),
+    "audit.query": schema({"after": I, "operation_id": S, "kind": S, "tool": S, "status": S, "platform": S, "error_type": S, "task_id": S, "since": N, "until": N, "limit": I}),
+    "audit.export": schema({"format": {"type": "string", "enum": ["jsonl", "csv"]}}),
+    "events.follow": schema({"after": I, "wait_ms": I, "limit": I}),
+    "metrics.summary": schema(),
+    "approval.status": schema({"approval_id": S}),
+}
+
+DESCRIPTIONS = {
+    "session.open": "Open a session, optionally narrowing the host-approved app list and TTL. Returns session_id for subsequent calls.",
+    "desktop.observe": "Read a bounded accessibility snapshot of a granted app/window; refs and observation_id bind subsequent native actions. Refresh before input.",
+    "desktop.act": "Act on an observed native ref. Needs matching app/window/observation_id. Approval may be required; reuse operation_id after human approval.",
+    "desktop.capture": "Capture a granted native window. Returns screenshot artifact and observation_id; artifact.read supplies image bytes.",
+    "desktop.pixel": "Click/type at image-pixel x/y in a fresh capture, including icons without OCR text. Granted window must be foreground and unobscured. No automatic retry after unknown completion.",
+    "code.run": "Queue explicitly trusted-host generated code. No security sandbox. Returns job_id; job.get polls results, job.cancel cancels. Python may call Client.from_environment().",
+    "process.run": "Queue approved trusted-host argv in a granted cwd with bounded stdout/stderr and timeout. Poll using job.get.",
+    "job.get": "Poll durable job state. A lost worker is completion_unknown and never replayed; reconciliation may terminate its still-identical tracked process tree. Inspect evidence before any new request.",
+    "browser.open": "Navigate an isolated persistent Playwright session within granted HTTP(S) origins.",
+    "browser.act": "Click, fill or press a unique CSS selector in the isolated granted browser session. expected_url must match the exact URL returned by browser.open/observe, so approval cannot silently target another page.",
+    "evidence.check": "Independently check a granted file's bytes/hash and optional CSV row/column contract. Register an artifact for subsequent reading.",
+    "approval.status": "Read approval state. This tool cannot grant approval; a human uses the local approval CLI.",
+    "audit.query": "Read this session's ordered audit events with a resumable after cursor. Input/output bodies are summarized, not exported.",
+    "metrics.summary": "Aggregate logical operations, statuses, channels, timing and approval counts. Does not infer business task success.",
+}
+
+
+def validate(tool, arguments):
+    contract = SCHEMAS[tool]
+    if not isinstance(arguments, dict):
+        raise ValueError("Arguments must be an object")
+    if set(arguments) - set(contract["properties"]):
+        raise ValueError("Unknown arguments: " + ",".join(sorted(set(arguments) - set(contract["properties"]))))
+    if set(contract["required"]) - set(arguments):
+        raise ValueError("Missing required tool arguments")
+    for key, value in arguments.items():
+        definition = contract["properties"][key]
+        valid = {"string": isinstance(value, str), "integer": type(value) is int,
+                 "number": type(value) in {int, float}, "array": isinstance(value, list)}[definition["type"]]
+        if not valid or ("enum" in definition and value not in definition["enum"]):
+            raise ValueError("Invalid argument: " + key)
+        if definition["type"] == "array" and any(not isinstance(item, str) for item in value):
+            raise ValueError("Array must contain strings: " + key)

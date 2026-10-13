@@ -16,7 +16,7 @@ A model-independent computer use runtime for Windows and macOS: native/pixel act
 
 [中文](#中文) · [English](#english)
 
-**项目知识库 / Project knowledge base:** [LLM Wiki](wiki/index.md) · [维护规则 / Maintenance schema](wiki/SCHEMA.md) · [维护日志 / Change log](wiki/log.md)
+**项目知识库 / Project knowledge base:** [当前架构 / Architecture](wiki/summaries/architecture-map.md) · [模块调用 / Module calls](wiki/summaries/module-call-map.md) · [LLM Wiki](wiki/index.md) · [维护规则 / Maintenance schema](wiki/SCHEMA.md) · [维护日志 / Change log](wiki/log.md)
 
 ## 中文
 
@@ -27,6 +27,118 @@ Bokkio 为企业提供通用 Computer Use 执行工具。调用方的 Harness、
 macOS 开发覆盖计划中的四类能力：原生、视觉、生成代码组合、Browser。客户应用类待确定，物理环境矩阵和客户部署/人工审批待验收。Windows 新 Runtime 已提供实现及安装脚本，当前实机验收尚未完成；先前保存的 VM 凭据已找回并成功登录。
 
 最新定位和三天交付门槛见 [实施计划](docs/PLAN-REPOSITIONING.md)，完成度及剩余工作统一维护在 [共享进度](docs/progress/STATUS.md)。统计分母是开发能力覆盖，不表示通用软件成功率或双平台生产验收完成。
+
+### 当前系统架构（0.2.0）
+
+当前实现是 Python 包，三种入口共用 `Runtime.call()`：MCP stdio、CLI JSON 和 Python SDK。调用方负责模型、任务规划、通道选择及业务验收；Core 负责会话授权、审批、执行、作业和可追溯证据。以下图描述当前代码，Rust 与完整 CUP 适配仍是后续方向。
+
+```mermaid
+flowchart TB
+    Caller["Harness / Agent IDE / Agent"]
+    Caller --> MCP["MCP stdio · mcp_server.py"]
+    Caller --> CLI["CLI JSON · runtime_cli.py"]
+    Caller --> SDK["Python SDK · sdk.Client"]
+    MCP --> Core["Runtime.call · runtime.py"]
+    CLI --> Core
+    SDK --> Core
+    Schema["tool_schema.py · 工具参数合同"] --> Core
+    Policy["管理员策略 · Session / 资源授权 / 审批"] --> Core
+    Core <--> Store["audit.AuditStore · SQLite / Artifact 文件"]
+    Admin["本地管理员 CLI · approve"] --> Store
+    Core --> Native["原生通道 · Xa11yBackend"]
+    Core --> Pixel["截图 / 像素输入 · desktop_input.py"]
+    Core --> Jobs["代码 / 进程 · executor.py worker"]
+    Core --> Browser["Browser · browser_driver.py worker"]
+    Native --> AX["macOS AX / Windows UIA"]
+    Pixel --> Capture["Swift ScreenCaptureKit / Windows capture + SendInput"]
+    Jobs --> Script["Python / Shell / PowerShell / argv"]
+    Browser --> Chromium["Playwright · 持久 Chromium 页面"]
+    Jobs --> Store
+    Browser --> Store
+    AX --> Desktop["获准桌面应用"]
+    Capture --> Desktop
+```
+
+| 层 / 模块 | 责任与调用关系 |
+|---|---|
+| 接入层 | `mcp_server.serve`、`runtime_cli.main`、`sdk.Client.call` → `Runtime.call`；`tool_schema` 提供统一工具合同 |
+| Core | `Runtime.call` → 参数/Session/授权/审批检查 → `_execute` → `_finish`；默认拒绝资源访问 |
+| 原生 | `_native_call` → `Xa11yBackend` → xa11y 与 `MacAX` / `WindowsUIA`；`model`、`selector`、`scroll` 支撑身份、查询和验证 |
+| 截图与像素 | `desktop_input` → `macos_capture` / `windows_capture`、Swift helper / Windows SendInput；坐标来自新鲜截图，无需 OCR 标签 |
+| 代码与进程 | `executor.launch` → 独立 worker → Python/Shell/PowerShell/argv；生成 Python 可通过 `Client.from_environment()` 继承会话并回调 Core |
+| Browser | `browser_driver.call` → 每会话持久 worker → Playwright Chromium；精确 origin 和 `expected_url` 约束操作 |
+| 审批与证据 | `AuditStore` 保存 SQLite 会话、操作、审批、事件及 artifact 元数据；管理员 CLI 决定审批；Agent 查询状态、日志、统计与产物 |
+| 可选旧扩展 | `cli` → `DesktopAgent` → Planner/Jev，或 Recorder/WorkflowReplay → backend；仍直接使用 backend，不自动获得新 Core 的授权与审计合同 |
+
+原生调用在单一专用线程执行；原生动作、激活、像素和 Browser 派发共用跨进程桌面锁，锁等待后再次核验范围。代码/进程在独立 worker 运行，以 `job.get`/`job.cancel` 管理。SQLite 和私有文件保存跨进程状态；当前是单机架构，trusted-host 代码与 GUI 不提供逐文件 OS 沙箱。
+
+#### 模块调用图
+
+```mermaid
+flowchart LR
+    Entry["MCP / CLI / SDK"] --> Call["Runtime.call"]
+    Call --> Check["schema / session / grants / approval"]
+    Check --> Dispatch["Runtime._execute"]
+    Dispatch --> NT["单一原生线程 · _native_call"]
+    NT --> XA["Xa11yBackend.snapshot / perform"]
+    XA --> Win["WindowsUIA"]
+    XA --> Mac["MacAX"]
+    Dispatch --> Input["desktop_input.capture / activate / perform"]
+    Input --> WC["windows_capture.py"]
+    Input --> MC["macos_capture.py + Swift helper"]
+    Input --> MA["macos_activation.py + Swift helper"]
+    Dispatch --> EX["executor.launch / get / cancel"]
+    EX --> EW["executor.worker · 子进程"]
+    EW -.-> Client["sdk.Client.from_environment"]
+    Client --> Call
+    Dispatch --> BC["browser_driver.call"]
+    BC --> BW["browser_driver.worker · 本地 HTTP / token"]
+    BW --> PW["Playwright"]
+    Call <--> Audit["AuditStore · events / operations / approvals"]
+    EW --> Audit
+    BW --> Audit
+```
+
+#### 一次观察与动作的调用时序
+
+```mermaid
+sequenceDiagram
+    participant C as 调用方 MCP/CLI/SDK
+    participant R as Runtime.call
+    participant A as AuditStore/SQLite
+    participant H as 本地管理员 CLI
+    participant B as 执行后端
+    C->>R: session.open
+    R->>A: 保存 OS 用户、进程身份、资源授权与 TTL
+    R-->>C: session_id
+    C->>R: desktop.observe / desktop.capture
+    R->>B: 读取获准 app/window
+    R->>A: 保存 observation 与 artifact
+    R-->>C: observation_id、ref 或图片
+    C->>R: 写请求 + observation_id + operation_id
+    R->>A: 认领 operation_id，记录 request.received
+    R->>R: 校验 schema、session、资源与观察
+    opt require_approval = true
+        R->>A: approval.requested
+        R-->>C: approval_required，零派发
+        H->>A: 查看精确请求并 approved/denied
+        C->>R: 原 ID、原工具、原参数恢复请求
+        R->>R: 重新校验授权与观察时效
+        R->>A: 消耗有效批准
+    end
+    R->>A: 持久化 execution.intent
+    R->>B: 派发；桌面输入取得锁后再次校验
+    B-->>R: 动作回执或 job_id
+    R->>A: 保存结果与 execution.finished
+    R-->>C: verified / executed / queued / completion_unknown
+    C->>R: 新观察、job.get、evidence.check、audit.query
+    R-->>C: 当前状态及证据
+    Note over C,B: 调用方独立判断业务结果；unknown 不盲目重发
+```
+
+`observation_id` 有效期 15 秒；审批申请有效期 300 秒，审批不延长观察有效期。过期观察需重新读取并创建新操作。`operation_id` 绑定工具、参数和会话；同一请求重复调用返回记录，未知完成需先查证。`verified` 表示动作后置检查确认，`executed` 表示已执行，`queued` 需继续查作业；这些状态均不能单独证明业务完成。代码审批也不自动批准其 SDK 子动作。
+
+详细设计与代码引用见 [Wiki 架构](wiki/summaries/architecture-map.md)、[完整模块调用地图](wiki/summaries/module-call-map.md) 和 [操作生命周期](wiki/concepts/runtime-contracts.md)。最新验收分母及缺口见 [共享状态](docs/progress/STATUS.md)。
 
 ### 历史 P0–P7 记录
 
@@ -64,20 +176,6 @@ macOS 开发覆盖计划中的四类能力：原生、视觉、生成代码组�
 **微软 Office 原题 pilot（2026-10-08–09）：** 固定三道 L1 原题、初始化、原生 runner、独立评分与原始 VLM 入口已实现；早期会话阻断后完成十轮实际执行，各轮 0/3。AXConfirm、只读选区、窗口身份与阶段规划已修复，剩余失败及脚本能力证据分别保留。见 [执行报告](docs/OFFICE-PILOT-READINESS.md)。
 
 当前实现为 **Python + xa11y 0.15.x**，Windows 额外使用 comtypes 读取原生 UIA ValuePattern 与 ScrollPattern；经典对话框 Edit 的文本提交使用已验证的 Win32 编辑消息。后续核心 Runtime 优先考虑 Rust；统一元素模型参考 CUP（Computer Use Protocol），目前尚未实现完整 CUP 协议适配。Jev 使用 OpenRouter Decisions API 的 `typesafe/jev-1.13`，也保留 TypeSafe 直连选项。当前小样本结果不能代表通用桌面成功率。
-
-### 目标架构
-
-```text
-Harness / Agent IDE / Agent
-        ↓ MCP / CLI JSON / Python SDK
-Computer Use Core
-        ↓ Session / 授权 / 审批 / 作业 / 操作日志
-Windows UIA / macOS AX · 截图/鼠键 · Browser · Code/Process
-        ↓ Observation / ActionReceipt / Artifact
-调用方独立核验结果并选择下一步
-```
-
-原生、视觉和代码由调用方组合。Planner、Jev、Skills、Workflow 是可选客户端或扩展。所有新入口使用相同的执行与审计契约。
 
 ### Runtime 安装与调用
 
@@ -257,6 +355,25 @@ As of 2026-10-12, host regression passes **550/550**. Real process faults pass 5
 
 Use the [shared progress folder](docs/progress/README.md) for the plan, completion counts, pending work and cross-environment handoff. These documents and sanitized evidence are tracked in Git. The candidate is not yet a fully accepted dual-platform release.
 
+### Current architecture (0.2.0)
+
+The Python implementation shares `Runtime.call()` across MCP stdio, CLI JSON and the Python SDK. The caller owns model selection, planning, channel selection and business verification. Core owns sessions, resource checks, approvals, execution, jobs and evidence. The [Chinese architecture section](#当前系统架构020) includes the system diagram, module call graph and request sequence; [Wiki architecture](wiki/summaries/architecture-map.md) and the [complete module map](wiki/summaries/module-call-map.md) link these relationships to code.
+
+| Module | Calls and responsibility |
+|---|---|
+| `mcp_server`, `runtime_cli`, `sdk` | Forward requests to `Runtime.call`; `tool_schema` defines the common input contract |
+| `runtime` | Validate schema/session/grants/approval, dispatch through `_execute`, persist the result through `_finish` |
+| `xa11y_backend` | Native snapshots/actions via xa11y and `MacAX`/`WindowsUIA`; model/selector/scroll support identity and verification |
+| `desktop_input` | Window capture/activation/pixel input via platform capture and native helpers; no OCR label required |
+| `executor` | Durable code/process workers, output limits, timeout and cancellation; generated Python can call the delegated SDK |
+| `browser_driver` | Persistent per-session Playwright worker with granted origins and exact `expected_url` checks |
+| `audit` | SQLite sessions/operations/approvals/events and artifact metadata; local admin CLI grants approval |
+| Legacy Agent/Workflow | Optional direct-backend clients; existing paths do not pass through the new Runtime authorization/audit boundary |
+
+Native calls use one dedicated thread. Native actions, activation, pixel input and Browser calls share a cross-process desktop lock and revalidate after waiting. Code/process jobs run in independent workers. This is a local architecture; trusted-host scripts and GUI operations do not provide a per-file OS sandbox.
+
+Observations expire after 15 seconds; approvals expire after 300 seconds and do not extend observations. Repeated operation IDs return recorded results for the same request. Unknown completion requires independent inspection before any new dispatch. A code approval does not grant approval to SDK child actions. `verified`, `executed` and `queued` describe execution evidence; the caller still checks business results. See [lifecycle contracts](wiki/concepts/runtime-contracts.md) and [current acceptance status](docs/progress/STATUS.md).
+
 ### Historical P0–P7 results
 
 The following records retain their original dates and denominators. Office task scores and Planner/Jev are historical diagnostics and optional client capabilities.
@@ -288,14 +405,7 @@ The following records retain their original dates and denominators. Office task 
 
 The current implementation uses **Python + xa11y 0.15.x**, with comtypes for native Windows ValuePattern and ScrollPattern support. Verified Win32 edit messages commit text in classic dialogs. Rust is the preferred direction for the future core runtime. The element model draws on CUP (Computer Use Protocol); full CUP protocol adaptation is not implemented. Jev uses `typesafe/jev-1.13` through OpenRouter Decisions, with a direct TypeSafe option. These small development samples do not establish general desktop success rates.
 
-### Runtime architecture and setup
-
-```text
-Harness / Agent IDE / Agent → MCP / CLI / Python SDK
-→ Shared Core: sessions, authorization, approvals, jobs, audit
-→ Windows UIA / macOS AX / pixel input / browser / code-process
-→ Observations, receipts and artifacts for independent verification
-```
+### Runtime setup
 
 Run `sh scripts/install_runtime.sh` on macOS or `powershell -File scripts/install_runtime.ps1` on Windows. MCP requires Python 3.10+. Configure explicitly approved resources in the default-deny policy template. See the [guide](docs/RUNTIME-GUIDE.md) and [handoff](docs/progress/HANDOFF.md) for startup, validation and the trusted-host code boundary.
 

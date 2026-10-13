@@ -1,33 +1,44 @@
 ---
 title: "当前阶段与证据快照"
 created: "2026-10-08"
-updated: "2026-10-09"
+updated: "2026-10-13"
 type: "summary"
-tags: ["project", "evidence", "meta"]
-sources: ["docs/P7-VISUAL-BRIDGE.md", "docs/PENDING.md", "docs/STATUS.md", "docs/evidence/2026-10-08-macos-session-recovery/readiness.json", "docs/evidence/2026-10-08-office-live/README.md", "docs/evidence/2026-10-08-office-pilot-ready/run.json", "docs/evidence/2026-10-08-p7-macos-runtime/validation.json", "docs/evidence/2026-10-09-office-fix/README.md", "docs/evidence/2026-10-09-visual-bridge/README.md", "src/bokkio/agent.py", "src/bokkio/office_runner.py", "src/bokkio/visual_runtime.py", "docs/evidence/2026-10-09-office-rerun/README.md"]
+tags: ["project", "evidence", "runtime", "meta"]
+sources: ["docs/progress/STATUS.md", "docs/evidence/2026-10-12-macos-completion/README.md", "README.md"]
 confidence: "high"
 ---
 
 # 当前阶段与证据快照
 
-2026-10-09快照：P6 Windows验收完成，P7部分实现与验收。主机435/435，Windows历史373/373，本轮未重跑Windows。^[docs/STATUS.md#L1]
+更新至 2026-10-13；当前工作候选版 0.2.0。主架构已从历史 Planner/Jev 循环转为模型无关通用 Runtime，核心交付物 8/8 已实现，但产品成功率目标和完整客户/双平台验收尚未完成。最新事实以 docs/progress/STATUS.md 为入口，旧 docs/STATUS.md 与旧 Wiki 专题保留历史观察日期。^[docs/progress/STATUS.md#L3]
 
-Mac恢复fixture三轮原生动作和12次滚动通过；历史截图/OCR3/3与拒绝8/8保留为各自版本证据。Office十轮均开始三题，各轮0/3；第三轮并发与各轮源码变化已标注。^[docs/STATUS.md#L19]
+## 最新自动验证
 
-最新Word派发后确认未知、Excel输入前拒绝、PPT置信度不足；本轮失败不能归因于启动时锁屏。较早OCR脚本Excel探针通过保存校验，但最新字段transport及完整Agent任务仍未通过。^[docs/evidence/2026-10-08-office-live/README.md#L20]
+| 项目 | 当前记录 | 证据范围 |
+|---|---:|---|
+| 主机回归 | 587/587 | GUI 完成后串行测试 |
+| 原生 / SQLite / 审计合同 | 9/9 | 授权、审批、意图、缓存及统计对账 |
+| 本机窗口 / 作业矩阵 | 18/18 | 两项正向物理输入实际成功；真实锁屏/额外显示器未测 |
+| Core 安全类别 | 8/8 | 每类至少一项实测，不是全异常覆盖 |
+| 独立安装包 | 原生/代码/Browser 各 3/3 | 新 venv、锁定依赖、MCP/CLI、自动批准与审计 |
+| 自主 any-tool 主批 | 26/36 | Codex 12/12、Hermes 8/12、DeepSeek 6/12；全部启动 |
+| 关键家族三份样本 | 17/27 | 同一冻结源码；追加两批 7/9、5/9 |
+| GUI 复测 | 0/18 | 全部启动；部分流程/范围可行性限制单列 |
+| 30/90/300 秒审批恢复 | 9/9 | 独立 fixture 管理员自动批准，不是人工 |
+| MCP 图片交付 | 通过 | PNG/ImageContent、尺寸与哈希检查 |
 
-限定combo输入已接Office runner；通用Mac文字降级已接公共provider/Agent/Jev/CLI，真实输入与视觉Workflow、Mac文件恢复和可靠性验收待完成。Windows工作暂缓。无原始VLM或官方成绩。^[docs/PENDING.md#L5]
+依据：^[docs/progress/STATUS.md#L5] ^[docs/evidence/2026-10-12-macos-completion/README.md#L47]
 
-## 后续修复（2026-10-09）
+主批每调用方至少 10/12、六类各有通过、关键家族三份全过的目标未满足。当前 Codex 保留会话并编写评分器，是 official MCP client bridge，不能称盲测或与其他调用方公平排名。GUI 对照不能据此判定某应用完全不支持。^[docs/progress/STATUS.md#L20]
 
-输入拒绝与回读诊断已保留到Agent trace；同一字段最多3次回读，不重复派发。显式split button点击收窄后，真实Jev对记录的PPT快照返回click、置信度1.0（阈值0.7）。主机411/411；Mac当前锁屏，新GUI任务未开始，历史0/3仍为最新产物成绩。该决策探针没有live dispatch或Agent分数。^[docs/evidence/2026-10-09-office-fix/README.md#L1]
+## 最新实现与具体缺口
 
-## Mac公共视觉接入（2026-10-09）
+Mac 精确窗口遍历、scoped/full ref 一致、Pages RTF 渲染文字/OCR/新进程重开验收、SDK 终态/预算核对已修订；实现和独立评分仍分别记录。Numbers .numbers 持久化保留历史 1/3，本轮两份补测未保存：控件字段写值确认但业务模型未提交，保存 disabled；Core 保守 unknown 且未重发，需要通用分类/提交修复。^[docs/progress/STATUS.md#L22] ^[docs/progress/STATUS.md#L29]
 
-WindowScope/VisualObservation/VisualPolicy/VisualProvider、MacVisionProvider与HybridBackend已实现；通过显式PID/固定标题窗口接入Agent/Jev/CLI，输入标签需声明，原生可用时零OCR。恢复保留范围/策略及观察预算。^[docs/P7-VISUAL-BRIDGE.md#L5]
+Windows 当前 Runtime 独立实机、客户应用/数据/部署、真实人工审批、真实锁屏/解锁及第二显示器/缩放仍待验收。历史 Windows UIA/Planner、Mac OCR 和 Office 题库结果不能替代这些分母。^[docs/progress/STATUS.md#L31]
 
-主机435/435；最新三次独立Mac窗口只读观察与真实Jev visual_click选择均3/3（置信度1.0），模拟Agent click/type单独验证。锁屏activation实际拒绝，未派发输入；计数文字OCR仍未验收，Office历史0/3不变。Windows工作暂缓，视觉Workflow、图标和跨窗口扩展待完成。^[docs/evidence/2026-10-09-visual-bridge/README.md#L1]
+## 历史证据与更正
 
-最新重跑尝试：4b6de28已推送，新工作区planned3/started0/blocked3、score=null；Mac锁屏且自动解锁失败，零题目模型调用/动作。该记录不能作为新0/3失败率，历史实际成绩不变。^[docs/evidence/2026-10-09-office-rerun/README.md#L1]
+旧业务 r1～r4 保留原始记录；SDK 终态核验使旧重点矩阵 9/12 更正为 7/12，不按 exit 0 判定 SDK 完成。2026-10-09 Office 十轮各 0/3、后续 r28/r30 各 3/3、r33 为 0/3 仍是旧 Agent 的分轮事实，不是新 Core 或官方 benchmark 成绩。^[docs/progress/STATUS.md#L26] ^[README.md#L275]
 
-关联：[[summaries/pending-and-known-gaps]]、[[concepts/evidence-and-scoring]]、[[entities/office-pilot]]。
+关联：[[summaries/architecture-map]]、[[entities/runtime-core]]、[[summaries/pending-and-known-gaps]]、[[concepts/evidence-and-scoring]]、[[entities/office-pilot]]。

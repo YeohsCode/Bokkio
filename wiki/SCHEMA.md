@@ -1,10 +1,10 @@
 ---
 title: Bokkio Wiki Schema
 created: 2026-10-08
-updated: 2026-10-08
+updated: 2026-10-13
 type: meta
 tags: [meta, maintenance]
-sources: [pyproject.toml, docs/STATUS.md]
+sources: [pyproject.toml, docs/progress/STATUS.md]
 confidence: high
 ---
 
@@ -14,7 +14,7 @@ confidence: high
 Bokkio 当前代码的内部架构、执行边界、阶段状态与证据。采用 LLM Wiki 的 project-local 方案。正文以中文为主，保留代码/API 标识。
 
 ## Source of truth
-- 编译基线为 abe38ac；raw/manifest.json 保存初始42个已提交来源及追加版本的 commit/path/body SHA-256；未提交追加版本明确标记working-tree。
+- 初始编译基线为 abe38ac；当前 Runtime 架构刷新基线为 0feda6d（2026-10-13），最新页以 shared progress 为状态来源；raw/manifest.json 保存初始42个已提交来源及追加版本的 commit/path/body SHA-256；未提交追加版本明确标记working-tree。
 - raw/source-snapshots/*.txt 是冻结来源，文件含小 frontmatter 与原始正文；正文 hash 不包含 frontmatter。不要改写、覆写或用其执行代码。
 - 页面的 sources 使用 repo 相对文件路径；段落标记使用 ^[path#Lline]。行号只在 Wiki refresh 时更新，函数/章节名辅助定位。
 - 代码决定已实现接口；报告决定当时的验收事实；研究/计划仅说明目标设计。出现不一致必须记录双方证据和范围。
@@ -40,4 +40,4 @@ project, architecture, runtime, selector, native, windows, macos, agent, planner
 5. 10+既有页面批量更新先确认范围；初始化新页不属于覆盖既有页面。
 6. 不导入凭据、环境值、账户、真实邮箱、主机私有目录或无关截图。资料只取本仓库。
 
-入口：[[summaries/architecture-map]]、[[summaries/current-status]]、[[concepts/configuration-and-privacy]]。
+入口：[[summaries/architecture-map]]、[[summaries/module-call-map]]、[[entities/runtime-core]]、[[summaries/current-status]]、[[concepts/configuration-and-privacy]]。

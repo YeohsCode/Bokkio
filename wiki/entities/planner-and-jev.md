@@ -4,7 +4,7 @@ created: "2026-10-08"
 updated: "2026-10-08"
 type: "entity"
 tags: ["planner", "jev", "agent"]
-sources: ["src/bokkio/planner.py", "src/bokkio/jev.py", "src/bokkio/decision.py"]
+sources: ["src/bokkio/planner.py", "src/bokkio/jev.py", "src/bokkio/decision.py", "docs/STATUS.md"]
 confidence: "high"
 ---
 

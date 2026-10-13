@@ -4,7 +4,7 @@ created: "2026-10-08"
 updated: "2026-10-09"
 type: "entity"
 tags: ["vision", "macos", "windows", "runtime"]
-sources: ["docs/P7-VISUAL-BRIDGE.md", "docs/evidence/2026-10-09-visual-bridge/README.md", "src/bokkio/macos_capture.py", "src/bokkio/native/macos_capture.swift", "src/bokkio/visual.py", "src/bokkio/visual_runtime.py", "src/bokkio/windows_capture.py"]
+sources: ["docs/P7-VISUAL-BRIDGE.md", "docs/evidence/2026-10-09-visual-bridge/README.md", "src/bokkio/macos_capture.py", "src/bokkio/native/macos_capture.swift", "src/bokkio/visual.py", "src/bokkio/visual_runtime.py", "src/bokkio/windows_capture.py", "docs/P7-MACOS-VISUAL.md"]
 confidence: "high"
 ---
 

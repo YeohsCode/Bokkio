@@ -1,0 +1,10 @@
+---
+source_path: src/bokkio/__main__.py
+source_version: 0feda6de6e3d3b117a516ed48a5352574b438a29
+ingested: 2026-10-13
+sha256: 935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d
+---
+
+from .cli import main
+
+raise SystemExit(main())

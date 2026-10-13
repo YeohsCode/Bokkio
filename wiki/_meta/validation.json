@@ -1,24 +1,61 @@
 {
-  "compiled_pages": 22,
-  "source_snapshots_verified": 108,
-  "referenced_source_files": 39,
+  "refresh": "2026-10-13-current-runtime",
+  "compiled_pages": 25,
+  "markdown_pages": 28,
+  "resolved_wikilinks": 149,
+  "source_line_citations": 199,
+  "referenced_source_files": 65,
+  "source_snapshots_verified": 157,
+  "current_source_modules_mapped": 36,
+  "public_tools_mapped": 23,
+  "orphan_pages": [],
   "errors": [],
-  "review_pages": [],
-  "office_constructor_unsupported_kwargs": [],
-  "latest_refresh": "2026-10-09-office-rerun",
-  "host_tests_passed": 435,
-  "office_rounds": 10,
-  "office_task_executions": 30,
-  "office_artifact_passes": 0,
   "privacy_scan": {
-    "all_worktree_findings": 24,
-    "reviewed_request_uuid_false_positives": 24,
-    "credential_findings": 0
+    "scope": "49 current-runtime source snapshots",
+    "credential_pattern_findings": []
   },
-  "mac_read_only_bridge_passed": 3,
-  "mac_read_only_bridge_planned": 3,
-  "actual_Jev_visual_probes": 3,
-  "visual_live_input_dispatched": false,
-  "latest_office_attempt_started": 0,
-  "latest_office_attempt_blocked": 3
+  "mermaid_blocks": 7,
+  "mermaid_validation": {
+    "version": "11.12.0",
+    "syntax_valid_blocks": 7,
+    "unique_diagrams_rendered": 4,
+    "visual_review": "architecture, module calls and request sequence inspected; final diagrams rendered in headless Chromium"
+  },
+  "source_basis_commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
+  "scope": "Documentation refresh only; no new product or GUI acceptance runs.",
+  "reported_product_evidence": {
+    "source": "docs/progress/STATUS.md",
+    "observed_date": "2026-10-13",
+    "host_tests_passed": 587,
+    "audit_contract": "9/9",
+    "window_job_matrix": "18/18",
+    "business_main": "26/36",
+    "stability": "17/27",
+    "gui": "0/18",
+    "automatic_approval_wait": "9/9"
+  },
+  "historical_validation_2026_10_09": {
+    "compiled_pages": 22,
+    "source_snapshots_verified": 108,
+    "referenced_source_files": 39,
+    "errors": [],
+    "review_pages": [],
+    "office_constructor_unsupported_kwargs": [],
+    "latest_refresh": "2026-10-09-office-rerun",
+    "host_tests_passed": 435,
+    "office_rounds": 10,
+    "office_task_executions": 30,
+    "office_artifact_passes": 0,
+    "privacy_scan": {
+      "all_worktree_findings": 24,
+      "reviewed_request_uuid_false_positives": 24,
+      "credential_findings": 0
+    },
+    "mac_read_only_bridge_passed": 3,
+    "mac_read_only_bridge_planned": 3,
+    "actual_Jev_visual_probes": 3,
+    "visual_live_input_dispatched": false,
+    "latest_office_attempt_started": 0,
+    "latest_office_attempt_blocked": 3
+  }
 }

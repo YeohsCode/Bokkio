@@ -4,7 +4,7 @@ created: "2026-10-08"
 updated: "2026-10-08"
 type: "concept"
 tags: ["configuration", "safety", "maintenance"]
-sources: ["src/bokkio/jev.py", "src/bokkio/planner.py", "src/bokkio/office_runner.py", "docs/SECURITY-REVIEW.md"]
+sources: ["src/bokkio/jev.py", "src/bokkio/planner.py", "src/bokkio/office_runner.py", "docs/SECURITY-REVIEW.md", "src/bokkio/office_judge.py"]
 confidence: "high"
 ---
 

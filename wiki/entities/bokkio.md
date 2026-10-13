@@ -1,23 +1,24 @@
 ---
 title: "Bokkio：项目目标与边界"
 created: "2026-10-08"
-updated: "2026-10-08"
+updated: "2026-10-13"
 type: "entity"
-tags: ["project", "architecture"]
-sources: ["README.md", "docs/RESEARCH.md", "pyproject.toml"]
+tags: ["project", "architecture", "runtime"]
+sources: ["README.md", "pyproject.toml", "src/bokkio/runtime.py", "docs/progress/STATUS.md"]
 confidence: "high"
 ---
 
 # Bokkio：项目目标与边界
 
-Bokkio 用统一的原生桌面元素层支撑 Windows/macOS 操作、局部决策、任务规划和确定性重放。项目重点是 Computer Use，覆盖桌面和跨应用流程；浏览器只是可能的应用环境。^[docs/RESEARCH.md#L9]
+Bokkio 当前是面向 Windows/macOS 的通用 Computer Use Runtime，供 Harness、Agent IDE、Agent 调用。调用方理解任务、选择原生/像素/代码/Browser 并核验业务结果；Core 提供获准资源上的执行和证据。Planner/Jev/Workflow 是保留的可选旧扩展，Core 不依赖它们。^[README.md#L25]
 
-## 当前技术边界
+## 当前技术边界（2026-10-13）
 
-- 当前实现是 Python 包与 CLI，依赖 xa11y；Windows 使用 comtypes 补充 UIA，Mac 视觉 helper 使用 Swift。^[pyproject.toml#L5]
-- Rust Runtime 和完整 CUP 协议适配属于设计方向，不能当作已经交付的实现。^[README.md#L1]
-- 实现状态与应用覆盖是两个维度。373 项隔离测试不代表所有桌面任务可执行。^[docs/STATUS.md#L5]
+- Python 包 0.2.0，Core ≥3.9、MCP ≥3.10；xa11y 0.15.x，Windows comtypes 补充 UIA，Mac Swift helper 支持采集/输入/激活。^[pyproject.toml#L7]
+- MCP stdio、CLI JSON、Python SDK 共用 Runtime.call；Session、资源授权、独立审批、持久作业、审计和 artifact 构成新执行合同。^[src/bokkio/runtime.py#L58]
+- Rust 与完整 CUP 适配是后续方向；当前不提供逐文件 OS 沙箱、远程 fleet、多租户 SSO 或集中防篡改日志。^[README.md#L33] ^[docs/progress/STATUS.md#L41]
+- 当前开发证据和完整产品/客户验收是不同维度；587 项回归不表示所有桌面任务成功，Windows 当前 Runtime 尚未完成独立实机验收。^[docs/progress/STATUS.md#L9]
 
 ## 阅读路线
 
-先看 [[summaries/architecture-map]]，再按需要进入 [[entities/native-runtime]]、[[entities/desktop-agent]] 或 [[entities/workflow-engine]]。最新边界见 [[summaries/current-status]]。
+设计看 [[summaries/architecture-map]]；具体调用看 [[summaries/module-call-map]]；统一边界看 [[entities/runtime-core]] 和 [[concepts/runtime-contracts]]；底层看 [[entities/native-runtime]]。当前事实见 [[summaries/current-status]]；旧可选能力见 [[entities/desktop-agent]]、[[entities/workflow-engine]]。

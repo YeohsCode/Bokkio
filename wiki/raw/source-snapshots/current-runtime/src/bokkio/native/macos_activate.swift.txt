@@ -1,0 +1,96 @@
+---
+source_path: src/bokkio/native/macos_activate.swift
+source_version: 0feda6de6e3d3b117a516ed48a5352574b438a29
+ingested: 2026-10-13
+sha256: c9362f11e4003157fe81b7df968b361816184a471966b97466faedb7d02e57b4
+---
+
+// Scoped foreground activation for native desktop test/application setup.
+import Cocoa
+import ApplicationServices
+_ = NSApplication.shared
+NSApp.setActivationPolicy(.accessory)
+func emit(_ data:[String:Any], _ code:Int32=0) -> Never {
+    let bytes=try! JSONSerialization.data(withJSONObject:data,options:[.sortedKeys])
+    print(String(data:bytes,encoding:.utf8)!);exit(code)
+}
+let input=FileHandle.standardInput.readDataToEndOfFile()
+guard input.count<=16384, let args=try? JSONSerialization.jsonObject(with:input) as? [String:Any],
+      let number=args["pid"] as? Int, number>0, number<=Int(Int32.max),
+      let title=args["title"] as? String, !title.isEmpty, title.count<=1024 else {emit(["error":"invalid_scope"],1)}
+let pid=pid_t(number)
+let document=args["document"] as? String
+let session=CGSessionCopyCurrentDictionary() as? [String:Any]
+guard session != nil,session?["CGSSessionScreenIsLocked"] as? Bool != true,AXIsProcessTrusted() else {
+    emit(["error":"interactive_session_unavailable"],1)
+}
+let root=AXUIElementCreateApplication(pid)
+AXUIElementSetMessagingTimeout(root,1)
+var value:CFTypeRef?
+guard AXUIElementCopyAttributeValue(root,kAXWindowsAttribute as CFString,&value) == .success,
+      let windows=value as? [AXUIElement] else {emit(["error":"window_unavailable"],1)}
+let matching=windows.filter { window in
+    var name:CFTypeRef?
+    guard AXUIElementCopyAttributeValue(window,kAXTitleAttribute as CFString,&name) == .success && name as? String == title else { return false }
+    if let document=document {
+        var source:CFTypeRef?
+        guard AXUIElementCopyAttributeValue(window,kAXDocumentAttribute as CFString,&source) == .success,
+              let source=source as? String,let url=URL(string:source) else { return false }
+        return url.resolvingSymlinksInPath().standardizedFileURL.path == URL(fileURLWithPath:document).resolvingSymlinksInPath().standardizedFileURL.path
+    }
+    return true
+}
+guard matching.count==1,let app=NSRunningApplication(processIdentifier:pid),!app.isTerminated else {
+    emit(["error":"window_ambiguous_or_missing"],1)
+}
+guard app.activate(options:[]) else {emit(["error":"activation_refused"],1)}
+let end=Date().addingTimeInterval(2)
+while Date()<end && NSWorkspace.shared.frontmostApplication?.processIdentifier != pid {
+    RunLoop.current.run(until:Date().addingTimeInterval(0.05))
+}
+guard NSWorkspace.shared.frontmostApplication?.processIdentifier==pid else {
+    emit(["error":"foreground_unconfirmed"],1)
+}
+let raised=AXUIElementPerformAction(matching[0],kAXRaiseAction as CFString)
+guard raised == .success else {emit(["error":"window_raise_unconfirmed","ax_error":raised.rawValue],1)}
+if args["clear_hover"] as? Bool == true {
+    var pointValue:CFTypeRef?;var sizeValue:CFTypeRef?
+    var origin=CGPoint.zero;var size=CGSize.zero
+    guard CGPreflightPostEventAccess(),
+          AXUIElementCopyAttributeValue(matching[0],kAXPositionAttribute as CFString,&pointValue) == .success,
+          AXUIElementCopyAttributeValue(matching[0],kAXSizeAttribute as CFString,&sizeValue) == .success,
+          let position=pointValue,let extent=sizeValue,CFGetTypeID(position)==AXValueGetTypeID(),CFGetTypeID(extent)==AXValueGetTypeID(),
+          AXValueGetValue(position as! AXValue,.cgPoint,&origin),AXValueGetValue(extent as! AXValue,.cgSize,&size),
+          size.width>=40,size.height>=24,
+          let move=CGEvent(mouseEventSource:nil,mouseType:.mouseMoved,
+                           mouseCursorPosition:CGPoint(x:origin.x+size.width/2,y:origin.y+12),mouseButton:.left) else {
+        emit(["error":"hover_preparation_unavailable"],1)
+    }
+    move.flags=[];move.post(tap:.cghidEventTap)
+}
+func windowIsFrontmost() -> Bool {
+    let info=CGWindowListCopyWindowInfo([.optionOnScreenOnly,.excludeDesktopElements],kCGNullWindowID) as? [[String:Any]]
+    let levels=[NSWindow.Level.normal.rawValue,NSWindow.Level.floating.rawValue,NSWindow.Level.modalPanel.rawValue]
+    let top=info?.first(where:{ levels.contains($0[kCGWindowLayer as String] as? Int ?? -1) })
+    return NSWorkspace.shared.frontmostApplication?.processIdentifier==pid &&
+        top?[kCGWindowOwnerPID as String] as? Int==number && top?[kCGWindowName as String] as? String==title
+}
+// AXRaise is asynchronous. Observe its outcome before capturing an input target.
+let windowEnd=Date().addingTimeInterval(2)
+while Date()<windowEnd && !windowIsFrontmost() {
+    RunLoop.current.run(until:Date().addingTimeInterval(0.05))
+}
+guard windowIsFrontmost() else {
+    let info=CGWindowListCopyWindowInfo([.optionOnScreenOnly,.excludeDesktopElements],kCGNullWindowID) as? [[String:Any]]
+    let levels=[NSWindow.Level.normal.rawValue,NSWindow.Level.floating.rawValue,NSWindow.Level.modalPanel.rawValue]
+    let top=info?.first(where:{levels.contains($0[kCGWindowLayer as String] as? Int ?? -1)})
+    emit(["error":"front_window_unconfirmed","foreground_pid":NSWorkspace.shared.frontmostApplication?.processIdentifier as Any? ?? NSNull(),
+          "top_window_pid":top?[kCGWindowOwnerPID as String] as Any? ?? NSNull(),
+          "top_title_matches":top?[kCGWindowName as String] as? String==title,
+          "top_bounds":top?[kCGWindowBounds as String] as Any? ?? NSNull()],1)
+}
+let info=CGWindowListCopyWindowInfo([.optionOnScreenOnly,.excludeDesktopElements],kCGNullWindowID) as? [[String:Any]]
+let levels=[NSWindow.Level.normal.rawValue,NSWindow.Level.floating.rawValue,NSWindow.Level.modalPanel.rawValue]
+let top=info?.first(where:{ levels.contains($0[kCGWindowLayer as String] as? Int ?? -1) })
+emit(["status":"activated","pid":number,"title":title,"foreground_confirmed":true,"window_confirmed":true,
+      "window_id":top?[kCGWindowNumber as String] as Any? ?? NSNull()])

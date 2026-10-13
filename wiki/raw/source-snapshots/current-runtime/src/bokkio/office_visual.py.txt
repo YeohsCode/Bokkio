@@ -1,0 +1,244 @@
+---
+source_path: src/bokkio/office_visual.py
+source_version: 0feda6de6e3d3b117a516ed48a5352574b438a29
+ingested: 2026-10-13
+sha256: c0fc46a96af22aaa1ca0f5b4ac94e1b5e64c6d405bb6775cdcbe5fb3101511ed
+---
+
+"""Scoped Office combo editing through capture-bound native field coordinates.
+
+Microsoft Office AX setters can expose a draft string without applying its
+formatting. Click the observed field bounds, replace its text and confirm with Enter.
+This transport is scoped to a writable combo inside one authorized window.
+"""
+import re
+import time
+from .macos_capture import capture_window
+from .model import BokkioActionError,BokkioCompletionUnknown,BokkioStaleSnapshot
+from .visual_input import perform
+from .windows_capture import CaptureError
+
+
+class OfficeVisualBackend:
+    """Keep native menu/dialog scopes; opt in only the owned PPT title input."""
+    supports_stale_refresh=True
+    supports_action_observation=True
+
+    def __init__(self,native,scope):
+        from .visual_runtime import HybridBackend,MacVisionProvider,VisualPolicy
+        self.native=native;self.scope=scope;self.app=str(scope.pid)
+        self.hybrid=HybridBackend(native,MacVisionProvider(finish_typing=True),{self.app:scope},
+                                  policies={self.app:VisualPolicy(input_labels=('Click to add title',))})
+
+    def __getattr__(self,name):return getattr(self.native,name)
+
+    @property
+    def execution_contract(self):return self.hybrid.execution_contract
+
+    @property
+    def visual_capture_counts(self):return self.hybrid.visual_capture_counts
+
+    def begin_run(self,counts=None):self.hybrid.begin_run(counts)
+
+    def observe_for_planner(self,app,goal):
+        from .selector import flatten
+        snapshot=self.native.snapshot(app)
+        windows=[n for n in flatten(snapshot['windows']) if n['role'] in {'window','dialog'}]
+        if app!=self.app or any(n['name']!=self.scope.title for n in windows):return snapshot
+        observation=self.hybrid._capture(app,force=True)
+        return self.hybrid._merge(app,snapshot,observation)
+
+    def snapshot(self,app,window=None):
+        if app in self.hybrid._active:return self.hybrid.snapshot(app,window)
+        return self.native.snapshot(app,window)
+
+    def prepare_step(self,app,snapshot,step):
+        if any(c['role']=='visual_text' for c in step['success']):
+            return self.hybrid.prepare_step(app,snapshot,step)
+        self.hybrid._active.discard(app);self.hybrid._contexts.pop(app,None)
+        return self.native.snapshot(app,step['window'])
+
+    def perform(self,app,action,**arguments):
+        if action.startswith('visual_') or app in self.hybrid._active:return self.hybrid.perform(app,action,**arguments)
+        return self.native.perform(app,action,**arguments)
+
+
+def click_selection_button(pid,title,node,*,backend,document=None):
+    """Post one click to an AX-bound button without losing its text selection.
+
+    Word's Clear Formatting AXPress can toggle the button without executing
+    the formatting command. The native helper rechecks both the hit object
+    and focused editor selection before posting; artifact checks stay separate.
+    """
+    from .selector import flatten
+    from .macos_activation import activate_window
+    data=node['platform_data']
+    if (node['role']!='button' or not data.get('mac_unique_identity')
+            or 'AXPress' not in data.get('ax_original_actions',[])):
+        raise BokkioActionError('Selection button requires a bound native AXPress button')
+    rows=flatten(backend.snapshot(str(pid),title)['windows'])
+    editors=[n for n in rows if n['role']=='text_area' and n['state'].get('selected_text')
+             and n['platform_data'].get('mac_unique_identity')]
+    if len(editors)!=1:raise BokkioActionError('Selection button requires one focused nonempty document selection')
+    editor=editors[0];selected=editor['state']['selected_text']
+    activate_window(pid,title,**({'document':document} if document else {}),clear_hover=True)
+    meta,png=capture_window(pid,title=title,ocr=True,timeout=15)
+    def verify(after,image):
+        fresh=flatten(backend.snapshot(str(pid),title)['windows'])
+        matches=[n for n in fresh if n['ref']==editor['ref'] and n['platform_data'].get('mac_unique_identity')
+                 and n['platform_data'].get('ax_native_identity')==editor['platform_data'].get('ax_native_identity')]
+        return {'passed':len(matches)==1 and matches[0]['state'].get('selected_text')==selected,
+                'source':'fresh_native_selection_after_button_click','matching_editors':len(matches)}
+    try:
+        receipt=perform(meta,png,node['name'],'click',expect_text=node['name'],
+                        _native_target=node,_native_selection=editor,_post_verify=verify)
+    except CaptureError as error:
+        if error.details.get('dispatched') in {True,'unknown'}:
+            raise BokkioCompletionUnknown('Office button click requires inspection: '+error.code) from error
+        scope=error.details.get('input_scope',{})
+        input_scope_changed=(error.code=='input_unavailable' and scope.get('event_permission') is True
+                             and (scope.get('foreground_process_matches') is False or scope.get('top_window_matches') is False))
+        if error.code in {'capture_changed','native_button_changed','capture_stale'} or input_scope_changed:
+            raise BokkioStaleSnapshot('Office button/selection changed before input; observe again') from error
+        raise BokkioActionError('Office button click refused before input: '+error.code) from error
+    return {'action_source':'bounded_selection_button_click','visual_receipt':receipt}
+
+
+def expand_combo(pid,title,node,*,backend):
+    from .selector import flatten
+    from .macos_activation import activate_window
+    activate_window(pid,title,clear_hover=True)
+    before=flatten(backend.snapshot(str(pid))['windows']);refs={n['ref'] for n in before if n['state'].get('visible')}
+    meta,png=capture_window(pid,title=title,ocr=True,timeout=15)
+    def verify(after,image):
+        fresh=flatten(backend.snapshot(str(pid))['windows'])
+        added=[n for n in fresh if n['ref'] not in refs and n['state'].get('visible') is not False and n['name']
+               and (n['role'] in {'menu_item','list_item','radio_button','static_text'} or n['platform_data'].get('native_option_command'))]
+        return {'passed':bool(added),'source':'new_native_popup_choices','candidate_count':len(added)}
+    try:
+        result=perform(meta,png,node['value'],'click',expect_text='native popup choices',
+                       _native_target=node,_expand=True,_post_verify=verify)
+    except CaptureError as error:
+        if error.details.get('dispatched') in {True,'unknown'}:raise BokkioCompletionUnknown('Office dropdown needs inspection: '+error.code) from error
+        raise BokkioActionError('Office dropdown refused: '+error.code) from error
+    return {'action_source':'bounded_native_dropdown_click','visual_receipt':result}
+
+
+def replace_combo(pid,title,node,value,*,backend=None,confirm=True):
+    data=node['platform_data'];bounds=node['bounds'];current=node['value']
+    if (node['platform']!='macos' or node['role'] not in {'combo_box','text_field'} or node['state'].get('enabled') is False
+            or not data.get('mac_unique_identity') or not data.get('ax_value_settable')
+            or 'AXConfirm' not in data.get('ax_original_actions',[]) or not bounds
+            or (current is not None and not isinstance(current,str)) or (isinstance(current,str) and len(current)>1000)):
+        raise BokkioActionError('Office visual replacement requires one verified writable visible combo')
+    from .macos_activation import activate_window
+    activate_window(pid,title,clear_hover=True)
+    meta,png=capture_window(pid,title=title,ocr=True,timeout=15)
+    rect=meta['content_rect'];sx=meta['width']/rect['width'];sy=meta['height']/rect['height']
+    region={'x':(bounds['x']-rect['x'])*sx,'y':(bounds['y']-rect['y'])*sy,
+            'width':bounds['width']*sx,'height':bounds['height']*sy}
+    left=max(0,region['x']);top=max(0,region['y'])
+    right=min(meta['width'],region['x']+region['width']);bottom=min(meta['height'],region['y']+region['height'])
+    if right<=left or bottom<=top:raise BokkioActionError('Office field is outside its authorized captured window')
+    region={'x':left,'y':top,'width':right-left,'height':bottom-top}
+    # Name boxes normalize submitted ranges to the active cell label. The
+    # helper receipt proves a command was posted; artifact grading must still
+    # check all requested cells. Other fields must show the requested literal.
+    expected=value
+    if data.get('ax_identifier')=='NameBox':
+        match=re.fullmatch(r'([A-Za-z]{1,3})([1-9][0-9]{0,6})?(?::([A-Za-z]{1,3})([1-9][0-9]{0,6})?)?',value)
+        if not match:raise BokkioActionError('Name box replacement requires a bounded A1 cell/range literal')
+        expected=match[1].upper()+(match[2] or '1')
+    def verify_native(after,image):
+        from .selector import flatten
+        from .xa11y_backend import Xa11yBackend
+        reader=backend if backend is not None else Xa11yBackend()
+        # Posted events are asynchronous. Observe a bounded number of times,
+        # without posting another input or matching a different control.
+        for attempt in range(3):
+            nodes=flatten(reader.snapshot(str(pid),title)['windows'])
+            targets=[n for n in nodes if n['ref']==node['ref'] and n['role']==node['role']
+                     and n['platform_data'].get('mac_unique_identity') and n['platform_data'].get('mac_owner_pid')==pid]
+            verified={'source':'fresh_native_value_after_GUI_confirmation',
+                      'passed':len(targets)==1 and targets[0]['value']==expected,
+                      'name':node['name'],'expected':expected,'actual':targets[0]['value'] if len(targets)==1 else None,
+                      'matching_targets':len(targets),'observations':attempt+1}
+            if verified['passed'] or len(targets)!=1:return verified
+            if attempt<2:time.sleep(.1*(attempt+1))
+        return verified
+    try:
+        receipt=perform(meta,png,current,'replace',value=value,region=region,expect_text=expected,verification_region=region,
+                        _native_target=node,_post_verify=verify_native,_confirm=confirm,
+                        _end_field_edit=title in {'Font','Paragraph'} and not confirm,
+                        _use_paste=title=='Font' and node['name']=='Asian text font:')
+    except CaptureError as error:
+        if error.details.get('dispatched') in {True,'unknown'}:
+            raise BokkioCompletionUnknown('Office visual replacement requires inspection: '+error.code+
+                                         ' ('+str(error.details.get('cause',str(error)))+')') from error
+        if error.code in {'capture_changed','native_field_changed','capture_stale'}:
+            raise BokkioStaleSnapshot('Office field changed before input; observe and decide again') from error
+        raise BokkioActionError('Office visual replacement refused before input: '+error.code+' ('+str(error)+')') from error
+    return {'action_source':'bounded_visual_replace' if confirm else 'bounded_visual_draft_replace',
+            'visual_receipt':receipt,'confirmation_posted':confirm}
+
+
+def select_option(pid,title,node,*,backend):
+    """Realize one bound readonly combo option, then click its native popup.
+
+    AXSelected + AXConfirm can update a draft without a saved formatting change. The popup viewport and owning combo are checked again by
+    the native helper before any mouse event; the parent dialog is read back.
+    """
+    import copy
+    from .selector import flatten
+    data=node['platform_data']
+    if not data.get('mac_unique_identity') or not data.get('native_option_command'):
+        raise BokkioActionError('Office option requires one bound readonly native row')
+    def context():
+        nodes={n['ref']:n for n in flatten(backend.snapshot(str(pid),title)['windows'])}
+        fresh=nodes.get(node['ref'])
+        if (fresh is None or fresh['value']!=node['value'] or not fresh['platform_data'].get('mac_unique_identity')
+                or fresh['platform_data'].get('ax_native_identity')!=data.get('ax_native_identity')):
+            raise BokkioActionError('Office option identity changed before input')
+        ancestors=[];current=fresh
+        while current['parent'] in nodes:
+            current=nodes[current['parent']];ancestors.append(current)
+        lists=[n for n in ancestors if n['platform_data'].get('ax_role')=='AXList']
+        clips=[n for n in ancestors if n['platform_data'].get('ax_role')=='AXScrollArea']
+        combos=[n for n in ancestors if n['role']=='combo_box']
+        if len(lists)!=1 or len(clips)!=1 or len(combos)!=1 or not combos[0]['platform_data'].get('ax_identifier'):
+            raise BokkioActionError('Office option has no unique popup/list/combo context')
+        return fresh,lists[0],clips[0],combos[0]
+    fresh,items,clip,combo=context();realization=None
+    if fresh['state'].get('visible') is not True:
+        bars=[n for n in flatten(clip['children']) if n['role']=='scroll_bar']
+        if len(bars)!=1 or not isinstance(bars[0]['platform_data'].get('numeric_value'),(float,int)):
+            raise BokkioActionError('Offscreen Office option has no bounded native scrollbar')
+        travel=items['bounds']['height']-clip['bounds']['height']
+        if travel<=0:raise BokkioActionError('Office popup has no scrollable extent')
+        delta=((fresh['bounds']['y']+fresh['bounds']['height']/2)-
+               (clip['bounds']['y']+clip['bounds']['height']/2))/travel
+        current=bars[0]['platform_data']['numeric_value'];destination=min(1,max(0,current+delta))
+        if destination==current:raise BokkioActionError('Office option cannot be brought into view')
+        realization=backend.perform(str(pid),'scroll',ref=bars[0]['ref'],window=title,
+                                    direction='down' if destination>current else 'up',amount=abs(destination-current))
+        fresh,items,clip,combo=context()
+    if fresh['state'].get('visible') is not True:
+        raise BokkioActionError('Office option remained outside its native viewport')
+    fresh=copy.deepcopy(fresh)
+    fresh['platform_data'].update(native_option_combo_identifier=combo['platform_data']['ax_identifier'],
+                                  native_option_viewport=clip['bounds'])
+    meta,png=capture_window(pid,title=title,ocr=True,timeout=15)
+    def verify(after,image):
+        nodes=flatten(backend.snapshot(str(pid),title)['windows'])
+        matches=[n for n in nodes if n['ref']==combo['ref'] and n['platform_data'].get('mac_unique_identity')]
+        return {'passed':len(matches)==1 and matches[0]['value']==node['value'] and not matches[0]['state'].get('expanded'),
+                'source':'fresh_owning_combo_after_popup_click','expected':node['value'],
+                'actual':matches[0]['value'] if len(matches)==1 else None}
+    try:
+        receipt=perform(meta,png,node['value'],'click',expect_text=node['value'],
+                        _native_target=fresh,_native_option=True,_post_verify=verify)
+    except CaptureError as error:
+        if error.details.get('dispatched') in {True,'unknown'}:
+            raise BokkioCompletionUnknown('Office option click requires inspection: '+error.code) from error
+        raise BokkioActionError('Office option click refused before input: '+error.code) from error
+    return {'action_source':'bounded_native_option_click','visual_receipt':receipt,'realization':realization}

@@ -1,0 +1,12 @@
+---
+source_path: src/bokkio/__init__.py
+source_version: 0feda6de6e3d3b117a516ed48a5352574b438a29
+ingested: 2026-10-13
+sha256: 2f196ef2ec1f1d56bfaf6709d4767327f092df28bbbd61aa7e8aefb49e7cf52c
+---
+
+"""Model-independent Windows/macOS computer use with SDK, MCP and audit."""
+
+from .model import BokkioError, BokkioPermissionError, RefResolver
+
+__all__ = ["BokkioError", "BokkioPermissionError", "RefResolver"]
