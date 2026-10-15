@@ -19,7 +19,7 @@ The test launches packaged applications with isolated runtime state and encrypte
 
 Cases cover library visibility and width, missing-key configuration guidance, prompt preservation, connection testing with unsaved fields, encrypted credential restoration after restart, successful dialogue after restart, invalid-key diagnosis, deletion preventing reimport, first-launch import from local Bokkio configuration, and composer layout with notifications present. These checks target navigation and chat configuration; desktop action recording/replay results are documented separately in [the Workflow UX baseline](../2026-10-15-workflow-ux/README.md).
 
-- Runner: [bokkio-desktop-navigation-chat.cjs](../../../../desktop/tests/bokkio-desktop-navigation-chat.cjs)
+- Runner: [bokkio-desktop-navigation-chat.cjs](../../../desktop/tests/bokkio-desktop-navigation-chat.cjs)
 - [macOS report](macos/report.json), [Windows report](windows/report.json)
 - [macOS package audit](macos/package-audit.json), [Windows package audit](windows/package-audit.json)
 - [macOS successful chat](macos/chat.png), [Windows successful chat](windows/chat.png)
