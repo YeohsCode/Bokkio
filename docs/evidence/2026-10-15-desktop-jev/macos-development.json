@@ -1,0 +1,65 @@
+{
+  "checks": [
+    {
+      "name": "jev_configuration_visible",
+      "passed": true
+    },
+    {
+      "name": "architecture_names_real_layers",
+      "passed": true
+    },
+    {
+      "name": "real_sdk_task_completed",
+      "passed": true
+    },
+    {
+      "name": "jev_actually_called",
+      "passed": true
+    },
+    {
+      "name": "two_real_jev_decisions",
+      "passed": true
+    },
+    {
+      "name": "text_action_under_jev",
+      "passed": true
+    },
+    {
+      "name": "keyboard_input_under_jev",
+      "passed": true
+    },
+    {
+      "name": "sdk_and_jev_correlate_by_operation_id",
+      "passed": true
+    },
+    {
+      "name": "readback_after_each_action",
+      "passed": true
+    },
+    {
+      "name": "real_model_named",
+      "passed": true
+    },
+    {
+      "name": "independent_native_readback",
+      "passed": true
+    },
+    {
+      "name": "three_level_native_ui",
+      "passed": true
+    },
+    {
+      "name": "ui_displays_jev_confidence",
+      "passed": true
+    },
+    {
+      "name": "no_js_errors",
+      "passed": true
+    }
+  ],
+  "scope": "real_Harness_Jev_Runtime_native_editor",
+  "packaged": false,
+  "jev_calls": 2,
+  "decisions": 2,
+  "operations": 15
+}

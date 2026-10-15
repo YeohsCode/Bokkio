@@ -1,37 +1,47 @@
 # 决策分工与实时日志
 
-2026-10-15。结论：原 Planner → Jev → Driver 有实现和旧实测；当前桌面对话入口没有接入这条链路。不能将三个嵌套框解释为三个独立决策器已经在运行。
+2026-10-15。桌面对话已接通 Harness 全局规划 → Jev 原生界面局部决策 → Runtime/Driver 执行及读回。
 
-## 当前实际调用
+## 实际调用
 
 | 入口 | 规划与动作选择 | 执行 | Jev 是否参与 |
 |---|---|---|---|
-| 桌面对话 | 同一个 Harness SDK 负责规划和工具选择 | Bokkio MCP → Runtime → Driver/作业/Workflow | 否 |
+| 桌面对话的新原生 UI 操作 | Harness 拆分局部目标；`desktop.step` 调用 Jev，从当前控件树选择动作和目标 | 相同的 Runtime 会话内观察、派发、读回 | 是，以真实 decision.requested/returned/selected 事件为证 |
+| 桌面对话的读取、文件、代码、浏览器工具编排 | Harness 选择对应工具 | Runtime 对应执行器 | 不强制经过原生 UI 决策器 |
 | Shortcuts 回放 | 保存的固定步骤，运行时重新定位并验证 | Runtime → Driver | 否 |
-| 独立 `bokkio run` CLI | OpenRouterPlanner 规划子任务，Jev 选择局部动作和目标 | execute_decision → 原生 backend | 是，除 plan-only 模式 |
+| 独立 `bokkio run` CLI | OpenRouterPlanner → Jev | 原有 execute_decision → backend | 是，除 plan-only |
 
-源码入口：`desktop_chat.py` 的 SDK 桥接、`cli.py` 的 DesktopAgent 构造、`agent.py` 的 make_plan/decide/execute_decision。当前 Runtime 是模型无关执行边界，没有自动调用 Jev。旧 CLI 的三层记录不能作为当前桌面对话已经启用 Jev 的证据。
+桌面对话的 MCP 入口是 `desktop_decision.py`。它在模型无关 Runtime 外组合已有 `decision.decide` 与 JevProvider，保留 Harness SDK 原有循环。没有启用另一套 agent loop，也没有把旧 CLI 的直接 backend 执行接到桌面入口。
 
-## 界面中的三层嵌套
+## 一次局部步骤
 
-对话：任务/规划（Harness）→ 工具选择（Harness）→ 执行与验证（Runtime/Driver）。界面明确标出 Jev 未参与，三层代表职责与证据层级。任务根节点显示会话状态；完成检查以驱动及 Workflow 的验证结果为准。
+1. Harness 提供 app、精确 window、局部 goal 和 allowed_values，不指定 ref。
+2. 观察真实窗口，把完整原生树留在本机，并以现有闭集决策格式交给 Jev。
+3. Jev 选择原生动作、控件和允许值，返回置信度。键盘、右键、拖动等显式输入可由 Harness 提供 input 参数，Jev 选择当前控件目标。
+4. 再观察一次，刷新观察有效期；语义树变化则不派发，返回 Harness 重规划。
+5. 相同会话通过 Runtime desktop.act / desktop.input 执行，沿用原生线程、锁、检查和持久回执；随后读回。
+6. Harness 根据真实读回继续任务。输入回执与任务业务成功分开；Jev 故障或低置信度不会自动降级为 Harness 直接点控件。
 
-Shortcuts：Workflow → 固定步骤（含轮次）→ 观察、定位、动作和验证回执。根节点标明没有调用 Planner/Jev。录制仍是操作录制，本次没有恢复视频功能。
+桌面对话 MCP 公布 desktop.step，底层动作接口留给执行器和固定 Workflow。代码/进程能力保留用于文件和数据任务，提示模型不通过代码绕过原生 UI 决策；这不是代码沙箱。
 
-日志可展开/收起；运行中及失败节点默认展开。分别显示失败、拒绝、排队、取消、结果未知、执行已返回和读回验证通过。工具返回事件本身不证明操作成功。
+每个 desktop.step 有持久 operation_id；重复或并发请求不会重新调用模型或再次派发。进程中断留下的未完成步骤返回 completion_unknown，须先查审计；已知原生派发结果不会被后续读回失败抹掉。Jev 返回后及派发时重新检查会话，停止后的任务不能继续输入。
 
-## 日志证据与关联
+## 配置
 
-- L2 来自公开 SDK `tool/call` 与 `tool/result`，持久保存 call_id、工具名、目标摘要、operation_id 和返回状态；不生成或展示模型隐藏推理。
-- L3 来自 Runtime SQLite 操作与事件，带实际 operation_id、状态、是否派发、时间、耗时和错误。
-- 父操作使用 ContextVar，并在 Workflow 工作线程中显式复制上下文；代码子作业继续使用已有 BOKKIO_PARENT_OPERATION。
-- Workflow 请求携带 run_id、step_id、cycle，才能准确归入具体步骤；上下文在退出、异常和暂停后恢复。
-- 通过真实 ID 与会话/task_id 关联，不按时间或工具名猜父子。未关联的记录单独标明，待明确 ID 返回后归位。
-- 同一 operation_id 被多次引用会显示共享回执，不当作再次派发。取消后的最终作业状态会更新到对应组。
-- 原始通知窗口裁剪不会删除已归档的工具选择摘要；完整执行记录仍在审计库。多任务之间不混入其他会话日志。
+配置页提供 Jev 服务、模型和独立密钥。优先使用独立 Jev Key，其次使用已有本机 Jev 配置/显式环境变量；规划模型连接 OpenRouter 时可共用 OpenRouter Key。其他兼容模型服务的密钥不会转发到 Jev。
 
-本次增加的是可观测性，没有重新接入 Jev、替换 Harness 的 agent loop 或改变执行策略。恢复独立局部决策器需要实际接线和另行实测，不能由日志 UI 代替。
+Electron 用系统 safeStorage 分开保存规划与 Jev 密钥；服务内仅保留内存副本，普通配置 JSON 和 Harness patch 不包含密钥。macOS/Windows 使用相同设置 UI，各自连接同一套 Python 接口与原生适配器。
+
+## 三层嵌套日志
+
+- L1：Harness 任务及会话状态。
+- L2：真实 Jev 决策，显示模型、选中动作、ref、置信度、请求/返回/失败事件；读取、文件等工具标为 Harness 编排。
+- L3：该决策下的 Runtime 观察、动作、读回，显示实际操作 ID、状态、是否派发和耗时。
+
+Jev 节点直接来自审计事件，在 SDK 最终回执到达前即可显示；SDK call_id 返回后通过 operation_id 关联。只有发出真实 Jev 请求才把本任务 jev_active 标为 true，纯读取与固定 Workflow 仍显示零次。UI 不展示模型隐藏推理，不按相邻时间猜关系。
+
+固定 Shortcuts 仍显示 Workflow → 固定步骤/轮次 → 执行验证。父操作通过 ContextVar、线程上下文和已有代码作业环境传递。缓存回执不作为再次派发，取消或中断后不把未返回的决策一直显示为运行中。
 
 ## 实测
 
-见[本轮分层日志报告](evidence/2026-10-15-layered-logs/README.md)。本轮还发现并修复 Mac 环境/安装包缺少 Harness SDK 的问题；打包现在必须在被打包的 Python 内成功导入 SDK 与 runtime 包。安装版用真实模型和 MCP 调用验证 SDK 可运行。
+本次接线报告见 [Jev 桌面对话实测](evidence/2026-10-15-desktop-jev/README.md)。此前 [日志专项报告](evidence/2026-10-15-layered-logs/README.md) 是接通 Jev 之前的冻结记录。

@@ -2,11 +2,13 @@
 
 更新：2026-10-15；工作候选版 0.3.0。核心交付物 8/8 已实现；macOS 本轮自动测试计划已有逐项结果，产品成功率目标和完整客户／双平台验收尚未达到。
 
-## 分层实时日志（2026-10-15）
+## 桌面对话 Jev 接线与分层日志（2026-10-15）
 
-已核实：旧 CLI 实现 Planner → Jev → Driver；当前桌面对话由 Harness 同时负责规划和工具选择，再调用 Runtime，Jev 未参与。Shortcuts 使用固定步骤。三层嵌套日志如实展示任务、选择/步骤和执行回执，并标明实际引擎，没有重新接通 Jev。
+桌面对话已接通 Harness 全局规划 → Jev 局部动作/控件选择 → Runtime 执行/读回。desktop.step 使用已有 Jev 闭集决策，按持久操作 ID 避免重派发；模型返回后重新观察，同一语义树才执行。Jev 失败交回 Harness，不自动改走直接点控件。Shortcuts 固定回放与纯读取继续不调用 Jev。
 
-工具选择与执行按 call_id / operation_id / 父操作 ID 关联，支持跨线程 Workflow、验证失败、取消、结果未知与幂等回执。全量回归 680/680；Mac 实际日志专项 13/13、安装版自带 SDK 模型/MCP 专项 7/7，Windows 最终安装版实际日志专项 13/13。此前 Mac 包缺少 SDK 已修复，打包增加 SDK 导入检查。见[实际分工](../DECISION-LAYERS.md)与[本轮报告](../evidence/2026-10-15-layered-logs/README.md)。
+配置页增加 Jev 服务、模型和独立系统加密密钥。L2 日志来自真实决策事件，显示模型、动作、ref 和置信度，并与 L3 的 Runtime 回执按实际父操作 ID 关联。此前桌面对话绕过 Jev 的问题已修正，原 SDK 循环与模型无关 Runtime 保留。完整回归 697/697；macOS 与 Windows 安装版真实 Harness/Jev/原生编辑器专项各 14/14，均验证两次 Jev 决策、全文替换、键盘输入及独立读回。见[实际分工](../DECISION-LAYERS.md)和[接线实测](../evidence/2026-10-15-desktop-jev/README.md)。
+
+此前日志专项 680/680 与双端 13/13 是接线前的冻结记录；Mac 包缺少 SDK 的问题已在上一轮修复。历史见[日志报告](../evidence/2026-10-15-layered-logs/README.md)。
 
 ## Desktop Studio（2026-10-15）
 

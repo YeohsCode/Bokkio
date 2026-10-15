@@ -1,0 +1,20 @@
+{
+  "base_commit": "72d0ba98ae6a6f8289321a52412faa53e538e5bc",
+  "files": {
+    "desktop/README.md": "7445817754445ea9db55a9c032af63ed2a65641f56373bac0fe0c0609b856f8e",
+    "desktop/electron/main.cjs": "c70bc450e1393d40f5f869ac41b64c0b567fde4c3e0c0a4862489a5055893b51",
+    "desktop/src/ExecutionTree.tsx": "80ceab270558ae5e23bdee707253931ff4996369cd2dfcbf16a7ab17743ba020",
+    "desktop/src/main.tsx": "20a8d2546f82ff139175b89794d38afd47aa31b236393a8a961a1ad7853e3fb2",
+    "desktop/tests/bokkio-desktop-jev.cjs": "558885bc9ccb6f66b4269e38eaafee92e3bd8491a38f9c86fa659d5a3fd77cca",
+    "desktop/tests/bokkio-desktop-layered-log.cjs": "c4f8b11e127a6a4aaeb5f17f184440b80f4e9b824d9d428225759ce1e890451a",
+    "desktop/tests/verify-package.cjs": "3e897d11d0e1c1df4ae3f0a7c17912e79c46dcb0b96144bc2a3e5c0fbc8fb0b3",
+    "src/bokkio/decision.py": "01bc737887c02c71ac40335fdfa4857d2c8dbb2de69829eda04296822a636e3f",
+    "src/bokkio/desktop_chat.py": "903dc8ccf415d9ad7da8384fbffb745defe77c0a65d17511e3d38ea56627c3bd",
+    "src/bokkio/desktop_decision.py": "fe2f983e916ac74f7048ddd4bfd69b4a2c4a0ec5b31edef097f4ae1b31ca484b",
+    "src/bokkio/desktop_service.py": "12a52d9b87740266d49341aebd5afea17ba063b3aabf3b1a4ea33b246200e10f",
+    "src/bokkio/execution_log.py": "477f1e6119faae69abecdb2d7557593db712a5015f09ca23c8a62a48ecf47b02",
+    "src/bokkio/mcp_server.py": "657af46bcde153bcbf1c3a862c3896853fbfc82886b43f435bb188a7c4b38525",
+    "tests/test_desktop_decision.py": "d82483a6a5998a74520f1e8e96834d8bfccf2fe44602f4e974d8201b4d7a2cdb",
+    "tests/test_execution_log.py": "2bfdd200507e95ba70d1257e339cab2d056e2c8f7483d1d60595fe59ad9cc758"
+  }
+}

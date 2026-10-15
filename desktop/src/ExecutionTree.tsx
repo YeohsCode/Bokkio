@@ -1,5 +1,5 @@
 import {useState} from 'react';
-type Node={id:string;layer:number;title:string;engine:string;status:string;detail?:string;operation_id?:string;call_id?:string;dispatched?:boolean|string;reused_operation?:boolean;verification?:string;error?:string;events?:any[];children:Node[];counts?:{choices:number;operations:number}};
+type Node={id:string;layer:number;title:string;engine:string;status:string;detail?:string;operation_id?:string;call_id?:string;dispatched?:boolean|string;reused_operation?:boolean;verification?:string;error?:string;events?:any[];children:Node[];counts?:{choices:number;operations:number;jev_calls?:number}};
 const states:Record<string,string>={running:'进行中',ready:'准备中',pending:'待执行',paused:'已暂停',completed:'已结束',executed:'执行已返回',verified:'读回验证通过',queued:'已排队',returned:'已返回',failed:'失败',denied:'被拒绝',completion_unknown:'结果未知',cancelled:'已取消',cancelling:'停止中',skipped:'已停用',unlinked:'关联待确认',approval_required:'等待审批',waiting_approval:'等待审批',interrupted:'已中断'};
 const kind:Record<number,string>={1:'任务 / 规划',2:'步骤 / 动作选择',3:'执行 / 验证'};
 const bad=(s:string)=>['failed','denied','completion_unknown','interrupted'].includes(s);
@@ -20,5 +20,5 @@ export function ExecutionTree({trace}: {trace:Node}){
   </li>
  }
  function visit(n:Node,open:boolean,out:Record<string,boolean>){out[n.id]=open||n.layer===1;n.children.forEach(c=>visit(c,open,out));return out}
- return <section className="execution-tree" aria-label="分层执行日志"><div className="trace-tools"><strong>分层实时日志</strong>{trace.counts&&<span className="tiny">{trace.counts.choices} 次工具选择 · {trace.counts.operations} 条执行记录</span>}<button onClick={()=>setExpanded(visit(trace,true,{}))}>全部展开</button><button onClick={()=>setExpanded(visit(trace,false,{}))}>收起明细</button></div><ol role="tree">{render(trace)}</ol></section>
+ return <section className="execution-tree" aria-label="分层执行日志"><div className="trace-tools"><strong>分层实时日志</strong>{trace.counts&&<span className="tiny">{trace.counts.choices} 次工具选择 · {trace.counts.operations} 条执行记录 · {trace.counts.jev_calls||0} 次 Jev 请求</span>}<button onClick={()=>setExpanded(visit(trace,true,{}))}>全部展开</button><button onClick={()=>setExpanded(visit(trace,false,{}))}>收起明细</button></div><ol role="tree">{render(trace)}</ol></section>
 }
