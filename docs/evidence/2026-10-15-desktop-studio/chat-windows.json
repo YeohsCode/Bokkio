@@ -1,0 +1,5 @@
+{
+  "id": "d7f84a1c19c242919561eded8e9979f5",
+  "prompt": "这是本机测试。使用 Bokkio MCP 打开会话，查看 Notepad 的 *Untitled - Notepad 窗口，读取 text_area 的实际内容，返回该内容。不要修改应用。",
+  "status": "completed"
+}

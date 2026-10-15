@@ -15,6 +15,7 @@ from .runtime import Runtime, load_policy
 def parser():
     command = argparse.ArgumentParser(prog="bokkio-runtime")
     command.add_argument("--state", default=os.environ.get("BOKKIO_STATE_DIR", str(Path.home() / ".bokkio/runtime")))
+    command.add_argument("--local", action="store_true", help="Execute directly as the current desktop user")
     command.add_argument("--policy", help="Human-managed JSON policy; default denies all resource access")
     commands = command.add_subparsers(dest="command", required=True)
     call = commands.add_parser("call")
@@ -82,7 +83,8 @@ def main(argv=None):
                     elif args.workflow_command=='cancel':runner.cancel(args.run_id);result={'cancel_requested':True}
                     else:result=runner.resume(args.run_id)
         elif args.command in {"call", "serve"}:
-            runtime = Runtime(args.state, load_policy(args.policy) if args.policy else None)
+            from .local_runtime import LocalRuntime
+            runtime = LocalRuntime(args.state) if args.local else Runtime(args.state, load_policy(args.policy) if args.policy else None)
             if args.command == "serve":
                 from .mcp_server import serve
                 import asyncio

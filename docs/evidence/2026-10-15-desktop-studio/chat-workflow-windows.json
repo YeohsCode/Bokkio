@@ -1,0 +1,11 @@
+{
+  "chat_status": "completed",
+  "workflow_status": "completed",
+  "steps": 4,
+  "used_workflow_run": true,
+  "resumed_breakpoint": true,
+  "no_code_run": true,
+  "independent_readback": true,
+  "shared_run_history": true,
+  "verification": "independent_post_check_of_original_model_run"
+}

@@ -1,0 +1,67 @@
+{
+  "checks": [
+    {
+      "name": "settings",
+      "passed": true
+    },
+    {
+      "name": "chat_page",
+      "passed": true
+    },
+    {
+      "name": "global_pause_resume",
+      "passed": true
+    },
+    {
+      "name": "real_events",
+      "passed": true
+    },
+    {
+      "name": "finite_playable_video",
+      "passed": true
+    },
+    {
+      "name": "copy",
+      "passed": true
+    },
+    {
+      "name": "undo",
+      "passed": true
+    },
+    {
+      "name": "redo",
+      "passed": true
+    },
+    {
+      "name": "breakpoint",
+      "passed": true
+    },
+    {
+      "name": "single_step",
+      "passed": true
+    },
+    {
+      "name": "replay_completed",
+      "passed": true
+    },
+    {
+      "name": "independent_target_readback",
+      "passed": true
+    },
+    {
+      "name": "archive_restore",
+      "passed": true
+    },
+    {
+      "name": "no_js_errors",
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "steps": 5,
+  "video": {
+    "duration": 6.49389,
+    "width": 754,
+    "height": 512
+  }
+}

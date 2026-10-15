@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "bokkio"
-version = "0.2.0"
+version = "0.3.0"
 description = "Model-independent computer use runtime with native actions, code, approvals and audit"
 requires-python = ">=3.9"
 dependencies = ["xa11y>=0.15,<0.16", "certifi>=2025.1,<2027", "comtypes>=1.4.17,<2; sys_platform == 'win32'"]
@@ -12,8 +12,10 @@ dependencies = ["xa11y>=0.15,<0.16", "certifi>=2025.1,<2027", "comtypes>=1.4.17,
 [project.scripts]
 bokkio = "bokkio.cli:main"
 bokkio-runtime = "bokkio.runtime_cli:main"
+bokkio-desktop-service = "bokkio.desktop_service:main"
 
 [project.optional-dependencies]
+desktop = ["deepseek-harness-sdk==0.1.5rc1; python_full_version >= '3.11'", "pillow>=11,<14", "numpy>=2,<3"]
 office = [
     "openpyxl>=3.1.5,<4",
 ]

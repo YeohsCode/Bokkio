@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "updated": "2026-10-13",
-  "version": "0.2.0",
+  "updated": "2026-10-15",
+  "version": "0.3.0",
   "overall_status": "implementation_delivered_acceptance_incomplete",
   "plan": "docs/PLAN-REPOSITIONING.md",
   "guide": "docs/RUNTIME-GUIDE.md",
@@ -16,7 +16,7 @@
       "development_capability_categories_passed": 4,
       "total_categories": 5,
       "customer_acceptance_complete": false,
-      "host_tests_passed": 647,
+      "host_tests_passed": 667,
       "fault_matrix": {
         "passed": 18,
         "total": 18,
@@ -108,8 +108,8 @@
     "windows": {
       "development_capability_categories_passed": 0,
       "total_categories": 5,
-      "current_runtime_live_tested": false,
-      "vm_login": "verified_2026-10-11",
+      "current_runtime_live_tested": true,
+      "vm_login": "verified_2026-10-15",
       "next_environment": "user_windows_computer"
     },
     "final_matrix_complete": false,
@@ -361,5 +361,121 @@
       "legacy_Office_GUI_adapter_migration"
     ],
     "full_business_rerun": "still_paused_by_user"
+  },
+  "desktop_studio": {
+    "status": "operation_recording_corrected",
+    "plan": "docs/DESKTOP-UX-PLAN.md",
+    "guide": "desktop/README.md",
+    "evidence": "docs/evidence/2026-10-15-operation-recording/README.md",
+    "ux_host": "Electron + React/TypeScript",
+    "runtime": "bundled Python + Harness SDK",
+    "java": false,
+    "workflow_schema": "bokkio.runtime-workflow.v2",
+    "host_regression": {
+      "passed": 680,
+      "total": 680
+    },
+    "native_macos": {
+      "passed": 10,
+      "total": 10,
+      "app": "TextEdit"
+    },
+    "native_windows": {
+      "rounds": 2,
+      "passed_per_round": 10,
+      "total_per_round": 10,
+      "app": "Notepad",
+      "guest_architecture": "ARM64",
+      "python_architecture": "x64"
+    },
+    "windows_live_ui": {
+      "passed": 14,
+      "total": 14,
+      "independent_readback": true
+    },
+    "macos_image_and_repair": "actual_scoped_capture_click_and_no_duplicate_dispatch_verified",
+    "windows_chat": "SDK_MCP_real_readback_and_durable_code_job_cancellation_verified",
+    "packaging": "bundled_directories_started_on_both_platforms",
+    "full_record_replay_matrix_complete": false,
+    "previous_full_business_rerun": "still_paused_by_user",
+    "remaining": [
+      "Finder/Explorer/Excel/Feishu/Safari/Edge actual application matrix",
+      "additional display scales and input methods",
+      "signed release and updater",
+      "macOS packaged native input OS authorization"
+    ],
+    "windows_packaged_ui": {
+      "passed": 17,
+      "total": 17,
+      "evidence": "docs/evidence/2026-10-15-operation-recording/windows-packaged-operation-ui.json"
+    },
+    "macos_packaged_record_replay": "not_run_this_pass_native_input_OS_access_unchanged",
+    "chat_workflow_reuse": {
+      "status": "completed",
+      "steps": 4,
+      "breakpoint_resumed": true,
+      "independent_readback": true,
+      "shared_run_history": true,
+      "no_code_run": true
+    },
+    "windows_packaged_sdk_cancel": "running_to_cancelled_with_absent_post_stop_file",
+    "credential_UI": "mock_key_saved_non_plaintext_then_removed",
+    "recording_output": "structured_operation_workflow",
+    "video_capture": false,
+    "recording_merge_tests": {
+      "passed": 3,
+      "total": 3
+    },
+    "removed_video_compatibility": true,
+    "macos_operation_ui": {
+      "passed": 14,
+      "total": 14,
+      "app": "TextEdit",
+      "input_source": "generated_real_OS_input"
+    },
+    "windows_operation_ui": {
+      "passed": 17,
+      "total": 17,
+      "app": "Notepad",
+      "packaged": true,
+      "independent_readback": true
+    },
+    "package_video_removal_audit": "passed_on_installed_macOS_and_Windows_packages"
+  },
+  "layered_execution_logs": {
+    "architecture": "Harness planning + Harness tool choice + Runtime execution",
+    "legacy_jev_in_current_desktop": false,
+    "deterministic_workflow_calls_models": false,
+    "log_levels": 3,
+    "causal_ids": [
+      "call_id",
+      "operation_id",
+      "parent_operation",
+      "run_id",
+      "step_id",
+      "cycle"
+    ],
+    "host_regression": {
+      "passed": 680,
+      "total": 680
+    },
+    "macos_live_ui": {
+      "passed": 13,
+      "total": 13
+    },
+    "macos_installed_sdk": {
+      "passed": 7,
+      "total": 7
+    },
+    "sdk_packaging_dependency_check": true,
+    "guide": "docs/DECISION-LAYERS.md",
+    "evidence": "docs/evidence/2026-10-15-layered-logs/README.md",
+    "windows_installed_live": {
+      "passed": 13,
+      "total": 13,
+      "sdk_choices": 3,
+      "runtime_operations": 3,
+      "independent_native_readback": true
+    }
   }
 }

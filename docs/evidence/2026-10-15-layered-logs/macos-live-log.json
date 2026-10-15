@@ -1,0 +1,60 @@
+{
+  "checks": [
+    {
+      "name": "workflow_real_three_level_dom",
+      "passed": true
+    },
+    {
+      "name": "workflow_marks_no_model_decision",
+      "passed": true
+    },
+    {
+      "name": "workflow_runtime_receipts_have_real_operation_ids",
+      "passed": true
+    },
+    {
+      "name": "collapse_preserves_root",
+      "passed": true
+    },
+    {
+      "name": "chat_marks_actual_architecture",
+      "passed": true
+    },
+    {
+      "name": "chat_streams_real_choices",
+      "passed": true
+    },
+    {
+      "name": "real_sdk_completed",
+      "passed": true
+    },
+    {
+      "name": "real_sdk_returned_actual_chinese",
+      "passed": true
+    },
+    {
+      "name": "chat_real_three_level_dom",
+      "passed": true
+    },
+    {
+      "name": "chat_choices_correlate_exact_runtime_operations",
+      "passed": true
+    },
+    {
+      "name": "jev_not_fabricated",
+      "passed": true
+    },
+    {
+      "name": "independent_readback_unchanged",
+      "passed": true
+    },
+    {
+      "name": "no_js_errors",
+      "passed": true
+    }
+  ],
+  "input_source": "generated_real_OS_input",
+  "chat_status": "completed",
+  "sdk_choices": 2,
+  "runtime_operations": 2
+}

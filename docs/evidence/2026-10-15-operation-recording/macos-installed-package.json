@@ -1,0 +1,7 @@
+{
+  "no_video_implementation": true,
+  "no_video_data_model": true,
+  "no_packaged_tests": true,
+  "source_matches": true,
+  "asar_sha256": "e62e1a4ee0c41fdd46ac50e3ead2d774b117d84f514c36a55508d604894e805d"
+}

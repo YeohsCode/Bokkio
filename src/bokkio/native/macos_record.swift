@@ -3,7 +3,8 @@ import ApplicationServices
 import Darwin
 
 // Passive only: no events are swallowed, replaced or posted by the recorder.
-func emit(_ body:[String:Any]) {
+func emit(_ input:[String:Any]) {
+    var body=input;body["timestamp"]=Date().timeIntervalSince1970
     if let data=try? JSONSerialization.data(withJSONObject:body,options:[.sortedKeys]) {
         FileHandle.standardOutput.write(data);FileHandle.standardOutput.write(Data([10]))
     }
@@ -44,20 +45,30 @@ func describe(_ e:AXUIElement)->[String:Any]? {
         ancestors.append(["role":r,"name":text(current,"AXTitle").isEmpty ? text(current,"AXDescription"):text(current,"AXTitle")])
     }
     let name=text(e,"AXTitle").isEmpty ? text(e,"AXDescription"):text(e,"AXTitle")
-    var window=""
-    if let w=attr(e,"AXWindow"),CFGetTypeID(w) == AXUIElementGetTypeID() {window=text(unsafeBitCast(w,to:AXUIElement.self),"AXTitle")}
+    var window="";var windowIdentity=""
+    if let w=attr(e,"AXWindow"),CFGetTypeID(w) == AXUIElementGetTypeID() {window=text(unsafeBitCast(w,to:AXUIElement.self),"AXTitle");windowIdentity="ax:"+String(CFHash(w))}
     if window.isEmpty {
         let app=AXUIElementCreateApplication(pid)
-        if let w=attr(app,"AXFocusedWindow"),CFGetTypeID(w) == AXUIElementGetTypeID() {window=text(unsafeBitCast(w,to:AXUIElement.self),"AXTitle")}
+        if let w=attr(app,"AXFocusedWindow"),CFGetTypeID(w) == AXUIElementGetTypeID() {window=text(unsafeBitCast(w,to:AXUIElement.self),"AXTitle");windowIdentity="ax:"+String(CFHash(w))}
     }
-    return ["pid":Int(pid),"role":role,"name":name,"identifier":text(e,"AXIdentifier"),"ancestors":ancestors,"window":window]
+    var bounds:[String:Double]=[:]
+    if let p=attr(e,"AXPosition"),let z=attr(e,"AXSize"),CFGetTypeID(p)==AXValueGetTypeID(),CFGetTypeID(z)==AXValueGetTypeID(){
+        var point=CGPoint.zero;var size=CGSize.zero
+        if AXValueGetValue(unsafeBitCast(p,to:AXValue.self),.cgPoint,&point),AXValueGetValue(unsafeBitCast(z,to:AXValue.self),.cgSize,&size){bounds=["x":point.x,"y":point.y,"width":size.width,"height":size.height]}
+    }
+    return ["window_identity":windowIdentity,"bounds":bounds,"pid":Int(pid),"role":role,"name":name,"identifier":text(e,"AXIdentifier"),"ancestors":ancestors,"window":window]
 }
 var editWork:DispatchWorkItem?
 var editTarget:AXUIElement?
 var clickTarget:AXUIElement?
+var clickBody:[String:Any]?
+var clickOrigin=CGPoint.zero
+var clickMoved=false
 var scrolling:DispatchWorkItem?
 func focused()->AXUIElement? {
-    guard let p=attr(system,"AXFocusedUIElement"),CFGetTypeID(p) == AXUIElementGetTypeID() else{return nil}
+    guard let pid=NSWorkspace.shared.frontmostApplication?.processIdentifier,permitted.contains(pid) else{return nil}
+    let app=AXUIElementCreateApplication(pid)
+    guard let p=attr(app,"AXFocusedUIElement"),CFGetTypeID(p) == AXUIElementGetTypeID() else{return nil}
     return unsafeBitCast(p,to:AXUIElement.self)
 }
 func emitEdit(_ element:AXUIElement) {
@@ -79,46 +90,52 @@ let callback:CGEventTapCallBack={ _,type,event,_ in
     if type == .tapDisabledByTimeout || type == .tapDisabledByUserInput {
         emit(["error":"Recording event tap stopped; recording is incomplete"]);CFRunLoopStop(CFRunLoopGetMain());return Unmanaged.passUnretained(event)
     }
-    if type == .leftMouseDown {
-        dragReported=false
-        if let target=editTarget {editWork?.cancel();observationQueue.async{emitEdit(target)};editTarget=nil;editWork=nil}
+    if type == .leftMouseDown || type == .rightMouseDown {
+        clickMoved=false;clickOrigin=event.location;clickBody=nil
+        if let target=editTarget {editWork?.cancel();emitEdit(target);editTarget=nil;editWork=nil}
         var target:AXUIElement?
-        if AXUIElementCopyElementAtPosition(system,Float(event.location.x),Float(event.location.y),&target) == .success {clickTarget=target}
-    } else if type == .leftMouseUp {
-        if let target=clickTarget,allowed(target) {
-            let doubleClick=event.getIntegerValueField(.mouseEventClickState)>1
-            observationQueue.asyncAfter(deadline:.now()+0.1){
-                if var body=describe(target) {
-                    if body["kind"] == nil {body["kind"]="click";body["double_click"]=doubleClick}
-                    emit(body)
-                }
-            }
-        };clickTarget=nil
+        if AXUIElementCopyElementAtPosition(system,Float(event.location.x),Float(event.location.y),&target) == .success,let e=target {clickTarget=e;clickBody=describe(e)}
+    } else if type == .leftMouseDragged {clickMoved=true
+    } else if type == .leftMouseUp || type == .rightMouseUp {
+        if var body=clickBody,body["kind"] == nil {
+            body["kind"]=clickMoved ? "drag":type == .rightMouseUp ? "right_click":"click"
+            body["double_click"]=event.getIntegerValueField(.mouseEventClickState)>1
+            body["x"]=clickOrigin.x;body["y"]=clickOrigin.y
+            body["end_x"]=event.location.x;body["end_y"]=event.location.y
+            emit(body)
+        };clickTarget=nil;clickBody=nil
     } else if type == .keyDown {
         guard let target=focused(),allowed(target) else{return Unmanaged.passUnretained(event)}
         let command=event.flags.contains(.maskCommand) || event.flags.contains(.maskControl)
         let code=event.getIntegerValueField(.keyboardEventKeycode)
-        // No keystroke text or clipboard contents leave the callback.
-        if command && code != 9 {
-            observationQueue.async{if var body=describe(target){body["kind"]="unsupported";body["reason"]="Shortcut requires an explicit reviewed workflow step";emit(body)}}
+        if command && event.flags.contains(.maskShift) && [15,35,111].contains(code){return Unmanaged.passUnretained(event)}
+        let named:[Int64:String]=[36:"Enter",48:"Tab",53:"Escape",123:"Left",124:"Right",125:"Down",126:"Up",51:"Backspace",117:"Delete",115:"Home",119:"End",116:"PageUp",121:"PageDown"]
+        let letters:[Int64:String]=[0:"A",1:"S",2:"D",3:"F",4:"H",5:"G",6:"Z",7:"X",8:"C",9:"V",11:"B",12:"Q",13:"W",14:"E",15:"R",16:"Y",17:"T",31:"O",32:"U",34:"I",35:"P",37:"L",38:"J",40:"K",45:"N",46:"M"]
+        if command && code != 9 || named[code] != nil && ![51,117].contains(code) {
+            if let edit=editTarget {editWork?.cancel();emitEdit(edit);editTarget=nil}
+            if var body=describe(target),body["kind"] == nil,let base=named[code] ?? letters[code] {
+                var keys:[String]=[]
+                if event.flags.contains(.maskCommand){keys.append("Command")}
+                if event.flags.contains(.maskControl){keys.append("Ctrl")}
+                if event.flags.contains(.maskAlternate){keys.append("Alt")}
+                if event.flags.contains(.maskShift){keys.append("Shift")}
+                keys.append(base);body["kind"]="key";body["key"]=keys.joined(separator:"+");emit(body)
+            }
         } else {
             editWork?.cancel();editTarget=target;let work=DispatchWorkItem{emitEdit(target)};editWork=work
             observationQueue.asyncAfter(deadline:.now()+0.35,execute:work)
         }
     } else if type == .scrollWheel {
         var target:AXUIElement?
-        if AXUIElementCopyElementAtPosition(system,Float(event.location.x),Float(event.location.y),&target) == .success,let e=target,allowed(e) {
-            scrolling?.cancel()
-            let work=DispatchWorkItem{if var body=describe(e){body["kind"]="unsupported";body["reason"]="Scroll gesture captured; add a reviewed semantic scroll step";emit(body)}}
-            scrolling=work;observationQueue.asyncAfter(deadline:.now()+0.3,execute:work)
+        if AXUIElementCopyElementAtPosition(system,Float(event.location.x),Float(event.location.y),&target) == .success,let e=target,allowed(e),var body=describe(e),body["kind"] == nil {
+            let dy=event.getIntegerValueField(.scrollWheelEventDeltaAxis1),dx=event.getIntegerValueField(.scrollWheelEventDeltaAxis2)
+            let delta=abs(dy)>abs(dx) ? dy:dx
+            if delta != 0 {body["kind"]="scroll";body["direction"]=abs(dy)>abs(dx) ? (dy>0 ? "up":"down"):(dx>0 ? "left":"right");body["amount"]=min(100,abs(delta));body["x"]=event.location.x;body["y"]=event.location.y;emit(body)}
         }
-    } else if type == .rightMouseDown || type == .leftMouseDragged && !dragReported {
-        dragReported=true
-        if let e=focused(),allowed(e) {observationQueue.async{if var body=describe(e){body["kind"]="unsupported";body["reason"]="Drag or context-menu gesture needs a reviewed step";emit(body)}}}
     }
     return Unmanaged.passUnretained(event)
 }
-let types:[CGEventType]=[.leftMouseDown,.leftMouseUp,.keyDown,.scrollWheel,.rightMouseDown,.leftMouseDragged]
+let types:[CGEventType]=[.leftMouseDown,.leftMouseUp,.keyDown,.scrollWheel,.rightMouseDown,.rightMouseUp,.leftMouseDragged]
 let mask=types.reduce(CGEventMask(0)){$0 | (CGEventMask(1)<<$1.rawValue)}
 guard let tap=CGEvent.tapCreate(tap:.cgSessionEventTap,place:.headInsertEventTap,options:.listenOnly,eventsOfInterest:mask,callback:callback,userInfo:nil) else {
     emit(["error":"Input Monitoring permission is required or the session is unavailable; no permission prompt was requested"]);exit(1)
@@ -150,4 +167,12 @@ let poll=Timer(timeInterval:0.2,repeats:true){_ in
 }
 RunLoop.main.add(poll,forMode:.common)
 emit(["status":"recording","pids":permitted.sorted()])
+signal(SIGTERM,SIG_IGN)
+let stopSignal=DispatchSource.makeSignalSource(signal:SIGTERM,queue:.main)
+stopSignal.setEventHandler {
+    editWork?.cancel()
+    if let target=editTarget {emitEdit(target)}
+    CFRunLoopStop(CFRunLoopGetMain())
+}
+stopSignal.resume()
 CFRunLoopRun()

@@ -1,5 +1,6 @@
 """Model-free Computer Use boundary shared by MCP, CLI and generated code."""
 from __future__ import annotations
+from .execution_context import parent_operation, workflow_step
 
 from concurrent.futures import ThreadPoolExecutor
 import getpass
@@ -18,13 +19,22 @@ from .audit import AuditStore, canonical, digest, identifier, summarize, identit
 from .model import BokkioCompletionUnknown, BokkioStaleSnapshot, tree_digest
 
 
-READ_TOOLS = {"capabilities", "desktop.list", "desktop.observe", "desktop.capture", "job.get", "artifact.read",
+READ_TOOLS = {"capabilities", "desktop.list", "desktop.windows", "desktop.observe", "desktop.capture", "job.get", "artifact.read",
               "evidence.check", "audit.query", "audit.export", "events.follow", "metrics.summary", "approval.status", "browser.observe"}
-WRITE_TOOLS = {"desktop.act", "desktop.activate", "desktop.launch", "desktop.pixel", "code.run", "process.run", "browser.open", "browser.act"}
+WRITE_TOOLS = {"desktop.act", "desktop.input", "desktop.activate", "desktop.launch", "desktop.pixel", "code.run", "process.run", "browser.open", "browser.act"}
 READ_TOOLS |= {"workflow.list", "workflow.get", "workflow.status"}
 READ_TOOLS |= {"module.list", "capability.list", "capability.get"}
 WRITE_TOOLS |= {"capability.invoke"}
 TOOLS = READ_TOOLS | WRITE_TOOLS | {"session.open", "session.close", "job.cancel", "workflow.run", "workflow.resume", "workflow.cancel"}
+
+
+def close_session(store,session_id):
+    """Close a validated session without consulting the desktop or OS grants."""
+    marker=store.root/'session-cancellations'/session_id;marker.parent.mkdir(exist_ok=True);marker.touch()
+    with store.connect() as db:
+        db.execute("UPDATE sessions SET status='closed' WHERE id=?",(session_id,))
+        if db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='jobs'").fetchone():
+            db.execute("UPDATE jobs SET cancel=1 WHERE session_id=? AND status IN ('queued','running')",(session_id,))
 
 
 def load_policy(path):
@@ -225,7 +235,8 @@ class Runtime:
                                   "device_id": digest({"node": platform.node(), "platform": platform.system()})[:20],
                                   "trace_id": session_id or operation_id, "attempt_id": identifier(),
                                   "task_id": task_id or arguments.get("task_id", operation_id) if isinstance(arguments, dict) else operation_id,
-                                  "parent_operation": os.environ.get("BOKKIO_PARENT_OPERATION")}, db=db)
+                                  "parent_operation": parent_operation.get() or os.environ.get("BOKKIO_PARENT_OPERATION"),
+                                  "workflow_step": workflow_step.get()}, db=db)
         claimed = False
         try:
             if tool not in TOOLS:
@@ -267,7 +278,9 @@ class Runtime:
             self.store.emit("execution.intent", session_id=session_id, operation_id=operation_id,
                             data={"tool": tool, "request_sha256": request_hash, "policy_sha256": digest(self.policy), "write": write})
             claimed = True
-            payload = self._execute(tool, arguments, scope, session_id, operation_id)
+            parent_token = parent_operation.set(operation_id)
+            try:payload = self._execute(tool, arguments, scope, session_id, operation_id)
+            finally:parent_operation.reset(parent_token)
             if tool == "session.open":
                 session_id = payload["session_id"]
                 with self.store.connect() as db:
@@ -339,11 +352,11 @@ class Runtime:
             launch_grant(self.policy, args["app"], scope)
         if tool.startswith("desktop.") and tool not in {"desktop.list", "desktop.launch"}:
             app = self._app(scope, args.get("app"), args.get("window"))
-            if tool in {"desktop.act", "desktop.pixel"}:
+            if tool in {"desktop.act", "desktop.input", "desktop.pixel"}:
                 observation = self._get_observation(session_id, args["observation_id"])
                 if observation["app"] != app or observation["window"] != args.get("window"):
                     raise ValueError("Action scope differs from observation")
-                required = "snapshot" if tool == "desktop.act" else "metadata"
+                required = "snapshot" if tool in {"desktop.act","desktop.input"} else "metadata"
                 if required not in observation:
                     raise ValueError("Action requires the matching native/pixel observation type")
         if tool in {"code.run", "process.run"}:
@@ -412,7 +425,7 @@ class Runtime:
             if tool == 'workflow.get':return library.get(args['workflow_id'])
             runner = RuntimeWorkflowRunner(Client(self,session_id),self.store.root/'workflow-runs')
             if tool == 'workflow.run':
-                run = runner.start(library.get(args['workflow_id']),args.get('mode','headed'))
+                run = runner.start(library.get(args['workflow_id']),args.get('mode','headed'),**{k:args[k] for k in ('parameters','repeat','speed') if k in args})
             else:
                 run = runner.load(args['run_id'])
                 if run['session_id'] != session_id or run['workflow']['id'] not in self.policy.get('workflows',[]):
@@ -426,7 +439,9 @@ class Runtime:
                 except Exception as error:
                     value=runner.load(run['id']);value.update(status='failed',error={'message':str(error)})
                     runner._save(value)
-            thread=threading.Thread(target=execute,daemon=True)
+            from contextvars import copy_context
+            execution_context=copy_context()
+            thread=threading.Thread(target=lambda:execution_context.run(execute),daemon=True)
             self._workflow_threads[run['id']]=thread;thread.start()
             return {'run_id':run['id'],'status':'running'}
         if tool == "capabilities":
@@ -464,11 +479,13 @@ class Runtime:
             return {"session_id": session_id, "expires_in": ttl, "apps": bindings, "paths": paths, "origins": policy["origins"],
                     "task_id": policy["task_id"], "write": policy["write"], "trusted_host": policy["trusted_host"]}
         if tool == "session.close":
-            with self.store.connect() as db:
-                db.execute("UPDATE sessions SET status='closed' WHERE id=?", (session_id,))
+            close_session(self.store,session_id)
             return {"closed": True}
         if tool == "desktop.list":
             return [{"pid": int(pid), **info} for pid, info in scope["bindings"].items()]
+        if tool == "desktop.windows":
+            pid=self._app(scope,args["app"],args.get("window"));rows=self._native_call("windows",pid);allowed=scope["bindings"][pid]["windows"]
+            return [n for n in rows if not allowed or n["name"] in allowed]
         if tool == "desktop.launch":
             from .app_launch import launch_grant, ensure_running
             grant = launch_grant(self.policy, args["app"], scope)
@@ -534,6 +551,22 @@ class Runtime:
                                             _dispatch_request=(tool, args),
                                             expected_snapshot=tree_digest(observation["snapshot"]["windows"]),
                                             **{k: args[k] for k in ("value", "direction", "amount", "expected_value", "background") if k in args})
+        if tool == "desktop.input":
+            from .anchored_input import perform_anchored
+            from .desktop_input import desktop_lock
+            observation=self._get_observation(session_id,args['observation_id'])
+            app=self._app(scope,args['app'],args.get('window'))
+            with desktop_lock():
+                self._dispatch_scope(tool,args,session_id)
+                fresh=self._native_call('snapshot',app,args.get('window'))
+                if args['action'] in {'key','type','replace_text'}:
+                    from .anchored_input import prepare_target
+                    target,_=prepare_target(observation['snapshot'],fresh,{**args,'app':str(app)})
+                    if target.get('role') not in {'window','application'} and target.get('state',{}).get('focused') is not True:
+                        if 'focus' not in target.get('actions',[]):raise ValueError('Keyboard target cannot receive focus')
+                        self._native_call('perform',app,'focus',ref=target['ref'],window=args.get('window'),expected_snapshot=tree_digest(fresh['windows']))
+                        fresh=self._native_call('snapshot',app,args.get('window'))
+                return self._native_executor.submit(lambda:perform_anchored(int(app),args.get('window'),observation['snapshot'],fresh,{**args,'app':str(app)},cancel_path=self.store.root/'session-cancellations'/session_id)).result()
         if tool == "desktop.activate":
             from .desktop_input import desktop_lock, activate
             app = self._app(scope, args["app"], args["window"])

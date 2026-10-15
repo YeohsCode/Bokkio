@@ -15,6 +15,8 @@ from .windows_capture import CaptureError
 
 
 def _helper():
+    bundled=Path(__file__).parent/'native/macos_capture'
+    if bundled.is_file():return bundled
     source = Path(__file__).parent / 'native/macos_capture.swift'
     if not source.is_file(): raise CaptureError('helper_missing', 'Bundled native capture source is missing')
     digest = hashlib.sha256(source.read_bytes()).hexdigest()

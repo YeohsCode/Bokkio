@@ -17,3 +17,10 @@ fixtures/**/obj/
 *.sqlite3
 *.sqlite3-shm
 *.sqlite3-wal
+
+# Desktop build products and local recording/provider data.
+desktop/node_modules/
+desktop/dist/
+desktop/release/
+desktop/runtime/
+*.webm

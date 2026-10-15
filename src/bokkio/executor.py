@@ -138,6 +138,30 @@ def _terminate_pid(pid):
             os.killpg(pid, signal.SIGKILL)
         except ProcessLookupError:
             pass
+        except PermissionError:
+            # Some Mac hosts reject a signal to a process group even when its
+            # children belong to this user. Enumerate that exact group and signal
+            # its live members by PID, preserving each birth identity.
+            def members():
+                output=subprocess.run(['ps','-axo','pid=,pgid=,uid=,stat='],capture_output=True,text=True,timeout=3)
+                if output.returncode:raise PermissionError('Cannot inspect job process group')
+                rows=[]
+                for line in output.stdout.splitlines():
+                    fields=line.split()
+                    if len(fields)==4 and fields[1]==str(pid) and fields[2]==str(os.getuid()) and not fields[3].startswith('Z'):rows.append(int(fields[0]))
+                return rows
+            tracked={p:_birth(p) for p in members()}
+            for p,born in tracked.items():
+                try:
+                    if _birth(p)==born:os.kill(p,signal.SIGTERM)
+                except (ProcessLookupError,ValueError):pass
+            deadline=time.monotonic()+1
+            while time.monotonic()<deadline and members():time.sleep(.05)
+            for p in members():
+                if p not in tracked:tracked[p]=_birth(p)
+                try:
+                    if _birth(p)==tracked[p]:os.kill(p,signal.SIGKILL)
+                except (ProcessLookupError,ValueError):pass
 
 
 def _terminate(process):
@@ -183,7 +207,8 @@ def worker(root, job_id):
         # Do not inherit provider credentials. This is environment hygiene, not a sandbox.
         inherited = {k: v for k, v in os.environ.items() if k.upper() in {
             "PATH", "SYSTEMROOT", "WINDIR", "COMSPEC", "TEMP", "TMP", "TMPDIR", "HOME", "USERPROFILE",
-            "LOCALAPPDATA", "APPDATA", "LANG", "LC_ALL", "PYTHONPATH"}}
+            "LOCALAPPDATA", "APPDATA", "LANG", "LC_ALL", "PYTHONPATH", "PYTHONUTF8", "PYTHONIOENCODING"}}
+        inherited.update(PYTHONUTF8='1',PYTHONIOENCODING='utf-8')
         inherited.update(BOKKIO_STATE_DIR=str(store.root), BOKKIO_SESSION_ID=session, BOKKIO_PARENT_OPERATION=operation)
         store.emit("job.started", session_id=session, operation_id=operation,
                    data={"job_id": job_id, "channel": "process" if request.get("argv") else "code", "execution_mode": "trusted-host"})
@@ -264,7 +289,9 @@ def worker(root, job_id):
     except Exception as error:
         result = {"error": type(error).__name__, "message": str(error), "dispatched": process is not None}
         if process is not None and process.poll() is None:
-            _terminate(process)
+            try:_terminate(process)
+            except Exception as cleanup:
+                status='completion_unknown';result['cleanup_error']=type(cleanup).__name__
     with store.connect() as db:
         db.execute("UPDATE jobs SET status=?,result=? WHERE id=?", (status, canonical(result), job_id))
         receipt = {"status": "executed" if status == "completed" else status, "session_id": session,
