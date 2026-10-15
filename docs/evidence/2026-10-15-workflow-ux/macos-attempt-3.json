@@ -1,0 +1,2602 @@
+{
+  "contract": "visible_UI_only",
+  "platform": "darwin",
+  "checks": [
+    {
+      "name": "new_workflow_has_no_app_picker",
+      "passed": true
+    },
+    {
+      "name": "paused_input_excluded",
+      "passed": true
+    },
+    {
+      "name": "visible_stop_finishes",
+      "passed": true,
+      "detail": {
+        "milliseconds": 224
+      }
+    },
+    {
+      "name": "both_apps_automatically_recorded",
+      "passed": true
+    },
+    {
+      "name": "bokkio_controls_excluded",
+      "passed": true
+    },
+    {
+      "name": "no_capture_issues",
+      "passed": true
+    },
+    {
+      "name": "paused_value_not_saved",
+      "passed": true
+    },
+    {
+      "name": "stopped_recorder_cannot_append",
+      "passed": true
+    },
+    {
+      "name": "saved_workflow_matches_recording",
+      "passed": true
+    },
+    {
+      "name": "UI_replay_completed",
+      "passed": true
+    },
+    {
+      "name": "real_editor_result",
+      "passed": true
+    },
+    {
+      "name": "real_second_app_result",
+      "passed": true
+    },
+    {
+      "name": "replay_can_pause_from_floating_control",
+      "passed": true
+    }
+  ],
+  "actions": [
+    {
+      "surface": "native app",
+      "command": "read",
+      "at": 1792071330630,
+      "observed": {
+        "calculator": "3",
+        "editor": ""
+      }
+    },
+    {
+      "surface": "native app",
+      "command": "close-second",
+      "at": 1792071330850,
+      "observed": {
+        "calculator": null,
+        "editor": ""
+      }
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "",
+      "at": 1792071331656,
+      "observed": {
+        "calculator": null,
+        "editor": "a"
+      }
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "新建 Workflow",
+      "at": 1792071332056
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "开始录制",
+      "at": 1792071332188
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "Bokkio UX first",
+      "at": 1792071334039,
+      "observed": {
+        "calculator": null,
+        "editor": "Bokkio UX first"
+      }
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "暂停",
+      "at": 1792071334039
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "PAUSED INPUT MUST NOT APPEAR",
+      "at": 1792071334889,
+      "observed": {
+        "calculator": null,
+        "editor": "PAUSED INPUT MUST NOT APPEAR"
+      }
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "继续",
+      "at": 1792071334890
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "Bokkio UX first",
+      "at": 1792071335813,
+      "observed": {
+        "calculator": null,
+        "editor": "Bokkio UX first"
+      }
+    },
+    {
+      "surface": "native app",
+      "command": "open-second",
+      "at": 1792071336801,
+      "observed": {
+        "calculator": "3",
+        "editor": "Bokkio UX first"
+      }
+    },
+    {
+      "surface": "native app",
+      "command": "calculator",
+      "at": 1792071338331,
+      "observed": {
+        "calculator": "9",
+        "editor": "Bokkio UX first"
+      }
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "Bokkio UX cross-app done",
+      "at": 1792071339234,
+      "observed": {
+        "calculator": "9",
+        "editor": "Bokkio UX cross-app done"
+      }
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "停止并编辑",
+      "at": 1792071339263
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "AFTER STOP MUST NOT APPEAR",
+      "at": 1792071340368,
+      "observed": {
+        "calculator": "9",
+        "editor": "AFTER STOP MUST NOT APPEAR"
+      }
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "保存",
+      "at": 1792071340771
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "录制",
+      "at": 1792071340892
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "",
+      "at": 1792071341863,
+      "observed": {
+        "calculator": "9",
+        "editor": "a"
+      }
+    },
+    {
+      "surface": "native app",
+      "command": "reset-second",
+      "at": 1792071342485,
+      "observed": {
+        "calculator": "0",
+        "editor": "A"
+      }
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "回放",
+      "at": 1792071342491
+    },
+    {
+      "surface": "native app",
+      "command": "read",
+      "at": 1792071364230,
+      "observed": {
+        "calculator": "9",
+        "editor": "Bokkio UX cross-app done"
+      }
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "从头回放",
+      "at": 1792071364236
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "暂停",
+      "at": 1792071364391
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "继续",
+      "at": 1792071365195
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "停止回放",
+      "at": 1792071365318
+    }
+  ],
+  "errors": [],
+  "stop_ms": 224,
+  "workflow": {
+    "schema": "bokkio.runtime-workflow.v2",
+    "id": "21a5bd615f0148b88abed9b900799d1d",
+    "name": "UX · TextEdit → Calculator → TextEdit",
+    "revision": 1,
+    "parent_sha256": null,
+    "apps": {
+      "app1": {
+        "name": "TextEdit",
+        "path": "/System/Applications/TextEdit.app",
+        "bundle_id": "com.apple.TextEdit"
+      },
+      "app2": {
+        "name": "Calculator",
+        "path": "/System/Applications/Calculator.app",
+        "bundle_id": "com.apple.calculator"
+      }
+    },
+    "steps": [
+      {
+        "id": "4be523317cbf4e92ba3eace9c381348c",
+        "kind": "input",
+        "app": "app1",
+        "window": "Bokkio UX bokkio-ux-mac-native-3.txt",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": null,
+          "ancestors": [
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "window",
+              "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+            }
+          ],
+          "native_selector": {
+            "role": "AXTextArea",
+            "ancestors": [
+              {
+                "role": "AXScrollArea",
+                "name": null
+              },
+              {
+                "role": "AXWindow",
+                "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+              }
+            ]
+          },
+          "identifier": "First Text View",
+          "bounds": {
+            "height": 390,
+            "width": 646,
+            "x": 425,
+            "y": 246
+          },
+          "point": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        "action": "click",
+        "arguments": {},
+        "recorded_at": 0.361,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "text_area",
+        "window_context": {
+          "key": "ax:1685050209",
+          "identity": "ax:1685050209",
+          "role": "window"
+        }
+      },
+      {
+        "id": "22b91191187243efbfb122af3124e2f0",
+        "kind": "input",
+        "app": "app1",
+        "window": "Bokkio UX bokkio-ux-mac-native-3.txt",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": null,
+          "ancestors": [
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "window",
+              "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+            }
+          ],
+          "native_selector": {
+            "role": "AXTextArea",
+            "ancestors": [
+              {
+                "role": "AXScrollArea",
+                "name": null
+              },
+              {
+                "role": "AXWindow",
+                "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+              }
+            ]
+          },
+          "identifier": "First Text View",
+          "bounds": {
+            "height": 390,
+            "width": 646,
+            "x": 425,
+            "y": 246
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Command+A"
+        },
+        "recorded_at": 0.528,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "text_area",
+        "window_context": {
+          "key": "ax:1685050209",
+          "identity": "ax:1685050209",
+          "role": "window"
+        }
+      },
+      {
+        "id": "8e0b34577ca84c7ab467c11e5e968ee3",
+        "kind": "input",
+        "app": "app1",
+        "window": "Bokkio UX bokkio-ux-mac-native-3.txt",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": null,
+          "ancestors": [
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "window",
+              "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+            }
+          ],
+          "native_selector": {
+            "role": "AXTextArea",
+            "ancestors": [
+              {
+                "role": "AXScrollArea",
+                "name": null
+              },
+              {
+                "role": "AXWindow",
+                "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+              }
+            ]
+          },
+          "identifier": "First Text View",
+          "bounds": {
+            "height": 390,
+            "width": 646,
+            "x": 425,
+            "y": 246
+          }
+        },
+        "action": "replace_text",
+        "arguments": {
+          "value": "Bokkio UX first"
+        },
+        "recorded_at": 1.029,
+        "wait": [],
+        "verify": [
+          {
+            "role": "text_area",
+            "name": null,
+            "field": "value",
+            "equals": "Bokkio UX first"
+          }
+        ],
+        "timeout": 10,
+        "label": "text_area",
+        "window_context": {
+          "key": "ax:1685050209",
+          "identity": "ax:1685050209",
+          "role": "window"
+        }
+      },
+      {
+        "id": "5cfa59a9137e45b9868d8fcac60bb810",
+        "kind": "input",
+        "app": "app1",
+        "window": "Bokkio UX bokkio-ux-mac-native-3.txt",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": null,
+          "ancestors": [
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "window",
+              "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+            }
+          ],
+          "native_selector": {
+            "role": "AXTextArea",
+            "ancestors": [
+              {
+                "role": "AXScrollArea",
+                "name": null
+              },
+              {
+                "role": "AXWindow",
+                "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+              }
+            ]
+          },
+          "identifier": "First Text View",
+          "bounds": {
+            "height": 390,
+            "width": 646,
+            "x": 425,
+            "y": 246
+          },
+          "point": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        "action": "click",
+        "arguments": {},
+        "recorded_at": 1.285,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "text_area",
+        "window_context": {
+          "key": "ax:1685050209",
+          "identity": "ax:1685050209",
+          "role": "window"
+        }
+      },
+      {
+        "id": "c74e6404e84445479da4a898c4d41d98",
+        "kind": "input",
+        "app": "app1",
+        "window": "Bokkio UX bokkio-ux-mac-native-3.txt",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": null,
+          "ancestors": [
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "window",
+              "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+            }
+          ],
+          "native_selector": {
+            "role": "AXTextArea",
+            "ancestors": [
+              {
+                "role": "AXScrollArea",
+                "name": null
+              },
+              {
+                "role": "AXWindow",
+                "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+              }
+            ]
+          },
+          "identifier": "First Text View",
+          "bounds": {
+            "height": 390,
+            "width": 646,
+            "x": 425,
+            "y": 246
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Command+A"
+        },
+        "recorded_at": 1.438,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "text_area",
+        "window_context": {
+          "key": "ax:1685050209",
+          "identity": "ax:1685050209",
+          "role": "window"
+        }
+      },
+      {
+        "id": "a1a5aa5abdf24f1d979218133b4d4bc2",
+        "kind": "input",
+        "app": "app1",
+        "window": "Bokkio UX bokkio-ux-mac-native-3.txt",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": null,
+          "ancestors": [
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "window",
+              "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+            }
+          ],
+          "native_selector": {
+            "role": "AXTextArea",
+            "ancestors": [
+              {
+                "role": "AXScrollArea",
+                "name": null
+              },
+              {
+                "role": "AXWindow",
+                "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+              }
+            ]
+          },
+          "identifier": "First Text View",
+          "bounds": {
+            "height": 390,
+            "width": 646,
+            "x": 425,
+            "y": 246
+          }
+        },
+        "action": "replace_text",
+        "arguments": {
+          "value": "Bokkio UX first"
+        },
+        "recorded_at": 2.471,
+        "wait": [],
+        "verify": [
+          {
+            "role": "text_area",
+            "name": null,
+            "field": "value",
+            "equals": "Bokkio UX first"
+          }
+        ],
+        "timeout": 10,
+        "label": "text_area",
+        "window_context": {
+          "key": "ax:1685050209",
+          "identity": "ax:1685050209",
+          "role": "window"
+        }
+      },
+      {
+        "id": "7d63ab5698ec437e8003e49f1ad9ffdd",
+        "kind": "input",
+        "app": "app1",
+        "window": "Bokkio UX bokkio-ux-mac-native-3.txt",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": null,
+          "ancestors": [
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "window",
+              "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+            }
+          ],
+          "native_selector": {
+            "role": "AXTextArea",
+            "ancestors": [
+              {
+                "role": "AXScrollArea",
+                "name": null
+              },
+              {
+                "role": "AXWindow",
+                "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+              }
+            ]
+          },
+          "identifier": "First Text View",
+          "bounds": {
+            "height": 390,
+            "width": 646,
+            "x": 425,
+            "y": 246
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Enter"
+        },
+        "recorded_at": 2.473,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "text_area",
+        "window_context": {
+          "key": "ax:1685050209",
+          "identity": "ax:1685050209",
+          "role": "window"
+        }
+      },
+      {
+        "id": "a9c38bfcf57d428cb3b81b5266d7aad9",
+        "kind": "input",
+        "app": "app2",
+        "window": "Calculator",
+        "target": {
+          "ref": "captured",
+          "role": "button",
+          "name": "All Clear",
+          "ancestors": [
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "window",
+              "name": "Calculator"
+            }
+          ],
+          "native_selector": {
+            "role": "AXButton",
+            "ancestors": [
+              {
+                "role": "AXGroup",
+                "name": null
+              },
+              {
+                "role": "AXGroup",
+                "name": null
+              },
+              {
+                "role": "AXSplitGroup",
+                "name": null
+              },
+              {
+                "role": "AXGroup",
+                "name": null
+              },
+              {
+                "role": "AXWindow",
+                "name": "Calculator"
+              }
+            ]
+          },
+          "identifier": "AllClear",
+          "bounds": {
+            "height": 40,
+            "width": 40,
+            "x": 840,
+            "y": 793
+          },
+          "point": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        "action": "click",
+        "arguments": {},
+        "recorded_at": 3.072,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "All Clear",
+        "window_context": {
+          "key": "ax:1668295459",
+          "identity": "ax:1668295459",
+          "role": "window"
+        }
+      },
+      {
+        "id": "75dd7e1b021c4fbb94efcd838dc7d273",
+        "kind": "input",
+        "app": "app2",
+        "window": "Calculator",
+        "target": {
+          "ref": "captured",
+          "role": "button",
+          "name": "All Clear",
+          "ancestors": [
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "window",
+              "name": "Calculator"
+            }
+          ],
+          "native_selector": {
+            "role": "AXButton",
+            "ancestors": [
+              {
+                "role": "AXGroup",
+                "name": null
+              },
+              {
+                "role": "AXGroup",
+                "name": null
+              },
+              {
+                "role": "AXSplitGroup",
+                "name": null
+              },
+              {
+                "role": "AXGroup",
+                "name": null
+              },
+              {
+                "role": "AXWindow",
+                "name": "Calculator"
+              }
+            ]
+          },
+          "identifier": "AllClear",
+          "bounds": {
+            "height": 40,
+            "width": 40,
+            "x": 840,
+            "y": 793
+          },
+          "point": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        "action": "click",
+        "arguments": {},
+        "recorded_at": 3.293,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "All Clear",
+        "window_context": {
+          "key": "ax:1668295459",
+          "identity": "ax:1668295459",
+          "role": "window"
+        }
+      },
+      {
+        "id": "1df2fdf7e97142dcaf157c03038454e9",
+        "kind": "input",
+        "app": "app2",
+        "window": "Calculator",
+        "target": {
+          "ref": "captured",
+          "role": "button",
+          "name": "7",
+          "ancestors": [
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "window",
+              "name": "Calculator"
+            }
+          ],
+          "native_selector": {
+            "role": "AXButton",
+            "ancestors": [
+              {
+                "role": "AXGroup",
+                "name": null
+              },
+              {
+                "role": "AXGroup",
+                "name": null
+              },
+              {
+                "role": "AXSplitGroup",
+                "name": null
+              },
+              {
+                "role": "AXGroup",
+                "name": null
+              },
+              {
+                "role": "AXWindow",
+                "name": "Calculator"
+              }
+            ]
+          },
+          "identifier": "Seven",
+          "bounds": {
+            "height": 40,
+            "width": 40,
+            "x": 840,
+            "y": 839
+          },
+          "point": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        "action": "click",
+        "arguments": {},
+        "recorded_at": 3.523,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "7",
+        "window_context": {
+          "key": "ax:1668295459",
+          "identity": "ax:1668295459",
+          "role": "window"
+        }
+      },
+      {
+        "id": "e8337993f4fa46b5b63be3f1b7aa9a05",
+        "kind": "input",
+        "app": "app2",
+        "window": "Calculator",
+        "target": {
+          "ref": "captured",
+          "role": "button",
+          "name": "Add",
+          "ancestors": [
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "window",
+              "name": "Calculator"
+            }
+          ],
+          "native_selector": {
+            "role": "AXButton",
+            "ancestors": [
+              {
+                "role": "AXGroup",
+                "name": null
+              },
+              {
+                "role": "AXGroup",
+                "name": null
+              },
+              {
+                "role": "AXSplitGroup",
+                "name": null
+              },
+              {
+                "role": "AXGroup",
+                "name": null
+              },
+              {
+                "role": "AXWindow",
+                "name": "Calculator"
+              }
+            ]
+          },
+          "identifier": "Add",
+          "bounds": {
+            "height": 40,
+            "width": 40,
+            "x": 978,
+            "y": 931
+          },
+          "point": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        "action": "click",
+        "arguments": {},
+        "recorded_at": 3.762,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Add",
+        "window_context": {
+          "key": "ax:1668295459",
+          "identity": "ax:1668295459",
+          "role": "window"
+        }
+      },
+      {
+        "id": "9a970a70396a461ca9f30a0f9b92332b",
+        "kind": "input",
+        "app": "app2",
+        "window": "Calculator",
+        "target": {
+          "ref": "captured",
+          "role": "button",
+          "name": "2",
+          "ancestors": [
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "window",
+              "name": "Calculator"
+            }
+          ],
+          "native_selector": {
+            "role": "AXButton",
+            "ancestors": [
+              {
+                "role": "AXGroup",
+                "name": null
+              },
+              {
+                "role": "AXGroup",
+                "name": null
+              },
+              {
+                "role": "AXSplitGroup",
+                "name": null
+              },
+              {
+                "role": "AXGroup",
+                "name": null
+              },
+              {
+                "role": "AXWindow",
+                "name": "Calculator"
+              }
+            ]
+          },
+          "identifier": "Two",
+          "bounds": {
+            "height": 40,
+            "width": 40,
+            "x": 886,
+            "y": 931
+          },
+          "point": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        "action": "click",
+        "arguments": {},
+        "recorded_at": 3.989,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "2",
+        "window_context": {
+          "key": "ax:1668295459",
+          "identity": "ax:1668295459",
+          "role": "window"
+        }
+      },
+      {
+        "id": "048c88be17344865ba54fc4fbde9914c",
+        "kind": "input",
+        "app": "app2",
+        "window": "Calculator",
+        "target": {
+          "ref": "captured",
+          "role": "button",
+          "name": "Equals",
+          "ancestors": [
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "window",
+              "name": "Calculator"
+            }
+          ],
+          "native_selector": {
+            "role": "AXButton",
+            "ancestors": [
+              {
+                "role": "AXGroup",
+                "name": null
+              },
+              {
+                "role": "AXGroup",
+                "name": null
+              },
+              {
+                "role": "AXSplitGroup",
+                "name": null
+              },
+              {
+                "role": "AXGroup",
+                "name": null
+              },
+              {
+                "role": "AXWindow",
+                "name": "Calculator"
+              }
+            ]
+          },
+          "identifier": "Equals",
+          "bounds": {
+            "height": 40,
+            "width": 40,
+            "x": 978,
+            "y": 977
+          },
+          "point": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        "action": "click",
+        "arguments": {},
+        "recorded_at": 4.213,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Equals",
+        "window_context": {
+          "key": "ax:1668295459",
+          "identity": "ax:1668295459",
+          "role": "window"
+        }
+      },
+      {
+        "id": "2e728a007ca2414d83939ed5df314c9c",
+        "kind": "input",
+        "app": "app1",
+        "window": "Bokkio UX bokkio-ux-mac-native-3.txt",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": null,
+          "ancestors": [
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "window",
+              "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+            }
+          ],
+          "native_selector": {
+            "role": "AXTextArea",
+            "ancestors": [
+              {
+                "role": "AXScrollArea",
+                "name": null
+              },
+              {
+                "role": "AXWindow",
+                "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+              }
+            ]
+          },
+          "identifier": "First Text View",
+          "bounds": {
+            "height": 390,
+            "width": 646,
+            "x": 425,
+            "y": 246
+          },
+          "point": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        "action": "click",
+        "arguments": {},
+        "recorded_at": 4.62,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "text_area",
+        "window_context": {
+          "key": "ax:1685050209",
+          "identity": "ax:1685050209",
+          "role": "window"
+        }
+      },
+      {
+        "id": "5455af3c88f545a6a8f2ee71ac4ed679",
+        "kind": "input",
+        "app": "app1",
+        "window": "Bokkio UX bokkio-ux-mac-native-3.txt",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": null,
+          "ancestors": [
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "window",
+              "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+            }
+          ],
+          "native_selector": {
+            "role": "AXTextArea",
+            "ancestors": [
+              {
+                "role": "AXScrollArea",
+                "name": null
+              },
+              {
+                "role": "AXWindow",
+                "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+              }
+            ]
+          },
+          "identifier": "First Text View",
+          "bounds": {
+            "height": 390,
+            "width": 646,
+            "x": 425,
+            "y": 246
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Command+A"
+        },
+        "recorded_at": 4.795,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "text_area",
+        "window_context": {
+          "key": "ax:1685050209",
+          "identity": "ax:1685050209",
+          "role": "window"
+        }
+      },
+      {
+        "id": "0f6b90fc48bd48c09cc473ca765ebac3",
+        "kind": "input",
+        "app": "app1",
+        "window": "Bokkio UX bokkio-ux-mac-native-3.txt",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": null,
+          "ancestors": [
+            {
+              "role": "group",
+              "name": null
+            },
+            {
+              "role": "window",
+              "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+            }
+          ],
+          "native_selector": {
+            "role": "AXTextArea",
+            "ancestors": [
+              {
+                "role": "AXScrollArea",
+                "name": null
+              },
+              {
+                "role": "AXWindow",
+                "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+              }
+            ]
+          },
+          "identifier": "First Text View",
+          "bounds": {
+            "height": 390,
+            "width": 646,
+            "x": 425,
+            "y": 246
+          }
+        },
+        "action": "replace_text",
+        "arguments": {
+          "value": "Bokkio UX cross-app done"
+        },
+        "recorded_at": 5.382,
+        "wait": [],
+        "verify": [
+          {
+            "role": "text_area",
+            "name": null,
+            "field": "value",
+            "equals": "Bokkio UX cross-app done"
+          }
+        ],
+        "timeout": 10,
+        "label": "text_area",
+        "window_context": {
+          "key": "ax:1685050209",
+          "identity": "ax:1685050209",
+          "role": "window"
+        }
+      }
+    ],
+    "platform": "darwin",
+    "recording": {
+      "started_at": 1792071333.03165
+    }
+  },
+  "issues": [],
+  "actual": {
+    "calculator": "9",
+    "editor": "Bokkio UX cross-app done"
+  },
+  "runs": [
+    {
+      "id": "964d4f18f0874145b14873ad4cc12f48",
+      "workflow": {
+        "schema": "bokkio.runtime-workflow.v2",
+        "id": "21a5bd615f0148b88abed9b900799d1d",
+        "name": "UX · TextEdit → Calculator → TextEdit",
+        "revision": 1,
+        "parent_sha256": null,
+        "apps": {
+          "app1": {
+            "name": "TextEdit",
+            "path": "/System/Applications/TextEdit.app",
+            "bundle_id": "com.apple.TextEdit"
+          },
+          "app2": {
+            "name": "Calculator",
+            "path": "/System/Applications/Calculator.app",
+            "bundle_id": "com.apple.calculator"
+          }
+        },
+        "steps": [
+          {
+            "id": "4be523317cbf4e92ba3eace9c381348c",
+            "kind": "input",
+            "app": "app1",
+            "window": "Bokkio UX bokkio-ux-mac-native-3.txt",
+            "target": {
+              "ref": "captured",
+              "role": "text_area",
+              "name": null,
+              "ancestors": [
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "window",
+                  "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+                }
+              ],
+              "native_selector": {
+                "role": "AXTextArea",
+                "ancestors": [
+                  {
+                    "role": "AXScrollArea",
+                    "name": null
+                  },
+                  {
+                    "role": "AXWindow",
+                    "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+                  }
+                ]
+              },
+              "identifier": "First Text View",
+              "bounds": {
+                "height": 390,
+                "width": 646,
+                "x": 425,
+                "y": 246
+              },
+              "point": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            },
+            "action": "click",
+            "arguments": {},
+            "recorded_at": 0.361,
+            "wait": [],
+            "verify": [],
+            "timeout": 10,
+            "label": "text_area",
+            "window_context": {
+              "key": "ax:1685050209",
+              "identity": "ax:1685050209",
+              "role": "window"
+            }
+          },
+          {
+            "id": "22b91191187243efbfb122af3124e2f0",
+            "kind": "input",
+            "app": "app1",
+            "window": "Bokkio UX bokkio-ux-mac-native-3.txt",
+            "target": {
+              "ref": "captured",
+              "role": "text_area",
+              "name": null,
+              "ancestors": [
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "window",
+                  "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+                }
+              ],
+              "native_selector": {
+                "role": "AXTextArea",
+                "ancestors": [
+                  {
+                    "role": "AXScrollArea",
+                    "name": null
+                  },
+                  {
+                    "role": "AXWindow",
+                    "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+                  }
+                ]
+              },
+              "identifier": "First Text View",
+              "bounds": {
+                "height": 390,
+                "width": 646,
+                "x": 425,
+                "y": 246
+              }
+            },
+            "action": "key",
+            "arguments": {
+              "key": "Command+A"
+            },
+            "recorded_at": 0.528,
+            "wait": [],
+            "verify": [],
+            "timeout": 10,
+            "label": "text_area",
+            "window_context": {
+              "key": "ax:1685050209",
+              "identity": "ax:1685050209",
+              "role": "window"
+            }
+          },
+          {
+            "id": "8e0b34577ca84c7ab467c11e5e968ee3",
+            "kind": "input",
+            "app": "app1",
+            "window": "Bokkio UX bokkio-ux-mac-native-3.txt",
+            "target": {
+              "ref": "captured",
+              "role": "text_area",
+              "name": null,
+              "ancestors": [
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "window",
+                  "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+                }
+              ],
+              "native_selector": {
+                "role": "AXTextArea",
+                "ancestors": [
+                  {
+                    "role": "AXScrollArea",
+                    "name": null
+                  },
+                  {
+                    "role": "AXWindow",
+                    "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+                  }
+                ]
+              },
+              "identifier": "First Text View",
+              "bounds": {
+                "height": 390,
+                "width": 646,
+                "x": 425,
+                "y": 246
+              }
+            },
+            "action": "replace_text",
+            "arguments": {
+              "value": "Bokkio UX first"
+            },
+            "recorded_at": 1.029,
+            "wait": [],
+            "verify": [
+              {
+                "role": "text_area",
+                "name": null,
+                "field": "value",
+                "equals": "Bokkio UX first"
+              }
+            ],
+            "timeout": 10,
+            "label": "text_area",
+            "window_context": {
+              "key": "ax:1685050209",
+              "identity": "ax:1685050209",
+              "role": "window"
+            }
+          },
+          {
+            "id": "5cfa59a9137e45b9868d8fcac60bb810",
+            "kind": "input",
+            "app": "app1",
+            "window": "Bokkio UX bokkio-ux-mac-native-3.txt",
+            "target": {
+              "ref": "captured",
+              "role": "text_area",
+              "name": null,
+              "ancestors": [
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "window",
+                  "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+                }
+              ],
+              "native_selector": {
+                "role": "AXTextArea",
+                "ancestors": [
+                  {
+                    "role": "AXScrollArea",
+                    "name": null
+                  },
+                  {
+                    "role": "AXWindow",
+                    "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+                  }
+                ]
+              },
+              "identifier": "First Text View",
+              "bounds": {
+                "height": 390,
+                "width": 646,
+                "x": 425,
+                "y": 246
+              },
+              "point": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            },
+            "action": "click",
+            "arguments": {},
+            "recorded_at": 1.285,
+            "wait": [],
+            "verify": [],
+            "timeout": 10,
+            "label": "text_area",
+            "window_context": {
+              "key": "ax:1685050209",
+              "identity": "ax:1685050209",
+              "role": "window"
+            }
+          },
+          {
+            "id": "c74e6404e84445479da4a898c4d41d98",
+            "kind": "input",
+            "app": "app1",
+            "window": "Bokkio UX bokkio-ux-mac-native-3.txt",
+            "target": {
+              "ref": "captured",
+              "role": "text_area",
+              "name": null,
+              "ancestors": [
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "window",
+                  "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+                }
+              ],
+              "native_selector": {
+                "role": "AXTextArea",
+                "ancestors": [
+                  {
+                    "role": "AXScrollArea",
+                    "name": null
+                  },
+                  {
+                    "role": "AXWindow",
+                    "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+                  }
+                ]
+              },
+              "identifier": "First Text View",
+              "bounds": {
+                "height": 390,
+                "width": 646,
+                "x": 425,
+                "y": 246
+              }
+            },
+            "action": "key",
+            "arguments": {
+              "key": "Command+A"
+            },
+            "recorded_at": 1.438,
+            "wait": [],
+            "verify": [],
+            "timeout": 10,
+            "label": "text_area",
+            "window_context": {
+              "key": "ax:1685050209",
+              "identity": "ax:1685050209",
+              "role": "window"
+            }
+          },
+          {
+            "id": "a1a5aa5abdf24f1d979218133b4d4bc2",
+            "kind": "input",
+            "app": "app1",
+            "window": "Bokkio UX bokkio-ux-mac-native-3.txt",
+            "target": {
+              "ref": "captured",
+              "role": "text_area",
+              "name": null,
+              "ancestors": [
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "window",
+                  "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+                }
+              ],
+              "native_selector": {
+                "role": "AXTextArea",
+                "ancestors": [
+                  {
+                    "role": "AXScrollArea",
+                    "name": null
+                  },
+                  {
+                    "role": "AXWindow",
+                    "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+                  }
+                ]
+              },
+              "identifier": "First Text View",
+              "bounds": {
+                "height": 390,
+                "width": 646,
+                "x": 425,
+                "y": 246
+              }
+            },
+            "action": "replace_text",
+            "arguments": {
+              "value": "Bokkio UX first"
+            },
+            "recorded_at": 2.471,
+            "wait": [],
+            "verify": [
+              {
+                "role": "text_area",
+                "name": null,
+                "field": "value",
+                "equals": "Bokkio UX first"
+              }
+            ],
+            "timeout": 10,
+            "label": "text_area",
+            "window_context": {
+              "key": "ax:1685050209",
+              "identity": "ax:1685050209",
+              "role": "window"
+            }
+          },
+          {
+            "id": "7d63ab5698ec437e8003e49f1ad9ffdd",
+            "kind": "input",
+            "app": "app1",
+            "window": "Bokkio UX bokkio-ux-mac-native-3.txt",
+            "target": {
+              "ref": "captured",
+              "role": "text_area",
+              "name": null,
+              "ancestors": [
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "window",
+                  "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+                }
+              ],
+              "native_selector": {
+                "role": "AXTextArea",
+                "ancestors": [
+                  {
+                    "role": "AXScrollArea",
+                    "name": null
+                  },
+                  {
+                    "role": "AXWindow",
+                    "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+                  }
+                ]
+              },
+              "identifier": "First Text View",
+              "bounds": {
+                "height": 390,
+                "width": 646,
+                "x": 425,
+                "y": 246
+              }
+            },
+            "action": "key",
+            "arguments": {
+              "key": "Enter"
+            },
+            "recorded_at": 2.473,
+            "wait": [],
+            "verify": [],
+            "timeout": 10,
+            "label": "text_area",
+            "window_context": {
+              "key": "ax:1685050209",
+              "identity": "ax:1685050209",
+              "role": "window"
+            }
+          },
+          {
+            "id": "a9c38bfcf57d428cb3b81b5266d7aad9",
+            "kind": "input",
+            "app": "app2",
+            "window": "Calculator",
+            "target": {
+              "ref": "captured",
+              "role": "button",
+              "name": "All Clear",
+              "ancestors": [
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "window",
+                  "name": "Calculator"
+                }
+              ],
+              "native_selector": {
+                "role": "AXButton",
+                "ancestors": [
+                  {
+                    "role": "AXGroup",
+                    "name": null
+                  },
+                  {
+                    "role": "AXGroup",
+                    "name": null
+                  },
+                  {
+                    "role": "AXSplitGroup",
+                    "name": null
+                  },
+                  {
+                    "role": "AXGroup",
+                    "name": null
+                  },
+                  {
+                    "role": "AXWindow",
+                    "name": "Calculator"
+                  }
+                ]
+              },
+              "identifier": "AllClear",
+              "bounds": {
+                "height": 40,
+                "width": 40,
+                "x": 840,
+                "y": 793
+              },
+              "point": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            },
+            "action": "click",
+            "arguments": {},
+            "recorded_at": 3.072,
+            "wait": [],
+            "verify": [],
+            "timeout": 10,
+            "label": "All Clear",
+            "window_context": {
+              "key": "ax:1668295459",
+              "identity": "ax:1668295459",
+              "role": "window"
+            }
+          },
+          {
+            "id": "75dd7e1b021c4fbb94efcd838dc7d273",
+            "kind": "input",
+            "app": "app2",
+            "window": "Calculator",
+            "target": {
+              "ref": "captured",
+              "role": "button",
+              "name": "All Clear",
+              "ancestors": [
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "window",
+                  "name": "Calculator"
+                }
+              ],
+              "native_selector": {
+                "role": "AXButton",
+                "ancestors": [
+                  {
+                    "role": "AXGroup",
+                    "name": null
+                  },
+                  {
+                    "role": "AXGroup",
+                    "name": null
+                  },
+                  {
+                    "role": "AXSplitGroup",
+                    "name": null
+                  },
+                  {
+                    "role": "AXGroup",
+                    "name": null
+                  },
+                  {
+                    "role": "AXWindow",
+                    "name": "Calculator"
+                  }
+                ]
+              },
+              "identifier": "AllClear",
+              "bounds": {
+                "height": 40,
+                "width": 40,
+                "x": 840,
+                "y": 793
+              },
+              "point": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            },
+            "action": "click",
+            "arguments": {},
+            "recorded_at": 3.293,
+            "wait": [],
+            "verify": [],
+            "timeout": 10,
+            "label": "All Clear",
+            "window_context": {
+              "key": "ax:1668295459",
+              "identity": "ax:1668295459",
+              "role": "window"
+            }
+          },
+          {
+            "id": "1df2fdf7e97142dcaf157c03038454e9",
+            "kind": "input",
+            "app": "app2",
+            "window": "Calculator",
+            "target": {
+              "ref": "captured",
+              "role": "button",
+              "name": "7",
+              "ancestors": [
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "window",
+                  "name": "Calculator"
+                }
+              ],
+              "native_selector": {
+                "role": "AXButton",
+                "ancestors": [
+                  {
+                    "role": "AXGroup",
+                    "name": null
+                  },
+                  {
+                    "role": "AXGroup",
+                    "name": null
+                  },
+                  {
+                    "role": "AXSplitGroup",
+                    "name": null
+                  },
+                  {
+                    "role": "AXGroup",
+                    "name": null
+                  },
+                  {
+                    "role": "AXWindow",
+                    "name": "Calculator"
+                  }
+                ]
+              },
+              "identifier": "Seven",
+              "bounds": {
+                "height": 40,
+                "width": 40,
+                "x": 840,
+                "y": 839
+              },
+              "point": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            },
+            "action": "click",
+            "arguments": {},
+            "recorded_at": 3.523,
+            "wait": [],
+            "verify": [],
+            "timeout": 10,
+            "label": "7",
+            "window_context": {
+              "key": "ax:1668295459",
+              "identity": "ax:1668295459",
+              "role": "window"
+            }
+          },
+          {
+            "id": "e8337993f4fa46b5b63be3f1b7aa9a05",
+            "kind": "input",
+            "app": "app2",
+            "window": "Calculator",
+            "target": {
+              "ref": "captured",
+              "role": "button",
+              "name": "Add",
+              "ancestors": [
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "window",
+                  "name": "Calculator"
+                }
+              ],
+              "native_selector": {
+                "role": "AXButton",
+                "ancestors": [
+                  {
+                    "role": "AXGroup",
+                    "name": null
+                  },
+                  {
+                    "role": "AXGroup",
+                    "name": null
+                  },
+                  {
+                    "role": "AXSplitGroup",
+                    "name": null
+                  },
+                  {
+                    "role": "AXGroup",
+                    "name": null
+                  },
+                  {
+                    "role": "AXWindow",
+                    "name": "Calculator"
+                  }
+                ]
+              },
+              "identifier": "Add",
+              "bounds": {
+                "height": 40,
+                "width": 40,
+                "x": 978,
+                "y": 931
+              },
+              "point": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            },
+            "action": "click",
+            "arguments": {},
+            "recorded_at": 3.762,
+            "wait": [],
+            "verify": [],
+            "timeout": 10,
+            "label": "Add",
+            "window_context": {
+              "key": "ax:1668295459",
+              "identity": "ax:1668295459",
+              "role": "window"
+            }
+          },
+          {
+            "id": "9a970a70396a461ca9f30a0f9b92332b",
+            "kind": "input",
+            "app": "app2",
+            "window": "Calculator",
+            "target": {
+              "ref": "captured",
+              "role": "button",
+              "name": "2",
+              "ancestors": [
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "window",
+                  "name": "Calculator"
+                }
+              ],
+              "native_selector": {
+                "role": "AXButton",
+                "ancestors": [
+                  {
+                    "role": "AXGroup",
+                    "name": null
+                  },
+                  {
+                    "role": "AXGroup",
+                    "name": null
+                  },
+                  {
+                    "role": "AXSplitGroup",
+                    "name": null
+                  },
+                  {
+                    "role": "AXGroup",
+                    "name": null
+                  },
+                  {
+                    "role": "AXWindow",
+                    "name": "Calculator"
+                  }
+                ]
+              },
+              "identifier": "Two",
+              "bounds": {
+                "height": 40,
+                "width": 40,
+                "x": 886,
+                "y": 931
+              },
+              "point": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            },
+            "action": "click",
+            "arguments": {},
+            "recorded_at": 3.989,
+            "wait": [],
+            "verify": [],
+            "timeout": 10,
+            "label": "2",
+            "window_context": {
+              "key": "ax:1668295459",
+              "identity": "ax:1668295459",
+              "role": "window"
+            }
+          },
+          {
+            "id": "048c88be17344865ba54fc4fbde9914c",
+            "kind": "input",
+            "app": "app2",
+            "window": "Calculator",
+            "target": {
+              "ref": "captured",
+              "role": "button",
+              "name": "Equals",
+              "ancestors": [
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "window",
+                  "name": "Calculator"
+                }
+              ],
+              "native_selector": {
+                "role": "AXButton",
+                "ancestors": [
+                  {
+                    "role": "AXGroup",
+                    "name": null
+                  },
+                  {
+                    "role": "AXGroup",
+                    "name": null
+                  },
+                  {
+                    "role": "AXSplitGroup",
+                    "name": null
+                  },
+                  {
+                    "role": "AXGroup",
+                    "name": null
+                  },
+                  {
+                    "role": "AXWindow",
+                    "name": "Calculator"
+                  }
+                ]
+              },
+              "identifier": "Equals",
+              "bounds": {
+                "height": 40,
+                "width": 40,
+                "x": 978,
+                "y": 977
+              },
+              "point": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            },
+            "action": "click",
+            "arguments": {},
+            "recorded_at": 4.213,
+            "wait": [],
+            "verify": [],
+            "timeout": 10,
+            "label": "Equals",
+            "window_context": {
+              "key": "ax:1668295459",
+              "identity": "ax:1668295459",
+              "role": "window"
+            }
+          },
+          {
+            "id": "2e728a007ca2414d83939ed5df314c9c",
+            "kind": "input",
+            "app": "app1",
+            "window": "Bokkio UX bokkio-ux-mac-native-3.txt",
+            "target": {
+              "ref": "captured",
+              "role": "text_area",
+              "name": null,
+              "ancestors": [
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "window",
+                  "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+                }
+              ],
+              "native_selector": {
+                "role": "AXTextArea",
+                "ancestors": [
+                  {
+                    "role": "AXScrollArea",
+                    "name": null
+                  },
+                  {
+                    "role": "AXWindow",
+                    "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+                  }
+                ]
+              },
+              "identifier": "First Text View",
+              "bounds": {
+                "height": 390,
+                "width": 646,
+                "x": 425,
+                "y": 246
+              },
+              "point": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            },
+            "action": "click",
+            "arguments": {},
+            "recorded_at": 4.62,
+            "wait": [],
+            "verify": [],
+            "timeout": 10,
+            "label": "text_area",
+            "window_context": {
+              "key": "ax:1685050209",
+              "identity": "ax:1685050209",
+              "role": "window"
+            }
+          },
+          {
+            "id": "5455af3c88f545a6a8f2ee71ac4ed679",
+            "kind": "input",
+            "app": "app1",
+            "window": "Bokkio UX bokkio-ux-mac-native-3.txt",
+            "target": {
+              "ref": "captured",
+              "role": "text_area",
+              "name": null,
+              "ancestors": [
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "window",
+                  "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+                }
+              ],
+              "native_selector": {
+                "role": "AXTextArea",
+                "ancestors": [
+                  {
+                    "role": "AXScrollArea",
+                    "name": null
+                  },
+                  {
+                    "role": "AXWindow",
+                    "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+                  }
+                ]
+              },
+              "identifier": "First Text View",
+              "bounds": {
+                "height": 390,
+                "width": 646,
+                "x": 425,
+                "y": 246
+              }
+            },
+            "action": "key",
+            "arguments": {
+              "key": "Command+A"
+            },
+            "recorded_at": 4.795,
+            "wait": [],
+            "verify": [],
+            "timeout": 10,
+            "label": "text_area",
+            "window_context": {
+              "key": "ax:1685050209",
+              "identity": "ax:1685050209",
+              "role": "window"
+            }
+          },
+          {
+            "id": "0f6b90fc48bd48c09cc473ca765ebac3",
+            "kind": "input",
+            "app": "app1",
+            "window": "Bokkio UX bokkio-ux-mac-native-3.txt",
+            "target": {
+              "ref": "captured",
+              "role": "text_area",
+              "name": null,
+              "ancestors": [
+                {
+                  "role": "group",
+                  "name": null
+                },
+                {
+                  "role": "window",
+                  "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+                }
+              ],
+              "native_selector": {
+                "role": "AXTextArea",
+                "ancestors": [
+                  {
+                    "role": "AXScrollArea",
+                    "name": null
+                  },
+                  {
+                    "role": "AXWindow",
+                    "name": "Bokkio UX bokkio-ux-mac-native-3.txt"
+                  }
+                ]
+              },
+              "identifier": "First Text View",
+              "bounds": {
+                "height": 390,
+                "width": 646,
+                "x": 425,
+                "y": 246
+              }
+            },
+            "action": "replace_text",
+            "arguments": {
+              "value": "Bokkio UX cross-app done"
+            },
+            "recorded_at": 5.382,
+            "wait": [],
+            "verify": [
+              {
+                "role": "text_area",
+                "name": null,
+                "field": "value",
+                "equals": "Bokkio UX cross-app done"
+              }
+            ],
+            "timeout": 10,
+            "label": "text_area",
+            "window_context": {
+              "key": "ax:1685050209",
+              "identity": "ax:1685050209",
+              "role": "window"
+            }
+          }
+        ],
+        "platform": "darwin",
+        "recording": {
+          "started_at": 1792071333.03165
+        },
+        "sha256": "ab2950de7d66344f01430b8573582a57e72c1a83c9415bc8296373f457ce282b"
+      },
+      "workflow_sha256": "ab2950de7d66344f01430b8573582a57e72c1a83c9415bc8296373f457ce282b",
+      "bound_sha256": "9a0528bb553435db4782b3554bef879b165b00fa7338ca9cb064784306094d22",
+      "parameters": {},
+      "repeat": 1,
+      "cycle": 1,
+      "speed": 5,
+      "single": false,
+      "session_id": "90a287aba9204606989a047bba07f299",
+      "mode": "headed",
+      "status": "completed",
+      "index": 16,
+      "steps": [
+        {
+          "step_id": "4be523317cbf4e92ba3eace9c381348c",
+          "operation_id": "b2e5746c35ca48f1871085a6d0bb2b1c",
+          "status": "completed",
+          "verification": "not_configured",
+          "cycle": 1
+        },
+        {
+          "step_id": "22b91191187243efbfb122af3124e2f0",
+          "operation_id": "aeafd35e4d3e4f32bef4cd468e2b6103",
+          "status": "completed",
+          "verification": "not_configured",
+          "cycle": 1
+        },
+        {
+          "step_id": "8e0b34577ca84c7ab467c11e5e968ee3",
+          "operation_id": "ef8701f288a944948b6edc36d0819dcc",
+          "status": "completed",
+          "verification": "passed",
+          "cycle": 1
+        },
+        {
+          "step_id": "5cfa59a9137e45b9868d8fcac60bb810",
+          "operation_id": "b5bb39811d9a468fa91612203303265a",
+          "status": "completed",
+          "verification": "not_configured",
+          "cycle": 1
+        },
+        {
+          "step_id": "c74e6404e84445479da4a898c4d41d98",
+          "operation_id": "e16f1099d4ec407493b176f7b08020ce",
+          "status": "completed",
+          "verification": "not_configured",
+          "cycle": 1
+        },
+        {
+          "step_id": "a1a5aa5abdf24f1d979218133b4d4bc2",
+          "operation_id": "f68dba6f56eb4b858276319ba13f8d65",
+          "status": "completed",
+          "verification": "passed",
+          "cycle": 1
+        },
+        {
+          "step_id": "7d63ab5698ec437e8003e49f1ad9ffdd",
+          "operation_id": "01c2b74eca424d8192cecd4d87763b1e",
+          "status": "completed",
+          "verification": "not_configured",
+          "cycle": 1
+        },
+        {
+          "step_id": "a9c38bfcf57d428cb3b81b5266d7aad9",
+          "operation_id": "b2dd1f1d167540a986990a120209f445",
+          "status": "completed",
+          "verification": "not_configured",
+          "cycle": 1
+        },
+        {
+          "step_id": "75dd7e1b021c4fbb94efcd838dc7d273",
+          "operation_id": "6d88b05326324761bb3a526f65af5043",
+          "status": "completed",
+          "verification": "not_configured",
+          "cycle": 1
+        },
+        {
+          "step_id": "1df2fdf7e97142dcaf157c03038454e9",
+          "operation_id": "75cd3b309e374c3ca8663df368d5be82",
+          "status": "completed",
+          "verification": "not_configured",
+          "cycle": 1
+        },
+        {
+          "step_id": "e8337993f4fa46b5b63be3f1b7aa9a05",
+          "operation_id": "24d7a061e97c44bda94b5b9fb258dfd4",
+          "status": "completed",
+          "verification": "not_configured",
+          "cycle": 1
+        },
+        {
+          "step_id": "9a970a70396a461ca9f30a0f9b92332b",
+          "operation_id": "c1fc2a58d08449e2971168925b459c40",
+          "status": "completed",
+          "verification": "not_configured",
+          "cycle": 1
+        },
+        {
+          "step_id": "048c88be17344865ba54fc4fbde9914c",
+          "operation_id": "bc35909dbf024159b03c402c32670f66",
+          "status": "completed",
+          "verification": "not_configured",
+          "cycle": 1
+        },
+        {
+          "step_id": "2e728a007ca2414d83939ed5df314c9c",
+          "operation_id": "fbd2aeb44aaa4f2b90966b5c7296ecb2",
+          "status": "completed",
+          "verification": "not_configured",
+          "cycle": 1
+        },
+        {
+          "step_id": "5455af3c88f545a6a8f2ee71ac4ed679",
+          "operation_id": "c10866529cab4f3181c26e67bb031cd8",
+          "status": "completed",
+          "verification": "not_configured",
+          "cycle": 1
+        },
+        {
+          "step_id": "0f6b90fc48bd48c09cc473ca765ebac3",
+          "operation_id": "2ba7c2e1a0c34c38894b46e8bea5b3fc",
+          "status": "completed",
+          "verification": "passed",
+          "cycle": 1
+        }
+      ],
+      "bindings": {
+        "app1": 24898,
+        "app2": 50452
+      },
+      "pending": null,
+      "timed_step": "1:0f6b90fc48bd48c09cc473ca765ebac3",
+      "last_receipt": {
+        "status": "executed",
+        "operation_id": "2ba7c2e1a0c34c38894b46e8bea5b3fc",
+        "session_id": "90a287aba9204606989a047bba07f299",
+        "dispatched": true,
+        "result": {
+          "dispatched": true,
+          "pid": 24898,
+          "transport": "macOS.CGEvent",
+          "status": "posted_unverified",
+          "target": {
+            "ref": "05bbf55835507f9e914a",
+            "role": "text_area",
+            "name": null
+          },
+          "verification": {
+            "status": "executed_not_business_verified"
+          }
+        }
+      },
+      "stale_refreshes": 0,
+      "window_bindings": {
+        "app1:ax:1685050209": {
+          "pid": 24898,
+          "identity": "ax:1685050209"
+        },
+        "app2:ax:1668295459": {
+          "pid": 50452,
+          "identity": "ax:1668295459"
+        }
+      }
+    }
+  ],
+  "failure": "locator.waitFor: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.toolbar .pill').filter({ hasText: '已取消' }) to be visible\u001b[22m\n\n    at /Users/andrewyeoh/Werk/projects/Bokkio/desktop/tests/bokkio-desktop-ux.cjs:53:63",
+  "finished_at": "2026-10-15T13:36:20.335Z",
+  "passed": 13,
+  "total": 13
+}

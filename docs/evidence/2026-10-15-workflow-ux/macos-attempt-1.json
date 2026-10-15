@@ -1,0 +1,49 @@
+{
+  "contract": "visible_UI_only",
+  "platform": "darwin",
+  "checks": [
+    {
+      "name": "new_workflow_has_no_app_picker",
+      "passed": true
+    }
+  ],
+  "actions": [
+    {
+      "surface": "native app",
+      "command": "read",
+      "at": 1792070976434
+    },
+    {
+      "surface": "native app",
+      "command": "close-second",
+      "at": 1792070976662
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "",
+      "at": 1792070977457
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "新建 Workflow",
+      "at": 1792070980023
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "开始录制",
+      "at": 1792070980148
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "Bokkio UX first",
+      "at": 1792070981047
+    }
+  ],
+  "errors": [],
+  "failure": "Error: Read-only evidence timed out\n    at waitRead (/Users/andrewyeoh/Werk/projects/Bokkio/desktop/tests/bokkio-desktop-ux.cjs:13:180)\n    at async /Users/andrewyeoh/Werk/projects/Bokkio/desktop/tests/bokkio-desktop-ux.cjs:26:36",
+  "finished_at": "2026-10-15T13:29:51.089Z",
+  "passed": 1,
+  "total": 1
+}

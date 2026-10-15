@@ -63,8 +63,7 @@ class BokkioPermissionError(BokkioError):
         "macOS Accessibility permission is required. "
         "Grant it to the host application or resolved Python binary in "
         "System Settings > Privacy & Security > Accessibility, then restart "
-        "the terminal and retry. macOS may also require Screen Recording to "
-        "read window content."
+        "host application and retry."
     )
 
     @classmethod

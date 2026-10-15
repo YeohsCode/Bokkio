@@ -30,3 +30,23 @@ export function replaceRecordedSteps(original: Item, ids: string[], captured: It
   }
   return next;
 }
+
+export function updateRecordedStep(current: Item, patch: Item): Item {
+  const next = {...structuredClone(current), ...structuredClone(patch)};
+  if (patch.target && ['role', 'name', 'ancestors'].some(k => JSON.stringify(patch.target[k]) !== JSON.stringify(current.target?.[k]))) {
+    delete next.target.native_selector;
+  }
+  if (patch.window !== undefined && patch.window !== current.window) {
+    delete next.window_context;
+    for (const ancestor of [...(next.target?.ancestors || []), ...(next.target?.native_selector?.ancestors || [])]) {
+      if (['window', 'dialog', 'AXWindow', 'AXSheet'].includes(ancestor.role) && ancestor.name === current.window) ancestor.name = patch.window;
+    }
+    if (['window', 'dialog'].includes(next.target?.role) && next.target.name === current.window) next.target.name = patch.window;
+  }
+  if (patch.arguments?.value !== undefined && ['set_value', 'replace_text', 'type'].includes(current.action)) {
+    for (const check of next.verify || []) {
+      if (check.field === 'value' && check.role === current.target?.role && check.name === current.target?.name && check.equals === current.arguments?.value) check.equals = patch.arguments.value;
+    }
+  }
+  return next;
+}

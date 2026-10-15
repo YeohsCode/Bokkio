@@ -1,0 +1,17 @@
+
+> bokkio-desktop@0.3.0 test
+> node --test electron/*.test.cjs
+
+✔ segment replacement preserves workflow, breakpoint, app identities and surrounding timing (1.473417ms)
+✔ empty recording and non-contiguous selection cannot remove unrelated steps (0.2135ms)
+✔ re-recording a legacy v1 document explicitly upgrades its schema (0.084792ms)
+✔ editing captured text updates its linked completion check without changing independent assertions (0.098583ms)
+✔ manual target and window edits do not retain a conflicting captured locator or old window binding (0.102542ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 190.606625

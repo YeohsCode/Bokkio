@@ -59,9 +59,15 @@ class DesktopStudio(Studio):
             from .runtime_workflow import RuntimeWorkflowRunner
             r=json.loads((self.state/'workflow-runs'/(rid+'.json')).read_text());runtime=LocalRuntime(self.state);runtime.policy['launch_apps']=r['workflow']['apps'];self.runners[rid]=RuntimeWorkflowRunner(Client(runtime,r['session_id']),self.state/'workflow-runs')
         return self.runners[rid]
-    def recorder_start(self,pids,name):
-        if any(p.poll() is None for p in self.chat_processes.values()):raise ValueError('Stop the current task before recording')
-        return super().recorder_start(pids,name)
+    def recorder_start(self,pids=None,name='新 Workflow'):
+        with self.lock:
+            if self.busy() or any(p.poll() is None for p in self.chat_processes.values()) or self.record and self.record.state in {'recording','paused'}:raise ValueError('Stop the current task before recording')
+            from .manual_recording import ManualRecorder
+            client=Client(LocalRuntime(self.state));client.open(apps=[],task_id='recording-'+identifier())
+            self.record=ManualRecorder(client,[],name,all_apps=True,excluded_pids={os.getpid(),int(os.environ.get('BOKKIO_DESKTOP_PID','0'))})
+            try:self.record.start()
+            except Exception:client.call('session.close');self.record=None;raise
+            return self.record.preview()
     def route(self,method,path,data):
         def arg(key,default=None):return data.get(key,[default])[0] if method=='GET' else data.get(key,default)
         if path=='/api/drafts':return [{'id':v['document']['id'],'name':v['document']['name'],'steps':len(v['document']['steps'])} for v in [json.loads(p.read_text()) for p in (self.state/'workflow-drafts').glob('*.json')]]

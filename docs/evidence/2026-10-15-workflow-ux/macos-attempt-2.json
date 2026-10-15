@@ -1,0 +1,99 @@
+{
+  "contract": "visible_UI_only",
+  "platform": "darwin",
+  "checks": [
+    {
+      "name": "new_workflow_has_no_app_picker",
+      "passed": true
+    },
+    {
+      "name": "paused_input_excluded",
+      "passed": true
+    }
+  ],
+  "actions": [
+    {
+      "surface": "native app",
+      "command": "read",
+      "at": 1792071279283,
+      "observed": {
+        "calculator": null,
+        "editor": ""
+      }
+    },
+    {
+      "surface": "native app",
+      "command": "close-second",
+      "at": 1792071279332,
+      "observed": {
+        "calculator": null,
+        "editor": ""
+      }
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "",
+      "at": 1792071280133,
+      "observed": {
+        "calculator": null,
+        "editor": "a"
+      }
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "新建 Workflow",
+      "at": 1792071280509
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "开始录制",
+      "at": 1792071280643
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "Bokkio UX first",
+      "at": 1792071282491,
+      "observed": {
+        "calculator": null,
+        "editor": "Bokkio UX first"
+      }
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "暂停",
+      "at": 1792071282493
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "PAUSED INPUT MUST NOT APPEAR",
+      "at": 1792071283330,
+      "observed": {
+        "calculator": null,
+        "editor": "PAUSED INPUT MUST NOT APPEAR"
+      }
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "继续",
+      "at": 1792071283331
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "Bokkio UX first",
+      "at": 1792071284266,
+      "observed": {
+        "calculator": null,
+        "editor": "Bokkio UX first"
+      }
+    }
+  ],
+  "errors": [],
+  "failure": "AssertionError [ERR_ASSERTION]: Expected one test window: Calculator\n\n1 !== 0\n\n    at actor (/Users/andrewyeoh/Werk/projects/Bokkio/desktop/tests/bokkio-desktop-ux.cjs:10:263)\n    at /Users/andrewyeoh/Werk/projects/Bokkio/desktop/tests/bokkio-desktop-ux.cjs:32:36",
+  "finished_at": "2026-10-15T13:34:44.929Z",
+  "passed": 2,
+  "total": 2
+}

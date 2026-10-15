@@ -1,0 +1,114 @@
+{
+  ".gitignore": {
+    "bytes": 429,
+    "sha256": "89272a4190b3dde29424dea6a87e826405803f99bd630451c2e0d97a66a7bdf0"
+  },
+  "README.md": {
+    "bytes": 64022,
+    "sha256": "25ec082d55943f3bc1bfaffb9f4e80359859dcfc50ceafc25fa7e6f72a4c1eb0"
+  },
+  "desktop/electron/main.cjs": {
+    "bytes": 11524,
+    "sha256": "0977c39657a55a5ababc6d1687326bd14bc0c7e09bd5254818c46e5c89b26532"
+  },
+  "desktop/electron/overlay.html": {
+    "bytes": 1013,
+    "sha256": "241ddf788eeaa2a9c27b8ed6ae202f30224274f23cf49480e906226bc6693a69"
+  },
+  "desktop/electron/overlay.js": {
+    "bytes": 901,
+    "sha256": "0d2c21eb0958ee0d0faaa0083bf7cfe248d88ddaf4c0d407c7a1dc96b89e4e80"
+  },
+  "desktop/electron/preload.cjs": {
+    "bytes": 933,
+    "sha256": "048b6b64863d20fa4078752a1c176ed75cc7b05cbbde208a2a4ed430c275b015"
+  },
+  "desktop/electron/recording.test.cjs": {
+    "bytes": 3757,
+    "sha256": "d7175e458caad4796ad4adabda20c95f185ca89e7d0e30997b9f40255ef538cd"
+  },
+  "desktop/package.json": {
+    "bytes": 1882,
+    "sha256": "d49dfb3e80eebbbd7b657577043737996693922d9faeb8d579da82e5cfef21d8"
+  },
+  "desktop/src/main.tsx": {
+    "bytes": 45074,
+    "sha256": "ff8a09dd7f52e21f2b1a591de43d2bdefe8e59af354d0a995168eb55d7b6a249"
+  },
+  "desktop/src/recording.ts": {
+    "bytes": 3120,
+    "sha256": "a87473bde43e60df0a48123ee1bb580b0108852f2c14aad84ac6c1e2c644e33d"
+  },
+  "desktop/tests/bokkio-desktop-editor.cjs": {
+    "bytes": 3871,
+    "sha256": "13e063a319c73e1e907c3e463734af9e73e4ad0090a1b762edf85a39ae6a9f3f"
+  },
+  "desktop/tests/bokkio-desktop-flow.cjs": {
+    "bytes": 6872,
+    "sha256": "f8886384fa380d0bc9ddaa7850a42dd597d122ae91c1c92fddc7f38be92c388b"
+  },
+  "desktop/tests/bokkio-desktop-layered-log.cjs": {
+    "bytes": 6155,
+    "sha256": "21023ad2f7e48dab2211d715fc207c65a73e6727dc3000eddf4cabb79fc2274e"
+  },
+  "desktop/tests/bokkio-desktop-long-recording.cjs": {
+    "bytes": 2380,
+    "sha256": "d66f76f8bcab970b8f11b6bfc2cb34845a7a0c2b7181c3f0b5edf74e407f4bd1"
+  },
+  "desktop/tests/bokkio-desktop-ux.cjs": {
+    "bytes": 10943,
+    "sha256": "21c565d506300a7cf82559f7c55c5286b27a24f52e9825facccba5d258690808"
+  },
+  "desktop/tests/bokkio-desktop-windows.cjs": {
+    "bytes": 6763,
+    "sha256": "84f429996191c60d89999584dcef43c4e1f445c30b53dbe74f74bc5a5b5c7a40"
+  },
+  "desktop/tests/macos-ux-actor.swift": {
+    "bytes": 6769,
+    "sha256": "1f9177e89498f25caf05a5cc6203311356283581ecbc65e3e03c8ce2b23098e4"
+  },
+  "desktop/tests/verify-package.cjs": {
+    "bytes": 1820,
+    "sha256": "c1234744edf30a6676f960f3990e294c9a398e18f574c553363cd73ec3bd4636"
+  },
+  "desktop/tests/windows-ux-actor.py": {
+    "bytes": 6049,
+    "sha256": "872843e3f488dba929c5392d15ed31dd147327072dc378d03603949199cb09ec"
+  },
+  "src/bokkio/desktop_service.py": {
+    "bytes": 18791,
+    "sha256": "71585523e9e6965a782b1ccf916d7e6ed38cc3c5f6a9c8e88bd5da14d04dbf53"
+  },
+  "src/bokkio/manual_recording.py": {
+    "bytes": 16809,
+    "sha256": "d9d529c6670d827a4e1e6ee1fd099861e40dc417551156ec43f0ea5f7917f4ae"
+  },
+  "src/bokkio/model.py": {
+    "bytes": 5011,
+    "sha256": "e3c4432e103badd63477b694d347f61911c90c4c1b413ed0a675b92d79ab68d1"
+  },
+  "src/bokkio/native/macos_input.swift": {
+    "bytes": 9051,
+    "sha256": "4cdbd78020f7ceb45fa39cb194057690c0a7af36afd05a50d8addeec1b7e6427"
+  },
+  "src/bokkio/native/macos_record.swift": {
+    "bytes": 12519,
+    "sha256": "3842aad7b050ad227bf046a70871fcf92c85afe9a94905cd857bf8b658879e75"
+  },
+  "src/bokkio/runtime_workflow.py": {
+    "bytes": 35557,
+    "sha256": "1382cfd7229abc34160a4bfc04cc80aaeeaed7912036a8642c6a0067c377d59b"
+  },
+  "src/bokkio/windows_record.py": {
+    "bytes": 14717,
+    "sha256": "b9a450f87d9ec321c21e556879938814d33515d4e121e1213f450d6cfc1f75aa"
+  },
+  "src/bokkio/workflow_studio.py": {
+    "bytes": 13209,
+    "sha256": "00fe6294f895f8aae438ffcf3ad2368deb8e3461b0859128e7287202a75ab821"
+  },
+  "tests/test_desktop_workflow.py": {
+    "bytes": 10786,
+    "sha256": "155d3d8ee5e9ee58c1530ad4752eed4fa3482984d521e6902a48ec91bb5abdde"
+  }
+}

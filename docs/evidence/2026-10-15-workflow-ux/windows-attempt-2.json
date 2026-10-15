@@ -1,0 +1,457 @@
+{
+  "contract": "visible_UI_only",
+  "platform": "win32",
+  "checks": [
+    {
+      "name": "new_workflow_has_no_app_picker",
+      "passed": true
+    },
+    {
+      "name": "paused_input_excluded",
+      "passed": true
+    },
+    {
+      "name": "visible_stop_finishes",
+      "passed": true,
+      "detail": {
+        "milliseconds": 857
+      }
+    },
+    {
+      "name": "both_apps_automatically_recorded",
+      "passed": true
+    },
+    {
+      "name": "bokkio_controls_excluded",
+      "passed": true
+    },
+    {
+      "name": "no_capture_issues",
+      "passed": false
+    }
+  ],
+  "actions": [
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "",
+      "at": 1792070817452
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "新建 Workflow",
+      "at": 1792070819153
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "开始录制",
+      "at": 1792070819291
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "Bokkio UX first",
+      "at": 1792070821113
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "暂停",
+      "at": 1792070821123
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "PAUSED INPUT MUST NOT APPEAR",
+      "at": 1792070822350
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "继续",
+      "at": 1792070822350
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "Bokkio UX first",
+      "at": 1792070823572
+    },
+    {
+      "surface": "native app",
+      "command": "open-second",
+      "at": 1792070825079
+    },
+    {
+      "surface": "native app",
+      "command": "font",
+      "value": "Courier New",
+      "at": 1792070826255
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "Bokkio UX cross-app done",
+      "at": 1792070827178
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "停止并编辑",
+      "at": 1792070827208
+    }
+  ],
+  "errors": [],
+  "stop_ms": 857,
+  "workflow": {
+    "schema": "bokkio.runtime-workflow.v2",
+    "id": "868f13fbe3d14db89d43ecda2c6bda31",
+    "name": "UX · Notepad → Character Map → Notepad",
+    "revision": 1,
+    "parent_sha256": null,
+    "apps": {
+      "app1": {
+        "name": "notepad",
+        "path": "C:\\Windows\\System32\\notepad.exe",
+        "bundle_id": ""
+      },
+      "app2": {
+        "name": "charmap",
+        "path": "C:\\Windows\\System32\\charmap.exe",
+        "bundle_id": ""
+      }
+    },
+    "steps": [
+      {
+        "id": "a1e2f1e25dd94d158f935ae0ecca82aa",
+        "kind": "input",
+        "app": "app1",
+        "window": "*Untitled - Notepad",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": "Text Editor",
+          "ancestors": [
+            {
+              "role": "window",
+              "name": "*Untitled - Notepad"
+            }
+          ],
+          "identifier": "15",
+          "bounds": {
+            "x": 34,
+            "y": 77,
+            "width": 752,
+            "height": 437
+          }
+        },
+        "action": "replace_text",
+        "arguments": {
+          "value": "Bokkio UX first"
+        },
+        "recorded_at": 0.446,
+        "wait": [],
+        "verify": [
+          {
+            "role": "text_area",
+            "name": "Text Editor",
+            "field": "value",
+            "equals": "Bokkio UX first"
+          }
+        ],
+        "timeout": 10,
+        "label": "Text Editor",
+        "window_context": {
+          "key": "hwnd:393234",
+          "identity": "hwnd:393234",
+          "role": "window"
+        }
+      },
+      {
+        "id": "044a9cf134214492ba2199411cdfbdd5",
+        "kind": "input",
+        "app": "app1",
+        "window": "*Untitled - Notepad",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": "Text Editor",
+          "ancestors": [
+            {
+              "role": "window",
+              "name": "*Untitled - Notepad"
+            }
+          ],
+          "identifier": "15",
+          "bounds": {
+            "x": 34,
+            "y": 77,
+            "width": 752,
+            "height": 437
+          },
+          "point": {
+            "x": 0.5,
+            "y": 0.5011441647597255
+          }
+        },
+        "action": "click",
+        "arguments": {
+          "duration": 0.05
+        },
+        "recorded_at": 0.403,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Text Editor",
+        "window_context": {
+          "key": "hwnd:393234",
+          "identity": "hwnd:393234",
+          "role": "window"
+        }
+      },
+      {
+        "id": "3326a79a49d04f99a4e1490526c9a888",
+        "kind": "input",
+        "app": "app1",
+        "window": "*Untitled - Notepad",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": "Text Editor",
+          "ancestors": [
+            {
+              "role": "window",
+              "name": "*Untitled - Notepad"
+            }
+          ],
+          "identifier": "15",
+          "bounds": {
+            "x": 34,
+            "y": 77,
+            "width": 752,
+            "height": 437
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Ctrl+A"
+        },
+        "recorded_at": 0.458,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Text Editor",
+        "window_context": {
+          "key": "hwnd:393234",
+          "identity": "hwnd:393234",
+          "role": "window"
+        }
+      },
+      {
+        "id": "6f47a66927b7455c8eeab2257f8424eb",
+        "kind": "input",
+        "app": "app1",
+        "window": "*Untitled - Notepad",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": "Text Editor",
+          "ancestors": [
+            {
+              "role": "window",
+              "name": "*Untitled - Notepad"
+            }
+          ],
+          "identifier": "15",
+          "bounds": {
+            "x": 34,
+            "y": 77,
+            "width": 752,
+            "height": 437
+          }
+        },
+        "action": "replace_text",
+        "arguments": {
+          "value": "Bokkio UX first"
+        },
+        "recorded_at": 1.662,
+        "wait": [],
+        "verify": [
+          {
+            "role": "text_area",
+            "name": "Text Editor",
+            "field": "value",
+            "equals": "Bokkio UX first"
+          }
+        ],
+        "timeout": 10,
+        "label": "Text Editor",
+        "window_context": {
+          "key": "hwnd:393234",
+          "identity": "hwnd:393234",
+          "role": "window"
+        }
+      },
+      {
+        "id": "65f788d0666b41f1af77b679fc1edf31",
+        "kind": "input",
+        "app": "app1",
+        "window": "*Untitled - Notepad",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": "Text Editor",
+          "ancestors": [
+            {
+              "role": "window",
+              "name": "*Untitled - Notepad"
+            }
+          ],
+          "identifier": "15",
+          "bounds": {
+            "x": 34,
+            "y": 77,
+            "width": 752,
+            "height": 437
+          },
+          "point": {
+            "x": 0.5,
+            "y": 0.5011441647597255
+          }
+        },
+        "action": "click",
+        "arguments": {
+          "duration": 0.05
+        },
+        "recorded_at": 1.633,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Text Editor",
+        "window_context": {
+          "key": "hwnd:393234",
+          "identity": "hwnd:393234",
+          "role": "window"
+        }
+      },
+      {
+        "id": "ac6d6b4918324068949c745417a59ab2",
+        "kind": "input",
+        "app": "app1",
+        "window": "*Untitled - Notepad",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": "Text Editor",
+          "ancestors": [
+            {
+              "role": "window",
+              "name": "*Untitled - Notepad"
+            }
+          ],
+          "identifier": "15",
+          "bounds": {
+            "x": 34,
+            "y": 77,
+            "width": 752,
+            "height": 437
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Ctrl+A"
+        },
+        "recorded_at": 1.686,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Text Editor",
+        "window_context": {
+          "key": "hwnd:393234",
+          "identity": "hwnd:393234",
+          "role": "window"
+        }
+      },
+      {
+        "id": "5ef8af7ddac2444d86c39dbef43e20e8",
+        "kind": "input",
+        "app": "app1",
+        "window": "*Untitled - Notepad",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": "Text Editor",
+          "ancestors": [
+            {
+              "role": "window",
+              "name": "*Untitled - Notepad"
+            }
+          ],
+          "identifier": "15",
+          "bounds": {
+            "x": 34,
+            "y": 77,
+            "width": 752,
+            "height": 437
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Win+R"
+        },
+        "recorded_at": 2.366,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Text Editor",
+        "window_context": {
+          "key": "hwnd:393234",
+          "identity": "hwnd:393234",
+          "role": "window"
+        }
+      }
+    ],
+    "platform": "win32",
+    "recording": {
+      "started_at": 1792070820.3045285
+    }
+  },
+  "issues": [
+    {
+      "id": "d9cf6f9ef583485da76aef45047d98c7",
+      "reason": "UI Automation observation failed: (-2147220991, 'An event was unable to invoke any of the subscribers', (None, None, None, 0, None))",
+      "resolved": false
+    },
+    {
+      "id": "07a5c2bd55454d75a37ce2fc524166b0",
+      "reason": "UI Automation observation failed: (-2147220991, 'An event was unable to invoke any of the subscribers', (None, None, None, 0, None))",
+      "resolved": false
+    },
+    {
+      "id": "59c7230dde814e8698f513f4052e7f9b",
+      "reason": "UI Automation observation failed: (-2147220991, 'An event was unable to invoke any of the subscribers', (None, None, None, 0, None))",
+      "resolved": false
+    },
+    {
+      "id": "da492f49813c4e31b0ab9d3e97697892",
+      "reason": "UI Automation observation failed: (-2147220991, 'An event was unable to invoke any of the subscribers', (None, None, None, 0, None))",
+      "resolved": false
+    },
+    {
+      "id": "2e73cbbd676e431681d25eeff8a6e8bd",
+      "reason": "UI Automation observation failed: (-2147220991, 'An event was unable to invoke any of the subscribers', (None, None, None, 0, None))",
+      "resolved": false
+    },
+    {
+      "id": "c82a15adf7a44a17afb8a2666899cc11",
+      "reason": "UI Automation observation failed: (-2147220991, 'An event was unable to invoke any of the subscribers', (None, None, None, 0, None))",
+      "resolved": false
+    },
+    {
+      "id": "eed5ddb3cc5540438e8301dea6e1306f",
+      "reason": "UI Automation observation failed: (-2147220991, 'An event was unable to invoke any of the subscribers', (None, None, None, 0, None))",
+      "resolved": false
+    }
+  ],
+  "failure": "AssertionError [ERR_ASSERTION]: no_capture_issues\n    at check (C:\\BokkioDesktop\\desktop\\tests\\bokkio-desktop-ux.cjs:9:95)\n    at C:\\BokkioDesktop\\desktop\\tests\\bokkio-desktop-ux.cjs:37:2",
+  "finished_at": "2026-10-15T13:27:08.067Z",
+  "passed": 5,
+  "total": 6
+}

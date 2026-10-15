@@ -1,0 +1,1597 @@
+{
+  "contract": "visible_UI_only",
+  "platform": "win32",
+  "checks": [
+    {
+      "name": "new_workflow_has_no_app_picker",
+      "passed": true
+    },
+    {
+      "name": "paused_input_excluded",
+      "passed": true
+    },
+    {
+      "name": "visible_stop_finishes",
+      "passed": true,
+      "detail": {
+        "milliseconds": 875
+      }
+    },
+    {
+      "name": "both_apps_automatically_recorded",
+      "passed": true
+    },
+    {
+      "name": "bokkio_controls_excluded",
+      "passed": true
+    },
+    {
+      "name": "no_capture_issues",
+      "passed": true
+    },
+    {
+      "name": "paused_value_not_saved",
+      "passed": true
+    },
+    {
+      "name": "stopped_recorder_cannot_append",
+      "passed": true
+    },
+    {
+      "name": "saved_workflow_matches_recording",
+      "passed": true
+    },
+    {
+      "name": "UI_replay_completed",
+      "passed": true
+    },
+    {
+      "name": "real_editor_result",
+      "passed": true
+    },
+    {
+      "name": "real_second_app_result",
+      "passed": false
+    }
+  ],
+  "actions": [
+    {
+      "surface": "native app",
+      "command": "close-second",
+      "at": 1792071294765,
+      "observed": {
+        "editor": "Bokkio UX first",
+        "font": null
+      }
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "",
+      "at": 1792071295650,
+      "observed": {
+        "editor": "Bokkio UX first",
+        "font": null
+      }
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "新建 Workflow",
+      "at": 1792071297602
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "开始录制",
+      "at": 1792071297747
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "Bokkio UX first",
+      "at": 1792071299995,
+      "observed": {
+        "editor": "Bokkio UX first",
+        "font": null
+      }
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "暂停",
+      "at": 1792071300004
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "PAUSED INPUT MUST NOT APPEAR",
+      "at": 1792071301779,
+      "observed": {
+        "editor": "PAUSED INPUT MUST NOT APPEAR",
+        "font": null
+      }
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "继续",
+      "at": 1792071301779
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "Bokkio UX first",
+      "at": 1792071302983,
+      "observed": {
+        "editor": "Bokkio UX first",
+        "font": null
+      }
+    },
+    {
+      "surface": "native app",
+      "command": "open-second",
+      "at": 1792071304273,
+      "observed": {
+        "editor": "Bokkio UX first",
+        "font": "Arial"
+      }
+    },
+    {
+      "surface": "native app",
+      "command": "font",
+      "value": "Courier New",
+      "at": 1792071305500,
+      "observed": {
+        "editor": "Bokkio UX first",
+        "font": "Arial"
+      }
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "Bokkio UX cross-app done",
+      "at": 1792071306385,
+      "observed": {
+        "editor": "Bokkio UX cross-app done",
+        "font": "Arial"
+      }
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "停止并编辑",
+      "at": 1792071306422
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "AFTER STOP MUST NOT APPEAR",
+      "at": 1792071308216,
+      "observed": {
+        "editor": "AFTER STOP MUST NOT APPEAR",
+        "font": "Arial"
+      }
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "保存",
+      "at": 1792071308632
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "录制",
+      "at": 1792071308785
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "",
+      "at": 1792071309765,
+      "observed": {
+        "editor": "AFTER STOP MUST NOT APPEAR",
+        "font": "Arial"
+      }
+    },
+    {
+      "surface": "native app",
+      "command": "font",
+      "value": "Arial",
+      "at": 1792071310675,
+      "observed": {
+        "editor": "AFTER STOP MUST NOT APPEAR",
+        "font": "Arial"
+      }
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "回放",
+      "at": 1792071310681
+    },
+    {
+      "surface": "native app",
+      "command": "read",
+      "at": 1792071323305,
+      "observed": {
+        "editor": "Bokkio UX cross-app done",
+        "font": "Arial"
+      }
+    }
+  ],
+  "errors": [],
+  "stop_ms": 875,
+  "workflow": {
+    "schema": "bokkio.runtime-workflow.v2",
+    "id": "0360d013194b4480ace329bc80ab4b2c",
+    "name": "UX · Notepad → Character Map → Notepad",
+    "revision": 1,
+    "parent_sha256": null,
+    "apps": {
+      "app1": {
+        "name": "notepad",
+        "path": "C:\\Windows\\System32\\notepad.exe",
+        "bundle_id": ""
+      },
+      "app2": {
+        "name": "charmap",
+        "path": "C:\\Windows\\System32\\charmap.exe",
+        "bundle_id": ""
+      }
+    },
+    "steps": [
+      {
+        "id": "9290e61d4a1c4f559668a2269b4cc4fd",
+        "kind": "input",
+        "app": "app1",
+        "window": "*Untitled - Notepad",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": "Text Editor",
+          "ancestors": [
+            {
+              "role": "window",
+              "name": "*Untitled - Notepad"
+            }
+          ],
+          "identifier": "15",
+          "bounds": {
+            "x": 34,
+            "y": 77,
+            "width": 752,
+            "height": 437
+          },
+          "point": {
+            "x": 0.5,
+            "y": 0.5011441647597255
+          }
+        },
+        "action": "click",
+        "arguments": {
+          "duration": 0.05
+        },
+        "recorded_at": 0.829,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Text Editor",
+        "window_context": {
+          "key": "hwnd:393234",
+          "identity": "hwnd:393234",
+          "role": "window"
+        }
+      },
+      {
+        "id": "5e2269f0155d47f7a1f17ddfc3265a26",
+        "kind": "input",
+        "app": "app1",
+        "window": "*Untitled - Notepad",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": "Text Editor",
+          "ancestors": [
+            {
+              "role": "window",
+              "name": "*Untitled - Notepad"
+            }
+          ],
+          "identifier": "15",
+          "bounds": {
+            "x": 34,
+            "y": 77,
+            "width": 752,
+            "height": 437
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Ctrl+A"
+        },
+        "recorded_at": 0.878,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Text Editor",
+        "window_context": {
+          "key": "hwnd:393234",
+          "identity": "hwnd:393234",
+          "role": "window"
+        }
+      },
+      {
+        "id": "6621c6efb6d14367adf012ee726885d4",
+        "kind": "input",
+        "app": "app1",
+        "window": "*Untitled - Notepad",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": "Text Editor",
+          "ancestors": [
+            {
+              "role": "window",
+              "name": "*Untitled - Notepad"
+            }
+          ],
+          "identifier": "15",
+          "bounds": {
+            "x": 34,
+            "y": 77,
+            "width": 752,
+            "height": 437
+          }
+        },
+        "action": "replace_text",
+        "arguments": {
+          "value": "Bokkio UX first"
+        },
+        "recorded_at": 0.878,
+        "wait": [],
+        "verify": [
+          {
+            "role": "text_area",
+            "name": "Text Editor",
+            "field": "value",
+            "equals": "Bokkio UX first"
+          }
+        ],
+        "timeout": 10,
+        "label": "Text Editor",
+        "window_context": {
+          "key": "hwnd:393234",
+          "identity": "hwnd:393234",
+          "role": "window"
+        }
+      },
+      {
+        "id": "18e2ac13c80d43e4846981e7fc667d95",
+        "kind": "input",
+        "app": "app1",
+        "window": "*Untitled - Notepad",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": "Text Editor",
+          "ancestors": [
+            {
+              "role": "window",
+              "name": "*Untitled - Notepad"
+            }
+          ],
+          "identifier": "15",
+          "bounds": {
+            "x": 34,
+            "y": 77,
+            "width": 752,
+            "height": 437
+          },
+          "point": {
+            "x": 0.5,
+            "y": 0.5011441647597255
+          }
+        },
+        "action": "click",
+        "arguments": {
+          "duration": 0.05
+        },
+        "recorded_at": 2.032,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Text Editor",
+        "window_context": {
+          "key": "hwnd:393234",
+          "identity": "hwnd:393234",
+          "role": "window"
+        }
+      },
+      {
+        "id": "8d7383e2282a40638085c5d14131485e",
+        "kind": "input",
+        "app": "app1",
+        "window": "*Untitled - Notepad",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": "Text Editor",
+          "ancestors": [
+            {
+              "role": "window",
+              "name": "*Untitled - Notepad"
+            }
+          ],
+          "identifier": "15",
+          "bounds": {
+            "x": 34,
+            "y": 77,
+            "width": 752,
+            "height": 437
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Ctrl+A"
+        },
+        "recorded_at": 2.071,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Text Editor",
+        "window_context": {
+          "key": "hwnd:393234",
+          "identity": "hwnd:393234",
+          "role": "window"
+        }
+      },
+      {
+        "id": "63b662ee238547f28fb91a3ad7d47e2e",
+        "kind": "input",
+        "app": "app1",
+        "window": "*Untitled - Notepad",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": "Text Editor",
+          "ancestors": [
+            {
+              "role": "window",
+              "name": "*Untitled - Notepad"
+            }
+          ],
+          "identifier": "15",
+          "bounds": {
+            "x": 34,
+            "y": 77,
+            "width": 752,
+            "height": 437
+          }
+        },
+        "action": "replace_text",
+        "arguments": {
+          "value": "Bokkio UX first"
+        },
+        "recorded_at": 2.133,
+        "wait": [],
+        "verify": [
+          {
+            "role": "text_area",
+            "name": "Text Editor",
+            "field": "value",
+            "equals": "Bokkio UX first"
+          }
+        ],
+        "timeout": 10,
+        "label": "Text Editor",
+        "window_context": {
+          "key": "hwnd:393234",
+          "identity": "hwnd:393234",
+          "role": "window"
+        }
+      },
+      {
+        "id": "620e460d3e19473eb68880f90f2cbe76",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          },
+          "point": {
+            "x": 0.4984423676012461,
+            "y": 0.5
+          }
+        },
+        "action": "click",
+        "arguments": {
+          "duration": 0.05
+        },
+        "recorded_at": 4.233,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:131924",
+          "identity": "hwnd:131924",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "ecbf967bb1804eeebbc3e384eedddddd",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Ctrl+A"
+        },
+        "recorded_at": 4.865,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:131924",
+          "identity": "hwnd:131924",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "72f76605e4c14bf28a94ea31bcea6452",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "replace_text",
+        "arguments": {
+          "value": "Arial"
+        },
+        "recorded_at": 4.875,
+        "wait": [],
+        "verify": [
+          {
+            "role": "combo_box",
+            "name": "Font :",
+            "field": "value",
+            "equals": "Arial"
+          }
+        ],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:131924",
+          "identity": "hwnd:131924",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "2e9295a358914b9c96f4a2da272ef925",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Enter"
+        },
+        "recorded_at": 4.881,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:131924",
+          "identity": "hwnd:131924",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "9730b23c306247a38ba027155b7a29bd",
+        "kind": "input",
+        "app": "app1",
+        "window": "*Untitled - Notepad",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": "Text Editor",
+          "ancestors": [
+            {
+              "role": "window",
+              "name": "*Untitled - Notepad"
+            }
+          ],
+          "identifier": "15",
+          "bounds": {
+            "x": 34,
+            "y": 77,
+            "width": 752,
+            "height": 437
+          }
+        },
+        "action": "replace_text",
+        "arguments": {
+          "value": "Bokkio UX cross-ap"
+        },
+        "recorded_at": 5.45,
+        "wait": [],
+        "verify": [
+          {
+            "role": "text_area",
+            "name": "Text Editor",
+            "field": "value",
+            "equals": "Bokkio UX cross-ap"
+          }
+        ],
+        "timeout": 10,
+        "label": "Text Editor",
+        "window_context": {
+          "key": "hwnd:393234",
+          "identity": "hwnd:393234",
+          "role": "window"
+        }
+      },
+      {
+        "id": "fc2cc251cc384286951095727c2c7974",
+        "kind": "input",
+        "app": "app1",
+        "window": "*Untitled - Notepad",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": "Text Editor",
+          "ancestors": [
+            {
+              "role": "window",
+              "name": "*Untitled - Notepad"
+            }
+          ],
+          "identifier": "15",
+          "bounds": {
+            "x": 34,
+            "y": 77,
+            "width": 752,
+            "height": 437
+          },
+          "point": {
+            "x": 0.5,
+            "y": 0.5011441647597255
+          }
+        },
+        "action": "click",
+        "arguments": {
+          "duration": 0.05
+        },
+        "recorded_at": 5.423,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Text Editor",
+        "window_context": {
+          "key": "hwnd:393234",
+          "identity": "hwnd:393234",
+          "role": "window"
+        }
+      },
+      {
+        "id": "9b2cb06481624dd4b5f58eb314cd0c09",
+        "kind": "input",
+        "app": "app1",
+        "window": "*Untitled - Notepad",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": "Text Editor",
+          "ancestors": [
+            {
+              "role": "window",
+              "name": "*Untitled - Notepad"
+            }
+          ],
+          "identifier": "15",
+          "bounds": {
+            "x": 34,
+            "y": 77,
+            "width": 752,
+            "height": 437
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Ctrl+A"
+        },
+        "recorded_at": 5.477,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Text Editor",
+        "window_context": {
+          "key": "hwnd:393234",
+          "identity": "hwnd:393234",
+          "role": "window"
+        }
+      },
+      {
+        "id": "dc9175bf10024b6c96e8afe9efe77102",
+        "kind": "input",
+        "app": "app1",
+        "window": "*Untitled - Notepad",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": "Text Editor",
+          "ancestors": [
+            {
+              "role": "window",
+              "name": "*Untitled - Notepad"
+            }
+          ],
+          "identifier": "15",
+          "bounds": {
+            "x": 34,
+            "y": 77,
+            "width": 752,
+            "height": 437
+          }
+        },
+        "action": "replace_text",
+        "arguments": {
+          "value": "Bokkio UX cross-app done"
+        },
+        "recorded_at": 5.542,
+        "wait": [],
+        "verify": [
+          {
+            "role": "text_area",
+            "name": "Text Editor",
+            "field": "value",
+            "equals": "Bokkio UX cross-app done"
+          }
+        ],
+        "timeout": 10,
+        "label": "Text Editor",
+        "window_context": {
+          "key": "hwnd:393234",
+          "identity": "hwnd:393234",
+          "role": "window"
+        }
+      }
+    ],
+    "platform": "win32",
+    "recording": {
+      "started_at": 1792071298.7515566
+    }
+  },
+  "issues": [],
+  "actual": {
+    "editor": "Bokkio UX cross-app done",
+    "font": "Arial"
+  },
+  "runs": [
+    {
+      "id": "25e3232d139c4eac973e4c5db4f414db",
+      "workflow": {
+        "schema": "bokkio.runtime-workflow.v2",
+        "id": "0360d013194b4480ace329bc80ab4b2c",
+        "name": "UX · Notepad → Character Map → Notepad",
+        "revision": 1,
+        "parent_sha256": null,
+        "apps": {
+          "app1": {
+            "name": "notepad",
+            "path": "C:\\Windows\\System32\\notepad.exe",
+            "bundle_id": ""
+          },
+          "app2": {
+            "name": "charmap",
+            "path": "C:\\Windows\\System32\\charmap.exe",
+            "bundle_id": ""
+          }
+        },
+        "steps": [
+          {
+            "id": "9290e61d4a1c4f559668a2269b4cc4fd",
+            "kind": "input",
+            "app": "app1",
+            "window": "*Untitled - Notepad",
+            "target": {
+              "ref": "captured",
+              "role": "text_area",
+              "name": "Text Editor",
+              "ancestors": [
+                {
+                  "role": "window",
+                  "name": "*Untitled - Notepad"
+                }
+              ],
+              "identifier": "15",
+              "bounds": {
+                "x": 34,
+                "y": 77,
+                "width": 752,
+                "height": 437
+              },
+              "point": {
+                "x": 0.5,
+                "y": 0.5011441647597255
+              }
+            },
+            "action": "click",
+            "arguments": {
+              "duration": 0.05
+            },
+            "recorded_at": 0.829,
+            "wait": [],
+            "verify": [],
+            "timeout": 10,
+            "label": "Text Editor",
+            "window_context": {
+              "key": "hwnd:393234",
+              "identity": "hwnd:393234",
+              "role": "window"
+            }
+          },
+          {
+            "id": "5e2269f0155d47f7a1f17ddfc3265a26",
+            "kind": "input",
+            "app": "app1",
+            "window": "*Untitled - Notepad",
+            "target": {
+              "ref": "captured",
+              "role": "text_area",
+              "name": "Text Editor",
+              "ancestors": [
+                {
+                  "role": "window",
+                  "name": "*Untitled - Notepad"
+                }
+              ],
+              "identifier": "15",
+              "bounds": {
+                "x": 34,
+                "y": 77,
+                "width": 752,
+                "height": 437
+              }
+            },
+            "action": "key",
+            "arguments": {
+              "key": "Ctrl+A"
+            },
+            "recorded_at": 0.878,
+            "wait": [],
+            "verify": [],
+            "timeout": 10,
+            "label": "Text Editor",
+            "window_context": {
+              "key": "hwnd:393234",
+              "identity": "hwnd:393234",
+              "role": "window"
+            }
+          },
+          {
+            "id": "6621c6efb6d14367adf012ee726885d4",
+            "kind": "input",
+            "app": "app1",
+            "window": "*Untitled - Notepad",
+            "target": {
+              "ref": "captured",
+              "role": "text_area",
+              "name": "Text Editor",
+              "ancestors": [
+                {
+                  "role": "window",
+                  "name": "*Untitled - Notepad"
+                }
+              ],
+              "identifier": "15",
+              "bounds": {
+                "x": 34,
+                "y": 77,
+                "width": 752,
+                "height": 437
+              }
+            },
+            "action": "replace_text",
+            "arguments": {
+              "value": "Bokkio UX first"
+            },
+            "recorded_at": 0.878,
+            "wait": [],
+            "verify": [
+              {
+                "role": "text_area",
+                "name": "Text Editor",
+                "field": "value",
+                "equals": "Bokkio UX first"
+              }
+            ],
+            "timeout": 10,
+            "label": "Text Editor",
+            "window_context": {
+              "key": "hwnd:393234",
+              "identity": "hwnd:393234",
+              "role": "window"
+            }
+          },
+          {
+            "id": "18e2ac13c80d43e4846981e7fc667d95",
+            "kind": "input",
+            "app": "app1",
+            "window": "*Untitled - Notepad",
+            "target": {
+              "ref": "captured",
+              "role": "text_area",
+              "name": "Text Editor",
+              "ancestors": [
+                {
+                  "role": "window",
+                  "name": "*Untitled - Notepad"
+                }
+              ],
+              "identifier": "15",
+              "bounds": {
+                "x": 34,
+                "y": 77,
+                "width": 752,
+                "height": 437
+              },
+              "point": {
+                "x": 0.5,
+                "y": 0.5011441647597255
+              }
+            },
+            "action": "click",
+            "arguments": {
+              "duration": 0.05
+            },
+            "recorded_at": 2.032,
+            "wait": [],
+            "verify": [],
+            "timeout": 10,
+            "label": "Text Editor",
+            "window_context": {
+              "key": "hwnd:393234",
+              "identity": "hwnd:393234",
+              "role": "window"
+            }
+          },
+          {
+            "id": "8d7383e2282a40638085c5d14131485e",
+            "kind": "input",
+            "app": "app1",
+            "window": "*Untitled - Notepad",
+            "target": {
+              "ref": "captured",
+              "role": "text_area",
+              "name": "Text Editor",
+              "ancestors": [
+                {
+                  "role": "window",
+                  "name": "*Untitled - Notepad"
+                }
+              ],
+              "identifier": "15",
+              "bounds": {
+                "x": 34,
+                "y": 77,
+                "width": 752,
+                "height": 437
+              }
+            },
+            "action": "key",
+            "arguments": {
+              "key": "Ctrl+A"
+            },
+            "recorded_at": 2.071,
+            "wait": [],
+            "verify": [],
+            "timeout": 10,
+            "label": "Text Editor",
+            "window_context": {
+              "key": "hwnd:393234",
+              "identity": "hwnd:393234",
+              "role": "window"
+            }
+          },
+          {
+            "id": "63b662ee238547f28fb91a3ad7d47e2e",
+            "kind": "input",
+            "app": "app1",
+            "window": "*Untitled - Notepad",
+            "target": {
+              "ref": "captured",
+              "role": "text_area",
+              "name": "Text Editor",
+              "ancestors": [
+                {
+                  "role": "window",
+                  "name": "*Untitled - Notepad"
+                }
+              ],
+              "identifier": "15",
+              "bounds": {
+                "x": 34,
+                "y": 77,
+                "width": 752,
+                "height": 437
+              }
+            },
+            "action": "replace_text",
+            "arguments": {
+              "value": "Bokkio UX first"
+            },
+            "recorded_at": 2.133,
+            "wait": [],
+            "verify": [
+              {
+                "role": "text_area",
+                "name": "Text Editor",
+                "field": "value",
+                "equals": "Bokkio UX first"
+              }
+            ],
+            "timeout": 10,
+            "label": "Text Editor",
+            "window_context": {
+              "key": "hwnd:393234",
+              "identity": "hwnd:393234",
+              "role": "window"
+            }
+          },
+          {
+            "id": "620e460d3e19473eb68880f90f2cbe76",
+            "kind": "input",
+            "app": "app2",
+            "window": "Character Map",
+            "target": {
+              "ref": "captured",
+              "role": "combo_box",
+              "name": "Font :",
+              "ancestors": [
+                {
+                  "role": "dialog",
+                  "name": "Character Map"
+                }
+              ],
+              "identifier": "105",
+              "bounds": {
+                "x": 86,
+                "y": 106,
+                "width": 321,
+                "height": 30
+              },
+              "point": {
+                "x": 0.4984423676012461,
+                "y": 0.5
+              }
+            },
+            "action": "click",
+            "arguments": {
+              "duration": 0.05
+            },
+            "recorded_at": 4.233,
+            "wait": [],
+            "verify": [],
+            "timeout": 10,
+            "label": "Font :",
+            "window_context": {
+              "key": "hwnd:131924",
+              "identity": "hwnd:131924",
+              "role": "dialog"
+            }
+          },
+          {
+            "id": "ecbf967bb1804eeebbc3e384eedddddd",
+            "kind": "input",
+            "app": "app2",
+            "window": "Character Map",
+            "target": {
+              "ref": "captured",
+              "role": "combo_box",
+              "name": "Font :",
+              "ancestors": [
+                {
+                  "role": "dialog",
+                  "name": "Character Map"
+                }
+              ],
+              "identifier": "105",
+              "bounds": {
+                "x": 86,
+                "y": 106,
+                "width": 321,
+                "height": 30
+              }
+            },
+            "action": "key",
+            "arguments": {
+              "key": "Ctrl+A"
+            },
+            "recorded_at": 4.865,
+            "wait": [],
+            "verify": [],
+            "timeout": 10,
+            "label": "Font :",
+            "window_context": {
+              "key": "hwnd:131924",
+              "identity": "hwnd:131924",
+              "role": "dialog"
+            }
+          },
+          {
+            "id": "72f76605e4c14bf28a94ea31bcea6452",
+            "kind": "input",
+            "app": "app2",
+            "window": "Character Map",
+            "target": {
+              "ref": "captured",
+              "role": "combo_box",
+              "name": "Font :",
+              "ancestors": [
+                {
+                  "role": "dialog",
+                  "name": "Character Map"
+                }
+              ],
+              "identifier": "105",
+              "bounds": {
+                "x": 86,
+                "y": 106,
+                "width": 321,
+                "height": 30
+              }
+            },
+            "action": "replace_text",
+            "arguments": {
+              "value": "Arial"
+            },
+            "recorded_at": 4.875,
+            "wait": [],
+            "verify": [
+              {
+                "role": "combo_box",
+                "name": "Font :",
+                "field": "value",
+                "equals": "Arial"
+              }
+            ],
+            "timeout": 10,
+            "label": "Font :",
+            "window_context": {
+              "key": "hwnd:131924",
+              "identity": "hwnd:131924",
+              "role": "dialog"
+            }
+          },
+          {
+            "id": "2e9295a358914b9c96f4a2da272ef925",
+            "kind": "input",
+            "app": "app2",
+            "window": "Character Map",
+            "target": {
+              "ref": "captured",
+              "role": "combo_box",
+              "name": "Font :",
+              "ancestors": [
+                {
+                  "role": "dialog",
+                  "name": "Character Map"
+                }
+              ],
+              "identifier": "105",
+              "bounds": {
+                "x": 86,
+                "y": 106,
+                "width": 321,
+                "height": 30
+              }
+            },
+            "action": "key",
+            "arguments": {
+              "key": "Enter"
+            },
+            "recorded_at": 4.881,
+            "wait": [],
+            "verify": [],
+            "timeout": 10,
+            "label": "Font :",
+            "window_context": {
+              "key": "hwnd:131924",
+              "identity": "hwnd:131924",
+              "role": "dialog"
+            }
+          },
+          {
+            "id": "9730b23c306247a38ba027155b7a29bd",
+            "kind": "input",
+            "app": "app1",
+            "window": "*Untitled - Notepad",
+            "target": {
+              "ref": "captured",
+              "role": "text_area",
+              "name": "Text Editor",
+              "ancestors": [
+                {
+                  "role": "window",
+                  "name": "*Untitled - Notepad"
+                }
+              ],
+              "identifier": "15",
+              "bounds": {
+                "x": 34,
+                "y": 77,
+                "width": 752,
+                "height": 437
+              }
+            },
+            "action": "replace_text",
+            "arguments": {
+              "value": "Bokkio UX cross-ap"
+            },
+            "recorded_at": 5.45,
+            "wait": [],
+            "verify": [
+              {
+                "role": "text_area",
+                "name": "Text Editor",
+                "field": "value",
+                "equals": "Bokkio UX cross-ap"
+              }
+            ],
+            "timeout": 10,
+            "label": "Text Editor",
+            "window_context": {
+              "key": "hwnd:393234",
+              "identity": "hwnd:393234",
+              "role": "window"
+            }
+          },
+          {
+            "id": "fc2cc251cc384286951095727c2c7974",
+            "kind": "input",
+            "app": "app1",
+            "window": "*Untitled - Notepad",
+            "target": {
+              "ref": "captured",
+              "role": "text_area",
+              "name": "Text Editor",
+              "ancestors": [
+                {
+                  "role": "window",
+                  "name": "*Untitled - Notepad"
+                }
+              ],
+              "identifier": "15",
+              "bounds": {
+                "x": 34,
+                "y": 77,
+                "width": 752,
+                "height": 437
+              },
+              "point": {
+                "x": 0.5,
+                "y": 0.5011441647597255
+              }
+            },
+            "action": "click",
+            "arguments": {
+              "duration": 0.05
+            },
+            "recorded_at": 5.423,
+            "wait": [],
+            "verify": [],
+            "timeout": 10,
+            "label": "Text Editor",
+            "window_context": {
+              "key": "hwnd:393234",
+              "identity": "hwnd:393234",
+              "role": "window"
+            }
+          },
+          {
+            "id": "9b2cb06481624dd4b5f58eb314cd0c09",
+            "kind": "input",
+            "app": "app1",
+            "window": "*Untitled - Notepad",
+            "target": {
+              "ref": "captured",
+              "role": "text_area",
+              "name": "Text Editor",
+              "ancestors": [
+                {
+                  "role": "window",
+                  "name": "*Untitled - Notepad"
+                }
+              ],
+              "identifier": "15",
+              "bounds": {
+                "x": 34,
+                "y": 77,
+                "width": 752,
+                "height": 437
+              }
+            },
+            "action": "key",
+            "arguments": {
+              "key": "Ctrl+A"
+            },
+            "recorded_at": 5.477,
+            "wait": [],
+            "verify": [],
+            "timeout": 10,
+            "label": "Text Editor",
+            "window_context": {
+              "key": "hwnd:393234",
+              "identity": "hwnd:393234",
+              "role": "window"
+            }
+          },
+          {
+            "id": "dc9175bf10024b6c96e8afe9efe77102",
+            "kind": "input",
+            "app": "app1",
+            "window": "*Untitled - Notepad",
+            "target": {
+              "ref": "captured",
+              "role": "text_area",
+              "name": "Text Editor",
+              "ancestors": [
+                {
+                  "role": "window",
+                  "name": "*Untitled - Notepad"
+                }
+              ],
+              "identifier": "15",
+              "bounds": {
+                "x": 34,
+                "y": 77,
+                "width": 752,
+                "height": 437
+              }
+            },
+            "action": "replace_text",
+            "arguments": {
+              "value": "Bokkio UX cross-app done"
+            },
+            "recorded_at": 5.542,
+            "wait": [],
+            "verify": [
+              {
+                "role": "text_area",
+                "name": "Text Editor",
+                "field": "value",
+                "equals": "Bokkio UX cross-app done"
+              }
+            ],
+            "timeout": 10,
+            "label": "Text Editor",
+            "window_context": {
+              "key": "hwnd:393234",
+              "identity": "hwnd:393234",
+              "role": "window"
+            }
+          }
+        ],
+        "platform": "win32",
+        "recording": {
+          "started_at": 1792071298.7515566
+        },
+        "sha256": "b92502013ac20b24dd7bab6fe1412a23648e60c1d27aef6c4a6c9db4e17fa01d"
+      },
+      "workflow_sha256": "b92502013ac20b24dd7bab6fe1412a23648e60c1d27aef6c4a6c9db4e17fa01d",
+      "bound_sha256": "0a180cbbcea6709e3da710859f3daae072a7aaa1843a39b4568f9fc2acf1930b",
+      "parameters": {},
+      "repeat": 1,
+      "cycle": 1,
+      "speed": 5,
+      "single": false,
+      "session_id": "a135dd0ae0004ea79c4ad9c462c5d6ca",
+      "mode": "headed",
+      "status": "completed",
+      "index": 14,
+      "steps": [
+        {
+          "step_id": "9290e61d4a1c4f559668a2269b4cc4fd",
+          "operation_id": "af3b6432b33f47268daa168a995c5a47",
+          "status": "completed",
+          "verification": "not_configured",
+          "cycle": 1
+        },
+        {
+          "step_id": "5e2269f0155d47f7a1f17ddfc3265a26",
+          "operation_id": "7b9b38318a1c4e2491b5fd1db1563131",
+          "status": "completed",
+          "verification": "not_configured",
+          "cycle": 1
+        },
+        {
+          "step_id": "6621c6efb6d14367adf012ee726885d4",
+          "operation_id": "507b201653364e039c6e5b51e0abd767",
+          "status": "completed",
+          "verification": "passed",
+          "cycle": 1
+        },
+        {
+          "step_id": "18e2ac13c80d43e4846981e7fc667d95",
+          "operation_id": "998bf0b8b03e4d9a9c6f5c30d291b060",
+          "status": "completed",
+          "verification": "not_configured",
+          "cycle": 1
+        },
+        {
+          "step_id": "8d7383e2282a40638085c5d14131485e",
+          "operation_id": "56c7d090994545cca8d36a173e248814",
+          "status": "completed",
+          "verification": "not_configured",
+          "cycle": 1
+        },
+        {
+          "step_id": "63b662ee238547f28fb91a3ad7d47e2e",
+          "operation_id": "1fca3285099d40bfa051d5cf5c7fd2e6",
+          "status": "completed",
+          "verification": "passed",
+          "cycle": 1
+        },
+        {
+          "step_id": "620e460d3e19473eb68880f90f2cbe76",
+          "operation_id": "a49532dfe9824f1cb0814ba2731a8730",
+          "status": "completed",
+          "verification": "not_configured",
+          "cycle": 1
+        },
+        {
+          "step_id": "ecbf967bb1804eeebbc3e384eedddddd",
+          "operation_id": "8c71d3b7b91b4a17bc9ad863dd7e4176",
+          "status": "completed",
+          "verification": "not_configured",
+          "cycle": 1
+        },
+        {
+          "step_id": "72f76605e4c14bf28a94ea31bcea6452",
+          "operation_id": "ab99f32ae25d43cb906f9698919b017c",
+          "status": "completed",
+          "verification": "passed",
+          "cycle": 1
+        },
+        {
+          "step_id": "2e9295a358914b9c96f4a2da272ef925",
+          "operation_id": "244842531c64485b8a55d74c828745bd",
+          "status": "completed",
+          "verification": "not_configured",
+          "cycle": 1
+        },
+        {
+          "step_id": "9730b23c306247a38ba027155b7a29bd",
+          "operation_id": "5d8e3dcbb7db4357ae7d8c958591c0ee",
+          "status": "completed",
+          "verification": "passed",
+          "cycle": 1
+        },
+        {
+          "step_id": "fc2cc251cc384286951095727c2c7974",
+          "operation_id": "086eea1280914b4880743a6bcecc8216",
+          "status": "completed",
+          "verification": "not_configured",
+          "cycle": 1
+        },
+        {
+          "step_id": "9b2cb06481624dd4b5f58eb314cd0c09",
+          "operation_id": "54e05ab91c5e48eca99be5f25870a9fd",
+          "status": "completed",
+          "verification": "not_configured",
+          "cycle": 1
+        },
+        {
+          "step_id": "dc9175bf10024b6c96e8afe9efe77102",
+          "operation_id": "84a06db33be8494295946ca9823a598e",
+          "status": "completed",
+          "verification": "passed",
+          "cycle": 1
+        }
+      ],
+      "bindings": {
+        "app1": 2220,
+        "app2": 9936
+      },
+      "pending": null,
+      "timed_step": "1:dc9175bf10024b6c96e8afe9efe77102",
+      "last_receipt": {
+        "status": "executed",
+        "operation_id": "84a06db33be8494295946ca9823a598e",
+        "session_id": "a135dd0ae0004ea79c4ad9c462c5d6ca",
+        "dispatched": true,
+        "result": {
+          "status": "posted_unverified",
+          "dispatched": true,
+          "pid": 2220,
+          "transport": "Windows.SendInput",
+          "target": {
+            "ref": "d0218ca625b10668d2e5",
+            "role": "text_area",
+            "name": "Text Editor"
+          },
+          "verification": {
+            "status": "executed_not_business_verified"
+          }
+        }
+      },
+      "stale_refreshes": 0,
+      "window_bindings": {
+        "app1:hwnd:393234": {
+          "pid": 2220,
+          "identity": "hwnd:393234"
+        },
+        "app2:hwnd:131924": {
+          "pid": 9936,
+          "identity": "hwnd:131924"
+        }
+      }
+    }
+  ],
+  "failure": "AssertionError [ERR_ASSERTION]: real_second_app_result\n    at check (C:\\BokkioDesktop\\desktop\\tests\\bokkio-desktop-ux.cjs:9:95)\n    at C:\\BokkioDesktop\\desktop\\tests\\bokkio-desktop-ux.cjs:49:73",
+  "finished_at": "2026-10-15T13:35:23.307Z",
+  "passed": 11,
+  "total": 12
+}

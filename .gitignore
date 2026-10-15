@@ -24,3 +24,5 @@ desktop/dist/
 desktop/release/
 desktop/runtime/
 *.webm
+
+desktop/ux-results/

@@ -3,9 +3,11 @@ import ApplicationServices
 import Darwin
 
 // Passive only: no events are swallowed, replaced or posted by the recorder.
+let outputLock=NSLock()
 func emit(_ input:[String:Any]) {
     var body=input;body["timestamp"]=Date().timeIntervalSince1970
     if let data=try? JSONSerialization.data(withJSONObject:body,options:[.sortedKeys]) {
+        outputLock.lock();defer{outputLock.unlock()}
         FileHandle.standardOutput.write(data);FileHandle.standardOutput.write(Data([10]))
     }
 }
@@ -22,8 +24,14 @@ if CommandLine.arguments.contains("--environment") {
     exit(0)
 }
 let permitted=Set(CommandLine.arguments.dropFirst().compactMap{Int32($0)})
+let allApps=CommandLine.arguments.contains("--all")
+let excluded=Set(CommandLine.arguments.compactMap{ $0.hasPrefix("--exclude=") ? Int32($0.dropFirst(10)):nil })
+func permits(_ pid:pid_t)->Bool {
+    if excluded.contains(pid){return false}
+    return allApps ? NSRunningApplication(processIdentifier:pid)?.activationPolicy == .regular:permitted.contains(pid)
+}
 let recordingParent=getppid()
-if permitted.isEmpty {emit(["error":"Select applications before recording"]);exit(1)}
+if permitted.isEmpty && !allApps {emit(["error":"Select applications before recording"]);exit(1)}
 if !AXIsProcessTrusted() {emit(["error":"Accessibility permission is required; no permission prompt was requested"]);exit(1)}
 let system=AXUIElementCreateSystemWide()
 AXUIElementSetMessagingTimeout(system,0.15)
@@ -31,8 +39,15 @@ func attr(_ e:AXUIElement,_ name:String)->CFTypeRef? {
     var v:CFTypeRef?;return AXUIElementCopyAttributeValue(e,name as CFString,&v) == .success ? v:nil
 }
 func text(_ e:AXUIElement,_ name:String)->String {return attr(e,name) as? String ?? ""}
+func geometry(_ e:AXUIElement)->[String:Double] {
+    if let p=attr(e,"AXPosition"),let z=attr(e,"AXSize"),CFGetTypeID(p)==AXValueGetTypeID(),CFGetTypeID(z)==AXValueGetTypeID(){
+        var point=CGPoint.zero;var size=CGSize.zero
+        if AXValueGetValue(unsafeBitCast(p,to:AXValue.self),.cgPoint,&point),AXValueGetValue(unsafeBitCast(z,to:AXValue.self),.cgSize,&size){return ["x":point.x,"y":point.y,"width":size.width,"height":size.height]}
+    }
+    return [:]
+}
 func describe(_ e:AXUIElement)->[String:Any]? {
-    var pid:pid_t=0;guard AXUIElementGetPid(e,&pid) == .success,permitted.contains(pid) else{return nil}
+    var pid:pid_t=0;guard AXUIElementGetPid(e,&pid) == .success,permits(pid) else{return nil}
     AXUIElementSetMessagingTimeout(e,0.15)
     let role=text(e,"AXRole"),sub=text(e,"AXSubrole")
     if sub == "AXSecureTextField" {return ["pid":Int(pid),"kind":"unsupported","reason":"Secure input is excluded"]}
@@ -45,18 +60,17 @@ func describe(_ e:AXUIElement)->[String:Any]? {
         ancestors.append(["role":r,"name":text(current,"AXTitle").isEmpty ? text(current,"AXDescription"):text(current,"AXTitle")])
     }
     let name=text(e,"AXTitle").isEmpty ? text(e,"AXDescription"):text(e,"AXTitle")
-    var window="";var windowIdentity=""
-    if let w=attr(e,"AXWindow"),CFGetTypeID(w) == AXUIElementGetTypeID() {window=text(unsafeBitCast(w,to:AXUIElement.self),"AXTitle");windowIdentity="ax:"+String(CFHash(w))}
+    var window="";var windowIdentity="";var windowElement:AXUIElement?
+    if let w=attr(e,"AXWindow"),CFGetTypeID(w) == AXUIElementGetTypeID() {windowElement=unsafeBitCast(w,to:AXUIElement.self);window=text(windowElement!,"AXTitle");windowIdentity="ax:"+String(CFHash(w))}
     if window.isEmpty {
         let app=AXUIElementCreateApplication(pid)
-        if let w=attr(app,"AXFocusedWindow"),CFGetTypeID(w) == AXUIElementGetTypeID() {window=text(unsafeBitCast(w,to:AXUIElement.self),"AXTitle");windowIdentity="ax:"+String(CFHash(w))}
+        if let w=attr(app,"AXFocusedWindow"),CFGetTypeID(w) == AXUIElementGetTypeID() {windowElement=unsafeBitCast(w,to:AXUIElement.self);window=text(windowElement!,"AXTitle");windowIdentity="ax:"+String(CFHash(w))}
     }
-    var bounds:[String:Double]=[:]
-    if let p=attr(e,"AXPosition"),let z=attr(e,"AXSize"),CFGetTypeID(p)==AXValueGetTypeID(),CFGetTypeID(z)==AXValueGetTypeID(){
-        var point=CGPoint.zero;var size=CGSize.zero
-        if AXValueGetValue(unsafeBitCast(p,to:AXValue.self),.cgPoint,&point),AXValueGetValue(unsafeBitCast(z,to:AXValue.self),.cgSize,&size){bounds=["x":point.x,"y":point.y,"width":size.width,"height":size.height]}
-    }
-    return ["window_identity":windowIdentity,"bounds":bounds,"pid":Int(pid),"role":role,"name":name,"identifier":text(e,"AXIdentifier"),"ancestors":ancestors,"window":window]
+    let bounds=geometry(e)
+    var windowTarget:[String:Any]=[:]
+    if let w=windowElement {windowTarget=["role":text(w,"AXRole"),"name":window,"identifier":text(w,"AXIdentifier"),"bounds":geometry(w),"ancestors":[]]}
+    let application=NSRunningApplication(processIdentifier:pid)
+    return ["window_target":windowTarget,"captured":true,"app":["pid":Int(pid),"name":application?.localizedName ?? "","path":application?.bundleURL?.path ?? "","bundle_id":application?.bundleIdentifier ?? ""],"window_identity":windowIdentity,"bounds":bounds,"pid":Int(pid),"role":role,"name":name,"identifier":text(e,"AXIdentifier"),"ancestors":ancestors,"window":window]
 }
 var editWork:DispatchWorkItem?
 var editTarget:AXUIElement?
@@ -66,7 +80,7 @@ var clickOrigin=CGPoint.zero
 var clickMoved=false
 var scrolling:DispatchWorkItem?
 func focused()->AXUIElement? {
-    guard let pid=NSWorkspace.shared.frontmostApplication?.processIdentifier,permitted.contains(pid) else{return nil}
+    guard let pid=NSWorkspace.shared.frontmostApplication?.processIdentifier,permits(pid) else{return nil}
     let app=AXUIElementCreateApplication(pid)
     guard let p=attr(app,"AXFocusedUIElement"),CFGetTypeID(p) == AXUIElementGetTypeID() else{return nil}
     return unsafeBitCast(p,to:AXUIElement.self)
@@ -85,7 +99,7 @@ func emitEdit(_ element:AXUIElement) {
 }
 let observationQueue=DispatchQueue(label:"bokkio.record-observations",qos:.userInitiated)
 var dragReported=false
-func allowed(_ e:AXUIElement)->Bool {var pid:pid_t=0;return AXUIElementGetPid(e,&pid) == .success && permitted.contains(pid)}
+func allowed(_ e:AXUIElement)->Bool {var pid:pid_t=0;return AXUIElementGetPid(e,&pid) == .success && permits(pid)}
 let callback:CGEventTapCallBack={ _,type,event,_ in
     if type == .tapDisabledByTimeout || type == .tapDisabledByUserInput {
         emit(["error":"Recording event tap stopped; recording is incomplete"]);CFRunLoopStop(CFRunLoopGetMain());return Unmanaged.passUnretained(event)
@@ -95,7 +109,7 @@ let callback:CGEventTapCallBack={ _,type,event,_ in
         if let target=editTarget {editWork?.cancel();emitEdit(target);editTarget=nil;editWork=nil}
         var target:AXUIElement?
         if AXUIElementCopyElementAtPosition(system,Float(event.location.x),Float(event.location.y),&target) == .success,let e=target {clickTarget=e;clickBody=describe(e)}
-    } else if type == .leftMouseDragged {clickMoved=true
+    } else if type == .leftMouseDragged {clickMoved=clickMoved || hypot(event.location.x-clickOrigin.x,event.location.y-clickOrigin.y)>5
     } else if type == .leftMouseUp || type == .rightMouseUp {
         if var body=clickBody,body["kind"] == nil {
             body["kind"]=clickMoved ? "drag":type == .rightMouseUp ? "right_click":"click"
@@ -151,7 +165,8 @@ let poll=Timer(timeInterval:0.2,repeats:true){_ in
     guard pollGate.wait(timeout:.now()) == .success else{return}
     observationQueue.async{
     defer{pollGate.signal()}
-    for pid in permitted {
+    for pid in (allApps ? Set([NSWorkspace.shared.frontmostApplication?.processIdentifier ?? 0]):permitted) {
+    if !permits(pid){continue}
     let app=AXUIElementCreateApplication(pid);AXUIElementSetMessagingTimeout(app,0.15)
     guard let p=attr(app,"AXFocusedUIElement"),CFGetTypeID(p) == AXUIElementGetTypeID() else{continue}
     let e=unsafeBitCast(p,to:AXUIElement.self)

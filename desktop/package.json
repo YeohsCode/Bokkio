@@ -9,7 +9,8 @@
     "build": "tsc --noEmit && vite build",
     "start": "npm run build && electron .",
     "package": "npm run build && electron-builder --dir",
-    "test": "node --test electron/*.test.cjs"
+    "test": "node --test electron/*.test.cjs",
+    "test:ux": "node tests/bokkio-desktop-ux.cjs"
   },
   "dependencies": {
     "react": "19.3.0",

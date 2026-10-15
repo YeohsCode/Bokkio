@@ -157,7 +157,7 @@ def create_server(studio,port=0,token=None):
                 data=json.loads(self.rfile.read(size));path=urlparse(self.path).path
                 if path=='/api/workflows/save':result=studio.save_workflow(data['document'],data.get('expected_sha256'))
                 elif path=='/api/workflows/archive':studio.library.archive(data['id'],data['expected_sha256']);result={'archived':True}
-                elif path=='/api/record/start':result=studio.recorder_start(data['pids'],data.get('name','新 Workflow'))
+                elif path=='/api/record/start':result=studio.recorder_start(data.get('pids'),data.get('name','新 Workflow'))
                 elif path=='/api/record/pause':studio.record.pause();result=studio.record.preview()
                 elif path=='/api/record/resume':studio.record.start();result=studio.record.preview()
                 elif path=='/api/record/stop':result=studio.record.stop()

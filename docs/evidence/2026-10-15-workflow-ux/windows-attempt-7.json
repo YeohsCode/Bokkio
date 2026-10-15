@@ -1,0 +1,116 @@
+{
+  "contract": "visible_UI_only",
+  "platform": "win32",
+  "checks": [
+    {
+      "name": "new_workflow_has_no_app_picker",
+      "passed": true
+    },
+    {
+      "name": "paused_input_excluded",
+      "passed": true
+    },
+    {
+      "name": "UX_scenario_completed",
+      "passed": false,
+      "detail": "Native font selection must actually take effect\n+ actual - expected\n\n+ 'Agency FB'\n- 'Courier New'\n"
+    }
+  ],
+  "actions": [
+    {
+      "surface": "native app",
+      "command": "close-second",
+      "at": 1792072167334,
+      "observed": {
+        "editor": "AFTER STOP MUST NOT APPEAR",
+        "font": null
+      }
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "",
+      "at": 1792072168214,
+      "observed": {
+        "editor": "",
+        "font": null
+      }
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "新建 Workflow",
+      "at": 1792072168886
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "开始录制",
+      "at": 1792072169060
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "Bokkio UX first",
+      "at": 1792072170590,
+      "observed": {
+        "editor": "Bokkio UX first",
+        "font": null
+      }
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "暂停",
+      "at": 1792072170598
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "PAUSED INPUT MUST NOT APPEAR",
+      "at": 1792072172416,
+      "observed": {
+        "editor": "PAUSED INPUT MUST NOT APPEAR",
+        "font": null
+      }
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "继续",
+      "at": 1792072172416
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "Bokkio UX first",
+      "at": 1792072173661,
+      "observed": {
+        "editor": "Bokkio UX first",
+        "font": null
+      }
+    },
+    {
+      "surface": "native app",
+      "command": "open-second",
+      "at": 1792072174989,
+      "observed": {
+        "editor": "Bokkio UX first",
+        "font": "Courier New"
+      }
+    },
+    {
+      "surface": "native app",
+      "command": "font",
+      "value": "Courier New",
+      "at": 1792072176138,
+      "observed": {
+        "editor": "Bokkio UX first",
+        "font": "Agency FB"
+      }
+    }
+  ],
+  "errors": [],
+  "failure": "AssertionError [ERR_ASSERTION]: Native font selection must actually take effect\n+ actual - expected\n\n+ 'Agency FB'\n- 'Courier New'\n\n    at actor (C:\\BokkioDesktop\\desktop\\tests\\bokkio-desktop-ux.cjs:10:587)\n    at C:\\BokkioDesktop\\desktop\\tests\\bokkio-desktop-ux.cjs:32:57",
+  "success": false,
+  "package_sha256": "ecea2e9ef7fe66cea6d126b13d196ca00e7632100017778b0c29a7f420402639",
+  "finished_at": "2026-10-15T13:49:36.214Z",
+  "passed": 2,
+  "total": 3
+}
