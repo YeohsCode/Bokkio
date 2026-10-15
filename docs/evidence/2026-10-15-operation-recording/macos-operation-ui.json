@@ -1,0 +1,64 @@
+{
+  "input_source": "generated_real_OS_input",
+  "human_input": false,
+  "checks": [
+    {
+      "name": "global_shortcuts_registered",
+      "passed": true
+    },
+    {
+      "name": "no_media_controls",
+      "passed": true
+    },
+    {
+      "name": "paused_actions_excluded",
+      "passed": true
+    },
+    {
+      "name": "real_operation_events",
+      "passed": true
+    },
+    {
+      "name": "no_video_metadata",
+      "passed": true
+    },
+    {
+      "name": "no_video_directory",
+      "passed": true
+    },
+    {
+      "name": "no_hidden_capture_window",
+      "passed": true
+    },
+    {
+      "name": "replay_independent_readback",
+      "passed": true
+    },
+    {
+      "name": "global_stop_merges_segment_into_original",
+      "passed": true
+    },
+    {
+      "name": "rerecorded_replay_independent_readback",
+      "passed": true
+    },
+    {
+      "name": "emergency_empty_segment_keeps_original_steps",
+      "passed": true
+    },
+    {
+      "name": "emergency_does_not_restore_previous_run",
+      "passed": true
+    },
+    {
+      "name": "empty_segment_reports_problem",
+      "passed": true
+    },
+    {
+      "name": "no_js_errors",
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "steps": 5
+}

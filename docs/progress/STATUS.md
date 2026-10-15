@@ -4,11 +4,11 @@
 
 ## Desktop Studio（2026-10-15）
 
-Electron 桌面应用的配置、对话、录制、Shortcuts 编辑与维护四入口已接通实际 Runtime。Shortcuts 同时保存视频和结构化步骤；提供目标拾取、图像锚点、相对输入、参数、速度/重复、断点/单步、版本/归档恢复和当前位置修复。没有 Java；没有整合三个录制引擎。录制/回放不经过旧 Planner/Jev，对话复用 DeepSeek Harness SDK。
+Shortcuts 已纠正为操作录制 → 结构化 Workflow → 重新执行应用操作。视频采集、播放器、视频时间线、屏幕源选择与视频 IPC 已移除；保留控件定位、按需图像锚点、操作时间戳和现有编辑/回放能力。视频字段、配置和媒体接口已剔除，不保留兼容分支。四入口继续由 Electron + React/TypeScript 承载；确定性录制/回放不经过 Planner/Jev，对话复用已有 Harness SDK，无 Java。
 
-Python 完整回归 667/667；WebM 检查 2/2；macOS TextEdit 原生链路 10/10；Windows Notepad 两轮各 10/10。Windows 实际界面编辑回放 14/14，包括清空后独立读回。macOS 实际编辑、录屏、图像点击和修复后不重复派发均通过。两端已构建含 Python/SDK 的桌面应用并独立启动。
+本次 Python 完整回归 672/672；新增回归覆盖视频字段/配置/接口剔除、中断草稿和补录合并。旧版 667/667 与视频测试属于历史记录，不能作为修正后验收。Mac 操作录制专项 14/14、Windows 最终安装版实际界面 17/17，均包含回放后的独立原生读回；两端包内剔除检查通过。当前专项与双平台实际结果见[操作录制修正报告](../evidence/2026-10-15-operation-recording/README.md)。
 
-Windows 真实操作发现并修复快捷键占用和暂停/继续/停止竞态；紧急停止统一改为 Ctrl/⌘+Shift+F12。运行记录、视频及凭证保存在本机。完整应用 30 次录制回放矩阵、小时级录制、多显示器及签名发布/更新尚待完成；原完整业务复测仍暂停。[实施计划](../DESKTOP-UX-PLAN.md)、[桌面用法](../../desktop/README.md)、[本轮实测](../evidence/2026-10-15-desktop-studio/README.md)。
+操作记录、运行数据库和凭证保存在本机。完整实际应用矩阵、更多显示缩放/输入法和签名发布/更新仍待完成；原完整业务复测继续暂停。[当前计划](../DESKTOP-UX-PLAN.md)、[桌面用法](../../desktop/README.md)。
 
 ## Workflow 新增功能（2026-10-13）
 

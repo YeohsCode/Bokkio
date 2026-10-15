@@ -1,5 +1,7 @@
 # Desktop Studio 0.3 实施与实测
 
+> 历史记录：本报告对应 d4a4bce，包含误加入的视频功能。用户已明确录制指操作录制，视频相关验收不再计入当前产品；修正及新证据见[操作录制专项](../2026-10-15-operation-recording/README.md)。原始报告和校验清单保持不变。
+
 日期：2026-10-15。Electron + React/TypeScript 的真实桌面应用，随应用打包 Python Runtime、Harness SDK 和平台原生助手；没有 Java，也没有把三个开源引擎拼进项目。
 
 ## 已交付

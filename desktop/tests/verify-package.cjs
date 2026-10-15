@@ -1,0 +1,7 @@
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),crypto=require('node:crypto'),asar=require('@electron/asar');
+const resources=path.resolve(process.argv[2]),project=path.resolve(__dirname,'../..'),archive=path.join(resources,'app.asar');
+const entries=asar.listPackage(archive);assert(!entries.some(p=>/\/electron\/(capture\.(js|html)|webm.*|.*\.test\.cjs)$/.test(p)),'Removed video code or tests found in package');
+for(const name of ['electron/main.cjs','electron/preload.cjs','dist/index.html'])assert(asar.extractFile(archive,name).equals(fs.readFileSync(path.join(project,'desktop',name))),name+' differs from current source');
+const python=path.join(resources,'runtime','python');const site=fs.existsSync(path.join(python,'Lib','site-packages'))?path.join(python,'Lib','site-packages'):path.join(python,'lib',fs.readdirSync(path.join(python,'lib')).find(p=>/^python3\./.test(p)),'site-packages');
+for(const name of ['desktop_service.py','runtime_workflow.py']){const bytes=fs.readFileSync(path.join(site,'bokkio',name));assert(bytes.equals(fs.readFileSync(path.join(project,'src','bokkio',name))),name+' differs from source');assert(!/video_id|video_offset|capture_video|draft\/video/.test(bytes.toString()),'Removed video data model found');}
+console.log(JSON.stringify({no_video_implementation:true,no_video_data_model:true,no_packaged_tests:true,source_matches:true,asar_sha256:crypto.createHash('sha256').update(fs.readFileSync(archive)).digest('hex')},null,2));

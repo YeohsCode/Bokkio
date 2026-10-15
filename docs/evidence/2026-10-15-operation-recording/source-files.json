@@ -1,0 +1,23 @@
+{
+  "base_commit": "d4a4bcea5704b0b740e0702a720d6282dfe6d80a",
+  "files": {
+    "desktop/README.md": "206381b3d142b4331f7b4944004154000cb26fb429d77e7d3cebeef0079a61df",
+    "desktop/electron/main.cjs": "89a725a0a047adb1fb554aa75cd3384fb34920c4d015ac88d72aebf5322a1a6d",
+    "desktop/electron/preload.cjs": "1e332768af3b411e1a96df93761fdc868074f473c4078f2aa08ff1a01badb0cf",
+    "desktop/electron/recording.test.cjs": "6f1ba96c3955a994c6b09ee522521805255d5bc4f9f7597da160ec4d5804c327",
+    "desktop/index.html": "82118c9013e2dab4067b2246bd833572374f7335f1f4be8b25552514fccb9f4d",
+    "desktop/package.json": "266e0eabc96a7f428b9b2eef659fd0a60d7df0c88656ac5b940af56d4e719d5b",
+    "desktop/src/main.tsx": "52526f5a34ba7ccb4d1110534046784444f68893107d70b27472932c55ed414b",
+    "desktop/src/recording.ts": "bf050adbed373982269992230c2efc7ac37567ea275d7ea335df69fba96beaf7",
+    "desktop/src/style.css": "9611ee3d0006193f67c7a2fea000011224ff11865a435654571adfebf8396698",
+    "desktop/tests/bokkio-desktop-editor.cjs": "6aa624c02c44e3266378fc79d518033ebb559503d51280036f91eb9d97334f37",
+    "desktop/tests/bokkio-desktop-flow.cjs": "507813106a77e2c3eb93cb4508445c43908748821c69cf2669dc7e72d0e0496a",
+    "desktop/tests/bokkio-desktop-long-recording.cjs": "58f967e710db9fdbf6f4622d7e5cd4b7f034084686023db4cf4cafda9a6c1a37",
+    "desktop/tests/bokkio-desktop-windows.cjs": "88c47935cb0a766ee8ff33028a7e3238b98ef2e6bbbbe4b374924e245fa6f0b8",
+    "desktop/tests/recording-control.py": "0f78f168987a196d53e69462928d2ad1ce857d9ee446a029040006eebf530522",
+    "desktop/tests/verify-package.cjs": "e69c31cd6bd6c8217ca1747971007252d2cf5aec789210351fe87281a3e42bde",
+    "src/bokkio/desktop_service.py": "938b6f4b5e231b8a031bb1bdbc241392fc595322f8b4f331ed822796c729695e",
+    "src/bokkio/runtime_workflow.py": "1fdc828f554dfbd8b4fd80e433454837db354b0925f605ffabc9c348a6814efb",
+    "tests/test_desktop_operation_recording.py": "7ee56bb7a0cedae0ea96e896c3a67413b440813ddaab34b269d24a215489e80d"
+  }
+}

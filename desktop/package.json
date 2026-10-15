@@ -34,7 +34,10 @@
     },
     "files": [
       "dist/**",
-      "electron/**",
+      "electron/main.cjs",
+      "electron/preload.cjs",
+      "electron/overlay.html",
+      "electron/overlay.js",
       "package.json",
       "assets/icon.png"
     ],
@@ -53,7 +56,7 @@
         "dmg"
       ],
       "extendInfo": {
-        "NSScreenCaptureUsageDescription": "Record your desktop demonstration for Workflow review.",
+        "NSScreenCaptureUsageDescription": "Capture a target window image for optional visual element matching.",
         "NSAppleEventsUsageDescription": "Activate your selected applications."
       }
     },

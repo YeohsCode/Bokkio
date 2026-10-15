@@ -1,0 +1,18 @@
+{
+  "python": {
+    "passed": 672,
+    "total": 672
+  },
+  "recording_merge": {
+    "passed": 3,
+    "total": 3
+  },
+  "typescript_vite": "passed",
+  "macos_editor": {
+    "copy": true,
+    "undo_redo": true,
+    "breakpoint_single_continue": true,
+    "replay_independent_readback": true,
+    "archive_restore": true
+  }
+}

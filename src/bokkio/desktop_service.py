@@ -1,4 +1,4 @@
-"""Desktop IPC service. Electron owns display capture and credential storage."""
+"""Desktop IPC service. Electron owns desktop windows, global controls and credential storage."""
 from __future__ import annotations
 import argparse,json,os,secrets,subprocess,sys,threading,time,urllib.request,signal
 from pathlib import Path
@@ -15,12 +15,12 @@ class DesktopStudio(Studio):
     def __init__(self,state):
         super().__init__(state)
         self.config_path=self.state/'desktop-settings.json'
-        self.settings={'provider':'openai-compatible','base_url':'https://openrouter.ai/api/v1','model':'z-ai/glm-5.3-flash','harness_python':os.environ.get('BOKKIO_HARNESS_PYTHON',sys.executable),'workspace':str(Path.home()/'Bokkio Workspace'),'capture_video':True}
-        if self.config_path.exists():self.settings.update(json.loads(self.config_path.read_text()))
+        self.settings={'provider':'openai-compatible','base_url':'https://openrouter.ai/api/v1','model':'z-ai/glm-5.3-flash','harness_python':os.environ.get('BOKKIO_HARNESS_PYTHON',sys.executable),'workspace':str(Path.home()/'Bokkio Workspace')}
+        if self.config_path.exists():self.settings.update({k:v for k,v in json.loads(self.config_path.read_text()).items() if k in self.settings})
         self.api_key='';self.chats={};self.chat_processes={}
         for path in (self.state/'workflow-drafts').glob('*.json'):
             value=json.loads(path.read_text())
-            if value.get('status') in {'recording','paused'}:value.update(status='interrupted',error='录制中断，已保留捕获的步骤与视频片段');save_json(path,value)
+            if value.get('status') in {'recording','paused'}:value.update(status='interrupted',error='操作录制中断，已保留捕获的步骤');save_json(path,value)
         for path in (self.state/'chats').glob('*.json'):
             value=json.loads(path.read_text())
             if value.get('status')=='running':value.update(status='interrupted',error='应用退出，任务已中断');save_json(path,value)
@@ -53,15 +53,6 @@ class DesktopStudio(Studio):
         return super().recorder_start(pids,name)
     def route(self,method,path,data):
         def arg(key,default=None):return data.get(key,[default])[0] if method=='GET' else data.get(key,default)
-        if path=='/api/draft/video':
-            wid=arg('id')
-            if not __import__('re').fullmatch('[a-f0-9]{32}',wid):raise ValueError('Invalid draft ID')
-            path=self.state/'workflow-drafts'/(wid+'.json')
-            if self.record and self.record.doc['id']==wid:
-                with self.record.lock:self.record.doc['recording'].update(arg('metadata'));self.record._persist()
-            else:
-                value=json.loads(path.read_text());value['document']['recording'].update(arg('metadata'));save_json(path,value)
-            return {'saved':True}
         if path=='/api/drafts':return [{'id':v['document']['id'],'name':v['document']['name'],'steps':len(v['document']['steps'])} for v in [json.loads(p.read_text()) for p in (self.state/'workflow-drafts').glob('*.json')]]
         if path=='/api/draft':
             wid=arg('id')

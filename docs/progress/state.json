@@ -363,21 +363,17 @@
     "full_business_rerun": "still_paused_by_user"
   },
   "desktop_studio": {
-    "status": "four_pages_and_native_record_replay_delivered",
+    "status": "operation_recording_corrected",
     "plan": "docs/DESKTOP-UX-PLAN.md",
     "guide": "desktop/README.md",
-    "evidence": "docs/evidence/2026-10-15-desktop-studio/README.md",
+    "evidence": "docs/evidence/2026-10-15-operation-recording/README.md",
     "ux_host": "Electron + React/TypeScript",
     "runtime": "bundled Python + Harness SDK",
     "java": false,
     "workflow_schema": "bokkio.runtime-workflow.v2",
     "host_regression": {
-      "passed": 667,
-      "total": 667
-    },
-    "webm_tests": {
-      "passed": 2,
-      "total": 2
+      "passed": 672,
+      "total": 672
     },
     "native_macos": {
       "passed": 10,
@@ -403,23 +399,17 @@
     "full_record_replay_matrix_complete": false,
     "previous_full_business_rerun": "still_paused_by_user",
     "remaining": [
-      "Finder/Explorer/Excel/Feishu/Safari/Edge 30-run matrix",
-      "hour-long recording and additional displays",
+      "Finder/Explorer/Excel/Feishu/Safari/Edge actual application matrix",
+      "additional display scales and input methods",
       "signed release and updater",
-      "macOS packaged recording OS authorization"
+      "macOS packaged native input OS authorization"
     ],
     "windows_packaged_ui": {
-      "passed": 14,
-      "total": 14
+      "passed": 17,
+      "total": 17,
+      "evidence": "docs/evidence/2026-10-15-operation-recording/windows-packaged-operation-ui.json"
     },
-    "windows_global_recording_stop": "verified_with_preserved_playable_video_draft",
-    "macos_extended_recording": {
-      "elapsed_seconds": 120.04,
-      "video_seconds": 120.93,
-      "seek_to_end": true,
-      "late_electron_memory_growth_mib": 23.88
-    },
-    "macos_packaged_record_replay": "awaiting_explicit_OS_access_grant",
+    "macos_packaged_record_replay": "not_run_this_pass_native_input_OS_access_unchanged",
     "chat_workflow_reuse": {
       "status": "completed",
       "steps": 4,
@@ -429,6 +419,27 @@
       "no_code_run": true
     },
     "windows_packaged_sdk_cancel": "running_to_cancelled_with_absent_post_stop_file",
-    "credential_UI": "mock_key_saved_non_plaintext_then_removed"
+    "credential_UI": "mock_key_saved_non_plaintext_then_removed",
+    "recording_output": "structured_operation_workflow",
+    "video_capture": false,
+    "recording_merge_tests": {
+      "passed": 3,
+      "total": 3
+    },
+    "removed_video_compatibility": true,
+    "macos_operation_ui": {
+      "passed": 14,
+      "total": 14,
+      "app": "TextEdit",
+      "input_source": "generated_real_OS_input"
+    },
+    "windows_operation_ui": {
+      "passed": 17,
+      "total": 17,
+      "app": "Notepad",
+      "packaged": true,
+      "independent_readback": true
+    },
+    "package_video_removal_audit": "passed_on_installed_macOS_and_Windows_packages"
   }
 }

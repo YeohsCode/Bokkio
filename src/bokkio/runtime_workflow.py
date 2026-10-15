@@ -34,7 +34,9 @@ def validate_document(doc):
     if not extended and set(doc)&{'parameters','recording','platform','group'}:raise ValueError('Extended fields require Workflow v2')
     declarations=doc.get('parameters',{})
     if not isinstance(declarations,dict) or any(not re.fullmatch(r'[\w-]{1,80}',k) or not isinstance(v,dict) or set(v)-{'type','default','description'} or v.get('type','string')!='string' or not isinstance(v.get('default',''),str) for k,v in declarations.items()):raise ValueError('Invalid parameter declarations')
-    if not isinstance(doc.get('recording',{}),dict):raise ValueError('Invalid recording metadata')
+    recording=doc.get('recording',{})
+    if not isinstance(recording,dict) or set(recording)-{'started_at'}:raise ValueError('Invalid recording metadata')
+    if 'started_at' in recording and (type(recording['started_at']) not in {int,float} or not __import__('math').isfinite(recording['started_at']) or recording['started_at']<0):raise ValueError('Invalid recording start time')
     resources=doc.get('resources',{})
     if not isinstance(resources,dict) or set(resources)-{'paths','origins'}:raise ValueError('Invalid workflow resources')
     for key in ['paths','origins']:
@@ -49,7 +51,7 @@ def validate_document(doc):
     if not isinstance(steps,list) or len(steps)>200:raise ValueError('Workflow supports at most 200 steps')
     ids=set()
     for s in steps:
-        if not isinstance(s,dict) or s.get('kind') not in KINDS or set(s)-{'id','kind','app','window','target','action','arguments','verify','wait','timeout','label','enabled','breakpoint','recorded_at','video_id','video_offset','window_context'}:raise ValueError('Invalid workflow step')
+        if not isinstance(s,dict) or s.get('kind') not in KINDS or set(s)-{'id','kind','app','window','target','action','arguments','verify','wait','timeout','label','enabled','breakpoint','recorded_at','window_context'}:raise ValueError('Invalid workflow step')
         if not isinstance(s.get('id'),str) or s['id'] in ids:raise ValueError('Steps need unique IDs')
         ids.add(s['id'])
         if 'label' in s and (not isinstance(s['label'],str) or len(s['label'])>200):raise ValueError('Invalid step label')
@@ -57,7 +59,7 @@ def validate_document(doc):
         if type(s.get('timeout',10)) not in {int,float} or not 0<s.get('timeout',10)<=30:raise ValueError('Step timeout must be 0..30 seconds')
         args=s.get('arguments',{})
         if not isinstance(args,dict):raise ValueError('Step arguments must be an object')
-        if not extended and (s['kind'] in {'input','wait','check'} or set(s)&{'enabled','breakpoint','recorded_at','video_id','video_offset','window_context'}):raise ValueError('Extended steps require Workflow v2')
+        if not extended and (s['kind'] in {'input','wait','check'} or set(s)&{'enabled','breakpoint','recorded_at','window_context'}):raise ValueError('Extended steps require Workflow v2')
         for flag in ('enabled','breakpoint'):
             if flag in s and type(s[flag]) is not bool:raise ValueError('Step flags require booleans')
         if s['kind'] in {'native','input','wait','check'}:
