@@ -1,0 +1,742 @@
+{
+  "id": "chat:f3eeef7adfa34f47b59f1cfc442a803b",
+  "layer": 1,
+  "title": "使用 Bokkio MCP 操作 TextEdit 的唯一文档窗口，将全文替换为“Bokkio 自定义 Jev 已启用”。使用 desktop.step，只给局部 goal 和 allowed_values，不提供 input、ref；Jev 选择动作与目标。读回后报告，不保存文件，不执行代码或 Workflow。",
+  "engine": "Harness SDK",
+  "status": "completed",
+  "detail": "Harness 规划任务；原生 UI 动作交给 Jev 选择，再由 Runtime 执行。 本任务实际发起 3 次 Jev 请求。",
+  "architecture": {
+    "planning": "Harness SDK",
+    "selection": "Jev · native UI / Harness · orchestration",
+    "execution": "Bokkio Runtime / Driver",
+    "jev_enabled": true,
+    "jev_active": true,
+    "legacy_three_layer": "CLI: Planner → Jev → Driver"
+  },
+  "children": [
+    {
+      "id": "choice:call_b88957d55f9f41daa9f6211f",
+      "layer": 2,
+      "title": "session.open",
+      "engine": "Harness · 工具编排",
+      "status": "completed",
+      "detail": "",
+      "call_id": "call_b88957d55f9f41daa9f6211f",
+      "children": [
+        {
+          "id": "operation:1c56f863f61d441290b6a33b204421c8:choice:call_b88957d55f9f41daa9f6211f",
+          "layer": 3,
+          "title": "session.open",
+          "engine": "Bokkio Runtime / Driver",
+          "status": "completed",
+          "operation_id": "1c56f863f61d441290b6a33b204421c8",
+          "time": 1792053812.131562,
+          "dispatched": false,
+          "detail": "",
+          "error": null,
+          "events": [
+            {
+              "id": "e12170eaf63d4690870ee220a6b9bef4",
+              "time": 1792053812.131885,
+              "kind": "request.received"
+            },
+            {
+              "id": "2f4c2c099719419a9dfd66b884642174",
+              "time": 1792053812.132818,
+              "kind": "execution.intent"
+            },
+            {
+              "id": "c3043b7b987743ceac2d0ef8969563c3",
+              "time": 1792053812.170232,
+              "kind": "session.opened"
+            },
+            {
+              "id": "78ff596544894ddf83c77b7435c47cae",
+              "time": 1792053812.171456,
+              "kind": "execution.finished",
+              "status": "completed",
+              "dispatched": false,
+              "duration_ms": 40.167,
+              "error_type": null
+            }
+          ],
+          "children": [],
+          "parent_operation": null,
+          "workflow_step": null,
+          "reused_operation": false
+        }
+      ],
+      "returned_status": "completed"
+    },
+    {
+      "id": "choice:chatcmpl-tool-90beed82c291ac9d",
+      "layer": 2,
+      "title": "desktop.windows",
+      "engine": "Harness · 工具编排",
+      "status": "completed",
+      "detail": "TextEdit",
+      "call_id": "chatcmpl-tool-90beed82c291ac9d",
+      "children": [
+        {
+          "id": "operation:9ebe473af75a444a9039813a211b3ce6:choice:chatcmpl-tool-90beed82c291ac9d",
+          "layer": 3,
+          "title": "desktop.windows",
+          "engine": "Bokkio Runtime / Driver",
+          "status": "completed",
+          "operation_id": "9ebe473af75a444a9039813a211b3ce6",
+          "time": 1792053814.7846951,
+          "dispatched": false,
+          "detail": "TextEdit",
+          "error": null,
+          "events": [
+            {
+              "id": "f0b1151f9f29426180bd3fb14b57320b",
+              "time": 1792053814.7848508,
+              "kind": "request.received"
+            },
+            {
+              "id": "ad24ec28a9c5476dbd09ecbaccdbb628",
+              "time": 1792053814.788345,
+              "kind": "execution.intent"
+            },
+            {
+              "id": "461d8b3be7534f108bf201e7086d32ab",
+              "time": 1792053814.998941,
+              "kind": "execution.finished",
+              "status": "completed",
+              "dispatched": false,
+              "duration_ms": 214.404,
+              "error_type": null
+            }
+          ],
+          "children": [],
+          "parent_operation": null,
+          "workflow_step": null,
+          "reused_operation": false
+        }
+      ],
+      "returned_status": "completed"
+    },
+    {
+      "id": "choice:8d40037d-7e2b-4a91-9129-a050982779c1",
+      "layer": 2,
+      "title": "desktop.observe",
+      "engine": "Harness · 工具编排",
+      "status": "completed",
+      "detail": "TextEdit · Untitled.rtf",
+      "call_id": "8d40037d-7e2b-4a91-9129-a050982779c1",
+      "children": [
+        {
+          "id": "operation:b5be453b82ae496d9829227d8efcfb42:choice:8d40037d-7e2b-4a91-9129-a050982779c1",
+          "layer": 3,
+          "title": "desktop.observe",
+          "engine": "Bokkio Runtime / Driver",
+          "status": "completed",
+          "operation_id": "b5be453b82ae496d9829227d8efcfb42",
+          "time": 1792053816.3647811,
+          "dispatched": false,
+          "detail": "TextEdit · Untitled.rtf",
+          "error": null,
+          "events": [
+            {
+              "id": "82474fd55cfb4d64bb6fd3c3c1967d09",
+              "time": 1792053816.3651142,
+              "kind": "request.received"
+            },
+            {
+              "id": "6d71f44f6bc54f32a7fef866e8f263d4",
+              "time": 1792053816.373081,
+              "kind": "execution.intent"
+            },
+            {
+              "id": "e3f9f15de0b04a96bd9040f58aadf494",
+              "time": 1792053816.5948238,
+              "kind": "execution.finished",
+              "status": "completed",
+              "dispatched": false,
+              "duration_ms": 230.225,
+              "error_type": null
+            }
+          ],
+          "children": [],
+          "parent_operation": null,
+          "workflow_step": null,
+          "reused_operation": false
+        }
+      ],
+      "returned_status": "completed"
+    },
+    {
+      "id": "decision:replace-untitled-rtf-text",
+      "layer": 2,
+      "title": "Jev 局部决策",
+      "engine": "Jev",
+      "status": "failed",
+      "detail": "TextEdit · Untitled.rtf · local/custom-jev-alias",
+      "operation_id": "replace-untitled-rtf-text",
+      "events": [
+        {
+          "id": "f745d1f06cdf429e8a5df286cd09aa6c",
+          "time": 1792053824.6465259,
+          "kind": "request.received"
+        },
+        {
+          "id": "1b2b8f1d76b54371a4e1ff4d3b2a57a0",
+          "time": 1792053824.9149299,
+          "kind": "decision.requested"
+        },
+        {
+          "id": "e1f5e976469649f195fb90f139b6cd1f",
+          "time": 1792053826.620053,
+          "kind": "decision.returned",
+          "duration_ms": 1703.411
+        },
+        {
+          "id": "b9edd694477a482993b6e5635c21378d",
+          "time": 1792053826.6223402,
+          "kind": "decision.failed",
+          "status": "failed",
+          "error_type": "BokkioError"
+        },
+        {
+          "id": "6fcfba5a040a4eb8a6c8ff98d6f2a6d0",
+          "time": 1792053826.6244202,
+          "kind": "execution.finished",
+          "status": "failed",
+          "dispatched": false,
+          "duration_ms": 1978.694,
+          "error_type": "BokkioError"
+        }
+      ],
+      "decision_events": [
+        {
+          "kind": "decision.requested",
+          "time": 1792053824.9149299,
+          "engine": "Jev",
+          "model": "local/custom-jev-alias",
+          "source": "custom"
+        },
+        {
+          "kind": "decision.returned",
+          "time": 1792053826.620053,
+          "engine": "Jev",
+          "model": "typesafe/jev-1.13-20260917",
+          "duration_ms": 1703.411
+        },
+        {
+          "kind": "decision.failed",
+          "time": 1792053826.6223402,
+          "engine": "Jev"
+        }
+      ],
+      "error": "Target confidence below threshold",
+      "children": [
+        {
+          "id": "operation:44a122bddbca40418b0f279554c67c6f:decision:replace-untitled-rtf-text",
+          "layer": 3,
+          "title": "desktop.observe",
+          "engine": "Bokkio Runtime / Driver",
+          "status": "completed",
+          "operation_id": "44a122bddbca40418b0f279554c67c6f",
+          "time": 1792053824.6789298,
+          "dispatched": false,
+          "detail": "TextEdit · Untitled.rtf",
+          "error": null,
+          "events": [
+            {
+              "id": "951c82dda65d4c458651fdba9966b2ef",
+              "time": 1792053824.6791859,
+              "kind": "request.received"
+            },
+            {
+              "id": "0bcfd1ddd5ba4f3d95f1f2c0fcf76408",
+              "time": 1792053824.685601,
+              "kind": "execution.intent"
+            },
+            {
+              "id": "30b3c8e9efca4857a47a8bfd1b1d9d9b",
+              "time": 1792053824.91269,
+              "kind": "execution.finished",
+              "status": "completed",
+              "dispatched": false,
+              "duration_ms": 233.885,
+              "error_type": null
+            }
+          ],
+          "children": [],
+          "parent_operation": "replace-untitled-rtf-text",
+          "workflow_step": null,
+          "reused_operation": false
+        }
+      ],
+      "reused_operation": false,
+      "call_id": "call_a0f679435dfc4815aec731ee",
+      "returned_status": null
+    },
+    {
+      "id": "decision:5a2397f9c61844d9a49bdb35e5be4580",
+      "layer": 2,
+      "title": "Jev · set_value",
+      "engine": "Jev",
+      "status": "verified",
+      "detail": "TextEdit · Untitled.rtf · 02e3aaccc8af1140ce62 · 置信度 1.0 · local/custom-jev-alias",
+      "operation_id": "5a2397f9c61844d9a49bdb35e5be4580",
+      "events": [
+        {
+          "id": "41be9b559ec944529f6efdb65e399742",
+          "time": 1792053835.157991,
+          "kind": "request.received"
+        },
+        {
+          "id": "9275e0c7933f4e839ee756afb86b6d00",
+          "time": 1792053835.7652721,
+          "kind": "decision.requested"
+        },
+        {
+          "id": "2befaaa721f44bf28eb636e2342e240b",
+          "time": 1792053836.872019,
+          "kind": "decision.returned",
+          "duration_ms": 1105.448
+        },
+        {
+          "id": "a8a199631fa54ed1943029548ea47a86",
+          "time": 1792053836.873573,
+          "kind": "decision.selected"
+        },
+        {
+          "id": "ce0a9f809565433e86172daf23f8bdab",
+          "time": 1792053838.4257002,
+          "kind": "decision.finished",
+          "status": "verified",
+          "dispatched": true
+        },
+        {
+          "id": "8a73608b842041d19e039f7c427bb47e",
+          "time": 1792053838.426549,
+          "kind": "execution.finished",
+          "status": "verified",
+          "dispatched": true,
+          "duration_ms": 3269.421,
+          "error_type": null
+        }
+      ],
+      "decision_events": [
+        {
+          "kind": "decision.requested",
+          "time": 1792053835.7652721,
+          "engine": "Jev",
+          "model": "local/custom-jev-alias",
+          "source": "custom"
+        },
+        {
+          "kind": "decision.returned",
+          "time": 1792053836.872019,
+          "engine": "Jev",
+          "model": "typesafe/jev-1.13-20260917",
+          "duration_ms": 1105.448
+        },
+        {
+          "kind": "decision.selected",
+          "time": 1792053836.873573,
+          "engine": "Jev",
+          "action": "set_value",
+          "ref": "02e3aaccc8af1140ce62",
+          "confidence": 1
+        },
+        {
+          "kind": "decision.finished",
+          "time": 1792053838.4257002
+        }
+      ],
+      "error": null,
+      "children": [
+        {
+          "id": "operation:6685255a67744577917bee732f2deaa5:decision:5a2397f9c61844d9a49bdb35e5be4580",
+          "layer": 3,
+          "title": "desktop.observe",
+          "engine": "Bokkio Runtime / Driver",
+          "status": "completed",
+          "operation_id": "6685255a67744577917bee732f2deaa5",
+          "time": 1792053835.186115,
+          "dispatched": false,
+          "detail": "TextEdit · Untitled.rtf",
+          "error": null,
+          "events": [
+            {
+              "id": "c90d8bbed2304c25b19232c3010b5030",
+              "time": 1792053835.186367,
+              "kind": "request.received"
+            },
+            {
+              "id": "80df90bd89b744b3a2c82f348dffc303",
+              "time": 1792053835.19314,
+              "kind": "execution.intent"
+            },
+            {
+              "id": "198eb4f27e5a41c0968d3398fc49dff6",
+              "time": 1792053835.763673,
+              "kind": "execution.finished",
+              "status": "completed",
+              "dispatched": false,
+              "duration_ms": 577.656,
+              "error_type": null
+            }
+          ],
+          "children": [],
+          "parent_operation": "5a2397f9c61844d9a49bdb35e5be4580",
+          "workflow_step": null,
+          "reused_operation": false
+        },
+        {
+          "id": "operation:f50cc0fe08904a15b9e140cf6ac6aa35:decision:5a2397f9c61844d9a49bdb35e5be4580",
+          "layer": 3,
+          "title": "desktop.observe",
+          "engine": "Bokkio Runtime / Driver",
+          "status": "completed",
+          "operation_id": "f50cc0fe08904a15b9e140cf6ac6aa35",
+          "time": 1792053836.899893,
+          "dispatched": false,
+          "detail": "TextEdit · Untitled.rtf",
+          "error": null,
+          "events": [
+            {
+              "id": "57e7514e46fe4e36bb0600a3a4ee1a14",
+              "time": 1792053836.900249,
+              "kind": "request.received"
+            },
+            {
+              "id": "32818ab9420345da84a4d2f98f6aae00",
+              "time": 1792053836.90841,
+              "kind": "execution.intent"
+            },
+            {
+              "id": "8e8bbfc22f4b4eaea9815c11583456de",
+              "time": 1792053837.4798431,
+              "kind": "execution.finished",
+              "status": "completed",
+              "dispatched": false,
+              "duration_ms": 580.174,
+              "error_type": null
+            }
+          ],
+          "children": [],
+          "parent_operation": "5a2397f9c61844d9a49bdb35e5be4580",
+          "workflow_step": null,
+          "reused_operation": false
+        },
+        {
+          "id": "operation:3fe3fbc95e734db1a44e448ba3c55e65:decision:5a2397f9c61844d9a49bdb35e5be4580",
+          "layer": 3,
+          "title": "desktop.act",
+          "engine": "Bokkio Runtime / Driver",
+          "status": "verified",
+          "operation_id": "3fe3fbc95e734db1a44e448ba3c55e65",
+          "time": 1792053837.499564,
+          "dispatched": true,
+          "detail": "TextEdit · Untitled.rtf · set_value",
+          "error": null,
+          "events": [
+            {
+              "id": "7cf989a6c9fe4d23ad7e4c2e6a2a0a3d",
+              "time": 1792053837.499736,
+              "kind": "request.received"
+            },
+            {
+              "id": "4ce04dde612e4367b77b4204f4f9512f",
+              "time": 1792053837.505119,
+              "kind": "execution.intent"
+            },
+            {
+              "id": "ba8a494532cd493cb117d21b8493e72d",
+              "time": 1792053838.2238731,
+              "kind": "execution.finished",
+              "status": "verified",
+              "dispatched": true,
+              "duration_ms": 724.308,
+              "error_type": null
+            }
+          ],
+          "children": [],
+          "parent_operation": "5a2397f9c61844d9a49bdb35e5be4580",
+          "workflow_step": null,
+          "reused_operation": false
+        },
+        {
+          "id": "operation:2c2ae0f9da884a61b7436274df37c93a:decision:5a2397f9c61844d9a49bdb35e5be4580",
+          "layer": 3,
+          "title": "desktop.observe",
+          "engine": "Bokkio Runtime / Driver",
+          "status": "completed",
+          "operation_id": "2c2ae0f9da884a61b7436274df37c93a",
+          "time": 1792053838.250012,
+          "dispatched": false,
+          "detail": "TextEdit · Untitled.rtf",
+          "error": null,
+          "events": [
+            {
+              "id": "26a03983517949e0878a53837f5c74e8",
+              "time": 1792053838.250176,
+              "kind": "request.received"
+            },
+            {
+              "id": "03a0617a86a64e05b2b694e40e821d37",
+              "time": 1792053838.2555552,
+              "kind": "execution.intent"
+            },
+            {
+              "id": "c6dfb94dc709472c9c2420022682055a",
+              "time": 1792053838.425211,
+              "kind": "execution.finished",
+              "status": "completed",
+              "dispatched": false,
+              "duration_ms": 175.245,
+              "error_type": null
+            }
+          ],
+          "children": [],
+          "parent_operation": "5a2397f9c61844d9a49bdb35e5be4580",
+          "workflow_step": null,
+          "reused_operation": false
+        }
+      ],
+      "reused_operation": false,
+      "call_id": "call_6292580b99ca4a85a9d9ec88",
+      "returned_status": null
+    },
+    {
+      "id": "decision:54718d79acfe4bbcabdee4e8a4d33b35",
+      "layer": 2,
+      "title": "Jev · set_value",
+      "engine": "Jev",
+      "status": "verified",
+      "detail": "TextEdit · Untitled.rtf · 02e3aaccc8af1140ce62 · 置信度 1.0 · local/custom-jev-alias",
+      "operation_id": "54718d79acfe4bbcabdee4e8a4d33b35",
+      "events": [
+        {
+          "id": "7919ea58697d474e8eb703a8e3725a46",
+          "time": 1792053849.271144,
+          "kind": "request.received"
+        },
+        {
+          "id": "1e0910feda694315afba8cd6ec6b02b0",
+          "time": 1792053849.535161,
+          "kind": "decision.requested"
+        },
+        {
+          "id": "214e28e0f2c044aa84da9a6a90117517",
+          "time": 1792053851.51245,
+          "kind": "decision.returned",
+          "duration_ms": 1975.872
+        },
+        {
+          "id": "e519c336bc04464da8d8eff5a1b33019",
+          "time": 1792053851.513849,
+          "kind": "decision.selected"
+        },
+        {
+          "id": "efc7956a3b5c42bfa4e01ad30c225afb",
+          "time": 1792053852.3932018,
+          "kind": "decision.finished",
+          "status": "verified",
+          "dispatched": true
+        },
+        {
+          "id": "d3c4b6c0af964bb79edd21f57caf7904",
+          "time": 1792053852.39403,
+          "kind": "execution.finished",
+          "status": "verified",
+          "dispatched": true,
+          "duration_ms": 3123.766,
+          "error_type": null
+        }
+      ],
+      "decision_events": [
+        {
+          "kind": "decision.requested",
+          "time": 1792053849.535161,
+          "engine": "Jev",
+          "model": "local/custom-jev-alias",
+          "source": "custom"
+        },
+        {
+          "kind": "decision.returned",
+          "time": 1792053851.51245,
+          "engine": "Jev",
+          "model": "typesafe/jev-1.13-20260917",
+          "duration_ms": 1975.872
+        },
+        {
+          "kind": "decision.selected",
+          "time": 1792053851.513849,
+          "engine": "Jev",
+          "action": "set_value",
+          "ref": "02e3aaccc8af1140ce62",
+          "confidence": 1
+        },
+        {
+          "kind": "decision.finished",
+          "time": 1792053852.3932018
+        }
+      ],
+      "error": null,
+      "children": [
+        {
+          "id": "operation:1fa02fe892144bfda299e0b25b51ed91:decision:54718d79acfe4bbcabdee4e8a4d33b35",
+          "layer": 3,
+          "title": "desktop.observe",
+          "engine": "Bokkio Runtime / Driver",
+          "status": "completed",
+          "operation_id": "1fa02fe892144bfda299e0b25b51ed91",
+          "time": 1792053849.298956,
+          "dispatched": false,
+          "detail": "TextEdit · Untitled.rtf",
+          "error": null,
+          "events": [
+            {
+              "id": "77d71a1cc29c4a93a4056ff46faa99ce",
+              "time": 1792053849.299212,
+              "kind": "request.received"
+            },
+            {
+              "id": "3f738c12bb8d44dd83f23a215b72329e",
+              "time": 1792053849.3060238,
+              "kind": "execution.intent"
+            },
+            {
+              "id": "29950ba94b9b467e81352e0f0ded2740",
+              "time": 1792053849.533511,
+              "kind": "execution.finished",
+              "status": "completed",
+              "dispatched": false,
+              "duration_ms": 234.678,
+              "error_type": null
+            }
+          ],
+          "children": [],
+          "parent_operation": "54718d79acfe4bbcabdee4e8a4d33b35",
+          "workflow_step": null,
+          "reused_operation": false
+        },
+        {
+          "id": "operation:0bd122e9bb3d43e0bc8ce73d48633cbf:decision:54718d79acfe4bbcabdee4e8a4d33b35",
+          "layer": 3,
+          "title": "desktop.observe",
+          "engine": "Bokkio Runtime / Driver",
+          "status": "completed",
+          "operation_id": "0bd122e9bb3d43e0bc8ce73d48633cbf",
+          "time": 1792053851.54498,
+          "dispatched": false,
+          "detail": "TextEdit · Untitled.rtf",
+          "error": null,
+          "events": [
+            {
+              "id": "4f9c3307118041e888fdbef36bbd1c39",
+              "time": 1792053851.545363,
+              "kind": "request.received"
+            },
+            {
+              "id": "a593e8f4f54944b985a5eb73297c7749",
+              "time": 1792053851.554518,
+              "kind": "execution.intent"
+            },
+            {
+              "id": "2cd4cd1b27fb4da087622f9417f2db5c",
+              "time": 1792053851.783726,
+              "kind": "execution.finished",
+              "status": "completed",
+              "dispatched": false,
+              "duration_ms": 239.007,
+              "error_type": null
+            }
+          ],
+          "children": [],
+          "parent_operation": "54718d79acfe4bbcabdee4e8a4d33b35",
+          "workflow_step": null,
+          "reused_operation": false
+        },
+        {
+          "id": "operation:6e4c8b26ae9a49f1bee49d5320c35882:decision:54718d79acfe4bbcabdee4e8a4d33b35",
+          "layer": 3,
+          "title": "desktop.act",
+          "engine": "Bokkio Runtime / Driver",
+          "status": "verified",
+          "operation_id": "6e4c8b26ae9a49f1bee49d5320c35882",
+          "time": 1792053851.81191,
+          "dispatched": true,
+          "detail": "TextEdit · Untitled.rtf · set_value",
+          "error": null,
+          "events": [
+            {
+              "id": "9513fe94ec7c43d483783b9350581552",
+              "time": 1792053851.8120892,
+              "kind": "request.received"
+            },
+            {
+              "id": "7e4caebc82664b6f803905c8cce3ae08",
+              "time": 1792053851.817528,
+              "kind": "execution.intent"
+            },
+            {
+              "id": "3ac4b19efa4c4014aabffbdc88349699",
+              "time": 1792053852.187528,
+              "kind": "execution.finished",
+              "status": "verified",
+              "dispatched": true,
+              "duration_ms": 375.635,
+              "error_type": null
+            }
+          ],
+          "children": [],
+          "parent_operation": "54718d79acfe4bbcabdee4e8a4d33b35",
+          "workflow_step": null,
+          "reused_operation": false
+        },
+        {
+          "id": "operation:b0e90ce6f7b141a1a05170f25d2818b6:decision:54718d79acfe4bbcabdee4e8a4d33b35",
+          "layer": 3,
+          "title": "desktop.observe",
+          "engine": "Bokkio Runtime / Driver",
+          "status": "completed",
+          "operation_id": "b0e90ce6f7b141a1a05170f25d2818b6",
+          "time": 1792053852.211083,
+          "dispatched": false,
+          "detail": "TextEdit · Untitled.rtf",
+          "error": null,
+          "events": [
+            {
+              "id": "d6fa3211d55e4faba279456dc749338d",
+              "time": 1792053852.211256,
+              "kind": "request.received"
+            },
+            {
+              "id": "721a63844910454997573904fd690f92",
+              "time": 1792053852.21638,
+              "kind": "execution.intent"
+            },
+            {
+              "id": "63da8a465a2f466c808b9ef9985605ee",
+              "time": 1792053852.392684,
+              "kind": "execution.finished",
+              "status": "completed",
+              "dispatched": false,
+              "duration_ms": 181.63,
+              "error_type": null
+            }
+          ],
+          "children": [],
+          "parent_operation": "54718d79acfe4bbcabdee4e8a4d33b35",
+          "workflow_step": null,
+          "reused_operation": false
+        }
+      ],
+      "reused_operation": false,
+      "call_id": "call_f5f0edb50ea84da4abfa388b",
+      "returned_status": null
+    }
+  ],
+  "counts": {
+    "choices": 6,
+    "operations": 15,
+    "jev_calls": 3
+  }
+}

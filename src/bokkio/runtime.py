@@ -333,6 +333,8 @@ class Runtime:
                 raise ValueError('Workflow writes are not granted')
             if 'workflow_id' in args and args['workflow_id'] not in self.policy.get('workflows',[]):
                 raise ValueError('Workflow is outside administrator grants')
+        if tool == "desktop.act" and "expected_value" in args and args["action"] != "type":
+            raise ValueError("expected_value is only valid for type; omit it for set_value")
         if tool == "desktop.act" and args["action"] in {"type", "set_value", "select_text"} and "value" not in args:
             raise ValueError("Text action requires a literal value")
         if tool == "desktop.pixel" and args["action"] == "type" and "value" not in args:

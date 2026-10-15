@@ -9,15 +9,18 @@ from .runtime import Runtime
 from .local_runtime import LocalRuntime
 from .sdk import Client
 from .audit import identifier
-from .execution_log import ARCHITECTURE,ingest_choice,chat_trace,workflow_trace
+from .execution_log import ARCHITECTURE,architecture,ingest_choice,chat_trace,workflow_trace
 
 class DesktopStudio(Studio):
     local_direct=True
     def __init__(self,state):
         super().__init__(state)
         self.config_path=self.state/'desktop-settings.json'
-        self.settings={'provider':'openai-compatible','base_url':'https://openrouter.ai/api/v1','model':'z-ai/glm-5.3-flash','harness_python':os.environ.get('BOKKIO_HARNESS_PYTHON',sys.executable),'workspace':str(Path.home()/'Bokkio Workspace'),'jev_source':'openrouter','jev_model':'typesafe/jev-1.13'}
+        self.settings={'provider':'openai-compatible','base_url':'https://openrouter.ai/api/v1','model':'z-ai/glm-5.3-flash','harness_python':os.environ.get('BOKKIO_HARNESS_PYTHON',sys.executable),'workspace':str(Path.home()/'Bokkio Workspace'),'jev_enabled':True,'jev_source':'openrouter','jev_model':'typesafe/jev-1.13','jev_api_url':'https://openrouter.ai/api/alpha/decisions'}
         if self.config_path.exists():self.settings.update({k:v for k,v in json.loads(self.config_path.read_text()).items() if k in self.settings})
+        if self.config_path.exists() and 'jev_api_url' not in json.loads(self.config_path.read_text()):
+            from .jev import JevProvider
+            self.settings['jev_api_url']=JevProvider.ENDPOINTS.get(self.settings['jev_source'],'')
         self.api_key='';self.jev_api_key='';self.chats={};self.chat_processes={};self.chat_log_lock=threading.RLock()
         for path in (self.state/'workflow-drafts').glob('*.json'):
             value=json.loads(path.read_text())
@@ -68,7 +71,7 @@ class DesktopStudio(Studio):
             return json.loads((self.state/'workflow-drafts'/(wid+'.json')).read_text())
         if path=='/api/archived':return self.library.archived()
         if path=='/api/workflows/restore':return self.library.restore(arg('id'),arg('expected_sha256'))
-        if path=='/api/architecture':return ARCHITECTURE
+        if path=='/api/architecture':return architecture(self.settings['jev_enabled'])
         if path=='/api/status':
             return {'platform':sys.platform,'local_direct':True,'runtime_python':sys.executable,'state':str(self.state),'recording':self.record.state if self.record else 'idle','busy':self.busy(),'chat_busy':any(p.poll() is None for p in self.chat_processes.values())}
         if path=='/api/settings':
@@ -76,8 +79,13 @@ class DesktopStudio(Studio):
                 unknown=set(data)-set(self.settings)-{'api_key','jev_api_key'}
                 if unknown:raise ValueError('Unknown settings: '+','.join(unknown))
                 updated={**self.settings,**{k:v for k,v in data.items() if k not in {'api_key','jev_api_key'}}}
-                if any(not isinstance(v,str) for v in updated.values()) or any(not isinstance(data[k],str) for k in ('api_key','jev_api_key') if k in data):raise ValueError('Settings must be strings')
-                if updated['jev_source'] not in {'openrouter','typesafe'} or not updated['jev_model'].strip():raise ValueError('Invalid Jev service or model')
+                if type(updated['jev_enabled']) is not bool:raise ValueError('jev_enabled must be a boolean')
+                if any(not isinstance(v,str) for k,v in updated.items() if k!='jev_enabled') or any(not isinstance(data[k],str) for k in ('api_key','jev_api_key') if k in data):raise ValueError('Settings must be strings')
+                if updated['jev_source'] not in {'openrouter','typesafe','custom'}:raise ValueError('Invalid Jev service')
+                if updated['jev_enabled']:
+                    from .jev import validate_api_url
+                    validate_api_url(updated['jev_api_url'])
+                    if not updated['jev_model'].strip():raise ValueError('Jev model is required')
                 self.settings=updated
                 if 'api_key' in data:self.api_key=data['api_key']
                 if 'jev_api_key' in data:self.jev_api_key=data['jev_api_key']
@@ -156,9 +164,10 @@ class DesktopStudio(Studio):
             cid=identifier();folder=self.state/'chats'/cid;folder.mkdir(parents=True,exist_ok=True,mode=0o700)
             workspace=Path(self.settings['workspace']).expanduser();workspace.mkdir(parents=True,exist_ok=True)
             payload={**self.settings,'state':str(self.state),'runtime_python':sys.executable,'runtime_cwd':str(Path(__file__).resolve().parents[2]),'folder':str(folder),'prompt':prompt,'task_id':cid}
-            job={'id':cid,'prompt':prompt,'status':'running','events':[],'choices':{},'architecture':ARCHITECTURE,'response':'','created_at':time.time()};self.chats[cid]=job
+            job={'id':cid,'prompt':prompt,'status':'running','events':[],'choices':{},'architecture':architecture(self.settings['jev_enabled']),'response':'','created_at':time.time()};self.chats[cid]=job
             save_json(self.state/'chats'/(cid+'.json'),job)
-            env={**os.environ,'BOKKIO_PROVIDER_KEY':self.api_key,'BOKKIO_JEV_API_KEY':self.jev_api_key,'BOKKIO_JEV_SOURCE':self.settings['jev_source'],'BOKKIO_JEV_MODEL':self.settings['jev_model'],'PYTHONPATH':str(Path(__file__).resolve().parents[1])+os.pathsep+os.environ.get('PYTHONPATH','')}
+            env={**{k:v for k,v in os.environ.items() if not k.startswith('BOKKIO_JEV_')},'BOKKIO_PROVIDER_KEY':self.api_key,'PYTHONPATH':str(Path(__file__).resolve().parents[1])+os.pathsep+os.environ.get('PYTHONPATH','')}
+            if self.settings['jev_enabled']:env.update({**{k:v for k,v in os.environ.items() if k.startswith('BOKKIO_JEV_')},'BOKKIO_JEV_API_KEY':self.jev_api_key or os.environ.get('BOKKIO_JEV_API_KEY',''),'BOKKIO_JEV_SOURCE':self.settings['jev_source'],'BOKKIO_JEV_MODEL':self.settings['jev_model'],'BOKKIO_JEV_API_URL':self.settings['jev_api_url']})
             process=subprocess.Popen([self.settings['harness_python'],'-m','bokkio.desktop_chat'],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,env=env,start_new_session=os.name!='nt')
             self.chat_processes[cid]=process;process.stdin.write(json.dumps(payload));process.stdin.close()
             def read():

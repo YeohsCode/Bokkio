@@ -1,0 +1,11 @@
+✔ segment replacement preserves workflow, breakpoint, app identities and surrounding timing (1.422708ms)
+✔ empty recording and non-contiguous selection cannot remove unrelated steps (0.206ms)
+✔ re-recording a legacy v1 document explicitly upgrades its schema (0.072958ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 179.409666

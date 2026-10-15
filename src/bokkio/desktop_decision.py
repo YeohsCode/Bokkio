@@ -23,17 +23,31 @@ STEP_SCHEMA = schema({**APP, 'goal': S, 'allowed_values': {'type': 'array', 'ite
 
 
 def provider_from_environment():
-    """Prefer an explicit Jev credential, then existing private config, then OpenRouter's shared key."""
-    key = os.environ.get('BOKKIO_JEV_API_KEY')
-    source = os.environ.get('BOKKIO_JEV_SOURCE')
+    """Resolve credentials for the configured destination; custom endpoints need their own key."""
+    source = os.environ.get('BOKKIO_JEV_SOURCE') or 'openrouter'
     model = os.environ.get('BOKKIO_JEV_MODEL')
-    if key:
-        return JevProvider(api_key=key, source=source, model=model)
-    if config_path().is_file() or os.environ.get('OPENROUTER_API_KEY') or os.environ.get('TYPESAFE_API_KEY'):
-        return JevProvider(source=source, model=model)
-    if (source or 'openrouter') == 'openrouter' and urlparse(os.environ.get('BOKKIO_PROVIDER_BASE_URL', '')).hostname == 'openrouter.ai':
-        return JevProvider(api_key=os.environ.get('BOKKIO_PROVIDER_KEY'), source='openrouter', model=model)
-    raise BokkioError('Configure a Jev key in Settings; only an OpenRouter planner key can be shared with Jev')
+    endpoint = os.environ.get('BOKKIO_JEV_API_URL') or JevProvider.ENDPOINTS.get(source)
+    from .jev import validate_api_url
+    endpoint = validate_api_url(endpoint)
+    key = os.environ.get('BOKKIO_JEV_API_KEY')
+    if not key:
+        path = config_path()
+        if path.is_file():
+            try:
+                private = json.loads(path.read_text(encoding='utf-8'))
+                private_endpoint = private.get('api_url') or JevProvider.ENDPOINTS.get(private.get('source', 'openrouter'))
+                if private_endpoint == endpoint: key = private.get('api_key')
+            except (OSError, ValueError, AttributeError):
+                raise BokkioError('Invalid private Jev configuration') from None
+    if not key and endpoint == JevProvider.ENDPOINTS['openrouter']:
+        key = os.environ.get('OPENROUTER_API_KEY')
+        if not key and urlparse(os.environ.get('BOKKIO_PROVIDER_BASE_URL', '')).hostname == 'openrouter.ai':
+            key = os.environ.get('BOKKIO_PROVIDER_KEY')
+    if not key and endpoint == JevProvider.ENDPOINTS['typesafe']:
+        key = os.environ.get('TYPESAFE_API_KEY')
+    if not key:
+        raise BokkioError('Configure a Jev key for this API URL in Settings')
+    return JevProvider(api_key=key, source=source, model=model, api_url=endpoint)
 
 
 class DesktopDecisionRuntime:
@@ -143,7 +157,7 @@ class DesktopDecisionRuntime:
                                                'confidence': decision.confidence}, 'execution': action_result}}
             if action_result['status'] in {'executed', 'verified', 'completed'}:
                 # This is execution evidence; the planner evaluates the task outcome from the actual readback.
-                readback = runtime.call('desktop.observe', {**target, 'max_nodes': 120, 'max_bytes': 100000}, session_id=sid)
+                readback = runtime.call('desktop.observe', {**target, 'max_nodes': 60, 'max_bytes': 16000}, session_id=sid)
                 result['result']['readback'] = readback
                 if readback['status'] != 'completed':
                     result.update(status='failed', error='Action returned but readback failed; inspect execution before another action')

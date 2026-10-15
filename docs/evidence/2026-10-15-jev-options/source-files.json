@@ -1,0 +1,19 @@
+{
+  "base_commit": "e0efada88a9ccf8d25004ba82a9d07a5acf7dada",
+  "files": {
+    "desktop/README.md": "1bf938085d8719b2e93682c3a30eb140eefaeed56cadeea402eceec3a6f0cdb4",
+    "desktop/electron/main.cjs": "5afd4b77725059a9c58c136b0d79953cf9be2a9a1185139230939a2baa6fd488",
+    "desktop/src/main.tsx": "f71c408586d181670953595c520e44323944ac480678edfb0e13155c9c8934b9",
+    "desktop/tests/bokkio-desktop-jev-options.cjs": "cb355ac90e09053e3fb669717be43dee0c61b3ab611cb03628c8a7a4f0e18775",
+    "desktop/tests/verify-package.cjs": "76e786d5facbd4b3ee0e6b1f5685b03f7d0cfe7a3993022458a8bcd9a66ee6bc",
+    "src/bokkio/desktop_chat.py": "c1d2f901fd9721e010f5274c9c751d6d939572b88074c304a201723d42694792",
+    "src/bokkio/desktop_decision.py": "6c245d5f82e364730bfe78a538e0da9bd8bc2631c83a3851f11b9a8c8129a1b9",
+    "src/bokkio/desktop_service.py": "ff51981b21618c98f3997ce5713eacebc60f7bf6063e4ca7ffbb7e9caa6ea76f",
+    "src/bokkio/execution_log.py": "04d52e2cf577f0628aad71629c1257d582c1c4ebdc15074ef1e18b256045b27d",
+    "src/bokkio/jev.py": "0e2fe252b1437f186f4ac98aca666d9aa83f8975716eac8b925ce24be2f7d105",
+    "src/bokkio/runtime.py": "c7f47c313ab908a6b6b9beaa62cfe8e869dcedb9abb9512e91ff9e93764bbcaa",
+    "src/bokkio/tool_schema.py": "edf40d10ae84d7175d944416e25b59be00959cded3398fdd048c65e81f1e62c2",
+    "tests/test_jev_settings.py": "ffe7260d52bc19d58540dd608d153886667752b56aaf96b857a641dbe0702bef",
+    "tests/test_runtime.py": "949ec320b2fb07dea0347b799085c646fc96847368e2c20e3a04184cbe99eabc"
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "checks": [
+    {
+      "name": "isolated_credential_storage",
+      "passed": true
+    },
+    {
+      "name": "jev_switch_defaults_on",
+      "passed": true
+    },
+    {
+      "name": "custom_url_and_model_saved",
+      "passed": true
+    },
+    {
+      "name": "independent_key_encrypted",
+      "passed": true
+    },
+    {
+      "name": "key_absent_from_plain_settings",
+      "passed": true
+    },
+    {
+      "name": "custom_mode_real_task_completed",
+      "passed": true
+    },
+    {
+      "name": "custom_endpoint_key_model_used",
+      "passed": true
+    },
+    {
+      "name": "jev_logged_custom_model",
+      "passed": true
+    },
+    {
+      "name": "custom_mode_independent_readback",
+      "passed": true
+    },
+    {
+      "name": "mcp_patch_uses_env_references_without_key",
+      "passed": true
+    },
+    {
+      "name": "history_preserves_original_mode",
+      "passed": true
+    },
+    {
+      "name": "disabled_mode_persists_after_restart",
+      "passed": true
+    },
+    {
+      "name": "custom_fields_and_key_persist_after_restart",
+      "passed": true
+    },
+    {
+      "name": "disabled_mode_real_task_completed",
+      "passed": true
+    },
+    {
+      "name": "disabled_mode_never_calls_jev",
+      "passed": true
+    },
+    {
+      "name": "harness_direct_native_action_logged",
+      "passed": true
+    },
+    {
+      "name": "disabled_mode_independent_readback",
+      "passed": true
+    },
+    {
+      "name": "disabled_patch_has_no_jev_credential_reference",
+      "passed": true
+    },
+    {
+      "name": "ui_names_disabled_mode",
+      "passed": true
+    }
+  ],
+  "scope": "real_UI_jev_toggle_custom_endpoint_key_model",
+  "packaged": true,
+  "custom_requests": [
+    {
+      "path": "/custom/v2/decisions",
+      "key_matches": true,
+      "model": "local/custom-jev-alias",
+      "accepted": true
+    }
+  ],
+  "enabled_jev_calls": 1,
+  "disabled_jev_calls": 0
+}

@@ -372,8 +372,8 @@
     "java": false,
     "workflow_schema": "bokkio.runtime-workflow.v2",
     "host_regression": {
-      "passed": 697,
-      "total": 697
+      "passed": 715,
+      "total": 715
     },
     "native_macos": {
       "passed": 10,
@@ -490,8 +490,8 @@
     "reobserve_after_model": true,
     "explicit_jev_settings": true,
     "host_regression": {
-      "passed": 697,
-      "total": 697
+      "passed": 715,
+      "total": 715
     },
     "macos_installed_native": {
       "passed": 14,
@@ -506,6 +506,23 @@
       "independent_readback": true
     },
     "guide": "docs/DECISION-LAYERS.md",
-    "evidence": "docs/evidence/2026-10-15-desktop-jev/README.md"
+    "evidence": "docs/evidence/2026-10-15-desktop-jev/README.md",
+    "configurable_enabled": true,
+    "custom_api_url_key_model": true,
+    "current_options_evidence": "docs/evidence/2026-10-15-jev-options/README.md",
+    "mode_options_installed_tests": {
+      "macos": {
+        "passed": 19,
+        "total": 19,
+        "enabled_jev_calls": 3,
+        "disabled_jev_calls": 0
+      },
+      "windows": {
+        "passed": 19,
+        "total": 19,
+        "enabled_jev_calls": 1,
+        "disabled_jev_calls": 0
+      }
+    }
   }
 }

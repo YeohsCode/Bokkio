@@ -34,7 +34,7 @@ SCHEMAS = {
     "desktop.capture": schema({**APP, "window_id": I}, ["app"]),
     "desktop.activate": schema({**APP, "window_id": I}, ["app", "window"]),
     "desktop.act": schema({**OBS, "background":{"type":"boolean"}, "ref": S, "action": {"type": "string", "enum": ["click", "invoke", "type", "set_value", "select", "focus", "scroll", "expand", "collapse", "submit", "select_text", "open"]},
-                           "value": S, "direction": S, "amount": N, "expected_value": S}, ["app", "observation_id", "ref", "action"]),
+                           "value": S, "direction": S, "amount": N, "expected_value": {"type":"string","description":"Only valid for action=type; omit for set_value and other actions."}}, ["app", "observation_id", "ref", "action"]),
     "desktop.input": schema({**OBS, "ref": S, "action": {"type":"string","enum":["click","double_click","right_click","key","type","replace_text","scroll","drag"]}, "value": S, "key": S, "button": S, "direction": S, "amount": N, "x": N, "y": N, "end_x": N, "end_y": N, "duration": N}, ["app","observation_id","ref","action"]),
     "desktop.pixel": schema({**OBS, "action": {"type": "string", "enum": ["click", "type"]}, "x": N, "y": N, "value": S}, ["app", "observation_id", "action", "x", "y"]),
     "code.run": schema({"code": S, "language": {"type": "string", "enum": ["python", "shell", "powershell"]}, "cwd": S, "timeout": N, "output_limit": I}, ["code"]),

@@ -6,11 +6,15 @@ from __future__ import annotations
 import json
 from .audit import AuditStore
 
-ARCHITECTURE = {
-    'planning': 'Harness SDK', 'selection': 'Jev · native UI / Harness · orchestration',
-    'execution': 'Bokkio Runtime / Driver', 'jev_active': False,
-    'legacy_three_layer': 'CLI: Planner → Jev → Driver',
-}
+def architecture(jev_enabled=True):
+    return {
+        'planning': 'Harness SDK',
+        'selection': 'Jev · native UI / Harness · orchestration' if jev_enabled else 'Harness SDK',
+        'execution': 'Bokkio Runtime / Driver', 'jev_enabled': jev_enabled, 'jev_active': False,
+        'legacy_three_layer': 'CLI: Planner → Jev → Driver',
+    }
+
+ARCHITECTURE = architecture()
 
 def sdk_event(record):
     data=record.get('data',{})
@@ -95,6 +99,8 @@ def operations(store,*,task_id=None,session_id=None):
 def chat_trace(job,state):
     root={'id':'chat:'+job['id'],'layer':1,'title':job['prompt'],'engine':'Harness SDK','status':job['status'],
           'detail':'Harness 规划任务；原生 UI 动作交给 Jev 选择，再由 Runtime 执行。','architecture':{**job.get('architecture',ARCHITECTURE),'jev_active':False},'children':[]}
+    if root['architecture'].get('jev_enabled') is False:
+        root['detail']='本任务已关闭 Jev；Harness 规划并选择动作，Runtime 执行和读回。'
     choices=job.get('choices')
     if choices is None:
         parsed={}
@@ -103,7 +109,7 @@ def chat_trace(job,state):
     owners={};nodes={}
     unreturned='running' if job['status'] in {'running','cancelling'} else 'cancelled' if job['status']=='cancelled' else 'interrupted'
     for cid,choice in choices.items():
-        node={'id':'choice:'+cid,'layer':2,'title':choice.get('tool','工具返回'),'engine':'Harness · 工具编排','status':choice.get('returned_status',unreturned),
+        node={'id':'choice:'+cid,'layer':2,'title':choice.get('tool','工具返回'),'engine':'Harness · 动作选择' if choice.get('tool') in {'desktop.act','desktop.input','desktop.pixel'} else 'Harness · 工具编排','status':choice.get('returned_status',unreturned),
               'detail':choice.get('detail',''),'call_id':cid,'children':[]};nodes[cid]=node
         if choice.get('tool')!='desktop.step':root['children'].append(node)
         if choice.get('operation_id'):owners.setdefault(choice['operation_id'],[]).append(node)
