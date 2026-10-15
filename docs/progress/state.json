@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "updated": "2026-10-13",
-  "version": "0.2.0",
+  "updated": "2026-10-15",
+  "version": "0.3.0",
   "overall_status": "implementation_delivered_acceptance_incomplete",
   "plan": "docs/PLAN-REPOSITIONING.md",
   "guide": "docs/RUNTIME-GUIDE.md",
@@ -16,7 +16,7 @@
       "development_capability_categories_passed": 4,
       "total_categories": 5,
       "customer_acceptance_complete": false,
-      "host_tests_passed": 647,
+      "host_tests_passed": 667,
       "fault_matrix": {
         "passed": 18,
         "total": 18,
@@ -108,8 +108,8 @@
     "windows": {
       "development_capability_categories_passed": 0,
       "total_categories": 5,
-      "current_runtime_live_tested": false,
-      "vm_login": "verified_2026-10-11",
+      "current_runtime_live_tested": true,
+      "vm_login": "verified_2026-10-15",
       "next_environment": "user_windows_computer"
     },
     "final_matrix_complete": false,
@@ -361,5 +361,74 @@
       "legacy_Office_GUI_adapter_migration"
     ],
     "full_business_rerun": "still_paused_by_user"
+  },
+  "desktop_studio": {
+    "status": "four_pages_and_native_record_replay_delivered",
+    "plan": "docs/DESKTOP-UX-PLAN.md",
+    "guide": "desktop/README.md",
+    "evidence": "docs/evidence/2026-10-15-desktop-studio/README.md",
+    "ux_host": "Electron + React/TypeScript",
+    "runtime": "bundled Python + Harness SDK",
+    "java": false,
+    "workflow_schema": "bokkio.runtime-workflow.v2",
+    "host_regression": {
+      "passed": 667,
+      "total": 667
+    },
+    "webm_tests": {
+      "passed": 2,
+      "total": 2
+    },
+    "native_macos": {
+      "passed": 10,
+      "total": 10,
+      "app": "TextEdit"
+    },
+    "native_windows": {
+      "rounds": 2,
+      "passed_per_round": 10,
+      "total_per_round": 10,
+      "app": "Notepad",
+      "guest_architecture": "ARM64",
+      "python_architecture": "x64"
+    },
+    "windows_live_ui": {
+      "passed": 14,
+      "total": 14,
+      "independent_readback": true
+    },
+    "macos_image_and_repair": "actual_scoped_capture_click_and_no_duplicate_dispatch_verified",
+    "windows_chat": "SDK_MCP_real_readback_and_durable_code_job_cancellation_verified",
+    "packaging": "bundled_directories_started_on_both_platforms",
+    "full_record_replay_matrix_complete": false,
+    "previous_full_business_rerun": "still_paused_by_user",
+    "remaining": [
+      "Finder/Explorer/Excel/Feishu/Safari/Edge 30-run matrix",
+      "hour-long recording and additional displays",
+      "signed release and updater",
+      "macOS packaged recording OS authorization"
+    ],
+    "windows_packaged_ui": {
+      "passed": 14,
+      "total": 14
+    },
+    "windows_global_recording_stop": "verified_with_preserved_playable_video_draft",
+    "macos_extended_recording": {
+      "elapsed_seconds": 120.04,
+      "video_seconds": 120.93,
+      "seek_to_end": true,
+      "late_electron_memory_growth_mib": 23.88
+    },
+    "macos_packaged_record_replay": "awaiting_explicit_OS_access_grant",
+    "chat_workflow_reuse": {
+      "status": "completed",
+      "steps": 4,
+      "breakpoint_resumed": true,
+      "independent_readback": true,
+      "shared_run_history": true,
+      "no_code_run": true
+    },
+    "windows_packaged_sdk_cancel": "running_to_cancelled_with_absent_post_stop_file",
+    "credential_UI": "mock_key_saved_non_plaintext_then_removed"
   }
 }

@@ -17,6 +17,7 @@ class Studio:
     def __init__(self,state,policy=None):
         self.state=Path(state);self.library=WorkflowLibrary(self.state/'workflows');self.policy=policy
         self.record=None;self.runners={};self.threads={};self.lock=threading.RLock()
+    def save_workflow(self,document,expected_sha=None):return self.library.save(document,expected_sha)
     def busy(self):return any(t.is_alive() for t in self.threads.values())
     def apps(self):
         rows=installed_running_apps()
@@ -48,7 +49,7 @@ class Studio:
                 except Exception as e:
                     r=runner.load(rid);r.update(status='failed',error={'message':str(e)});save_json(runner.path(rid),r)
             t=threading.Thread(target=execute,daemon=True);self.threads[rid]=t;t.start()
-    def start_run(self,wid,mode,pregranted):
+    def start_run(self,wid,mode,pregranted,**controls):
         with self.lock:
             if self.busy() or self.record and self.record.state in {'recording','paused'}:raise ValueError('Stop the current recording or replay first')
             if type(pregranted) is not bool:raise ValueError('Explicit run authorization is required')
@@ -62,7 +63,7 @@ class Studio:
                 grants=copy.deepcopy(self.policy)
             client=Client(Runtime(self.state,grants));client.open(apps=[],task_id='workflow-'+identifier())
             runner=RuntimeWorkflowRunner(client,self.state/'workflow-runs')
-            try:r=runner.start(doc,mode)
+            try:r=runner.start(doc,mode,**controls)
             except Exception:client.call('session.close');raise
             rid=r['id'];self.runners[rid]=runner;save_json(self.state/'workflow-run-policies'/(rid+'.json'),grants)
             self.spawn(rid);return {'id':rid,'status':'running'}
@@ -144,6 +145,7 @@ def create_server(studio,port=0,token=None):
                 elif path=='/api/record':data=studio.record.preview() if studio.record else {'status':'idle'}
                 elif path=='/api/runs':data=studio.runs()
                 elif path=='/api/run':data=studio.run_view(q['id'][0])
+                elif hasattr(studio,'route'):data=studio.route('GET',path,q)
                 else:self.send(404,{'error':'Unknown route'});return
                 self.send(200,data)
             except Exception as e:self.send(400,{'error':str(e)})
@@ -153,18 +155,19 @@ def create_server(studio,port=0,token=None):
                 size=int(self.headers.get('Content-Length','0'))
                 if not 0<size<=1000000:raise ValueError('Invalid request size')
                 data=json.loads(self.rfile.read(size));path=urlparse(self.path).path
-                if path=='/api/workflows/save':result=studio.library.save(data['document'],data.get('expected_sha256'))
+                if path=='/api/workflows/save':result=studio.save_workflow(data['document'],data.get('expected_sha256'))
                 elif path=='/api/workflows/archive':studio.library.archive(data['id'],data['expected_sha256']);result={'archived':True}
                 elif path=='/api/record/start':result=studio.recorder_start(data['pids'],data.get('name','新 Workflow'))
                 elif path=='/api/record/pause':studio.record.pause();result=studio.record.preview()
                 elif path=='/api/record/resume':studio.record.start();result=studio.record.preview()
                 elif path=='/api/record/stop':result=studio.record.stop()
                 elif path=='/api/native-targets':result=studio.native_targets(data['app'],data['window'])
-                elif path=='/api/runs/start':result=studio.start_run(data['id'],data.get('mode','headed'),data.get('pregranted',False))
+                elif path=='/api/runs/start':result=studio.start_run(data['id'],data.get('mode','headed'),data.get('pregranted',getattr(studio,'local_direct',False)),**{k:data[k] for k in ('parameters','repeat','speed','single') if k in data})
                 elif path=='/api/runs/resume':studio.spawn(data['id']);result={'status':'resuming'}
                 elif path=='/api/runs/pause':studio.runner(data['id']).pause(data['id']);result={'status':'pause_requested'}
                 elif path=='/api/runs/cancel':studio.runner(data['id']).cancel(data['id']);result={'status':'cancel_requested'}
                 elif path=='/api/runs/approve':result=studio.approve(data['id'],data['decision'])
+                elif hasattr(studio,'route'):result=studio.route('POST',path,data)
                 else:self.send(404,{'error':'Unknown route'});return
                 self.send(200,result)
             except Exception as e:self.send(400,{'error':str(e)})

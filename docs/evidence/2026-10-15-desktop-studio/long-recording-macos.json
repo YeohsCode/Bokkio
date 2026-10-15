@@ -1,0 +1,21 @@
+{
+  "requested_seconds": 120,
+  "observed_seconds": 120.04326170899999,
+  "media": {
+    "duration": 120.929587,
+    "width": 2560,
+    "height": 1440
+  },
+  "memory_kib": [
+    1026896,
+    1034528,
+    1035968,
+    1042704,
+    1047776,
+    1049088,
+    1052048,
+    1060416
+  ],
+  "late_growth_kib": 24448,
+  "seek_to_end": true
+}

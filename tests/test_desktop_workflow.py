@@ -1,0 +1,91 @@
+import copy,os
+import pytest
+from test_runtime_workflow import setup,document
+from bokkio.runtime_workflow import SCHEMA_V2,validate_document,find_target
+from bokkio.anchored_input import prepare_target
+from bokkio.model import BokkioActionRefused
+from bokkio.local_runtime import LocalRuntime
+from bokkio.sdk import Client
+
+def v2(setup):
+    desktop,client,runner,doc,library=setup
+    doc=copy.deepcopy(doc);doc['schema']=SCHEMA_V2;doc=library.save(doc,doc['sha256']);return desktop,client,runner,doc,library
+
+def test_parameters_freeze_and_verify(setup):
+    desktop,client,runner,doc,library=v2(setup)
+    doc['parameters']={'text':{'type':'string','default':'初始'}};doc['steps'][0]['arguments']['value']='${text}';doc['steps'][0]['verify'][0]['equals']='${text}'
+    doc=library.save(doc,doc['sha256']);run=runner.start(doc,parameters={'text':'中文替换'})
+    assert run['workflow_sha256']==doc['sha256'] and run['bound_sha256']!=doc['sha256']
+    assert runner.run(run['id'])['status']=='completed' and desktop.value=='中文替换'
+    assert doc['steps'][0]['arguments']['value']=='${text}'
+
+def test_breakpoint_single_continue_repeat(setup):
+    desktop,_,runner,doc,library=v2(setup);first=doc['steps'][0];first['breakpoint']=True
+    second=copy.deepcopy(first);second.update(id='second',breakpoint=False);doc['steps'].append(second);doc=library.save(doc,doc['sha256'])
+    run=runner.start(doc,repeat=2,single=True);result=runner.run(run['id']);assert result['status']=='paused' and desktop.clicks==0
+    result=runner.resume(run['id']);assert result['status']=='paused' and desktop.clicks==1 and result['index']==1
+    result['single']=False;runner._save(result);result=runner.resume(run['id']);assert result['status']=='paused' and result['cycle']==2 and desktop.clicks==2
+    assert runner.resume(run['id'])['status']=='completed' and desktop.clicks==4
+
+def test_disabled_final_step_and_condition_repeat(setup):
+    desktop,_,runner,doc,library=v2(setup)
+    step=copy.deepcopy(doc['steps'][0]);step.update(id='check',kind='check',action='check',arguments={},verify=[{'role':'text_field','name':'Input','field':'present','equals':True}]);doc['steps'].append(step)
+    disabled=copy.deepcopy(step);disabled.update(id='disabled',enabled=False);doc['steps'].append(disabled);doc=library.save(doc,doc['sha256'])
+    r=runner.run(runner.start(doc,repeat=3)['id']);assert r['status']=='completed' and desktop.clicks==3 and len(r['steps'])==9
+
+def test_anchor_follows_window_and_ref_change(setup):
+    desktop,*_=setup;before=desktop.snapshot(str(os.getpid()));desktop.x=900;desktop.ref='new';fresh=desktop.snapshot(str(os.getpid()))
+    target,request=prepare_target(before,fresh,{'app':str(os.getpid()),'ref':'input','action':'click','x':.25,'y':.75})
+    assert target['ref']=='new' and request['x']==925 and request['y']==25
+    desktop.duplicate=True
+    with pytest.raises(BokkioActionRefused):prepare_target(before,desktop.snapshot(str(os.getpid())),{'app':str(os.getpid()),'ref':'input','action':'click'})
+
+def test_local_direct_and_birth_identity(setup,tmp_path):
+    desktop,*_=setup;runtime=LocalRuntime(tmp_path/'direct',desktop,lambda p:'birth');client=Client(runtime);client.open()
+    observed=client.call('desktop.observe',{'app':str(os.getpid()),'window':'Lab Window'})
+    result=client.call('desktop.act',{'app':str(os.getpid()),'window':'Lab Window','observation_id':observed['result']['observation_id'],'ref':'input','action':'set_value','value':'direct'})
+    assert result['status']=='verified' and desktop.value=='direct' and runtime.store.approvals()==[]
+    runtime.birth_probe=lambda p:'different';r=client.call('desktop.observe',{'app':str(os.getpid()),'window':'Lab Window'});assert r['status']=='denied'
+
+def test_reject_invalid_parameter_and_flag(setup):
+    _,_,runner,doc,_=v2(setup)
+    with pytest.raises(ValueError):runner.start(doc,parameters={'missing':'bad'})
+    doc['steps'][0]['enabled']='yes'
+    with pytest.raises(ValueError):validate_document(doc)
+
+
+def test_archived_workflow_restores_history(setup):
+    _,_,_,doc,library=setup
+    library.archive(doc['id'],doc['sha256'])
+    assert library.list()==[] and library.archived()[0]['id']==doc['id']
+    restored=library.restore(doc['id'],doc['sha256'])
+    assert restored==doc and library.revisions(doc['id'])==[1]
+
+
+def test_parameter_values_do_not_bind_app_identity(setup):
+    _,_,runner,doc,library=v2(setup)
+    doc['parameters']={'app':{'type':'string','default':'changed'}}
+    doc['apps']['lab']['name']='Lab'
+    r=runner.start(doc,parameters={'app':'different'})
+    assert r['workflow']['apps']==doc['apps']
+
+
+def test_local_session_accepts_application_name_case(setup,tmp_path):
+    desktop,*_=setup;runtime=LocalRuntime(tmp_path/'case',desktop,lambda p:'birth');client=Client(runtime)
+    opened=client.open(apps=['LAB'])
+    assert opened['status']=='completed'
+    assert runtime._session(client.session_id)['bindings'][str(os.getpid())]['name']=='Lab'
+
+
+def test_record_canvas_focus_is_not_substituted_for_mouse_click(setup):
+    from bokkio.manual_recording import ManualRecorder
+    desktop,client,*_=setup
+    original=desktop.snapshot
+    def snapshot(*args,**kwargs):
+        value=original(*args,**kwargs);canvas=value['windows'][0]['children'][0];canvas.update(role='custom',name='Canvas',actions=['focus']);canvas['platform_data']={};canvas['bounds']={'x':10,'y':20,'width':100,'height':60};return value
+    desktop.snapshot=snapshot
+    client.open(apps=['Lab'])
+    recorder=ManualRecorder(client,[{'pid':os.getpid(),'name':'Lab'}])
+    recorder.ingest({'pid':os.getpid(),'kind':'click','role':'custom','name':'Canvas','window':'Lab Window','x':40,'y':35})
+    step=recorder.preview()['document']['steps'][0]
+    assert step['kind']=='input' and step['action']=='click' and step['target']['point']=={'x':.3,'y':.25}

@@ -1,0 +1,19 @@
+{
+  "before_jobs": [
+    {
+      "status": "running",
+      "cancel": 0,
+      "code_has_delay": true
+    }
+  ],
+  "stopped": true,
+  "marker": "stop-check-1792024480455.txt",
+  "jobs": [
+    {
+      "status": "cancelled",
+      "cancel": 1,
+      "code_has_delay": true
+    }
+  ],
+  "no_post_stop_write": true
+}

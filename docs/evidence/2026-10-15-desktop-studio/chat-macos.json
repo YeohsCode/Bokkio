@@ -1,0 +1,6 @@
+{
+  "status": "completed",
+  "prompt": "这是本机桌面测试。使用 Bokkio MCP 打开会话，观察 TextEdit 的 Untitled.rtf 窗口，读取 text_area 的值，返回实际中文内容。不要修改应用、不要执行别的任务。",
+  "response": "读取完成，未做任何修改。TextEdit 的 **Untitled.rtf** 窗口中 text_area（AXTextArea，\"First Text View\"）的实际值为：\n\n**「Bokkio 系统输入回放」**\n\n（窗口 Untitled.rtf，PID 24898，文本区域当前聚焦，selected_text 为空。）",
+  "error": null
+}

@@ -4,9 +4,12 @@ import hashlib,json,os,subprocess,sys,tempfile,time
 from pathlib import Path
 
 
-def recorder_helper():
-    if sys.platform!='darwin':raise RuntimeError('Manual recording currently requires macOS')
-    source=Path(__file__).parent/'native/macos_record.swift'
+def native_helper(name):
+    if sys.platform!='darwin':raise RuntimeError('Swift helpers require macOS')
+    if name not in {'macos_record','macos_input'}:raise ValueError('Unknown native helper')
+    bundled=Path(__file__).parent/'native'/name
+    if bundled.is_file():return bundled
+    source=Path(__file__).parent/'native'/(name+'.swift')
     cache=Path.home()/'Library/Caches/Bokkio/native/recording'/hashlib.sha256(source.read_bytes()).hexdigest()
     cache.mkdir(parents=True,exist_ok=True,mode=0o700);target=cache/'record'
     if not target.exists():
@@ -17,6 +20,10 @@ def recorder_helper():
             os.chmod(name,0o700);os.replace(name,target)
         finally:Path(name).unlink(missing_ok=True)
     return target
+
+
+def recorder_helper():
+    return native_helper('macos_record')
 
 
 def installed_running_apps():

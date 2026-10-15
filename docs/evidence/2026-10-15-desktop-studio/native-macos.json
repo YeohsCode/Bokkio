@@ -1,0 +1,75 @@
+{
+  "platform": "darwin",
+  "architecture": "arm64",
+  "human_input": false,
+  "checks": [
+    {
+      "case": "reset_independently_read_empty",
+      "passed": true
+    },
+    {
+      "case": "OS_input_independent_readback",
+      "passed": true
+    },
+    {
+      "case": "record_literal_value",
+      "passed": true
+    },
+    {
+      "case": "record_key_combination",
+      "passed": true
+    },
+    {
+      "case": "record_arrow",
+      "passed": true
+    },
+    {
+      "case": "no_recording_issues",
+      "passed": true
+    },
+    {
+      "case": "recorder_never_dispatches",
+      "passed": true
+    },
+    {
+      "case": "reset_independently_read_empty",
+      "passed": true
+    },
+    {
+      "case": "workflow_completed",
+      "passed": true
+    },
+    {
+      "case": "replay_from_empty_independent_readback",
+      "passed": true
+    }
+  ],
+  "receipts": [
+    {
+      "status": "executed",
+      "dispatched": true,
+      "error_code": null
+    },
+    {
+      "status": "executed",
+      "dispatched": true,
+      "error_code": null
+    },
+    {
+      "status": "executed",
+      "dispatched": true,
+      "error_code": null
+    },
+    {
+      "status": "executed",
+      "dispatched": true,
+      "error_code": null
+    }
+  ],
+  "recording_issues": [],
+  "recorded_steps": 4,
+  "replay_status": "completed",
+  "replay_error": null,
+  "passed": 10,
+  "total": 10
+}
