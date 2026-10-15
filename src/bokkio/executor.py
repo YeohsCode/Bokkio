@@ -208,7 +208,7 @@ def worker(root, job_id):
         inherited = {k: v for k, v in os.environ.items() if k.upper() in {
             "PATH", "SYSTEMROOT", "WINDIR", "COMSPEC", "TEMP", "TMP", "TMPDIR", "HOME", "USERPROFILE",
             "LOCALAPPDATA", "APPDATA", "LANG", "LC_ALL", "PYTHONPATH", "PYTHONUTF8", "PYTHONIOENCODING"}}
-        inherited.update(PYTHONUTF8='1',PYTHONIOENCODING='utf-8')
+        inherited.update(PYTHONUTF8='1',PYTHONIOENCODING='utf-8',PYTHONDONTWRITEBYTECODE='1')
         inherited.update(BOKKIO_STATE_DIR=str(store.root), BOKKIO_SESSION_ID=session, BOKKIO_PARENT_OPERATION=operation)
         store.emit("job.started", session_id=session, operation_id=operation,
                    data={"job_id": job_id, "channel": "process" if request.get("argv") else "code", "execution_mode": "trusted-host"})

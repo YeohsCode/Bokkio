@@ -90,3 +90,13 @@ def test_short_lived_job_receipt_survives_process_registration(client, tmp_path)
     result = client.wait_job(queued["result"]["job_id"], timeout=10)
     assert result["result"]["status"] == "completed", result
     assert result["result"]["result"]["stdout"].strip() == "fast"
+
+
+def test_code_worker_does_not_write_bytecode_into_imported_packages(client,tmp_path):
+    module=tmp_path/'bundled_module.py';module.write_text('value=42\n')
+    code=f'import sys;sys.path.insert(0,{str(tmp_path)!r});import bundled_module;print(sys.dont_write_bytecode,bundled_module.value)'
+    queued=client.call('code.run',{'code':code,'cwd':str(tmp_path)})
+    result=client.wait_job(queued['result']['job_id'],timeout=10)
+    assert result['result']['status']=='completed',result
+    assert result['result']['result']['stdout'].strip()=='True 42'
+    assert not (tmp_path/'__pycache__').exists()

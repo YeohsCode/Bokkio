@@ -1,0 +1,17 @@
+Executable=/Users/andrewyeoh/Applications/Bokkio.app/Contents/MacOS/Bokkio
+Identifier=com.bokkio.desktop
+Format=app bundle with Mach-O thin (arm64)
+CodeDirectory v=20500 size=627 flags=0x10002(adhoc,runtime) hashes=9+7 location=embedded
+Hash type=sha256 size=32
+CandidateCDHash sha256=a4c538a945045f0523efdf02747c2e8303dea481
+CandidateCDHashFull sha256=a4c538a945045f0523efdf02747c2e8303dea481884834893354886d5df55a9d
+Hash choices=sha256
+CMSDigest=a4c538a945045f0523efdf02747c2e8303dea481884834893354886d5df55a9d
+CMSDigestType=2
+CDHash=a4c538a945045f0523efdf02747c2e8303dea481
+Signature=adhoc
+Info.plist entries=34
+TeamIdentifier=not set
+Runtime Version=26.5.0
+Sealed Resources version=2 rules=13 files=4735
+Internal requirements count=0 size=12

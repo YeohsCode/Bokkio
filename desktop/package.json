@@ -60,7 +60,9 @@
       "extendInfo": {
         "NSScreenCaptureUsageDescription": "Capture a target window image for optional visual element matching.",
         "NSAppleEventsUsageDescription": "Activate your selected applications."
-      }
+      },
+      "identity": "-",
+      "strictVerify": true
     },
     "win": {
       "target": [

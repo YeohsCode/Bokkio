@@ -1,0 +1,20 @@
+{
+  "platform": "macOS 15.5 ARM64",
+  "installed_app": "/Users/andrewyeoh/Applications/Bokkio.app",
+  "before": {
+    "host_accessibility": true,
+    "runtime_accessibility": false,
+    "root_codesign_verify": "code has no resources but signature indicates they must be present",
+    "tcc_bundle_validation": {
+      "accessing_executable": "Contents/Resources/runtime/python/bin/python3",
+      "status": -67056,
+      "error": "errSecCSResourcesNotFound"
+    }
+  },
+  "after": {
+    "signature_verification": "passed for application, Python, recorder, input and capture helpers; still passes after normal LaunchServices startup",
+    "normal_launch_state": "service running; application initialization awaits OS Keychain confirmation for existing stored provider credentials",
+    "native_session_verified": false,
+    "outlook_task_verified": false
+  }
+}

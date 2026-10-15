@@ -28,7 +28,7 @@ def stage(destination, sdk_python=None):
         from bokkio.macos_capture import _helper
         target=packages/'bokkio'/'native'/'macos_capture';shutil.copy2(_helper(),target);target.chmod(0o755)
     executable=python/('python.exe' if os.name=='nt' else 'bin/python3')
-    subprocess.run([str(executable),'-c','import bokkio.runtime,xa11y,deepseek_harness,deepseek_harness_runtime;print("Bundled Runtime and Harness SDK imports passed")'],check=True)
+    subprocess.run([str(executable),'-c','import bokkio.runtime,xa11y,deepseek_harness,deepseek_harness_runtime;print("Bundled Runtime and Harness SDK imports passed")'],env={**os.environ,"PYTHONDONTWRITEBYTECODE":"1"},check=True)
     (destination/'manifest.json').write_text(json.dumps({'python':str(executable.relative_to(destination)),'platform':sys.platform,'version':sys.version.split()[0]}))
     return destination
 if __name__=='__main__':

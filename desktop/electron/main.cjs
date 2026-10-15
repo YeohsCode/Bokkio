@@ -16,7 +16,7 @@ async function initializeService(){
  const root=path.resolve(__dirname,'../..');
  const executable=app.isPackaged?path.join(process.resourcesPath,'runtime','python',process.platform==='win32'?'python.exe':'bin/python3'):(process.env.BOKKIO_PYTHON||path.join(root,'.venv',process.platform==='win32'?'Scripts/python.exe':'bin/python'));
  const args=['-m','bokkio.desktop_service','--state',stateRoot];
- service=spawn(executable,args,{cwd:app.isPackaged?process.resourcesPath:root,env:{...process.env,BOKKIO_DESKTOP_PID:String(process.pid),BOKKIO_DESKTOP_APP_PATH:process.platform==='darwin'?path.resolve(process.execPath,'../../..'):path.dirname(process.execPath),PYTHONUNBUFFERED:'1',PYTHONUTF8:'1',PYTHONIOENCODING:'utf-8',...(!app.isPackaged?{PYTHONPATH:path.join(root,'src')}: {})},stdio:['ignore','pipe','pipe'],windowsHide:true});
+ service=spawn(executable,args,{cwd:app.isPackaged?process.resourcesPath:root,env:{...process.env,BOKKIO_DESKTOP_PID:String(process.pid),BOKKIO_DESKTOP_APP_PATH:process.platform==='darwin'?path.resolve(process.execPath,'../../..'):path.dirname(process.execPath),PYTHONUNBUFFERED:'1',PYTHONDONTWRITEBYTECODE:'1',PYTHONUTF8:'1',PYTHONIOENCODING:'utf-8',...(!app.isPackaged?{PYTHONPATH:path.join(root,'src')}: {})},stdio:['ignore','pipe','pipe'],windowsHide:true});
  await new Promise((resolve,reject)=>{let buffer='';const timer=setTimeout(()=>reject(Error('Runtime did not start within 45 seconds')),45000);service.once('error',reject);service.once('exit',code=>{clearTimeout(timer);reject(Error('Runtime exited: '+code));});service.stdout.on('data',chunk=>{buffer+=chunk;let i;while((i=buffer.indexOf('\n'))>=0){let line=buffer.slice(0,i);buffer=buffer.slice(i+1);try{let data=JSON.parse(line);if(data.ready){endpoint=data.url;token=data.token;clearTimeout(timer);resolve();}}catch{}}});});
  service.stderr.on('data',()=>{});service.on('exit',()=>{if(!quitting&&mainWindow)mainWindow.webContents.send('runtime-error','Runtime stopped; reopen Bokkio to reconnect.');});
  let key=readKey();
@@ -59,7 +59,7 @@ ipcMain.handle('settings',async(_,data)=>{
  return api('/api/settings',data);
 });
 ipcMain.handle('open-workspace',()=>shell.openPath(stateRoot));
-ipcMain.handle('system',async()=>{const permissions=await api('/api/permissions');return {platform:process.platform,version:app.getVersion(),accessibility:permissions.accessibility,host_accessibility:process.platform==='darwin'?systemPreferences.isTrustedAccessibilityClient(false):true,permissions,credential_encryption:safeStorage.isEncryptionAvailable(),shortcuts:shortcutStatus};});
+ipcMain.handle('system',async()=>{const permissions=await api('/api/permissions'),hostTrusted=process.platform==='darwin'?systemPreferences.isTrustedAccessibilityClient(false):true;return {platform:process.platform,version:app.getVersion(),accessibility:permissions.accessibility,host_accessibility:hostTrusted,permission_issue:hostTrusted&&!permissions.accessibility?'runtime_identity':null,permissions,credential_encryption:safeStorage.isEncryptionAvailable(),shortcuts:shortcutStatus};});
 ipcMain.handle('permission-action',async(_,action)=>{
  if(process.platform!=='darwin')throw Error('Accessibility setup is only needed on macOS');
  const permissions=await api('/api/permissions');

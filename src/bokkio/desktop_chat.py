@@ -11,7 +11,7 @@ def mcp_arguments(config):
     return ['-m','bokkio.desktop_decision','--state',config['state']] if config.get('jev_enabled',True) else ['-m','bokkio.runtime_cli','--state',config['state'],'--local','serve']
 
 def mcp_environment_keys(jev_enabled=True):
-    return ['BOKKIO_DESKTOP_TASK_ID','BOKKIO_DESKTOP_APP_PATH']+(['BOKKIO_JEV_API_KEY','BOKKIO_JEV_SOURCE','BOKKIO_JEV_MODEL','BOKKIO_JEV_API_URL','BOKKIO_JEV_CONFIG','BOKKIO_PROVIDER_KEY','BOKKIO_PROVIDER_BASE_URL','OPENROUTER_API_KEY','TYPESAFE_API_KEY'] if jev_enabled else [])
+    return ['BOKKIO_DESKTOP_TASK_ID','BOKKIO_DESKTOP_APP_PATH','PYTHONDONTWRITEBYTECODE']+(['BOKKIO_JEV_API_KEY','BOKKIO_JEV_SOURCE','BOKKIO_JEV_MODEL','BOKKIO_JEV_API_URL','BOKKIO_JEV_CONFIG','BOKKIO_PROVIDER_KEY','BOKKIO_PROVIDER_BASE_URL','OPENROUTER_API_KEY','TYPESAFE_API_KEY'] if jev_enabled else [])
 
 def patch_yaml(extension,jev_enabled=True):
     # SDK subprocesses scrub ambient credentials. Explicit !!js env references preserve keys without writing their values.
@@ -56,7 +56,7 @@ def main():
             import deepseek_harness_runtime
             executable=Path(deepseek_harness_runtime.__file__).parent/'runtime'/'deepseek-harness-sdk-runtime-win-x64.exe'
             if executable.is_file():kwargs['dsh_bin']=str(executable)
-        with DeepSeekHarness(**kwargs,dsh_home=str(folder/'harness'),profile='sdk-minimal',provider='bokkio',model=config['model'],reasoning_effort='low',max_tokens=8192,cwd=config['workspace'],patches=(str(patch),),env={'BOKKIO_PROVIDER_KEY':os.environ['BOKKIO_PROVIDER_KEY'],'BOKKIO_DESKTOP_TASK_ID':config['task_id'],**{k:v for k,v in os.environ.items() if k=='BOKKIO_DESKTOP_APP_PATH'},**{k:v for k,v in os.environ.items() if k.startswith('BOKKIO_JEV_')},'BOKKIO_PROVIDER_BASE_URL':config['base_url']},initialize_timeout_seconds=60,request_timeout_seconds=600) as harness:
+        with DeepSeekHarness(**kwargs,dsh_home=str(folder/'harness'),profile='sdk-minimal',provider='bokkio',model=config['model'],reasoning_effort='low',max_tokens=8192,cwd=config['workspace'],patches=(str(patch),),env={'PYTHONDONTWRITEBYTECODE':'1','BOKKIO_PROVIDER_KEY':os.environ['BOKKIO_PROVIDER_KEY'],'BOKKIO_DESKTOP_TASK_ID':config['task_id'],**{k:v for k,v in os.environ.items() if k=='BOKKIO_DESKTOP_APP_PATH'},**{k:v for k,v in os.environ.items() if k.startswith('BOKKIO_JEV_')},'BOKKIO_PROVIDER_BASE_URL':config['base_url']},initialize_timeout_seconds=60,request_timeout_seconds=600) as harness:
             request_errors=[]
             def notification(n):
                 payload=n.payload if hasattr(n,'payload') else n.get('payload',{}) if isinstance(n,dict) else {}
