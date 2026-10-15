@@ -1,13 +1,13 @@
 """Project public SDK choices and Runtime receipts into a causal three-level log.
 
-No model reasoning is inferred. Jev is never claimed for the desktop SDK path.
+No hidden reasoning is inferred. Jev participation is derived from actual decision events.
 """
 from __future__ import annotations
 import json
 from .audit import AuditStore
 
 ARCHITECTURE = {
-    'planning': 'Harness SDK', 'selection': 'Harness SDK',
+    'planning': 'Harness SDK', 'selection': 'Jev · native UI / Harness · orchestration',
     'execution': 'Bokkio Runtime / Driver', 'jev_active': False,
     'legacy_three_layer': 'CLI: Planner → Jev → Driver',
 }
@@ -36,8 +36,9 @@ def receipt(value):
 
 def tool_name(name):
     from .runtime import TOOLS
+    tools=TOOLS | {'desktop.step'}
     name=name if isinstance(name,str) else '未知工具'
-    return next((tool for tool in sorted(TOOLS,key=len,reverse=True) if '__'+tool.replace('.','_')+'_' in name),name)
+    return next((tool for tool in sorted(tools,key=len,reverse=True) if '__'+tool.replace('.','_')+'_' in name),name)
 
 def ingest_choice(job,record):
     event=sdk_event(record);data=event.get('data',{})
@@ -85,13 +86,15 @@ def operations(store,*,task_id=None,session_id=None):
     for row in events:
         node=result[row['operation_id']];data=json.loads(row['data'])
         if row['kind']=='request.received':node['parent_operation']=data.get('parent_operation');node['workflow_step']=data.get('workflow_step')
+        if row['kind'].startswith('decision.'):
+            node.setdefault('decision_events',[]).append({'kind':row['kind'],'time':row['time'],**{k:data[k] for k in ('engine','model','source','action','ref','confidence','duration_ms') if k in data}})
         node['events'].append({'id':row['event_id'],'time':row['time'],'kind':row['kind'],**{k:data[k] for k in ('status','dispatched','dispatched_this_attempt','duration_ms','error_type','job_id') if k in data}})
     return result
 
 
 def chat_trace(job,state):
     root={'id':'chat:'+job['id'],'layer':1,'title':job['prompt'],'engine':'Harness SDK','status':job['status'],
-          'detail':'任务规划与工具选择由 Harness 负责；本任务未调用 Jev。','architecture':ARCHITECTURE,'children':[]}
+          'detail':'Harness 规划任务；原生 UI 动作交给 Jev 选择，再由 Runtime 执行。','architecture':{**job.get('architecture',ARCHITECTURE),'jev_active':False},'children':[]}
     choices=job.get('choices')
     if choices is None:
         parsed={}
@@ -100,12 +103,32 @@ def chat_trace(job,state):
     owners={};nodes={}
     unreturned='running' if job['status'] in {'running','cancelling'} else 'cancelled' if job['status']=='cancelled' else 'interrupted'
     for cid,choice in choices.items():
-        node={'id':'choice:'+cid,'layer':2,'title':choice.get('tool','工具返回'),'engine':'Harness · 工具选择','status':choice.get('returned_status',unreturned),
-              'detail':choice.get('detail',''),'call_id':cid,'children':[]};nodes[cid]=node;root['children'].append(node)
+        node={'id':'choice:'+cid,'layer':2,'title':choice.get('tool','工具返回'),'engine':'Harness · 工具编排','status':choice.get('returned_status',unreturned),
+              'detail':choice.get('detail',''),'call_id':cid,'children':[]};nodes[cid]=node
+        if choice.get('tool')!='desktop.step':root['children'].append(node)
         if choice.get('operation_id'):owners.setdefault(choice['operation_id'],[]).append(node)
     audit=operations(AuditStore(state),task_id=job['id'])
+    steps={oid:node for oid,node in audit.items() if node['title']=='desktop.step'}
+    jev_calls=0
+    for oid,step in steps.items():
+        events=step.get('decision_events',[])
+        requests=[e for e in events if e['kind']=='decision.requested']
+        selected=next((e for e in reversed(events) if e['kind']=='decision.selected'),None)
+        decision={'id':'decision:'+oid,'layer':2,'title': 'Jev · '+selected['action'] if selected else 'Jev 局部决策',
+                  'engine':'Jev' if requests else 'Jev · 尚未调用','status':step['status'],'detail':step.get('detail',''),
+                  'operation_id':oid,'events':step['events'],'decision_events':events,'error':step.get('error'),'children':[]}
+        if selected:decision['detail']+=' · '+selected['ref']+' · 置信度 '+str(round(selected['confidence'],3))
+        if requests:decision['detail']+=' · '+requests[0].get('model','Jev')
+        if oid in owners:
+            returned=[n['status'] for n in owners[oid]]
+            decision['status']=next((v for v in ('completion_unknown','failed','denied','cancelled') if v in returned),decision['status'])
+            decision['reused_operation']=len(owners[oid])>1
+            decision['call_id']=owners[oid][0].get('call_id')
+            decision['returned_status']=owners[oid][0].get('returned_status')
+        owners[oid]=[decision];root['children'].append(decision);jev_calls+=len(requests)
     unmatched=[]
     for oid,node in audit.items():
+        if oid in steps:continue
         cursor=oid;visited=set();owner=None
         while cursor and cursor not in visited:
             visited.add(cursor)
@@ -119,6 +142,7 @@ def chat_trace(job,state):
                                  'detail':'等待返回的 operation_id 建立关联，不推测所属决策。','children':unmatched})
     for cid,choice in choices.items():
         node=nodes[cid]
+        if choice.get('tool')=='desktop.step':continue
         if not node['children'] and choice.get('operation_id'):
             node['children'].append({'id':'receipt:'+cid,'layer':3,'title':'MCP 返回回执','engine':'MCP','status':choice.get('returned_status',unreturned),
                                      'operation_id':choice['operation_id'],'detail':'尚无匹配的 Runtime 审计记录。','children':[],'events':[]})
@@ -128,7 +152,14 @@ def chat_trace(job,state):
         if primary:
             statuses=[choice.get('returned_status')]+[c['status'] for c in node['children']]
             node['status']=next((status for status in ('completion_unknown','failed','denied','cancelled','running','queued') if status in statuses),primary['status'])
-    root['counts']={'choices':len(choices),'operations':len(audit)}
+    for oid in steps:
+        node=owners[oid][0]
+        if node['status']=='running' and job['status'] not in {'running','cancelling'}:
+            in_flight=any(c['title'] in {'desktop.act','desktop.input'} and c['status'] in {'running','completion_unknown'} for c in node['children'])
+            node['status']='completion_unknown' if in_flight else 'cancelled' if job['status']=='cancelled' else 'interrupted'
+    root['architecture']['jev_active']=jev_calls>0
+    root['detail']+=f' 本任务实际发起 {jev_calls} 次 Jev 请求。'
+    root['counts']={'choices':len(choices),'operations':len(audit),'jev_calls':jev_calls}
     return root
 
 

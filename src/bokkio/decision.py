@@ -24,6 +24,7 @@ class Decision:
     direction: str | None = None
     amount: float | None = None
     window: str | None = None
+    input: dict | None = None
 
     def as_dict(self):
         return asdict(self)
@@ -108,6 +109,7 @@ def options(snapshot, values, *, include_selected=False):
 
 
 ACTION_DESCRIPTIONS = {
+    "input": "Perform the explicitly requested foreground input on one observed native target; choose the target from current UI evidence.",
     "open": "Open one currently observed native file/folder entry through its advertised AXOpen action; do not edit its name. Verify the resulting folder or document state.",
     "visual_click": "Click one uniquely observed OCR text label in an explicitly authorized window; this label is not a native button. Requires independent post-action verification.",
     "visual_type": "Click and type one allowed literal into an explicitly declared OCR input label; OCR alone never declares an editable field. Requires post-action verification.",
@@ -286,7 +288,7 @@ def bounded_observation(goal, snapshot):
                                   "candidate_refs": sorted(candidate_refs)}}
 
 
-def decide(provider: DecisionProvider, goal: str, snapshot: dict[str, Any], values=(), threshold=0.7, *, narrow=True, allow_done=True, require_action=False):
+def decide(provider: DecisionProvider, goal: str, snapshot: dict[str, Any], values=(), threshold=0.7, *, narrow=True, allow_done=True, require_action=False, inputs=()):
     threshold = _probability(threshold, "confidence threshold")
     if not goal.strip():
         raise BokkioError("Goal must not be empty")
@@ -316,6 +318,16 @@ def decide(provider: DecisionProvider, goal: str, snapshot: dict[str, Any], valu
     if narrow:
         snapshot = bounded_observation(goal, snapshot)
     choices = options(snapshot, values, include_selected=bool(require_action and re.match(r'^\s*select\b',goal,re.I)))
+    if inputs:
+        choices = {"done": {"action": "done", "ref": None, "value": None}}
+        for node in flatten(snapshot['windows']):
+            bounds = node.get('bounds', {})
+            if (node.get('state', {}).get('enabled') is False or node.get('state', {}).get('visible') is False
+                    or not isinstance(bounds, dict) or not all(type(bounds.get(k)) in (int, float) for k in ('x','y','width','height'))
+                    or min(bounds['width'], bounds['height']) <= 0): continue
+            for spec in inputs:
+                if spec['action'] in {'key','type','replace_text'} and node['role'] not in {'window','application'} and 'focus' not in node['actions'] and not node['state'].get('focused'): continue
+                choices[f'c{len(choices)}'] = {'action':'input','ref':node['ref'],'value':None,'input':spec}
     if full_snapshot.get('visual_fallback'):
         choices={k:c for k,c in choices.items() if c['action']=='done' or c['action'].startswith('visual_')}
     if not allow_done:
@@ -450,7 +462,7 @@ def decide(provider: DecisionProvider, goal: str, snapshot: dict[str, Any], valu
             # A short name such as Name can match the requested setting text
             # while hiding the menu needed to reach its absent child. Retry the
             # same native scope once, retaining all capability/identity guards.
-            return decide(provider, goal, full_snapshot, values, threshold, narrow=False, allow_done=allow_done, require_action=require_action)
+            return decide(provider, goal, full_snapshot, values, threshold, narrow=False, allow_done=allow_done, require_action=require_action, inputs=inputs)
         raise BokkioError("No native action candidates for the unverified subtask")
     nodes = {n["ref"]: n for n in flatten(snapshot["windows"])}
     operations = {choice["action"] for choice in choices.values()}
@@ -480,7 +492,7 @@ def decide(provider: DecisionProvider, goal: str, snapshot: dict[str, Any], valu
             criteria[token] = {"element": labels[choice["ref"]], "role": target["role"],
                                "name": target["name"], "current_value": target["value"],
                                "parent_name": nodes.get(target["parent"], {}).get("name"),
-                               **{k: choice[k] for k in ("value", "direction", "amount") if k in choice}}
+                               **{k: choice[k] for k in ("value", "direction", "amount", "input") if k in choice}}
         if len(criteria) > 255:
             chunks = [list(criteria)[i:i + 240] for i in range(0, len(criteria), 240)]
             if len(chunks) > 255:

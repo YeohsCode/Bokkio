@@ -11,7 +11,7 @@ def test_current_desktop_architecture_does_not_claim_jev(tmp_path):
     assert ARCHITECTURE['jev_active'] is False
     job={'id':'a'*32,'prompt':'read editor','status':'running','events':[]}
     tree=chat_trace(job,tmp_path)
-    assert tree['children']==[] and tree['architecture']['selection']=='Harness SDK'
+    assert tree['children']==[] and tree['architecture']['selection'].startswith('Jev') and tree['architecture']['jev_active'] is False
 
 
 def test_returned_failure_is_not_rendered_as_success_and_result_can_arrive_first(tmp_path):

@@ -1,6 +1,6 @@
 # Bokkio 桌面 UX 与操作录制回放计划
 
-2026-10-15，r4。按用户纠正：Shortcuts 的录制是记录应用操作并生成 Workflow，回放是重新执行操作。r3 中加入录像、播放器和视频时间线的设计已撤回。本文件为当前方案。
+2026-10-15，r5。按用户纠正：Shortcuts 的录制是记录应用操作并生成 Workflow，回放是重新执行操作。r3 中加入录像、播放器和视频时间线的设计已撤回。本文件为当前方案。
 
 ## 1. 架构与开源参考
 
@@ -69,4 +69,8 @@ macOS 和 Windows 分别测试；合成模型测试与真实 GUI 结果分别报
 
 ## 7. 分层实时日志
 
-对话使用“任务/规划 → Harness 工具选择 → Runtime 执行/验证”，Shortcuts 使用“Workflow → 固定步骤 → 执行/验证”。UI 明确当前 Jev 未参与，不能把嵌套布局当成三个独立决策器已经启用。实际调用关系、数据关联和验收见[决策分工与实时日志](DECISION-LAYERS.md)。
+对话的新原生 UI 操作使用“全局规划 Harness → 局部决策 Jev → Runtime 执行/读回”，其他工具标为 Harness 编排；Shortcuts 使用“Workflow → 固定步骤 → 执行/验证”。Jev 参与情况从实际调用事件统计。实际调用关系、数据关联和验收见[决策分工与实时日志](DECISION-LAYERS.md)。
+
+## Jev 接线修正
+
+桌面对话已使用 desktop.step 接通 Harness → Jev → Runtime。配置提供 Jev 服务/模型/独立 Key，实时日志从实际 Jev 审计事件形成 L2 节点；纯读取和固定回放保持零次 Jev。模型返回后刷新观察并比较语义树，避免过期或变更的 UI 被继续操作。详见[实际决策链路](DECISION-LAYERS.md)。

@@ -8,8 +8,8 @@ function api(route,data){
  if(!/^\/api\/[a-z][a-z/-]*(\?.*)?$/.test(route))throw Error('Invalid API route');
  return fetch(endpoint+route,{method:data===undefined?'GET':'POST',headers:{'X-Bokkio-Token':token,'Content-Type':'application/json'},body:data===undefined?undefined:JSON.stringify(data)}).then(async r=>{const v=await r.json();if(!r.ok)throw Error(v.error||'Runtime request failed');return v;});
 }
-function credentialPath(){return path.join(app.getPath('userData'),'provider-key.bin');}
-function readKey(){if(fs.existsSync(credentialPath())&&safeStorage.isEncryptionAvailable())return safeStorage.decryptString(fs.readFileSync(credentialPath()));return '';}
+function credentialPath(kind='provider'){return path.join(app.getPath('userData'),kind+'-key.bin');}
+function readKey(kind='provider'){if(fs.existsSync(credentialPath(kind))&&safeStorage.isEncryptionAvailable())return safeStorage.decryptString(fs.readFileSync(credentialPath(kind)));return '';}
 async function initializeService(){
  stateRoot=process.env.BOKKIO_DESKTOP_STATE||path.join(app.getPath('userData'),'runtime');fs.mkdirSync(stateRoot,{recursive:true,mode:0o700});
  const root=path.resolve(__dirname,'../..');
@@ -18,7 +18,7 @@ async function initializeService(){
  service=spawn(executable,args,{cwd:app.isPackaged?process.resourcesPath:root,env:{...process.env,BOKKIO_DESKTOP_PID:String(process.pid),PYTHONUNBUFFERED:'1',PYTHONUTF8:'1',PYTHONIOENCODING:'utf-8',...(!app.isPackaged?{PYTHONPATH:path.join(root,'src')}: {})},stdio:['ignore','pipe','pipe'],windowsHide:true});
  await new Promise((resolve,reject)=>{let buffer='';const timer=setTimeout(()=>reject(Error('Runtime did not start within 45 seconds')),45000);service.once('error',reject);service.once('exit',code=>{clearTimeout(timer);reject(Error('Runtime exited: '+code));});service.stdout.on('data',chunk=>{buffer+=chunk;let i;while((i=buffer.indexOf('\n'))>=0){let line=buffer.slice(0,i);buffer=buffer.slice(i+1);try{let data=JSON.parse(line);if(data.ready){endpoint=data.url;token=data.token;clearTimeout(timer);resolve();}}catch{}}});});
  service.stderr.on('data',()=>{});service.on('exit',()=>{if(!quitting&&mainWindow)mainWindow.webContents.send('runtime-error','Runtime stopped; reopen Bokkio to reconnect.');});
- const key=readKey();if(key)await api('/api/settings',{api_key:key});
+ const key=readKey(),jevKey=readKey('jev');if(key||jevKey)await api('/api/settings',{...(key?{api_key:key}:{}),...(jevKey?{jev_api_key:jevKey}:{})});
 }
 function secureWindow(extra={}){return new BrowserWindow({width:1440,height:950,minWidth:1024,minHeight:700,backgroundColor:'#101317',title:'Bokkio',icon:path.join(__dirname,'../assets/icon.png'),...extra,webPreferences:{preload:path.join(__dirname,'preload.cjs'),contextIsolation:true,nodeIntegration:false,sandbox:true,...extra.webPreferences}});}
 function notify(event){if(mainWindow&&!mainWindow.isDestroyed())mainWindow.webContents.send('shortcut-control',event);}
@@ -46,7 +46,7 @@ ipcMain.handle('api',async(_,route,data)=>{
  try{const result=await api(route,data);if(replay&&headed)watchRun(result.id||data.id);return result;}catch(error){if(replay&&headed)mainWindow.show();throw error;}
 });
 ipcMain.handle('settings',async(_,data)=>{
- if(data?.api_key!==undefined){if(data.api_key&&!safeStorage.isEncryptionAvailable())throw Error('OS credential encryption is unavailable');if(data.api_key)fs.writeFileSync(credentialPath(),safeStorage.encryptString(data.api_key),{mode:0o600});else if(fs.existsSync(credentialPath()))fs.unlinkSync(credentialPath());}
+ for(const [field,kind] of [['api_key','provider'],['jev_api_key','jev']]){if(data?.[field]!==undefined){const value=data[field],file=credentialPath(kind);if(value&&!safeStorage.isEncryptionAvailable())throw Error('OS credential encryption is unavailable');if(value)fs.writeFileSync(file,safeStorage.encryptString(value),{mode:0o600});else if(fs.existsSync(file))fs.unlinkSync(file);}}
  return api('/api/settings',data);
 });
 ipcMain.handle('open-workspace',()=>shell.openPath(stateRoot));
