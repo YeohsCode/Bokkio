@@ -1,0 +1,48 @@
+{
+  "platform": "macOS ARM64",
+  "launch": "normal installed app via LaunchServices",
+  "interaction": "native UI navigation and a real model permission self-check task; no tool API mutation used to create the self-check",
+  "authorization_application": "/Users/andrewyeoh/Applications/Bokkio.app",
+  "runtime_executable": "/Users/andrewyeoh/Applications/Bokkio.app/Contents/Resources/runtime/python/bin/python3",
+  "actual_tool_error": "Error: macOS Accessibility permission is required. 请在系统设置 > 隐私与安全性 > 辅助功能中添加并启用：/Users/andrewyeoh/Applications/Bokkio.app。 实际执行文件：/Users/andrewyeoh/Applications/Bokkio.app/Contents/Resources/runtime/python/bin/python3。 辅助命令：open -R /Users/andrewyeoh/Applications/Bokkio.app；open 'x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility'。 授权后在 Bokkio 配置页刷新状态并重试；仅在状态仍未更新时重新打开 Bokkio。",
+  "checks": [
+    {
+      "name": "settings_displays_full_application_path",
+      "passed": true
+    },
+    {
+      "name": "settings_displays_actual_runtime_executable",
+      "passed": true
+    },
+    {
+      "name": "copy_path_button_shows_success",
+      "passed": true
+    },
+    {
+      "name": "chat_permission_banner_names_application",
+      "passed": true
+    },
+    {
+      "name": "real_harness_mcp_error_retains_app_identity",
+      "passed": true
+    },
+    {
+      "name": "helper_script_opens_system_settings",
+      "passed": true
+    },
+    {
+      "name": "finder_selects_installed_bokkio",
+      "passed": true
+    },
+    {
+      "name": "request_button_opens_system_permission_flow",
+      "passed": true
+    },
+    {
+      "name": "command_details_displays_runnable_shell_commands",
+      "passed": true
+    }
+  ],
+  "os_authorization": "not_granted; system password confirmation remains pending",
+  "desktop_action_execution": "not attempted during the permission self-check"
+}

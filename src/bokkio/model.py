@@ -59,16 +59,11 @@ def native_error_details(error):
 
 
 class BokkioPermissionError(BokkioError):
-    MESSAGE = (
-        "macOS Accessibility permission is required. "
-        "Grant it to the host application or resolved Python binary in "
-        "System Settings > Privacy & Security > Accessibility, then restart "
-        "host application and retry."
-    )
 
     @classmethod
     def from_platform(cls, error: Exception) -> "BokkioPermissionError":
-        result = cls(cls.MESSAGE)
+        from .macos_permissions import permission_message
+        result = cls(permission_message())
         result.__cause__ = error
         return result
 

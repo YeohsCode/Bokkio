@@ -122,7 +122,7 @@ def test_mcp_credentials_are_explicit_env_references_never_patch_literals(monkey
     monkeypatch.setenv('BOKKIO_JEV_API_KEY','must-never-be-persisted')
     text=patch_yaml([{'env':'__BOKKIO_MCP_ENV__'}],True)
     assert '!!js' in text and 'BOKKIO_JEV_API_KEY' in text and 'must-never-be-persisted' not in text
-    assert mcp_environment_keys(False)==['BOKKIO_DESKTOP_TASK_ID']
+    assert mcp_environment_keys(False)==['BOKKIO_DESKTOP_TASK_ID','BOKKIO_DESKTOP_APP_PATH']
     assert 'BOKKIO_JEV_API_KEY' not in patch_yaml([{'env':'__BOKKIO_MCP_ENV__'}],False)
 
 

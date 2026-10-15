@@ -78,6 +78,9 @@ class DesktopStudio(Studio):
         if path=='/api/archived':return self.library.archived()
         if path=='/api/workflows/restore':return self.library.restore(arg('id'),arg('expected_sha256'))
         if path=='/api/architecture':return architecture(self.settings['jev_enabled'])
+        if path=='/api/permissions':
+            from .macos_permissions import permission_status
+            return permission_status()
         if path=='/api/status':
             return {'platform':sys.platform,'local_direct':True,'runtime_python':sys.executable,'state':str(self.state),'recording':self.record.state if self.record else 'idle','busy':self.busy(),'chat_busy':any(p.poll() is None for p in self.chat_processes.values())}
         if path=='/api/settings':
