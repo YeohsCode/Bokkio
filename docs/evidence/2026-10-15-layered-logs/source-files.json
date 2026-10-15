@@ -1,0 +1,19 @@
+{
+  "base_commit": "bf0a806aefcbb8ffc382160646e71d7baff3a596",
+  "files": {
+    "desktop/README.md": "ea3f027918f30df55427f85620da24ca7db3f419085c95c1a11bf55db3515a26",
+    "desktop/src/ExecutionTree.tsx": "ce684ca72e5fd961590ba591fdf839ae94f3e45d18a8812fc8b331fae5235f1a",
+    "desktop/src/main.tsx": "df5ad0c1bd44e79fe8e838fb2eee65459022822354a2367ba5d6620ec39ae769",
+    "desktop/src/style.css": "444216e0dc913088382005907493e92f078ea6d5a524b82e9939da9f610867c8",
+    "desktop/tests/bokkio-desktop-installed-sdk-log.cjs": "4086988559f8dfb5e64a0b963ccef3d17da0dbce0949ed4610e84573f5c4d1b5",
+    "desktop/tests/bokkio-desktop-layered-log.cjs": "d095909ea5971eb6f584afe0e0444804388593b823a09ce291b05882d4bc94fe",
+    "desktop/tests/verify-package.cjs": "89afe56047bf3a35b70cdd4d4e15bed8ea1cee97e81df18a0b30945dfb79d6fb",
+    "scripts/build_desktop_runtime.py": "bb763409e8c56e34b69c04913c809c3873fc9def8d25385b305e86888e64a152",
+    "src/bokkio/desktop_service.py": "41f4b34531403400f658ae9b78afef84bad29f3444fe50e02638dbb8c58c06fb",
+    "src/bokkio/execution_context.py": "7a691513c8d4d3991ad8bbbde18b8e91a5f3da1dd4945ff0ee1540781ce81114",
+    "src/bokkio/execution_log.py": "bdbf8484e47a96a34b303d59c9e05771d4b09a97621834d4a1fa94fba4fb90e1",
+    "src/bokkio/runtime.py": "e0f098e481d6431d235b15e1c20b02659f31eaf8ccb055e55a086d6dff7cad8b",
+    "src/bokkio/runtime_workflow.py": "6d3d4354bc97f817e05822ca7c0b6b98707204c0bccb639eb4a8241c1f47a3e0",
+    "tests/test_execution_log.py": "80e5b8e097e0682978a45cf5271505f5c8985f14747292eb5164a0a5779017b3"
+  }
+}

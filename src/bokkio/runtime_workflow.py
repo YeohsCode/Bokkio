@@ -4,6 +4,7 @@ import copy,json,re,threading,time
 from contextlib import contextmanager
 from pathlib import Path
 from .audit import digest,identifier,summarize
+from .execution_context import workflow_step
 from .workflow import save_json,selector_for,resolve,validate_checks
 from .agent import verify_conditions
 
@@ -285,6 +286,7 @@ class RuntimeWorkflowRunner:
         with library_lock(self.root):return self._run(rid)
     def _run(self,rid):
         if not self.lock.acquire(blocking=False):raise ValueError('A replay is already active')
+        context_token=workflow_step.set(None)
         try:
             r=self.load(rid)
             if r['session_id']!=self.client.session_id:raise ValueError('Resume requires the original live Runtime session')
@@ -294,7 +296,7 @@ class RuntimeWorkflowRunner:
             while r['index']<len(r['workflow']['steps']):
                 if self.path(rid).with_suffix('.cancel').exists():r['status']='cancelled';break
                 if self.path(rid).with_suffix('.pause').exists():r['status']='paused';break
-                s=r['workflow']['steps'][r['index']];phase=r['pending']['phase'] if r['pending'] else None
+                s=r['workflow']['steps'][r['index']];workflow_step.set({'run_id':rid,'step_id':s['id'],'cycle':r.get('cycle',1)});phase=r['pending']['phase'] if r['pending'] else None
                 if s.get('enabled') is False:
                     r['steps'].append({'step_id':s['id'],'status':'skipped','cycle':r.get('cycle',1)});self._advance(r);
                     if r['status']=='paused':return r
@@ -384,6 +386,7 @@ class RuntimeWorkflowRunner:
         finally:
             if 'r' in locals():
                 self._save(r);self.client.runtime.store.emit('workflow.checkpoint',session_id=self.client.session_id,data={'run_id':rid,'status':r['status'],'next_step':r['index']})
+            workflow_step.reset(context_token)
             self.lock.release()
         return r
     def _context_step(self,r,source):

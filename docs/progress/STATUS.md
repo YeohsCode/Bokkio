@@ -2,6 +2,12 @@
 
 更新：2026-10-15；工作候选版 0.3.0。核心交付物 8/8 已实现；macOS 本轮自动测试计划已有逐项结果，产品成功率目标和完整客户／双平台验收尚未达到。
 
+## 分层实时日志（2026-10-15）
+
+已核实：旧 CLI 实现 Planner → Jev → Driver；当前桌面对话由 Harness 同时负责规划和工具选择，再调用 Runtime，Jev 未参与。Shortcuts 使用固定步骤。三层嵌套日志如实展示任务、选择/步骤和执行回执，并标明实际引擎，没有重新接通 Jev。
+
+工具选择与执行按 call_id / operation_id / 父操作 ID 关联，支持跨线程 Workflow、验证失败、取消、结果未知与幂等回执。全量回归 680/680；Mac 实际日志专项 13/13、安装版自带 SDK 模型/MCP 专项 7/7，Windows 最终安装版实际日志专项 13/13。此前 Mac 包缺少 SDK 已修复，打包增加 SDK 导入检查。见[实际分工](../DECISION-LAYERS.md)与[本轮报告](../evidence/2026-10-15-layered-logs/README.md)。
+
 ## Desktop Studio（2026-10-15）
 
 Shortcuts 已纠正为操作录制 → 结构化 Workflow → 重新执行应用操作。视频采集、播放器、视频时间线、屏幕源选择与视频 IPC 已移除；保留控件定位、按需图像锚点、操作时间戳和现有编辑/回放能力。视频字段、配置和媒体接口已剔除，不保留兼容分支。四入口继续由 Electron + React/TypeScript 承载；确定性录制/回放不经过 Planner/Jev，对话复用已有 Harness SDK，无 Java。

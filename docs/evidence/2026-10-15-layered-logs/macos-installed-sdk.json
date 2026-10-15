@@ -1,0 +1,35 @@
+{
+  "checks": [
+    {
+      "name": "installed_app",
+      "passed": true
+    },
+    {
+      "name": "default_harness_uses_bundled_python",
+      "passed": true
+    },
+    {
+      "name": "bundled_sdk_real_model_completed",
+      "passed": true
+    },
+    {
+      "name": "real_sdk_notifications_are_structured",
+      "passed": true
+    },
+    {
+      "name": "actual_runtime_operations_correlated",
+      "passed": true
+    },
+    {
+      "name": "jev_marked_inactive",
+      "passed": true
+    },
+    {
+      "name": "three_level_log_in_installed_ui",
+      "passed": true
+    }
+  ],
+  "scope": "installed_SDK_MCP_capabilities_no_native_input",
+  "sdk_choices": 2,
+  "runtime_operations": 2
+}

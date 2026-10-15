@@ -372,8 +372,8 @@
     "java": false,
     "workflow_schema": "bokkio.runtime-workflow.v2",
     "host_regression": {
-      "passed": 672,
-      "total": 672
+      "passed": 680,
+      "total": 680
     },
     "native_macos": {
       "passed": 10,
@@ -441,5 +441,41 @@
       "independent_readback": true
     },
     "package_video_removal_audit": "passed_on_installed_macOS_and_Windows_packages"
+  },
+  "layered_execution_logs": {
+    "architecture": "Harness planning + Harness tool choice + Runtime execution",
+    "legacy_jev_in_current_desktop": false,
+    "deterministic_workflow_calls_models": false,
+    "log_levels": 3,
+    "causal_ids": [
+      "call_id",
+      "operation_id",
+      "parent_operation",
+      "run_id",
+      "step_id",
+      "cycle"
+    ],
+    "host_regression": {
+      "passed": 680,
+      "total": 680
+    },
+    "macos_live_ui": {
+      "passed": 13,
+      "total": 13
+    },
+    "macos_installed_sdk": {
+      "passed": 7,
+      "total": 7
+    },
+    "sdk_packaging_dependency_check": true,
+    "guide": "docs/DECISION-LAYERS.md",
+    "evidence": "docs/evidence/2026-10-15-layered-logs/README.md",
+    "windows_installed_live": {
+      "passed": 13,
+      "total": 13,
+      "sdk_choices": 3,
+      "runtime_operations": 3,
+      "independent_native_readback": true
+    }
   }
 }

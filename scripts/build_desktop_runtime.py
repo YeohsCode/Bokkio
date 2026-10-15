@@ -15,7 +15,9 @@ def stage(destination, sdk_python=None):
     shutil.copytree(Path(__file__).resolve().parents[1]/'src'/'bokkio',packages/'bokkio',ignore=shutil.ignore_patterns('__pycache__','*.pyc'))
     if sdk_python:
         donor=Path(subprocess.check_output([str(sdk_python),'-c','import sysconfig;print(sysconfig.get_path("purelib"))'],text=True).strip())
-        for p in donor.glob('deepseek*'):
+        sdk_packages=list(donor.glob('deepseek*'))
+        if not any(p.name=='deepseek_harness' for p in sdk_packages):raise RuntimeError('SDK donor does not contain deepseek_harness; install the desktop extra')
+        for p in sdk_packages:
             if p.is_dir():shutil.copytree(p,packages/p.name,dirs_exist_ok=True,ignore=shutil.ignore_patterns('__pycache__','*.pyc'))
     # Remove editable install roots that refer to the developer's checkout.
     for p in packages.glob('*bokkio*.pth'):p.unlink()
@@ -26,7 +28,7 @@ def stage(destination, sdk_python=None):
         from bokkio.macos_capture import _helper
         target=packages/'bokkio'/'native'/'macos_capture';shutil.copy2(_helper(),target);target.chmod(0o755)
     executable=python/('python.exe' if os.name=='nt' else 'bin/python3')
-    subprocess.run([str(executable),'-c','import bokkio.runtime,xa11y;print("Bundled Runtime imports passed")'],check=True)
+    subprocess.run([str(executable),'-c','import bokkio.runtime,xa11y,deepseek_harness,deepseek_harness_runtime;print("Bundled Runtime and Harness SDK imports passed")'],check=True)
     (destination/'manifest.json').write_text(json.dumps({'python':str(executable.relative_to(destination)),'platform':sys.platform,'version':sys.version.split()[0]}))
     return destination
 if __name__=='__main__':

@@ -66,3 +66,7 @@ macOS 原生助手监听 CGEventTap，并读取 AX 控件和窗口上下文。Wi
 macOS 和 Windows 分别测试；合成模型测试与真实 GUI 结果分别报告。历史 TextEdit/Notepad 的成功不能代替 Finder/Explorer、Excel、飞书、Safari/Edge 中的菜单、弹窗、虚拟列表和实际保存验证。原完整业务矩阵仍维持用户要求的暂停。
 
 当前专项结果见 [操作录制修正报告](evidence/2026-10-15-operation-recording/README.md)。后续产品工作仍包括真实应用矩阵、不同显示缩放/输入法，以及签名发布/更新。
+
+## 7. 分层实时日志
+
+对话使用“任务/规划 → Harness 工具选择 → Runtime 执行/验证”，Shortcuts 使用“Workflow → 固定步骤 → 执行/验证”。UI 明确当前 Jev 未参与，不能把嵌套布局当成三个独立决策器已经启用。实际调用关系、数据关联和验收见[决策分工与实时日志](DECISION-LAYERS.md)。

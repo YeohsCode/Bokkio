@@ -1,5 +1,6 @@
 """Model-free Computer Use boundary shared by MCP, CLI and generated code."""
 from __future__ import annotations
+from .execution_context import parent_operation, workflow_step
 
 from concurrent.futures import ThreadPoolExecutor
 import getpass
@@ -234,7 +235,8 @@ class Runtime:
                                   "device_id": digest({"node": platform.node(), "platform": platform.system()})[:20],
                                   "trace_id": session_id or operation_id, "attempt_id": identifier(),
                                   "task_id": task_id or arguments.get("task_id", operation_id) if isinstance(arguments, dict) else operation_id,
-                                  "parent_operation": os.environ.get("BOKKIO_PARENT_OPERATION")}, db=db)
+                                  "parent_operation": parent_operation.get() or os.environ.get("BOKKIO_PARENT_OPERATION"),
+                                  "workflow_step": workflow_step.get()}, db=db)
         claimed = False
         try:
             if tool not in TOOLS:
@@ -276,7 +278,9 @@ class Runtime:
             self.store.emit("execution.intent", session_id=session_id, operation_id=operation_id,
                             data={"tool": tool, "request_sha256": request_hash, "policy_sha256": digest(self.policy), "write": write})
             claimed = True
-            payload = self._execute(tool, arguments, scope, session_id, operation_id)
+            parent_token = parent_operation.set(operation_id)
+            try:payload = self._execute(tool, arguments, scope, session_id, operation_id)
+            finally:parent_operation.reset(parent_token)
             if tool == "session.open":
                 session_id = payload["session_id"]
                 with self.store.connect() as db:
@@ -435,7 +439,9 @@ class Runtime:
                 except Exception as error:
                     value=runner.load(run['id']);value.update(status='failed',error={'message':str(error)})
                     runner._save(value)
-            thread=threading.Thread(target=execute,daemon=True)
+            from contextvars import copy_context
+            execution_context=copy_context()
+            thread=threading.Thread(target=lambda:execution_context.run(execute),daemon=True)
             self._workflow_threads[run['id']]=thread;thread.start()
             return {'run_id':run['id'],'status':'running'}
         if tool == "capabilities":

@@ -1,0 +1,16 @@
+{
+  "python": {
+    "passed": 680,
+    "total": 680
+  },
+  "execution_log_regressions": {
+    "passed": 8,
+    "total": 8
+  },
+  "typescript_vite": "passed",
+  "existing_recording_regressions": {
+    "passed": 3,
+    "total": 3
+  },
+  "desktop_jev_active": false
+}

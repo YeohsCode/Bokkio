@@ -9,6 +9,7 @@ from .runtime import Runtime
 from .local_runtime import LocalRuntime
 from .sdk import Client
 from .audit import identifier
+from .execution_log import ARCHITECTURE,ingest_choice,chat_trace,workflow_trace
 
 class DesktopStudio(Studio):
     local_direct=True
@@ -17,7 +18,7 @@ class DesktopStudio(Studio):
         self.config_path=self.state/'desktop-settings.json'
         self.settings={'provider':'openai-compatible','base_url':'https://openrouter.ai/api/v1','model':'z-ai/glm-5.3-flash','harness_python':os.environ.get('BOKKIO_HARNESS_PYTHON',sys.executable),'workspace':str(Path.home()/'Bokkio Workspace')}
         if self.config_path.exists():self.settings.update({k:v for k,v in json.loads(self.config_path.read_text()).items() if k in self.settings})
-        self.api_key='';self.chats={};self.chat_processes={}
+        self.api_key='';self.chats={};self.chat_processes={};self.chat_log_lock=threading.RLock()
         for path in (self.state/'workflow-drafts').glob('*.json'):
             value=json.loads(path.read_text())
             if value.get('status') in {'recording','paused'}:value.update(status='interrupted',error='操作录制中断，已保留捕获的步骤');save_json(path,value)
@@ -37,6 +38,13 @@ class DesktopStudio(Studio):
         return self.inspector
     def save_workflow(self,document,expected_sha=None):
         value=self.library.save(document,expected_sha);(self.state/'workflow-drafts'/(value['id']+'.json')).unlink(missing_ok=True);return value
+    def run_view(self,rid):
+        value=super().run_view(rid);value['trace']=workflow_trace(value,self.state);return value
+    def chat_view(self,value):
+        with self.chat_log_lock:
+            snapshot={**value,'events':list(value.get('events',[]))}
+            if 'choices' in value:snapshot['choices']={k:dict(v) for k,v in value['choices'].items()}
+        return {**snapshot,'trace':chat_trace(snapshot,self.state)}
     def start_run(self,wid,mode,pregranted=True,**controls):
         with self.lock:
             if self.busy() or self.record and self.record.state in {'recording','paused'} or any(p.poll() is None for p in self.chat_processes.values()):raise ValueError('Finish the current recording or task first')
@@ -60,6 +68,7 @@ class DesktopStudio(Studio):
             return json.loads((self.state/'workflow-drafts'/(wid+'.json')).read_text())
         if path=='/api/archived':return self.library.archived()
         if path=='/api/workflows/restore':return self.library.restore(arg('id'),arg('expected_sha256'))
+        if path=='/api/architecture':return ARCHITECTURE
         if path=='/api/status':
             return {'platform':sys.platform,'local_direct':True,'runtime_python':sys.executable,'state':str(self.state),'recording':self.record.state if self.record else 'idle','busy':self.busy(),'chat_busy':any(p.poll() is None for p in self.chat_processes.values())}
         if path=='/api/settings':
@@ -143,7 +152,7 @@ class DesktopStudio(Studio):
             cid=identifier();folder=self.state/'chats'/cid;folder.mkdir(parents=True,exist_ok=True,mode=0o700)
             workspace=Path(self.settings['workspace']).expanduser();workspace.mkdir(parents=True,exist_ok=True)
             payload={**self.settings,'state':str(self.state),'runtime_python':sys.executable,'runtime_cwd':str(Path(__file__).resolve().parents[2]),'folder':str(folder),'prompt':prompt,'task_id':cid}
-            job={'id':cid,'prompt':prompt,'status':'running','events':[],'response':'','created_at':time.time()};self.chats[cid]=job
+            job={'id':cid,'prompt':prompt,'status':'running','events':[],'choices':{},'architecture':ARCHITECTURE,'response':'','created_at':time.time()};self.chats[cid]=job
             save_json(self.state/'chats'/(cid+'.json'),job)
             env={**os.environ,'BOKKIO_PROVIDER_KEY':self.api_key,'PYTHONPATH':str(Path(__file__).resolve().parents[1])+os.pathsep+os.environ.get('PYTHONPATH','')}
             process=subprocess.Popen([self.settings['harness_python'],'-m','bokkio.desktop_chat'],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,env=env,start_new_session=os.name!='nt')
@@ -160,7 +169,9 @@ class DesktopStudio(Studio):
                         except ValueError:continue
                         if event.get('kind')=='result':
                             terminal_status=event['status'];job.update(response=event.get('response',''),error=event.get('error'))
-                        else:job['events'].append(event);job['events']=job['events'][-1000:]
+                        else:
+                            with self.chat_log_lock:
+                                ingest_choice(job,event);job['events'].append(event);job['events']=job['events'][-1000:]
                         save_json(self.state/'chats'/(cid+'.json'),job)
                         if terminal_status:break
                     try:process.wait(timeout=10)
@@ -175,7 +186,7 @@ class DesktopStudio(Studio):
         if path=='/api/chat':
             cid=arg('id')
             if not cid or not __import__('re').fullmatch('[a-f0-9]{32}',cid):raise ValueError('Invalid task ID')
-            return self.chats.get(cid) or json.loads((self.state/'chats'/(cid+'.json')).read_text())
+            return self.chat_view(self.chats.get(cid) or json.loads((self.state/'chats'/(cid+'.json')).read_text()))
         if path=='/api/chats':return sorted((json.loads(p.read_text()) for p in (self.state/'chats').glob('*.json')),key=lambda value:value.get('created_at',0),reverse=True)[:50]
         raise ValueError('Unknown desktop route')
     def close(self):
