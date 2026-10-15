@@ -1,0 +1,118 @@
+{
+  "checks": [
+    {
+      "name": "workflow_library_visible",
+      "passed": true
+    },
+    {
+      "name": "录制_no_workflow_library",
+      "passed": true
+    },
+    {
+      "name": "录制_space_reclaimed",
+      "passed": true
+    },
+    {
+      "name": "对话_no_workflow_library",
+      "passed": true
+    },
+    {
+      "name": "对话_space_reclaimed",
+      "passed": true
+    },
+    {
+      "name": "配置_no_workflow_library",
+      "passed": true
+    },
+    {
+      "name": "配置_space_reclaimed",
+      "passed": true
+    },
+    {
+      "name": "missing_key_has_actionable_setup",
+      "passed": true
+    },
+    {
+      "name": "send_without_key_opens_settings",
+      "passed": true
+    },
+    {
+      "name": "no_electron_error_when_unconfigured",
+      "passed": true
+    },
+    {
+      "name": "connection_test_uses_unsaved_fields",
+      "passed": true
+    },
+    {
+      "name": "key_not_rendered_after_save",
+      "passed": true
+    },
+    {
+      "name": "prompt_preserved_after_setup",
+      "passed": true
+    },
+    {
+      "name": "setup_disappears_after_save",
+      "passed": true
+    },
+    {
+      "name": "real_model_task_completed",
+      "passed": true
+    },
+    {
+      "name": "real_model_response_visible",
+      "passed": true
+    },
+    {
+      "name": "chat_composer_fits_without_page_scroll",
+      "passed": true
+    },
+    {
+      "name": "encrypted_key_restored_after_restart",
+      "passed": true
+    },
+    {
+      "name": "real_model_task_completed",
+      "passed": true
+    },
+    {
+      "name": "real_model_response_visible",
+      "passed": true
+    },
+    {
+      "name": "chat_composer_fits_without_page_scroll",
+      "passed": true
+    },
+    {
+      "name": "provider_failure_keeps_actionable_cause",
+      "passed": true
+    },
+    {
+      "name": "deleted_key_not_reimported",
+      "passed": true
+    },
+    {
+      "name": "existing_bokkio_config_imported_to_encrypted_storage",
+      "passed": true
+    },
+    {
+      "name": "imported_provider_connection_works",
+      "passed": true
+    },
+    {
+      "name": "real_model_task_completed",
+      "passed": true
+    },
+    {
+      "name": "real_model_response_visible",
+      "passed": true
+    },
+    {
+      "name": "chat_composer_fits_without_page_scroll",
+      "passed": true
+    }
+  ],
+  "scope": "installed_UI_navigation_model_setup_real_chat_restart",
+  "packaged": true
+}

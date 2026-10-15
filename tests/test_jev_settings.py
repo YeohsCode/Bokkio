@@ -132,3 +132,11 @@ def test_sdk_empty_answer_does_not_claim_task_completed():
     result=harness_result(SimpleNamespace(finish_reason='completed',final_response=''))
     assert result['status']=='failed' and 'without a visible final answer' in result['error']
     assert harness_result(SimpleNamespace(finish_reason='completed',final_response='Verified result'))['status']=='completed'
+
+
+def test_desktop_model_failure_reports_actionable_status_without_upstream_secrets():
+    from types import SimpleNamespace
+    from bokkio.desktop_chat import harness_result
+    result=harness_result(SimpleNamespace(finish_reason='error',final_response=''),'402: insufficient credits; private-url-and-account-id')
+    assert result['status']=='failed' and '402' in result['error'] and '额度' in result['error']
+    assert 'private-url' not in result['error']

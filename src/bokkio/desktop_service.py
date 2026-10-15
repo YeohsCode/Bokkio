@@ -166,7 +166,7 @@ class DesktopStudio(Studio):
             if self.busy() or self.record and self.record.state in {'recording','paused'} or any(p.poll() is None for p in self.chat_processes.values()):raise ValueError('Finish the current recording, workflow or task first')
             prompt=arg('prompt','').strip()
             if not prompt:raise ValueError('Enter a task')
-            if not self.api_key:raise ValueError('Configure your provider API key in Settings')
+            if not self.api_key:raise ValueError('请在配置中填写模型 API Key，然后返回对话继续执行任务')
             cid=identifier();folder=self.state/'chats'/cid;folder.mkdir(parents=True,exist_ok=True,mode=0o700)
             workspace=Path(self.settings['workspace']).expanduser();workspace.mkdir(parents=True,exist_ok=True)
             payload={**self.settings,'state':str(self.state),'runtime_python':sys.executable,'runtime_cwd':str(Path(__file__).resolve().parents[2]),'folder':str(folder),'prompt':prompt,'task_id':cid}

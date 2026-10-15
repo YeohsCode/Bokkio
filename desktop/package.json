@@ -37,6 +37,7 @@
       "dist/**",
       "electron/main.cjs",
       "electron/preload.cjs",
+      "electron/provider-config.cjs",
       "electron/overlay.html",
       "electron/overlay.js",
       "package.json",

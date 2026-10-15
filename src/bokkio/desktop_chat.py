@@ -26,11 +26,19 @@ def instructions_for(prompt,jev_enabled=True):
 JEV_INSTRUCTIONS='You are the global planner. For every new native UI interaction, call desktop.step with one local goal, app, exact window and allowed_values. Jev selects the action and target; do not choose refs yourself or use code/process tools to manipulate UI. For keys, right-click, drag or explicit foreground input, pass the input specification to desktop.step; Jev chooses its native target. Each step executes at most one action and returns readback; use that evidence to continue or replan. Saved workflows execute their fixed steps without Jev. Code/process tools are for non-UI work such as files and data. Never silently bypass a failed Jev decision. '
 GENERAL_INSTRUCTIONS='Use Bokkio MCP for desktop, browser, files, code and saved workflows. This is the current user’s local desktop: execute the requested task directly. Observe the exact window named in the task with max_nodes=60 and max_bytes=16000. Open a session first; session_id and operation_id are top-level siblings of arguments. Observe the real target before actions, read back results, and never redispatch completion_unknown. Prefer a saved Workflow when it matches. Do not claim completion from a posted input receipt alone. Task: '
 
-def harness_result(result):
+def provider_failure(message):
+    import re
+    match=re.search(r'(?<!\d)(401|402|403|404|408|429|500|502|503|504)(?!\d)',message)
+    if not match:return '模型请求失败，请检查 API 地址、模型名称和连接状态。'
+    code=match[1]
+    reason={'401':'API Key 无效或已失效','402':'账户余额或 Key 额度不足，请更换模型或凭据','403':'API Key 没有该模型的访问权限','404':'API 地址或模型名称不存在','408':'模型请求超时','429':'模型服务限流或配额已用尽'}.get(code,'模型服务暂时不可用')
+    return f'模型请求失败（HTTP {code}）：{reason}。'
+
+def harness_result(result,request_error=None):
     response=result.final_response or ''
     completed=result.finish_reason=='completed' and bool(response.strip())
     return {'kind':'result','status':'completed' if completed else 'failed','response':response,'finish_reason':result.finish_reason,
-            **({'error':'Harness ended without a visible final answer; inspect execution receipts before retrying.'} if not response.strip() else {})}
+            **({'error':provider_failure(request_error) if request_error else 'Harness ended without a visible final answer; inspect execution receipts before retrying.'} if not response.strip() else {})}
 
 def main():
     signal.signal(signal.SIGTERM,lambda *_:(_ for _ in ()).throw(KeyboardInterrupt()))
@@ -49,8 +57,16 @@ def main():
             executable=Path(deepseek_harness_runtime.__file__).parent/'runtime'/'deepseek-harness-sdk-runtime-win-x64.exe'
             if executable.is_file():kwargs['dsh_bin']=str(executable)
         with DeepSeekHarness(**kwargs,dsh_home=str(folder/'harness'),profile='sdk-minimal',provider='bokkio',model=config['model'],reasoning_effort='low',max_tokens=8192,cwd=config['workspace'],patches=(str(patch),),env={'BOKKIO_PROVIDER_KEY':os.environ['BOKKIO_PROVIDER_KEY'],'BOKKIO_DESKTOP_TASK_ID':config['task_id'],**{k:v for k,v in os.environ.items() if k.startswith('BOKKIO_JEV_')},'BOKKIO_PROVIDER_BASE_URL':config['base_url']},initialize_timeout_seconds=60,request_timeout_seconds=600) as harness:
-            result=harness.run(instructions,session_id=config['task_id'],on_notification=lambda n:emit({'kind':'notification','data':n}))
-            emit(harness_result(result))
+            request_errors=[]
+            def notification(n):
+                payload=n.payload if hasattr(n,'payload') else n.get('payload',{}) if isinstance(n,dict) else {}
+                event=payload.get('event',{}) if isinstance(payload,dict) else {}
+                if event.get('type')=='turn/end':
+                    reason=event.get('data',{}).get('reason',{})
+                    if reason.get('kind')=='error':request_errors.append(str(reason.get('error',{}).get('message','')))
+                emit({'kind':'notification','data':n})
+            result=harness.run(instructions,session_id=config['task_id'],on_notification=notification)
+            emit(harness_result(result,request_errors[-1] if request_errors else None))
     except KeyboardInterrupt:
         emit({'kind':'result','status':'cancelled','response':''})
     except Exception as error:

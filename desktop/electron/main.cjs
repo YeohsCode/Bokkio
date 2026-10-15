@@ -19,7 +19,14 @@ async function initializeService(){
  service=spawn(executable,args,{cwd:app.isPackaged?process.resourcesPath:root,env:{...process.env,BOKKIO_DESKTOP_PID:String(process.pid),PYTHONUNBUFFERED:'1',PYTHONUTF8:'1',PYTHONIOENCODING:'utf-8',...(!app.isPackaged?{PYTHONPATH:path.join(root,'src')}: {})},stdio:['ignore','pipe','pipe'],windowsHide:true});
  await new Promise((resolve,reject)=>{let buffer='';const timer=setTimeout(()=>reject(Error('Runtime did not start within 45 seconds')),45000);service.once('error',reject);service.once('exit',code=>{clearTimeout(timer);reject(Error('Runtime exited: '+code));});service.stdout.on('data',chunk=>{buffer+=chunk;let i;while((i=buffer.indexOf('\n'))>=0){let line=buffer.slice(0,i);buffer=buffer.slice(i+1);try{let data=JSON.parse(line);if(data.ready){endpoint=data.url;token=data.token;clearTimeout(timer);resolve();}}catch{}}});});
  service.stderr.on('data',()=>{});service.on('exit',()=>{if(!quitting&&mainWindow)mainWindow.webContents.send('runtime-error','Runtime stopped; reopen Bokkio to reconnect.');});
- const key=readKey(),jevKey=readKey('jev');if(key||jevKey)await api('/api/settings',{...(key?{api_key:key}:{}),...(jevKey?{jev_api_key:jevKey}:{})});
+ let key=readKey();
+ // First launch reuses the user's Bokkio planner configuration, then owns an
+ // encrypted copy. Existing desktop settings and explicit credential deletion win.
+ if(!key&&!fs.existsSync(path.join(stateRoot,'desktop-settings.json'))&&safeStorage.isEncryptionAvailable()){
+  const imported=require('./provider-config.cjs').localProviderConfig();
+  if(imported){await api('/api/settings',imported);fs.writeFileSync(credentialPath(),safeStorage.encryptString(imported.api_key),{mode:0o600});key=imported.api_key;}
+ }
+ const jevKey=readKey('jev');if(key||jevKey)await api('/api/settings',{...(key?{api_key:key}:{}),...(jevKey?{jev_api_key:jevKey}:{})});
 }
 function secureWindow(extra={}){return new BrowserWindow({width:1440,height:950,minWidth:1024,minHeight:700,backgroundColor:'#101317',title:'Bokkio',icon:path.join(__dirname,'../assets/icon.png'),...extra,webPreferences:{preload:path.join(__dirname,'preload.cjs'),contextIsolation:true,nodeIntegration:false,sandbox:true,...extra.webPreferences}});}
 function notify(event){if(mainWindow&&!mainWindow.isDestroyed())mainWindow.webContents.send('shortcut-control',event);}
