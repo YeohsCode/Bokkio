@@ -1,6 +1,7 @@
 const {app,BrowserWindow,ipcMain,globalShortcut,safeStorage,shell,systemPreferences,screen,Tray,Menu,nativeImage}=require('electron');
 const {spawn}=require('node:child_process');
 const fs=require('node:fs');const path=require('node:path');
+if(process.env.BOKKIO_DESKTOP_USER_DATA){const folder=path.resolve(process.env.BOKKIO_DESKTOP_USER_DATA);fs.mkdirSync(folder,{recursive:true});app.setPath('userData',folder);}
 let mainWindow,overlay,service,endpoint,token,stateRoot;let quitting=false,activeRun=null,runWatch=null,watchEpoch=0,tray=null,badgeWatch=null;const shortcutStatus=[];let recordingTransition=Promise.resolve();
 function mutateRecording(fn){const next=recordingTransition.catch(()=>{}).then(fn);recordingTransition=next.catch(()=>{});return next;}
 async function globalControl(control){if(control==='emergency')return emergency();if(control==='pause'&&activeRun)return api('/api/runs/pause',{id:activeRun});return mutateRecording(async()=>{const state=await api('/api/record');if(control==='pause'){if(['recording','paused'].includes(state.status))notify({type:'recording-state',preview:await pauseRecording(state.status==='recording')});}else if(['recording','paused'].includes(state.status))notify({type:'recording-finished',preview:await finishRecording()});else notify('record');});}

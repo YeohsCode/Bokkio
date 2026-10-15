@@ -1,6 +1,7 @@
 """Jev Decisions transport with private config and environment overrides."""
 from __future__ import annotations
 import json
+import ipaddress
 import os
 from pathlib import Path
 import sys
@@ -8,6 +9,7 @@ import ssl
 import time
 import urllib.error
 import urllib.request
+from urllib.parse import urlparse
 from .model import BokkioError
 
 
@@ -22,11 +24,23 @@ def config_path() -> Path:
     return Path(os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config")) / "bokkio/jev.json"
 
 
+def validate_api_url(value):
+    if not isinstance(value, str): raise BokkioError("Jev API URL must be a string")
+    try:
+        parsed = urlparse(value)
+        port = parsed.port
+    except ValueError:
+        raise BokkioError("Invalid Jev API URL") from None
+    if parsed.scheme not in {"http", "https"} or not parsed.hostname or parsed.username or parsed.password or parsed.fragment:
+        raise BokkioError("Jev API URL must be a complete HTTP(S) endpoint without embedded credentials")
+    return value
+
+
 class JevProvider:
     ENDPOINTS = {"typesafe": "https://api.typesafe.ai/v1/systemone",
                  "openrouter": "https://openrouter.ai/api/alpha/decisions"}
 
-    def __init__(self, api_key=None, model=None, timeout=30, opener=None, source=None):
+    def __init__(self, api_key=None, model=None, timeout=30, opener=None, source=None, api_url=None):
         settings = {}
         environment_key = os.environ.get("OPENROUTER_API_KEY") or os.environ.get("TYPESAFE_API_KEY")
         if api_key is None and not environment_key:
@@ -42,18 +56,26 @@ class JevProvider:
             raise BokkioError("Jev key is not configured; set OPENROUTER_API_KEY or private Bokkio jev.json")
         self.source = source or os.environ.get("BOKKIO_JEV_SOURCE") or settings.get("source") or (
             "openrouter" if self._key.startswith("sk-or-") or (api_key is None and os.environ.get("OPENROUTER_API_KEY")) else "typesafe")
-        if self.source not in self.ENDPOINTS:
-            raise BokkioError("Jev source must be openrouter or typesafe")
-        if self._key.startswith("sk-or-") and self.source != "openrouter":
+        endpoint = api_url or os.environ.get('BOKKIO_JEV_API_URL') or settings.get('api_url')
+        if self.source not in {*self.ENDPOINTS, 'custom'}:
+            raise BokkioError("Jev source must be openrouter, typesafe or custom")
+        if self._key.startswith("sk-or-") and self.source != "openrouter" and not endpoint:
             raise BokkioError("OpenRouter keys require the OpenRouter Decisions endpoint")
-        self.endpoint = self.ENDPOINTS[self.source]
+        self.endpoint = validate_api_url(endpoint or self.ENDPOINTS.get(self.source))
         self.model = model or os.environ.get("BOKKIO_JEV_MODEL") or settings.get("model") or (
             "typesafe/jev-1.13" if self.source == "openrouter" else "jev-latest")
         self.timeout = timeout
         if opener is None:
             import certifi
             context = ssl.create_default_context(cafile=certifi.where())
-            self._opener = lambda request, timeout: urllib.request.urlopen(request, timeout=timeout, context=context)
+            host = urlparse(self.endpoint).hostname
+            try: loopback = ipaddress.ip_address(host).is_loopback
+            except ValueError: loopback = host == 'localhost'
+            if loopback:
+                # Local Jev services must stay local even when the OS has an HTTP proxy.
+                self._opener = urllib.request.build_opener(urllib.request.ProxyHandler({}), urllib.request.HTTPSHandler(context=context)).open
+            else:
+                self._opener = lambda request, timeout: urllib.request.urlopen(request, timeout=timeout, context=context)
         else:
             self._opener = opener
 

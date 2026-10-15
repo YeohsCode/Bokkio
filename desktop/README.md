@@ -25,8 +25,8 @@ npm --prefix desktop run package
 
 - Shortcuts：操作步骤表、步骤多选/复制/删除/拖动、撤销/重做、目标拾取、图像锚点、相对位置、参数、断点、单步、运行日志、版本恢复与归档恢复。
 - 录制：选择实际运行的应用；捕获点击、输入、快捷键及控件/窗口属性，生成结构化步骤；暂停、继续和停止；失败/未识别步骤显示出来，草稿保留在本机。
-- 对话：调用 DeepSeek Harness SDK 与 Bokkio MCP；新原生界面操作经 Harness 全局规划 → Jev 局部动作/控件选择 → Runtime 执行/读回，三层日志对应真实决策和操作 ID；纯读取、固定 Workflow 不调用 Jev。
-- 配置：全局模型与 Jev 服务/模型/独立密钥、工作目录、系统加密凭证、连接测试、系统授权状态。
+- 对话：调用 DeepSeek Harness SDK 与 Bokkio MCP；启用 Jev 时，新原生界面操作经 Harness 全局规划 → Jev 局部动作/控件选择 → Runtime 执行/读回；关闭时 Harness 直接选择动作和控件，三层日志对应真实决策和操作 ID；纯读取、固定 Workflow 不调用 Jev。
+- 配置：全局模型与 Jev 开关/自定义 API URL/模型/独立密钥、工作目录、系统加密凭证、连接测试、系统授权状态。
 
 本机直接执行默认开启；企业 CLI 仍使用显式策略。前台回放时主窗口让出屏幕，暂停或完成后恢复。Ctrl/⌘ + Shift + F12 全局停止；Ctrl/⌘ + Shift + P 暂停。后台回放限可验证的原生操作，不向后台应用发送普通鼠标和键盘事件。
 
@@ -56,3 +56,5 @@ node desktop/tests/bokkio-desktop-windows-stop.cjs
 分层日志与当前决策路径见[实际分工](../docs/DECISION-LAYERS.md)。日志可全部展开/收起，按真实操作 ID 关联；同一操作的缓存回执不会显示为新派发。
 
 Jev 接线实测：显式配置 BOKKIO_TEST_API_KEY / BOKKIO_TEST_BASE_URL / BOKKIO_TEST_MODEL，在可丢弃的唯一 TextEdit/Notepad 文档上运行 `node desktop/tests/bokkio-desktop-jev.cjs`。测试实际模型、原生全文替换、键盘输入、独立读回、Jev 事件与三层 UI。凭证仅进服务内存；用 BOKKIO_ELECTRON 指定安装版。见[报告](../docs/evidence/2026-10-15-desktop-jev/README.md)。
+
+Jev 配置：选择预设或填写完整 HTTP(S) endpoint、模型名和对应 Key，保存后用于下一任务。自定义接口遵循 Jev Decisions 协议，关闭时不加载 Jev。历史任务保留执行时的模式。`node desktop/tests/bokkio-desktop-jev-options.cjs` 使用隔离凭证目录验证自定义服务、开关两种模式与重启持久化；本机 relay 将自定义模型别名映射到真实 Jev 后端。

@@ -335,3 +335,11 @@ def test_foreign_observation_is_denied_before_execution_intent(setup):
     assert result['status'] == 'denied' and result['dispatched'] is False
     assert desktop.dispatches == 0
     assert not any(e['kind']=='execution.intent' for e in client.runtime.store.query(operation_id='foreign-observation'))
+
+
+def test_invalid_expected_value_is_rejected_before_native_dispatch(setup):
+    client,desktop,*_=setup
+    client.runtime.policy['require_approval']=False
+    result=client.call('desktop.act',{**action(client),'expected_value':'initial'})
+    assert result['status']=='denied' and result['dispatched'] is False
+    assert desktop.dispatches==0 and 'only valid for type' in result['error']
