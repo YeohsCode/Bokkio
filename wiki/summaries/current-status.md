@@ -1,10 +1,10 @@
 ---
 title: "当前阶段与证据快照"
 created: "2026-10-08"
-updated: "2026-10-13"
+updated: "2026-10-16"
 type: "summary"
 tags: ["project", "evidence", "runtime", "meta"]
-sources: ["docs/progress/STATUS.md", "docs/evidence/2026-10-13-capability-modules/README.md"]
+sources: ["docs/progress/STATUS.md", "docs/evidence/2026-10-13-capability-modules/README.md", "docs/evidence/2026-10-16-outlook-powershell/README.md", "docs/OUTLOOK-GRAPH.md"]
 confidence: "high"
 ---
 
@@ -12,7 +12,13 @@ confidence: "high"
 
 截至2026-10-13，工作候选版0.2.0。实现8/8是交付物分母，产品成功率目标与客户／双平台验收未完成；当前事实以共享progress为准。^[docs/progress/STATUS.md#L3]
 
-## 最新源码的独立验证
+## 2026-10-16：Desktop Outlook 增量
+
+当前 Desktop 包为 0.3.0。官方 Graph PowerShell 连接、取消、账户管理和只读未读计数已接入；不要求用户注册 Entra 应用。Python 736 项与 Electron 9 项通过，两端打包版真实 UI 各 10/10，Graph cmdlet 为自有离线夹具。正常启动的 Mac 安装版已显示真实微软设备码；真实账户授权、邮箱和重启后的令牌复用按用户要求暂缓，先提交本版。^[docs/evidence/2026-10-16-outlook-powershell/README.md#L9]
+
+这次结果不覆盖历史自主业务矩阵，不将离线计数当成用户邮箱结果。接续入口为 [[entities/outlook-graph]]，账户/模型密钥边界见 [[concepts/configuration-and-privacy]]。^[docs/OUTLOOK-GRAPH.md#L14]
+
+## 2026-10-13 历史增量验证
 
 | 项目 | 结果 | 范围 |
 |---|---:|---|

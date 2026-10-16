@@ -61,7 +61,7 @@ def validate(root, diagrams_path=None):
         path = wiki / record["snapshot"];data = path.read_bytes();body = data[-record["bytes"]:] if record["bytes"] else b""
         header = data[:len(data)-len(body)]
         if not re.fullmatch(rb"---\n.*?\n---\n\n?", header, re.S) or hashlib.sha256(body).hexdigest() != record["sha256"]:errors.append("Snapshot mismatch: " + record["snapshot"])
-        if "capability-workflow" in record.get("version", ""):
+        if record.get("version"):
             for n, row in enumerate(body.decode().splitlines(), 1):
                 if secret.search(row):findings.append({"file": record["snapshot"], "line": n})
     if findings:errors.append("Credential pattern findings require review")
@@ -91,10 +91,10 @@ def validate(root, diagrams_path=None):
         diagrams_path.parent.mkdir(parents=True, exist_ok=True);diagrams_path.write_text(json.dumps(diagrams, ensure_ascii=False, indent=2))
     for target in re.findall(r"\[[^\]]+\]\(([^)]+)\)", (root / "README.md").read_text()):
         if not target.startswith(("http:", "https:", "#", "mailto:")) and not (root / target.split("#")[0]).exists():errors.append("README broken local link: " + target)
-    return {"refresh": "2026-10-13-capability-workflow", "compiled_pages": len(compiled), "markdown_pages": len(pages),
+    return {"refresh": manifest.get("latest_refresh", "unknown"), "compiled_pages": len(compiled), "markdown_pages": len(pages),
             "resolved_wikilinks": links, "source_line_citations": citations, "referenced_source_files": len(referenced),
             "source_snapshots_verified": len(manifest["records"]), "current_source_modules_mapped": len(modules), "public_tools_mapped": len(sets["TOOLS"]),
-            "orphan_pages": orphans, "errors": errors, "privacy_scan": {"scope": "new capability-workflow source snapshots", "credential_pattern_findings": findings},
+            "orphan_pages": orphans, "errors": errors, "privacy_scan": {"scope": "versioned repository source snapshots", "credential_pattern_findings": findings},
             "mermaid_blocks": len(diagrams)}
 
 

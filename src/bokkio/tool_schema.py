@@ -12,6 +12,8 @@ N = {"type": "number"}
 APP = {"app": S, "window": S}
 OBS = {**APP, "observation_id": S}
 SCHEMAS = {
+    "outlook.status": schema(),
+    "outlook.unread": schema({"start":S,"end":S}, ["start","end"]),
     "module.list": schema(),
     "capability.list": schema({"module_id": S}),
     "capability.get": schema({"capability_id": S}, ["capability_id"]),
@@ -54,6 +56,8 @@ SCHEMAS = {
 }
 
 DESCRIPTIONS = {
+    "outlook.status": "Read the Outlook account configured in desktop Settings. Graph PowerShell owns cached login and refresh; no desktop Accessibility needed. configured does not prove current token validity.",
+    "outlook.unread": "Count currently unread messages received in Inbox within [start,end), both ISO 8601 timestamps WITH timezone. Uses Microsoft Graph via official PowerShell, reads no message bodies, returns an exact paginated count or an error. Prefer this over opening Outlook UI for unread-count tasks. Connect the Microsoft account in Settings first; never ask for passwords or tokens.",
     "module.list": "List local module summaries, administrator enablement and dependency health. No implementation imports or installation.",
     "capability.list": "Discover compact capability summaries, optionally in one module. Fetch capability.get for exact inputs and limits.",
     "capability.get": "Read one complete capability contract and its SHA256 binding. Pass that digest and exact version to capability.invoke.",

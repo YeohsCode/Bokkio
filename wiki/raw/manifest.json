@@ -2,7 +2,7 @@
   "schema": "bokkio.wiki.sources.v1",
   "created": "2026-10-08",
   "basis_commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d",
-  "source_count": 198,
+  "source_count": 221,
   "records": [
     {
       "path": "README.md",
@@ -1545,8 +1545,192 @@
       "bytes": 14170,
       "commit": null,
       "version": "working-tree-capability-workflow"
+    },
+    {
+      "path": "README.md",
+      "snapshot": "raw/source-snapshots/outlook-graph/README.md.txt",
+      "sha256": "8ad84da23411c615fe718ef5d862aae8104a1556b10f650741b0a17c5986688e",
+      "bytes": 66341,
+      "commit": null,
+      "version": "working-tree-outlook-graph"
+    },
+    {
+      "path": "desktop/README.md",
+      "snapshot": "raw/source-snapshots/outlook-graph/desktop/README.md.txt",
+      "sha256": "ac4c547bcb8d711e4bfd96dc56b1c0b3e12b6503ffa4ad380273ca43c80d9d40",
+      "bytes": 5884,
+      "commit": null,
+      "version": "working-tree-outlook-graph"
+    },
+    {
+      "path": "docs/OUTLOOK-GRAPH.md",
+      "snapshot": "raw/source-snapshots/outlook-graph/docs/OUTLOOK-GRAPH.md.txt",
+      "sha256": "983cb6a92332a28a0cc170a1345d2d653de79e02cc8da683d7f7dd887a7cdffc",
+      "bytes": 4714,
+      "commit": null,
+      "version": "working-tree-outlook-graph"
+    },
+    {
+      "path": "docs/evidence/2026-10-16-outlook-powershell/README.md",
+      "snapshot": "raw/source-snapshots/outlook-graph/docs/evidence/2026-10-16-outlook-powershell/README.md.txt",
+      "sha256": "6546afc906d3397cacb1017a455e1359d6ea2725f5e8efe4898f995b0d7979c8",
+      "bytes": 3079,
+      "commit": null,
+      "version": "working-tree-outlook-graph"
+    },
+    {
+      "path": "docs/evidence/2026-10-16-outlook-powershell/report.json",
+      "snapshot": "raw/source-snapshots/outlook-graph/docs/evidence/2026-10-16-outlook-powershell/report.json.txt",
+      "sha256": "1dde813af00e562259a0b4b87542adb5320bb64d556e21ff674463702bd023a3",
+      "bytes": 774,
+      "commit": null,
+      "version": "working-tree-outlook-graph"
+    },
+    {
+      "path": "src/bokkio/outlook_graph.py",
+      "snapshot": "raw/source-snapshots/outlook-graph/src/bokkio/outlook_graph.py.txt",
+      "sha256": "bc6242e7a4ee5efcf34d3b443b443c231e756929b16e43cf746166a5b33188aa",
+      "bytes": 11227,
+      "commit": null,
+      "version": "working-tree-outlook-graph"
+    },
+    {
+      "path": "src/bokkio/native/outlook_graph.ps1",
+      "snapshot": "raw/source-snapshots/outlook-graph/src/bokkio/native/outlook_graph.ps1.txt",
+      "sha256": "229a8dc1ea042675924799e3f6f199f232853cc2780283bc3a45eb1c813c3a2c",
+      "bytes": 4255,
+      "commit": null,
+      "version": "working-tree-outlook-graph"
+    },
+    {
+      "path": "src/bokkio/desktop_service.py",
+      "snapshot": "raw/source-snapshots/outlook-graph/src/bokkio/desktop_service.py.txt",
+      "sha256": "d84e4ee5b1c708838ad8a679e872088ad452f31e672fcc55f17f94381f729f75",
+      "bytes": 19664,
+      "commit": null,
+      "version": "working-tree-outlook-graph"
+    },
+    {
+      "path": "src/bokkio/desktop_chat.py",
+      "snapshot": "raw/source-snapshots/outlook-graph/src/bokkio/desktop_chat.py.txt",
+      "sha256": "a43ee23d8da8975869467f96606f1904cd7cbaad5ee1f9382cda0450d050c15b",
+      "bytes": 8212,
+      "commit": null,
+      "version": "working-tree-outlook-graph"
+    },
+    {
+      "path": "src/bokkio/local_runtime.py",
+      "snapshot": "raw/source-snapshots/outlook-graph/src/bokkio/local_runtime.py.txt",
+      "sha256": "b52e9e56bcbb7a33257b3b21f46790c5998db332baaeed954e6d35850c5bc3d7",
+      "bytes": 3685,
+      "commit": null,
+      "version": "working-tree-outlook-graph"
+    },
+    {
+      "path": "src/bokkio/runtime.py",
+      "snapshot": "raw/source-snapshots/outlook-graph/src/bokkio/runtime.py.txt",
+      "sha256": "b5678bd776445eb8dc779df6ab226cfd357913d3e9eabcb02b3625a84c4bf440",
+      "bytes": 46695,
+      "commit": null,
+      "version": "working-tree-outlook-graph"
+    },
+    {
+      "path": "src/bokkio/tool_schema.py",
+      "snapshot": "raw/source-snapshots/outlook-graph/src/bokkio/tool_schema.py.txt",
+      "sha256": "2d4790fa3f16e77e1ed455c248b13eea1534f02ce49e0b05b515d25308eedf84",
+      "bytes": 10028,
+      "commit": null,
+      "version": "working-tree-outlook-graph"
+    },
+    {
+      "path": "desktop/src/OutlookSettings.tsx",
+      "snapshot": "raw/source-snapshots/outlook-graph/desktop/src/OutlookSettings.tsx.txt",
+      "sha256": "2c71f246444883c4b76196c11a33ea8d90ae82f4de650c3d4a42368bacd727ce",
+      "bytes": 3790,
+      "commit": null,
+      "version": "working-tree-outlook-graph"
+    },
+    {
+      "path": "desktop/src/main.tsx",
+      "snapshot": "raw/source-snapshots/outlook-graph/desktop/src/main.tsx.txt",
+      "sha256": "7955577afbab8f3701f609564f26baa4a0b78064bffd368ddce0aff1d862daed",
+      "bytes": 49469,
+      "commit": null,
+      "version": "working-tree-outlook-graph"
+    },
+    {
+      "path": "desktop/src/style.css",
+      "snapshot": "raw/source-snapshots/outlook-graph/desktop/src/style.css.txt",
+      "sha256": "37309189ace7695138e08fc1a5d95a852085ceca48d6777620e9093a42ab4514",
+      "bytes": 12840,
+      "commit": null,
+      "version": "working-tree-outlook-graph"
+    },
+    {
+      "path": "desktop/electron/main.cjs",
+      "snapshot": "raw/source-snapshots/outlook-graph/desktop/electron/main.cjs.txt",
+      "sha256": "98539d8f7033251c5f00b37134df034368a9a55fac6f2b820250eeeb39dd2797",
+      "bytes": 14243,
+      "commit": null,
+      "version": "working-tree-outlook-graph"
+    },
+    {
+      "path": "desktop/electron/preload.cjs",
+      "snapshot": "raw/source-snapshots/outlook-graph/desktop/electron/preload.cjs.txt",
+      "sha256": "6bd6103991b70f54922b9d5b18fbf6da663c13d14cf640343a2eecf8ecbfa374",
+      "bytes": 1242,
+      "commit": null,
+      "version": "working-tree-outlook-graph"
+    },
+    {
+      "path": "desktop/tests/bokkio-desktop-outlook.cjs",
+      "snapshot": "raw/source-snapshots/outlook-graph/desktop/tests/bokkio-desktop-outlook.cjs.txt",
+      "sha256": "91ee29225fb067a3b8dea7ecec2d007c5682727b4f5ac86a54c165b1387d5280",
+      "bytes": 4930,
+      "commit": null,
+      "version": "working-tree-outlook-graph"
+    },
+    {
+      "path": "desktop/tests/verify-package.cjs",
+      "snapshot": "raw/source-snapshots/outlook-graph/desktop/tests/verify-package.cjs.txt",
+      "sha256": "29a4f57355d0f9dfec074546b437c2882fe80dda4ce971b295aefb57fdd358a9",
+      "bytes": 2754,
+      "commit": null,
+      "version": "working-tree-outlook-graph"
+    },
+    {
+      "path": "tests/test_outlook_graph.py",
+      "snapshot": "raw/source-snapshots/outlook-graph/tests/test_outlook_graph.py.txt",
+      "sha256": "dd941d13137e03c1715b718e59f9de3031d6b5201b6f49efe2432583eb5c3b10",
+      "bytes": 4755,
+      "commit": null,
+      "version": "working-tree-outlook-graph"
+    },
+    {
+      "path": "tests/test_outlook_powershell.py",
+      "snapshot": "raw/source-snapshots/outlook-graph/tests/test_outlook_powershell.py.txt",
+      "sha256": "024e84bb1ff2b9258abf03c469a4383782cfe393c5ca6a54c1fdf9899e1e7f72",
+      "bytes": 3471,
+      "commit": null,
+      "version": "working-tree-outlook-graph"
+    },
+    {
+      "path": "pyproject.toml",
+      "snapshot": "raw/source-snapshots/outlook-graph/pyproject.toml.txt",
+      "sha256": "4404ebb2c4f1ba3bf649d0313f30f820fe56cd937bd81324dafe30a749925707",
+      "bytes": 1156,
+      "commit": null,
+      "version": "working-tree-outlook-graph"
+    },
+    {
+      "path": "scripts/validate_wiki.py",
+      "snapshot": "raw/source-snapshots/outlook-graph/scripts/validate_wiki.py.txt",
+      "sha256": "42e095b1b67fb5d18af8e438d8756260c9935c1adad7663495f273ec613abbee",
+      "bytes": 7344,
+      "commit": null,
+      "version": "working-tree-outlook-graph"
     }
   ],
-  "latest_refresh": "2026-10-13-capability-workflow",
-  "latest_basis_commit": "78c3289a42369aa5c0eb276e2092dece83b6b7e6"
+  "latest_refresh": "2026-10-16-outlook-graph",
+  "latest_basis_commit": "404b413b4e980acdd9f1975e8630c877f2278d05"
 }

@@ -1,128 +1,116 @@
 {
-  "refresh": "2026-10-13-capability-workflow",
-  "compiled_pages": 27,
-  "markdown_pages": 30,
-  "resolved_wikilinks": 169,
-  "source_line_citations": 225,
-  "referenced_source_files": 66,
-  "source_snapshots_verified": 198,
-  "current_source_modules_mapped": 44,
-  "public_tools_mapped": 34,
+  "refresh": "2026-10-16-outlook-graph",
+  "compiled_pages": 28,
+  "markdown_pages": 31,
+  "resolved_wikilinks": 184,
+  "source_line_citations": 239,
+  "referenced_source_files": 75,
+  "source_snapshots_verified": 221,
+  "current_source_modules_mapped": 55,
+  "public_tools_mapped": 38,
   "orphan_pages": [],
   "errors": [],
   "privacy_scan": {
-    "scope": "new capability-workflow source snapshots",
+    "scope": "versioned repository source snapshots",
     "credential_pattern_findings": []
   },
   "mermaid_blocks": 8,
   "mermaid_validation": {
-    "version": "11.12.0",
-    "syntax_valid_blocks": 8,
-    "unique_diagrams_rendered": 4,
-    "visual_review": "architecture, functional module layout and call graph visually inspected; sequence rendered unchanged",
-    "renderer": "headless Chromium",
-    "render_results": [
+    "mermaid_version": "11.12.0",
+    "results": [
       {
-        "diagram": 1,
-        "viewBox": "0 0 1794.203125 934",
-        "width": 1752,
-        "height": 912.015625,
-        "rendered": true
+        "file": "README.md",
+        "index": 1,
+        "valid": true
       },
       {
-        "diagram": 2,
-        "viewBox": "0 0 802.140625 1006",
-        "width": 1752,
-        "height": 2197.25,
-        "rendered": true
+        "file": "README.md",
+        "index": 2,
+        "valid": true
       },
       {
-        "diagram": 3,
-        "viewBox": "0 0 1690.261962890625 1094",
-        "width": 1752,
-        "height": 1133.953125,
-        "rendered": true
+        "file": "README.md",
+        "index": 3,
+        "valid": true
       },
       {
-        "diagram": 4,
-        "viewBox": "-50 -10 1554.5 1347",
-        "width": 1752,
-        "height": 1518.125,
-        "rendered": true
+        "file": "README.md",
+        "index": 4,
+        "valid": true
+      },
+      {
+        "file": "wiki/concepts/runtime-contracts.md",
+        "index": 1,
+        "valid": true
+      },
+      {
+        "file": "wiki/summaries/architecture-map.md",
+        "index": 1,
+        "valid": true
+      },
+      {
+        "file": "wiki/summaries/architecture-map.md",
+        "index": 2,
+        "valid": true
+      },
+      {
+        "file": "wiki/summaries/module-call-map.md",
+        "index": 1,
+        "valid": true
       }
     ]
   },
-  "source_basis_commit": "78c3289a42369aa5c0eb276e2092dece83b6b7e6",
-  "scope": "README and LLM Wiki refresh; product evidence from prior implementation run, no new business or GUI acceptance.",
-  "reported_product_evidence": {
-    "source": "docs/evidence/2026-10-13-capability-modules/README.md",
-    "host_tests_passed": 647,
-    "new_contracts": "34/34",
-    "controlled_file_comparison": "6/6",
-    "full_business_rerun": "paused",
-    "prior_frozen_business_main": "26/36",
-    "prior_frozen_stability": "17/27",
-    "prior_frozen_gui": "0/18"
-  },
-  "historical_validation_2026_10_13_current_runtime": {
-    "refresh": "2026-10-13-current-runtime",
-    "compiled_pages": 25,
-    "markdown_pages": 28,
-    "resolved_wikilinks": 149,
-    "source_line_citations": 199,
-    "referenced_source_files": 65,
-    "source_snapshots_verified": 157,
-    "current_source_modules_mapped": 36,
-    "public_tools_mapped": 23,
-    "orphan_pages": [],
-    "errors": [],
-    "privacy_scan": {
-      "scope": "49 current-runtime source snapshots",
-      "credential_pattern_findings": []
+  "mermaid_rendering": [
+    {
+      "diagram": 1,
+      "viewBox": "0 0 2186.1796875 934",
+      "width": 1752,
+      "height": 748.5,
+      "rendered": true
     },
-    "mermaid_blocks": 7,
-    "mermaid_validation": {
-      "version": "11.12.0",
-      "syntax_valid_blocks": 7,
-      "unique_diagrams_rendered": 4,
-      "visual_review": "architecture, module calls and request sequence inspected; final diagrams rendered in headless Chromium"
+    {
+      "diagram": 2,
+      "viewBox": "0 0 802.140625 1006",
+      "width": 1752,
+      "height": 2197.25,
+      "rendered": true
     },
-    "source_basis_commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
-    "scope": "Documentation refresh only; no new product or GUI acceptance runs.",
-    "reported_product_evidence": {
-      "source": "docs/progress/STATUS.md",
-      "observed_date": "2026-10-13",
-      "host_tests_passed": 587,
-      "audit_contract": "9/9",
-      "window_job_matrix": "18/18",
-      "business_main": "26/36",
-      "stability": "17/27",
-      "gui": "0/18",
-      "automatic_approval_wait": "9/9"
+    {
+      "diagram": 3,
+      "viewBox": "0 0 1957.20703125 1094",
+      "width": 1752,
+      "height": 979.296875,
+      "rendered": true
     },
-    "historical_validation_2026_10_09": {
-      "compiled_pages": 22,
-      "source_snapshots_verified": 108,
-      "referenced_source_files": 39,
-      "errors": [],
-      "review_pages": [],
-      "office_constructor_unsupported_kwargs": [],
-      "latest_refresh": "2026-10-09-office-rerun",
-      "host_tests_passed": 435,
-      "office_rounds": 10,
-      "office_task_executions": 30,
-      "office_artifact_passes": 0,
-      "privacy_scan": {
-        "all_worktree_findings": 24,
-        "reviewed_request_uuid_false_positives": 24,
-        "credential_findings": 0
-      },
-      "mac_read_only_bridge_passed": 3,
-      "mac_read_only_bridge_planned": 3,
-      "actual_Jev_visual_probes": 3,
-      "visual_live_input_dispatched": false,
-      "latest_office_attempt_started": 0,
-      "latest_office_attempt_blocked": 3
+    {
+      "diagram": 4,
+      "viewBox": "-50 -10 1554.5 1347",
+      "width": 1752,
+      "height": 1518.125,
+      "rendered": true
+    },
+    {
+      "diagram": 5,
+      "viewBox": "0 0 2104.203125 934",
+      "width": 1752,
+      "height": 777.65625,
+      "rendered": true
+    },
+    {
+      "diagram": 6,
+      "viewBox": "0 0 1886.551025390625 1094",
+      "width": 1752,
+      "height": 1015.96875,
+      "rendered": true
     }
+  ],
+  "mermaid_visual_review": {
+    "diagrams": [
+      1,
+      3,
+      5,
+      6
+    ],
+    "scope": "updated system and module-call diagrams"
   }
 }

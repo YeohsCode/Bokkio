@@ -1,0 +1,68 @@
+---
+source_path: tests/test_outlook_powershell.py
+source_version: working-tree-based-on-404b413b4e980acdd9f1975e8630c877f2278d05
+ingested: 2026-10-16
+sha256: 024e84bb1ff2b9258abf03c469a4383782cfe393c5ca6a54c1fdf9899e1e7f72
+---
+
+"""Run the shipped .ps1 through real PowerShell with an owned offline SDK fixture."""
+import os
+from pathlib import Path
+import shutil
+
+import pytest
+from bokkio.outlook_graph import GraphPowerShell
+
+PWSH=os.environ.get('BOKKIO_TEST_PWSH') or shutil.which('pwsh')
+pytestmark=pytest.mark.skipif(not PWSH,reason='Requires real PowerShell 7')
+
+MODULE=r'''
+function Connect-MgGraph {
+ param($Scopes,$ContextScope,[switch]$UseDeviceAuthentication,[switch]$NoWelcome)
+ if ($ContextScope -ne 'CurrentUser' -or $Scopes -ne 'Mail.ReadBasic') { throw 'Unexpected auth contract' }
+ if ($env:BOKKIO_PWSH_FIXTURE_MODE -match 'challenge') {
+  $message='To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code OWNEDTEST to authenticate.'
+  if ($env:BOKKIO_PWSH_FIXTURE_MODE -eq 'console_challenge') { [Console]::Write($message.Replace('https://microsoft.com/devicelogin','https://login.microsoft.com/device')) } else { Write-Warning $message }
+  [Threading.Thread]::Sleep(30000)
+ }
+}
+function Get-MgContext { [pscustomobject]@{Account='fixture@example.invalid';TenantId='fixture';Scopes=@('Mail.ReadBasic')} }
+function Disconnect-MgGraph {}
+function Invoke-MgGraphRequest {
+ param($Method,$Uri,$OutputType)
+ if ($Method -ne 'GET') { throw 'Unexpected mutation' }
+ if ($Uri -match '/mailFolders/inbox\?') { return [pscustomobject]@{id='inbox'} }
+ if ($env:BOKKIO_PWSH_FIXTURE_MODE -eq 'empty') { return [pscustomobject]@{value=@()} }
+ if ($Uri -match 'fixture-page-2') { return [pscustomobject]@{value=@([pscustomobject]@{id='3'})} }
+ $decoded=[Uri]::UnescapeDataString($Uri)
+ if ($decoded -notmatch 'isRead eq false' -or $decoded -notmatch 'receivedDateTime ge 2026-10-11T16:00:00Z' -or $decoded -notmatch 'receivedDateTime lt 2026-10-16T04:00:00Z') { throw 'Unexpected date filter' }
+ return [pscustomobject]@{value=@([pscustomobject]@{id='1'},[pscustomobject]@{id='2'});'@odata.nextLink'='https://graph.microsoft.com/v1.0/fixture-page-2'}
+}
+Export-ModuleMember -Function *
+'''
+
+
+@pytest.fixture
+def graph(tmp_path,monkeypatch):
+    folder=tmp_path/'modules/Microsoft.Graph.Authentication/99.0.0';folder.mkdir(parents=True)
+    (folder/'Microsoft.Graph.Authentication.psm1').write_text(MODULE)
+    (folder/'Microsoft.Graph.Authentication.psd1').write_text("@{RootModule='Microsoft.Graph.Authentication.psm1';ModuleVersion='99.0.0';GUID='879297cc-155b-4cba-a395-a12a576fd100';FunctionsToExport='*'}")
+    monkeypatch.setenv('PSModulePath',str(tmp_path/'modules')+os.pathsep+os.environ.get('PSModulePath',''))
+    monkeypatch.setattr(GraphPowerShell,'executable',lambda _:PWSH)
+    return GraphPowerShell(tmp_path/'runtime')
+
+
+def test_real_ps1_connect_paginate_empty_and_logout(graph,monkeypatch):
+    result=graph.run('connect');assert result['status']=='connected',result
+    result=graph.unread('2026-10-12T00:00:00+08:00','2026-10-16T12:00:00+08:00')
+    assert result['count']==3 and result['pages']==2,result
+    monkeypatch.setenv('BOKKIO_PWSH_FIXTURE_MODE','empty')
+    assert graph.unread('2026-10-12T00:00:00+08:00','2026-10-16T12:00:00+08:00')['count']==0
+    assert graph.run('disconnect')['status']=='disconnected'
+    assert not graph.profile.exists()
+
+
+@pytest.mark.parametrize('mode',['challenge','console_challenge'])
+def test_real_ps1_auth_challenge_is_streamed_without_waiting_for_login(graph,monkeypatch,mode):
+    monkeypatch.setenv('BOKKIO_PWSH_FIXTURE_MODE',mode)
+    assert graph.run('check')['status']=='needs_login'

@@ -1,0 +1,206 @@
+"""Official Graph PowerShell adapter. Passwords and tokens never enter Bokkio."""
+from __future__ import annotations
+
+import hashlib
+import json
+import os
+from pathlib import Path
+import platform
+import re
+import shutil
+import ssl
+import subprocess
+import tarfile
+import tempfile
+import threading
+import time
+import urllib.request
+import zipfile
+from datetime import datetime, timezone
+
+from .workflow import save_json
+
+
+def official_url(request,timeout):
+    import certifi
+    return urllib.request.urlopen(request,timeout=timeout,context=ssl.create_default_context(cafile=certifi.where()))
+
+
+def download(url,target,stop=None):
+    """Use the OS TLS client where available; keep certificate verification on."""
+    curl=shutil.which('curl.exe' if os.name=='nt' else 'curl')
+    if curl:
+        process=subprocess.Popen([curl,'--fail','--location','--silent','--show-error','--proto','=https','--max-time','180','--output',str(target),url],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,**({'creationflags':subprocess.CREATE_NO_WINDOW} if os.name=='nt' else {}))
+        while process.poll() is None:
+            if stop and stop.wait(.1):process.kill();process.wait();raise GraphError('已取消组件下载')
+            if not stop:time.sleep(.1)
+        if process.returncode:raise GraphError('官方组件下载失败，请检查网络后重试')
+    else:
+        with official_url(url,timeout=30) as response, Path(target).open('wb') as out:
+            while chunk:=response.read(1024*1024):
+                if stop and stop.is_set():raise GraphError('已取消组件下载')
+                out.write(chunk)
+
+
+class GraphError(RuntimeError):
+    pass
+
+
+def interval(start, end):
+    def parse(value):
+        if not isinstance(value, str): raise ValueError('时间必须包含时区，例如 2026-10-12T00:00:00+08:00')
+        try: result = datetime.fromisoformat(value.replace('Z', '+00:00'))
+        except ValueError: raise ValueError('时间必须为 ISO 8601 格式') from None
+        if result.tzinfo is None: raise ValueError('时间必须包含时区')
+        return result.astimezone(timezone.utc)
+    first, last = parse(start), parse(end)
+    if first >= last: raise ValueError('开始时间必须早于结束时间')
+    return first.isoformat(timespec='seconds'), last.isoformat(timespec='seconds')
+
+
+class GraphPowerShell:
+    def __init__(self, state):
+        self.state = Path(state)
+        self.tools = self.state.parent/'microsoft-tools'
+        self.profile = self.state/'outlook-connection.json'
+
+    def account(self):
+        if not self.profile.exists(): return ''
+        return json.loads(self.profile.read_text(encoding='utf-8')).get('account', '')
+
+    def executable(self):
+        candidates = [shutil.which('pwsh'), str(self.tools/'powershell'/('pwsh.exe' if os.name=='nt' else 'pwsh'))]
+        if os.name=='nt': candidates += [str(Path(os.environ.get('ProgramFiles','C:/Program Files'))/'PowerShell/7/pwsh.exe')]
+        else: candidates += ['/opt/homebrew/bin/pwsh','/usr/local/bin/pwsh','/usr/local/microsoft/powershell/7/pwsh']
+        return next((p for p in candidates if p and Path(p).is_file()), None)
+
+    def install_runtime(self,stop=None):
+        if self.executable(): return
+        # Microsoft's official portable release, with GitHub's asset SHA256.
+        arch = 'arm64' if platform.machine().lower() in {'arm64','aarch64'} else 'x64'
+        system = 'win' if os.name=='nt' else 'osx' if platform.system()=='Darwin' else 'linux'
+        extension = 'zip' if os.name=='nt' else 'tar.gz'
+        self.tools.mkdir(parents=True, exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=self.tools) as temporary:
+            folder = Path(temporary); archive = folder/('runtime.'+extension)
+            metadata=folder/'release.json'
+            download('https://api.github.com/repos/PowerShell/PowerShell/releases/latest',metadata,stop)
+            release=json.loads(metadata.read_text(encoding='utf-8'))
+            suffix = f'-{system}-{arch}.{extension}'
+            asset = next(a for a in release['assets'] if a['name'].lower().endswith(suffix))
+            expected = asset.get('digest','')
+            if not expected.startswith('sha256:'): raise GraphError('PowerShell 发布缺少 SHA256，无法验证下载')
+            download(asset['browser_download_url'],archive,stop)
+            if hashlib.sha256(archive.read_bytes()).hexdigest() != expected[7:]: raise GraphError('PowerShell 下载校验失败')
+            unpacked = folder/'unpacked'; unpacked.mkdir()
+            if extension=='zip':
+                with zipfile.ZipFile(archive) as z:
+                    for name in z.namelist():
+                        if not (unpacked/name).resolve().is_relative_to(unpacked.resolve()): raise GraphError('Invalid release archive')
+                    z.extractall(unpacked)
+            else:
+                with tarfile.open(archive) as tar: tar.extractall(unpacked, filter='data')
+                (unpacked/'pwsh').chmod(0o755)
+            target = self.tools/'powershell'
+            if target.exists(): shutil.rmtree(target)
+            unpacked.rename(target)
+
+    def run(self, action, *, challenge=None, stop=None, **payload):
+        executable = self.executable()
+        if not executable: return {'status':'needs_setup','message':'需要准备 PowerShell 7 和 Microsoft Graph 登录组件'}
+        request = {'action':action, **payload}
+        # Account pinning also protects against another Graph PowerShell script
+        # changing the shared CurrentUser login between Bokkio requests.
+        if action not in {'probe','prepare','connect'}: request['account'] = self.account()
+        script = Path(__file__).parent/'native/outlook_graph.ps1'
+        process = subprocess.Popen([executable,'-NoLogo','-NoProfile','-File',str(script)], stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,text=True,encoding='utf-8', **({'creationflags':subprocess.CREATE_NO_WINDOW} if os.name=='nt' else {}))
+        deadline = time.monotonic() + (600 if action in {'connect','prepare'} else 120)
+        finished = threading.Event()
+        def watchdog():
+            while not finished.wait(.1):
+                if time.monotonic()>deadline or stop and stop.is_set():
+                    process.kill(); return
+        threading.Thread(target=watchdog,daemon=True).start()
+        result = None
+        try:
+            process.stdin.write(json.dumps(request)+'\n');process.stdin.close()
+            buffer=''
+            while char:=process.stdout.read(1):
+                buffer+=char
+                plain=re.sub(r'\x1b\[[0-?]*[ -/]*[@-~]','',buffer)
+                code=re.search(r'\bcode\s+[\"\']?([A-Z0-9-]{6,})[\"\']?(?=\s)',plain,re.I)
+                prompt=any(url in plain for url in ('https://microsoft.com/devicelogin','https://login.microsoft.com/device')) and code
+                # Some official SDK versions flush a prompt without a newline.
+                if char!='\n' and not prompt:
+                    if len(buffer)>65536:buffer=''
+                    continue
+                line=buffer;buffer=''
+                try: event = json.loads(line[line.index('{'):] if '{' in line else line)
+                except ValueError:
+                    # SDK versions also write device prompts directly to the
+                    # console, bypassing PowerShell's redirectable streams.
+                    if not prompt:continue
+                    event={'kind':'challenge','code':code[1]}
+                if not isinstance(event,dict): continue
+                if event.get('kind')=='challenge':
+                    if action!='connect':
+                        process.kill(); result={'status':'needs_login','message':'微软登录需要重新验证，请连接 Outlook'}; break
+                    if challenge: challenge({'url':'https://microsoft.com/devicelogin','code':event.get('code','')})
+                elif event.get('kind')=='result': result={k:v for k,v in event.items() if k!='kind'}
+            process.wait(timeout=5)
+            if stop and stop.is_set(): return {'status':'cancelled'}
+            if not result: raise GraphError('PowerShell 未返回结果，请重试；登录等待最长 10 分钟')
+            if result.get('status')=='connected':
+                save_json(self.profile,{k:result[k] for k in ('account','tenant','scopes')})
+            if result.get('status')=='disconnected': self.profile.unlink(missing_ok=True)
+            return result
+        finally:
+            finished.set()
+            if process.poll() is None: process.kill();process.wait()
+            process.stdout.close()
+
+    def unread(self, start, end):
+        start,end=interval(start,end)
+        if not self.account(): raise GraphError('请先在配置中连接 Outlook')
+        result=self.run('unread',start=start,end=end)
+        if result.get('status')!='completed': raise GraphError(result.get('message','Outlook 查询失败'))
+        return result
+
+
+class OutlookConnection:
+    """Nonblocking UI controller; only explicit connect waits for user sign-in."""
+    def __init__(self,state):
+        self.graph=GraphPowerShell(state);self.lock=threading.RLock();self.stop=threading.Event()
+        self.value={'status':'checking','account':self.graph.account()};self.thread=None
+        self.start('check' if self.graph.account() else 'probe')
+
+    def view(self):
+        with self.lock:return dict(self.value)
+
+    def start(self,action):
+        if action not in {'probe','prepare','connect','check','disconnect'}:raise ValueError('Unknown Outlook action')
+        with self.lock:
+            if self.thread and self.thread.is_alive():raise ValueError('Outlook 连接操作正在进行')
+            self.stop.clear();self.value={'status':'preparing' if action=='prepare' else 'connecting' if action=='connect' else 'checking','account':self.graph.account()}
+            def update():
+                try:
+                    if action=='prepare':self.graph.install_runtime(self.stop)
+                    if self.stop.is_set():
+                        with self.lock:self.value={'status':'cancelled','account':self.graph.account()}
+                        return
+                    def challenge(value):
+                        with self.lock:self.value={'status':'awaiting_login','account':self.graph.account(),**value}
+                    result=self.graph.run(action,challenge=challenge,stop=self.stop)
+                    if result.get('status')=='ready':result['status']='disconnected'
+                except Exception:
+                    result={'status':'cancelled'} if self.stop.is_set() else {'status':'failed','message':'连接组件执行失败，请检查网络并重试。'}
+                with self.lock:self.value={**result,'account':result.get('account',self.graph.account())}
+            self.thread=threading.Thread(target=update,daemon=True);self.thread.start()
+        return self.view()
+
+    def cancel(self):
+        if not self.thread or not self.thread.is_alive():return self.view()
+        self.stop.set()
+        with self.lock:self.value={**self.value,'status':'cancelling'}
+        if self.thread:self.thread.join(timeout=2)
+        return self.view()

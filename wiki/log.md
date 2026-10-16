@@ -1,7 +1,7 @@
 ---
 title: Bokkio Wiki Log
 created: 2026-10-08
-updated: 2026-10-13
+updated: 2026-10-16
 type: meta
 tags: [meta, maintenance]
 sources: [docs/STATUS.md, docs/progress/STATUS.md]
@@ -177,3 +177,18 @@ confidence: high
 - 198份不可变来源SHA256与frontmatter校验通过，新41份来源凭据模式扫描无命中。
 - README／Wiki共8处Mermaid语法通过；4种独立图在本机Chromium渲染，架构／功能布局／调用图已视觉检查。结果保存wiki/_meta/validation.json。
 - 本轮只更新文档及维护校验工具；没有恢复已暂停的自主业务或GUI矩阵。
+
+## [2026-10-16] refresh | Desktop Outlook Graph / PowerShell
+
+- README 与 Desktop README 补充账户入口、官方默认应用身份、SDK 缓存、密码管理及 Graph 工具；新增用户连接指南和双平台证据。
+- 新建 outlook-graph 实体，刷新架构／模块调用／状态／配置隐私／索引／Schema。55个Python模块与38个公开工具映射完整；Graph经Runtime执行，配置页管理直接调用，不虚构Jev参与。
+- 736项Python、9项Electron及双平台打包UI各10/10引用本次实施证据；UI使用真实PowerShell与自有离线cmdlet，不代表真实邮箱成绩。为避免截图包含本机目录，macOS截图改为账户卡片并复跑10/10。
+- 正常安装版真实SDK已提供设备码；用户不在电脑旁，要求先提交。真实账户授权、邮箱查询、SDK重启复用仍待验证；没有继续发起授权。
+- 追加outlook-graph不可变来源版本，基线404b413 + working-tree；198份既有快照保持原样。
+
+## [2026-10-16] lint | Outlook documentation validated
+
+- 28个编译页／31个Markdown、184条wikilinks、239处来源行号，零断链／孤立页／元数据错误；55个Python模块与38个工具映射完整。
+- 221份不可变来源SHA256与字节数通过，本次新增23份；新增来源凭据与主机私有目录扫描无命中。证据只含自有离线账户夹具。
+- 8处Mermaid语法通过，6种独立图在Chromium实际渲染；新增Graph系统图和调用关系已视觉检查。检查详情写入_meta/validation.json。
+- 本轮文档维护不新增真实邮箱或SDK登录持久性成绩；真实账户验证保留待办。

@@ -24,6 +24,7 @@ READ_TOOLS = {"capabilities", "desktop.list", "desktop.windows", "desktop.observ
 WRITE_TOOLS = {"desktop.act", "desktop.input", "desktop.activate", "desktop.launch", "desktop.pixel", "code.run", "process.run", "browser.open", "browser.act"}
 READ_TOOLS |= {"workflow.list", "workflow.get", "workflow.status"}
 READ_TOOLS |= {"module.list", "capability.list", "capability.get"}
+READ_TOOLS |= {"outlook.status", "outlook.unread"}
 WRITE_TOOLS |= {"capability.invoke"}
 TOOLS = READ_TOOLS | WRITE_TOOLS | {"session.open", "session.close", "job.cancel", "workflow.run", "workflow.resume", "workflow.cancel"}
 
@@ -319,6 +320,11 @@ class Runtime:
         return result
 
     def _validate(self, tool, args, scope, session_id=None):
+        if tool.startswith('outlook.') and not (self.policy.get('outlook') and scope.get('outlook')):
+            raise ValueError('Outlook is not enabled by this host')
+        if tool=='outlook.unread':
+            from .outlook_graph import interval
+            interval(args['start'],args['end'])
         if tool == "capability.get":
             from .capability_registry import contract
             contract(args["capability_id"])
@@ -403,6 +409,11 @@ class Runtime:
             raise ValueError("Audit queries cannot choose another session")
 
     def _execute(self, tool, args, scope, session_id, operation_id):
+        if tool.startswith('outlook.'):
+            from .outlook_graph import GraphPowerShell
+            graph=GraphPowerShell(self.store.root)
+            if tool=='outlook.status':return {'account':graph.account(),'configured':bool(graph.account()),'executor':'Microsoft Graph / PowerShell'}
+            return graph.unread(args['start'],args['end'])
         if tool in {"module.list", "capability.list", "capability.get", "capability.invoke"}:
             from . import capability_registry as registry
             if tool == "module.list":return registry.modules(self.policy, scope)

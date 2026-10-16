@@ -32,7 +32,7 @@ class DesktopStudio(Studio):
         for path in (self.state/'workflow-runs').glob('*.json'):
             value=json.loads(path.read_text())
             if value.get('status')=='running':value.update(status='paused',pause_reason='app_restarted');save_json(path,value)
-        self.inspector=None
+        self.inspector=None;self.outlook=None
     def apps(self):
         owner=int(os.environ.get('BOKKIO_DESKTOP_PID','0'));return [a for a in super().apps() if a['pid']!=owner]
     def inspection_client(self):
@@ -70,6 +70,15 @@ class DesktopStudio(Studio):
             return self.record.preview()
     def route(self,method,path,data):
         def arg(key,default=None):return data.get(key,[default])[0] if method=='GET' else data.get(key,default)
+        if path.startswith('/api/outlook/'):
+            from .outlook_graph import OutlookConnection
+            if self.outlook is None:self.outlook=OutlookConnection(self.state)
+            if path=='/api/outlook/status':return self.outlook.view()
+            if method!='POST':raise ValueError('Outlook actions require POST')
+            if path=='/api/outlook/cancel':return self.outlook.cancel()
+            if path=='/api/outlook/action':return self.outlook.start(arg('action'))
+            if path=='/api/outlook/unread':return self.outlook.graph.unread(arg('start'),arg('end'))
+            raise ValueError('Unknown Outlook route')
         if path=='/api/drafts':return [{'id':v['document']['id'],'name':v['document']['name'],'steps':len(v['document']['steps'])} for v in [json.loads(p.read_text()) for p in (self.state/'workflow-drafts').glob('*.json')]]
         if path=='/api/draft':
             wid=arg('id')
@@ -212,6 +221,7 @@ class DesktopStudio(Studio):
         if path=='/api/chats':return sorted((json.loads(p.read_text()) for p in (self.state/'chats').glob('*.json')),key=lambda value:value.get('created_at',0),reverse=True)[:50]
         raise ValueError('Unknown desktop route')
     def close(self):
+        if self.outlook:self.outlook.cancel()
         self.route('POST','/api/emergency-stop',{});super().close()
         if self.inspector:self.inspector.call('session.close')
 

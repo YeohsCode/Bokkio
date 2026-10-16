@@ -1,0 +1,47 @@
+---
+source_path: pyproject.toml
+source_version: working-tree-based-on-404b413b4e980acdd9f1975e8630c877f2278d05
+ingested: 2026-10-16
+sha256: 4404ebb2c4f1ba3bf649d0313f30f820fe56cd937bd81324dafe30a749925707
+---
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bokkio"
+version = "0.3.0"
+description = "Model-independent computer use runtime with native actions, code, approvals and audit"
+requires-python = ">=3.9"
+dependencies = ["xa11y>=0.15,<0.16", "certifi>=2025.1,<2027", "comtypes>=1.4.17,<2; sys_platform == 'win32'"]
+
+[project.scripts]
+bokkio = "bokkio.cli:main"
+bokkio-runtime = "bokkio.runtime_cli:main"
+bokkio-desktop-service = "bokkio.desktop_service:main"
+
+[project.optional-dependencies]
+desktop = ["deepseek-harness-sdk==0.1.5rc1; python_full_version >= '3.11'", "pillow>=11,<14", "numpy>=2,<3"]
+office = [
+    "openpyxl>=3.1.5,<4",
+]
+browser = [
+    "playwright>=1.50,<2",
+]
+mcp = [
+    "mcp>=1.12,<2 ; python_full_version >= '3.10'",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+bokkio = ["native/*.swift", "native/*.ps1", "studio/*.html", "studio/*.js", "studio/*.css"]
+
+[dependency-groups]
+test = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["browser_live: real isolated Chromium worker contract (requires installed browser)"]

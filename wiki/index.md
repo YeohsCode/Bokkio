@@ -1,7 +1,7 @@
 ---
 title: Bokkio LLM Wiki Index
 created: 2026-10-08
-updated: 2026-10-13
+updated: 2026-10-16
 type: meta
 tags: [meta, project]
 sources: [docs/progress/STATUS.md, src/bokkio/runtime.py, pyproject.toml]
@@ -10,7 +10,7 @@ confidence: high
 
 # Bokkio LLM Wiki
 
-项目代码与证据的可维护知识库。Last updated: 2026-10-13 | Total compiled pages: 27
+项目代码与证据的可维护知识库。Last updated: 2026-10-16 | Total compiled pages: 28
 
 先读 [[SCHEMA]]；维护记录见 [[log]]。
 
@@ -18,7 +18,13 @@ confidence: high
 
 当前主线为 **0.2.0 通用 Runtime**。当前架构／功能布局／调用关系／Core／Workflow／能力模块／状态页已刷新；旧 Planner/Jev/Workflow/Office/视觉专题保留各页 updated 日期的历史范围，最新验收及待办以当前状态和共享 progress 为准。
 
+## 2026-10-16 增量
+
+Desktop 0.3.0 新增 [[entities/outlook-graph]]，使用官方 Graph PowerShell 默认应用身份。双平台离线 UI 夹具各 10/10，真实账户与重启复用待用户登录；旧业务成绩保持各自日期范围。
+
 ## Entities
+
+- [[entities/outlook-graph|Outlook Graph：PowerShell 登录与未读查询]] — SDK 登录缓存、统一账户入口与只读计数；真实账户验证待接续。
 
 - [[entities/capability-modules|能力模块：发现、合同与Office文件实现]] — 默认关闭的模块目录、精确合同与文件证据，复用既有worker。
 - [[entities/runtime-workflow|Runtime Workflow：Studio、录制与回放]] — 新版本库、精确启动身份、Core子动作与检查点；区别于历史直接backend引擎。
@@ -64,4 +70,4 @@ confidence: high
 
 ## Raw sources
 
-初始42份来源及历次追加版本保留为不可变文本快照。本次追加 capability-workflow 版本，记录逐文件 commit/working-tree、正文 SHA-256；基线及记录见 raw/manifest.json。页面溯源指向仓库代码/文档，旧来源快照不覆盖。
+初始42份来源及历次追加版本保留为不可变文本快照。本次追加 outlook-graph 版本，记录逐文件 commit/working-tree、正文 SHA-256；基线及记录见 raw/manifest.json。页面溯源指向仓库代码/文档，旧来源快照不覆盖。

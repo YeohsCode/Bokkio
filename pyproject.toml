@@ -30,7 +30,7 @@ mcp = [
 where = ["src"]
 
 [tool.setuptools.package-data]
-bokkio = ["native/*.swift", "studio/*.html", "studio/*.js", "studio/*.css"]
+bokkio = ["native/*.swift", "native/*.ps1", "studio/*.html", "studio/*.js", "studio/*.css"]
 
 [dependency-groups]
 test = ["pytest>=8"]

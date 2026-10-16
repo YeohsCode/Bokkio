@@ -73,6 +73,7 @@ ipcMain.handle('settings',(_,data)=>data===undefined?api('/api/settings'):creden
  const saved=await api('/api/settings',data);credentialState({status:'ready',error:''});return saved;
 }));
 ipcMain.handle('open-workspace',()=>shell.openPath(stateRoot));
+ipcMain.handle('open-microsoft-login',()=>shell.openExternal('https://microsoft.com/devicelogin'));
 ipcMain.handle('system',async()=>{const permissions=await api('/api/permissions'),hostTrusted=process.platform==='darwin'?systemPreferences.isTrustedAccessibilityClient(false):true;return {platform:process.platform,version:app.getVersion(),accessibility:permissions.accessibility,host_accessibility:hostTrusted,permission_issue:hostTrusted&&!permissions.accessibility?'runtime_identity':null,permissions,credential_encryption:credentialEncryption,shortcuts:shortcutStatus};});
 ipcMain.handle('permission-action',async(_,action)=>{
  if(process.platform!=='darwin')throw Error('Accessibility setup is only needed on macOS');

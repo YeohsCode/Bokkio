@@ -1,10 +1,10 @@
 ---
 title: "模块调用关系与完整代码地图"
 created: "2026-10-13"
-updated: "2026-10-13"
+updated: "2026-10-16"
 type: "summary"
 tags: ["architecture", "runtime", "maintenance"]
-sources: ["pyproject.toml", "src/bokkio/xa11y_backend.py", "src/bokkio/runtime.py", "src/bokkio/mcp_server.py", "src/bokkio/executor.py", "src/bokkio/capability_registry.py", "src/bokkio/runtime_workflow.py", "src/bokkio/model.py", "src/bokkio/cli.py", "src/bokkio/agent.py", "src/bokkio/decision.py", "src/bokkio/workflow.py", "src/bokkio/office_runner.py", "docs/RUNTIME-GUIDE.md"]
+sources: ["pyproject.toml", "src/bokkio/xa11y_backend.py", "src/bokkio/runtime.py", "src/bokkio/mcp_server.py", "src/bokkio/executor.py", "src/bokkio/capability_registry.py", "src/bokkio/runtime_workflow.py", "src/bokkio/model.py", "src/bokkio/cli.py", "src/bokkio/agent.py", "src/bokkio/decision.py", "src/bokkio/workflow.py", "src/bokkio/office_runner.py", "docs/RUNTIME-GUIDE.md", "src/bokkio/outlook_graph.py", "src/bokkio/desktop_service.py", "src/bokkio/local_runtime.py", "src/bokkio/desktop_chat.py", "docs/OUTLOOK-GRAPH.md"]
 confidence: "high"
 ---
 
@@ -35,6 +35,7 @@ flowchart TB
     XA --> OS["MacAX / WindowsUIA"]
     Dispatch --> Input["desktop_input<br/>capture / activate / perform"]
     Input --> Capture["平台采集 / Swift / SendInput"]
+    Dispatch --> GraphPS["outlook_graph / outlook_graph.ps1<br/>官方 SDK 缓存 / 只读计数"]
     Dispatch --> BC["browser_driver.call"]
     BC --> BW["持久 Browser worker<br/>Playwright"]
     EW --> Audit
@@ -60,6 +61,23 @@ flowchart TB
 | audit.query / audit.export / events.follow / metrics.summary / approval.status | Runtime → AuditStore | Session范围日志、审批、查询统计 |
 
 依据：^[src/bokkio/runtime.py#L390] ^[src/bokkio/mcp_server.py#L19] ^[src/bokkio/executor.py#L148]
+
+## Desktop 与 Outlook 补充（2026-10-16）
+
+| 文件 / 工具 | 调用与职责 |
+|---|---|
+| desktop_service.py / local_runtime.py | Electron 的本机 HTTP 服务、直接执行与恢复；纯 API/code 会话不枚举桌面 |
+| desktop_chat.py / desktop_decision.py | Harness SDK 对接；启用时新原生动作交给 Jev；Graph 仍由 Harness 直接编排 |
+| execution_log.py / execution_context.py | 实际操作 ID、父子因果关系和三层日志 |
+| macos_permissions.py / windows_record.py | Mac 精确授权路径与状态；Windows Hooks / UIA 操作录制 |
+| anchored_input.py / visual_target.py | 观察绑定的原生/视觉输入与图像目标定位 |
+| outlook_graph.py / native/outlook_graph.ps1 | 官方 PowerShell 准备、登录进程、SDK 缓存、账户核对和分页统计 |
+| desktop.windows / desktop.input | 窗口枚举与有观察绑定的系统输入 |
+| outlook.status / outlook.unread | Runtime → GraphPowerShell → 固定 PowerShell 脚本；只读状态/收件箱计数 |
+
+^[src/bokkio/runtime.py#L412] ^[docs/OUTLOOK-GRAPH.md#L22]
+
+配置页的测试统计直接走 DesktopService，Agent 工具经共享 Runtime 保存回执。Graph 不使用 Jev、原生控件树或录制事件；真实账户验收状态见 [[entities/outlook-graph]]，布局见 [[summaries/architecture-map]]。
 
 ## 当前代码文件布局
 

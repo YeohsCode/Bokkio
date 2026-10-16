@@ -1,0 +1,25 @@
+---
+source_path: docs/evidence/2026-10-16-outlook-powershell/report.json
+source_version: working-tree-based-on-404b413b4e980acdd9f1975e8630c877f2278d05
+ingested: 2026-10-16
+sha256: 1dde813af00e562259a0b4b87542adb5320bb64d556e21ff674463702bd023a3
+---
+
+{
+  "date": "2026-10-16",
+  "python_tests_passed": 736,
+  "electron_tests_passed": 9,
+  "macos_ui_checks_passed": 10,
+  "windows_ui_checks_passed": 10,
+  "ui_test_scope": "real packaged UI and PowerShell; owned offline Graph cmdlet fixture",
+  "real_sdk_macos": {
+    "powershell_version": "7.6.7",
+    "graph_authentication_version": "2.41.2",
+    "device_challenge_observed": true,
+    "normal_installed_app": true,
+    "mailbox_query_verified": false,
+    "real_login_persistence_verified": false
+  },
+  "pending": "User is away from the computer and asked to update documentation, commit and push before live account verification. Login wait is no longer active.",
+  "credentials": "No real account, password, device code, token or SDK cache is included in evidence."
+}

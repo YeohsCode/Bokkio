@@ -1,0 +1,45 @@
+{
+  "checks": [
+    {
+      "name": "packaged_application",
+      "passed": true
+    },
+    {
+      "name": "no_microsoft_password_field",
+      "passed": true
+    },
+    {
+      "name": "connect_from_visible_settings",
+      "passed": true
+    },
+    {
+      "name": "ui_query_executes_real_ps1_and_counts_pages",
+      "passed": true
+    },
+    {
+      "name": "connection_identity_rechecked_after_app_restart",
+      "passed": true
+    },
+    {
+      "name": "profile_contains_only_public_account_fields",
+      "passed": true
+    },
+    {
+      "name": "logout_removes_bokkio_profile",
+      "passed": true
+    },
+    {
+      "name": "device_challenge_visible",
+      "passed": true
+    },
+    {
+      "name": "login_cancel_stops_waiting_process",
+      "passed": true
+    },
+    {
+      "name": "cancelled_login_does_not_block_navigation",
+      "passed": true
+    }
+  ],
+  "scope": "packaged UI and shipped PowerShell script; owned offline Graph cmdlet fixture; no real account or token"
+}
