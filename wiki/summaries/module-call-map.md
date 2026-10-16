@@ -35,7 +35,7 @@ flowchart TB
     XA --> OS["MacAX / WindowsUIA"]
     Dispatch --> Input["desktop_input<br/>capture / activate / perform"]
     Input --> Capture["平台采集 / Swift / SendInput"]
-    Dispatch --> GraphPS["outlook_graph / outlook_graph.ps1<br/>官方 SDK 缓存 / 只读计数"]
+    Dispatch --> GraphPS["outlook_graph / outlook_graph.ps1<br/>官方 SDK 缓存 / 通用 Graph GET"]
     Dispatch --> BC["browser_driver.call"]
     BC --> BW["持久 Browser worker<br/>Playwright"]
     EW --> Audit
@@ -73,7 +73,7 @@ flowchart TB
 | anchored_input.py / visual_target.py | 观察绑定的原生/视觉输入与图像目标定位 |
 | outlook_graph.py / native/outlook_graph.ps1 | 官方 PowerShell 准备、登录进程、SDK 缓存、账户核对和分页统计 |
 | desktop.windows / desktop.input | 窗口枚举与有观察绑定的系统输入 |
-| outlook.status / outlook.unread | Runtime → GraphPowerShell → 固定 PowerShell 脚本；只读状态/收件箱计数 |
+| outlook.status / outlook.request | Runtime → GraphPowerShell → 固定 PowerShell 脚本；账户状态/参数化 Graph GET/正文与续页 |
 
 ^[src/bokkio/runtime.py#L412] ^[docs/OUTLOOK-GRAPH.md#L22]
 

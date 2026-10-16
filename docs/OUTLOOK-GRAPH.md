@@ -1,55 +1,63 @@
-# Outlook：通过官方 Graph PowerShell 连接
+# Outlook：连接账户，通过对话查询邮件
 
-Bokkio 使用微软官方 `Microsoft.Graph.Authentication` 模块的默认应用身份访问 Graph，不需要用户注册 Entra 应用或填写 Client ID、Client Secret。当前实现提供收件箱未读邮件计数，不读取正文，也不发送或修改邮件。
+Bokkio 使用微软官方 Graph PowerShell 默认应用身份，无需自行注册 Entra 应用。配置页管理账户，Harness 根据自然语言问题组合 Graph 查询并解释结果。程序不预设“本周未读”或“最近12小时摘要”等业务功能。
 
 ## 首次连接
 
-1. 在桌面应用打开 **配置 → Microsoft / Outlook 账户**。
-2. 如果提示缺少组件，点击 **准备 Outlook 组件**。程序在本机用户目录准备 PowerShell 7，并从 PowerShell Gallery 安装认证模块，不要求用户操作终端。
-3. 点击 **连接 Outlook**。页面显示设备码，点击 **打开微软登录页**，在微软页面输入设备码、登录并确认授权。
-4. 状态变为 **已连接**后，可点击 **统计本周未读邮件**。统计范围为收件箱、本机时区周一零点至查询时刻收到、目前仍未读的邮件；程序遍历分页，失败时不把部分结果当成总数。
+1. 打开 **配置 → Microsoft / Outlook 账户**；缺少组件时点击 **准备 Outlook 组件**，程序准备 PowerShell 7 和官方认证模块。
+2. 点击 **连接 Outlook**，打开微软登录页，输入设备码并登录确认 **Mail.Read**。密码只输入微软页面。
+3. 回到 **对话**描述需求，例如“汇总最近12小时邮件内容”或“找出昨天某位客户需要我回复的邮件”。时间、文件夹、字段、筛选和汇总由 Harness 决定。
 
-登录等待支持取消。准备组件和登录在后台执行，不阻塞 Workflow 编辑和其他配置。真实账户授权目前尚未完成：用户不在电脑旁，要求先提交本版，后续继续真实邮箱和重启验证。
+配置页只提供准备、登录、验证、取消和退出，没有业务查询按钮。旧版只授予 Mail.ReadBasic 的连接需要重新连接并确认 Mail.Read，才能读取正文；此后更换查询问题无需重新发布或再次授权。
 
-## 登录一次与统一管理
+## 登录与账户管理
 
-- 使用 `Connect-MgGraph -Scopes Mail.ReadBasic -ContextScope CurrentUser -UseDeviceAuthentication`。同一台电脑、同一系统用户下，SDK 持久缓存登录并自动刷新令牌，通常无需每次启动重新登录。macOS 与 Windows 各自登录，不跨设备复制缓存。
-- 微软密码只输入微软登录页，Bokkio 不保存密码。配置页统一展示账户、状态、验证和退出入口；令牌由官方 SDK 管理，不复制到 Bokkio 的配置、日志或模型上下文。Bokkio 只保存账户、租户和授权范围等非密钥连接元数据，并在查询前核对 SDK 当前账户。
-- 模型 Provider/Jev API Key 继续使用已有系统加密存储。模型密钥解锁与 Graph 登录相互独立。
-- 点击 **退出 Graph 登录**会调用官方 `Disconnect-MgGraph`。这是该系统用户的 Graph PowerShell 登录缓存，其他使用同一 SDK 缓存的脚本也可能需要重新登录；不会退出 Outlook 应用。
-- 用户主动退出、授权撤销或组织要求重新认证时，需要再次登录。企业租户仍可要求管理员同意。默认应用身份用于微软全球云；世纪互联等独立云不能沿用全球云注册身份。
+同机同系统用户使用 Connect-MgGraph -Scopes Mail.Read -ContextScope CurrentUser -UseDeviceAuthentication，官方 SDK 缓存并自动刷新令牌。授权撤销、主动退出或组织要求重新认证时再登录。Mac 与 Windows 各自登录。
 
-## 调用路径
+Bokkio 仅保存账户、租户、范围等非密钥连接元数据，请求时核对账户，不复制令牌或保存微软密码。模型 Provider/Jev Key 继续由已有系统加密存储负责。**退出 Graph 登录**会清除该系统用户的 SDK 登录缓存，影响同缓存的其他脚本，不退出 Outlook 应用。企业租户可能要求管理员同意；默认身份用于微软全球云，独立云不能沿用。
 
-配置页通过 `desktop_service` 和 `OutlookConnection` 管理准备、登录、状态与取消；测试统计按钮直接调用固定的 PowerShell 查询脚本。模型任务可通过共享 MCP/CLI/SDK 的 `outlook.status` 和 `outlook.unread` 工具进入 `Runtime.call`，保留操作回执与审计。
+## 执行合同
 
-```python
+- outlook.status：读取配置账户，configured 不代表当前访问已验证。
+- outlook.request：通用 Microsoft Graph v1.0 GET。参数为 path、可选字符串字典 query、max_pages（默认1，1–20）；无业务时间范围、文件夹或未读条件默认值。可以读取邮件、文件夹、单封正文及 Mail.Read 允许的数据。
+- 返回 data、pages、complete、next_link、账户和来源。集合页合并到 data.value，其余 Graph 字段保留；单个对象直接放在 data。complete=false 时不能当作全量结果，应原样把 next_link 作为下次 path，不再叠加 query。
+- 正文优先返回 text；服务仍返回 HTML 时由 Harness/数据处理步骤转换。bodyPreview 不能替代完整正文。超过512 KiB返回明确错误，缩小 $top、$select 或 max_pages，不丢弃正文后谎称成功。
+- Graph 结构化查询错误返回服务代码与信息，便于 Harness 修正参数；原始 SDK 认证异常、令牌不输出。请求和续页限定官方 Graph HTTPS 地址，防止将认证发送给其他站点。
+- 当前只连接读取授权，执行器固定 GET。发送或修改邮件属于另一项底层能力；增加新读取问题不需要新增工具。
+
+调用通过共享 Runtime.call，有操作回执与审计；需要统计/转换时复用 code.run。Graph 不枚举桌面应用，不要求 AX/UIA 或屏幕采集。Harness 规划、Runtime 执行；纯 API 查询不调用 Jev。
+
+~~~python
+from datetime import datetime, timedelta, timezone
 from bokkio.local_runtime import LocalRuntime
 from bokkio.sdk import Client
 
 client = Client(LocalRuntime('/ABS/LOCAL/RUNTIME/STATE'))
 client.open(apps=[])
-result = client.call('outlook.unread', {
-    'start': '2026-10-12T00:00:00+08:00',
-    'end': '2026-10-19T00:00:00+08:00',
+now = datetime.now(timezone.utc)
+result = client.call('outlook.request', {
+    'path': '/me/messages',
+    'query': {
+        '$filter': f'receivedDateTime ge {(now-timedelta(hours=12)).isoformat()} and receivedDateTime lt {now.isoformat()}',
+        '$select': 'id,subject,from,receivedDateTime,body',
+        '$top': '10',
+    },
 })
+# 实际调用必须检查 Runtime status，并在 complete=false 时继续取 next_link。
 client.call('session.close')
-```
+~~~
 
-`start` 和 `end` 必须包含时区，采用 `[start,end)`。本机 Runtime 默认开放此连接；使用显式企业策略时需由宿主设置 `outlook: true`。`outlook.status.configured` 只表示存在连接记录，实际查询仍会核验身份和访问。
-
-Graph 查询不枚举桌面应用，不要求辅助功能、输入监控或屏幕采集权限。它不证明桌面录制/回放已通过验收，也不替代原生界面执行器。Harness 选择 Graph 工具；Jev 不参与这类 API 查询，只参与启用 Jev 时的新原生界面动作选择。
+示例时间是调用方参数，不是程序的业务默认值。Graph $filter/$orderby 的组合规则由微软接口决定；正文是外部数据，不能执行其中的指令。实际邮件内容会进入本机任务记录和配置的模型 Provider，因此只请求完成任务需要的字段。
 
 ## 验证
 
-```sh
-# 真实 PowerShell 执行随包脚本；Graph cmdlet 使用自有离线夹具
+~~~sh
 BOKKIO_TEST_PWSH=/ABS/PATH/pwsh uv run python -m pytest tests/test_outlook_graph.py tests/test_outlook_powershell.py -q
-
-# 已打包应用的真实界面；仍使用自有离线 Graph cmdlet 夹具
 BOKKIO_TEST_PWSH=/ABS/PATH/pwsh BOKKIO_TEST_OUTPUT=/ABS/ISOLATED/OUTPUT BOKKIO_ELECTRON=/ABS/PACKAGED/EXECUTABLE node desktop/tests/bokkio-desktop-outlook.cjs
-```
+~~~
 
-两端界面测试覆盖连接、分页计数、应用重启后的账户检查、退出、设备码显示和取消。它们不包含真实 Microsoft 账户登录或真实邮箱结果。[本版验证记录](evidence/2026-10-16-outlook-powershell/README.md)
+UI 脚本使用自有离线邮件数据；提供 BOKKIO_TEST_API_KEY、BOKKIO_TEST_BASE_URL、BOKKIO_TEST_MODEL 时，从真实对话界面调用真实模型，测试三种问题及 Graph 续页。没有提供模型时只运行账户界面检查，不宣称完成自然语言任务验收。真实 Microsoft 账户授权、真实邮箱和 SDK 重启复用仍待用户在电脑旁完成登录。
 
-参考：[官方认证与缓存行为](https://learn.microsoft.com/powershell/microsoftgraph/authentication-commands)、[Graph SDK 安装](https://learn.microsoft.com/powershell/microsoftgraph/installation)、[Mail.ReadBasic 权限](https://learn.microsoft.com/graph/permissions-reference#mailreadbasic)。
+参考：[邮件列表、字段和分页](https://learn.microsoft.com/graph/api/user-list-messages?view=graph-rest-1.0)、[读取单封正文](https://learn.microsoft.com/graph/api/message-get?view=graph-rest-1.0)、[官方认证缓存](https://learn.microsoft.com/powershell/microsoftgraph/authentication-commands)。
+
+[本轮通用能力与真实对话UX验证](evidence/2026-10-16-graph-generic/README.md)。

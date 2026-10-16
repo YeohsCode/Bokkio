@@ -1,9 +1,17 @@
-# Fixed Graph operations. Request data arrives as JSON, never as PowerShell source.
+# Connection management and generic Graph GET. Business queries are caller data.
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
 [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
 [Console]::InputEncoding = [System.Text.UTF8Encoding]::new($false)
-function Emit($value) { [Console]::WriteLine(($value | ConvertTo-Json -Depth 8 -Compress)) }
+function Emit($value) {
+    $json = $value | ConvertTo-Json -Depth 100 -Compress -WarningAction Stop
+    if ([Text.Encoding]::UTF8.GetByteCount($json) -gt 524288) { throw 'BOKKIO_RESPONSE_TOO_LARGE' }
+    [Console]::WriteLine($json)
+}
+function Assert-GraphUri([string]$value) {
+    $parsed = [Uri]$value
+    if (!$parsed.IsAbsoluteUri -or $parsed.Scheme -ne 'https' -or $parsed.Authority -ne 'graph.microsoft.com' -or $parsed.UserInfo -or $parsed.Fragment -or !$parsed.AbsolutePath.StartsWith('/v1.0/')) { throw 'BOKKIO_INVALID_URI' }
+}
 try {
     $request = [Console]::In.ReadLine() | ConvertFrom-Json
     if ($request.action -eq 'prepare') {
@@ -19,7 +27,7 @@ try {
     }
     # The official SDK owns CurrentUser cache persistence and refresh. A device
     # challenge is observable, so background reads can stop instead of opening UI.
-    Connect-MgGraph -Scopes 'Mail.ReadBasic' -ContextScope CurrentUser -UseDeviceAuthentication -NoWelcome -ErrorAction Stop
+    Connect-MgGraph -Scopes 'Mail.Read' -ContextScope CurrentUser -UseDeviceAuthentication -NoWelcome -ErrorAction Stop
     $context = Get-MgContext
     if (!$context -or !$context.Account) { throw 'BOKKIO_AUTH_REQUIRED' }
     if ($request.account -and $context.Account -ne $request.account) { throw 'BOKKIO_ACCOUNT_CHANGED' }
@@ -32,26 +40,44 @@ try {
         $null = Invoke-MgGraphRequest -Method GET -Uri 'https://graph.microsoft.com/v1.0/me/mailFolders/inbox?$select=id' -OutputType PSObject
         Emit @{kind='result';status='connected';account=$context.Account;tenant=$context.TenantId;scopes=@($context.Scopes)}; exit 0
     }
-    if ($request.action -ne 'unread') { throw 'Unknown operation' }
-    $start = [DateTimeOffset]::Parse($request.start).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ')
-    $end = [DateTimeOffset]::Parse($request.end).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ')
-    $filter = [Uri]::EscapeDataString("isRead eq false and receivedDateTime ge $start and receivedDateTime lt $end")
-    $uri = 'https://graph.microsoft.com/v1.0/me/mailFolders/inbox/messages?$select=id&$top=1000&$filter=' + $filter
-    $count = 0; $pages = 0
+    if ($request.action -ne 'request') { throw 'Unknown operation' }
+    $uri = [string]$request.uri
+    $limit = [int]$request.max_pages
+    if ($limit -lt 1 -or $limit -gt 20) { throw 'BOKKIO_INVALID_PAGES' }
+    $pages = 0; $items = [Collections.Generic.List[object]]::new(); $data = $null; $collection = $false
     do {
-        if (([Uri]$uri).Host -ne 'graph.microsoft.com') { throw 'Unexpected Graph pagination host' }
-        $page = Invoke-MgGraphRequest -Method GET -Uri $uri -OutputType PSObject
-        $count += @($page.value).Count; $pages++
-        $uri = $page.'@odata.nextLink'
-        if ($pages -ge 100 -and $uri) { throw 'Mailbox query exceeded 100 pages; narrow the time range' }
-    } while ($uri)
-    Emit @{kind='result';status='completed';account=$context.Account;folder='inbox';start=$start;end=$end;count=$count;pages=$pages;source='Microsoft Graph / PowerShell'}
+        Assert-GraphUri $uri
+        $page = Invoke-MgGraphRequest -Method GET -Uri $uri -Headers @{Prefer='outlook.body-content-type="text"'} -OutputType PSObject
+        $pages++
+        if ($pages -eq 1) { $data = $page; $collection = $null -ne $page.PSObject.Properties['value'] }
+        if ($collection) { foreach ($item in @($page.value)) { $items.Add($item) } }
+        $uri = [string]$page.'@odata.nextLink'
+        if ($uri) { Assert-GraphUri $uri }
+    } while ($uri -and $pages -lt $limit)
+    if ($collection) {
+        $data.value = $items.ToArray()
+        $data.PSObject.Properties.Remove('@odata.nextLink')
+    }
+    Emit @{kind='result';status='completed';account=$context.Account;data=$data;pages=$pages;complete=(!$uri);next_link=$(if ($uri) {$uri} else {$null});source='Microsoft Graph / PowerShell'}
 } catch {
     # Do not forward SDK exceptions: they may contain authentication payloads.
     $message = $_.Exception.Message
     $code = 'graph_failed'; $hint = 'Graph 请求失败，请检查连接或重新登录。'
     if ($message -match 'BOKKIO_ACCOUNT_CHANGED') { $code='account_changed';$hint='Graph SDK 当前账户已改变，请在配置中重新连接。' }
     elseif ($message -match 'BOKKIO_AUTH_REQUIRED|Authentication|AADSTS|Credential') { $code='authentication_required';$hint='微软登录需要重新验证，请在配置中连接 Outlook。' }
-    elseif ($message -match '403|AccessDenied|Authorization_RequestDenied') { $code='access_denied';$hint='微软拒绝邮箱访问，请检查 Mail.ReadBasic 授权或组织策略。' }
+    elseif ($message -match '403|AccessDenied|Authorization_RequestDenied') { $code='access_denied';$hint='微软拒绝邮箱访问，请重新连接并确认 Mail.Read 授权，或检查组织策略。' }
+    elseif ($message -match 'BOKKIO_RESPONSE_TOO_LARGE') { $code='response_too_large';$hint='Graph 响应过大，请缩小 $top、$select 或 max_pages 后重试。' }
+    elseif ($message -match 'BOKKIO_INVALID_URI|BOKKIO_INVALID_PAGES') { $code='invalid_request';$hint='Graph 请求地址或页数无效。' }
+    else {
+        # Only Graph's structured service error is useful to a caller correcting
+        # a query. Never forward the surrounding SDK exception/authentication data.
+        try {
+            $serviceError = ($_.ErrorDetails.Message | ConvertFrom-Json -ErrorAction Stop).error
+            if ($serviceError.code -and $serviceError.message -and $serviceError.code -notmatch 'Authentication|Token|Credential') {
+                $code = [string]$serviceError.code
+                $hint = ([string]$serviceError.message).Substring(0,[Math]::Min(1000,([string]$serviceError.message).Length))
+            }
+        } catch {}
+    }
     Emit @{kind='result';status='failed';error_code=$code;message=$hint}; exit 1
 }

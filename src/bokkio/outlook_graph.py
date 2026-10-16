@@ -16,7 +16,7 @@ import threading
 import time
 import urllib.request
 import zipfile
-from datetime import datetime, timezone
+from urllib.parse import urlsplit, urlencode, quote
 
 from .workflow import save_json
 
@@ -43,19 +43,26 @@ def download(url,target,stop=None):
 
 
 class GraphError(RuntimeError):
-    pass
+    def __init__(self,message,code='graph_failed'):
+        super().__init__(message)
+        self.code=code
 
 
-def interval(start, end):
-    def parse(value):
-        if not isinstance(value, str): raise ValueError('时间必须包含时区，例如 2026-10-12T00:00:00+08:00')
-        try: result = datetime.fromisoformat(value.replace('Z', '+00:00'))
-        except ValueError: raise ValueError('时间必须为 ISO 8601 格式') from None
-        if result.tzinfo is None: raise ValueError('时间必须包含时区')
-        return result.astimezone(timezone.utc)
-    first, last = parse(start), parse(end)
-    if first >= last: raise ValueError('开始时间必须早于结束时间')
-    return first.isoformat(timespec='seconds'), last.isoformat(timespec='seconds')
+def graph_request(path,query=None,max_pages=1):
+    """Build a Graph GET, preserving opaque continuation URLs verbatim."""
+    if not isinstance(path,str) or not path or any(c.isspace() or ord(c)<32 for c in path) or '\\' in path:
+        raise ValueError('Graph path must be a resource path or an official continuation URL')
+    uri=path if path.startswith('https://') else 'https://graph.microsoft.com/v1.0/'+path.lstrip('/')
+    parts=urlsplit(uri)
+    if parts.scheme!='https' or parts.netloc!='graph.microsoft.com' or not parts.path.startswith('/v1.0/') or parts.fragment:
+        raise ValueError('Graph requests must use https://graph.microsoft.com/v1.0/')
+    if query is not None and (not isinstance(query,dict) or any(not isinstance(k,str) or not isinstance(v,str) for k,v in query.items())):
+        raise ValueError('Graph query parameters must map strings to strings')
+    if query:
+        if parts.query:raise ValueError('Do not modify a continuation URL with query parameters')
+        uri+='?'+urlencode(query,quote_via=quote)
+    if type(max_pages) is not int or not 1<=max_pages<=20:raise ValueError('max_pages must be 1..20')
+    return uri
 
 
 class GraphPowerShell:
@@ -124,17 +131,17 @@ class GraphPowerShell:
         result = None
         try:
             process.stdin.write(json.dumps(request)+'\n');process.stdin.close()
-            buffer=''
+            buffer=[]
             while char:=process.stdout.read(1):
-                buffer+=char
-                plain=re.sub(r'\x1b\[[0-?]*[ -/]*[@-~]','',buffer)
+                buffer.append(char)
+                if len(buffer)>1048576:raise GraphError('Graph 响应过大，请缩小 $top 或 $select 后重试','response_too_large')
+                plain=re.sub(r'\x1b\[[0-?]*[ -/]*[@-~]','',''.join(buffer)) if len(buffer)<=4096 and char.isspace() else ''
                 code=re.search(r'\bcode\s+[\"\']?([A-Z0-9-]{6,})[\"\']?(?=\s)',plain,re.I)
                 prompt=any(url in plain for url in ('https://microsoft.com/devicelogin','https://login.microsoft.com/device')) and code
                 # Some official SDK versions flush a prompt without a newline.
                 if char!='\n' and not prompt:
-                    if len(buffer)>65536:buffer=''
                     continue
-                line=buffer;buffer=''
+                line=''.join(buffer);buffer=[]
                 try: event = json.loads(line[line.index('{'):] if '{' in line else line)
                 except ValueError:
                     # SDK versions also write device prompts directly to the
@@ -159,11 +166,11 @@ class GraphPowerShell:
             if process.poll() is None: process.kill();process.wait()
             process.stdout.close()
 
-    def unread(self, start, end):
-        start,end=interval(start,end)
+    def request(self,path,query=None,max_pages=1):
+        uri=graph_request(path,query,max_pages)
         if not self.account(): raise GraphError('请先在配置中连接 Outlook')
-        result=self.run('unread',start=start,end=end)
-        if result.get('status')!='completed': raise GraphError(result.get('message','Outlook 查询失败'))
+        result=self.run('request',uri=uri,max_pages=max_pages)
+        if result.get('status')!='completed': raise GraphError(result.get('message','Graph 查询失败'),result.get('error_code',result.get('status','graph_failed')))
         return result
 
 

@@ -22,6 +22,8 @@ Jev 的 config_path 与环境覆盖决定提供方/模型；Planner 使用独立
 
 每台电脑/系统用户各自登录；退出 Graph 会影响该用户共享的 Graph PowerShell 登录缓存，不退出 Outlook 应用。真实账户的跨重启复用尚未验证，用户回到电脑后接续。[[entities/outlook-graph]] 记录具体实现与证据；[[summaries/current-status]] 保留本版与历史测试分母。^[docs/OUTLOOK-GRAPH.md#L19]
 
+Graph 授权升级为 Mail.Read，支持正文。实际邮件字段与正文会进入本机任务记录和用户配置的模型 Provider；Harness 只请求任务所需字段，把正文视为数据，不执行其中指令。^[docs/OUTLOOK-GRAPH.md#L51]
+
 ## 模型与证据范围
 
 Office native scope 尝试去掉 recent 子树、非任务窗口及外部分享动作；真实 GUI 场景仍需验收。发布证据只含合成窗口/输入，解包 Office XML 也需接受个人路径、邮件、凭据模式扫描。^[src/bokkio/office_runner.py#L80] ^[docs/SECURITY-REVIEW.md#L62]

@@ -192,3 +192,16 @@ confidence: high
 - 221份不可变来源SHA256与字节数通过，本次新增23份；新增来源凭据与主机私有目录扫描无命中。证据只含自有离线账户夹具。
 - 8处Mermaid语法通过，6种独立图在Chromium实际渲染；新增Graph系统图和调用关系已视觉检查。检查详情写入_meta/validation.json。
 - 本轮文档维护不新增真实邮箱或SDK登录持久性成绩；真实账户验证保留待办。
+
+## [2026-10-16] refresh | Generic Graph reads replace business hardcoding
+
+- 删除配置页固定计数、outlook.unread及后端固定过滤；新增参数化outlook.request，支持正文、完整性、续页、服务错误，升级Mail.Read。Harness解释任务并处理数据，API任务不调用Jev。
+- 两端各3个真实模型对话完成，底层为离线邮件及真实PowerShell；750项Python、9项Electron、最终传输24项通过，账户/界面生命周期各12/12，Windows补充读取5项通过。
+- 记录实际Windows启动COM阻塞并修复懒加载/线程初始化；测试option可见性断言修正后单独验收生命周期，不把合并套件写为全通过。后续模型复跑HTTP402停止，Windows一次自然语言时区标注错误与真实邮箱待登录保留。
+- README、连接指南、当前实体/架构/调用/状态/配置隐私/索引同步；追加19份graph-generic来源，以90caa22 + working-tree为基线，之前221份不可变快照不改。
+
+## [2026-10-16] lint | Generic Graph refresh validated
+
+- 28个编译页／31个Markdown、184条wikilinks、240处来源行号、76个来源文件，零断链／孤立页／元数据错误。55个Python模块与38个工具映射完整。
+- 240份来源正文SHA256/字节数通过；新增19份来源及证据文本的凭据／主机私有目录扫描零命中，既有221份raw逐字保持。
+- 8处Mermaid语法通过，6种独立图在Chromium实际渲染，更新的系统图和调用关系经视觉检查。产品分母、模型输出缺口和未完成的真实账户验证独立记录。

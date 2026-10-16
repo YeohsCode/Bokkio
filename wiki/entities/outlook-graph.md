@@ -1,16 +1,16 @@
 ---
-title: "Outlook Graph：PowerShell 登录与未读查询"
+title: "Outlook Graph：连接与通用读取"
 created: "2026-10-16"
 updated: "2026-10-16"
 type: "entity"
 tags: ["runtime", "configuration", "office", "evidence"]
-sources: ["docs/OUTLOOK-GRAPH.md", "docs/evidence/2026-10-16-outlook-powershell/README.md", "src/bokkio/outlook_graph.py", "src/bokkio/native/outlook_graph.ps1", "src/bokkio/runtime.py", "src/bokkio/local_runtime.py", "desktop/src/OutlookSettings.tsx"]
+sources: ["docs/OUTLOOK-GRAPH.md", "docs/evidence/2026-10-16-graph-generic/README.md", "docs/evidence/2026-10-16-outlook-powershell/README.md", "src/bokkio/outlook_graph.py", "src/bokkio/native/outlook_graph.ps1", "src/bokkio/runtime.py", "src/bokkio/local_runtime.py", "desktop/src/OutlookSettings.tsx"]
 confidence: "high"
 ---
 
-# Outlook Graph：PowerShell 登录与未读查询
+# Outlook Graph：连接与通用读取
 
-Desktop 配置页使用官方 Microsoft.Graph.Authentication 默认注册应用，用户无需自建 Entra 应用。缺组件时准备 PowerShell 7 与认证模块；设备码只在当前 UI 显示，用户在微软页面登录确认。^[docs/OUTLOOK-GRAPH.md#L5]
+Desktop 配置页只管理官方 Graph PowerShell 连接：准备、登录、验证、取消、退出。没有业务查询按钮；使用默认注册应用，用户无需自建 Entra 应用。^[docs/OUTLOOK-GRAPH.md#L5]
 
 ## 身份与密码
 
@@ -19,15 +19,16 @@ CurrentUser SDK 缓存负责持久登录和令牌刷新；同机同系统用户�
 ## 工具与执行
 
 - outlook.status：读取配置账户；configured 不代表当前访问有效。
-- outlook.unread：按带时区的 [start,end) 统计 Inbox 当前未读邮件，跟随分页，只返回计数/范围/账户等摘要，不读取正文或发送邮件。
-- Agent 工具调用进入 Runtime 操作回执；配置页管理与测试统计经 DesktopService 直接调用。Harness 编排 API 工具，Jev 不参与；日志不伪造局部决策。
+- outlook.request：通用 Graph v1.0 GET，调用方传 path、OData query、max_pages，无时间／文件夹／未读状态业务默认值；返回属性与正文，保留 complete、next_link。
+- Harness 根据自然语言问题确定查询和汇总，复用 code.run 计算；同一工具可完成计数、时间区间摘要或按发件人筛选。API 执行进入 Runtime 回执，不调用 Jev。
+- Mail.Read 支持正文；旧 Mail.ReadBasic 连接需重新确认授权。正文优先 text，仍返回 HTML 时由调用方转换；大响应明确报错，不能把未取完的分页当作全量。
 
-^[src/bokkio/runtime.py#L412] ^[docs/OUTLOOK-GRAPH.md#L22]
+^[docs/OUTLOOK-GRAPH.md#L19] ^[src/bokkio/runtime.py#L412]
 
 纯 API/code 会话不枚举桌面应用；Graph 不需要 AX/UIA、屏幕采集或键鼠录制权限。原生录制/回放仍是独立能力，见 [[entities/runtime-workflow]]。^[src/bokkio/local_runtime.py#L19]
 
 ## 当前证据与接续
 
-736 项 Python、9 项 Electron 测试通过；macOS/Windows 打包版 UI 各 10/10，使用真实 PowerShell 与离线 Graph cmdlet 夹具。正常安装版已显示真实微软设备码。用户当前不在电脑旁，要求先提交；真实邮箱和 SDK 跨重启登录复用尚未验证。^[docs/evidence/2026-10-16-outlook-powershell/README.md#L9]
+原先专用未读查询及设置按钮已删除；旧报告保留其当时范围。本轮两端各完成3个真实模型对话任务（离线邮件），最终账户/界面生命周期各12/12；合并测试断言失败与后续HTTP402保留。验证记录见通用Graph专题。真实微软授权、用户邮箱和 SDK 跨重启复用仍待用户在电脑旁登录。^[docs/OUTLOOK-GRAPH.md#L60]
 
-回到电脑后在配置页重新连接，完成一次微软授权，再验证真实计数、重启后无交互查询以及退出/重连。参见 [[summaries/current-status]]、[[summaries/module-call-map]] 与 [[concepts/configuration-and-privacy]]。
+界面启动不再枚举原生应用；应用列表在控件拾取时加载。配置、凭据状态和对话初始化相互独立。参见 [[summaries/current-status]]、[[summaries/module-call-map]] 与 [[concepts/configuration-and-privacy]]。

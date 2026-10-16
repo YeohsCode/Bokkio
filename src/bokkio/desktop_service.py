@@ -77,7 +77,6 @@ class DesktopStudio(Studio):
             if method!='POST':raise ValueError('Outlook actions require POST')
             if path=='/api/outlook/cancel':return self.outlook.cancel()
             if path=='/api/outlook/action':return self.outlook.start(arg('action'))
-            if path=='/api/outlook/unread':return self.outlook.graph.unread(arg('start'),arg('end'))
             raise ValueError('Unknown Outlook route')
         if path=='/api/drafts':return [{'id':v['document']['id'],'name':v['document']['name'],'steps':len(v['document']['steps'])} for v in [json.loads(p.read_text()) for p in (self.state/'workflow-drafts').glob('*.json')]]
         if path=='/api/draft':

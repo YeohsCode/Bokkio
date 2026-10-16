@@ -38,8 +38,15 @@ def installed_running_apps():
         k.OpenProcess.argtypes=[w.DWORD,w.BOOL,w.DWORD];k.OpenProcess.restype=w.HANDLE
         k.QueryFullProcessImageNameW.argtypes=[w.HANDLE,w.DWORD,w.LPWSTR,c.POINTER(w.DWORD)]
         k.CloseHandle.argtypes=[w.HANDLE]
+        # HTTP handlers run on fresh threads; comtypes only initializes its
+        # importing thread automatically. No COM objects escape this call.
+        sys.coinit_flags=0
+        import comtypes
+        comtypes.CoInitializeEx(0)
+        try:apps=Xa11yBackend().apps()
+        finally:comtypes.CoUninitialize()
         result=[]
-        for app in Xa11yBackend().apps():
+        for app in apps:
             h=k.OpenProcess(0x1000,False,app['pid'])
             if not h:continue
             try:

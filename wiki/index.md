@@ -20,11 +20,11 @@ confidence: high
 
 ## 2026-10-16 增量
 
-Desktop 0.3.0 新增 [[entities/outlook-graph]]，使用官方 Graph PowerShell 默认应用身份。双平台离线 UI 夹具各 10/10，真实账户与重启复用待用户登录；旧业务成绩保持各自日期范围。
+Desktop 0.3.0 新增 [[entities/outlook-graph]]，使用官方 Graph PowerShell 默认应用身份。当前改为通用 Graph GET，已移除专用未读按钮／工具；Harness 动态查询和汇总正文，真实账户与重启复用待用户登录；旧业务成绩保持各自日期范围。
 
 ## Entities
 
-- [[entities/outlook-graph|Outlook Graph：PowerShell 登录与未读查询]] — SDK 登录缓存、统一账户入口与只读计数；真实账户验证待接续。
+- [[entities/outlook-graph|Outlook Graph：连接与通用读取]] — SDK 登录缓存、统一账户入口与通用 Graph GET；真实账户验证待接续。
 
 - [[entities/capability-modules|能力模块：发现、合同与Office文件实现]] — 默认关闭的模块目录、精确合同与文件证据，复用既有worker。
 - [[entities/runtime-workflow|Runtime Workflow：Studio、录制与回放]] — 新版本库、精确启动身份、Core子动作与检查点；区别于历史直接backend引擎。

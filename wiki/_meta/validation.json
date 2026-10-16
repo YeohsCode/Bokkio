@@ -1,11 +1,11 @@
 {
-  "refresh": "2026-10-16-outlook-graph",
+  "refresh": "2026-10-16-graph-generic",
   "compiled_pages": 28,
   "markdown_pages": 31,
   "resolved_wikilinks": 184,
-  "source_line_citations": 239,
-  "referenced_source_files": 75,
-  "source_snapshots_verified": 221,
+  "source_line_citations": 240,
+  "referenced_source_files": 76,
+  "source_snapshots_verified": 240,
   "current_source_modules_mapped": 55,
   "public_tools_mapped": 38,
   "orphan_pages": [],
@@ -98,9 +98,9 @@
     },
     {
       "diagram": 6,
-      "viewBox": "0 0 1886.551025390625 1094",
+      "viewBox": "0 0 1886.551025390625 1118",
       "width": 1752,
-      "height": 1015.96875,
+      "height": 1038.25,
       "rendered": true
     }
   ],

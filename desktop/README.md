@@ -26,7 +26,7 @@ npm --prefix desktop run package
 - Shortcuts：操作步骤表、步骤多选/复制/删除/拖动、撤销/重做、目标拾取、图像锚点、相对位置、参数、断点、单步、运行日志、版本恢复与归档恢复。
 - 录制：无需预选应用，跨应用演示后自动识别；捕获点击、输入、快捷键及控件/窗口属性，生成结构化步骤；暂停、继续和停止；失败/未识别步骤显示出来，草稿保留在本机。
 - 对话：调用 DeepSeek Harness SDK 与 Bokkio MCP；启用 Jev 时，新原生界面操作经 Harness 全局规划 → Jev 局部动作/控件选择 → Runtime 执行/读回；关闭时 Harness 直接选择动作和控件，三层日志对应真实决策和操作 ID；纯读取、固定 Workflow 不调用 Jev。
-- 配置：Microsoft / Outlook 账户连接、取消、状态、退出与未读统计；全局模型与 Jev 开关/自定义 API URL/模型/独立密钥、工作目录、系统加密凭证、连接测试、系统授权状态。
+- 配置：Microsoft / Outlook 账户连接、取消、状态、验证与退出；全局模型与 Jev 开关/自定义 API URL/模型/独立密钥、工作目录、系统加密凭证、连接测试、系统授权状态。
 
 本机直接执行默认开启；企业 CLI 仍使用显式策略。前台回放时主窗口让出屏幕，暂停或完成后恢复。Ctrl/⌘ + Shift + F12 全局停止；Ctrl/⌘ + Shift + P 暂停。后台回放限可验证的原生操作，不向后台应用发送普通鼠标和键盘事件。
 
@@ -61,6 +61,6 @@ Jev 配置：选择预设或填写完整 HTTP(S) endpoint、模型名和对应 K
 
 ## Outlook Graph / PowerShell
 
-配置页点击准备组件、连接，使用微软页面的设备码完成首次授权。Bokkio 复用官方 Graph PowerShell 默认应用身份，用户不需要创建 Entra 应用。每台电脑/系统用户使用 CurrentUser SDK 缓存，令牌自动刷新；密码不交给 Bokkio，账户入口统一，令牌不复制进模型密钥库。Graph 未读查询不需要桌面辅助功能，当前只统计收件箱，不读正文、不发送/修改邮件。
+配置页只管理账户，邮件查询在对话中发起。通用 outlook.request 接受资源路径与 OData 参数，返回邮件属性、正文、完整性和续页地址；Harness 依据问题动态查询、汇总，复用代码执行做数据处理。已删除固定的“本周未读”按钮和专用工具。
 
-[连接与缓存指南](../docs/OUTLOOK-GRAPH.md) · [两端 UI 测试与待验证项](../docs/evidence/2026-10-16-outlook-powershell/README.md)。两端 UI 各 10/10 为离线 Graph 夹具；真实账户和重启后的令牌复用尚待登录验证。
+官方默认应用身份无需自建 Entra 应用；Mail.Read 支持正文，旧 Mail.ReadBasic 授权需要重新连接确认。CurrentUser SDK 负责缓存与刷新，密码只输入微软页面。Graph 查询不需要辅助功能或屏幕采集。参见[连接与通用调用指南](../docs/OUTLOOK-GRAPH.md)。真实账户和重启复用仍待验证。

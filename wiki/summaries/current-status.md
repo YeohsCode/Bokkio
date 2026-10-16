@@ -4,7 +4,7 @@ created: "2026-10-08"
 updated: "2026-10-16"
 type: "summary"
 tags: ["project", "evidence", "runtime", "meta"]
-sources: ["docs/progress/STATUS.md", "docs/evidence/2026-10-13-capability-modules/README.md", "docs/evidence/2026-10-16-outlook-powershell/README.md", "docs/OUTLOOK-GRAPH.md"]
+sources: ["docs/progress/STATUS.md", "docs/evidence/2026-10-13-capability-modules/README.md", "docs/evidence/2026-10-16-outlook-powershell/README.md", "docs/OUTLOOK-GRAPH.md", "docs/evidence/2026-10-16-graph-generic/README.md"]
 confidence: "high"
 ---
 
@@ -14,9 +14,10 @@ confidence: "high"
 
 ## 2026-10-16：Desktop Outlook 增量
 
-当前 Desktop 包为 0.3.0。官方 Graph PowerShell 连接、取消、账户管理和只读未读计数已接入；不要求用户注册 Entra 应用。Python 736 项与 Electron 9 项通过，两端打包版真实 UI 各 10/10，Graph cmdlet 为自有离线夹具。正常启动的 Mac 安装版已显示真实微软设备码；真实账户授权、邮箱和重启后的令牌复用按用户要求暂缓，先提交本版。^[docs/evidence/2026-10-16-outlook-powershell/README.md#L9]
+当前 Desktop 包为0.3.0。专用未读查询和按钮已删除，通用outlook.request读取参数化Graph数据及正文，Harness负责业务理解与汇总。Python750项、Electron9项通过，最终账户/界面生命周期两端各12/12；两端各3个真实模型对话任务完成，邮件为离线夹具。合并套件的原生option可见性断言失败后修正，生命周期独立复验；后续模型请求HTTP402，没有伪称完整复跑通过。^[docs/evidence/2026-10-16-graph-generic/README.md#L13]
 
-这次结果不覆盖历史自主业务矩阵，不将离线计数当成用户邮箱结果。接续入口为 [[entities/outlook-graph]]，账户/模型密钥边界见 [[concepts/configuration-and-privacy]]。^[docs/OUTLOOK-GRAPH.md#L14]
+一份Windows摘要的时区文字标注有误，实际Graph过滤与选中邮件符合12小时；不将传输/UX验证换算为全面业务准确率。真实Microsoft账户授权、用户邮箱和SDK重启复用待用户登录。旧业务矩阵保留原日期范围。实现与接续见 [[entities/outlook-graph]] 和 [[concepts/configuration-and-privacy]]。^[docs/evidence/2026-10-16-graph-generic/README.md#L29]
+
 
 ## 2026-10-13 历史增量验证
 

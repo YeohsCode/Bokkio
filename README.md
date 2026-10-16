@@ -8,7 +8,7 @@ A model-independent computer use runtime for Windows and macOS: native/pixel act
 
 **上一冻结版本成绩：** 回归 **587/587**，macOS 审计 **9/9**、窗口/作业矩阵 **18/18**；完整自主业务主批 **26/36**（当前 Codex 12/12、Hermes 8/12、DeepSeek 6/12），关键家族三份样本 **17/27**，GUI **0/18**，三调用方延迟自动管理员审批恢复 **9/9**。本轮自动测试已执行，产品成功率目标、客户人工审批、物理环境与 Windows 当前 Runtime 验收尚未完成。当前 Codex 保留会话且编写评测器，其 bridge 成绩不称盲测或公平排名。
 
-**Outlook Graph / PowerShell（2026-10-16）：** Desktop 配置页已接入微软官方 Graph PowerShell 默认应用身份，无需自行注册 Entra 应用。支持连接、取消、账户状态、退出和本周收件箱未读统计；同机同系统用户使用 SDK 缓存自动续期，Bokkio 不保存微软密码或复制令牌。两端打包版 UI 各 **10/10**（离线 Graph 夹具），Python **736** 项通过；真实账户授权、邮箱和重启后令牌复用待用户回到电脑后验证。[连接指南](docs/OUTLOOK-GRAPH.md) · [本版证据](docs/evidence/2026-10-16-outlook-powershell/README.md)。
+**Outlook Graph / PowerShell（2026-10-16）：** 配置页管理微软账户连接，通用 outlook.request 按调用方的资源路径、OData 参数和字段读取数据及正文，返回完整性与续页地址。Harness 解释需求、组合查询和汇总；已移除“本周未读”专用按钮、工具和后端分支。使用官方默认应用身份与 Mail.Read，无需自行注册 Entra 应用。[连接与调用指南](docs/OUTLOOK-GRAPH.md) · [本轮UX与验证](docs/evidence/2026-10-16-graph-generic/README.md)。真实账户授权、邮箱和 SDK 重启复用待用户登录。
 
 **Desktop UX 修正（2026-10-15）：** 新建 Workflow 不再预选应用；跨应用录制、编辑保存、真实回放与三个停止入口，macOS / Windows 安装包均通过 **20/20** 项 UX 基准。见 [本轮实测与截图](docs/evidence/2026-10-15-workflow-ux/README.md)。
 
@@ -48,7 +48,7 @@ macOS 开发覆盖计划中的四类能力：原生、视觉、生成代码组�
 
 ### Outlook 账户与邮件查询
 
-在 **配置 → Microsoft / Outlook 账户** 点击准备组件、连接，在微软网页输入设备码并登录确认；其余由程序处理。Graph 查询不要求辅助功能或屏幕采集权限。配置页统一管理连接，密码只输入微软页面；模型 API Key 继续使用已有系统加密存储。每台电脑和系统用户各自登录，退出、撤销授权或微软要求重新验证后需重新登录。当前提供只读未读统计，不发送/修改邮件。详细流程、企业租户/云环境条件和缓存边界见 [连接指南](docs/OUTLOOK-GRAPH.md)。
+在 **配置 → Microsoft / Outlook 账户** 点击准备组件、连接，在微软网页输入设备码并登录确认；其余由程序处理。Graph 查询不要求辅助功能或屏幕采集权限。配置页统一管理连接，密码只输入微软页面；模型 API Key 继续使用已有系统加密存储。每台电脑和系统用户各自登录，退出、撤销授权或微软要求重新验证后需重新登录。在对话中提出查询或邮件汇总需求，Harness 通过通用 Graph GET 读取所需数据和正文并处理分页；不发送/修改邮件。详细流程、企业租户/云环境条件和缓存边界见 [连接指南](docs/OUTLOOK-GRAPH.md)。
 
 ### 当前系统架构（0.2.0 Core，含 Desktop 0.3.0 扩展）
 
@@ -67,7 +67,7 @@ flowchart TB
     Core --> Native["Native<br/>macOS AX / Windows UIA"]
     Core --> Pixel["Capture / Pixel<br/>窗口身份与新鲜截图"]
     Core --> Browser["Browser worker<br/>Playwright / Origin 约束"]
-    Core --> Graph["Outlook API<br/>官方 Graph PowerShell / 只读计数"]
+    Core --> Graph["Outlook API<br/>官方 Graph PowerShell / 通用 GET"]
     Graph --> Mail["Microsoft Graph"]
     Core --> Jobs["Code / Process worker<br/>作业 / 取消 / 结构化结果"]
     Core --> Registry["可选能力目录<br/>摘要 / 合同 / 精确解析"]
@@ -84,7 +84,7 @@ flowchart TB
 |---|---|
 | 接入层 | `mcp_server.serve`、`runtime_cli.main`、`sdk.Client.call` → `Runtime.call`；`tool_schema` 提供统一工具合同 |
 | Core | `Runtime.call` → 参数/Session/授权/审批检查 → `_execute` → `_finish`；默认拒绝资源访问 |
-| Outlook Graph | `outlook.status / outlook.unread` → `GraphPowerShell` → 固定 .ps1 → Microsoft Graph；本机 API/code 会话不先枚举桌面应用 |
+| Outlook Graph | `outlook.status / outlook.request` → `GraphPowerShell` → 固定 .ps1 → Microsoft Graph；本机 API/code 会话不先枚举桌面应用 |
 | 原生 | `_native_call` → `Xa11yBackend` → xa11y 与 `MacAX` / `WindowsUIA`；`model`、`selector`、`scroll` 支撑身份、查询和验证 |
 | 截图与像素 | `desktop_input` → `macos_capture` / `windows_capture`、Swift helper / Windows SendInput；坐标来自新鲜截图，无需 OCR 标签 |
 | 代码与进程 | `executor.launch` → 独立 worker → Python/Shell/PowerShell/argv；生成 Python 可通过 `Client.from_environment()` 继承会话并回调 Core |
@@ -396,7 +396,7 @@ uv run python scripts/verify_native.py --output /tmp/bokkio-evidence
 
 ## English
 
-**Outlook update (2026-10-16):** Desktop Settings now connects through the official Graph PowerShell default application, without a custom Entra app registration. The SDK owns CurrentUser token caching and refresh; Bokkio stores no Microsoft password or token copy. Packaged UI checks pass 10/10 on each platform against an owned offline Graph fixture; 736 Python tests pass. Real account authorization, mailbox queries and persisted login after restart await the user. See the [connection guide](docs/OUTLOOK-GRAPH.md) and [evidence](docs/evidence/2026-10-16-outlook-powershell/README.md).
+**Outlook update (2026-10-16):** Settings manages the Microsoft connection. The generic outlook.request tool accepts resource paths, OData parameters and pagination; Harness plans queries and summarizes returned content. The task-specific unread button/tool has been removed. Mail.Read enables message bodies through the official SDK login cache. See the [guide](docs/OUTLOOK-GRAPH.md). Real Microsoft account and login-persistence checks await user sign-in.
 
 ### Positioning and current status
 
