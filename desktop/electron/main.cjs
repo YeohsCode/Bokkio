@@ -2,7 +2,7 @@ const {app,BrowserWindow,ipcMain,globalShortcut,safeStorage,shell,clipboard,syst
 const {spawn}=require('node:child_process');
 const fs=require('node:fs');const path=require('node:path');
 if(process.env.BOKKIO_DESKTOP_USER_DATA){const folder=path.resolve(process.env.BOKKIO_DESKTOP_USER_DATA);fs.mkdirSync(folder,{recursive:true});app.setPath('userData',folder);}
-let mainWindow,overlay,service,endpoint,token,stateRoot;let quitting=false,activeRun=null,runWatch=null,watchEpoch=0,tray=null;const shortcutStatus=[];let recordingTransition=Promise.resolve();let overlayMode='recording';
+let mainWindow,overlay,service,endpoint,token,stateRoot;let quitting=false,activeRun=null,runWatch=null,watchEpoch=0,tray=null;const shortcutStatus=[];let recordingTransition=Promise.resolve();let overlayMode='recording';let credentialTransition=Promise.resolve(),credentialLoading=null,credentialEncryption=null;let credentials={status:'loading',error:''};
 function mutateRecording(fn){const next=recordingTransition.catch(()=>{}).then(fn);recordingTransition=next.catch(()=>{});return next;}
 async function globalControl(control){if(control==='emergency')return emergency();if(control==='pause'&&activeRun)return replayControl('pause');return mutateRecording(async()=>{const state=await api('/api/record');if(control==='pause'){if(['recording','paused'].includes(state.status))notify({type:'recording-state',preview:await pauseRecording(state.status==='recording')});}else if(['recording','paused','failed'].includes(state.status))notify({type:'recording-finished',preview:await finishRecording()});else if(control==='record')notify('record');});}
 function api(route,data){
@@ -10,7 +10,25 @@ function api(route,data){
  return fetch(endpoint+route,{method:data===undefined?'GET':'POST',headers:{'X-Bokkio-Token':token,'Content-Type':'application/json'},body:data===undefined?undefined:JSON.stringify(data)}).then(async r=>{const v=await r.json();if(!r.ok)throw Error(v.error||'Runtime request failed');return v;});
 }
 function credentialPath(kind='provider'){return path.join(app.getPath('userData'),kind+'-key.bin');}
-function readKey(kind='provider'){if(fs.existsSync(credentialPath(kind))&&safeStorage.isEncryptionAvailable())return safeStorage.decryptString(fs.readFileSync(credentialPath(kind)));return '';}
+async function encryptionAvailable(){credentialEncryption=await safeStorage.isAsyncEncryptionAvailable();return credentialEncryption;}
+async function readKey(kind='provider'){const file=credentialPath(kind);if(!fs.existsSync(file))return '';if(!await encryptionAvailable())throw Error('OS credential encryption is unavailable');return (await safeStorage.decryptStringAsync(fs.readFileSync(file))).result;}
+async function writeKey(kind,value){const file=credentialPath(kind);if(value){if(!await encryptionAvailable())throw Error('OS credential encryption is unavailable');fs.writeFileSync(file,await safeStorage.encryptStringAsync(value),{mode:0o600});}else if(fs.existsSync(file))fs.unlinkSync(file);}
+function credentialWork(fn){const next=credentialTransition.catch(()=>{}).then(fn);credentialTransition=next.catch(()=>{});return next;}
+function credentialState(value){credentials=value;if(mainWindow&&!mainWindow.isDestroyed())mainWindow.webContents.send('credentials-state',credentials);}
+function loadCredentials(){
+ if(credentialLoading)return credentialLoading;
+ credentialState({status:'loading',error:''});
+ credentialLoading=credentialWork(async()=>{
+  let key=await readKey();
+  if(!key&&!fs.existsSync(path.join(stateRoot,'desktop-settings.json'))){
+   const imported=require('./provider-config.cjs').localProviderConfig();
+   if(imported){await writeKey('provider',imported.api_key);await api('/api/settings',imported);key=imported.api_key;}
+  }
+  const jevKey=await readKey('jev');if(key||jevKey)await api('/api/settings',{...(key?{api_key:key}:{}),...(jevKey?{jev_api_key:jevKey}:{})});
+  credentialState({status:'ready',error:''});return credentials;
+ }).catch(()=>{credentialState({status:'failed',error:'无法解锁保存的模型凭据。请完成系统钥匙串确认后重试。'});return credentials;}).finally(()=>{credentialLoading=null;});
+ return credentialLoading;
+}
 async function initializeService(){
  stateRoot=process.env.BOKKIO_DESKTOP_STATE||path.join(app.getPath('userData'),'runtime');fs.mkdirSync(stateRoot,{recursive:true,mode:0o700});
  const root=path.resolve(__dirname,'../..');
@@ -19,14 +37,7 @@ async function initializeService(){
  service=spawn(executable,args,{cwd:app.isPackaged?process.resourcesPath:root,env:{...process.env,BOKKIO_DESKTOP_PID:String(process.pid),BOKKIO_DESKTOP_APP_PATH:process.platform==='darwin'?path.resolve(process.execPath,'../../..'):path.dirname(process.execPath),PYTHONUNBUFFERED:'1',PYTHONDONTWRITEBYTECODE:'1',PYTHONUTF8:'1',PYTHONIOENCODING:'utf-8',...(!app.isPackaged?{PYTHONPATH:path.join(root,'src')}: {})},stdio:['ignore','pipe','pipe'],windowsHide:true});
  await new Promise((resolve,reject)=>{let buffer='';const timer=setTimeout(()=>reject(Error('Runtime did not start within 45 seconds')),45000);service.once('error',reject);service.once('exit',code=>{clearTimeout(timer);reject(Error('Runtime exited: '+code));});service.stdout.on('data',chunk=>{buffer+=chunk;let i;while((i=buffer.indexOf('\n'))>=0){let line=buffer.slice(0,i);buffer=buffer.slice(i+1);try{let data=JSON.parse(line);if(data.ready){endpoint=data.url;token=data.token;clearTimeout(timer);resolve();}}catch{}}});});
  service.stderr.on('data',()=>{});service.on('exit',()=>{if(!quitting&&mainWindow)mainWindow.webContents.send('runtime-error','Runtime stopped; reopen Bokkio to reconnect.');});
- let key=readKey();
- // First launch reuses the user's Bokkio planner configuration, then owns an
- // encrypted copy. Existing desktop settings and explicit credential deletion win.
- if(!key&&!fs.existsSync(path.join(stateRoot,'desktop-settings.json'))&&safeStorage.isEncryptionAvailable()){
-  const imported=require('./provider-config.cjs').localProviderConfig();
-  if(imported){await api('/api/settings',imported);fs.writeFileSync(credentialPath(),safeStorage.encryptString(imported.api_key),{mode:0o600});key=imported.api_key;}
- }
- const jevKey=readKey('jev');if(key||jevKey)await api('/api/settings',{...(key?{api_key:key}:{}),...(jevKey?{jev_api_key:jevKey}:{})});
+
 }
 function secureWindow(extra={}){return new BrowserWindow({width:1440,height:950,minWidth:1024,minHeight:700,backgroundColor:'#101317',title:'Bokkio',icon:path.join(__dirname,'../assets/icon.png'),...extra,webPreferences:{preload:path.join(__dirname,'preload.cjs'),contextIsolation:true,nodeIntegration:false,sandbox:true,...extra.webPreferences}});}
 function notify(event){if(mainWindow&&!mainWindow.isDestroyed())mainWindow.webContents.send('shortcut-control',event);}
@@ -40,6 +51,7 @@ app.whenReady().then(async()=>{
  tray=new Tray(nativeImage.createFromPath(path.join(__dirname,'../assets/icon.png')).resize({width:18,height:18}));tray.setToolTip('Bokkio Desktop Studio');tray.setContextMenu(Menu.buildFromTemplate([{label:'打开 Bokkio',click:()=>mainWindow.show()},{label:'暂停 / 继续录制',click:()=>globalControl('pause').catch(e=>mainWindow.webContents.send('runtime-error',e.message))},{label:'停止录制并编辑',click:()=>globalControl('stop').catch(e=>mainWindow.webContents.send('runtime-error',e.message))},{label:'紧急停止',click:()=>emergency().catch(()=>{})}]));tray.on('click',()=>mainWindow.show());
  overlay=secureWindow({title:'Bokkio 操作控制',width:420,height:98,minWidth:420,minHeight:98,acceptFirstMouse:true,frame:false,transparent:true,alwaysOnTop:true,resizable:false,focusable:false,skipTaskbar:true,show:false});await overlay.loadFile(path.join(__dirname,'overlay.html'));overlay.setAlwaysOnTop(true,'floating');const area=screen.getPrimaryDisplay().workArea;overlay.setPosition(area.x+area.width-436,area.y+16);
  mainWindow.on('close',e=>{if(!quitting){e.preventDefault();quitting=true;emergency().finally(()=>{service?.kill();app.quit();});}});
+ void loadCredentials();
  }catch(error){require('electron').dialog.showErrorBox('Bokkio could not start',error.message);service?.kill();app.quit();}
 });
 app.on('activate',()=>{if(mainWindow&&!mainWindow.isDestroyed())mainWindow.show();});
@@ -54,12 +66,14 @@ ipcMain.handle('api',async(_,route,data)=>{
  if(replay&&headed){clearInterval(runWatch);watchEpoch++;activeRun=null;overlay.hide();mainWindow.hide();}
  try{const result=await api(route,data);if(replay&&headed)watchRun(result.id||data.id);return result;}catch(error){if(replay&&headed)mainWindow.show();throw error;}
 });
-ipcMain.handle('settings',async(_,data)=>{
- for(const [field,kind] of [['api_key','provider'],['jev_api_key','jev']]){if(data?.[field]!==undefined){const value=data[field],file=credentialPath(kind);if(value&&!safeStorage.isEncryptionAvailable())throw Error('OS credential encryption is unavailable');if(value)fs.writeFileSync(file,safeStorage.encryptString(value),{mode:0o600});else if(fs.existsSync(file))fs.unlinkSync(file);}}
- return api('/api/settings',data);
-});
+ipcMain.handle('credential-state',()=>credentials);
+ipcMain.handle('unlock-credentials',()=>loadCredentials());
+ipcMain.handle('settings',(_,data)=>data===undefined?api('/api/settings'):credentialWork(async()=>{
+ for(const [field,kind] of [['api_key','provider'],['jev_api_key','jev']])if(data[field]!==undefined)await writeKey(kind,data[field]);
+ const saved=await api('/api/settings',data);credentialState({status:'ready',error:''});return saved;
+}));
 ipcMain.handle('open-workspace',()=>shell.openPath(stateRoot));
-ipcMain.handle('system',async()=>{const permissions=await api('/api/permissions'),hostTrusted=process.platform==='darwin'?systemPreferences.isTrustedAccessibilityClient(false):true;return {platform:process.platform,version:app.getVersion(),accessibility:permissions.accessibility,host_accessibility:hostTrusted,permission_issue:hostTrusted&&!permissions.accessibility?'runtime_identity':null,permissions,credential_encryption:safeStorage.isEncryptionAvailable(),shortcuts:shortcutStatus};});
+ipcMain.handle('system',async()=>{const permissions=await api('/api/permissions'),hostTrusted=process.platform==='darwin'?systemPreferences.isTrustedAccessibilityClient(false):true;return {platform:process.platform,version:app.getVersion(),accessibility:permissions.accessibility,host_accessibility:hostTrusted,permission_issue:hostTrusted&&!permissions.accessibility?'runtime_identity':null,permissions,credential_encryption:credentialEncryption,shortcuts:shortcutStatus};});
 ipcMain.handle('permission-action',async(_,action)=>{
  if(process.platform!=='darwin')throw Error('Accessibility setup is only needed on macOS');
  const permissions=await api('/api/permissions');

@@ -9,3 +9,5 @@
 .shell>main:has(.chat-page){display:flex;flex-direction:column;overflow:hidden}.chat-page{flex:1;min-height:0;height:auto}.chat-main>.work-head,.chat-main>.composer{flex-shrink:0}.chat-page .conversation{min-height:0}.shell>main:has(.chat-page)>.banner{flex-shrink:0}
 
 .permission-guide{margin:18px 0;padding-top:16px;border-top:1px solid #dfe5ee}.permission-commands{white-space:pre-wrap;overflow-wrap:anywhere;font-size:11px;background:#f6f8fb;padding:10px;border-radius:6px}.permission-required{background:#fff7e8;color:#956418;flex-shrink:0}.permission-required>span{overflow-wrap:anywhere}.permission-guide .field input{font-family:monospace;font-size:11px}
+
+.credentials-notice{background:#edf5ff;color:#3d6596;flex-shrink:0}.credentials-notice>span{flex:1}

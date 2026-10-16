@@ -1,0 +1,28 @@
+{
+  "macos": {
+    "launch": "normal installed application, launched through native app launcher; not a development-host Electron test",
+    "installed_app": "/Users/andrewyeoh/Applications/Bokkio.app",
+    "window_shown_while_credential_loading": true,
+    "settings_navigation_while_credential_loading": true,
+    "credential_unlock": "OS confirmation pending; a previous attempt returned failed and exposed retry without blocking UI",
+    "accessibility": "old Bokkio record reset with tccutil reset Accessibility com.bokkio.desktop; System Settings Add action awaits user authentication",
+    "host_accessibility": false,
+    "runtime_accessibility": false,
+    "native_session_verified": false,
+    "outlook_task_verified": false
+  },
+  "windows": {
+    "test": "visible packaged app UI using isolated test state and owned loopback model fixture",
+    "old_provider_and_jev_credentials_loaded": true,
+    "saved_key_used_by_connection_button": true,
+    "updated_key_saved_and_used": true,
+    "updated_key_restored_after_restart": true,
+    "external_model_requests": false
+  },
+  "checks": {
+    "electron_unit_tests": 9,
+    "typescript_vite_build": "passed",
+    "macos_signed_package_audit": "passed",
+    "windows_package_audit": "passed"
+  }
+}

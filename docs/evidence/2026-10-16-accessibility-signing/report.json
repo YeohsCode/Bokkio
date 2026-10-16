@@ -13,8 +13,9 @@
   },
   "after": {
     "signature_verification": "passed for application, Python, recorder, input and capture helpers; still passes after normal LaunchServices startup",
-    "normal_launch_state": "service running; application initialization awaits OS Keychain confirmation for existing stored provider credentials",
+    "normal_launch_state": "UI now starts while credentials decrypt asynchronously; Settings stays responsive. Bokkio Accessibility record reset after old identity failed to refresh; re-registration awaits user authentication in System Settings.",
     "native_session_verified": false,
-    "outlook_task_verified": false
+    "outlook_task_verified": false,
+    "credential_startup_followup": "../2026-10-16-credential-startup/README.md"
   }
 }
