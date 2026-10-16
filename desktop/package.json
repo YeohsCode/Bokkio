@@ -9,7 +9,8 @@
     "build": "tsc --noEmit && vite build",
     "start": "npm run build && electron .",
     "package": "npm run build && electron-builder --dir",
-    "test": "node --test electron/*.test.cjs"
+    "test": "node --test electron/*.test.cjs",
+    "test:ux": "node tests/bokkio-desktop-ux.cjs"
   },
   "dependencies": {
     "react": "19.3.0",
@@ -36,6 +37,7 @@
       "dist/**",
       "electron/main.cjs",
       "electron/preload.cjs",
+      "electron/provider-config.cjs",
       "electron/overlay.html",
       "electron/overlay.js",
       "package.json",
@@ -58,7 +60,9 @@
       "extendInfo": {
         "NSScreenCaptureUsageDescription": "Capture a target window image for optional visual element matching.",
         "NSAppleEventsUsageDescription": "Activate your selected applications."
-      }
+      },
+      "identity": "-",
+      "strictVerify": true
     },
     "win": {
       "target": [

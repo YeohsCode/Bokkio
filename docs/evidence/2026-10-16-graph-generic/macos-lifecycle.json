@@ -1,0 +1,54 @@
+{
+  "checks": [
+    {
+      "name": "packaged_application",
+      "passed": true
+    },
+    {
+      "name": "no_microsoft_password_field",
+      "passed": true
+    },
+    {
+      "name": "settings_has_no_business_query_button",
+      "passed": true
+    },
+    {
+      "name": "connect_from_visible_settings",
+      "passed": true
+    },
+    {
+      "name": "body_read_consent_explained",
+      "passed": true
+    },
+    {
+      "name": "native_app_discovery_loads_when_picker_opens",
+      "passed": true
+    },
+    {
+      "name": "connection_identity_rechecked_after_app_restart",
+      "passed": true
+    },
+    {
+      "name": "profile_contains_only_identity_fields",
+      "passed": true
+    },
+    {
+      "name": "logout_removes_bokkio_profile",
+      "passed": true
+    },
+    {
+      "name": "device_challenge_visible",
+      "passed": true
+    },
+    {
+      "name": "login_cancel_stops_waiting_process",
+      "passed": true
+    },
+    {
+      "name": "cancelled_login_does_not_block_navigation",
+      "passed": true
+    }
+  ],
+  "scope": "packaged UI and shipped PowerShell; owned offline Graph data, no real Microsoft account or token",
+  "model_chat": "not requested"
+}

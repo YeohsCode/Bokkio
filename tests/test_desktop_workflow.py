@@ -89,3 +89,76 @@ def test_record_canvas_focus_is_not_substituted_for_mouse_click(setup):
     recorder.ingest({'pid':os.getpid(),'kind':'click','role':'custom','name':'Canvas','window':'Lab Window','x':40,'y':35})
     step=recorder.preview()['document']['steps'][0]
     assert step['kind']=='input' and step['action']=='click' and step['target']['point']=={'x':.3,'y':.25}
+
+
+def test_global_recording_registers_new_apps_without_late_snapshot(setup):
+    from bokkio.manual_recording import ManualRecorder
+    desktop,client,*_=setup
+    rec=ManualRecorder(client,[],all_apps=True,excluded_pids={99})
+    def event(pid,path,kind='click',**extra):
+        return {'captured':True,'pid':pid,'app':{'name':path.rsplit('/',1)[-1],'path':path},'kind':kind,
+                'window':'Before click','window_identity':'ax:1','role':'AXButton','name':'Open',
+                'ancestors':[{'role':'AXWindow','name':'Before click'}],
+                'bounds':{'x':10,'y':20,'width':40,'height':30},'x':20,'y':35,**extra}
+    # The dialog no longer exists when Python consumes its click. No observation may run.
+    desktop.snapshot=lambda *a,**kw: (_ for _ in ()).throw(AssertionError('late target lookup'))
+    rec.ingest(event(99,'/Applications/Bokkio.app'))
+    rec.ingest(event(10,'/Applications/First.app'))
+    rec.ingest(event(20,'/Applications/Second.app'))
+    rec.ingest(event(21,'/Applications/First.app'))
+    doc=rec.preview()['document'];assert len(doc['apps'])==2
+    assert [s['app'] for s in doc['steps']]==['app1','app2','app1']
+    assert all(s['kind']=='input' and s['target']['point']=={'x':.25,'y':.5} for s in doc['steps'])
+    validate_document(doc)
+
+
+def test_native_recorded_edits_keep_distinct_controls_and_skip_app_switch(setup):
+    from bokkio.manual_recording import ManualRecorder
+    _,client,*_=setup;rec=ManualRecorder(client,[],all_apps=True)
+    event={'captured':True,'pid':1,'app':{'name':'Editor','path':'/Applications/Editor.app'},'kind':'edit','role':'AXTextArea','name':'',
+           'window':'Doc','ancestors':[{'role':'AXScrollArea','name':''},{'role':'AXWindow','name':'Doc'}],'identifier':'first','value':'one'}
+    rec.ingest(event);rec.ingest({**event,'value':'two'});rec.ingest({**event,'identifier':'second','value':'three'})
+    rec.ingest({**event,'kind':'key','key':'Command+Tab'})
+    steps=rec.doc['steps'];assert len(steps)==2 and steps[0]['arguments']['value']=='two'
+    assert steps[0]['target']['role']=='text_area' and steps[0]['target']['name'] is None
+    assert steps[0]['target']['ancestors'][0]=={'role':'group','name':None}
+    validate_document(rec.doc)
+
+
+def test_native_capture_rebinds_against_driver_role_normalization(setup):
+    from bokkio.manual_recording import ManualRecorder
+    _,client,*_=setup;rec=ManualRecorder(client,[],all_apps=True)
+    rec.ingest({'captured':True,'pid':1,'app':{'name':'Editor','path':'/Applications/Editor.app'},'kind':'edit','role':'AXTextArea','name':'',
+                'window':'Doc','ancestors':[{'role':'AXScrollArea','name':''},{'role':'AXWindow','name':'Doc'}],'identifier':'editor','value':'demo'})
+    # xa11y normalizes AXScrollArea to group, rather than scroll_area.
+    nodes=[{'ref':'win','role':'window','name':'Doc','parent':None,'platform_data':{'ax_role':'AXWindow'}},
+           {'ref':'scroll','role':'group','name':None,'parent':'win','platform_data':{'ax_role':'AXScrollArea'}},
+           {'ref':'editor','role':'text_area','name':None,'parent':'scroll','platform_data':{'ax_role':'AXTextArea','ax_identifier':'editor'}}]
+    assert find_target({'windows':nodes},rec.doc['steps'][0]['target'],'__input__')['ref']=='editor'
+    nodes[1]['platform_data']['ax_role']='AXGroup'
+    with pytest.raises(ValueError,match='unavailable or ambiguous'):find_target({'windows':nodes},rec.doc['steps'][0]['target'],'__input__')
+
+
+def test_captured_drag_uses_containing_window_for_destination(setup):
+    from bokkio.manual_recording import ManualRecorder
+    _,client,*_=setup;rec=ManualRecorder(client,[],all_apps=True)
+    event={'captured':True,'pid':1,'app':{'name':'Lab','path':'/Applications/Lab.app'},'kind':'drag','role':'AXButton','name':'Item',
+           'window':'Doc','ancestors':[{'role':'AXWindow','name':'Doc'}],'bounds':{'x':20,'y':30,'width':20,'height':20},
+           'window_target':{'role':'AXWindow','name':'Doc','ancestors':[],'bounds':{'x':10,'y':20,'width':500,'height':300}},
+           'x':30,'y':40,'end_x':300,'end_y':200}
+    rec.ingest(event);step=rec.doc['steps'][0]
+    assert step['target']['role']=='window' and step['target']['point']=={'x':.04,'y':20/300}
+    assert step['arguments']['end_x']==.58 and step['arguments']['end_y']==.6
+    validate_document(rec.doc)
+    with pytest.raises(ValueError,match='outside'):rec.ingest({**event,'end_x':999})
+
+
+def test_cancelled_session_race_is_not_reported_as_replay_failure(setup,monkeypatch):
+    desktop,_,runner,doc,_=v2(setup);run=runner.start(doc)
+    def stopped_before_observation(*args):
+        runner.cancel(run['id'])
+        raise ValueError('Session unavailable, expired or owned by another OS user')
+    monkeypatch.setattr(runner,'_context_step',stopped_before_observation)
+    result=runner.run(run['id'])
+    assert result['status']=='cancelled' and desktop.clicks==0
+    assert 'error' not in result

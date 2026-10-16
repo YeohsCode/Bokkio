@@ -1,0 +1,19 @@
+const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),assert=require('node:assert/strict');
+const {_electron:electron}=require('playwright-core');
+const project=path.resolve(__dirname,'../..'),output=process.env.BOKKIO_TEST_OUTPUT,phase=process.argv[2]||'verify';if(!output)throw Error('Set an isolated BOKKIO_TEST_OUTPUT');
+let app,server,expected='owned-credential-upgrade-fixture';const report={phase,checks:[],provider:'owned loopback HTTP fixture; no external model request'};
+function check(name,ok){assert(ok,name);report.checks.push({name,passed:true});console.log(name);}
+async function launch(){app=await electron.launch({executablePath:process.env.BOKKIO_ELECTRON,args:[path.join(project,'desktop')],env:{...process.env,BOKKIO_DESKTOP_STATE:path.join(output,'runtime'),BOKKIO_DESKTOP_USER_DATA:path.join(output,'host'),BOKKIO_PLANNER_CONFIG:path.join(output,'absent-planner.json')},timeout:60000});const page=await app.firstWindow();page.setDefaultTimeout(30000);await page.getByRole('button',{name:'配置',exact:true}).click();await page.getByLabel('API 地址',{exact:true}).waitFor();return page;}
+async function connection(page){await page.getByRole('button',{name:'测试模型连接',exact:true}).click();await page.locator('.notice').filter({hasText:'模型连接成功'}).waitFor();check('connection_uses_saved_key',true);}
+(async()=>{
+ fs.mkdirSync(output,{recursive:true});const fixture=path.join(output,'fixture.json'),port=phase==='create'?0:JSON.parse(fs.readFileSync(fixture)).port;
+ server=http.createServer((req,res)=>{let raw='';req.on('data',v=>raw+=v);req.on('end',()=>{if(req.headers.authorization!=='Bearer '+expected){res.writeHead(401);res.end('{"error":"fixture key mismatch"}');return;}res.writeHead(200,{'Content-Type':'application/json'});res.end('{"model":"owned-fixture","choices":[{"message":{"role":"assistant","content":"OK"}}]}');});});await new Promise(resolve=>server.listen(port,'127.0.0.1',resolve));
+ let page=await launch();check('packaged_application',await app.evaluate(({app})=>app.isPackaged));
+ if(phase==='create'){
+  await page.getByLabel('API 地址',{exact:true}).fill('http://127.0.0.1:'+server.address().port+'/v1');await page.getByLabel('模型',{exact:true}).fill('owned-fixture');await page.getByLabel('API Key',{exact:true}).fill(expected);await page.getByLabel('Jev API Key',{exact:true}).fill('owned-jev-upgrade-fixture');await page.getByRole('button',{name:'保存配置',exact:true}).click();await page.locator('.notice').filter({hasText:'配置已保存'}).waitFor();await connection(page);check('sync_encrypted_provider_saved',!fs.readFileSync(path.join(output,'host','provider-key.bin')).includes(Buffer.from(expected)));fs.writeFileSync(fixture,JSON.stringify({port:server.address().port}));
+ }else{
+  await page.getByRole('button',{name:'删除凭据',exact:true}).waitFor({timeout:60000});await page.getByRole('button',{name:'删除 Jev 凭据',exact:true}).waitFor();check('old_provider_and_jev_ciphertexts_read_by_async_loader',true);await connection(page);
+  expected='owned-updated-credential-fixture';await page.getByLabel('API Key',{exact:true}).fill(expected);await page.getByRole('button',{name:'保存配置',exact:true}).click();await page.locator('.notice').filter({hasText:'配置已保存'}).waitFor();await connection(page);check('async_ciphertext_is_not_plaintext',!fs.readFileSync(path.join(output,'host','provider-key.bin')).includes(Buffer.from(expected)));
+  await app.close();app=null;page=await launch();await page.getByRole('button',{name:'删除凭据',exact:true}).waitFor({timeout:60000});await connection(page);check('async_ciphertext_restored_after_restart',true);await page.screenshot({path:path.join(output,'async-credentials.png')});
+ }
+})().catch(error=>{report.error=error.stack;process.exitCode=1;console.error(error.message);}).finally(async()=>{if(app)await app.close();if(server)await new Promise(resolve=>server.close(resolve));fs.writeFileSync(path.join(output,phase+'-report.json'),JSON.stringify(report,null,2));});

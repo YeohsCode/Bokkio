@@ -1,0 +1,21 @@
+{
+  "platform": "macOS 15.5 ARM64",
+  "installed_app": "/Users/andrewyeoh/Applications/Bokkio.app",
+  "before": {
+    "host_accessibility": true,
+    "runtime_accessibility": false,
+    "root_codesign_verify": "code has no resources but signature indicates they must be present",
+    "tcc_bundle_validation": {
+      "accessing_executable": "Contents/Resources/runtime/python/bin/python3",
+      "status": -67056,
+      "error": "errSecCSResourcesNotFound"
+    }
+  },
+  "after": {
+    "signature_verification": "passed for application, Python, recorder, input and capture helpers; still passes after normal LaunchServices startup",
+    "normal_launch_state": "UI now starts while credentials decrypt asynchronously; Settings stays responsive. Bokkio Accessibility record reset after old identity failed to refresh; re-registration awaits user authentication in System Settings.",
+    "native_session_verified": false,
+    "outlook_task_verified": false,
+    "credential_startup_followup": "../2026-10-16-credential-startup/README.md"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "phase": "create",
+  "checks": [
+    {
+      "name": "packaged_application",
+      "passed": true
+    },
+    {
+      "name": "connection_uses_saved_key",
+      "passed": true
+    },
+    {
+      "name": "sync_encrypted_provider_saved",
+      "passed": true
+    }
+  ],
+  "provider": "owned loopback HTTP fixture; no external model request"
+}

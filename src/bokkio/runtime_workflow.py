@@ -69,12 +69,16 @@ def validate_document(doc):
             if 'window_context' in s and (not isinstance(s['window_context'],dict) or set(s['window_context'])-{'key','identity','role','class_name','subrole'} or not isinstance(s['window_context'].get('key'),str)):raise ValueError('Invalid window context')
             if s['kind']=='native' and s.get('action') not in ACTION_METHODS:raise ValueError('Unsupported native action')
             target=s.get('target')
-            if not isinstance(target,dict) or set(target)-{'ref','role','name','ancestors','fallback','identifier','bounds','point','end_target','image'} or not isinstance(target.get('role'),str) or not isinstance(target.get('ancestors'),list):raise ValueError('Native step needs a semantic selector')
+            if not isinstance(target,dict) or set(target)-{'ref','role','name','ancestors','fallback','identifier','bounds','point','end_target','image','native_selector'} or not isinstance(target.get('role'),str) or not isinstance(target.get('ancestors'),list):raise ValueError('Native step needs a semantic selector')
             if 'name' not in target or target['name'] is not None and not isinstance(target['name'],str):raise ValueError('Invalid target name')
             if set(args)-{'value','expected_value','direction','amount','key','button','x','y','end_x','end_y','duration'}:raise ValueError('Action arguments cannot override application or target bindings')
             if target.get('image'):
                 image=target['image']
                 if not isinstance(image,dict) or set(image)-{'png','threshold'} or not isinstance(image.get('png'),str) or len(image['png'])>400000 or s['kind']=='native':raise ValueError('Image anchors require bounded PNG input/wait/check steps')
+            if 'native_selector' in target:
+                native=target['native_selector']
+                if not isinstance(native,dict) or set(native)!={'role','ancestors'} or not isinstance(native['role'],str) or not native['role'].startswith('AX') or not isinstance(native['ancestors'],list):raise ValueError('Invalid native selector')
+                if any(not isinstance(a,dict) or set(a)!={'role','name'} or not isinstance(a['role'],str) or (a['name'] is not None and not isinstance(a['name'],str)) for a in native['ancestors']):raise ValueError('Invalid native selector ancestors')
             for a in target['ancestors']:
                 if not isinstance(a,dict) or set(a)!={'role','name'} or not isinstance(a['role'],str):raise ValueError('Invalid selector context')
             validate_checks(s.get('verify',[]));validate_checks(s.get('wait',[]))
@@ -155,7 +159,7 @@ def runtime_snapshot(client,pid,window):
 
 
 def find_target(snapshot,target,action):
-    selector={k:v for k,v in target.items() if k not in {'identifier','bounds','point','end_target','image'}};selector.setdefault('ref','recorded')
+    selector={k:v for k,v in target.items() if k not in {'identifier','bounds','point','end_target','image','native_selector'}};selector.setdefault('ref','recorded')
     if target.get('identifier'):
         # Narrow by identity first, retain parent nodes for ancestry checks.
         wanted=target['identifier'];nodes=snapshot['windows'];matches=[]
@@ -165,9 +169,19 @@ def find_target(snapshot,target,action):
         if not matches:raise ValueError('Recorded control identifier is missing or ambiguous')
         snapshot={'windows':[n if n['ref'] in matches else {**n,'actions':[]} for n in nodes]}
     if action=='__input__':
-        nodes=snapshot['windows'];matches=[]
+        nodes=snapshot['windows'];matches=[];by_ref={n['ref']:n for n in nodes}
+        native=target.get('native_selector')
+        def context_matches(n):
+            if not native:return n.get('role')==selector['role'] and selector_for(snapshot,n)['ancestors']==selector['ancestors']
+            if n.get('platform_data',{}).get('ax_role')!=native['role']:return False
+            ancestors=[];current=n;seen=set()
+            while current.get('parent') in by_ref and current['parent'] not in seen:
+                seen.add(current['parent']);current=by_ref[current['parent']]
+                if current['role']=='application':break
+                ancestors.append({'role':current.get('platform_data',{}).get('ax_role'),'name':current.get('name')})
+            return ancestors==native['ancestors']
         for n in nodes:
-            if n.get('role')==selector['role'] and n.get('name')==selector['name'] and selector_for(snapshot,n)['ancestors']==selector['ancestors']:
+            if n.get('name')==selector['name'] and context_matches(n):
                 if not target.get('identifier') or n['ref'] in {x['ref'] for x in nodes if target['identifier'] in {x.get('platform_data',{}).get('ax_identifier'),x.get('platform_data',{}).get('automation_id')}}:matches.append(n)
         if len(matches)!=1:raise ValueError('Input target is unavailable or ambiguous')
         return matches[0]
@@ -269,7 +283,10 @@ class RuntimeWorkflowRunner:
         if not pending:
             pending={'tool':tool,'arguments':args,'operation_id':identifier(),'phase':phase};r['pending']=pending;self._save(r)
         result=self.client.call(pending['tool'],pending['arguments'],pending['operation_id'])
-        r['last_receipt']=result;self._save(r)
+        r['last_receipt']=result
+        if self.path(r['id']).with_suffix('.cancel').exists() and result['status']!='completion_unknown':
+            r['status']='cancelled';self._save(r);return None
+        self._save(r)
         if result['status']=='approval_required':
             r.update(status='waiting_approval',approval_id=result['approval_id']);self._save(r);return None
         if result['status'] not in {'completed','executed','verified','queued'}:
@@ -341,6 +358,8 @@ class RuntimeWorkflowRunner:
                                 if s.get('wait') and not verify_conditions(snapshot,s['wait'])[0]:raise ValueError('Wait conditions not satisfied')
                                 break
                             except Exception:
+                                if self.path(rid).with_suffix('.cancel').exists():r['status']='cancelled';return r
+                                if self.path(rid).with_suffix('.pause').exists():r['status']='paused';return r
                                 if time.monotonic()>=deadline:raise
                                 time.sleep(.15)
                         args={'app':str(r['bindings'][alias]),'window':s['window'],'observation_id':observed['result']['observation_id'],'ref':target['ref'],'action':s.get('action','check'),**s.get('arguments',{})}
@@ -382,7 +401,9 @@ class RuntimeWorkflowRunner:
             if r['status']=='running':r['status']='completed'
         except Exception as e:
             if 'r' not in locals():raise
-            r.update(status='failed',error={'type':type(e).__name__,'message':str(e)} )
+            if self.path(rid).with_suffix('.cancel').exists():
+                r.update(status='cancelled',stop_receipt={'type':type(e).__name__,'message':str(e)})
+            else:r.update(status='failed',error={'type':type(e).__name__,'message':str(e)})
         finally:
             if 'r' in locals():
                 self._save(r);self.client.runtime.store.emit('workflow.checkpoint',session_id=self.client.session_id,data={'run_id':rid,'status':r['status'],'next_step':r['index']})
@@ -407,6 +428,8 @@ class RuntimeWorkflowRunner:
         old=s['window'];s['window']=window['name']
         for ancestor in s.get('target',{}).get('ancestors',[]):
             if ancestor['role'] in {'window','dialog'} and ancestor['name']==old:ancestor['name']=s['window']
+        for ancestor in s.get('target',{}).get('native_selector',{}).get('ancestors',[]):
+            if ancestor['role'] in {'AXWindow','AXSheet'} and ancestor['name']==old:ancestor['name']=s['window']
         if s.get('target',{}).get('role') in {'window','dialog'} and s['target'].get('name')==old:s['target']['name']=s['window']
         self._save(r);return s
     def _advance(self,r):

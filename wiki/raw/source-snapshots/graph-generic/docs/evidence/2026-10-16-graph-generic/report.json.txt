@@ -1,0 +1,35 @@
+---
+source_path: docs/evidence/2026-10-16-graph-generic/report.json
+source_version: working-tree-based-on-90caa22fa8283ed60401fd0a059821424a113bbc
+ingested: 2026-10-16
+sha256: e1b2b91c31135528bd2e35a36494e1d7ef58b3690fd5bcc4f2a064e73bc38e85
+---
+
+{
+  "date": "2026-10-16",
+  "python_regression_passed": 750,
+  "electron_unit_passed": 9,
+  "final_transport_regression_passed": 24,
+  "packaged_ui_lifecycle": {
+    "macos": 12,
+    "windows_arm64": 12
+  },
+  "windows_real_powershell_transport_checks": 5,
+  "model_ui": {
+    "model": "z-ai/glm-5.3-flash",
+    "mail_source": "owned offline Graph cmdlet data, one item per page",
+    "macos_completed_tasks": 3,
+    "windows_completed_tasks": 3,
+    "tasks": [
+      "last 24 hours unread count",
+      "last 12 hours content summary, read and unread",
+      "last 24 hours by sender"
+    ],
+    "scope": "real packaged UI, real Harness and model, real shipped PowerShell; not a real Microsoft mailbox",
+    "combined_run_status": "model tasks and dynamic Graph checks passed; follow-up native-option visibility assertion failed, then was fixed and verified separately in final lifecycle runs"
+  },
+  "followup_model_rerun": "HTTP 402 prevented further model requests; no additional successful run is claimed",
+  "observed_model_output_gap": "One Windows answer mislabeled its UTC start time as local time; actual Graph filter and selected mail covered 12 hours. Content fields and pagination were verified, not unrestricted answer accuracy.",
+  "real_microsoft_login_and_persistence": "pending user sign-in",
+  "credential_material_in_evidence": false
+}

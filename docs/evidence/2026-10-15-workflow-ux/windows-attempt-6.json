@@ -1,0 +1,3063 @@
+{
+  "contract": "visible_UI_only",
+  "platform": "win32",
+  "checks": [
+    {
+      "name": "new_workflow_has_no_app_picker",
+      "passed": true
+    },
+    {
+      "name": "paused_input_excluded",
+      "passed": true
+    },
+    {
+      "name": "visible_stop_finishes",
+      "passed": true,
+      "detail": {
+        "milliseconds": 854
+      }
+    },
+    {
+      "name": "both_apps_automatically_recorded",
+      "passed": true
+    },
+    {
+      "name": "bokkio_controls_excluded",
+      "passed": true
+    },
+    {
+      "name": "no_capture_issues",
+      "passed": true
+    },
+    {
+      "name": "paused_value_not_saved",
+      "passed": true
+    },
+    {
+      "name": "stopped_recorder_cannot_append",
+      "passed": true
+    },
+    {
+      "name": "UX_scenario_completed",
+      "passed": false,
+      "detail": "locator.fill: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('文字 / 参数', { exact: true })\u001b[22m\n"
+    }
+  ],
+  "actions": [
+    {
+      "surface": "native app",
+      "command": "close-second",
+      "at": 1792072058791,
+      "observed": {
+        "editor": "Bokkio UX first",
+        "font": null
+      }
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "",
+      "at": 1792072059688,
+      "observed": {
+        "editor": "",
+        "font": null
+      }
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "新建 Workflow",
+      "at": 1792072061234
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "开始录制",
+      "at": 1792072061395
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "Bokkio UX first",
+      "at": 1792072063714,
+      "observed": {
+        "editor": "Bokkio UX first",
+        "font": null
+      }
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "暂停",
+      "at": 1792072063722
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "PAUSED INPUT MUST NOT APPEAR",
+      "at": 1792072065525,
+      "observed": {
+        "editor": "PAUSED INPUT MUST NOT APPEAR",
+        "font": null
+      }
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "继续",
+      "at": 1792072065526
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "Bokkio UX first",
+      "at": 1792072066741,
+      "observed": {
+        "editor": "Bokkio UX first",
+        "font": null
+      }
+    },
+    {
+      "surface": "native app",
+      "command": "open-second",
+      "at": 1792072068053,
+      "observed": {
+        "editor": "Bokkio UX first",
+        "font": "Arial"
+      }
+    },
+    {
+      "surface": "native app",
+      "command": "font",
+      "value": "Courier New",
+      "at": 1792072070799,
+      "observed": {
+        "editor": "Bokkio UX first",
+        "font": "Courier New"
+      }
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "Bokkio UX cross-app done",
+      "at": 1792072071713,
+      "observed": {
+        "editor": "Bokkio UX cross-app done",
+        "font": "Courier New"
+      }
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "停止并编辑",
+      "at": 1792072071737
+    },
+    {
+      "surface": "native app",
+      "command": "editor",
+      "value": "AFTER STOP MUST NOT APPEAR",
+      "at": 1792072073518,
+      "observed": {
+        "editor": "AFTER STOP MUST NOT APPEAR",
+        "font": "Courier New"
+      }
+    },
+    {
+      "surface": "Bokkio UI",
+      "name": "内容",
+      "at": 1792072073990
+    }
+  ],
+  "errors": [],
+  "stop_ms": 854,
+  "workflow": {
+    "schema": "bokkio.runtime-workflow.v2",
+    "id": "897ba3c803794780b225f24da64eac8d",
+    "name": "UX · Notepad → Character Map → Notepad",
+    "revision": 1,
+    "parent_sha256": null,
+    "apps": {
+      "app1": {
+        "name": "notepad",
+        "path": "C:\\Windows\\System32\\notepad.exe",
+        "bundle_id": ""
+      },
+      "app2": {
+        "name": "charmap",
+        "path": "C:\\Windows\\System32\\charmap.exe",
+        "bundle_id": ""
+      }
+    },
+    "steps": [
+      {
+        "id": "37e9585d1b5049818dbc5e6a9ea994a8",
+        "kind": "input",
+        "app": "app1",
+        "window": "*Untitled - Notepad",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": "Text Editor",
+          "ancestors": [
+            {
+              "role": "window",
+              "name": "*Untitled - Notepad"
+            }
+          ],
+          "identifier": "15",
+          "bounds": {
+            "x": 34,
+            "y": 77,
+            "width": 752,
+            "height": 437
+          }
+        },
+        "action": "replace_text",
+        "arguments": {
+          "value": "Bokkio UX first"
+        },
+        "recorded_at": 0.886,
+        "wait": [],
+        "verify": [
+          {
+            "role": "text_area",
+            "name": "Text Editor",
+            "field": "value",
+            "equals": "Bokkio UX first"
+          }
+        ],
+        "timeout": 10,
+        "label": "Text Editor",
+        "window_context": {
+          "key": "hwnd:393234",
+          "identity": "hwnd:393234",
+          "role": "window"
+        }
+      },
+      {
+        "id": "048da9105c294f8f8554a7f0bdd17ade",
+        "kind": "input",
+        "app": "app1",
+        "window": "Untitled - Notepad",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": "Text Editor",
+          "ancestors": [
+            {
+              "role": "window",
+              "name": "Untitled - Notepad"
+            }
+          ],
+          "identifier": "15",
+          "bounds": {
+            "x": 34,
+            "y": 77,
+            "width": 752,
+            "height": 437
+          },
+          "point": {
+            "x": 0.5,
+            "y": 0.5011441647597255
+          }
+        },
+        "action": "click",
+        "arguments": {
+          "duration": 0.05
+        },
+        "recorded_at": 0.854,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Text Editor",
+        "window_context": {
+          "key": "hwnd:393234",
+          "identity": "hwnd:393234",
+          "role": "window"
+        }
+      },
+      {
+        "id": "205cb7dba294464389103e536ccba12d",
+        "kind": "input",
+        "app": "app1",
+        "window": "*Untitled - Notepad",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": "Text Editor",
+          "ancestors": [
+            {
+              "role": "window",
+              "name": "*Untitled - Notepad"
+            }
+          ],
+          "identifier": "15",
+          "bounds": {
+            "x": 34,
+            "y": 77,
+            "width": 752,
+            "height": 437
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Ctrl+A"
+        },
+        "recorded_at": 0.888,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Text Editor",
+        "window_context": {
+          "key": "hwnd:393234",
+          "identity": "hwnd:393234",
+          "role": "window"
+        }
+      },
+      {
+        "id": "562ef32ae4d74a4aa50c66be35b26db9",
+        "kind": "input",
+        "app": "app1",
+        "window": "*Untitled - Notepad",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": "Text Editor",
+          "ancestors": [
+            {
+              "role": "window",
+              "name": "*Untitled - Notepad"
+            }
+          ],
+          "identifier": "15",
+          "bounds": {
+            "x": 34,
+            "y": 77,
+            "width": 752,
+            "height": 437
+          }
+        },
+        "action": "replace_text",
+        "arguments": {
+          "value": "Bokkio UX first"
+        },
+        "recorded_at": 0.952,
+        "wait": [],
+        "verify": [
+          {
+            "role": "text_area",
+            "name": "Text Editor",
+            "field": "value",
+            "equals": "Bokkio UX first"
+          }
+        ],
+        "timeout": 10,
+        "label": "Text Editor",
+        "window_context": {
+          "key": "hwnd:393234",
+          "identity": "hwnd:393234",
+          "role": "window"
+        }
+      },
+      {
+        "id": "4a38d1deefdc405fb412bed1e95586da",
+        "kind": "input",
+        "app": "app1",
+        "window": "*Untitled - Notepad",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": "Text Editor",
+          "ancestors": [
+            {
+              "role": "window",
+              "name": "*Untitled - Notepad"
+            }
+          ],
+          "identifier": "15",
+          "bounds": {
+            "x": 34,
+            "y": 77,
+            "width": 752,
+            "height": 437
+          }
+        },
+        "action": "replace_text",
+        "arguments": {
+          "value": "Bokkio U"
+        },
+        "recorded_at": 2.118,
+        "wait": [],
+        "verify": [
+          {
+            "role": "text_area",
+            "name": "Text Editor",
+            "field": "value",
+            "equals": "Bokkio U"
+          }
+        ],
+        "timeout": 10,
+        "label": "Text Editor",
+        "window_context": {
+          "key": "hwnd:393234",
+          "identity": "hwnd:393234",
+          "role": "window"
+        }
+      },
+      {
+        "id": "6de910c12e1846da806491058781518e",
+        "kind": "input",
+        "app": "app1",
+        "window": "*Untitled - Notepad",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": "Text Editor",
+          "ancestors": [
+            {
+              "role": "window",
+              "name": "*Untitled - Notepad"
+            }
+          ],
+          "identifier": "15",
+          "bounds": {
+            "x": 34,
+            "y": 77,
+            "width": 752,
+            "height": 437
+          },
+          "point": {
+            "x": 0.5,
+            "y": 0.5011441647597255
+          }
+        },
+        "action": "click",
+        "arguments": {
+          "duration": 0.05
+        },
+        "recorded_at": 2.09,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Text Editor",
+        "window_context": {
+          "key": "hwnd:393234",
+          "identity": "hwnd:393234",
+          "role": "window"
+        }
+      },
+      {
+        "id": "2cf514a07655476d8326c1c8cfd450ce",
+        "kind": "input",
+        "app": "app1",
+        "window": "*Untitled - Notepad",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": "Text Editor",
+          "ancestors": [
+            {
+              "role": "window",
+              "name": "*Untitled - Notepad"
+            }
+          ],
+          "identifier": "15",
+          "bounds": {
+            "x": 34,
+            "y": 77,
+            "width": 752,
+            "height": 437
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Ctrl+A"
+        },
+        "recorded_at": 2.135,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Text Editor",
+        "window_context": {
+          "key": "hwnd:393234",
+          "identity": "hwnd:393234",
+          "role": "window"
+        }
+      },
+      {
+        "id": "f9ca8cfd3e114cc88de218c426c6a560",
+        "kind": "input",
+        "app": "app1",
+        "window": "*Untitled - Notepad",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": "Text Editor",
+          "ancestors": [
+            {
+              "role": "window",
+              "name": "*Untitled - Notepad"
+            }
+          ],
+          "identifier": "15",
+          "bounds": {
+            "x": 34,
+            "y": 77,
+            "width": 752,
+            "height": 437
+          }
+        },
+        "action": "replace_text",
+        "arguments": {
+          "value": "Bokkio UX first"
+        },
+        "recorded_at": 2.204,
+        "wait": [],
+        "verify": [
+          {
+            "role": "text_area",
+            "name": "Text Editor",
+            "field": "value",
+            "equals": "Bokkio UX first"
+          }
+        ],
+        "timeout": 10,
+        "label": "Text Editor",
+        "window_context": {
+          "key": "hwnd:393234",
+          "identity": "hwnd:393234",
+          "role": "window"
+        }
+      },
+      {
+        "id": "83ecde5c77a74b2f948452b52b442bd6",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          },
+          "point": {
+            "x": 0.4984423676012461,
+            "y": 0.5
+          }
+        },
+        "action": "click",
+        "arguments": {
+          "duration": 0.05
+        },
+        "recorded_at": 4.306,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "76cb0bde56944910ad9385c2a99f21b1",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Home"
+        },
+        "recorded_at": 4.899,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "f2cf5af6027044c2b57cf841119fc340",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 4.916,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "27bb0cd1f0c542b7978f970ed3574db6",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 4.937,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "442eba6347b14fd18afda8781ca61957",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 4.942,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "c5ce028a4e794cc0af1c27ac5e5d1e54",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 4.962,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "629c17764c6a40f8957375a66f439bbe",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 4.978,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "991d11b699fd472090ffb1b757c27488",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 4.983,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "852175f90c3c4a59a0b126a273325d89",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.001,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "036dfa5122804c4a97bbd3d98de7d55f",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.005,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "9a3a61d6570f411c99c57c614086fd47",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.042,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "7eb78ad7f75f4544894f7f4eb53aa126",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.047,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "49610f5e86584c33ae48a8f9427013b4",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.065,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "13cc0ee128924cd091e4c01cdf07f3ef",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.086,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "cf33d46dff2b4dd7a4a9d3f8749f71a3",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.106,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "a0785cb97b824d68bb92f1d069e08a30",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.128,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "472e1872e5ff4480af6188b61a67fcdc",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.148,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "523866b4e9f240cc907f8c86418e6935",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.172,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "15b0aff561c843cf89e08fd9a1b09258",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.193,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "10faca64b491463f9c5508a9c3a7bfd1",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.213,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "d255f25a79e245e9b2058c091cbbbeec",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.233,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "5565675ede8e4e7b80254cf759559652",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.259,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "777c047798a649baa2cca518cf6bf4a1",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.277,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "a5c7b651d7264b029d5d993af03ec585",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.298,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "ad62f46925cb4109a1bcdff605f7e8e2",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.319,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "3b0b9e0ab8eb41b5805ef91e8f341477",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.346,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "654a27ee17bc40909ce3f2c5043831c9",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.366,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "877109f0129f458f891b1b794f0480b9",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.385,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "1c60301a7dea4929bf547d7875153792",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.403,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "dd20cde391b348c083041b23e42a1076",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.424,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "a72d2f70020c48e4b7df14324676c529",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.444,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "9c3176033d5f4b17b502ace8945eb158",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.47,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "4f927cc6908c46f688c2b5e92c2374b9",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.49,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "a2a709f064684c15a23157a2c2f185b2",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.517,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "1a195d9c1eca4aee8bd46e4177880695",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.533,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "5b0a3a904a7345df9c70a42e800d17d6",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.556,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "50bc8af50e004ed98c9320b117817896",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.577,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "56880b482f374782bc482b272770f8ed",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.598,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "aeceef297bda42cab76d5c408ad50bec",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.623,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "9920b1b91d0d4d09b217e60ee59cee1c",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.64,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "afe83d80a45c448693129efff86c6125",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.66,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "fc83cf26ae3a481cb24cd3bc7d95b098",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.706,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "ef365a4e039c4c04930a91e584005f9d",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.726,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "2a2f4593d1004e6eb7e0bdd398e0a2ee",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.73,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "d38f4d1371fe4eb2a9bd5efd410f2048",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.751,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "6fcc13dc5dad4803a1655a78eb23d145",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.769,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "41be23ef68e745efb0b690c16c4e27c7",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.789,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "aa57be70e1ac4f19a8b2c22b829d878c",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.809,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "1464a2e130d849b2b91196b39117749c",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.829,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "10ac599577804e77976216ced47a6e53",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.856,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "f38b37796ffd4cbd9cc779b1ed0b673a",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.875,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "2936494cbd144ec28a954334824ad13d",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.896,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "b0400260628e46129fe196836b2dbfdb",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.916,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "f4492975ae224001ad0ade5ca38f6f59",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.936,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "4145812979cb4c258172f80b590956e5",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.957,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "24bd29c96350415f82bb529077602a59",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 5.98,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "e72154c5eceb41ec92c09c8744c74176",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 6,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "9e6fbee6e8014497893d35b5aae0c570",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 6.026,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "cff6bf4d09a744afaa74aff1076eda07",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 6.046,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "3617bb69b73940b89a451d439dda254f",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 6.07,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "07396a899e534e869562e3bf3388441c",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 6.086,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "291e47c4e31a474eb22179cb32cbf2f0",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Down"
+        },
+        "recorded_at": 6.109,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "7746a6b3edc8496783036b38fc1d82d7",
+        "kind": "input",
+        "app": "app2",
+        "window": "Character Map",
+        "target": {
+          "ref": "captured",
+          "role": "combo_box",
+          "name": "Font :",
+          "ancestors": [
+            {
+              "role": "dialog",
+              "name": "Character Map"
+            }
+          ],
+          "identifier": "105",
+          "bounds": {
+            "x": 86,
+            "y": 106,
+            "width": 321,
+            "height": 30
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Enter"
+        },
+        "recorded_at": 6.122,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Font :",
+        "window_context": {
+          "key": "hwnd:328540",
+          "identity": "hwnd:328540",
+          "role": "dialog"
+        }
+      },
+      {
+        "id": "d6d655fc230a4e03a299df8c38021fd8",
+        "kind": "input",
+        "app": "app1",
+        "window": "*Untitled - Notepad",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": "Text Editor",
+          "ancestors": [
+            {
+              "role": "window",
+              "name": "*Untitled - Notepad"
+            }
+          ],
+          "identifier": "15",
+          "bounds": {
+            "x": 34,
+            "y": 77,
+            "width": 752,
+            "height": 437
+          },
+          "point": {
+            "x": 0.5,
+            "y": 0.5011441647597255
+          }
+        },
+        "action": "click",
+        "arguments": {
+          "duration": 0.05
+        },
+        "recorded_at": 7.039,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Text Editor",
+        "window_context": {
+          "key": "hwnd:393234",
+          "identity": "hwnd:393234",
+          "role": "window"
+        }
+      },
+      {
+        "id": "05e78c032e2d43c0b2035042ca675e84",
+        "kind": "input",
+        "app": "app1",
+        "window": "*Untitled - Notepad",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": "Text Editor",
+          "ancestors": [
+            {
+              "role": "window",
+              "name": "*Untitled - Notepad"
+            }
+          ],
+          "identifier": "15",
+          "bounds": {
+            "x": 34,
+            "y": 77,
+            "width": 752,
+            "height": 437
+          }
+        },
+        "action": "key",
+        "arguments": {
+          "key": "Ctrl+A"
+        },
+        "recorded_at": 7.076,
+        "wait": [],
+        "verify": [],
+        "timeout": 10,
+        "label": "Text Editor",
+        "window_context": {
+          "key": "hwnd:393234",
+          "identity": "hwnd:393234",
+          "role": "window"
+        }
+      },
+      {
+        "id": "9fcec101b3514cd39fb60a0ccf9cba0b",
+        "kind": "input",
+        "app": "app1",
+        "window": "*Untitled - Notepad",
+        "target": {
+          "ref": "captured",
+          "role": "text_area",
+          "name": "Text Editor",
+          "ancestors": [
+            {
+              "role": "window",
+              "name": "*Untitled - Notepad"
+            }
+          ],
+          "identifier": "15",
+          "bounds": {
+            "x": 34,
+            "y": 77,
+            "width": 752,
+            "height": 437
+          }
+        },
+        "action": "replace_text",
+        "arguments": {
+          "value": "Bokkio UX cross-app done"
+        },
+        "recorded_at": 7.148,
+        "wait": [],
+        "verify": [
+          {
+            "role": "text_area",
+            "name": "Text Editor",
+            "field": "value",
+            "equals": "Bokkio UX cross-app done"
+          }
+        ],
+        "timeout": 10,
+        "label": "Text Editor",
+        "window_context": {
+          "key": "hwnd:393234",
+          "identity": "hwnd:393234",
+          "role": "window"
+        }
+      }
+    ],
+    "platform": "win32",
+    "recording": {
+      "started_at": 1792072062.44021
+    }
+  },
+  "issues": [],
+  "failure": "locator.fill: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('文字 / 参数', { exact: true })\u001b[22m\n\n    at C:\\BokkioDesktop\\desktop\\tests\\bokkio-desktop-ux.cjs:41:125",
+  "success": false,
+  "package_sha256": "ecea2e9ef7fe66cea6d126b13d196ca00e7632100017778b0c29a7f420402639",
+  "finished_at": "2026-10-15T13:48:09.167Z",
+  "passed": 8,
+  "total": 9
+}

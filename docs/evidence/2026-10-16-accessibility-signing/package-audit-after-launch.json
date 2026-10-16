@@ -1,0 +1,11 @@
+{
+  "code_signing": {
+    "app_and_native_executables_verified": true,
+    "identifier": "com.bokkio.desktop"
+  },
+  "no_video_implementation": true,
+  "no_video_data_model": true,
+  "no_packaged_tests": true,
+  "source_matches": true,
+  "asar_sha256": "27c10ae23839d8c2aa10df36282e31206021bb9b3307dc5af7bc3d2bdbc825bf"
+}

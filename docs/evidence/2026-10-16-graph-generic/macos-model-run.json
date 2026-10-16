@@ -1,0 +1,51 @@
+{
+  "checks": [
+    {
+      "name": "packaged_application",
+      "passed": true
+    },
+    {
+      "name": "no_microsoft_password_field",
+      "passed": true
+    },
+    {
+      "name": "settings_has_no_business_query_button",
+      "passed": true
+    },
+    {
+      "name": "connect_from_visible_settings",
+      "passed": true
+    },
+    {
+      "name": "body_read_consent_explained",
+      "passed": true
+    },
+    {
+      "name": "unread24h_answer_matches_owned_mail",
+      "passed": true
+    },
+    {
+      "name": "summary12h_answer_matches_owned_mail",
+      "passed": true
+    },
+    {
+      "name": "sender24h_answer_matches_owned_mail",
+      "passed": true
+    },
+    {
+      "name": "real_model_uses_dynamic_graph_requests",
+      "passed": true
+    },
+    {
+      "name": "real_model_follows_graph_pagination",
+      "passed": true
+    },
+    {
+      "name": "api_tasks_do_not_invoke_native_selection",
+      "passed": true
+    }
+  ],
+  "scope": "packaged UI and shipped PowerShell; owned offline Graph data, no real Microsoft account or token",
+  "model_chat": "three real Harness tasks against offline mail data",
+  "error": "Follow-up picker check expected a native <option> to be visible; the option existed but native select options are hidden. Test corrected to wait for attachment."
+}

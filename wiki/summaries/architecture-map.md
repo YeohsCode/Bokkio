@@ -1,16 +1,22 @@
 ---
 title: "架构与代码导航"
 created: "2026-10-08"
-updated: "2026-10-13"
+updated: "2026-10-16"
 type: "summary"
 tags: ["architecture", "project", "runtime", "maintenance"]
-sources: ["src/bokkio/runtime.py", "src/bokkio/runtime_workflow.py", "src/bokkio/capability_registry.py", "src/bokkio/desktop_input.py", "docs/WORKFLOW-STUDIO.md", "src/bokkio/executor.py", "pyproject.toml", "docs/RUNTIME-GUIDE.md", "docs/progress/STATUS.md"]
+sources: ["src/bokkio/runtime.py", "src/bokkio/runtime_workflow.py", "src/bokkio/capability_registry.py", "src/bokkio/desktop_input.py", "docs/WORKFLOW-STUDIO.md", "src/bokkio/executor.py", "pyproject.toml", "docs/RUNTIME-GUIDE.md", "docs/progress/STATUS.md", "docs/OUTLOOK-GRAPH.md", "src/bokkio/outlook_graph.py", "src/bokkio/desktop_service.py", "src/bokkio/local_runtime.py"]
 confidence: "high"
 ---
 
 # 架构与代码导航
 
 截至2026-10-13，工作候选版0.2.0是模型无关的 Computer Use Runtime。外部 Harness 负责目标／子任务规划、通道选择和最终业务验收；Core 不调用 Planner/Jev。^[src/bokkio/runtime.py#L1]
+
+## Desktop 0.3.0 补充（2026-10-16）
+
+Electron 承载录制、Shortcuts、对话和配置。Outlook 通过通用 Graph GET 读取邮件及正文，业务查询和汇总由 Harness 组合；使用官方 Graph PowerShell 的 SDK 缓存与默认应用身份；这条 API 路径不依赖 AX/UIA，也不调用 Jev。SDK/MCP 查询仍进入 Runtime 回执；配置页通过 DesktopService 只管理连接。^[docs/OUTLOOK-GRAPH.md#L22]
+
+本机 LocalRuntime 仅在需要原生/Workflow 操作或显式绑定应用时枚举桌面；纯 API/code 的 apps=[] 会话不会因为辅助功能缺失而阻塞。账户状态、密码和模型密钥的边界见 [[entities/outlook-graph]] 与 [[concepts/configuration-and-privacy]]。^[src/bokkio/local_runtime.py#L19]
 
 ## 当前系统图
 
@@ -27,6 +33,7 @@ flowchart TB
     Core --> Native["Native<br/>macOS AX / Windows UIA"]
     Core --> Pixel["Capture / Pixel<br/>窗口身份与新鲜截图"]
     Core --> Browser["Browser worker<br/>Playwright / Origin 约束"]
+    Core --> Graph["Outlook Graph / PowerShell<br/>SDK 缓存 / 通用 GET / 正文"]
     Core --> Jobs["Code / Process worker<br/>作业 / 取消 / 结构化结果"]
     Core --> Registry["可选能力目录<br/>摘要 / 合同 / 精确解析"]
     Registry --> Meta["模块元数据<br/>版本 / 源码与依赖绑定"]

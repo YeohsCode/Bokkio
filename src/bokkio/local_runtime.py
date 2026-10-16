@@ -7,7 +7,7 @@ from .audit import canonical
 class LocalRuntime(Runtime):
     def __init__(self,state_dir,backend=None,birth_probe=None):
         roots=[str(Path('/').resolve())] if os.name!='nt' else [chr(c)+':\\' for c in range(65,91) if Path(chr(c)+':\\').exists()]
-        super().__init__(state_dir,{'apps':[],'paths':roots,'origins':[],'write':True,'trusted_host':True,'require_approval':False,'ttl':86400,'launch_apps':{},'modules':['office.xlsx']},backend,birth_probe)
+        super().__init__(state_dir,{'apps':[],'paths':roots,'origins':[],'write':True,'trusted_host':True,'require_approval':False,'ttl':86400,'launch_apps':{},'modules':['office.xlsx'],'outlook':True},backend,birth_probe)
     def call(self,tool,args=None,session_id=None,operation_id=None):
         args=args or {}
         task_id=os.environ.get('BOKKIO_DESKTOP_TASK_ID')
@@ -16,7 +16,9 @@ class LocalRuntime(Runtime):
             return {'status':'denied','session_id':None,'operation_id':operation_id,'error':'Task has been stopped','dispatched':False}
         if tool=='session.open' and os.environ.get('BOKKIO_DESKTOP_TASK_ID'):args={**args,'task_id':os.environ['BOKKIO_DESKTOP_TASK_ID']}
         if tool=='session.open' or session_id:
-            rows=self._native_call('apps');self.policy['apps']=[str(a['pid']) for a in rows]+[a['name'] for a in rows]+[a['name'] for a in self.policy.get('launch_apps',{}).values()]
+            native=tool.startswith(('desktop.','workflow.')) or tool=='session.open' and bool(args.get('apps'))
+            rows=self._native_call('apps') if native else []
+            if native:self.policy['apps']=[str(a['pid']) for a in rows]+[a['name'] for a in rows]+[a['name'] for a in self.policy.get('launch_apps',{}).values()]
             if tool=='session.open' and 'apps' not in args:args={**args,'apps':[]}
             if tool=='session.open' and isinstance(args.get('apps'),list):
                 names={a['name'].casefold():a['name'] for a in rows}

@@ -8,6 +8,10 @@ A model-independent computer use runtime for Windows and macOS: native/pixel act
 
 **上一冻结版本成绩：** 回归 **587/587**，macOS 审计 **9/9**、窗口/作业矩阵 **18/18**；完整自主业务主批 **26/36**（当前 Codex 12/12、Hermes 8/12、DeepSeek 6/12），关键家族三份样本 **17/27**，GUI **0/18**，三调用方延迟自动管理员审批恢复 **9/9**。本轮自动测试已执行，产品成功率目标、客户人工审批、物理环境与 Windows 当前 Runtime 验收尚未完成。当前 Codex 保留会话且编写评测器，其 bridge 成绩不称盲测或公平排名。
 
+**Outlook Graph / PowerShell（2026-10-16）：** 配置页管理微软账户连接，通用 outlook.request 按调用方的资源路径、OData 参数和字段读取数据及正文，返回完整性与续页地址。Harness 解释需求、组合查询和汇总；已移除“本周未读”专用按钮、工具和后端分支。使用官方默认应用身份与 Mail.Read，无需自行注册 Entra 应用。[连接与调用指南](docs/OUTLOOK-GRAPH.md) · [本轮UX与验证](docs/evidence/2026-10-16-graph-generic/README.md)。真实账户授权、邮箱和 SDK 重启复用待用户登录。
+
+**Desktop UX 修正（2026-10-15）：** 新建 Workflow 不再预选应用；跨应用录制、编辑保存、真实回放与三个停止入口，macOS / Windows 安装包均通过 **20/20** 项 UX 基准。见 [本轮实测与截图](docs/evidence/2026-10-15-workflow-ux/README.md)。
+
 **Workflow 新增（2026-10-13）：** 本机 Studio、macOS 录制、JSON 版本库和通过当前 Runtime 的有头／后台无头回放已实现。最新回归 **613/613**，后台启动和完整录制流程的独立前台／鼠标见证 **5/5**；结果与限制见 [Workflow 报告](docs/evidence/2026-10-13-workflow-studio/README.md)。旧业务完整复测已由用户暂停，旧分数不填入这次源码。
 
 **能力模块新增（2026-10-13）：** 默认关闭的本地模块摘要／能力合同／精确调用，首个可选 `office.xlsx` 提供磁盘文件读取、另存更新和独立读回核验，复用当前 Runtime 的审批、作业与审计。最新隔离回归 **647/647**，文件对照 **6/6**；不含客户／Windows／完整自主业务验收，也未证明速度或模型成本提升。[保存的计划](docs/CAPABILITY-MODULE-PLAN.md) · [用法与边界](docs/CAPABILITY-MODULES.md) · [执行报告](docs/evidence/2026-10-13-capability-modules/README.md)。Optional capability contracts and XLSX file operations keep planning in the external Harness.
@@ -34,13 +38,19 @@ macOS 开发覆盖计划中的四类能力：原生、视觉、生成代码组�
 
 ### Workflow Studio（新 Runtime 入口）
 
-现在提供本机浏览器管理界面：`uv run bokkio-runtime studio`。可新建、手工录制、查看、编辑／调整步骤、保存版本、归档和回放；也可通过 CLI、Python SDK 和 MCP 调用保存的流程。原生回放按控件身份和窗口上下文重新定位，窗口移动不依赖旧坐标，应用未运行时通过获准的 `desktop.launch` 启动并绑定新 PID。
+桌面主入口是 Bokkio Desktop Studio（Electron，macOS / Windows）。「新建 Workflow」只填写名称；开始录制后直接在多个应用之间演示，用到的应用和窗口自动加入，包括录制中才打开的应用。浮条提供暂停、继续和停止并编辑；停止后可修改步骤、保存、从版本库重开和回放。固定 Workflow 按保存的步骤执行，不需要模型。UX 基准入口是 `npm --prefix desktop run test:ux`，真实应用验收见 [Workflow UX 报告](docs/evidence/2026-10-15-workflow-ux/README.md)。
 
-桌面步骤也支持无头后台原生回放（不抢前台／不使用鼠标，仍需解锁的桌面会话）；网页／脚本可用无头模式。回放进入当前 Core 的授权、精确审批、操作日志和检查点，未知完成停止，不自动重复动作。macOS 录制使用被动输入监听和文本读回；未支持手势须审阅，Windows 人工监听待本平台实现／验收。
+另有面向显式 Runtime 策略的本机浏览器管理界面：`uv run bokkio-runtime studio`。可新建、手工录制、查看、编辑／调整步骤、保存版本、归档和回放；也可通过 CLI、Python SDK 和 MCP 调用保存的流程。原生回放按控件身份和窗口上下文重新定位，窗口移动不依赖旧坐标，应用未运行时通过获准的 `desktop.launch` 启动并绑定新 PID。
+
+桌面步骤也支持无头后台原生回放（不抢前台／不使用鼠标，仍需解锁的桌面会话）；网页／脚本可用无头模式。回放进入当前 Core 的授权、精确审批、操作日志和检查点，未知完成停止，不自动重复动作。Desktop 录制使用 macOS CGEventTap / AX 或 Windows Hooks / UIA 捕获操作与控件信息，不录视频。系统输入步骤在前台回放；后台模式用于支持原生值操作的步骤。浏览器 Studio 保留显式应用范围与 Runtime 策略入口。
 
 使用及接口见 [Workflow Studio 指南](docs/WORKFLOW-STUDIO.md)，专用测试及初次失败见 [执行报告](docs/evidence/2026-10-13-workflow-studio/README.md)。旧业务测试矩阵已按用户要求暂停，旧分数不代表本次新增源码的完整验收。
 
-### 当前系统架构（0.2.0）
+### Outlook 账户与邮件查询
+
+在 **配置 → Microsoft / Outlook 账户** 点击准备组件、连接，在微软网页输入设备码并登录确认；其余由程序处理。Graph 查询不要求辅助功能或屏幕采集权限。配置页统一管理连接，密码只输入微软页面；模型 API Key 继续使用已有系统加密存储。每台电脑和系统用户各自登录，退出、撤销授权或微软要求重新验证后需重新登录。在对话中提出查询或邮件汇总需求，Harness 通过通用 Graph GET 读取所需数据和正文并处理分页；不发送/修改邮件。详细流程、企业租户/云环境条件和缓存边界见 [连接指南](docs/OUTLOOK-GRAPH.md)。
+
+### 当前系统架构（0.2.0 Core，含 Desktop 0.3.0 扩展）
 
 当前实现是 Python 包，三种入口共用 `Runtime.call()`：MCP stdio、CLI JSON 和 Python SDK。调用方负责模型、任务规划、通道选择及业务验收；Core 负责会话授权、审批、执行、作业和可追溯证据。以下图描述当前代码，Rust 与完整 CUP 适配仍是后续方向。
 
@@ -57,6 +67,8 @@ flowchart TB
     Core --> Native["Native<br/>macOS AX / Windows UIA"]
     Core --> Pixel["Capture / Pixel<br/>窗口身份与新鲜截图"]
     Core --> Browser["Browser worker<br/>Playwright / Origin 约束"]
+    Core --> Graph["Outlook API<br/>官方 Graph PowerShell / 通用 GET"]
+    Graph --> Mail["Microsoft Graph"]
     Core --> Jobs["Code / Process worker<br/>作业 / 取消 / 结构化结果"]
     Core --> Registry["可选能力目录<br/>摘要 / 合同 / 精确解析"]
     Registry --> Meta["模块元数据<br/>版本 / 源码与依赖绑定"]
@@ -72,6 +84,7 @@ flowchart TB
 |---|---|
 | 接入层 | `mcp_server.serve`、`runtime_cli.main`、`sdk.Client.call` → `Runtime.call`；`tool_schema` 提供统一工具合同 |
 | Core | `Runtime.call` → 参数/Session/授权/审批检查 → `_execute` → `_finish`；默认拒绝资源访问 |
+| Outlook Graph | `outlook.status / outlook.request` → `GraphPowerShell` → 固定 .ps1 → Microsoft Graph；本机 API/code 会话不先枚举桌面应用 |
 | 原生 | `_native_call` → `Xa11yBackend` → xa11y 与 `MacAX` / `WindowsUIA`；`model`、`selector`、`scroll` 支撑身份、查询和验证 |
 | 截图与像素 | `desktop_input` → `macos_capture` / `windows_capture`、Swift helper / Windows SendInput；坐标来自新鲜截图，无需 OCR 标签 |
 | 代码与进程 | `executor.launch` → 独立 worker → Python/Shell/PowerShell/argv；生成 Python 可通过 `Client.from_environment()` 继承会话并回调 Core |
@@ -127,6 +140,8 @@ flowchart TB
     XA --> OS["MacAX / WindowsUIA"]
     Dispatch --> Input["desktop_input<br/>capture / activate / perform"]
     Input --> Capture["平台采集 / Swift / SendInput"]
+    Dispatch --> GraphPS["outlook_graph / outlook_graph.ps1<br/>SDK 登录缓存 / 分页查询"]
+    GraphPS --> MailAPI["Microsoft Graph"]
     Dispatch --> BC["browser_driver.call"]
     BC --> BW["持久 Browser worker<br/>Playwright"]
     EW --> Audit
@@ -381,6 +396,8 @@ uv run python scripts/verify_native.py --output /tmp/bokkio-evidence
 
 ## English
 
+**Outlook update (2026-10-16):** Settings manages the Microsoft connection. The generic outlook.request tool accepts resource paths, OData parameters and pagination; Harness plans queries and summarizes returned content. The task-specific unread button/tool has been removed. Mail.Read enables message bodies through the official SDK login cache. See the [guide](docs/OUTLOOK-GRAPH.md). Real Microsoft account and login-persistence checks await user sign-in.
+
 ### Positioning and current status
 
 Bokkio is an enterprise computer use execution tool. External harnesses, Agent IDEs and agents plan tasks and choose channels; the shared Core observes and acts on approved resources, runs generated code/scripts, controls an isolated browser, and records approvals and operation evidence. No model or application-specific planning loop is required.
@@ -391,7 +408,7 @@ Use the [shared progress folder](docs/progress/README.md) for the plan, completi
 
 ### Current architecture (0.2.0)
 
-The Python implementation shares `Runtime.call()` across MCP stdio, CLI JSON and the Python SDK. The caller owns model selection, planning, channel selection and business verification. Core owns sessions, resource checks, approvals, execution, jobs and evidence. The [Chinese architecture section](#当前系统架构020) includes the system diagram, functional module layout, module call graph and request sequence; [Wiki architecture](wiki/summaries/architecture-map.md) and the [complete module map](wiki/summaries/module-call-map.md) link these relationships to code.
+The Python implementation shares `Runtime.call()` across MCP stdio, CLI JSON and the Python SDK. The caller owns model selection, planning, channel selection and business verification. Core owns sessions, resource checks, approvals, execution, jobs and evidence. The [Chinese architecture section](#当前系统架构020-core含-desktop-030-扩展) includes the system diagram, functional module layout, module call graph and request sequence; [Wiki architecture](wiki/summaries/architecture-map.md) and the [complete module map](wiki/summaries/module-call-map.md) link these relationships to code.
 
 | Module | Calls and responsibility |
 |---|---|

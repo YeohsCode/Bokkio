@@ -1,10 +1,10 @@
 ---
 title: "当前阶段与证据快照"
 created: "2026-10-08"
-updated: "2026-10-13"
+updated: "2026-10-16"
 type: "summary"
 tags: ["project", "evidence", "runtime", "meta"]
-sources: ["docs/progress/STATUS.md", "docs/evidence/2026-10-13-capability-modules/README.md"]
+sources: ["docs/progress/STATUS.md", "docs/evidence/2026-10-13-capability-modules/README.md", "docs/evidence/2026-10-16-outlook-powershell/README.md", "docs/OUTLOOK-GRAPH.md", "docs/evidence/2026-10-16-graph-generic/README.md"]
 confidence: "high"
 ---
 
@@ -12,7 +12,14 @@ confidence: "high"
 
 截至2026-10-13，工作候选版0.2.0。实现8/8是交付物分母，产品成功率目标与客户／双平台验收未完成；当前事实以共享progress为准。^[docs/progress/STATUS.md#L3]
 
-## 最新源码的独立验证
+## 2026-10-16：Desktop Outlook 增量
+
+当前 Desktop 包为0.3.0。专用未读查询和按钮已删除，通用outlook.request读取参数化Graph数据及正文，Harness负责业务理解与汇总。Python750项、Electron9项通过，最终账户/界面生命周期两端各12/12；两端各3个真实模型对话任务完成，邮件为离线夹具。合并套件的原生option可见性断言失败后修正，生命周期独立复验；后续模型请求HTTP402，没有伪称完整复跑通过。^[docs/evidence/2026-10-16-graph-generic/README.md#L13]
+
+一份Windows摘要的时区文字标注有误，实际Graph过滤与选中邮件符合12小时；不将传输/UX验证换算为全面业务准确率。真实Microsoft账户授权、用户邮箱和SDK重启复用待用户登录。旧业务矩阵保留原日期范围。实现与接续见 [[entities/outlook-graph]] 和 [[concepts/configuration-and-privacy]]。^[docs/evidence/2026-10-16-graph-generic/README.md#L29]
+
+
+## 2026-10-13 历史增量验证
 
 | 项目 | 结果 | 范围 |
 |---|---:|---|

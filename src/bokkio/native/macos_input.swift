@@ -16,10 +16,21 @@ for _ in 0..<80 {if NSWorkspace.shared.frontmostApplication?.processIdentifier==
 let ax=AXUIElementCreateApplication(pid_t(pid));var value:CFTypeRef?
 _=AXUIElementSetAttributeValue(ax,kAXFrontmostAttribute as CFString,kCFBooleanTrue)
 if let title=r["window"] as? String,!title.isEmpty {
-    if AXUIElementCopyAttributeValue(ax,kAXFocusedWindowAttribute as CFString,&value) != .success {fail("No focused target window")}
-    let win=unsafeBitCast(value!,to:AXUIElement.self);var name:CFTypeRef?
-    _=AXUIElementPerformAction(win,kAXRaiseAction as CFString);RunLoop.current.run(until:Date(timeIntervalSinceNow:0.15))
-    if AXUIElementCopyAttributeValue(win,kAXTitleAttribute as CFString,&name) != .success || name as? String != title {fail("Focused window differs from target")}
+    var available:CFTypeRef?
+    guard AXUIElementCopyAttributeValue(ax,kAXWindowsAttribute as CFString,&available) == .success,
+          let windows=available as? [AXUIElement] else{fail("Target windows are unavailable")}
+    let matches=windows.filter{ w in
+        var name:CFTypeRef?
+        return AXUIElementCopyAttributeValue(w,kAXTitleAttribute as CFString,&name) == .success && name as? String == title
+    }
+    guard matches.count == 1 else{fail("Target window is absent or ambiguous")}
+    let win=matches[0]
+    _=AXUIElementPerformAction(win,kAXRaiseAction as CFString)
+    _=AXUIElementSetAttributeValue(ax,kAXFocusedWindowAttribute as CFString,win)
+    RunLoop.current.run(until:Date(timeIntervalSinceNow:0.15))
+    guard AXUIElementCopyAttributeValue(ax,kAXFocusedWindowAttribute as CFString,&value) == .success,
+          let focused=value,CFEqual(focused,win) else{fail("Target window did not receive focus")}
+
 }
 for _ in 0..<80 {if NSWorkspace.shared.frontmostApplication?.processIdentifier==pid_t(pid){break};RunLoop.current.run(until:Date(timeIntervalSinceNow:0.025))}
 if NSWorkspace.shared.frontmostApplication?.processIdentifier != pid_t(pid){fail("Target window did not become foreground")}

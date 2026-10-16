@@ -1,0 +1,34 @@
+{
+  "phase": "verify",
+  "checks": [
+    {
+      "name": "packaged_application",
+      "passed": true
+    },
+    {
+      "name": "old_provider_and_jev_ciphertexts_read_by_async_loader",
+      "passed": true
+    },
+    {
+      "name": "connection_uses_saved_key",
+      "passed": true
+    },
+    {
+      "name": "connection_uses_saved_key",
+      "passed": true
+    },
+    {
+      "name": "async_ciphertext_is_not_plaintext",
+      "passed": true
+    },
+    {
+      "name": "connection_uses_saved_key",
+      "passed": true
+    },
+    {
+      "name": "async_ciphertext_restored_after_restart",
+      "passed": true
+    }
+  ],
+  "provider": "owned loopback HTTP fixture; no external model request"
+}

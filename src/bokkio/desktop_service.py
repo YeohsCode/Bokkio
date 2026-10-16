@@ -32,7 +32,7 @@ class DesktopStudio(Studio):
         for path in (self.state/'workflow-runs').glob('*.json'):
             value=json.loads(path.read_text())
             if value.get('status')=='running':value.update(status='paused',pause_reason='app_restarted');save_json(path,value)
-        self.inspector=None
+        self.inspector=None;self.outlook=None
     def apps(self):
         owner=int(os.environ.get('BOKKIO_DESKTOP_PID','0'));return [a for a in super().apps() if a['pid']!=owner]
     def inspection_client(self):
@@ -59,11 +59,25 @@ class DesktopStudio(Studio):
             from .runtime_workflow import RuntimeWorkflowRunner
             r=json.loads((self.state/'workflow-runs'/(rid+'.json')).read_text());runtime=LocalRuntime(self.state);runtime.policy['launch_apps']=r['workflow']['apps'];self.runners[rid]=RuntimeWorkflowRunner(Client(runtime,r['session_id']),self.state/'workflow-runs')
         return self.runners[rid]
-    def recorder_start(self,pids,name):
-        if any(p.poll() is None for p in self.chat_processes.values()):raise ValueError('Stop the current task before recording')
-        return super().recorder_start(pids,name)
+    def recorder_start(self,pids=None,name='新 Workflow'):
+        with self.lock:
+            if self.busy() or any(p.poll() is None for p in self.chat_processes.values()) or self.record and self.record.state in {'recording','paused'}:raise ValueError('Stop the current task before recording')
+            from .manual_recording import ManualRecorder
+            client=Client(LocalRuntime(self.state));client.open(apps=[],task_id='recording-'+identifier())
+            self.record=ManualRecorder(client,[],name,all_apps=True,excluded_pids={os.getpid(),int(os.environ.get('BOKKIO_DESKTOP_PID','0'))})
+            try:self.record.start()
+            except Exception:client.call('session.close');self.record=None;raise
+            return self.record.preview()
     def route(self,method,path,data):
         def arg(key,default=None):return data.get(key,[default])[0] if method=='GET' else data.get(key,default)
+        if path.startswith('/api/outlook/'):
+            from .outlook_graph import OutlookConnection
+            if self.outlook is None:self.outlook=OutlookConnection(self.state)
+            if path=='/api/outlook/status':return self.outlook.view()
+            if method!='POST':raise ValueError('Outlook actions require POST')
+            if path=='/api/outlook/cancel':return self.outlook.cancel()
+            if path=='/api/outlook/action':return self.outlook.start(arg('action'))
+            raise ValueError('Unknown Outlook route')
         if path=='/api/drafts':return [{'id':v['document']['id'],'name':v['document']['name'],'steps':len(v['document']['steps'])} for v in [json.loads(p.read_text()) for p in (self.state/'workflow-drafts').glob('*.json')]]
         if path=='/api/draft':
             wid=arg('id')
@@ -72,6 +86,9 @@ class DesktopStudio(Studio):
         if path=='/api/archived':return self.library.archived()
         if path=='/api/workflows/restore':return self.library.restore(arg('id'),arg('expected_sha256'))
         if path=='/api/architecture':return architecture(self.settings['jev_enabled'])
+        if path=='/api/permissions':
+            from .macos_permissions import permission_status
+            return permission_status()
         if path=='/api/status':
             return {'platform':sys.platform,'local_direct':True,'runtime_python':sys.executable,'state':str(self.state),'recording':self.record.state if self.record else 'idle','busy':self.busy(),'chat_busy':any(p.poll() is None for p in self.chat_processes.values())}
         if path=='/api/settings':
@@ -160,7 +177,7 @@ class DesktopStudio(Studio):
             if self.busy() or self.record and self.record.state in {'recording','paused'} or any(p.poll() is None for p in self.chat_processes.values()):raise ValueError('Finish the current recording, workflow or task first')
             prompt=arg('prompt','').strip()
             if not prompt:raise ValueError('Enter a task')
-            if not self.api_key:raise ValueError('Configure your provider API key in Settings')
+            if not self.api_key:raise ValueError('请在配置中填写模型 API Key，然后返回对话继续执行任务')
             cid=identifier();folder=self.state/'chats'/cid;folder.mkdir(parents=True,exist_ok=True,mode=0o700)
             workspace=Path(self.settings['workspace']).expanduser();workspace.mkdir(parents=True,exist_ok=True)
             payload={**self.settings,'state':str(self.state),'runtime_python':sys.executable,'runtime_cwd':str(Path(__file__).resolve().parents[2]),'folder':str(folder),'prompt':prompt,'task_id':cid}
@@ -203,6 +220,7 @@ class DesktopStudio(Studio):
         if path=='/api/chats':return sorted((json.loads(p.read_text()) for p in (self.state/'chats').glob('*.json')),key=lambda value:value.get('created_at',0),reverse=True)[:50]
         raise ValueError('Unknown desktop route')
     def close(self):
+        if self.outlook:self.outlook.cancel()
         self.route('POST','/api/emergency-stop',{});super().close()
         if self.inspector:self.inspector.call('session.close')
 
