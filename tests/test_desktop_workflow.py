@@ -1,6 +1,6 @@
 import copy,os
 import pytest
-from test_runtime_workflow import setup,document
+from test_runtime_workflow import setup,document,installed_path
 from bokkio.runtime_workflow import SCHEMA_V2,validate_document,find_target
 from bokkio.anchored_input import prepare_target
 from bokkio.model import BokkioActionRefused
@@ -102,10 +102,10 @@ def test_global_recording_registers_new_apps_without_late_snapshot(setup):
                 'bounds':{'x':10,'y':20,'width':40,'height':30},'x':20,'y':35,**extra}
     # The dialog no longer exists when Python consumes its click. No observation may run.
     desktop.snapshot=lambda *a,**kw: (_ for _ in ()).throw(AssertionError('late target lookup'))
-    rec.ingest(event(99,'/Applications/Bokkio.app'))
-    rec.ingest(event(10,'/Applications/First.app'))
-    rec.ingest(event(20,'/Applications/Second.app'))
-    rec.ingest(event(21,'/Applications/First.app'))
+    rec.ingest(event(99,installed_path('Bokkio')))
+    rec.ingest(event(10,installed_path('First')))
+    rec.ingest(event(20,installed_path('Second')))
+    rec.ingest(event(21,installed_path('First')))
     doc=rec.preview()['document'];assert len(doc['apps'])==2
     assert [s['app'] for s in doc['steps']]==['app1','app2','app1']
     assert all(s['kind']=='input' and s['target']['point']=={'x':.25,'y':.5} for s in doc['steps'])
@@ -115,7 +115,7 @@ def test_global_recording_registers_new_apps_without_late_snapshot(setup):
 def test_native_recorded_edits_keep_distinct_controls_and_skip_app_switch(setup):
     from bokkio.manual_recording import ManualRecorder
     _,client,*_=setup;rec=ManualRecorder(client,[],all_apps=True)
-    event={'captured':True,'pid':1,'app':{'name':'Editor','path':'/Applications/Editor.app'},'kind':'edit','role':'AXTextArea','name':'',
+    event={'captured':True,'pid':1,'app':{'name':'Editor','path':installed_path('Editor')},'kind':'edit','role':'AXTextArea','name':'',
            'window':'Doc','ancestors':[{'role':'AXScrollArea','name':''},{'role':'AXWindow','name':'Doc'}],'identifier':'first','value':'one'}
     rec.ingest(event);rec.ingest({**event,'value':'two'});rec.ingest({**event,'identifier':'second','value':'three'})
     rec.ingest({**event,'kind':'key','key':'Command+Tab'})
@@ -128,7 +128,7 @@ def test_native_recorded_edits_keep_distinct_controls_and_skip_app_switch(setup)
 def test_native_capture_rebinds_against_driver_role_normalization(setup):
     from bokkio.manual_recording import ManualRecorder
     _,client,*_=setup;rec=ManualRecorder(client,[],all_apps=True)
-    rec.ingest({'captured':True,'pid':1,'app':{'name':'Editor','path':'/Applications/Editor.app'},'kind':'edit','role':'AXTextArea','name':'',
+    rec.ingest({'captured':True,'pid':1,'app':{'name':'Editor','path':installed_path('Editor')},'kind':'edit','role':'AXTextArea','name':'',
                 'window':'Doc','ancestors':[{'role':'AXScrollArea','name':''},{'role':'AXWindow','name':'Doc'}],'identifier':'editor','value':'demo'})
     # xa11y normalizes AXScrollArea to group, rather than scroll_area.
     nodes=[{'ref':'win','role':'window','name':'Doc','parent':None,'platform_data':{'ax_role':'AXWindow'}},
@@ -142,7 +142,7 @@ def test_native_capture_rebinds_against_driver_role_normalization(setup):
 def test_captured_drag_uses_containing_window_for_destination(setup):
     from bokkio.manual_recording import ManualRecorder
     _,client,*_=setup;rec=ManualRecorder(client,[],all_apps=True)
-    event={'captured':True,'pid':1,'app':{'name':'Lab','path':'/Applications/Lab.app'},'kind':'drag','role':'AXButton','name':'Item',
+    event={'captured':True,'pid':1,'app':{'name':'Lab','path':installed_path('Lab')},'kind':'drag','role':'AXButton','name':'Item',
            'window':'Doc','ancestors':[{'role':'AXWindow','name':'Doc'}],'bounds':{'x':20,'y':30,'width':20,'height':20},
            'window_target':{'role':'AXWindow','name':'Doc','ancestors':[],'bounds':{'x':10,'y':20,'width':500,'height':300}},
            'x':30,'y':40,'end_x':300,'end_y':200}

@@ -1,0 +1,18 @@
+---
+source_path: docs/evidence/2026-10-18-windows-native/windows-transient-workflow-failure.json
+source_version: working-tree-based-on-5579580b96e366a97e14de2f38d3a207ac1fa321
+ingested: 2026-10-18
+sha256: 7c2ec2dbfc46ea9475e69911adab9955f06970b6fd05a518277a42a2258c229f
+---
+
+{
+  "phase": "first updated Windows regression",
+  "passed": 775,
+  "failed": 1,
+  "skipped": 11,
+  "test": "tests/test_runtime_workflow.py::test_mcp_runtime_workflow_scope_and_audit",
+  "observed": "KeyError: result while reading asynchronous workflow.status response",
+  "response_error_detail": "not captured by original assertion",
+  "root_cause": "not established",
+  "follow_up": "assert complete response when result is absent; full suite and 20 isolated process runs subsequently passed"
+}

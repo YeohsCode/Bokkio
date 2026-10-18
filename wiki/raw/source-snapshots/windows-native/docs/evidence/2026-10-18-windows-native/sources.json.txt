@@ -1,0 +1,29 @@
+---
+source_path: docs/evidence/2026-10-18-windows-native/sources.json
+source_version: working-tree-based-on-5579580b96e366a97e14de2f38d3a207ac1fa321
+ingested: 2026-10-18
+sha256: 801162be66e524791a7b869e09d555c5ecc7dcd43f600e489e2609e389f2dd2c
+---
+
+{
+  "basis_commit": "5579580b96e366a97e14de2f38d3a207ac1fa321",
+  "version": "working-tree-windows-native",
+  "windows_guest_matches_local": true,
+  "files": {
+    "src/bokkio/desktop_control.py": "675f9342fd51dab2b00a93582e4cc78355d4f398f01361d4967da4be2cb477db",
+    "src/bokkio/input_monitor.py": "e8af31bb16f2f9a39005fb48969dd83dd5d4914d539010967d41c3261112ee43",
+    "src/bokkio/macos_activation.py": "4fadffc3a8752f6a3539954cfa4b80970c3e888a2137882b197d4ecde01221a1",
+    "src/bokkio/office_runner.py": "b8f97994e073c8ac2dc8c0aa5f248f6d355b091ffeed04d9fa59a5975818eb07",
+    "src/bokkio/visual_runtime.py": "5a9141d41ff8c1e93b913790149b05b3e3e20277b0b223705bd471c192d1ca46",
+    "src/bokkio/windows_uia.py": "0436834b35df24004239eab856f1e5b3d5a9f504064e2e0f8d0ba6e8f0193b45",
+    "src/bokkio/xa11y_backend.py": "7704d40024ef409dbb77f2d9d16eee43d61e8cc2dfb674c8a9644c41965cf350",
+    "tests/test_desktop_workflow.py": "d63675810fef803216f93cffeac84e2f2380593f9cd3f83e461ada7290203f5a",
+    "tests/test_native_integration.py": "f64f8b02ce0af3fc260bd018996af139556713cbd0e3c6e53367b751975f2b89",
+    "tests/test_runtime_workflow.py": "9f3d2194aa0b7de3f1d7d0e6d789abda283fc52d918171fc7f0022fdf894514a",
+    "tests/test_windows_native.py": "5b21f48306a01a23e2d63ba68014d0b34fb3a46fb3d1bdab5c91c88f917fbb42",
+    "scripts/verify_windows_native_integration.py": "d08332d665ac3919da4d294f6f648b721aaf02ff9f04ed0bb6fb620a9b9c8fdc",
+    "scripts/verify_native_web.py": "3bff0dea01fd8e392dece315baeeb50310ccc855213d01ea7225f92b2c638dbf",
+    "fixtures/native-web/index.html": "6b622b1994bba1b314af8493c2dbebe0fa57c6047d4a97d71165546671370726",
+    "fixtures/windows-interactions/Program.cs": "7c431e7318a78bf18a76d3c9b8ac72687838691c0a563747776811374082c4b8"
+  }
+}

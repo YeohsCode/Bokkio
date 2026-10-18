@@ -1,0 +1,99 @@
+---
+source_path: docs/evidence/2026-10-18-windows-native/windows-tests-and-workflow-repeats.txt
+source_version: working-tree-based-on-5579580b96e366a97e14de2f38d3a207ac1fa321
+ingested: 2026-10-18
+sha256: 0e088256e243effc5eaf073a18b4c707a146ca35f49c29c525aa3b3adccab65f
+---
+
+........................................................................ [  9%]
+........................................................................ [ 18%]
+............s.........s................................................. [ 27%]
+........................................................................ [ 36%]
+........................................................................ [ 45%]
+........................................................................ [ 54%]
+...................................................ssssss............... [ 63%]
+............ss...s...................................................... [ 73%]
+........................................................................ [ 82%]
+........................................................................ [ 91%]
+....................................................................     [100%]
+777 passed, 11 skipped in 41.21s
+
+Repeated async workflow check 1/20
+.                                                                        [100%]
+1 passed in 0.76s
+
+Repeated async workflow check 2/20
+.                                                                        [100%]
+1 passed in 0.51s
+
+Repeated async workflow check 3/20
+.                                                                        [100%]
+1 passed in 0.55s
+
+Repeated async workflow check 4/20
+.                                                                        [100%]
+1 passed in 0.35s
+
+Repeated async workflow check 5/20
+.                                                                        [100%]
+1 passed in 0.43s
+
+Repeated async workflow check 6/20
+.                                                                        [100%]
+1 passed in 0.37s
+
+Repeated async workflow check 7/20
+.                                                                        [100%]
+1 passed in 0.42s
+
+Repeated async workflow check 8/20
+.                                                                        [100%]
+1 passed in 0.50s
+
+Repeated async workflow check 9/20
+.                                                                        [100%]
+1 passed in 0.42s
+
+Repeated async workflow check 10/20
+.                                                                        [100%]
+1 passed in 0.54s
+
+Repeated async workflow check 11/20
+.                                                                        [100%]
+1 passed in 0.61s
+
+Repeated async workflow check 12/20
+.                                                                        [100%]
+1 passed in 0.46s
+
+Repeated async workflow check 13/20
+.                                                                        [100%]
+1 passed in 0.43s
+
+Repeated async workflow check 14/20
+.                                                                        [100%]
+1 passed in 0.35s
+
+Repeated async workflow check 15/20
+.                                                                        [100%]
+1 passed in 0.34s
+
+Repeated async workflow check 16/20
+.                                                                        [100%]
+1 passed in 0.41s
+
+Repeated async workflow check 17/20
+.                                                                        [100%]
+1 passed in 0.36s
+
+Repeated async workflow check 18/20
+.                                                                        [100%]
+1 passed in 0.41s
+
+Repeated async workflow check 19/20
+.                                                                        [100%]
+1 passed in 0.39s
+
+Repeated async workflow check 20/20
+.                                                                        [100%]
+1 passed in 0.41s

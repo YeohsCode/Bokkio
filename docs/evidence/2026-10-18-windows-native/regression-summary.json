@@ -1,0 +1,23 @@
+{
+  "macos": {
+    "passed": 783,
+    "skipped": 6,
+    "failed": 0
+  },
+  "windows": {
+    "passed": 778,
+    "skipped": 11,
+    "failed": 0,
+    "platform": "Windows 11 ARM64 / x64 Python 3.12.13"
+  },
+  "node": {
+    "passed": 9,
+    "failed": 0
+  },
+  "frontend_build": "passed",
+  "isolated_windows_workflow_repeats": {
+    "passed": 20,
+    "failed": 0
+  },
+  "business_matrix": "still paused"
+}

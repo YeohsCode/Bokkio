@@ -20,7 +20,7 @@ confidence: high
 
 ## 2026-10-18 三项整合
 
-[[entities/native-observation-and-control]]记录精确窗口读取与预算、Chrome/Edge原生网页整理和用户接管。代码已实现；Python771通过、6跳过，Mac开发环境已有现场记录，Windows/物理输入/安装包验收未完成。下一步是补齐验收与修复，不是另一批未公布的新功能；合成遍历数据不代表业务提速。
+[[entities/native-observation-and-control]]记录精确窗口读取与预算、Chrome/Edge原生网页整理和用户接管。代码已实现；最新回归Mac783通过/6跳过、Windows778通过/11跳过；Windows受控双窗口、Edge及模拟接管恢复已有现场记录，扩展矩阵/物理输入/安装包验收未完成。下一步是补齐验收与修复，不是另一批未公布的新功能；合成遍历数据不代表业务提速。
 
 ## 2026-10-16 增量
 
@@ -71,7 +71,7 @@ Desktop 0.3.0 新增 [[entities/outlook-graph]]，使用官方 Graph PowerShell 
 
 - [[summaries/architecture-map|架构与代码导航]] — 当前系统设计、部署/线程/进程边界与旧扩展的位置。
 - [[summaries/module-call-map|模块调用关系与完整代码地图]] — Core 模块图、全部工具路由、原生支持和旧扩展/评测文件地图。
-- [[summaries/current-status|当前阶段与证据快照]] — 2026-10-18：771回归通过、6跳过；Mac开发环境与未完成的双平台验收分开，旧业务成绩保留原日期。
+- [[summaries/current-status|当前阶段与证据快照]] — 2026-10-18：Mac783/Windows778回归通过（分别6/11跳过）；已测开发环境与未完成的双平台验收分开，旧业务成绩保留原日期。
 - [[summaries/pending-and-known-gaps|Pending 与已知集成缺口]] — 当前 MAC/EVAL/CLIENT/HARNESS/WIN/RELEASE 工作包及真实环境/客户验收缺口。
 
 ## Raw sources

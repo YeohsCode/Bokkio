@@ -1,0 +1,202 @@
+[
+  {
+    "check": "scope_and_identity",
+    "samples": {
+      "full": [
+        {
+          "complete": true,
+          "reason": null,
+          "visited_nodes": 2079,
+          "tree": 2079,
+          "annotation": 0,
+          "child_batches": 2079,
+          "child_candidates": 2078,
+          "elapsed_ms": 1688.0,
+          "node_limit": null,
+          "depth_limit": null,
+          "native_calls_interruptible": false,
+          "child_enumeration": "provider_batch_not_paged"
+        },
+        {
+          "complete": true,
+          "reason": null,
+          "visited_nodes": 2079,
+          "tree": 2079,
+          "annotation": 0,
+          "child_batches": 2079,
+          "child_candidates": 2078,
+          "elapsed_ms": 1687.0,
+          "node_limit": null,
+          "depth_limit": null,
+          "native_calls_interruptible": false,
+          "child_enumeration": "provider_batch_not_paged"
+        },
+        {
+          "complete": true,
+          "reason": null,
+          "visited_nodes": 2079,
+          "tree": 2079,
+          "annotation": 0,
+          "child_batches": 2079,
+          "child_candidates": 2078,
+          "elapsed_ms": 1672.0,
+          "node_limit": null,
+          "depth_limit": null,
+          "native_calls_interruptible": false,
+          "child_enumeration": "provider_batch_not_paged"
+        },
+        {
+          "complete": true,
+          "reason": null,
+          "visited_nodes": 2079,
+          "tree": 2079,
+          "annotation": 0,
+          "child_batches": 2079,
+          "child_candidates": 2078,
+          "elapsed_ms": 1672.0,
+          "node_limit": null,
+          "depth_limit": null,
+          "native_calls_interruptible": false,
+          "child_enumeration": "provider_batch_not_paged"
+        },
+        {
+          "complete": true,
+          "reason": null,
+          "visited_nodes": 2079,
+          "tree": 2079,
+          "annotation": 0,
+          "child_batches": 2079,
+          "child_candidates": 2078,
+          "elapsed_ms": 1640.0,
+          "node_limit": null,
+          "depth_limit": null,
+          "native_calls_interruptible": false,
+          "child_enumeration": "provider_batch_not_paged"
+        }
+      ],
+      "scoped": [
+        {
+          "complete": true,
+          "reason": null,
+          "visited_nodes": 64,
+          "tree": 64,
+          "annotation": 0,
+          "child_batches": 64,
+          "child_candidates": 64,
+          "elapsed_ms": 172.0,
+          "node_limit": null,
+          "depth_limit": null,
+          "native_calls_interruptible": false,
+          "child_enumeration": "provider_batch_not_paged"
+        },
+        {
+          "complete": true,
+          "reason": null,
+          "visited_nodes": 64,
+          "tree": 64,
+          "annotation": 0,
+          "child_batches": 64,
+          "child_candidates": 64,
+          "elapsed_ms": 172.0,
+          "node_limit": null,
+          "depth_limit": null,
+          "native_calls_interruptible": false,
+          "child_enumeration": "provider_batch_not_paged"
+        },
+        {
+          "complete": true,
+          "reason": null,
+          "visited_nodes": 64,
+          "tree": 64,
+          "annotation": 0,
+          "child_batches": 64,
+          "child_candidates": 64,
+          "elapsed_ms": 187.0,
+          "node_limit": null,
+          "depth_limit": null,
+          "native_calls_interruptible": false,
+          "child_enumeration": "provider_batch_not_paged"
+        },
+        {
+          "complete": true,
+          "reason": null,
+          "visited_nodes": 64,
+          "tree": 64,
+          "annotation": 0,
+          "child_batches": 64,
+          "child_candidates": 64,
+          "elapsed_ms": 188.0,
+          "node_limit": null,
+          "depth_limit": null,
+          "native_calls_interruptible": false,
+          "child_enumeration": "provider_batch_not_paged"
+        },
+        {
+          "complete": true,
+          "reason": null,
+          "visited_nodes": 64,
+          "tree": 64,
+          "annotation": 0,
+          "child_batches": 64,
+          "child_candidates": 64,
+          "elapsed_ms": 188.0,
+          "node_limit": null,
+          "depth_limit": null,
+          "native_calls_interruptible": false,
+          "child_enumeration": "provider_batch_not_paged"
+        }
+      ]
+    },
+    "median_ms": {
+      "full": 1672.0,
+      "scoped": 187.0
+    }
+  },
+  {
+    "check": "partial_write_refused",
+    "result": {
+      "status": "denied",
+      "operation_id": "54c8e0ac6c54470fa824dbe4b9e040b8",
+      "session_id": "e7e45bddc4414f60a9e4f3fcad7e1882",
+      "error": "Observation is incomplete; read the complete operation scope before input",
+      "error_type": "BokkioActionRefused",
+      "error_code": "observation_incomplete",
+      "error_details": {
+        "dispatched": false
+      },
+      "dispatched": false
+    }
+  },
+  {
+    "check": "native_write_confirmed",
+    "status": "verified"
+  },
+  {
+    "check": "own_tagged_input_ignored",
+    "result": {
+      "status": "executed",
+      "operation_id": "734a31ac11ae48b9aa16b703c6594646",
+      "session_id": "e7e45bddc4414f60a9e4f3fcad7e1882",
+      "dispatched": true,
+      "result": {
+        "status": "posted_unverified",
+        "dispatched": true,
+        "pid": 7692,
+        "transport": "Windows.SendInput",
+        "target": {
+          "ref": "56d60f1256e1f7c060eb",
+          "role": "text_field",
+          "name": "Search"
+        },
+        "verification": {
+          "status": "executed_not_business_verified"
+        }
+      }
+    }
+  },
+  {
+    "check": "external_takeover_resume_and_unknown",
+    "input": "external VM console or hardware; record source separately",
+    "status": "passed"
+  }
+]

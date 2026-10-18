@@ -15,6 +15,16 @@ import time
 from .desktop_control import ControlState, EVENT_TAG, publish_guard
 
 
+def mouse_held(message, data=0):
+    buttons = {0x201: (1, True), 0x202: (1, False), 0x204: (2, True),
+               0x205: (2, False), 0x207: (3, True), 0x208: (3, False)}
+    if message in (0x20B, 0x20C):
+        button = (data >> 16) & 0xffff
+        return ('mouse:' + str(3 + button), message == 0x20B) if button in (1, 2) else None
+    item = buttons.get(message)
+    return ('mouse:' + str(item[0]), item[1]) if item else None
+
+
 def windows_events(events, stopped):
     from ctypes import wintypes as w
     user, kernel = c.WinDLL('user32', use_last_error=True), c.WinDLL('kernel32', use_last_error=True)
@@ -40,8 +50,7 @@ def windows_events(events, stopped):
             item = c.cast(data, c.POINTER(Mouse)).contents
             if item.extra != EVENT_TAG:
                 kind = 'move' if message == 0x200 else 'mouse'
-                held = ('mouse:' + str({0x201: 1, 0x204: 2, 0x207: 3}.get(message)), True) if message in (0x201, 0x204, 0x207) else (
-                    ('mouse:' + str({0x202: 1, 0x205: 2, 0x208: 3}[message]), False) if message in (0x202, 0x205, 0x208) else None)
+                held = mouse_held(message, item.data)
                 put(kind, held, [item.pt.x, item.pt.y])
         return user.CallNextHookEx(None, code, message, data)
     @callback
@@ -49,7 +58,7 @@ def windows_events(events, stopped):
         if code >= 0:
             item = c.cast(data, c.POINTER(Key)).contents
             if item.extra != EVENT_TAG:
-                put('key', None if item.vk in (0xF3, 0xF4) else
+                put('key', None if item.vk in (0xE5, 0xF3, 0xF4) else
                     ('key:' + str(item.vk), message in (0x100, 0x104)))
         return user.CallNextHookEx(None, code, message, data)
     hooks = []
@@ -64,8 +73,13 @@ def windows_events(events, stopped):
             return new
         hooks = install()
         point=w.POINT();user.GetCursorPos(c.byref(point))
+        for vk, button in ((1, 1), (2, 2), (4, 3), (5, 4), (6, 5)):
+            if user.GetAsyncKeyState(vk)&0x8000:
+                put('initial', ('mouse:'+str(button), True))
         for vk in range(8,255):
-            if vk not in (0xF3,0xF4) and user.GetAsyncKeyState(vk)&0x8000:
+            # Side-specific modifiers are already sampled; generic aliases can
+            # otherwise remain held after their side-specific key-up arrives.
+            if vk not in (0x10,0x11,0x12,0xE5,0xF3,0xF4) and user.GetAsyncKeyState(vk)&0x8000:
                 put('initial', ('key:'+str(vk),True))
         put('ready', point=[point.x,point.y])
         msg = w.MSG()
@@ -125,9 +139,11 @@ def run(root):
     thread.start()
     held, last_point, distance, last_move = set(), None, 0.0, 0.0
     ready, last_beat = False, time.monotonic()
+    last_publish = 0
     try:
         while state.status()['enabled']:
             error = None
+            changed = False
             for _ in range(2048):
                 try: event = events.get_nowait()
                 except queue.Empty: break
@@ -137,11 +153,12 @@ def run(root):
                 last_beat = event.get('stamp', time.monotonic())
                 if kind == 'ready':
                     ready = True;held.update(event.get('physical_held',[]))
-                    last_point=event.get('point');continue
+                    last_point=event.get('point');changed=True;continue
                 if kind == 'heartbeat': continue
-                if kind == 'released': held.clear(); continue
+                if kind == 'released': held.clear(); changed=True; continue
                 item = event.get('held')
                 if item:
+                    changed = True
                     if item[1]: held.add(item[0])
                     else: held.discard(item[0])
                 if kind == 'initial':continue
@@ -155,12 +172,17 @@ def run(root):
                     if distance < 8: continue
                     distance = 0
                 state.event(kind, stamp)
+                changed = True
             if stopped.is_set() or not thread.is_alive(): error = error or 'Input monitor stopped'
             if ready and time.monotonic() - last_beat > 1:
                 error = error or 'Input listener heartbeat expired'
-            if ready or error:
+            pending = state.status().get('resume_request')
+            if (ready or error) and (changed or error or pending or time.monotonic() - last_publish >= .2):
                 state.heartbeat(held=len(held), error=error)
+                if ready and not error and events.empty():
+                    state.acknowledge_resume(held)
                 publish_guard(state, held)
+                last_publish = time.monotonic()
             if error: return
             time.sleep(.02)
     finally:

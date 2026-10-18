@@ -10,6 +10,7 @@ import subprocess
 import sys
 import time
 from urllib.parse import unquote,urlparse
+from urllib.request import url2pathname
 
 from .model import BokkioError
 from .office_benchmark import TASKS,digest,evaluate,load_bundle
@@ -105,7 +106,7 @@ def _native_run(task,trace_path):
                     allowed=in_window or any(stem in name for stem in stems) or name in {'font','paragraph','format cells','save as','save','open','styles','new presentation','new slide','slide layout','layout'}
                     document=node['platform_data'].get('ax_document')
                     if document:
-                        allowed=str(Path(unquote(urlparse(document).path)).resolve()) in documents
+                        allowed=str(Path(url2pathname(urlparse(document).path)).resolve()) in documents
                     if not allowed:return None
                     in_window=True
                 if node['parent'] is not None and role not in {'window','dialog','menu','menu_bar','menu_item'} and not in_window:
@@ -183,7 +184,7 @@ def _native_run(task,trace_path):
             from .office_visual import click_selection_button
             document=scope['platform_data'].get('ax_document')
             return click_selection_button(bound_pid,scope['name'],node,backend=self,
-                                          document=unquote(urlparse(document).path) if document else None)
+                                          document=url2pathname(urlparse(document).path) if document else None)
         def visual_option_select(self,app,node,scope):
             if scope['role']!='dialog' or scope['name']!='Font':
                 raise BokkioError('Office native option input requires the observed Font dialog')
@@ -214,7 +215,7 @@ def _native_run(task,trace_path):
     backend.snapshot(str(bound_pid))
     owned_windows=[w for w in flatten(backend.snapshot(str(bound_pid))['windows'])
                    if w['role']=='window' and w['platform_data'].get('ax_document')
-                   and str(Path(unquote(urlparse(w['platform_data']['ax_document']).path)).resolve())==str(Path(task['source']).resolve())]
+                   and str(Path(url2pathname(urlparse(w['platform_data']['ax_document']).path)).resolve())==str(Path(task['source']).resolve())]
     if len(owned_windows)!=1:raise BokkioError('Benchmark initialization requires one document bound to its exact source path')
     activation=activate_window(bound_pid,owned_windows[0]['name'],document=str(Path(task['source']).resolve()),clear_hover=True)
     if task['task_id']=='win_pro_l1_003':

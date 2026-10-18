@@ -462,3 +462,23 @@ def test_winui_bounds_use_variant_transport_and_fail_closed(rectangle,count,expe
     elif expected=='missing':assert helper._element(element,100) is None
     else:
         with pytest.raises(BokkioError,match=expected):helper._element(element,100)
+
+
+def test_native_focus_checks_runtime_identity_and_keyboard_capability(monkeypatch,tmp_path):
+    from types import SimpleNamespace
+    from bokkio.windows_uia import WindowsUIA
+    from bokkio.desktop_control import ControlState
+    from bokkio.model import BokkioError, BokkioActionRefused
+    monkeypatch.setenv('BOKKIO_CONTROL_DIR',str(tmp_path/'control'))
+    calls=[];helper=object.__new__(WindowsUIA)
+    native=SimpleNamespace(GetRuntimeId=lambda:[1],CurrentIsEnabled=True,
+                           CurrentIsKeyboardFocusable=True,SetFocus=lambda:calls.append('focus'))
+    helper._element=lambda *_:native
+    assert helper.perform_action(None,'focus',100,[1])=={'action_source':'UIA.SetFocus'}
+    assert calls==['focus']
+    with pytest.raises(BokkioError):helper.perform_action(None,'focus',100,[2])
+    native.CurrentIsKeyboardFocusable=False
+    with pytest.raises(BokkioError):helper.perform_action(None,'focus',100,[1])
+    native.CurrentIsKeyboardFocusable=True;ControlState().configure(True)
+    with pytest.raises(BokkioActionRefused):helper.perform_action(None,'focus',100,[1])
+    assert calls==['focus']

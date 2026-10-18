@@ -238,3 +238,16 @@ confidence: high
 - 29个编译页／32个Markdown，198条wikilinks、268处来源行号；零断链／孤立页／元数据错误；59个Python模块与39个公开工具映射完整。
 - 新增43份native-integration来源，283份快照正文SHA256全部通过；此前已按用户要求修订的历史文字保留原始哈希，未追加改写。
 - 提交前复验Python771通过、6跳过，Node9通过，TypeScript/Vite构建通过；没有运行已暂停的完整业务评测，也没有新增Windows/物理输入验收成绩。
+
+## [2026-10-18] verification | Windows VM native checks and corrections
+
+- 纠正VM不可用判断：vmrun电源命令失败，vmcli可启动；用户允许保存凭据登录后完成Windows11受控界面补验，没有修改登录策略。
+- 双窗口、读取预算、原生值读回、Edge页面完整保留、标记输入及VM控制台模拟接管/恢复通过；Mac监听器确认恢复补验通过。物理设备/IME和安装包仍未验收。
+- 修复恢复时序、Windows UIA聚焦、损坏状态及跨平台路径；最新Mac783通过/6跳过、Windows778通过/11跳过、Node9通过，前端构建通过。
+- 保留首次35项Windows失败、一次未重现的异步Workflow状态响应异常和脚本断言失败；后者20次独立复跑通过但根因未定位，不称为已修复。原完整业务矩阵继续暂停。
+- README/实施结果/共享progress与6个相关Wiki入口同步，追加windows-native冻结来源；此前raw正文保持原样。
+
+## [2026-10-18] lint | Windows evidence and source verification
+
+- Windows guest与本地15份源码/测试/fixture的SHA256逐一相同；新增34份来源快照，317份正文哈希通过，旧raw未覆盖。
+- Wiki29个编译页/32个Markdown、199条wikilinks、269处来源行号、59模块/39工具映射通过；新证据凭据/主机目录扫描和文档用语检查通过。

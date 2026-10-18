@@ -1,0 +1,8 @@
+---
+source_path: docs/evidence/2026-10-18-windows-native/windows-workflow-repeats.json
+source_version: working-tree-based-on-5579580b96e366a97e14de2f38d3a207ac1fa321
+ingested: 2026-10-18
+sha256: 437341475fce13a55a2dd5710bb5a53b69d6f58cdee68136772fcc0f5f7c584d
+---
+
+{"suite_exit_code": 0, "workflow_repeats": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}

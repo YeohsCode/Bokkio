@@ -4,7 +4,7 @@ created: "2026-10-08"
 updated: "2026-10-18"
 type: "summary"
 tags: ["project", "evidence", "runtime", "meta"]
-sources: ["docs/progress/STATUS.md", "docs/evidence/2026-10-13-capability-modules/README.md", "docs/evidence/2026-10-16-outlook-powershell/README.md", "docs/OUTLOOK-GRAPH.md", "docs/evidence/2026-10-16-graph-generic/README.md", "docs/WINDOWS-MACOS-INTEGRATION-RESULTS.md"]
+sources: ["docs/progress/STATUS.md", "docs/evidence/2026-10-13-capability-modules/README.md", "docs/evidence/2026-10-16-outlook-powershell/README.md", "docs/OUTLOOK-GRAPH.md", "docs/evidence/2026-10-16-graph-generic/README.md", "docs/WINDOWS-MACOS-INTEGRATION-RESULTS.md", "docs/evidence/2026-10-18-windows-native/README.md"]
 confidence: "high"
 ---
 
@@ -14,9 +14,10 @@ confidence: "high"
 
 ## 2026-10-18：三项整合已实现，双平台验收待完成
 
-读取预算、Chrome/Edge原生网页视图和用户接管已接入当前Core/Desktop。完整Python回归771通过、6跳过；Node9通过；前端构建和Mac独立Runtime暂存通过。Mac自有窗口及Chrome固定页有现场结果，Windows现场、物理输入/IME和两端安装包权限尚未完成。接管默认关闭。^[docs/WINDOWS-MACOS-INTEGRATION-RESULTS.md#L5]
+读取预算、Chrome/Edge原生网页视图和用户接管已接入当前Core/Desktop。最新回归Mac783通过/6跳过、Windows778通过/11跳过；Node9通过，前端构建通过。Windows11虚机完成受控双窗口、预算、Edge固定页及VM控制台模拟接管/恢复；修复聚焦和恢复时序。物理输入/IME、扩展应用及两端安装包权限未完成，接管默认关闭。^[docs/evidence/2026-10-18-windows-native/README.md#L15]
 
-下一步先恢复Windows测试环境，完成浏览器/输入恢复/安装包矩阵并修复问题。没有另行安排下一批新功能；分页、阻塞调用隔离和多会话只作条件性评估。原完整业务评测继续暂停。细节见[[entities/native-observation-and-control]]。^[docs/WINDOWS-MACOS-INTEGRATION-RESULTS.md#L118]
+一次异步Workflow状态响应异常尚未重现/定位；完整回归与20次独立复跑通过，保留待观察项。下一步补其余验收并修复；原完整业务评测暂停。见[[entities/native-observation-and-control]]。^[docs/evidence/2026-10-18-windows-native/README.md#L36]
+
 
 ## 2026-10-16：Desktop Outlook 增量
 

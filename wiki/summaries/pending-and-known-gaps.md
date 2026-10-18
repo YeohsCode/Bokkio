@@ -4,7 +4,7 @@ created: "2026-10-08"
 updated: "2026-10-18"
 type: "summary"
 tags: ["maintenance", "runtime", "safety", "evidence"]
-sources: ["docs/progress/STATUS.md", "README.md", "docs/RUNTIME-GUIDE.md", "src/bokkio/visual_runtime.py", "docs/CAPABILITY-MODULES.md", "docs/WINDOWS-MACOS-INTEGRATION-RESULTS.md"]
+sources: ["docs/progress/STATUS.md", "README.md", "docs/RUNTIME-GUIDE.md", "src/bokkio/visual_runtime.py", "docs/CAPABILITY-MODULES.md", "docs/WINDOWS-MACOS-INTEGRATION-RESULTS.md", "docs/evidence/2026-10-18-windows-native/README.md"]
 confidence: "high"
 ---
 
@@ -45,7 +45,8 @@ Runtime Workflow还需用户／客户任务、Windows监听和物理环境验收
 
 ## 2026-10-18 整合待验收
 
-- Windows 当前工作树的多窗口、网页及接管实测；现有 VM 启动未成功。
+- Windows受控双窗口、Edge固定页及VM控制台模拟接管已通过；Notepad/Explorer/WinUI扩展矩阵、Windows Chrome、macOS Edge仍待验收。
+- 一次异步Workflow状态响应异常未重现，根因未定位；20次独立复跑通过，继续观察。
 - macOS / Windows 的物理键鼠、IME、长输入、重叠按键、监听失效、睡眠 / 锁屏及安装包权限。
 - 底层分页读取、阻塞系统调用中断和完整任务的速度 / 费用 / 成功率尚未证明；读取预算只在调用之间检查。
 
@@ -54,6 +55,8 @@ Runtime Workflow还需用户／客户任务、Windows监听和物理环境验收
 
 ## 本轮整合的后续安排
 
-先完成Windows多窗口与Chrome/Edge现场，再完成两端物理键鼠/IME/暂停恢复/监听失效及安装包权限验收，修复发现的问题。没有新增一批功能的既定安排。分页、阻塞调用隔离和多RDP会话隔离仅在实际瓶颈或需求明确时评估。完整任务收益评估仍遵守原业务矩阵暂停要求。^[docs/WINDOWS-MACOS-INTEGRATION-RESULTS.md#L118]
+先补其余Windows应用与浏览器现场，再完成两端物理键鼠/IME/暂停恢复/监听失效及安装包权限验收，修复发现的问题。没有新增一批功能的既定安排。分页、阻塞调用隔离和多RDP会话隔离仅在实际瓶颈或需求明确时评估。完整任务收益评估仍遵守原业务矩阵暂停要求。^[docs/WINDOWS-MACOS-INTEGRATION-RESULTS.md#L118]
 
 接口与恢复限制见[[entities/native-observation-and-control]]，不将测试通过当作上述缺口已完成。
+
+Windows补验证据与保留的失败：^[docs/evidence/2026-10-18-windows-native/README.md#L36]

@@ -1,0 +1,53 @@
+{
+  "normalization": "Initial text import: UTF-8, LF line endings, trailing blanks removed; substantive output retained",
+  "records": [
+    {
+      "path": "windows-final-tests.txt",
+      "original_bytes": 1751,
+      "original_sha256": "186ce1673f86ca012614aaa77e9c032d1867af86c16e5ac83609ffecc59c6b5e",
+      "imported_sha256": "5302378e33be2b24f1eb20992884a2b3695b094111a0e0e122990834dbd48725"
+    },
+    {
+      "path": "windows-intermediate-tests.txt",
+      "original_bytes": 925,
+      "original_sha256": "77158ffea1eaa093852a813c55cc47a393238caf78ff5cb702e993f72079005b",
+      "imported_sha256": "cec41cdf3f8aa3cfed24c30b571be391f32a37b6a2f1bccbd099052712bb4d85"
+    },
+    {
+      "path": "windows-baseline-tests.txt",
+      "original_bytes": 73647,
+      "original_sha256": "b8c7f1a6e4e6598d03dc64a56e117e4bdf0b4b2a8a274aee2f812e6130d33c99",
+      "imported_sha256": "2165d9882ff5b44984682a9ded851986c4d1fa939f213910e399d85735d908de"
+    },
+    {
+      "path": "windows-workflow-repeats.json",
+      "original_bytes": 104,
+      "original_sha256": "23945d1522800d3d7c1ad73f22afd609e20fe42316da4dce0217c527ed0e17c4",
+      "imported_sha256": "437341475fce13a55a2dd5710bb5a53b69d6f58cdee68136772fcc0f5f7c584d"
+    },
+    {
+      "path": "edge-windows-summary.json",
+      "original_bytes": 846,
+      "original_sha256": "3931c16107d1cadf4c925af31db84da868e956aae7546503f851223928f2176d",
+      "imported_sha256": "b59eb3a4ba43ebe6982ce19bc78bb75eab1b8088d63c46809729e8d482ddccc6"
+    },
+    {
+      "path": "windows-tests-and-workflow-repeats.txt",
+      "original_bytes": 3656,
+      "original_sha256": "ca0c16dd8c373d21ba672e9d32451013aabf17eb409ce063c90a0de9cef90314",
+      "imported_sha256": "0e088256e243effc5eaf073a18b4c707a146ca35f49c29c525aa3b3adccab65f"
+    },
+    {
+      "path": "windows-live-summary.json",
+      "original_bytes": 65,
+      "original_sha256": "4b6c4bffaa77bf250b1de5c24373f5822ddf55042ece0e3bd5a68d07a14fc6de",
+      "imported_sha256": "aa3d7d218a93d9d73165674be0bd7f25d1b0091a284d2a747ea3f7097f41d7e3"
+    },
+    {
+      "path": "windows-live-checks.json",
+      "original_bytes": 5930,
+      "original_sha256": "2ecacac05d5267ccd4d5a716c984e80a90be3605c4cf0093c7fe22de6604239d",
+      "imported_sha256": "422d77231dec1e72d408b27db7eb70ab475c4fe6818ca16450ec8c7dbdb84bf0"
+    }
+  ]
+}

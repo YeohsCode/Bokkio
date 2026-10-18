@@ -1,0 +1,21 @@
+........................................................................ [  9%]
+........................................................................ [ 18%]
+............s.........s................................................. [ 27%]
+........................................................................ [ 36%]
+........................................................................ [ 45%]
+........................................................................ [ 54%]
+....................................................ssssss.............. [ 63%]
+.............ss...s..................................................... [ 73%]
+........................................................................ [ 82%]
+........................................................................ [ 91%]
+.....................................................................    [100%]
+=========================== short test summary info ===========================
+SKIPPED [1] tests\test_business_eval.py:31: Uses macOS textutil RTF renderer
+SKIPPED [1] tests\test_business_eval.py:134: Uses macOS textutil RTF renderer
+SKIPPED [1] tests\test_outlook_powershell.py:87: Requires real PowerShell 7
+SKIPPED [3] tests\test_outlook_powershell.py:110: Requires real PowerShell 7
+SKIPPED [2] tests\test_outlook_powershell.py:118: Requires real PowerShell 7
+SKIPPED [1] tests\test_runtime_jobs.py:52: POSIX signal/ps process-tree regression; Windows needs live taskkill verification
+SKIPPED [1] tests\test_runtime_jobs.py:65: POSIX worker SIGKILL regression; Windows needs live process verification
+SKIPPED [1] tests\test_runtime_transports.py:57: Run playwright install chromium for the live Browser contract
+778 passed, 11 skipped in 39.02s

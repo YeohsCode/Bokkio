@@ -142,7 +142,7 @@ scripts/verify_runtime_audit.py 在自有原生 fixture 和真实 SQLite 上验�
 
 `view="web"` 在已授权 Chrome / Edge 精确窗口中整理原生网页区域，保留 ref、表格层次与可见弹窗。没有网页区域或无法确定当前区域时返回错误，不自动截图。它不注入 DOM；不会获得浏览器没有暴露的信息。
 
-本机配置页可开启用户接管；命令行等价入口为 `bokkio control enable`、`bokkio control status`、`bokkio control resume`、`bokkio control disable`。默认关闭，启用后先暂停，用户松开按键后手动继续。MCP / SDK 的 `desktop.control` 只读状态，无启用或恢复参数。macOS 需要当前辅助进程的输入监控权限。
+本机配置页可开启用户接管；命令行等价入口为 `bokkio control enable`、`bokkio control status`、`bokkio control resume`、`bokkio control disable`。默认关闭，启用后先暂停，用户松开按键后手动继续。继续会等待监听器处理当前事件队列并确认；未收到确认则保持暂停，不能靠迟到确认恢复。MCP / SDK 的 `desktop.control` 只读状态，无启用或恢复参数。macOS 需要当前辅助进程的输入监控权限。
 
 接管后需重新观察；旧观察、旧排队动作和旧 Jev 决策不能直接继续。Workflow 从原运行记录继续，保留已完成步骤。结果未知时先检查原操作回执和目标状态，不重发。宿主代码能绕过 Core；此功能协调 Core 桌面输入，不拦截任意本机脚本。
 

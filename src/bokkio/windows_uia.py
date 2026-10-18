@@ -118,6 +118,7 @@ class WindowsUIA:
         if native is None: return None
         actions = []
         state = {}
+        if getattr(native, 'CurrentIsKeyboardFocusable', False): actions.append('focus')
         invoke = self._pattern(native, 'Invoke')
         toggle = self._pattern(native, 'Toggle')
         expand = self._pattern(native, 'ExpandCollapse')
@@ -140,6 +141,13 @@ class WindowsUIA:
             raise BokkioError('UIA action target identity changed; take a new snapshot')
         if not native.CurrentIsEnabled:
             raise BokkioError('UIA action target is disabled')
+        if action == 'focus':
+            if not native.CurrentIsKeyboardFocusable:
+                raise BokkioError('UIA action target cannot receive keyboard focus')
+            from .desktop_control import checkpoint
+            checkpoint()
+            native.SetFocus()
+            return {'action_source':'UIA.SetFocus'}
         kind, method = {'expand':('ExpandCollapse','Expand'), 'collapse':('ExpandCollapse','Collapse'),
                         'select':('SelectionItem','Select'), 'click':('Invoke','Invoke')}[action]
         pattern = self._pattern(native, kind)

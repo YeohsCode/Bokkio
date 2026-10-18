@@ -10,11 +10,11 @@ A model-independent computer use runtime for Windows and macOS: native/pixel act
 
 | 功能 | 已实现 | 验证范围与默认行为 |
 |---|---|---|
-| 精确窗口读取与读取预算 | Windows提前选择窗口；两端共享节点/深度/时间预算，部分树禁止写入 | 合成检查和Mac自有窗口验证；预算显式设置，不能硬中断阻塞调用或整批子节点枚举 |
-| Chrome / Edge网页整理 | `desktop.observe(view="web")`保留原生ref、网页结构及弹窗上下文 | Mac Chrome固定页经Core保留9/9必需信息；Windows和Edge现场待验收；默认仍为原生视图 |
-| 用户接管 | 用户操作后暂停后续桌面写入，跨进程共享状态，手动继续；旧观察/旧Jev决策失效 | Mac模拟事件与恢复已验证，物理输入/IME/安装包待验收；默认关闭 |
+| 精确窗口读取与读取预算 | Windows提前选择窗口；两端共享节点/深度/时间预算，部分树禁止写入 | Windows双窗口和Mac自有窗口验证；预算显式设置，不能硬中断阻塞调用或整批子节点枚举 |
+| Chrome / Edge网页整理 | `desktop.observe(view="web")`保留原生ref、网页结构及弹窗上下文 | Mac Chrome经Core、Windows Edge经原生树验证固定页；其余浏览器矩阵待验收；默认仍为原生视图 |
+| 用户接管 | 用户操作后暂停后续桌面写入，跨进程共享状态，手动继续；旧观察/旧Jev决策失效 | Mac模拟事件、Windows虚机控制台接管及恢复已验证，物理输入/IME/安装包待验收；默认关闭 |
 
-本轮Python回归 **771通过、6跳过**，Node检查 **9通过**，前端构建及Mac独立Runtime暂存通过。上述检查不等于真实业务成功率；Windows测试VM未能启动，本轮没有Windows现场验收。[实施结果与失败记录](docs/WINDOWS-MACOS-INTEGRATION-RESULTS.md) · [接口用法](docs/RUNTIME-GUIDE.md#可选原生读取和用户接管2026-10-18) · [LLM Wiki专题](wiki/entities/native-observation-and-control.md)。
+最新Python回归 **macOS 783通过、6跳过；Windows 778通过、11跳过**，Node检查 **9通过**，前端构建通过。已在本地Windows 11虚机完成双窗口、读取预算、Edge固定页面和接管恢复实测，并修复聚焦及恢复时序问题；仍有一次未重现的异步状态检查异常，详见[Windows补验与失败记录](docs/evidence/2026-10-18-windows-native/README.md)。这些检查不等于完整业务或物理设备验收。[实施结果与失败记录](docs/WINDOWS-MACOS-INTEGRATION-RESULTS.md) · [接口用法](docs/RUNTIME-GUIDE.md#可选原生读取和用户接管2026-10-18) · [LLM Wiki专题](wiki/entities/native-observation-and-control.md)。
 
 **后续安排：** 先完成Windows和两端Chrome/Edge现场、物理键鼠/IME/锁屏唤醒、两端安装包验收，并修复发现的问题；再依据完整任务的数据决定默认配置。本轮没有另行安排下一批新功能。底层分页、阻塞调用隔离和多RDP会话隔离仅在明确瓶颈或实际需求出现后另行评估，不是已承诺交付。[具体顺序与通过条件](docs/WINDOWS-MACOS-INTEGRATION-RESULTS.md#后续安排与通过条件)。
 

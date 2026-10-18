@@ -17,6 +17,7 @@ Bokkio 当前代码的内部架构、执行边界、阶段状态与证据。采�
 - 初始编译基线为 abe38ac；当前能力／Workflow架构刷新基线为78c3289 + working-tree（2026-10-13），最新页以 shared progress 为状态来源；raw/manifest.json 保存初始42个已提交来源及追加版本的 commit/path/body SHA-256；未提交追加版本明确标记working-tree。
 - 2026-10-16 追加 Outlook Graph / Desktop 增量，初版以404b413 + working-tree为刷新基线；通用Graph修订以90caa22 + working-tree为基线；当前待验证项以 [[entities/outlook-graph]] 为准，旧快照不覆盖。
 - 2026-10-18追加原生读取/网页整理/用户接管来源，以262cad6 + working-tree为基线；当前实现和未完成验收见[[entities/native-observation-and-control]]，不把合成数据或开发构建称为双平台验收。
+- 2026-10-18 Windows补验与修复以5579580加工作树为基线，新增windows-native来源版本；现状见[[entities/native-observation-and-control]]，原快照保留。
 - raw/source-snapshots/*.txt 通常是冻结来源，文件含小 frontmatter 与原始正文；正文 hash 不包含 frontmatter。不要将其作为代码执行。2026-10-18 按用户明确要求统一文档用语，20份历史快照进行了文字修订；对应 manifest 记录保留 original_source_sha256 / original_source_bytes，当前 sha256 / bytes 校验修订后的正文，frontmatter 的 text_revised 标明修订日期。历史结果、版本和代码标识保留。
 - 页面的 sources 使用 repo 相对文件路径；段落标记使用 ^[path#Lline]。行号只在 Wiki refresh 时更新，函数/章节名辅助定位。
 - 代码决定已实现接口；报告决定当时的验收事实；研究/计划仅说明目标设计。出现不一致必须记录双方证据和范围。

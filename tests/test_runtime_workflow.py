@@ -23,12 +23,15 @@ class Desktop:
         if action=='set_value':self.value=args['value']
         return {'verification':{'status':'confirmed'}}
 
+def installed_path(name):
+    return f'C:/Program Files/{name}.exe' if os.name=='nt' else f'/Applications/{name}.app'
+
 def document():
-    return {'schema':SCHEMA,'id':identifier(),'name':'Test','revision':1,'parent_sha256':None,'apps':{'lab':{'name':'Lab','path':'/Applications/Lab.app'}},'steps':[{'id':'input','kind':'native','app':'lab','window':'Lab Window','action':'set_value','arguments':{'value':'中文 hello'},'target':{'ref':'old-ref','role':'text_field','name':'Input','identifier':'input','ancestors':[{'role':'window','name':'Lab Window'}]},'verify':[{'role':'text_field','name':'Input','field':'value','equals':'中文 hello'}],'wait':[]}]}
+    return {'schema':SCHEMA,'id':identifier(),'name':'Test','revision':1,'parent_sha256':None,'apps':{'lab':{'name':'Lab','path':installed_path('Lab')}},'steps':[{'id':'input','kind':'native','app':'lab','window':'Lab Window','action':'set_value','arguments':{'value':'中文 hello'},'target':{'ref':'old-ref','role':'text_field','name':'Input','identifier':'input','ancestors':[{'role':'window','name':'Lab Window'}]},'verify':[{'role':'text_field','name':'Input','field':'value','equals':'中文 hello'}],'wait':[]}]}
 
 @pytest.fixture
 def setup(tmp_path,monkeypatch):
-    desktop=Desktop();grant=document()['apps']['lab'];app=tmp_path/'Lab.app';app.mkdir();grant['path']=str(app)
+    desktop=Desktop();grant=document()['apps']['lab'];app=tmp_path/('Lab.exe' if os.name=='nt' else 'Lab.app');app.touch() if os.name=='nt' else app.mkdir();grant['path']=str(app)
     policy={'apps':['Lab'],'launch_apps':{'lab':grant},'write':True,'require_approval':False}
     runtime=Runtime(tmp_path/'state',policy,desktop,lambda p:'birth');client=Client(runtime);client.open(apps=[])
     monkeypatch.setattr('bokkio.app_launch.ensure_running',lambda grant,**kw:{'pid':os.getpid(),'name':'Lab','launched':False})
@@ -68,7 +71,7 @@ def test_library_path_traversal_and_tamper(setup):
     with pytest.raises(ValueError,match='modified'):lib.get(doc['id'])
 
 def test_launch_waits_for_exact_identity_and_rejects_multiple():
-    grant={'name':'Lab','path':'/Applications/Lab.app','bundle_id':'lab'};calls=[];launch=[]
+    grant={'name':'Lab','path':installed_path('Lab'),'bundle_id':'lab'};calls=[];launch=[]
     def inventory():
         calls.append(1)
         return [] if len(calls)<3 else [{**grant,'pid':42}]
@@ -163,6 +166,7 @@ def test_mcp_runtime_workflow_scope_and_audit(setup):
     deadline=time.monotonic()+3
     while time.monotonic()<deadline:
         status=c.call('workflow.status',{'run_id':rid})
+        assert 'result' in status,status
         if status['result']['status']=='completed':break
         time.sleep(.05)
     assert status['result']['status']=='completed' and d.clicks==1

@@ -87,4 +87,4 @@ flowchart LR
 
 observation.py将读取预算共享给基础树与Mac补查，web_view.py在授权原生快照上整理Chrome/Edge内容。desktop_control.py/input_monitor.py与原生辅助程序共用暂停状态；桌面派发和Jev网络返回后检查，状态读取不依赖应用枚举。没有新增模型或浏览器执行通道。^[docs/WINDOWS-MACOS-INTEGRATION-RESULTS.md#L21]
 
-当前Python771通过、6跳过，Mac开发环境已有现场结果；完整双平台验收未完成。实现与接续见[[entities/native-observation-and-control]]，后续先验收和修复，条件性研究不视为发布承诺。^[docs/WINDOWS-MACOS-INTEGRATION-RESULTS.md#L118]
+最新Python回归Mac783通过/6跳过、Windows778通过/11跳过，两端开发环境已有现场结果；完整双平台验收未完成。实现与接续见[[entities/native-observation-and-control]]，后续先验收和修复，条件性研究不视为发布承诺。^[docs/WINDOWS-MACOS-INTEGRATION-RESULTS.md#L118]

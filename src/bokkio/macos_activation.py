@@ -2,7 +2,7 @@
 import hashlib
 import json
 import os
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import subprocess
 import tempfile
 from .model import BokkioError,BokkioStaleSnapshot
@@ -11,7 +11,7 @@ from .model import BokkioError,BokkioStaleSnapshot
 def activate_window(pid,title,*,document=None,clear_hover=False):
     if type(pid) is not int or not 0<pid<=0x7fffffff or not isinstance(title,str) or not title or len(title)>1024:
         raise BokkioError('Activation requires an exact PID and window title')
-    if document is not None and (not isinstance(document,str) or not Path(document).is_absolute()):
+    if document is not None and (not isinstance(document,str) or not PurePosixPath(document).is_absolute()):
         raise BokkioError('Document activation requires an absolute source path')
     if type(clear_hover) is not bool:raise BokkioError('Hover preparation must be boolean')
     bundled=Path(__file__).parent/'native'/'macos_activate'

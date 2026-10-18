@@ -1,0 +1,12 @@
+---
+source_path: docs/evidence/2026-10-18-windows-native/windows-live-summary.json
+source_version: working-tree-based-on-5579580b96e366a97e14de2f38d3a207ac1fa321
+ingested: 2026-10-18
+sha256: aa3d7d218a93d9d73165674be0bd7f25d1b0091a284d2a747ea3f7097f41d7e3
+---
+
+{
+  "passed": true,
+  "checks": 5,
+  "external_input": true
+}

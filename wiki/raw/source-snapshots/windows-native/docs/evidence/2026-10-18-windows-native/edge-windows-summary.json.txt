@@ -1,0 +1,42 @@
+---
+source_path: docs/evidence/2026-10-18-windows-native/edge-windows-summary.json
+source_version: working-tree-based-on-5579580b96e366a97e14de2f38d3a207ac1fa321
+ingested: 2026-10-18
+sha256: b59eb3a4ba43ebe6982ce19bc78bb75eab1b8088d63c46809729e8d482ddccc6
+---
+
+{
+  "passed": true,
+  "browser": "msedge",
+  "read": {
+    "complete": true,
+    "reason": null,
+    "visited_nodes": 327,
+    "tree": 327,
+    "annotation": 0,
+    "child_batches": 327,
+    "child_candidates": 326,
+    "elapsed_ms": 2687.0,
+    "node_limit": null,
+    "depth_limit": null,
+    "native_calls_interruptible": false,
+    "child_enumeration": "provider_batch_not_paged"
+  },
+  "native_nodes": 327,
+  "selected_nodes": 144,
+  "page_nodes": 38,
+  "all_page_refs_and_data_unchanged": true,
+  "table_cells": 6,
+  "required_facts_and_form_values": true,
+  "nested_page_present": true,
+  "view": {
+    "kind": "web",
+    "source": "native_accessibility",
+    "page_roots": [
+      "7d1997e704374766b2c9"
+    ],
+    "scope": "authorized_snapshot_only",
+    "omitted_nodes": 183,
+    "complete": true
+  }
+}

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-10-15",
+  "updated": "2026-10-18",
   "version": "0.3.0",
   "overall_status": "implementation_delivered_acceptance_incomplete",
   "plan": "docs/PLAN-REPOSITIONING.md",
@@ -524,5 +524,35 @@
         "disabled_jev_calls": 0
       }
     }
+  },
+  "native_integration": {
+    "status": "implemented_partial_live_acceptance",
+    "evidence": "docs/evidence/2026-10-18-windows-native/README.md",
+    "macos_tests": {
+      "passed": 783,
+      "skipped": 6
+    },
+    "windows_tests": {
+      "passed": 778,
+      "skipped": 11
+    },
+    "windows_live": [
+      "owned multiwindow scope and refs",
+      "partial observation blocks writes",
+      "native value readback",
+      "Edge fixed page complete native refs and data",
+      "tagged own input ignored",
+      "external VM console input pauses; acknowledged resume; stale observations refused; paused operation not replayed"
+    ],
+    "input_source": "VM console simulated keyboard; no physical hardware claim",
+    "open_issue": "one non-reproduced async workflow.status response without result; root cause unknown; 20 isolated reruns pass",
+    "pending": [
+      "Windows Chrome",
+      "macOS Edge",
+      "Notepad/Explorer/WinUI scope matrix",
+      "physical and IME and lock/sleep/failure matrix",
+      "installed packages"
+    ],
+    "business_matrix": "paused"
   }
 }

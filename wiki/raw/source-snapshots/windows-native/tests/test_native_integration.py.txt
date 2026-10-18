@@ -1,0 +1,299 @@
+---
+source_path: tests/test_native_integration.py
+source_version: working-tree-based-on-5579580b96e366a97e14de2f38d3a207ac1fa321
+ingested: 2026-10-18
+sha256: f64f8b02ce0af3fc260bd018996af139556713cbd0e3c6e53367b751975f2b89
+---
+
+"""Regression checks for scoped reads, native web views and user takeover."""
+import copy
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+import time
+from types import SimpleNamespace
+
+import pytest
+
+from bokkio.desktop_control import ControlState, guarded_operation, checkpoint, publish_guard
+from bokkio.model import BokkioActionRefused, BokkioCompletionUnknown
+from bokkio.observation import ReadBudget, active_read, ReadStopped
+from bokkio.selector import flatten
+from bokkio.web_view import select_web
+from bokkio.xa11y_backend import Xa11yBackend
+from test_cli import App, Element, FakeXa11y
+from test_runtime import Desktop
+from bokkio.runtime import Runtime
+from bokkio.sdk import Client
+
+
+def backend(windows, platform='windows', native=None):
+    app=App(windows[0]);app.element.children_values=windows
+    b=Xa11yBackend(FakeXa11y(), platform=platform, native=native)
+    b._resolve_app=lambda _:app
+    return b
+
+
+@pytest.fixture
+def control(tmp_path, monkeypatch):
+    monkeypatch.setenv('BOKKIO_CONTROL_DIR', str(tmp_path/'control'))
+    return ControlState()
+
+
+def ready(control):
+    control.configure(True);control.heartbeat();control.resume();publish_guard(control)
+
+
+@pytest.mark.parametrize('platform',['windows','macos'])
+@pytest.mark.parametrize('selector',['Owned','hwnd:0x101','ref','0'])
+def test_early_scope_preserves_identity_and_dialog_menu_context(platform, selector):
+    own=Element('window','Owned',children=[Element('button','Save')]);own.stable_id='hwnd:0x101'
+    other=Element('window','Other',children=[Element('button','Delete')]);other.stable_id='hwnd:0x102'
+    dialog=Element('dialog','Confirm',children=[Element('button','Cancel')])
+    menu=Element('menu_bar','Menu',children=[Element('menu_item','File')])
+    b=backend([own,other,dialog,menu],platform)
+    full=b.snapshot('app');expected=next(n['ref'] for n in flatten(full['windows']) if n['name']=='Save')
+    win=next(n for n in flatten(full['windows']) if n['name']=='Owned')
+    if selector=='ref':selector=win['ref']
+    other.children=lambda:pytest.fail('unrelated window body read')
+    scoped=b.snapshot('app',selector)
+    names={n['name'] for n in flatten(scoped['windows'])}
+    assert {'Save','Cancel','File'}<=names and 'Delete' not in names
+    assert next(n['ref'] for n in flatten(scoped['windows']) if n['name']=='Save')==expected
+
+
+def test_read_budget_stops_recursive_bodies_but_reports_eager_child_batch():
+    leaves=[Element('button',str(i)) for i in range(100)]
+    reads=[]
+    for leaf in leaves:
+        leaf.children=lambda leaf=leaf:reads.append(leaf.name) or []
+    b=backend([Element('window','Owned',children=leaves)])
+    s=b.snapshot('app',read_nodes=4)
+    assert s['read']['visited_nodes']==4 and s['read']['reason']=='node_limit'
+    assert len(reads)==2 and s['read']['child_candidates']>=101
+    assert s['read']['child_enumeration']=='provider_batch_not_paged'
+    assert all(not n['actions'] for n in flatten(s['windows']))
+    assert b.snapshot('app')['read']['complete']
+
+
+@pytest.mark.parametrize('options,reason',[({'read_depth':1},'depth_limit'),({'read_timeout':1e-9},'time_limit')])
+def test_depth_and_deadline_are_explicit(options,reason,monkeypatch):
+    # Advance deterministically; Windows monotonic clock can have coarse ticks.
+    if reason=='time_limit':
+        ticks=iter(i*.01 for i in range(1000))
+        monkeypatch.setattr('bokkio.observation.time.monotonic',lambda:next(ticks))
+    b=backend([Element('window','Owned',children=[Element('button','Save')])])
+    assert b.snapshot('app',**options)['read']['reason']==reason
+
+
+def test_macos_annotation_uses_remaining_tree_budget():
+    calls=[]
+    class Native:
+        def annotate(self,tree,pid):
+            budget=active_read.get()
+            while budget.enter('annotation',1):calls.append(True)
+            raise ReadStopped()
+    s=backend([Element('window','Owned')],'macos',Native()).snapshot('app',read_nodes=5)
+    assert s['read']['tree']==2 and s['read']['annotation']==3
+    assert len(calls)==3 and not s['read']['complete']
+
+
+def test_macos_native_ipc_stops_when_shared_deadline_has_expired(monkeypatch):
+    from bokkio.macos_ax import MacAX
+    native=MacAX.__new__(MacAX)
+    native.ax=SimpleNamespace(AXUIElementSetMessagingTimeout=lambda *_:pytest.fail('late native call'))
+    budget=ReadBudget(timeout=1);budget.deadline=0
+    token=active_read.set(budget)
+    try:
+        with pytest.raises(ReadStopped):native._prepare_read(1)
+    finally:active_read.reset(token)
+
+
+def node(ref,role,children=(),**extra):
+    result={'ref':ref,'role':role,'name':ref,'state':{},'actions':[],'parent':None,'children':list(children),**extra}
+    for child in result['children']:child['parent']=ref
+    return result
+
+
+def web_snapshot():
+    table=node('table','table',[node('row','table_row',[node('cell','table_cell',value='Required fact')])])
+    page=node('page','web_area',[table,node('form','group',[node('send','button'),node('value','text_field',value='current')]),node('frame','web_area',[node('nested','link')])])
+    win=node('window','window',[node('toolbar','tool_bar',[node('back','button')]),page,node('dialog','dialog',[node('cancel','button')])])
+    return {'app':{'name':'Google Chrome'},'windows':[win], 'read':{'complete':True}}
+
+
+def test_web_view_preserves_facts_controls_table_ancestry_and_native_refs():
+    s=web_snapshot();original=copy.deepcopy(s)
+    nodes,meta=select_web(s);byref={n['ref']:n for n in nodes}
+    assert {'page','nested','table','row','cell','send','value','dialog','cancel'}<=set(byref)
+    assert 'back' not in byref and byref['cell']['parent']=='row' and byref['row']['parent']=='table'
+    assert byref['cell']['value']=='Required fact' and byref['value']['value']=='current'
+    assert s==original and meta['complete'] and meta['omitted_nodes']==2
+
+
+def test_web_view_ambiguity_no_region_and_unsupported_browser_are_explicit():
+    from bokkio.model import BokkioError
+    s=web_snapshot();s['windows'][0]['children'].append(node('other','web_area'))
+    with pytest.raises(BokkioError,match='ambiguous'):select_web(s)
+    s=web_snapshot();s['app']['name']='Other'
+    with pytest.raises(BokkioError,match='unsupported'):select_web(s)
+    s=web_snapshot();s['windows']=[]
+    with pytest.raises(BokkioError,match='absent'):select_web(s)
+
+
+def client(tmp_path,desktop):
+    runtime=Runtime(tmp_path/'runtime',{'apps':['Contract'],'write':True,'require_approval':False},desktop,lambda _:'birth')
+    c=Client(runtime);c.open();return c
+
+
+def arguments(c):
+    result=c.call('desktop.observe',{'app':'Contract'})
+    assert result['status']=='completed',result
+    return {'app':'Contract','ref':'field','action':'set_value','value':'test','observation_id':result['result']['observation_id']}
+
+
+def test_partial_observation_never_authorizes_input_or_approval(tmp_path,control):
+    class Partial(Desktop):
+        def snapshot(self,*args,**kwargs):
+            s=super().snapshot(*args);s['read']={'complete':False,'reason':'node_limit'};return s
+    d=Partial();c=client(tmp_path,d);c.runtime.policy['require_approval']=True
+    r=c.call('desktop.act',arguments(c))
+    assert r['error_code']=='observation_incomplete' and r['dispatched'] is False and d.dispatches==0
+    assert not c.runtime.store.query(kind='approval.requested')
+
+
+def test_pause_resume_invalidates_previous_observation_and_old_operation(tmp_path,control):
+    d=Desktop();c=client(tmp_path,d);ready(control);a=arguments(c)
+    control.event('key')
+    r=c.call('desktop.act',a,'paused')
+    assert r['error_code']=='user_control_paused' and not r['dispatched']
+    control.resume();publish_guard(control)
+    assert c.call('desktop.act',a,'stale')['error_code']=='user_control_changed'
+    assert c.call('desktop.act',arguments(c),'new')['status']=='verified'
+    assert c.call('desktop.act',a,'paused')==r and d.dispatches==1
+    assert c.call('desktop.control',{})['result']['state']=='ready'
+    assert c.call('desktop.control',{'action':'resume'})['status']=='denied'
+
+
+def test_shared_state_is_seen_by_another_process(control):
+    ready(control)
+    subprocess.run([sys.executable,'-c',"from bokkio.desktop_control import ControlState;ControlState().event('mouse')"],check=True)
+    assert control.status()['state']=='paused_by_user'
+    with pytest.raises(BokkioActionRefused):control.check()
+
+
+def test_heartbeat_loss_and_corrupt_state_fail_closed(control):
+    ready(control)
+    with control.transaction() as state:state['heartbeat']=0
+    with pytest.raises(BokkioActionRefused):control.check()
+    control.path.write_bytes(b'corrupt')
+    assert control.status()['enabled'] and control.status()['state']=='unavailable'
+
+
+def test_held_keys_and_queued_events_before_resume(control):
+    ready(control);control.event('key');control.heartbeat(held=1)
+    with pytest.raises(ValueError,match='Release'):control.resume()
+    old=time.monotonic();control.heartbeat();control.resume()
+    control.event('key',old)
+    assert control.status()['state']=='ready'
+
+
+def test_dispatch_checkpoint_does_not_reuse_permission_after_resume(control):
+    ready(control)
+    with guarded_operation():
+        control.event('mouse');control.resume()
+        with pytest.raises(BokkioActionRefused):checkpoint()
+        with pytest.raises(BokkioCompletionUnknown):checkpoint(dispatched=True)
+        with pytest.raises(BokkioActionRefused):
+            with guarded_operation():pass
+
+
+def test_disabling_then_enabling_during_operation_is_not_permission(control):
+    with guarded_operation():
+        ready(control)
+        with pytest.raises(BokkioActionRefused):checkpoint()
+
+
+def test_native_executor_checks_takeover_after_waiting_in_queue(tmp_path,control):
+    d=Desktop();c=client(tmp_path,d);ready(control);a=arguments(c)
+    original=c.runtime._dispatch_scope
+    def dispatch(*args):
+        original(*args);control.event('key')
+    c.runtime._dispatch_scope=dispatch
+    r=c.call('desktop.act',a)
+    assert r['dispatched'] is False and d.dispatches==0
+
+
+def test_local_control_status_does_not_require_native_app_enumeration(tmp_path,control):
+    from bokkio.local_runtime import LocalRuntime
+    class NoApps:
+        def apps(self):pytest.fail('control status must work without accessibility')
+    c=Client(LocalRuntime(tmp_path/'local',NoApps(),lambda _:'birth'));c.open()
+    assert c.call('desktop.control',{})['result']['state']=='disabled'
+
+
+def test_scoped_application_menus_do_not_grant_unbound_window_actions():
+    item=Element('menu_item','Close all');item.actions=['press']
+    dialog=Element('dialog','Other dialog',children=[Element('button','Cancel')])
+    b=backend([Element('window','Owned'),Element('menu_bar','Menu',children=[item]),dialog])
+    s=b.snapshot('app','Owned');menu=next(n for n in flatten(s['windows']) if n['name']=='Close all')
+    assert not menu['actions'] and menu['platform_data']['window_scope_context_only']
+    assert not next(n for n in flatten(s['windows']) if n['name']=='Cancel')['actions']
+    with pytest.raises(BokkioActionRefused):b.perform('app','click',ref=menu['ref'],window='Owned')
+
+
+@pytest.mark.parametrize('value',[None, [], {}, {'enabled':False},
+    {'enabled':False,'paused':False,'generation':0,'held':0,'heartbeat':'bad','resume_after':0},
+    {'enabled':False,'paused':False,'generation':False,'held':0,'heartbeat':0,'resume_after':0},
+    {'enabled':False,'paused':False,'generation':0,'held':0,'heartbeat':float('nan'),'resume_after':0}])
+def test_malformed_control_json_refuses_writes(control,value):
+    import sqlite3
+    ready(control)
+    with sqlite3.connect(control.path) as db:db.execute('UPDATE control SET data=?',(json.dumps(value),))
+    assert control.status()['state']=='unavailable'
+    with pytest.raises(BokkioActionRefused):control.check()
+
+
+def test_resume_waits_for_listener_to_drain_held_input(control):
+    ready(control);control.event('key')
+    request=control.request_resume()
+    assert control.status()['state']=='paused_by_user'
+    control.acknowledge_resume({'key:65'})
+    assert control.status()['resume_ack']==request and control.status()['state']=='paused_by_user'
+    assert 'Release' in control.status()['resume_error']
+    control.request_resume();control.acknowledge_resume(set())
+    assert control.status()['state']=='ready'
+
+
+def test_input_monitor_resume_requires_listener_ack(control):
+    import threading
+    from bokkio.desktop_control import InputMonitor
+    ready(control);monitor=InputMonitor(control.root)
+    def listen():
+        while not control.status().get('resume_request'):time.sleep(.005)
+        assert control.status()['state']=='paused_by_user'
+        control.acknowledge_resume(set())
+    thread=threading.Thread(target=listen);thread.start()
+    assert monitor.resume()['state']=='ready'
+    thread.join(timeout=1);assert not thread.is_alive()
+
+
+def test_windows_extra_mouse_buttons_keep_release_identity():
+    from bokkio.input_monitor import mouse_held
+    assert mouse_held(0x201)==('mouse:1',True)
+    assert mouse_held(0x202)==('mouse:1',False)
+    for button in (1,2):
+        assert mouse_held(0x20B,button<<16)==('mouse:'+str(button+3),True)
+        assert mouse_held(0x20C,button<<16)==('mouse:'+str(button+3),False)
+    assert mouse_held(0x200) is None
+
+
+def test_resume_timeout_cancels_request_before_late_listener_ack(control):
+    from bokkio.desktop_control import InputMonitor
+    ready(control)
+    with pytest.raises(ValueError,match='did not confirm'):InputMonitor(control.root).resume()
+    assert control.status()['paused'] and control.status()['resume_request'] is None
+    control.acknowledge_resume(set())
+    with pytest.raises(BokkioActionRefused):control.check()

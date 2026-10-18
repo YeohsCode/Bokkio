@@ -6,7 +6,7 @@
 
 已实现 Windows 提前窗口选择、Windows/macOS 读取预算、Chrome/Edge 原生网页视图，以及可选的跨进程用户接管。部分读取只读，旧观察和旧 Jev 决策在接管后失效；Workflow 保留回执和暂停位置。用户接管默认关闭，网页视图显式选择。
 
-本轮完整回归 771 通过、6 跳过；新增 27 项检查。macOS 自有窗口与 Chrome 固定页已有现场结果；物理输入、IME、Windows 与两端安装包完整验收未完成。合成 Windows 多窗口减少了遍历工作；macOS 同例未减少遍历，不能承诺总体提速。详见[实施报告](../WINDOWS-MACOS-INTEGRATION-RESULTS.md)及[证据](../evidence/2026-10-18-native-integration/README.md)。原完整业务复测继续保持暂停。
+最新完整回归：macOS 783通过/6跳过、Windows 778通过/11跳过。Windows 11虚机的WinForms双窗口、读取预算、Edge固定页、VM控制台模拟接管及恢复已通过；修复了聚焦、恢复时序、状态校验及跨平台测试。物理输入、IME、扩展应用及两端安装包完整验收未完成；另有一次未重现的异步Workflow状态响应异常，20次独立复跑通过，根因未定位。见[补验与证据](../evidence/2026-10-18-windows-native/README.md)和[实施报告](../WINDOWS-MACOS-INTEGRATION-RESULTS.md)。原完整业务复测继续保持暂停。
 
 ## Jev 开关与自定义服务（2026-10-15）
 

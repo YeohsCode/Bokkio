@@ -1,0 +1,19 @@
+---
+source_path: docs/evidence/2026-10-18-windows-native/macos-resume-check.json
+source_version: working-tree-based-on-5579580b96e366a97e14de2f38d3a207ac1fa321
+ingested: 2026-10-18
+sha256: 14fde1ac73286f29408c1001c2ca71da13975d71231282332960c341973d27c2
+---
+
+{
+  "platform": "macos",
+  "source": "5579580 + working tree",
+  "passive_listener": "real CGEventTap helper",
+  "initial_state": "paused_by_user",
+  "healthy": true,
+  "resume_acknowledged_by_listener": true,
+  "resume_error": null,
+  "after_300ms": "ready",
+  "finally": "disabled",
+  "physical_input_test": false
+}

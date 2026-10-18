@@ -8,6 +8,7 @@ from __future__ import annotations
 from contextlib import contextmanager
 from contextvars import ContextVar
 import json
+import math
 import os
 from pathlib import Path
 import sqlite3
@@ -20,6 +21,16 @@ from .model import BokkioActionRefused, BokkioCompletionUnknown
 
 EVENT_TAG = 0x424B494F
 current_control = ContextVar('bokkio_control', default=None)
+
+
+def validate_state(data):
+    if (not isinstance(data, dict)
+            or any(type(data.get(k)) is not bool for k in ('enabled', 'paused'))
+            or any(type(data.get(k)) is not int or data[k] < 0 for k in ('generation', 'held'))
+            or any(type(data.get(k)) not in (int, float) or not math.isfinite(data[k]) or data[k] < 0
+                   for k in ('heartbeat', 'resume_after'))):
+        raise ValueError('Invalid desktop control state')
+    return data
 
 
 def directory():
@@ -41,6 +52,7 @@ class ControlState:
             row = db.execute('SELECT data FROM control WHERE id=1').fetchone()
             data = json.loads(row[0]) if row else {'enabled': False, 'generation': 0, 'heartbeat': 0,
                                                   'paused': False, 'held': 0, 'resume_after': 0}
+            validate_state(data)
             yield data
             db.execute('INSERT OR REPLACE INTO control VALUES(1,?)', (json.dumps(data),))
 
@@ -50,7 +62,7 @@ class ControlState:
         try:
             with sqlite3.connect(self.path, timeout=1) as db:
                 row = db.execute('SELECT data FROM control WHERE id=1').fetchone()
-            data = json.loads(row[0])
+            data = validate_state(json.loads(row[0]) if row else None)
         except (sqlite3.Error, ValueError, TypeError):
             return {'enabled': True, 'state': 'unavailable', 'generation': None, 'healthy': False}
         healthy = 0 <= time.monotonic() - data.get('heartbeat', 0) < 2
@@ -65,7 +77,7 @@ class ControlState:
         with self.transaction() as data:
             data.update(enabled=enabled, generation=data['generation'] + 1)
             if enabled:
-                data.update(paused=True, resume_after=0)
+                data.update(paused=True, resume_after=0, resume_request=None)
         return self.status()
 
     def heartbeat(self, *, held=0, error=None):
@@ -90,6 +102,29 @@ class ControlState:
                 raise ValueError('Release physical keys and buttons before continuing')
             data.update(paused=False, generation=data['generation'] + 1, resume_after=time.monotonic())
         return self.status()
+
+    def request_resume(self):
+        request = uuid.uuid4().hex
+        with self.transaction() as data:
+            if not data['enabled']:
+                raise ValueError('Enable user takeover first')
+            data.update(paused=True, generation=data['generation'] + 1,
+                        resume_request=request, resume_error=None)
+        return request
+
+    def acknowledge_resume(self, held):
+        # Only the listener calls this, after consuming the pending input queue.
+        with self.transaction() as data:
+            request = data.get('resume_request')
+            if not request:
+                return
+            error = ('Input monitor is unavailable; desktop writes remain paused'
+                     if not data['enabled'] or data.get('error')
+                     or not 0 <= time.monotonic() - data['heartbeat'] < 2 else
+                     'Release physical keys and buttons before continuing' if held else None)
+            data.update(paused=bool(error), held=len(held), resume_request=None,
+                        resume_ack=request, resume_error=error,
+                        generation=data['generation'] + 1, resume_after=time.monotonic())
 
     def check(self, expected=None):
         state = self.status()
@@ -180,9 +215,19 @@ class InputMonitor:
         return result
 
     def resume(self):
-        result = self.state.resume()
-        # The monitor publishes the next allowed guard after draining its event queue.
-        return result
+        request = self.state.request_resume()
+        end = time.monotonic() + 1
+        while time.monotonic() < end:
+            result = self.state.status()
+            if result.get('resume_ack') == request:
+                if result.get('resume_error'):
+                    raise ValueError(result['resume_error'])
+                return result
+            time.sleep(.02)
+        with self.state.transaction() as data:
+            if data.get('resume_request') == request or data.get('resume_ack') == request:
+                data.update(paused=True, resume_request=None, generation=data['generation'] + 1)
+        raise ValueError('Input monitor did not confirm resume; desktop writes remain paused')
 
 
 def physically_held(item):

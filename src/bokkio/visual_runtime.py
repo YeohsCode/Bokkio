@@ -9,7 +9,7 @@ import copy
 import re
 from collections import Counter
 from dataclasses import asdict, dataclass
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Callable, Protocol
 
 from .model import BokkioActionError, BokkioCompletionUnknown, BokkioError, BokkioPermissionError, BokkioStaleSnapshot, stable_hash, tree_digest
@@ -31,7 +31,7 @@ class WindowScope:
                 or not isinstance(self.title, str) or not self.title or len(self.title) > 1024
                 or (self.window_id is not None and (type(self.window_id) is not int or not 0 < self.window_id <= 0xffffffff))):
             raise BokkioError('Visual scope requires an exact platform/PID/window title and optional native window ID')
-        if self.document is not None and (self.platform!='macos' or not isinstance(self.document,str) or not Path(self.document).is_absolute()):
+        if self.document is not None and (self.platform!='macos' or not isinstance(self.document,str) or not PurePosixPath(self.document).is_absolute()):
             raise BokkioError('Visual document binding requires an absolute Mac source path')
 
 

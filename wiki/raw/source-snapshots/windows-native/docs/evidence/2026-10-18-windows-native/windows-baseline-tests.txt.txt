@@ -1,0 +1,993 @@
+---
+source_path: docs/evidence/2026-10-18-windows-native/windows-baseline-tests.txt
+source_version: working-tree-based-on-5579580b96e366a97e14de2f38d3a207ac1fa321
+ingested: 2026-10-18
+sha256: 2165d9882ff5b44984682a9ded851986c4d1fa939f213910e399d85735d908de
+---
+
+........................................................................ [  9%]
+........................................................................ [ 18%]
+............s.........s................................................. [ 27%]
+........................................................................ [ 37%]
+..FFF.......FF.FF...FF.................................................. [ 46%]
+................................F....................................F.. [ 55%]
+.........................................ssssss......................... [ 64%]
+..ss...s..FFF.F....FFFFFFFFFF.FF....F................................... [ 74%]
+............................................FF.......................... [ 83%]
+.F...................................................................... [ 92%]
+.....................................................FFFF                [100%]
+================================== FAILURES ===================================
+______________________ test_parameters_freeze_and_verify ______________________
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F9A197920>, <bokkio.sdk.Client object at 0x0000018F9A196060>, <bokk...7e577caf', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F9A264A70>)
+
+    def test_parameters_freeze_and_verify(setup):
+        desktop,client,runner,doc,library=v2(setup)
+        doc['parameters']={'text':{'type':'string','default':'初始'}};doc['steps'][0]['arguments']['value']='${text}';doc['steps'][0]['verify'][0]['equals']='${text}'
+        doc=library.save(doc,doc['sha256']);run=runner.start(doc,parameters={'text':'中文替换'})
+        assert run['workflow_sha256']==doc['sha256'] and run['bound_sha256']!=doc['sha256']
+>       assert runner.run(run['id'])['status']=='completed' and desktop.value=='中文替换'
+E       AssertionError: assert ('failed' == 'completed'
+E
+E         - completed
+E         + failed)
+
+tests\test_desktop_workflow.py:19: AssertionError
+___________________ test_breakpoint_single_continue_repeat ____________________
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F9AB13F80>, <bokkio.sdk.Client object at 0x0000018F98E7FA40>, <bokk...0d694f34', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F978230B0>)
+
+    def test_breakpoint_single_continue_repeat(setup):
+        desktop,_,runner,doc,library=v2(setup);first=doc['steps'][0];first['breakpoint']=True
+        second=copy.deepcopy(first);second.update(id='second',breakpoint=False);doc['steps'].append(second);doc=library.save(doc,doc['sha256'])
+        run=runner.start(doc,repeat=2,single=True);result=runner.run(run['id']);assert result['status']=='paused' and desktop.clicks==0
+>       result=runner.resume(run['id']);assert result['status']=='paused' and desktop.clicks==1 and result['index']==1
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: assert ('failed' == 'paused'
+E
+E         - paused
+E         + failed)
+
+tests\test_desktop_workflow.py:26: AssertionError
+________________ test_disabled_final_step_and_condition_repeat ________________
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F991A16D0>, <bokkio.sdk.Client object at 0x0000018F9A196D50>, <bokk...a23333e3', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F9A1972C0>)
+
+    def test_disabled_final_step_and_condition_repeat(setup):
+        desktop,_,runner,doc,library=v2(setup)
+        step=copy.deepcopy(doc['steps'][0]);step.update(id='check',kind='check',action='check',arguments={},verify=[{'role':'text_field','name':'Input','field':'present','equals':True}]);doc['steps'].append(step)
+        disabled=copy.deepcopy(step);disabled.update(id='disabled',enabled=False);doc['steps'].append(disabled);doc=library.save(doc,doc['sha256'])
+>       r=runner.run(runner.start(doc,repeat=3)['id']);assert r['status']=='completed' and desktop.clicks==3 and len(r['steps'])==9
+                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: assert ('failed' == 'completed'
+E
+E         - completed
+E         + failed)
+
+tests\test_desktop_workflow.py:34: AssertionError
+_______ test_global_recording_registers_new_apps_without_late_snapshot ________
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F991A3530>, <bokkio.sdk.Client object at 0x0000018F9A266C60>, <bokk...f7689bcd', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F9A264980>)
+
+    def test_global_recording_registers_new_apps_without_late_snapshot(setup):
+        from bokkio.manual_recording import ManualRecorder
+        desktop,client,*_=setup
+        rec=ManualRecorder(client,[],all_apps=True,excluded_pids={99})
+        def event(pid,path,kind='click',**extra):
+            return {'captured':True,'pid':pid,'app':{'name':path.rsplit('/',1)[-1],'path':path},'kind':kind,
+                    'window':'Before click','window_identity':'ax:1','role':'AXButton','name':'Open',
+                    'ancestors':[{'role':'AXWindow','name':'Before click'}],
+                    'bounds':{'x':10,'y':20,'width':40,'height':30},'x':20,'y':35,**extra}
+        # The dialog no longer exists when Python consumes its click. No observation may run.
+        desktop.snapshot=lambda *a,**kw: (_ for _ in ()).throw(AssertionError('late target lookup'))
+        rec.ingest(event(99,'/Applications/Bokkio.app'))
+        rec.ingest(event(10,'/Applications/First.app'))
+        rec.ingest(event(20,'/Applications/Second.app'))
+        rec.ingest(event(21,'/Applications/First.app'))
+        doc=rec.preview()['document'];assert len(doc['apps'])==2
+        assert [s['app'] for s in doc['steps']]==['app1','app2','app1']
+        assert all(s['kind']=='input' and s['target']['point']=={'x':.25,'y':.5} for s in doc['steps'])
+>       validate_document(doc)
+
+tests\test_desktop_workflow.py:112:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+doc = {'schema': 'bokkio.runtime-workflow.v2', 'id': '4b6af82bdb2a46bd9a092b01e18c3a8c', 'name': '新 Workflow', 'revision': 1, ...}
+
+    def validate_document(doc):
+        if not isinstance(doc,dict) or doc.get('schema') not in {SCHEMA,SCHEMA_V2}:raise ValueError('Unsupported workflow schema')
+        if set(doc)-{'schema','id','name','revision','parent_sha256','sha256','apps','steps','description','resources','parameters','recording','platform','group'}:raise ValueError('Unknown workflow fields')
+        extended=doc['schema']==SCHEMA_V2
+        if not extended and set(doc)&{'parameters','recording','platform','group'}:raise ValueError('Extended fields require Workflow v2')
+        declarations=doc.get('parameters',{})
+        if not isinstance(declarations,dict) or any(not re.fullmatch(r'[\w-]{1,80}',k) or not isinstance(v,dict) or set(v)-{'type','default','description'} or v.get('type','string')!='string' or not isinstance(v.get('default',''),str) for k,v in declarations.items()):raise ValueError('Invalid parameter declarations')
+        recording=doc.get('recording',{})
+        if not isinstance(recording,dict) or set(recording)-{'started_at'}:raise ValueError('Invalid recording metadata')
+        if 'started_at' in recording and (type(recording['started_at']) not in {int,float} or not __import__('math').isfinite(recording['started_at']) or recording['started_at']<0):raise ValueError('Invalid recording start time')
+        resources=doc.get('resources',{})
+        if not isinstance(resources,dict) or set(resources)-{'paths','origins'}:raise ValueError('Invalid workflow resources')
+        for key in ['paths','origins']:
+            if not isinstance(resources.get(key,[]),list) or any(not isinstance(v,str) for v in resources.get(key,[])):raise ValueError('Invalid resource list')
+        if not re.fullmatch('[a-f0-9]{32}',doc.get('id','')):raise ValueError('Invalid workflow ID')
+        if not isinstance(doc.get('name'),str) or not doc['name'].strip() or len(doc['name'])>200:raise ValueError('Workflow name is required')
+        if not isinstance(doc.get('apps'),dict) or len(doc['apps'])>20:raise ValueError('Invalid application identities')
+        if type(doc.get('revision')) is not int or doc['revision']<1:raise ValueError('Invalid revision')
+        for alias,g in doc['apps'].items():
+>           if not re.fullmatch('[A-Za-z0-9_-]{1,64}',alias) or not isinstance(g,dict) or set(g)-{'name','path','bundle_id'} or not isinstance(g.get('name'),str) or not isinstance(g.get('path'),str) or not Path(g['path']).is_absolute():raise ValueError('Applications require exact installed identities')
+                                                                                                                                                                                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           ValueError: Applications require exact installed identities
+
+src\bokkio\runtime_workflow.py:50: ValueError
+____ test_native_recorded_edits_keep_distinct_controls_and_skip_app_switch ____
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F991C8CE0>, <bokkio.sdk.Client object at 0x0000018F991CA000>, <bokk...58415fa5', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F991C8E60>)
+
+    def test_native_recorded_edits_keep_distinct_controls_and_skip_app_switch(setup):
+        from bokkio.manual_recording import ManualRecorder
+        _,client,*_=setup;rec=ManualRecorder(client,[],all_apps=True)
+        event={'captured':True,'pid':1,'app':{'name':'Editor','path':'/Applications/Editor.app'},'kind':'edit','role':'AXTextArea','name':'',
+               'window':'Doc','ancestors':[{'role':'AXScrollArea','name':''},{'role':'AXWindow','name':'Doc'}],'identifier':'first','value':'one'}
+        rec.ingest(event);rec.ingest({**event,'value':'two'});rec.ingest({**event,'identifier':'second','value':'three'})
+        rec.ingest({**event,'kind':'key','key':'Command+Tab'})
+        steps=rec.doc['steps'];assert len(steps)==2 and steps[0]['arguments']['value']=='two'
+        assert steps[0]['target']['role']=='text_area' and steps[0]['target']['name'] is None
+        assert steps[0]['target']['ancestors'][0]=={'role':'group','name':None}
+>       validate_document(rec.doc)
+
+tests\test_desktop_workflow.py:125:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+doc = {'schema': 'bokkio.runtime-workflow.v2', 'id': '459509e5785d436d9e20a93a62b9693e', 'name': '新 Workflow', 'revision': 1, ...}
+
+    def validate_document(doc):
+        if not isinstance(doc,dict) or doc.get('schema') not in {SCHEMA,SCHEMA_V2}:raise ValueError('Unsupported workflow schema')
+        if set(doc)-{'schema','id','name','revision','parent_sha256','sha256','apps','steps','description','resources','parameters','recording','platform','group'}:raise ValueError('Unknown workflow fields')
+        extended=doc['schema']==SCHEMA_V2
+        if not extended and set(doc)&{'parameters','recording','platform','group'}:raise ValueError('Extended fields require Workflow v2')
+        declarations=doc.get('parameters',{})
+        if not isinstance(declarations,dict) or any(not re.fullmatch(r'[\w-]{1,80}',k) or not isinstance(v,dict) or set(v)-{'type','default','description'} or v.get('type','string')!='string' or not isinstance(v.get('default',''),str) for k,v in declarations.items()):raise ValueError('Invalid parameter declarations')
+        recording=doc.get('recording',{})
+        if not isinstance(recording,dict) or set(recording)-{'started_at'}:raise ValueError('Invalid recording metadata')
+        if 'started_at' in recording and (type(recording['started_at']) not in {int,float} or not __import__('math').isfinite(recording['started_at']) or recording['started_at']<0):raise ValueError('Invalid recording start time')
+        resources=doc.get('resources',{})
+        if not isinstance(resources,dict) or set(resources)-{'paths','origins'}:raise ValueError('Invalid workflow resources')
+        for key in ['paths','origins']:
+            if not isinstance(resources.get(key,[]),list) or any(not isinstance(v,str) for v in resources.get(key,[])):raise ValueError('Invalid resource list')
+        if not re.fullmatch('[a-f0-9]{32}',doc.get('id','')):raise ValueError('Invalid workflow ID')
+        if not isinstance(doc.get('name'),str) or not doc['name'].strip() or len(doc['name'])>200:raise ValueError('Workflow name is required')
+        if not isinstance(doc.get('apps'),dict) or len(doc['apps'])>20:raise ValueError('Invalid application identities')
+        if type(doc.get('revision')) is not int or doc['revision']<1:raise ValueError('Invalid revision')
+        for alias,g in doc['apps'].items():
+>           if not re.fullmatch('[A-Za-z0-9_-]{1,64}',alias) or not isinstance(g,dict) or set(g)-{'name','path','bundle_id'} or not isinstance(g.get('name'),str) or not isinstance(g.get('path'),str) or not Path(g['path']).is_absolute():raise ValueError('Applications require exact installed identities')
+                                                                                                                                                                                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           ValueError: Applications require exact installed identities
+
+src\bokkio\runtime_workflow.py:50: ValueError
+__________ test_captured_drag_uses_containing_window_for_destination __________
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F9A265190>, <bokkio.sdk.Client object at 0x0000018F9A264620>, <bokk...9b6d935f', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F9A265BE0>)
+
+    def test_captured_drag_uses_containing_window_for_destination(setup):
+        from bokkio.manual_recording import ManualRecorder
+        _,client,*_=setup;rec=ManualRecorder(client,[],all_apps=True)
+        event={'captured':True,'pid':1,'app':{'name':'Lab','path':'/Applications/Lab.app'},'kind':'drag','role':'AXButton','name':'Item',
+               'window':'Doc','ancestors':[{'role':'AXWindow','name':'Doc'}],'bounds':{'x':20,'y':30,'width':20,'height':20},
+               'window_target':{'role':'AXWindow','name':'Doc','ancestors':[],'bounds':{'x':10,'y':20,'width':500,'height':300}},
+               'x':30,'y':40,'end_x':300,'end_y':200}
+        rec.ingest(event);step=rec.doc['steps'][0]
+        assert step['target']['role']=='window' and step['target']['point']=={'x':.04,'y':20/300}
+        assert step['arguments']['end_x']==.58 and step['arguments']['end_y']==.6
+>       validate_document(rec.doc)
+
+tests\test_desktop_workflow.py:152:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+doc = {'schema': 'bokkio.runtime-workflow.v2', 'id': 'f54c9f2a04fa4b5f9708ac6bed337a1e', 'name': '新 Workflow', 'revision': 1, ...}
+
+    def validate_document(doc):
+        if not isinstance(doc,dict) or doc.get('schema') not in {SCHEMA,SCHEMA_V2}:raise ValueError('Unsupported workflow schema')
+        if set(doc)-{'schema','id','name','revision','parent_sha256','sha256','apps','steps','description','resources','parameters','recording','platform','group'}:raise ValueError('Unknown workflow fields')
+        extended=doc['schema']==SCHEMA_V2
+        if not extended and set(doc)&{'parameters','recording','platform','group'}:raise ValueError('Extended fields require Workflow v2')
+        declarations=doc.get('parameters',{})
+        if not isinstance(declarations,dict) or any(not re.fullmatch(r'[\w-]{1,80}',k) or not isinstance(v,dict) or set(v)-{'type','default','description'} or v.get('type','string')!='string' or not isinstance(v.get('default',''),str) for k,v in declarations.items()):raise ValueError('Invalid parameter declarations')
+        recording=doc.get('recording',{})
+        if not isinstance(recording,dict) or set(recording)-{'started_at'}:raise ValueError('Invalid recording metadata')
+        if 'started_at' in recording and (type(recording['started_at']) not in {int,float} or not __import__('math').isfinite(recording['started_at']) or recording['started_at']<0):raise ValueError('Invalid recording start time')
+        resources=doc.get('resources',{})
+        if not isinstance(resources,dict) or set(resources)-{'paths','origins'}:raise ValueError('Invalid workflow resources')
+        for key in ['paths','origins']:
+            if not isinstance(resources.get(key,[]),list) or any(not isinstance(v,str) for v in resources.get(key,[])):raise ValueError('Invalid resource list')
+        if not re.fullmatch('[a-f0-9]{32}',doc.get('id','')):raise ValueError('Invalid workflow ID')
+        if not isinstance(doc.get('name'),str) or not doc['name'].strip() or len(doc['name'])>200:raise ValueError('Workflow name is required')
+        if not isinstance(doc.get('apps'),dict) or len(doc['apps'])>20:raise ValueError('Invalid application identities')
+        if type(doc.get('revision')) is not int or doc['revision']<1:raise ValueError('Invalid revision')
+        for alias,g in doc['apps'].items():
+>           if not re.fullmatch('[A-Za-z0-9_-]{1,64}',alias) or not isinstance(g,dict) or set(g)-{'name','path','bundle_id'} or not isinstance(g.get('name'),str) or not isinstance(g.get('path'),str) or not Path(g['path']).is_absolute():raise ValueError('Applications require exact installed identities')
+                                                                                                                                                                                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           ValueError: Applications require exact installed identities
+
+src\bokkio\runtime_workflow.py:50: ValueError
+________ test_cancelled_session_race_is_not_reported_as_replay_failure ________
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F991C8D40>, <bokkio.sdk.Client object at 0x0000018F9A9B6BA0>, <bokk...2bc87a33', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F99A18EF0>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000018F991CA3F0>
+
+    def test_cancelled_session_race_is_not_reported_as_replay_failure(setup,monkeypatch):
+        desktop,_,runner,doc,_=v2(setup);run=runner.start(doc)
+        def stopped_before_observation(*args):
+            runner.cancel(run['id'])
+            raise ValueError('Session unavailable, expired or owned by another OS user')
+        monkeypatch.setattr(runner,'_context_step',stopped_before_observation)
+        result=runner.run(run['id'])
+>       assert result['status']=='cancelled' and desktop.clicks==0
+E       AssertionError: assert ('failed' == 'cancelled'
+E
+E         - cancelled
+E         + failed)
+
+tests\test_desktop_workflow.py:163: AssertionError
+_ test_workflow_tree_contains_real_driver_receipts_and_preserves_failed_check _
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F9A196F60>, <bokkio.sdk.Client object at 0x0000018F9A2643B0>, <bokk...3041a172', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F9A197B00>)
+
+    def test_workflow_tree_contains_real_driver_receipts_and_preserves_failed_check(setup):
+        desktop,client,runner,doc,_=setup;doc=copy.deepcopy(doc);doc['steps'][0]['verify'][0]['equals']='wrong';doc['steps'][0]['timeout']=.01
+>       run=runner.run(runner.start(doc)['id']);assert run['status']=='failed' and desktop.clicks==1
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: assert ('failed' == 'failed'
+E
+E           failed and 0 == 1)
+E        +  where 0 = <test_runtime_workflow.Desktop object at 0x0000018F9A196F60>.clicks
+
+tests\test_execution_log.py:45: AssertionError
+__________ test_async_workflow_keeps_parent_operation_across_thread ___________
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F9A264110>, <bokkio.sdk.Client object at 0x0000018F9A264A40>, <bokk...17cd8370', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F9A266EA0>)
+
+    def test_async_workflow_keeps_parent_operation_across_thread(setup):
+        desktop,client,_,doc,_=setup;runtime=client.runtime
+        library=WorkflowLibrary(runtime.store.root/'workflows');library.save({k:v for k,v in doc.items() if k!='sha256'})
+        runtime.policy['workflows']=[doc['id']]
+        with runtime.store.connect() as db:
+            scope=runtime._session(client.session_id);scope['workflows']=[doc['id']];db.execute('UPDATE sessions SET policy=? WHERE id=?',(json.dumps(scope),client.session_id))
+        r=client.call('workflow.run',{'workflow_id':doc['id']});assert r['status']=='completed'
+        runtime._workflow_threads[r['result']['run_id']].join(5)
+        events=runtime.store.query(kind='request.received')
+        actions=[e for e in events if e['data']['tool']=='desktop.act']
+>       assert len(actions)==1 and actions[0]['data']['parent_operation']==r['operation_id']
+E       assert (0 == 1)
+E        +  where 0 = len([])
+
+tests\test_execution_log.py:63: AssertionError
+__________ test_depth_and_deadline_are_explicit[options1-time_limit] __________
+
+options = {'read_timeout': 1e-09}, reason = 'time_limit'
+
+    @pytest.mark.parametrize('options,reason',[({'read_depth':1},'depth_limit'),({'read_timeout':1e-9},'time_limit')])
+    def test_depth_and_deadline_are_explicit(options,reason):
+        b=backend([Element('window','Owned',children=[Element('button','Save')])])
+>       assert b.snapshot('app',**options)['read']['reason']==reason
+E       AssertionError: assert None == 'time_limit'
+
+tests\test_native_integration.py:77: AssertionError
+_____ test_native_executor_constructs_real_agent_and_checks_saved_result ______
+
+tmp_path = WindowsPath('C:/Users/Bokkio/AppData/Local/Temp/pytest-of-Bokkio/pytest-68/test_native_executor_construct0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000018F90EF10D0>
+
+    def test_native_executor_constructs_real_agent_and_checks_saved_result(tmp_path,monkeypatch):
+        import os
+        import sys
+        import time
+        from types import SimpleNamespace
+        from bokkio.agent import DesktopAgent
+        from bokkio import office_runner,planner,jev,macos_activation
+        from bokkio.xa11y_backend import Xa11yBackend
+        state=preparation(tmp_path);task=next(t for t in state['tasks'] if t['task_id']=='win_adm_l1_003')
+        artifact=Path(task['artifact']);word(artifact,font='Arial')
+        monkeypatch.setattr(office_runner,'input_environment',lambda:{'ready':True})
+        monkeypatch.setitem(sys.modules,'xa11y',SimpleNamespace(App=SimpleNamespace(by_name=lambda *a,**k:SimpleNamespace(pid=123,windows=lambda:[SimpleNamespace(name=artifact.stem,activate=lambda:None)]))))
+        monkeypatch.setattr(office_runner.subprocess,'run',lambda *a,**k:None)
+        monkeypatch.setattr(office_runner.time,'sleep',lambda *a:None)
+        monkeypatch.setattr(macos_activation,'activate_window',lambda *a,**k:None)
+        monkeypatch.setattr(Xa11yBackend,'snapshot',lambda *a,**k:{'windows':[
+            {'ref':'source-window','role':'window','name':artifact.stem,'children':[],
+             'platform_data':{'ax_document':artifact.as_uri()}}]})
+        monkeypatch.setattr(planner,'OpenRouterPlanner',lambda:object())
+        monkeypatch.setattr(jev,'JevProvider',lambda:object())
+        def execute(agent,goal,apps,path):
+            assert isinstance(agent,DesktopAgent) and apps==['123'] and agent.max_actions==15
+            monkeypatch.setattr(office_runner,'input_environment',lambda:{'ready':False})
+            with pytest.raises(BokkioError,match='interactive session changed'):
+                agent.backend._app_tree(object())
+            monkeypatch.setattr(office_runner,'input_environment',lambda:{'ready':True})
+            assert agent.final_verifier({})[0] is False
+            word(artifact)
+            old=time.time_ns()-10_000_000_000
+            os.utime(artifact,ns=(old,old))
+            passed,detail=agent.final_verifier({})
+            assert not passed and detail['score']['passed'] and not detail['score']['saved_after_start']
+            fresh=time.time_ns()+1_000_000
+            os.utime(artifact,ns=(fresh,fresh))
+            assert agent.final_verifier({})[0] is True
+            return {'status':'completed','actions':1}
+        monkeypatch.setattr(DesktopAgent,'run',execute)
+>       assert office_runner._native_run(task,tmp_path/'agent.json')['status']=='completed'
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_office_benchmark.py:153:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+task = {'task_id': 'win_adm_l1_003', 'app': 'Microsoft Word', 'desktop': 'C:\\Users\\Bokkio\\AppData\\Local\\Temp\\pytest-of-...\Local\\Temp\\pytest-of-Bokkio\\pytest-68\\test_native_executor_construct0\\win_adm_l1_003\\desktop\\季度报告草稿.docx', ...}
+trace_path = WindowsPath('C:/Users/Bokkio/AppData/Local/Temp/pytest-of-Bokkio/pytest-68/test_native_executor_construct0/agent.json')
+
+    def _native_run(task,trace_path):
+        import xa11y
+        from .agent import DesktopAgent
+        from .planner import OpenRouterPlanner
+        from .jev import JevProvider
+        from .xa11y_backend import Xa11yBackend
+        from .selector import flatten
+        from .macos_activation import activate_window
+        file=Path(task['artifact']);app_name=task['app']
+        # Opening reviewed synthetic inputs belongs to initialization and is
+        # separately reported. No output is generated through file libraries.
+        command=['/usr/bin/open','-a',app_name]
+        command.append(task['source'])
+        subprocess.run(command,check=True,timeout=20)
+        app=xa11y.App.by_name(app_name,timeout=15)
+        time.sleep(.5)
+        stems={file.stem.casefold(),Path(task['source']).stem.casefold()}
+        documents={str(Path(task['source']).resolve()),str(file.resolve())}
+        class ScopedOffice(Xa11yBackend):
+            supports_stale_refresh=True
+            def _app_tree(self,app,live=None):
+                if not input_environment()['ready']:
+                    raise BokkioError('Office interactive session changed; unlock before observing or dispatching')
+                root=super()._app_tree(app,live)
+                def prune(node,in_window=False,save_panel=False):
+                    node=copy.deepcopy(node)
+                    role=node['role'];name=(node.get('name') or '').casefold()
+                    if 'recent' in name or '最近' in name:return None
+                    # This task owns the initialized scratch file. A second new
+                    # document has no task-bound file identity or capture scope.
+                    if task['task_id']=='win_pro_l1_003' and role=='menu_item' and name in {'new presentation','new from template...'}:return None
+                    save_panel=save_panel or (role=='dialog' and name in {'save','save as','save as...'})
+                    # Expanded NSSavePanel browsers include ancestor directories
+                    # and unrelated filenames. Only the named path controls are
+                    # needed for this exact-output pilot; omit browser rows.
+                    if save_panel:
+                        data=node['platform_data']
+                        if data.get('native_file_entry') and str(Path(data['ax_url_path']).resolve())!=str(Path(task['desktop']).resolve()):return None
+                        if role=='text_field' and not node.get('name'):return None
+                    if role in {'window','dialog'}:
+                        allowed=in_window or any(stem in name for stem in stems) or name in {'font','paragraph','format cells','save as','save','open','styles','new presentation','new slide','slide layout','layout'}
+                        document=node['platform_data'].get('ax_document')
+                        if document:
+                            allowed=str(Path(unquote(urlparse(document).path)).resolve()) in documents
+                        if not allowed:return None
+                        in_window=True
+                    if node['parent'] is not None and role not in {'window','dialog','menu','menu_bar','menu_item'} and not in_window:
+                        return None
+                    node['children']=[p for child in node.get('children',[]) if (p:=prune(child,in_window,save_panel)) is not None]
+                    return node
+                scoped=prune(root)
+                if not any(n['role'] in {'window','dialog'} for n in flatten([scoped])):
+                    raise BokkioError('No authorized benchmark document/window is open; no private startup context is sent to models')
+                for node in flatten([scoped]):
+                    if (node['role']=='window' and node['platform_data'].get('ax_document')
+                            and Path(task['source']).resolve()==file.resolve()):
+                        node['platform_data']['save_in_place_document']=True
+                    if task['task_id']=='win_pro_l1_003' and node['role'] in {'text_field','combo_box'} and (node['name'] or '').casefold().startswith('search'):
+                        node['actions']=[]
+                    if node['role']=='combo_box' and node['platform_data'].get('ax_value_settable') and 'AXConfirm' in node['platform_data'].get('ax_original_actions',[]):
+                        node['platform_data']['value_submission']='set_value_commits_via_bound_visual_input'
+                editors=[n for n in flatten([scoped]) if n['role']=='text_area']
+                indexed={n['ref']:n for n in flatten([scoped])}
+                # Toolbar and native menu aliases can divide target confidence.
+                # Keep one bound menu transport, while retaining save-panel Save.
+                if any(n['role']=='menu_item' and n['name']=='Save' and n['platform_data'].get('native_menu_command') for n in indexed.values()):
+                    for node in indexed.values():
+                        if node['role']!='button' or node['name']!='Save':continue
+                        ancestor=node
+                        while ancestor['parent'] in indexed and ancestor['role'] not in {'window','dialog'}:ancestor=indexed[ancestor['parent']]
+                        if ancestor['role']!='dialog':node['actions']=[]
+                if app_name=='Microsoft Word':
+                    # This pilot's declared input structure is one title paragraph
+                    # followed by body paragraphs. Bind those selection targets to
+                    # current readable native text, never fixture answer constants.
+                    readable=[n for n in editors if isinstance(n.get('value'),str) and 'select_text' in n['actions']]
+                    if len(readable)==1:
+                        title,separator,body=readable[0]['value'].partition('\n')
+                        if separator and title and body and len(title)<=4000 and len(body)<=4000:
+                            readable[0]['platform_data']['selection_targets']={'main_title':title,'body':body}
+                    for node in indexed.values():
+                        if node['role']=='button' and node['name']=='Clear Formatting':
+                            node['platform_data']['click_transport']='selection_bound_pointer'
+                        if node['role']=='combo_box' and node['name']=='Line and Paragraph Spacing':
+                            node['actions']=[]
+                            node['platform_data']['value_submission']='exact_spacing_requires_Paragraph_dialog'
+                cjk_selection=any(any('\u3400'<=ch<='\u9fff' for ch in (n['state'].get('selected_text') or '')) for n in editors)
+                if app_name=='Microsoft Word' and cjk_selection:
+                    for node in flatten([scoped]):
+                        if node['role']=='combo_box' and node['name']=='Font:':
+                            node['actions']=[a for a in node['actions'] if a not in {'set_value','submit','expand'}]
+                            node['platform_data']['value_submission']='script_specific_font_dialog_required'
+                for dialog in flatten([scoped]):
+                    if dialog['role']=='dialog' and dialog['name'] in {'Font','Paragraph'}:
+                        for node in flatten([dialog]):
+                            if node['role'] in {'combo_box','text_field'} and node['platform_data'].get('ax_value_settable'):
+                                node['platform_data']['value_submission']='set_value_requires_dialog_commit'
+                            if dialog['name']=='Font' and node['role']=='combo_box' and node['name']=='Latin text font:':
+                                node['actions']=[] if node['state'].get('expanded') else ['expand']
+                                node['platform_data']['mac_verified_actions']=node['actions']
+                                node['platform_data']['value_submission']='native_popup_selection_required'
+                return scoped
+            def visual_value_replace(self,app,node,scope,value):
+                from .office_visual import replace_combo
+                if scope['role']=='dialog' and scope['name'] in {'Font','Paragraph'}:
+                    if scope['name']=='Font' and node['name']=='Size:':return self._native.perform(node,'set_value',value)
+                    return replace_combo(bound_pid,scope['name'],node,value,backend=self,confirm=False)
+                if scope['role']!='window' or not any(stem in (scope['name'] or '').casefold() for stem in stems):
+                    raise BokkioError('Office visual field input requires the authorized document window')
+                return replace_combo(bound_pid,scope['name'],node,value,backend=self)
+            def visual_expand(self,app,node,scope):
+                if scope['role']=='dialog' and scope['name']=='Font' and node['name']=='Latin text font:':
+                    from .office_visual import expand_combo
+                    return expand_combo(bound_pid,scope['name'],node,backend=self)
+                return self._native.perform(node,'expand')
+            def visual_click(self,app,node,scope):
+                if app_name!='Microsoft Word' or node['name']!='Clear Formatting' or scope['role']!='window':
+                    raise BokkioError('Office button transport is outside the authorized body-format action')
+                from .office_visual import click_selection_button
+                document=scope['platform_data'].get('ax_document')
+                return click_selection_button(bound_pid,scope['name'],node,backend=self,
+                                              document=unquote(urlparse(document).path) if document else None)
+            def visual_option_select(self,app,node,scope):
+                if scope['role']!='dialog' or scope['name']!='Font':
+                    raise BokkioError('Office native option input requires the observed Font dialog')
+                from .office_visual import select_option
+                return select_option(bound_pid,scope['name'],node,backend=self)
+            def perform(self,app,action,**arguments):
+                if not str(app).isdigit() or int(app)!=bound_pid:raise BokkioError('Office action app is outside the task binding')
+                snapshot=self.snapshot(app,arguments.get('window'))
+                nodes={n['ref']:n for n in flatten(snapshot['windows'])}
+                ref=arguments.get('ref');name=(nodes.get(ref,{}).get('name') or '').casefold()
+                if nodes.get(ref,{}).get('platform_data',{}).get('native_menu_command'):
+                    main=[n for n in nodes.values() if n['role']=='window' and n['platform_data'].get('ax_document') and n['state'].get('active') is True]
+                    if not snapshot['app'].get('is_foreground') or len(main)!=1:
+                        from .model import BokkioStaleSnapshot
+                        raise BokkioStaleSnapshot('Owned Office main document or foreground changed before menu dispatch')
+                if any(term in name for term in ['share','send','publish','共享','发送']):raise BokkioError('External communication is outside this Office pilot')
+                if task['task_id']=='win_pro_l1_003' and name.startswith('search') and action in {'set_value','type','submit'}:
+                    raise BokkioError('PowerPoint application search is outside the title-slide task')
+                if app_name=='Microsoft Word' and action!='select_text' and name in {'styles','font:','font size:','font...','paragraph...','clear formatting','line and paragraph spacing'}:
+                    editors=[n for n in nodes.values() if n['role']=='text_area' and 'select_text' in n['actions']]
+                    if editors and not any(n['state'].get('selected_text') for n in editors):
+                        raise BokkioError('Word formatting requires a verified nonempty document text selection before dispatch')
+                return super().perform(app,action,**arguments)
+        bound_pid=app.pid
+        backend=ScopedOffice()
+        # Preflight precedes provider construction: inaccessible UI incurs no model
+        # calls and is an environment result, not a model/task failure.
+        backend.snapshot(str(bound_pid))
+        owned_windows=[w for w in flatten(backend.snapshot(str(bound_pid))['windows'])
+                       if w['role']=='window' and w['platform_data'].get('ax_document')
+                       and str(Path(unquote(urlparse(w['platform_data']['ax_document']).path)).resolve())==str(Path(task['source']).resolve())]
+>       if len(owned_windows)!=1:raise BokkioError('Benchmark initialization requires one document bound to its exact source path')
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       bokkio.model.BokkioError: Benchmark initialization requires one document bound to its exact source path
+
+src\bokkio\office_runner.py:218: BokkioError
+__________________ test_moved_window_and_new_refs[10-input] ___________________
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F9ACCA300>, <bokkio.sdk.Client object at 0x0000018F9ACCA840>, <bokk...4c31be77', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F9ACC9D30>)
+x = 10, ref = 'input'
+
+    @pytest.mark.parametrize('x,ref',[(10,'input'),(1500,'new-pid-ref'),(-800,'other-display-ref')])
+    def test_moved_window_and_new_refs(setup,x,ref):
+        desktop,client,runner,doc,_=setup;desktop.x=x;desktop.ref=ref
+        run=runner.start(doc);result=runner.run(run['id'])
+>       assert result['status']=='completed' and desktop.value=='中文 hello' and desktop.clicks==1
+E       AssertionError: assert ('failed' == 'completed'
+E
+E         - completed
+E         + failed)
+
+tests\test_runtime_workflow.py:42: AssertionError
+______________ test_moved_window_and_new_refs[1500-new-pid-ref] _______________
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F9ACCBA40>, <bokkio.sdk.Client object at 0x0000018F9ACCBCE0>, <bokk...78fbe2a4', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F9ACCAA20>)
+x = 1500, ref = 'new-pid-ref'
+
+    @pytest.mark.parametrize('x,ref',[(10,'input'),(1500,'new-pid-ref'),(-800,'other-display-ref')])
+    def test_moved_window_and_new_refs(setup,x,ref):
+        desktop,client,runner,doc,_=setup;desktop.x=x;desktop.ref=ref
+        run=runner.start(doc);result=runner.run(run['id'])
+>       assert result['status']=='completed' and desktop.value=='中文 hello' and desktop.clicks==1
+E       AssertionError: assert ('failed' == 'completed'
+E
+E         - completed
+E         + failed)
+
+tests\test_runtime_workflow.py:42: AssertionError
+___________ test_moved_window_and_new_refs[-800-other-display-ref] ____________
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F9AC4FF50>, <bokkio.sdk.Client object at 0x0000018F9AC4DAC0>, <bokk...3aa1f4fc', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F9AC4E8A0>)
+x = -800, ref = 'other-display-ref'
+
+    @pytest.mark.parametrize('x,ref',[(10,'input'),(1500,'new-pid-ref'),(-800,'other-display-ref')])
+    def test_moved_window_and_new_refs(setup,x,ref):
+        desktop,client,runner,doc,_=setup;desktop.x=x;desktop.ref=ref
+        run=runner.start(doc);result=runner.run(run['id'])
+>       assert result['status']=='completed' and desktop.value=='中文 hello' and desktop.clicks==1
+E       AssertionError: assert ('failed' == 'completed'
+E
+E         - completed
+E         + failed)
+
+tests\test_runtime_workflow.py:42: AssertionError
+_________ test_headless_native_runs_and_requests_background_transport _________
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F9AC4FE30>, <bokkio.sdk.Client object at 0x0000018F9ACCBDA0>, <bokk...683b61dd', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F9ACCAD20>)
+
+    def test_headless_native_runs_and_requests_background_transport(setup):
+        d,c,r,doc,_=setup
+        run=r.start(doc,'headless');result=r.run(run['id'])
+>       assert result['status']=='completed' and d.clicks==1
+E       AssertionError: assert ('failed' == 'completed'
+E
+E         - completed
+E         + failed)
+
+tests\test_runtime_workflow.py:52: AssertionError
+____________ test_approval_and_stale_request_requires_new_approval ____________
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F9AC4F830>, <bokkio.sdk.Client object at 0x0000018F9AC4DE80>, <bokk...28f4e13a', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F9AC4FF20>)
+
+    def test_approval_and_stale_request_requires_new_approval(setup):
+        d,c,r,doc,_=setup;c.runtime.policy['require_approval']=True
+>       run=r.start(doc);pending=r.run(run['id']);assert pending['status']=='waiting_approval' and d.clicks==0
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: assert ('failed' == 'waiting_approval'
+E
+E         - waiting_approval
+E         + failed)
+
+tests\test_runtime_workflow.py:87: AssertionError
+____________________ test_approval_denial_never_dispatches ____________________
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F9AC4C200>, <bokkio.sdk.Client object at 0x0000018F9AC4DF40>, <bokk...5993edb9', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F9AC4E330>)
+
+    def test_approval_denial_never_dispatches(setup):
+        d,c,r,doc,_=setup;c.runtime.policy['require_approval']=True;run=r.start(doc);x=r.run(run['id'])
+>       c.runtime.store.decide(x['approval_id'],'denied','no');assert r.run(run['id'])['status']=='failed' and d.clicks==0
+                               ^^^^^^^^^^^^^^^^
+E       KeyError: 'approval_id'
+
+tests\test_runtime_workflow.py:101: KeyError
+____________________ test_unknown_completion_never_replays ____________________
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F9AC4E240>, <bokkio.sdk.Client object at 0x0000018F9AC4D430>, <bokk...6cc590fb', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F9AC4F5F0>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000018F9AC4DFA0>
+
+    def test_unknown_completion_never_replays(setup,monkeypatch):
+        d,c,r,doc,_=setup
+        def broken(*a,**kw):d.clicks+=1;raise OSError('Lost receipt')
+        monkeypatch.setattr(d,'perform',broken)
+>       run=r.start(doc);assert r.run(run['id'])['status']=='completion_unknown'
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: assert 'failed' == 'completion_unknown'
+E
+E         - completion_unknown
+E         + failed
+
+tests\test_runtime_workflow.py:107: AssertionError
+_________ test_crash_after_dispatch_resume_uses_same_cached_operation _________
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F9AC4F050>, <bokkio.sdk.Client object at 0x0000018F9AC4CB60>, <bokk...69d93b7d', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F90EDD7F0>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000018F9AC4F7D0>
+
+    def test_crash_after_dispatch_resume_uses_same_cached_operation(setup,monkeypatch):
+        d,c,r,doc,_=setup;original=r._verify
+        class Crash(BaseException):pass
+        monkeypatch.setattr(r,'_verify',lambda *a:(_ for _ in ()).throw(Crash()))
+        run=r.start(doc)
+>       with pytest.raises(Crash):r.run(run['id'])
+             ^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE Crash
+
+tests\test_runtime_workflow.py:115: Failed
+___________ test_pause_cancel_and_resume_completed_do_not_dispatch ____________
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F9AC4FB00>, <bokkio.sdk.Client object at 0x0000018F9ACC9A00>, <bokk...099c7372', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F9ACCB560>)
+
+    def test_pause_cancel_and_resume_completed_do_not_dispatch(setup):
+        d,c,r,doc,_=setup;run=r.start(doc);r.pause(run['id']);assert r.run(run['id'])['status']=='paused' and d.clicks==0
+>       assert r.resume(run['id'])['status']=='completed';assert r.resume(run['id'])['status']=='completed' and d.clicks==1
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: assert 'failed' == 'completed'
+E
+E         - completed
+E         + failed
+
+tests\test_runtime_workflow.py:122: AssertionError
+____________ test_manual_capture_not_dispatch_and_coalesces_value _____________
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F9ACC9B80>, <bokkio.sdk.Client object at 0x0000018F9ACC99D0>, <bokk...a01cc2fb', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F9ACC9160>)
+
+    def test_manual_capture_not_dispatch_and_coalesces_value(setup):
+        d,c,r,doc,_=setup
+        c.call('desktop.launch',{'app':'lab'})
+        from bokkio.manual_recording import ManualRecorder
+        rec=ManualRecorder(c,[{'pid':os.getpid(),**doc['apps']['lab']}])
+        event={'pid':os.getpid(),'kind':'edit','role':'AXTextField','name':'Input','identifier':'input','window':'Lab Window','value':'a'}
+>       rec.ingest(event);rec.ingest({**event,'value':'中文'});rec.ingest({**event,'pid':99999,'value':'outside'})
+        ^^^^^^^^^^^^^^^^^
+
+tests\test_runtime_workflow.py:131:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\bokkio\manual_recording.py:71: in ingest
+    try:_,snapshot=runtime_snapshot(self.client,event['pid'],window)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+client = <bokkio.sdk.Client object at 0x0000018F9ACC99D0>, pid = 6024
+window = 'Lab Window'
+
+    def runtime_snapshot(client,pid,window):
+        r=client.call('desktop.observe',{'app':str(pid),'window':window,'max_nodes':2000,'max_bytes':2000000})
+>       if r['status']!='completed':raise RuntimeError(r)
+                                    ^^^^^^^^^^^^^^^^^^^^^
+E       RuntimeError: {'status': 'denied', 'operation_id': 'd13e27c675c44afe8297417f394e4cde', 'session_id': '54c03286b4e544c1b142599ca54362cc', 'error': 'Application is outside this session or ambiguous', 'error_type': 'ValueError', 'error_code': None, 'dispatched': False}
+
+src\bokkio\runtime_workflow.py:156: RuntimeError
+_________________ test_ui_loopback_token_origin_and_real_crud _________________
+
+tmp_path = WindowsPath('C:/Users/Bokkio/AppData/Local/Temp/pytest-of-Bokkio/pytest-68/test_ui_loopback_token_origin_0')
+
+    def test_ui_loopback_token_origin_and_real_crud(tmp_path):
+        studio=Studio(tmp_path);server,url=create_server(studio,token='test-token');thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
+        base=url.split('/#')[0]
+        def request(route,body=None,token='test-token',origin=None):
+            headers={'X-Bokkio-Token':token,'Content-Type':'application/json'}
+            if origin:headers['Origin']=origin
+            req=urllib.request.Request(base+route,data=json.dumps(body).encode() if body is not None else None,headers=headers)
+            return urllib.request.build_opener(urllib.request.ProxyHandler({})).open(req)
+        try:
+            assert request('/').status==200
+            with pytest.raises(urllib.error.HTTPError) as e:request('/api/workflows',token='bad')
+            assert e.value.code==403
+            with pytest.raises(urllib.error.HTTPError):request('/api/workflows',origin='https://evil.invalid')
+>           doc=document();saved=json.load(request('/api/workflows/save',{'document':doc}));assert saved['revision']==1
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_runtime_workflow.py:150:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_runtime_workflow.py:144: in request
+    return urllib.request.build_opener(urllib.request.ProxyHandler({})).open(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\tools\python\cpython-3.12.13-windows-x86_64-none\Lib\urllib\request.py:521: in open
+    response = meth(req, response)
+               ^^^^^^^^^^^^^^^^^^^
+..\tools\python\cpython-3.12.13-windows-x86_64-none\Lib\urllib\request.py:630: in http_response
+    response = self.parent.error(
+..\tools\python\cpython-3.12.13-windows-x86_64-none\Lib\urllib\request.py:559: in error
+    return self._call_chain(*args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+..\tools\python\cpython-3.12.13-windows-x86_64-none\Lib\urllib\request.py:492: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <urllib.request.HTTPDefaultErrorHandler object at 0x0000018F9B032B10>
+req = <urllib.request.Request object at 0x0000018F90EF2A50>
+fp = <http.client.HTTPResponse object at 0x0000018F9B0315A0>, code = 400
+msg = 'Bad Request'
+hdrs = <http.client.HTTPMessage object at 0x0000018F9B032000>
+
+    def http_error_default(self, req, fp, code, msg, hdrs):
+>       raise HTTPError(req.full_url, code, msg, hdrs, fp)
+E       urllib.error.HTTPError: HTTP Error 400: Bad Request
+
+..\tools\python\cpython-3.12.13-windows-x86_64-none\Lib\urllib\request.py:639: HTTPError
+__________________ test_mcp_runtime_workflow_scope_and_audit __________________
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F9ACCA090>, <bokkio.sdk.Client object at 0x0000018F9ACC9130>, <bokk...8bae1b64', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F9ACC9A00>)
+
+    def test_mcp_runtime_workflow_scope_and_audit(setup):
+        d,c,r,doc,_=setup;lib=WorkflowLibrary(c.runtime.store.root/'workflows');doc=lib.save(doc)
+        assert c.call('workflow.get',{'workflow_id':doc['id']})['status']=='denied'
+        c.runtime.policy['workflows']=[doc['id']]
+        assert c.call('workflow.list')['result'][0]['id']==doc['id']
+        result=c.call('workflow.run',{'workflow_id':doc['id']});rid=result['result']['run_id']
+        deadline=time.monotonic()+3
+        while time.monotonic()<deadline:
+            status=c.call('workflow.status',{'run_id':rid})
+            if status['result']['status']=='completed':break
+            time.sleep(.05)
+>       assert status['result']['status']=='completed' and d.clicks==1
+E       AssertionError: assert ('failed' == 'completed'
+E
+E         - completed
+E         + failed)
+
+tests\test_runtime_workflow.py:168: AssertionError
+___________ test_two_runner_instances_resume_same_run_dispatch_once ___________
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F9ACC89E0>, <bokkio.sdk.Client object at 0x0000018F9ACC8470>, <bokk...9f94c336', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F9ACC84D0>)
+
+    def test_two_runner_instances_resume_same_run_dispatch_once(setup):
+        d,c,r,doc,_=setup;run=r.start(doc);other=RuntimeWorkflowRunner(c,r.root);results=[]
+        threads=[threading.Thread(target=lambda runner=rr:results.append(runner.run(run['id'])))for rr in [r,other]]
+        for t in threads:t.start()
+        for t in threads:t.join(timeout=3)
+>       assert len(results)==2 and all(x['status']=='completed'for x in results) and d.clicks==1
+E       AssertionError: assert (2 == 2 and False)
+E        +  where 2 = len([{'id': 'b52f0ea7186a4823a5e4f9212f2f715b', 'workflow': {'schema': 'bokkio.runtime-workflow.v1', 'id': '15264f7640ea41...8a6346491117b96238c2f7892fd', 'bound_sha256': '24a69fad83399f5c1c55d42b67f5ebd9a0fced7468894f362302f433cf688d03', ...}])
+E        +  and   False = all(<generator object test_two_runner_instances_resume_same_run_dispatch_once.<locals>.<genexpr> at 0x0000018F9ACFA400>)
+
+tests\test_runtime_workflow.py:177: AssertionError
+_ test_missing_process_between_steps_relaunches_without_repeating_prior_step __
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F9AC4F860>, <bokkio.sdk.Client object at 0x0000018F9AC4DBB0>, <bokk...f98ff2bd', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F9AC4E6F0>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000018F9AC4D2E0>
+
+    def test_missing_process_between_steps_relaunches_without_repeating_prior_step(setup,monkeypatch):
+        d,c,r,doc,_=setup;doc['steps'].append(copy.deepcopy(doc['steps'][0]));doc['steps'][1]['id']='second';doc['steps'][1]['arguments']['value']='second';doc['steps'][1]['verify'][0]['equals']='second'
+        probes=[];launches=[]
+        monkeypatch.setattr('bokkio.app_launch.ensure_running',lambda grant:(launches.append(1) or {'pid':os.getpid(),'name':'Lab','launched':len(launches)>1}))
+        def probe(pid):
+            probes.append(1)
+            if len(probes)==4:raise ValueError('not running')
+            return 'birth'
+        # Simulate a known process disappearance when the next step begins.
+        original=r._save
+        fired=False
+        def save(value):
+            nonlocal fired
+            original(value)
+            if value['index']==1 and not fired:
+                fired=True
+                with c.runtime.store.connect() as db:
+                    row=db.execute('SELECT policy FROM sessions WHERE id=?',(c.session_id,)).fetchone();scope=json.loads(row['policy']);scope['bindings'][str(os.getpid())]['birth']='old-birth';db.execute('UPDATE sessions SET policy=? WHERE id=?',(json.dumps(scope),c.session_id))
+        monkeypatch.setattr(r,'_save',save)
+        result=r.run(r.start(doc)['id'])
+>       assert result['status']=='completed' and d.clicks==2 and len(launches)==2 and d.value=='second'
+E       AssertionError: assert ('failed' == 'completed'
+E
+E         - completed
+E         + failed)
+
+tests\test_runtime_workflow.py:199: AssertionError
+____________ test_pregranted_stale_zero_dispatch_refresh_finishes _____________
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F9B032360>, <bokkio.sdk.Client object at 0x0000018F9ACC9580>, <bokk...843b4f7e', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F9ACCAA50>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000018F9B031D90>
+
+    def test_pregranted_stale_zero_dispatch_refresh_finishes(setup,monkeypatch):
+        d,c,r,doc,_=setup;original=d.perform;attempts=[]
+        def perform(*args,**kwargs):
+            attempts.append(1)
+            if len(attempts)==1:raise BokkioStaleSnapshot('Changed before input')
+            return original(*args,**kwargs)
+        monkeypatch.setattr(d,'perform',perform)
+        result=r.run(r.start(doc)['id'])
+>       assert result['status']=='completed' and len(attempts)==2 and d.clicks==1
+E       AssertionError: assert ('failed' == 'completed'
+E
+E         - completed
+E         + failed)
+
+tests\test_runtime_workflow.py:214: AssertionError
+___________ test_cancel_pending_approval_revokes_and_cannot_resume ____________
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F9ACC9B20>, <bokkio.sdk.Client object at 0x0000018F9ACC8E90>, <bokk...69ae7bee', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F9ACCAB70>)
+
+    def test_cancel_pending_approval_revokes_and_cannot_resume(setup):
+        d,c,r,doc,_=setup;c.runtime.policy['require_approval']=True;run=r.start(doc);pending=r.run(run['id'])
+>       r.cancel(run['id']);assert r.load(run['id'])['status']=='cancelled'
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: assert 'failed' == 'cancelled'
+E
+E         - cancelled
+E         + failed
+
+tests\test_runtime_workflow.py:218: AssertionError
+_ test_user_takeover_pauses_workflow_and_resume_does_not_repeat_completed_steps _
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F9B032E40>, <bokkio.sdk.Client object at 0x0000018F9B0335C0>, <bokk...aeb08ca2', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F9B033FB0>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000018F9A27ECC0>
+tmp_path = WindowsPath('C:/Users/Bokkio/AppData/Local/Temp/pytest-of-Bokkio/pytest-68/test_user_takeover_pauses_work0')
+
+    def test_user_takeover_pauses_workflow_and_resume_does_not_repeat_completed_steps(setup,monkeypatch,tmp_path):
+        from bokkio.desktop_control import ControlState
+        monkeypatch.setenv('BOKKIO_CONTROL_DIR',str(tmp_path/'control'))
+        state=ControlState();state.configure(True);state.heartbeat();state.resume()
+        desktop,client,runner,doc,_=setup
+        call=client.call;paused=[]
+        def intercepted(tool,args=None,*other,**kw):
+            if tool=='desktop.act' and not paused:
+                state.event('key');paused.append(True)
+            return call(tool,args,*other,**kw)
+        client.call=intercepted
+        run=runner.start(doc);first=runner.run(run['id'])
+>       assert first['status']=='paused' and first['pause_reason']=='user_control' and desktop.clicks==0
+E       AssertionError: assert ('failed' == 'paused'
+E
+E         - paused
+E         + failed)
+
+tests\test_runtime_workflow.py:262: AssertionError
+_________ test_mac_input_activation_preserves_exact_document_binding __________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000018F9AC55FA0>
+
+    def test_mac_input_activation_preserves_exact_document_binding(monkeypatch):
+        import bokkio.macos_activation as activation
+        calls=[]
+        monkeypatch.setattr(activation,'activate_window',lambda pid,title,**kwargs:calls.append((pid,title,kwargs)))
+>       provider=MacVisionProvider();scope=WindowScope('macos',100,'Untitled',200,'/owned/Untitled.docx')
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_visual_runtime.py:330:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+<string>:8: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowScope(platform='macos', pid=100, title='Untitled', window_id=200, document='/owned/Untitled.docx')
+
+    def __post_init__(self):
+        if (self.platform not in {'macos', 'windows'} or type(self.pid) is not int or not 0 < self.pid <= 0x7fffffff
+                or not isinstance(self.title, str) or not self.title or len(self.title) > 1024
+                or (self.window_id is not None and (type(self.window_id) is not int or not 0 < self.window_id <= 0xffffffff))):
+            raise BokkioError('Visual scope requires an exact platform/PID/window title and optional native window ID')
+        if self.document is not None and (self.platform!='macos' or not isinstance(self.document,str) or not Path(self.document).is_absolute()):
+>           raise BokkioError('Visual document binding requires an absolute Mac source path')
+E           bokkio.model.BokkioError: Visual document binding requires an absolute Mac source path
+
+src\bokkio\visual_runtime.py:35: BokkioError
+___ test_optional_document_binding_is_in_resume_contract_only_when_declared ___
+
+    def test_optional_document_binding_is_in_resume_contract_only_when_declared():
+        backend,*_=hybrid()
+        assert 'document' not in backend.execution_contract['visual_scopes']['100']
+>       backend.scopes['100']=WindowScope('macos',100,'Untitled',document='/owned/Untitled.docx')
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_visual_runtime.py:340:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+<string>:8: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowScope(platform='macos', pid=100, title='Untitled', window_id=None, document='/owned/Untitled.docx')
+
+    def __post_init__(self):
+        if (self.platform not in {'macos', 'windows'} or type(self.pid) is not int or not 0 < self.pid <= 0x7fffffff
+                or not isinstance(self.title, str) or not self.title or len(self.title) > 1024
+                or (self.window_id is not None and (type(self.window_id) is not int or not 0 < self.window_id <= 0xffffffff))):
+            raise BokkioError('Visual scope requires an exact platform/PID/window title and optional native window ID')
+        if self.document is not None and (self.platform!='macos' or not isinstance(self.document,str) or not Path(self.document).is_absolute()):
+>           raise BokkioError('Visual document binding requires an absolute Mac source path')
+E           bokkio.model.BokkioError: Visual document binding requires an absolute Mac source path
+
+src\bokkio\visual_runtime.py:35: BokkioError
+_____________ test_window_title_changes_keep_same_native_instance _____________
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F9AC57470>, <bokkio.sdk.Client object at 0x0000018F9AC54C50>, <bokk...9aaf2367', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F9C21CB00>)
+
+    def test_window_title_changes_keep_same_native_instance(setup):
+        desktop,client,runner,doc,library=setup
+        doc=copy.deepcopy(doc);doc['schema']=SCHEMA_V2;doc['steps'][0]['window_context']={'key':'recorded','identity':'hwnd:42','role':'window','class_name':'Editor'}
+        client.call('desktop.launch',{'app':'lab'})
+        title=['Renamed Document'];desktop.windows=lambda app:[{'ref':'new-window-ref','role':'window','name':title[0],'platform_data':{'native_stable_id':'hwnd:0x2a','class_name':'Editor'}}]
+>       s=runner._context_step({'bindings':{'lab':os.getpid()},'id':'a'*32},doc['steps'][0]);assert s['window']=='Renamed Document' and s['target']['ancestors'][0]['name']=='Renamed Document'
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_window_context.py:11:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <bokkio.runtime_workflow.RuntimeWorkflowRunner object at 0x0000018F9AC57530>
+r = {'bindings': {'lab': 6024}, 'id': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'}
+source = {'id': 'input', 'kind': 'native', 'app': 'lab', 'window': 'Lab Window', ...}
+
+    def _context_step(self,r,source):
+        context=source.get('window_context')
+        if not context:return source
+        s=copy.deepcopy(source);pid=r['bindings'][s['app']]
+        response=self.client.call('desktop.windows',{'app':str(pid),'window':source['window']})
+>       if response['status']!='completed':raise ValueError(response)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: {'status': 'denied', 'operation_id': '18eb51d869d141e1be3ed849e2a41917', 'session_id': '8d2ad0ea17b74bdd8424e22a830b857f', 'error': 'Application is outside this session or ambiguous', 'error_type': 'ValueError', 'error_code': None, 'dispatched': False}
+
+src\bokkio\runtime_workflow.py:421: ValueError
+__________ test_repair_zero_dispatch_preserves_completed_checkpoint ___________
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F9B0FE300>, <bokkio.sdk.Client object at 0x0000018F9B0FF260>, <bokk...cd9f3dec', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F9C21ED50>)
+
+    def test_repair_zero_dispatch_preserves_completed_checkpoint(setup):
+        desktop,client,runner,doc,library=setup;doc=copy.deepcopy(doc);doc['schema']=SCHEMA_V2;doc['steps'][0]['timeout']=.01;doc=library.save(doc,doc['sha256']);desktop.duplicate=True
+        run=runner.run(runner.start(doc)['id']);assert run['status']=='failed' and desktop.clicks==0
+>       desktop.duplicate=False;runner.repair(run['id'],doc);result=runner.resume(run['id']);assert result['status']=='completed' and desktop.clicks==1
+                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: assert ('failed' == 'completed'
+E
+E         - completed
+E         + failed)
+
+tests\test_workflow_repair.py:9: AssertionError
+_______________ test_repair_completion_check_never_redispatches _______________
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F9AC56D80>, <bokkio.sdk.Client object at 0x0000018F9B0FDFD0>, <bokk...8773e4e1', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F9B0FF0E0>)
+
+    def test_repair_completion_check_never_redispatches(setup):
+>       desktop,client,runner,doc,library=setup;doc=copy.deepcopy(doc);doc['schema']=SCHEMA_V2;doc['steps'][0]['timeout']=.01;doc['steps'][0]['verify'][0]['equals']='wrong';doc=library.save(doc,doc['sha256']);run=runner.run(runner.start(doc)['id']);assert run['status']=='failed' and desktop.clicks==1
+                                                                                                                                                                                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: assert ('failed' == 'failed'
+E
+E           failed and 0 == 1)
+E        +  where 0 = <test_runtime_workflow.Desktop object at 0x0000018F9AC56D80>.clicks
+
+tests\test_workflow_repair.py:12: AssertionError
+_____________ test_repair_cannot_change_already_dispatched_input ______________
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F9ACE6C30>, <bokkio.sdk.Client object at 0x0000018F9B0FF830>, <bokk...48f293a2', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F9B0FF1D0>)
+
+    def test_repair_cannot_change_already_dispatched_input(setup):
+        desktop,client,runner,doc,library=setup;doc=copy.deepcopy(doc);doc['schema']=SCHEMA_V2;doc['steps'][0]['timeout']=.01;doc['steps'][0]['verify'][0]['equals']='wrong';doc=library.save(doc,doc['sha256']);run=runner.run(runner.start(doc)['id']);doc['steps'][0]['arguments']['value']='different';doc=library.save(doc,doc['sha256'])
+>       with pytest.raises(ValueError,match='already ran'):runner.repair(run['id'],doc)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests\test_workflow_repair.py:17: Failed
+__________ test_repair_cannot_rebind_already_dispatched_application ___________
+
+setup = (<test_runtime_workflow.Desktop object at 0x0000018F9C577FB0>, <bokkio.sdk.Client object at 0x0000018F9C574A70>, <bokk...857f4467', 'name': 'Test', 'revision': 1, ...}, <bokkio.runtime_workflow.WorkflowLibrary object at 0x0000018F9C577710>)
+
+    def test_repair_cannot_rebind_already_dispatched_application(setup):
+        desktop,client,runner,doc,library=setup;doc=copy.deepcopy(doc);doc['schema']=SCHEMA_V2;doc['steps'][0]['timeout']=.01;doc['steps'][0]['verify'][0]['equals']='wrong';doc=library.save(doc,doc['sha256']);run=runner.run(runner.start(doc)['id']);alias=doc['steps'][0]['app'];doc['apps'][alias]['name']='Different App';doc=library.save(doc,doc['sha256'])
+>       with pytest.raises(ValueError,match='original application'):runner.repair(run['id'],doc)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests\test_workflow_repair.py:22: Failed
+=========================== short test summary info ===========================
+FAILED tests/test_desktop_workflow.py::test_parameters_freeze_and_verify - As...
+FAILED tests/test_desktop_workflow.py::test_breakpoint_single_continue_repeat
+FAILED tests/test_desktop_workflow.py::test_disabled_final_step_and_condition_repeat
+FAILED tests/test_desktop_workflow.py::test_global_recording_registers_new_apps_without_late_snapshot
+FAILED tests/test_desktop_workflow.py::test_native_recorded_edits_keep_distinct_controls_and_skip_app_switch
+FAILED tests/test_desktop_workflow.py::test_captured_drag_uses_containing_window_for_destination
+FAILED tests/test_desktop_workflow.py::test_cancelled_session_race_is_not_reported_as_replay_failure
+FAILED tests/test_execution_log.py::test_workflow_tree_contains_real_driver_receipts_and_preserves_failed_check
+FAILED tests/test_execution_log.py::test_async_workflow_keeps_parent_operation_across_thread
+FAILED tests/test_native_integration.py::test_depth_and_deadline_are_explicit[options1-time_limit]
+FAILED tests/test_office_benchmark.py::test_native_executor_constructs_real_agent_and_checks_saved_result
+FAILED tests/test_runtime_workflow.py::test_moved_window_and_new_refs[10-input]
+FAILED tests/test_runtime_workflow.py::test_moved_window_and_new_refs[1500-new-pid-ref]
+FAILED tests/test_runtime_workflow.py::test_moved_window_and_new_refs[-800-other-display-ref]
+FAILED tests/test_runtime_workflow.py::test_headless_native_runs_and_requests_background_transport
+FAILED tests/test_runtime_workflow.py::test_approval_and_stale_request_requires_new_approval
+FAILED tests/test_runtime_workflow.py::test_approval_denial_never_dispatches
+FAILED tests/test_runtime_workflow.py::test_unknown_completion_never_replays
+FAILED tests/test_runtime_workflow.py::test_crash_after_dispatch_resume_uses_same_cached_operation
+FAILED tests/test_runtime_workflow.py::test_pause_cancel_and_resume_completed_do_not_dispatch
+FAILED tests/test_runtime_workflow.py::test_manual_capture_not_dispatch_and_coalesces_value
+FAILED tests/test_runtime_workflow.py::test_ui_loopback_token_origin_and_real_crud
+FAILED tests/test_runtime_workflow.py::test_mcp_runtime_workflow_scope_and_audit
+FAILED tests/test_runtime_workflow.py::test_two_runner_instances_resume_same_run_dispatch_once
+FAILED tests/test_runtime_workflow.py::test_missing_process_between_steps_relaunches_without_repeating_prior_step
+FAILED tests/test_runtime_workflow.py::test_pregranted_stale_zero_dispatch_refresh_finishes
+FAILED tests/test_runtime_workflow.py::test_cancel_pending_approval_revokes_and_cannot_resume
+FAILED tests/test_runtime_workflow.py::test_user_takeover_pauses_workflow_and_resume_does_not_repeat_completed_steps
+FAILED tests/test_visual_runtime.py::test_mac_input_activation_preserves_exact_document_binding
+FAILED tests/test_visual_runtime.py::test_optional_document_binding_is_in_resume_contract_only_when_declared
+FAILED tests/test_window_context.py::test_window_title_changes_keep_same_native_instance
+FAILED tests/test_workflow_repair.py::test_repair_zero_dispatch_preserves_completed_checkpoint
+FAILED tests/test_workflow_repair.py::test_repair_completion_check_never_redispatches
+FAILED tests/test_workflow_repair.py::test_repair_cannot_change_already_dispatched_input
+FAILED tests/test_workflow_repair.py::test_repair_cannot_rebind_already_dispatched_application
+35 failed, 731 passed, 11 skipped in 38.00s

@@ -72,7 +72,11 @@ def test_read_budget_stops_recursive_bodies_but_reports_eager_child_batch():
 
 
 @pytest.mark.parametrize('options,reason',[({'read_depth':1},'depth_limit'),({'read_timeout':1e-9},'time_limit')])
-def test_depth_and_deadline_are_explicit(options,reason):
+def test_depth_and_deadline_are_explicit(options,reason,monkeypatch):
+    # Advance deterministically; Windows monotonic clock can have coarse ticks.
+    if reason=='time_limit':
+        ticks=iter(i*.01 for i in range(1000))
+        monkeypatch.setattr('bokkio.observation.time.monotonic',lambda:next(ticks))
     b=backend([Element('window','Owned',children=[Element('button','Save')])])
     assert b.snapshot('app',**options)['read']['reason']==reason
 
@@ -231,3 +235,58 @@ def test_scoped_application_menus_do_not_grant_unbound_window_actions():
     assert not menu['actions'] and menu['platform_data']['window_scope_context_only']
     assert not next(n for n in flatten(s['windows']) if n['name']=='Cancel')['actions']
     with pytest.raises(BokkioActionRefused):b.perform('app','click',ref=menu['ref'],window='Owned')
+
+
+@pytest.mark.parametrize('value',[None, [], {}, {'enabled':False},
+    {'enabled':False,'paused':False,'generation':0,'held':0,'heartbeat':'bad','resume_after':0},
+    {'enabled':False,'paused':False,'generation':False,'held':0,'heartbeat':0,'resume_after':0},
+    {'enabled':False,'paused':False,'generation':0,'held':0,'heartbeat':float('nan'),'resume_after':0}])
+def test_malformed_control_json_refuses_writes(control,value):
+    import sqlite3
+    ready(control)
+    with sqlite3.connect(control.path) as db:db.execute('UPDATE control SET data=?',(json.dumps(value),))
+    assert control.status()['state']=='unavailable'
+    with pytest.raises(BokkioActionRefused):control.check()
+
+
+def test_resume_waits_for_listener_to_drain_held_input(control):
+    ready(control);control.event('key')
+    request=control.request_resume()
+    assert control.status()['state']=='paused_by_user'
+    control.acknowledge_resume({'key:65'})
+    assert control.status()['resume_ack']==request and control.status()['state']=='paused_by_user'
+    assert 'Release' in control.status()['resume_error']
+    control.request_resume();control.acknowledge_resume(set())
+    assert control.status()['state']=='ready'
+
+
+def test_input_monitor_resume_requires_listener_ack(control):
+    import threading
+    from bokkio.desktop_control import InputMonitor
+    ready(control);monitor=InputMonitor(control.root)
+    def listen():
+        while not control.status().get('resume_request'):time.sleep(.005)
+        assert control.status()['state']=='paused_by_user'
+        control.acknowledge_resume(set())
+    thread=threading.Thread(target=listen);thread.start()
+    assert monitor.resume()['state']=='ready'
+    thread.join(timeout=1);assert not thread.is_alive()
+
+
+def test_windows_extra_mouse_buttons_keep_release_identity():
+    from bokkio.input_monitor import mouse_held
+    assert mouse_held(0x201)==('mouse:1',True)
+    assert mouse_held(0x202)==('mouse:1',False)
+    for button in (1,2):
+        assert mouse_held(0x20B,button<<16)==('mouse:'+str(button+3),True)
+        assert mouse_held(0x20C,button<<16)==('mouse:'+str(button+3),False)
+    assert mouse_held(0x200) is None
+
+
+def test_resume_timeout_cancels_request_before_late_listener_ack(control):
+    from bokkio.desktop_control import InputMonitor
+    ready(control)
+    with pytest.raises(ValueError,match='did not confirm'):InputMonitor(control.root).resume()
+    assert control.status()['paused'] and control.status()['resume_request'] is None
+    control.acknowledge_resume(set())
+    with pytest.raises(BokkioActionRefused):control.check()

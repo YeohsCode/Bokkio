@@ -2,7 +2,7 @@
   "schema": "bokkio.wiki.sources.v1",
   "created": "2026-10-08",
   "basis_commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d",
-  "source_count": 283,
+  "source_count": 317,
   "records": [
     {
       "path": "README.md",
@@ -2345,10 +2345,282 @@
       "bytes": 1770,
       "commit": null,
       "version": "working-tree-native-integration"
+    },
+    {
+      "path": "README.md",
+      "snapshot": "raw/source-snapshots/windows-native/README.md.txt",
+      "sha256": "7f9bf6387e06804ba6d171248244ebc04039ceb17c37493a0b9b6868a7c73543",
+      "bytes": 68603,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "docs/RUNTIME-GUIDE.md",
+      "snapshot": "raw/source-snapshots/windows-native/docs/RUNTIME-GUIDE.md.txt",
+      "sha256": "1e7be7dd854874efca4a7613d8aabbdc647b600f18d3aa7b008869efb50b8d9f",
+      "bytes": 14991,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "docs/WINDOWS-MACOS-INTEGRATION-RESULTS.md",
+      "snapshot": "raw/source-snapshots/windows-native/docs/WINDOWS-MACOS-INTEGRATION-RESULTS.md.txt",
+      "sha256": "f15ecc21e4d2e511451df3038eb6fea07d4adb85dc0d0e23991c432b9d878b1a",
+      "bytes": 15190,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "docs/evidence/2026-10-18-windows-native/README.md",
+      "snapshot": "raw/source-snapshots/windows-native/docs/evidence/2026-10-18-windows-native/README.md.txt",
+      "sha256": "20690273d5a4ccd6fd2eb123646d46fc5c7bc01ae84000a90cb0df552d58e8df",
+      "bytes": 6760,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "docs/evidence/2026-10-18-windows-native/edge-windows-summary.json",
+      "snapshot": "raw/source-snapshots/windows-native/docs/evidence/2026-10-18-windows-native/edge-windows-summary.json.txt",
+      "sha256": "b59eb3a4ba43ebe6982ce19bc78bb75eab1b8088d63c46809729e8d482ddccc6",
+      "bytes": 813,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "docs/evidence/2026-10-18-windows-native/macos-final-tests.txt",
+      "snapshot": "raw/source-snapshots/windows-native/docs/evidence/2026-10-18-windows-native/macos-final-tests.txt.txt",
+      "sha256": "9e8279dfc12de0472fa8e3040a66aedf51668c564a5c5770e0791d771a61779c",
+      "bytes": 1223,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "docs/evidence/2026-10-18-windows-native/macos-resume-check.json",
+      "snapshot": "raw/source-snapshots/windows-native/docs/evidence/2026-10-18-windows-native/macos-resume-check.json.txt",
+      "sha256": "14fde1ac73286f29408c1001c2ca71da13975d71231282332960c341973d27c2",
+      "bytes": 318,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "docs/evidence/2026-10-18-windows-native/regression-summary.json",
+      "snapshot": "raw/source-snapshots/windows-native/docs/evidence/2026-10-18-windows-native/regression-summary.json.txt",
+      "sha256": "0482862b3fe126131d6cc373982b8218cba62a2b85ec0d436b087c2c350448ed",
+      "bytes": 402,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "docs/evidence/2026-10-18-windows-native/sources.json",
+      "snapshot": "raw/source-snapshots/windows-native/docs/evidence/2026-10-18-windows-native/sources.json.txt",
+      "sha256": "801162be66e524791a7b869e09d555c5ecc7dcd43f600e489e2609e389f2dd2c",
+      "bytes": 1760,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "docs/evidence/2026-10-18-windows-native/windows-baseline-tests.txt",
+      "snapshot": "raw/source-snapshots/windows-native/docs/evidence/2026-10-18-windows-native/windows-baseline-tests.txt.txt",
+      "sha256": "2165d9882ff5b44984682a9ded851986c4d1fa939f213910e399d85735d908de",
+      "bytes": 72481,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "docs/evidence/2026-10-18-windows-native/windows-final-tests.txt",
+      "snapshot": "raw/source-snapshots/windows-native/docs/evidence/2026-10-18-windows-native/windows-final-tests.txt.txt",
+      "sha256": "5302378e33be2b24f1eb20992884a2b3695b094111a0e0e122990834dbd48725",
+      "bytes": 1730,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "docs/evidence/2026-10-18-windows-native/windows-intermediate-tests.txt",
+      "snapshot": "raw/source-snapshots/windows-native/docs/evidence/2026-10-18-windows-native/windows-intermediate-tests.txt.txt",
+      "sha256": "cec41cdf3f8aa3cfed24c30b571be391f32a37b6a2f1bccbd099052712bb4d85",
+      "bytes": 913,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "docs/evidence/2026-10-18-windows-native/windows-live-checks.json",
+      "snapshot": "raw/source-snapshots/windows-native/docs/evidence/2026-10-18-windows-native/windows-live-checks.json.txt",
+      "sha256": "422d77231dec1e72d408b27db7eb70ab475c4fe6818ca16450ec8c7dbdb84bf0",
+      "bytes": 5730,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "docs/evidence/2026-10-18-windows-native/windows-live-summary.json",
+      "snapshot": "raw/source-snapshots/windows-native/docs/evidence/2026-10-18-windows-native/windows-live-summary.json.txt",
+      "sha256": "aa3d7d218a93d9d73165674be0bd7f25d1b0091a284d2a747ea3f7097f41d7e3",
+      "bytes": 62,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "docs/evidence/2026-10-18-windows-native/windows-tests-and-workflow-repeats.txt",
+      "snapshot": "raw/source-snapshots/windows-native/docs/evidence/2026-10-18-windows-native/windows-tests-and-workflow-repeats.txt.txt",
+      "sha256": "0e088256e243effc5eaf073a18b4c707a146ca35f49c29c525aa3b3adccab65f",
+      "bytes": 3604,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "docs/evidence/2026-10-18-windows-native/windows-transient-workflow-failure.json",
+      "snapshot": "raw/source-snapshots/windows-native/docs/evidence/2026-10-18-windows-native/windows-transient-workflow-failure.json.txt",
+      "sha256": "7c2ec2dbfc46ea9475e69911adab9955f06970b6fd05a518277a42a2258c229f",
+      "bytes": 498,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "docs/evidence/2026-10-18-windows-native/windows-workflow-repeats.json",
+      "snapshot": "raw/source-snapshots/windows-native/docs/evidence/2026-10-18-windows-native/windows-workflow-repeats.json.txt",
+      "sha256": "437341475fce13a55a2dd5710bb5a53b69d6f58cdee68136772fcc0f5f7c584d",
+      "bytes": 105,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "docs/progress/HANDOFF.md",
+      "snapshot": "raw/source-snapshots/windows-native/docs/progress/HANDOFF.md.txt",
+      "sha256": "1be4e659d339508214c687a9797dc77daa115b126441dcd3e89db12877d411fb",
+      "bytes": 11631,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "docs/progress/STATUS.md",
+      "snapshot": "raw/source-snapshots/windows-native/docs/progress/STATUS.md.txt",
+      "sha256": "0a8ca23eccad5b4ad551ffc95ec14bbab97aeae6609c02b307d8ffa8c72cd7e8",
+      "bytes": 11338,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "docs/progress/state.json",
+      "snapshot": "raw/source-snapshots/windows-native/docs/progress/state.json.txt",
+      "sha256": "ffc9915f24499eaaeff5016e42c9a907d432f9974224704add1eb23dd7a04da2",
+      "bytes": 19218,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "scripts/verify_native_web.py",
+      "snapshot": "raw/source-snapshots/windows-native/scripts/verify_native_web.py.txt",
+      "sha256": "3bff0dea01fd8e392dece315baeeb50310ccc855213d01ea7225f92b2c638dbf",
+      "bytes": 2310,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "scripts/verify_windows_native_integration.py",
+      "snapshot": "raw/source-snapshots/windows-native/scripts/verify_windows_native_integration.py.txt",
+      "sha256": "d08332d665ac3919da4d294f6f648b721aaf02ff9f04ed0bb6fb620a9b9c8fdc",
+      "bytes": 5941,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "src/bokkio/desktop_control.py",
+      "snapshot": "raw/source-snapshots/windows-native/src/bokkio/desktop_control.py.txt",
+      "sha256": "675f9342fd51dab2b00a93582e4cc78355d4f398f01361d4967da4be2cb477db",
+      "bytes": 11931,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "src/bokkio/input_monitor.py",
+      "snapshot": "raw/source-snapshots/windows-native/src/bokkio/input_monitor.py.txt",
+      "sha256": "e8af31bb16f2f9a39005fb48969dd83dd5d4914d539010967d41c3261112ee43",
+      "bytes": 8867,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "src/bokkio/macos_activation.py",
+      "snapshot": "raw/source-snapshots/windows-native/src/bokkio/macos_activation.py.txt",
+      "sha256": "4fadffc3a8752f6a3539954cfa4b80970c3e888a2137882b197d4ecde01221a1",
+      "bytes": 3234,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "src/bokkio/office_runner.py",
+      "snapshot": "raw/source-snapshots/windows-native/src/bokkio/office_runner.py.txt",
+      "sha256": "b8f97994e073c8ac2dc8c0aa5f248f6d355b091ffeed04d9fa59a5975818eb07",
+      "bytes": 19613,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "src/bokkio/visual_runtime.py",
+      "snapshot": "raw/source-snapshots/windows-native/src/bokkio/visual_runtime.py.txt",
+      "sha256": "5a9141d41ff8c1e93b913790149b05b3e3e20277b0b223705bd471c192d1ca46",
+      "bytes": 25357,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "src/bokkio/windows_uia.py",
+      "snapshot": "raw/source-snapshots/windows-native/src/bokkio/windows_uia.py.txt",
+      "sha256": "0436834b35df24004239eab856f1e5b3d5a9f504064e2e0f8d0ba6e8f0193b45",
+      "bytes": 17790,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "src/bokkio/xa11y_backend.py",
+      "snapshot": "raw/source-snapshots/windows-native/src/bokkio/xa11y_backend.py.txt",
+      "sha256": "7704d40024ef409dbb77f2d9d16eee43d61e8cc2dfb674c8a9644c41965cf350",
+      "bytes": 46143,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "tests/test_desktop_workflow.py",
+      "snapshot": "raw/source-snapshots/windows-native/tests/test_desktop_workflow.py.txt",
+      "sha256": "d63675810fef803216f93cffeac84e2f2380593f9cd3f83e461ada7290203f5a",
+      "bytes": 10787,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "tests/test_native_integration.py",
+      "snapshot": "raw/source-snapshots/windows-native/tests/test_native_integration.py.txt",
+      "sha256": "f64f8b02ce0af3fc260bd018996af139556713cbd0e3c6e53367b751975f2b89",
+      "bytes": 13688,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "tests/test_runtime_workflow.py",
+      "snapshot": "raw/source-snapshots/windows-native/tests/test_runtime_workflow.py.txt",
+      "sha256": "9f3d2194aa0b7de3f1d7d0e6d789abda283fc52d918171fc7f0022fdf894514a",
+      "bytes": 17275,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "tests/test_windows_native.py",
+      "snapshot": "raw/source-snapshots/windows-native/tests/test_windows_native.py.txt",
+      "sha256": "5b21f48306a01a23e2d63ba68014d0b34fb3a46fb3d1bdab5c91c88f917fbb42",
+      "bytes": 24953,
+      "commit": null,
+      "version": "working-tree-windows-native"
+    },
+    {
+      "path": "docs/evidence/2026-10-18-windows-native/log-import.json",
+      "snapshot": "raw/source-snapshots/windows-native/docs/evidence/2026-10-18-windows-native/log-import.json.txt",
+      "sha256": "666cd317c3757b8f394f9334f0e98705c04e60501eb444fa0f28ae15fb28e206",
+      "bytes": 2326,
+      "commit": null,
+      "version": "working-tree-windows-native"
     }
   ],
-  "latest_refresh": "2026-10-18-native-integration",
-  "latest_basis_commit": "262cad6085e8ec1754671f627f048181b1616e5c",
+  "latest_refresh": "2026-10-18-windows-native",
+  "latest_basis_commit": "5579580b96e366a97e14de2f38d3a207ac1fa321",
   "editorial_revision": {
     "date": "2026-10-18",
     "scope": "Plain-language documentation at the user request; revised snapshots retain original source hashes."

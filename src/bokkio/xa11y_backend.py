@@ -195,6 +195,9 @@ class Xa11yBackend:
         before = choose(before_scope, ref=ref, role=role, name=name, parent=parent)
         if before['platform_data'].get('invalid_bounds'):
             raise BokkioActionRefused('Target has nonfinite provider geometry; no action dispatched', 'invalid_geometry')
+        from .desktop_control import ControlState
+        if self._platform == 'windows' and ControlState().status()['enabled'] and action in {'focus','click','select','expand','collapse'}:
+            self._capture_action(before, live.get(before['ref']), before['platform_data'].get('native_action_scope_hwnd'))
         native_value_write = action in {"set_value","submit"} and before["platform_data"].get("value_runtime_id") and hasattr(self._native, "submit" if action=='submit' else "set_value")
         native_action = (action in before['platform_data'].get('verified_native_actions', [])
                          and before['platform_data'].get('action_runtime_id') and hasattr(self._native,'perform_action'))
@@ -207,7 +210,7 @@ class Xa11yBackend:
                              or data.get('value_submission')=='set_value_requires_dialog_commit'
                              or before['role']=='combo_box' and action in {'set_value','expand','select'}
                              or data.get('native_option_command'))
-            supported=(mac_action and action not in {'type','select_text'} and not visual_fallback) if self._platform=='macos' else (native_value_write or native_action)
+            supported=(mac_action and action not in {'type','select_text'} and not visual_fallback) if self._platform=='macos' else (native_value_write or native_action and action != 'focus')
             if not supported:
                 error=BokkioActionError('Target has no verified background-native transport; no pointer/keyboard fallback is allowed')
                 error.code='background_transport_unavailable';error.details={'dispatched':0};raise error
