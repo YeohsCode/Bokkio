@@ -14,22 +14,31 @@ def activate_window(pid,title,*,document=None,clear_hover=False):
     if document is not None and (not isinstance(document,str) or not Path(document).is_absolute()):
         raise BokkioError('Document activation requires an absolute source path')
     if type(clear_hover) is not bool:raise BokkioError('Hover preparation must be boolean')
-    source=Path(__file__).parent/'native/macos_activate.swift'
-    digest=hashlib.sha256(source.read_bytes()).hexdigest()
-    cache=Path.home()/'Library/Caches/Bokkio/native/activation'/digest
-    cache.mkdir(parents=True,exist_ok=True,mode=0o700)
-    helper=cache/'activate'
-    if not helper.is_file():
-        fd,name=tempfile.mkstemp(prefix='build-',dir=cache);os.close(fd)
-        try:
-            result=subprocess.run(['xcrun','swiftc','-framework','Cocoa',str(source),'-o',name],capture_output=True,timeout=60)
-            if result.returncode:raise BokkioError('Mac activation helper compilation failed')
-            os.chmod(name,0o700);os.replace(name,helper)
-        finally:Path(name).unlink(missing_ok=True)
+    bundled=Path(__file__).parent/'native'/'macos_activate'
+    if bundled.is_file():helper=bundled
+    else:
+        source=Path(__file__).parent/'native/macos_activate.swift'
+        digest=hashlib.sha256(source.read_bytes()).hexdigest()
+        cache=Path.home()/'Library/Caches/Bokkio/native/activation'/digest
+        cache.mkdir(parents=True,exist_ok=True,mode=0o700)
+        helper=cache/'activate'
+        if not helper.is_file():
+            fd,name=tempfile.mkstemp(prefix='build-',dir=cache);os.close(fd)
+            try:
+                result=subprocess.run(['xcrun','swiftc','-framework','Cocoa',str(source),'-o',name],capture_output=True,timeout=60)
+                if result.returncode:raise BokkioError('Mac activation helper compilation failed')
+                os.chmod(name,0o700);os.replace(name,helper)
+            finally:Path(name).unlink(missing_ok=True)
+    from .desktop_control import checkpoint, native_guard
+    checkpoint()
     try:
-        result=subprocess.run([str(helper)],input=json.dumps({'pid':pid,'title':title, 'document':document,'clear_hover':clear_hover}).encode(),capture_output=True,timeout=5)
+        result=subprocess.run([str(helper)],input=json.dumps({'pid':pid,'title':title, 'document':document,'clear_hover':clear_hover,**native_guard()}).encode(),capture_output=True,timeout=5)
         receipt=json.loads(result.stdout)
     except (OSError,ValueError,subprocess.TimeoutExpired):raise BokkioError('Mac foreground activation is unconfirmed') from None
+    if receipt.get('error')=='user_control_paused':
+        from .model import BokkioActionRefused,BokkioCompletionUnknown
+        if receipt.get('dispatched'):raise BokkioCompletionUnknown('User takeover during foreground activation')
+        raise BokkioActionRefused('User takeover before foreground activation','user_control_paused')
     if (result.returncode or receipt.get('status')!='activated' or receipt.get('pid')!=pid or receipt.get('title')!=title
             or receipt.get('foreground_confirmed') is not True or receipt.get('window_confirmed') is not True):
         if receipt.get('error')=='front_window_unconfirmed':

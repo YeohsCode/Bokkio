@@ -16,7 +16,7 @@ class LocalRuntime(Runtime):
             return {'status':'denied','session_id':None,'operation_id':operation_id,'error':'Task has been stopped','dispatched':False}
         if tool=='session.open' and os.environ.get('BOKKIO_DESKTOP_TASK_ID'):args={**args,'task_id':os.environ['BOKKIO_DESKTOP_TASK_ID']}
         if tool=='session.open' or session_id:
-            native=tool.startswith(('desktop.','workflow.')) or tool=='session.open' and bool(args.get('apps'))
+            native=tool!='desktop.control' and tool.startswith(('desktop.','workflow.')) or tool=='session.open' and bool(args.get('apps'))
             rows=self._native_call('apps') if native else []
             if native:self.policy['apps']=[str(a['pid']) for a in rows]+[a['name'] for a in rows]+[a['name'] for a in self.policy.get('launch_apps',{}).values()]
             if tool=='session.open' and 'apps' not in args:args={**args,'apps':[]}

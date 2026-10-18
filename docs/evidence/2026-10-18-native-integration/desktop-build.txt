@@ -1,0 +1,14 @@
+
+> bokkio-desktop@0.3.0 build
+> tsc --noEmit && vite build
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 1569 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.51 kB │ gzip:  0.33 kB
+dist/assets/index-bUcF5Yh4.css   12.76 kB │ gzip:  3.48 kB
+dist/assets/index-D3Bkz_ee.js   283.38 kB │ gzip: 87.92 kB
+
+✓ built in 85ms

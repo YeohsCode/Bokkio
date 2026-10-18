@@ -1,14 +1,14 @@
 ---
-title: "Runtime 操作生命周期与证据合同"
+title: "Runtime 操作生命周期与执行结果"
 created: "2026-10-13"
-updated: "2026-10-13"
+updated: "2026-10-18"
 type: "concept"
 tags: ["runtime", "safety", "recovery", "evidence"]
 sources: ["docs/RUNTIME-GUIDE.md", "src/bokkio/runtime.py", "src/bokkio/executor.py", "docs/progress/STATUS.md"]
 confidence: "high"
 ---
 
-# Runtime 操作生命周期与证据合同
+# Runtime 操作生命周期与执行结果
 
 本页适用于 0.2.0 的 Runtime.call 路径；旧 Agent/Workflow 的 backend 动作与 trace 应按旧接口单独解释。^[docs/RUNTIME-GUIDE.md#L3]
 
@@ -53,7 +53,7 @@ sequenceDiagram
 
 ## 身份、时效与恢复
 
-| 标识 / 约束 | 合同 |
+| 标识 / 约束 | 检查与处理方式 |
 |---|---|
 | session_id | 当前 OS 用户、open、未过期；限定 apps/windows/paths/origins |
 | observation_id | 同会话、同 app/window、匹配 native/pixel 类型，最多 15 秒 |

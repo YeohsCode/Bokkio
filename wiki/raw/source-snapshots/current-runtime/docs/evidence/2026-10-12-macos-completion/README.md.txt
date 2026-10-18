@@ -2,7 +2,10 @@
 source_path: docs/evidence/2026-10-12-macos-completion/README.md
 source_version: 0feda6de6e3d3b117a516ed48a5352574b438a29
 ingested: 2026-10-13
-sha256: d8df521b6a9a560e0ccd08f853c43afad9d2b2d950a50e2a9f50641b721cbac8
+sha256: bf62f33280460b688d72d8a9d4035f16849f24fb8d85124b2c1573fcdfcaa8a9
+text_revised: 2026-10-18
+revision_reason: user-requested plain-language terminology
+original_body_sha256: d8df521b6a9a560e0ccd08f853c43afad9d2b2d950a50e2a9f50641b721cbac8
 ---
 
 # macOS 测试加强执行报告
@@ -37,7 +40,7 @@ sha256: d8df521b6a9a560e0ccd08f853c43afad9d2b2d950a50e2a9f50641b721cbac8
 
 [最新审批汇总](approval-wait-latest.json)：三调用方分别真实等待 30/90/300 秒，9/9 安全与恢复通过。pending 期间零派发；过时观察拒绝，300 秒申请到期后不沿用批准；新观察、新申请恢复。代码和其原生 SDK 子动作分别批准，CSV 与实际字段读回正确，未知完成为零。
 
-这是提供精确安全代码的 Runtime/Harness 合同，由独立 fixture 管理员审阅自动批准，不能计作自主业务或真实人工审批。Hermes 恢复原 CLI 会话；DeepSeek 保持同一 SDK/native runtime 进程并恢复相同 session；重建 SDK 实例不等同会话恢复。
+这是提供精确安全代码的 Runtime/Harness 调用与审批检查，由独立 fixture 管理员审阅自动批准，不能计作自主业务或真实人工审批。Hermes 恢复原 CLI 会话；DeepSeek 保持同一 SDK/native runtime 进程并恢复相同 session；重建 SDK 实例不等同会话恢复。
 
 初批 3/9；其余六项因模板外层换行审阅及评测器空 jobs 表处理错误失败。修复后补测 6/6，初始结果不删除，见 [initial](approval-wait-initial.json)、[retest](approval-wait-retest.json)。脚本为 scripts/evaluate_approval_wait.py；不会访问真实业务文档或自动接受 OS 权限。
 
@@ -54,9 +57,9 @@ GUI 策略禁用 code/process/DOM；Chrome 使用独立测试 profile，原有 F
 最终串行验证：
 
 - [主机回归](host-regression.json) **587/587**。此前与 GUI 并行时 584/585，输入锁安全拒绝一项；[初次争用](regression-contention-initial.json)保留，随后串行全部通过。
-- [原生／SQLite／审计合同](final-audit.json) **9/9**。
+- [原生／SQLite／审计检查](final-audit.json) **9/9**。
 - [窗口／作业矩阵](final-faults.json) **18/18**；此前 16/18 保留为历史。两项正向物理输入本次实际成功，未修改或绕过守卫。
-- [八类 Core 合同](core-contract.json) **8/8**；不是所有异常的覆盖率，不包括真实锁屏或人工审批。
+- [八类 Core 检查](core-contract.json) **8/8**；不是所有异常的覆盖率，不包括真实锁屏或人工审批。
 - [独立 wheel](wheel-final-summary.json)：锁定依赖、新 venv、包导入位于 checkout 外；原生、代码、Browser 各 **3/3**，MCP 23 工具、CLI、自动管理员审批、115 事件／36 逻辑操作及父子关联对账通过。wheel SHA 记录于报告，未进行外部发行。
 
 [源码对照](source-comparison.json)确认主批及稳定性全套源码相同，Core 与 GUI／最终安装包一致。GUI 准备和最终评分器终态预算修订另行记录，不能将旧评分器哈希称为最新版。最终源码见 [final-source-files.json](final-source-files.json)。

@@ -157,7 +157,7 @@
       "depends_on": [
         "EVAL-02"
       ],
-      "completion_condition": "最终代码八类Core治理合同8/8；真实锁屏/显示器缺口单列，未知完成无盲目重发",
+      "completion_condition": "最终代码八类Core权限与执行检查8/8；真实锁屏/显示器缺口单列，未知完成无盲目重发",
       "evidence": "docs/evidence/2026-10-12-macos-completion/README.md",
       "remaining": [
         "physical_lock_unlock",

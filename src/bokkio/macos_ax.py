@@ -89,6 +89,10 @@ class MacAX:
         finally:self.cf.CFRelease(key)
 
     def _prepare_read(self,element):
+        from .observation import active_read, ReadStopped
+        budget = active_read.get()
+        if budget is not None and not budget.check():
+            raise ReadStopped()
         deadline=getattr(self,'_deadline',None)
         if deadline is not None and time.monotonic()>deadline:
             raise BokkioError('Mac AX capability observation exceeds time budget')
@@ -153,6 +157,10 @@ class MacAX:
         All actions are still bound by annotate() to one actual AX object.
         """
         seen=[] if seen is None else seen
+        from .observation import active_read, ReadStopped
+        budget = active_read.get()
+        if budget is not None and not budget.enter('annotation', len(path)):
+            raise ReadStopped()
         if any(self.cf.CFEqual(element,old) for old in seen):return None
         if len(seen)>=2048 or len(path)>32:raise BokkioError('Mac menu traversal exceeds budget')
         seen.append(element)
@@ -194,6 +202,10 @@ class MacAX:
         candidates=defaultdict(list);stack=[(app,0,None)];visited=defaultdict(list);count=0;visits=0
         if menu:stack.append((menu,0,None))
         while stack:
+            from .observation import active_read, ReadStopped
+            budget = active_read.get()
+            if budget is not None and not budget.enter('annotation', stack[-1][1]):
+                raise ReadStopped()
             self._prepare_read(stack[-1][0])
             element,depth,window_context=stack.pop();identity=int(self.cf.CFHash(element));visits+=1
             if visits>16384:raise BokkioError('Mac AX capability alias traversal exceeds budget')
@@ -349,17 +361,23 @@ class MacAX:
             if current and self.cf.CFGetTypeID(current)==self.cf.CFNumberGetTypeID():
                 raise BokkioActionError('Numeric AX values require a verified field edit; a string setter would change their native type')
             key=self._string('AXValue');text=self._string(value)
+            from .desktop_control import checkpoint
+            checkpoint()
             try:error=self.ax.AXUIElementSetAttributeValue(element,key,text)
             finally:self.cf.CFRelease(key);self.cf.CFRelease(text)
             source='AXUIElementSetAttributeValue.AXValue'
         elif action=='focus':
             key=self._string('AXFocused');truth=c.c_void_p.in_dll(self.cf,'kCFBooleanTrue').value
+            from .desktop_control import checkpoint
+            checkpoint()
             try:error=self.ax.AXUIElementSetAttributeValue(element,key,truth)
             finally:self.cf.CFRelease(key)
             source='AXUIElementSetAttributeValue.AXFocused'
         elif action=='select' and node['platform_data'].get('mac_selection_source')=='AXSelected_then_combo_confirm':
             key=self._string('AXSelected')
             truth=c.c_void_p.in_dll(self.cf,'kCFBooleanTrue').value
+            from .desktop_control import checkpoint
+            checkpoint()
             try:error=self.ax.AXUIElementSetAttributeValue(element,key,truth)
             finally:self.cf.CFRelease(key)
             if error:raise BokkioCompletionUnknown(f'Mac AXSelected returned {error}; completion requires fresh observation')
@@ -370,6 +388,8 @@ class MacAX:
                 if self._text(self._attr(owner,'AXRole'))=='AXComboBox':break
             else:raise BokkioCompletionUnknown('Native option selection has no owning combo')
             if 'AXConfirm' not in self._actions(owner):raise BokkioCompletionUnknown('Native option owner cannot confirm selection')
+            from .desktop_control import checkpoint
+            checkpoint(dispatched=True)
             key=self._string('AXConfirm')
             try:error=self.ax.AXUIElementPerformAction(owner,key)
             finally:self.cf.CFRelease(key)
@@ -382,6 +402,8 @@ class MacAX:
                     'AXPress' if action=='expand' and node['platform_data'].get('ax_role')=='AXPopUpButton' and 'AXPress' in actions else
                     'AXShowMenu' if action=='expand' else 'AXConfirm' if action=='submit' or 'AXPress' not in actions else 'AXPress')
             key=self._string(source)
+            from .desktop_control import checkpoint
+            checkpoint()
             try:error=self.ax.AXUIElementPerformAction(element,key)
             finally:self.cf.CFRelease(key)
         if error:

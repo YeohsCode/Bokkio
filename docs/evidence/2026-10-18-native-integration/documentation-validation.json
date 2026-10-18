@@ -1,0 +1,18 @@
+{
+  "refresh": "2026-10-18-native-integration",
+  "compiled_pages": 29,
+  "markdown_pages": 32,
+  "resolved_wikilinks": 198,
+  "source_line_citations": 268,
+  "referenced_source_files": 82,
+  "source_snapshots_verified": 283,
+  "current_source_modules_mapped": 59,
+  "public_tools_mapped": 39,
+  "orphan_pages": [],
+  "errors": [],
+  "privacy_scan": {
+    "scope": "versioned repository source snapshots",
+    "credential_pattern_findings": []
+  },
+  "mermaid_blocks": 8
+}

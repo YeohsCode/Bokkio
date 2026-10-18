@@ -245,3 +245,23 @@ def test_background_never_uses_visual_value_fallback(monkeypatch):
     backend.visual_value_replace=lambda *a:called.append('pointer')
     with pytest.raises(BokkioActionError)as e:backend.perform('1','set_value',ref='field',value='new',background=True)
     assert e.value.code=='background_transport_unavailable' and e.value.details['dispatched']==0 and called==[]
+
+
+def test_user_takeover_pauses_workflow_and_resume_does_not_repeat_completed_steps(setup,monkeypatch,tmp_path):
+    from bokkio.desktop_control import ControlState
+    monkeypatch.setenv('BOKKIO_CONTROL_DIR',str(tmp_path/'control'))
+    state=ControlState();state.configure(True);state.heartbeat();state.resume()
+    desktop,client,runner,doc,_=setup
+    call=client.call;paused=[]
+    def intercepted(tool,args=None,*other,**kw):
+        if tool=='desktop.act' and not paused:
+            state.event('key');paused.append(True)
+        return call(tool,args,*other,**kw)
+    client.call=intercepted
+    run=runner.start(doc);first=runner.run(run['id'])
+    assert first['status']=='paused' and first['pause_reason']=='user_control' and desktop.clicks==0
+    assert first['pending'] is None
+    state.resume()
+    second=runner.run(run['id'])
+    assert second['status']=='completed' and desktop.clicks==1
+    assert runner.run(run['id'])['status']=='completed' and desktop.clicks==1

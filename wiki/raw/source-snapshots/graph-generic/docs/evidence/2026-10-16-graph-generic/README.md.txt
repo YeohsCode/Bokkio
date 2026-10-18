@@ -2,7 +2,10 @@
 source_path: docs/evidence/2026-10-16-graph-generic/README.md
 source_version: working-tree-based-on-90caa22fa8283ed60401fd0a059821424a113bbc
 ingested: 2026-10-16
-sha256: 76b22ff4dc098df37620417743a5a290f30f12491ecd650d690cddb31e8560be
+sha256: 44288c18bac92bc0be409397ace6d36b9d63f7a27cee070d8fb028352493dfc7
+text_revised: 2026-10-18
+revision_reason: user-requested plain-language terminology
+original_body_sha256: 76b22ff4dc098df37620417743a5a290f30f12491ecd650d690cddb31e8560be
 ---
 
 # 移除业务写死，改为通用 Graph 读取（2026-10-16）
@@ -19,7 +22,7 @@ sha256: 76b22ff4dc098df37620417743a5a290f30f12491ecd650d690cddb31e8560be
 
 | 检查 | 结果 | 实际范围 |
 |---|---:|---|
-| Python 完整回归 | 750 通过 | 含通用 Graph 合同、真正的子进程与 PowerShell 夹具 |
+| Python 完整回归 | 750 通过 | 含通用 Graph 接口与结果检查、真正的子进程与 PowerShell 夹具 |
 | 最终 URI 编码修订后定向回归 | 24 通过 | 编码、续页、正文、大响应、服务错误与连接流程 |
 | Electron 单元 | 9 通过 | 凭据并发、启动与已有录制编辑检查 |
 | 两端打包版账户/界面生命周期 | 各 12/12 | 无业务按钮、连接、Mail.Read说明、拾取器、重启、退出、设备码、取消、导航 |

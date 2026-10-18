@@ -23,7 +23,7 @@ def stage(destination, sdk_python=None):
     for p in packages.glob('*bokkio*.pth'):p.unlink()
     if sys.platform=='darwin':
         from bokkio.app_launch import native_helper
-        for name in ('macos_record','macos_input'):
+        for name in ('macos_record','macos_input','macos_control','macos_activate'):
             target=packages/'bokkio'/'native'/name;shutil.copy2(native_helper(name),target);target.chmod(0o755)
         from bokkio.macos_capture import _helper
         target=packages/'bokkio'/'native'/'macos_capture';shutil.copy2(_helper(),target);target.chmod(0o755)

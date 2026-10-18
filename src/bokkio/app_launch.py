@@ -6,7 +6,7 @@ from pathlib import Path
 
 def native_helper(name):
     if sys.platform!='darwin':raise RuntimeError('Swift helpers require macOS')
-    if name not in {'macos_record','macos_input'}:raise ValueError('Unknown native helper')
+    if name not in {'macos_record','macos_input','macos_control','macos_activate'}:raise ValueError('Unknown native helper')
     bundled=Path(__file__).parent/'native'/name
     if bundled.is_file():return bundled
     source=Path(__file__).parent/'native'/(name+'.swift')
@@ -16,7 +16,7 @@ def native_helper(name):
         fd,name=tempfile.mkstemp(dir=cache);os.close(fd)
         try:
             r=subprocess.run(['xcrun','swiftc','-framework','Cocoa',str(source),'-o',name],capture_output=True,timeout=60)
-            if r.returncode:raise RuntimeError('Recorder compilation failed: '+r.stderr.decode()[-1800:])
+            if r.returncode:raise RuntimeError('Native helper compilation failed: '+r.stderr.decode()[-1800:])
             os.chmod(name,0o700);os.replace(name,target)
         finally:Path(name).unlink(missing_ok=True)
     return target
@@ -93,6 +93,8 @@ def ensure_running(grant,*,inventory=None,launch=None,timeout=12,background=Fals
     rows=matching_apps(grant,inventory());started=False
     before=desktop_environment()['foreground_pid'] if background and not rows and launch is None else None
     if not rows:
+        from .desktop_control import checkpoint
+        checkpoint()
         if launch:launch(grant)
         elif sys.platform=='darwin':subprocess.run(['open',*(['-g'] if background else []),'-a',grant['path']],capture_output=True,timeout=8,check=True)
         elif sys.platform=='win32':

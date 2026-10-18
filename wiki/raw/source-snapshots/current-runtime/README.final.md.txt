@@ -2,7 +2,10 @@
 source_path: README.md
 source_version: working-tree-current-runtime-final
 ingested: 2026-10-13
-sha256: 45ef1f12adc5709df42c70f6dcd1c9e62d73bd8a5e4f8239f682360f9c3ed6e1
+sha256: c49e4e1c873cc3238c1ed93210671640b56f2e9258d1732709333da9964f61cc
+text_revised: 2026-10-18
+revision_reason: user-requested plain-language terminology
+original_body_sha256: 45ef1f12adc5709df42c70f6dcd1c9e62d73bd8a5e4f8239f682360f9c3ed6e1
 ---
 
 # Bokkio
@@ -48,7 +51,7 @@ flowchart TB
     MCP --> Core["Runtime.call · runtime.py"]
     CLI --> Core
     SDK --> Core
-    Schema["tool_schema.py · 工具参数合同"] --> Core
+    Schema["tool_schema.py · 工具参数定义"] --> Core
     Policy["管理员策略 · Session / 资源授权 / 审批"] --> Core
     Core <--> Store["audit.AuditStore · SQLite / Artifact 文件"]
     Admin["本地管理员 CLI · approve"] --> Store
@@ -68,14 +71,14 @@ flowchart TB
 
 | 层 / 模块 | 责任与调用关系 |
 |---|---|
-| 接入层 | `mcp_server.serve`、`runtime_cli.main`、`sdk.Client.call` → `Runtime.call`；`tool_schema` 提供统一工具合同 |
+| 接入层 | `mcp_server.serve`、`runtime_cli.main`、`sdk.Client.call` → `Runtime.call`；`tool_schema` 提供统一工具接口定义 |
 | Core | `Runtime.call` → 参数/Session/授权/审批检查 → `_execute` → `_finish`；默认拒绝资源访问 |
 | 原生 | `_native_call` → `Xa11yBackend` → xa11y 与 `MacAX` / `WindowsUIA`；`model`、`selector`、`scroll` 支撑身份、查询和验证 |
 | 截图与像素 | `desktop_input` → `macos_capture` / `windows_capture`、Swift helper / Windows SendInput；坐标来自新鲜截图，无需 OCR 标签 |
 | 代码与进程 | `executor.launch` → 独立 worker → Python/Shell/PowerShell/argv；生成 Python 可通过 `Client.from_environment()` 继承会话并回调 Core |
 | Browser | `browser_driver.call` → 每会话持久 worker → Playwright Chromium；精确 origin 和 `expected_url` 约束操作 |
 | 审批与证据 | `AuditStore` 保存 SQLite 会话、操作、审批、事件及 artifact 元数据；管理员 CLI 决定审批；Agent 查询状态、日志、统计与产物 |
-| 可选旧扩展 | `cli` → `DesktopAgent` → Planner/Jev，或 Recorder/WorkflowReplay → backend；仍直接使用 backend，不自动获得新 Core 的授权与审计合同 |
+| 可选旧扩展 | `cli` → `DesktopAgent` → Planner/Jev，或 Recorder/WorkflowReplay → backend；仍直接使用 backend，不自动获得新 Core 的授权检查与审计记录 |
 
 原生调用在单一专用线程执行；原生动作、激活、像素和 Browser 派发共用跨进程桌面锁，锁等待后再次核验范围。代码/进程在独立 worker 运行，以 `job.get`/`job.cancel` 管理。SQLite 和私有文件保存跨进程状态；当前是单机架构，trusted-host 代码与 GUI 不提供逐文件 OS 沙箱。
 

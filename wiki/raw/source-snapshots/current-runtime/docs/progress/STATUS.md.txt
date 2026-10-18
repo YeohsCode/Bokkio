@@ -2,7 +2,10 @@
 source_path: docs/progress/STATUS.md
 source_version: 0feda6de6e3d3b117a516ed48a5352574b438a29
 ingested: 2026-10-13
-sha256: 84e2edd1cf5f5f012846e2e4c9ef53716258073c0c38171f50541bcbfcedcf8f
+sha256: 326ed1f632c9200fb80dcff9103be36ac64e26caf8115466f095b09744556232
+text_revised: 2026-10-18
+revision_reason: user-requested plain-language terminology
+original_body_sha256: 84e2edd1cf5f5f012846e2e4c9ef53716258073c0c38171f50541bcbfcedcf8f
 ---
 
 # 当前状态与完成度
@@ -14,7 +17,7 @@ sha256: 84e2edd1cf5f5f012846e2e4c9ef53716258073c0c38171f50541bcbfcedcf8f
 | 项目 | 结果 | 含义 |
 |---|---:|---|
 | 主机回归 | 587/587 | GUI 结束后串行验证 |
-| 原生／SQLite／审计合同 | 9/9 | 授权、审批、意图拒写、缓存与导出统计对账 |
+| 原生／SQLite／审计检查 | 9/9 | 授权、审批、意图拒写、缓存与导出统计对账 |
 | 本机窗口／作业矩阵 | 18/18 | 本次两项正向输入实际成功；不含真实锁屏／额外显示器 |
 | Core 安全类别 | 8/8 | 每类至少一项实测，不是全异常覆盖率 |
 | 独立安装包 | 原生、代码、Browser 各 3/3 | 新 venv、锁定依赖、MCP/CLI、自动批准与审计通过 |
@@ -45,6 +48,6 @@ Pages 的 RTF 渲染文本、绑定窗口 OCR 和新进程重开已接通并实�
 6. WIN-01：在另一台 Windows 电脑验证当前 Runtime；此前 VM 登录已恢复，历史 UIA/Planner 成绩不能替代新版本。
 7. RELEASE-01：客户环境、双平台最终固定矩阵和支持范围；原计划每端 14/15 与安全门槛仍保留。
 
-实现 8/8、macOS 开发能力类别 4/5、Windows 新 Runtime 类别 0/5 是不同分母，不能换算为通用软件成功率。操作日志、审批、作业和产物已有可追溯／可统计合同；当前 trusted-host 代码和原生应用 GUI 不提供逐文件 OS 沙箱。远程 fleet、多租户 SSO、集中防篡改日志、签名安装器及离线依赖镜像未交付。
+实现 8/8、macOS 开发能力类别 4/5、Windows 新 Runtime 类别 0/5 是不同分母，不能换算为通用软件成功率。操作日志、审批、作业和产物已有可追溯记录与统计接口；当前 trusted-host 代码和原生应用 GUI 不提供逐文件 OS 沙箱。远程 fleet、多租户 SSO、集中防篡改日志、签名安装器及离线依赖镜像未交付。
 
 共享任务与下一端接续见 [state.json](state.json)、[EVAL 工作包](test-strengthening.json) 和 [HANDOFF.md](HANDOFF.md)。计划、进度和脱敏报告必须继续由 Git 跟踪；凭据、截图、原始 SQLite 与模型 trace 留在私有目录。

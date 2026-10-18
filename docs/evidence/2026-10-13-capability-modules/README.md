@@ -7,15 +7,15 @@
 - 通用 Xa11yBackend 的禁用目标／窗口、不可用动作等明确未派发拒绝带结构化 `dispatched=false`；Runtime 不再将这些拒绝误记为未知完成。派发后失去回执仍保持 unknown，不自动重发。
 - 本地静态能力契约与 module.list、capability.list/get/invoke；默认关闭、按需详情、能力版本、源码／依赖绑定、管理员允许列表和原有授权／精确审批。
 - office.xlsx 的范围读取、另存更新和读回核验；通过已有代码 worker／作业查询，不新增模型或任务规划器。只支持有范围声明的磁盘静态 XLSX，源哈希固定、输出不覆盖、发布前后读回。
-- 通用 structured job output 校验；缺失证据／合同绑定或发布后无法确认时保持 unknown。模块执行沿用 operation ID、job ID 和审计事件。
-- MCP／CLI／SDK 同合同实测；锁文件的 office 可选依赖、源码 bundle 文件清单和 wheel 包含新增模块。
+- 通用 structured job output 校验；缺失证据／接口与实现绑定或发布后无法确认时保持 unknown。模块执行沿用 operation ID、job ID 和审计事件。
+- MCP／CLI／SDK 相同接口与执行结果的实测；锁文件的 office 可选依赖、源码 bundle 文件清单和 wheel 包含新增模块。
 
 ## 验证结果
 
 | 验证 | 结果 | 范围 |
 |---|---:|---|
 | [最终完整隔离回归](regression.json) | 647/647 | 上一613项加本轮34项；不是业务／GUI任务数量 |
-| 新模块与派发事实合同 | 34/34 | 模块30项、backend合成provider4项，包含拒绝／并发／未知完成反例 |
+| 新模块接口与派发事实检查 | 34/34 | 模块30项、backend合成provider4项，包含拒绝／并发／未知完成反例 |
 | [三份最终文件对照](comparison-final.json) | 6/6 | code.run 3/3、module 3/3；独立打开文件核验目标值与源哈希 |
 | [wheel 检查](package.json) | 通过 | 新模块文件、office extra、解包后独立导入和默认关闭发现；没有外部发行 |
 
@@ -23,7 +23,7 @@
 
 ## 初始失败与修订
 
-初轮沙箱阻止 ps 进程身份查询；在允许的宿主环境重跑。两处合同测试／接口问题是未知 capability 在 claim 后才检查，返回 failed；以及 CLI 测试使用了不存在的 --arguments。前者改为派发前校验，后者改用现有 --args；首个宿主批次56通过、2失败，修订后针对性91通过。加入额外结果校验反例后的最终回归647通过。历次分母保存在 regression.json。
+初轮沙箱阻止 ps 进程身份查询；在允许的宿主环境重跑。两处接口与执行行为测试／接口问题是未知 capability 在 claim 后才检查，返回 failed；以及 CLI 测试使用了不存在的 --arguments。前者改为派发前校验，后者改用现有 --args；首个宿主批次56通过、2失败，修订后针对性91通过。加入额外结果校验反例后的最终回归647通过。历次分母保存在 regression.json。
 
 [初始文件对照](comparison-initial.json)同样6/6，但未在执行当时捕获源码指纹，明确作为初轮记录；不冒充最终源码验收。最终对照保存运行前后不变的源码 SHA256。
 

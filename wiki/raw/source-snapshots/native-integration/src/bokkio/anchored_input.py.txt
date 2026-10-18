@@ -1,0 +1,175 @@
+---
+source_path: src/bokkio/anchored_input.py
+source_version: working-tree-based-on-262cad6085e8ec1754671f627f048181b1616e5c
+ingested: 2026-10-18
+sha256: 42e74188088f77e7f261786cb94f8717adb14563eaac8f87074b78da55f286e7
+---
+
+"""Native-target anchored foreground input, dispatched only by Runtime."""
+from __future__ import annotations
+import ctypes as c
+import json,math,subprocess,sys,time
+from pathlib import Path
+from .model import BokkioActionRefused,BokkioCompletionUnknown
+from .selector import flatten
+from .workflow import selector_for
+
+ACTIONS={'click','double_click','right_click','key','type','replace_text','scroll','drag'}
+
+def prepare_target(before,fresh,args):
+    from .observation import require_complete
+    require_complete(before);require_complete(fresh)
+    old=[n for n in flatten(before['windows']) if n['ref']==args['ref']]
+    if len(old)!=1:raise BokkioActionRefused('Input target is absent','element_not_found')
+    old=old[0];selector=selector_for(before,old);identity=old.get('platform_data',{}).get('ax_identifier') or old.get('platform_data',{}).get('automation_id')
+    matches=[]
+    for n in flatten(fresh['windows']):
+        if n.get('role')!=old.get('role') or n.get('name')!=old.get('name'):continue
+        if selector_for(fresh,n)['ancestors']!=selector['ancestors']:continue
+        if identity and identity not in {n.get('platform_data',{}).get('ax_identifier'),n.get('platform_data',{}).get('automation_id')}:continue
+        matches.append(n)
+    if len(matches)!=1:raise BokkioActionRefused('Input target changed or is ambiguous','ambiguous_target')
+    n=matches[0]
+    if n.get('state',{}).get('enabled') is False:raise BokkioActionRefused('Input target is disabled')
+    b=n.get('bounds')
+    if not isinstance(b,dict) or any(type(b.get(k)) not in {int,float} or not math.isfinite(b[k]) for k in ['x','y','width','height']) or min(b['width'],b['height'])<=0:raise BokkioActionRefused('Input target has no usable bounds')
+    action=args['action']
+    if action not in ACTIONS:raise BokkioActionRefused('Unsupported input action')
+    for k in ('x','y','end_x','end_y'):
+        if k in args and (type(args[k]) not in {int,float} or not math.isfinite(args[k]) or not 0<=args[k]<=1):raise BokkioActionRefused('Input positions must be fractions inside the target')
+    request={'pid':int(args['app']),'window':args.get('window') or '', 'action':action,'x':b['x']+b['width']*args.get('x',.5),'y':b['y']+b['height']*args.get('y',.5), 'end_x':b['x']+b['width']*args.get('end_x',.8),'end_y':b['y']+b['height']*args.get('end_y',.5),'key':args.get('key',''),'text':args.get('value',''),'direction':args.get('direction','down'),'amount':args.get('amount',3),'duration':args.get('duration',.4),'target':{'role':n.get('role'),'name':n.get('name'),'identifier':identity,'bounds':b}}
+    if action=='key' and (not request['key'] or len(request['key'])>100):raise BokkioActionRefused('Key combination is required')
+    if action in {'type','replace_text'} and (not isinstance(request['text'],str) or len(request['text'])>32000):raise BokkioActionRefused('Bounded text is required')
+    if type(request['duration']) not in {int,float} or not .05<=request['duration']<=5:raise BokkioActionRefused('Drag duration must be .05..5 seconds')
+    if type(request['amount']) not in {int,float} or not math.isfinite(request['amount']) or not 0<request['amount']<=100:raise BokkioActionRefused('Scroll amount must be 0..100')
+    if request['direction'] not in {'up','down','left','right'}:raise BokkioActionRefused('Invalid scroll direction')
+    return n,request
+
+def perform_anchored(pid,window,before,fresh,args,cancel_path=None):
+    from .desktop_input import require_input_session
+    from .desktop_control import checkpoint, native_guard
+    checkpoint();require_input_session();target,request=prepare_target(before,fresh,args)
+    request.update(native_guard())
+    if cancel_path:request['cancel_file']=str(cancel_path)
+    if sys.platform=='darwin':
+        from .app_launch import native_helper
+        try:
+            p=subprocess.run([str(native_helper('macos_input'))],input=json.dumps(request).encode(),capture_output=True,timeout=12)
+            result=json.loads(p.stdout)
+        except (OSError,ValueError,subprocess.TimeoutExpired) as e:raise BokkioCompletionUnknown('Native input receipt unavailable') from e
+        if 'error' in result:
+            if result.get('dispatched'):raise BokkioCompletionUnknown(result['error'])
+            raise BokkioActionRefused(result['error'], 'user_control_paused' if result['error'].startswith('User takeover:') else 'action_unavailable')
+    elif sys.platform=='win32':result=windows_input(request)
+    else:raise BokkioActionRefused('Desktop input requires macOS or Windows')
+    return {**result,'target':{k:target.get(k) for k in ['ref','role','name']},'verification':{'status':'executed_not_business_verified'}}
+
+def windows_input(request):
+    from ctypes import wintypes as w
+    user=c.WinDLL('user32',use_last_error=True)
+    user.SetThreadDpiAwarenessContext(c.c_void_p(-4))
+    user.GetForegroundWindow.restype=w.HWND;user.GetWindowThreadProcessId.argtypes=[w.HWND,c.POINTER(w.DWORD)]
+    user.SetForegroundWindow.argtypes=[w.HWND];user.SetForegroundWindow.restype=w.BOOL
+    user.GetAncestor.argtypes=[w.HWND,w.UINT];user.GetAncestor.restype=w.HWND
+    user.WindowFromPoint.argtypes=[w.POINT];user.WindowFromPoint.restype=w.HWND
+    user.GetWindowTextW.argtypes=[w.HWND,w.LPWSTR,c.c_int]
+    windows=[]
+    callback=c.WINFUNCTYPE(w.BOOL,w.HWND,w.LPARAM)
+    def enum(hwnd,_):
+        pid=w.DWORD();user.GetWindowThreadProcessId(hwnd,c.byref(pid));title=c.create_unicode_buffer(2048);user.GetWindowTextW(hwnd,title,2048)
+        if pid.value==request['pid'] and (not request['window'] or title.value==request['window']) and user.IsWindowVisible(hwnd):windows.append(hwnd)
+        return True
+    cb=callback(enum);user.EnumWindows(cb,0)
+    if len(windows)!=1:raise BokkioActionRefused('Input window is absent or ambiguous')
+    hwnd=windows[0]
+    kernel=c.WinDLL('kernel32');kernel.GetCurrentThreadId.restype=w.DWORD
+    user.AttachThreadInput.argtypes=[w.DWORD,w.DWORD,w.BOOL];user.AttachThreadInput.restype=w.BOOL
+    current=kernel.GetCurrentThreadId();front=user.GetForegroundWindow();thread=user.GetWindowThreadProcessId(front,None)
+    from .desktop_control import checkpoint, windows_move, EVENT_TAG, physically_held
+    checkpoint()
+    attached=current!=thread and bool(user.AttachThreadInput(current,thread,True))
+    try:
+        user.ShowWindow(hwnd,9);user.SetForegroundWindow(hwnd);user.BringWindowToTop(hwnd)
+    finally:
+        if attached:user.AttachThreadInput(current,thread,False)
+    time.sleep(.15)
+    if user.GetForegroundWindow()!=hwnd:raise BokkioActionRefused('Window did not become foreground')
+    user.SetCursorPos.argtypes=[c.c_int,c.c_int];user.SetCursorPos.restype=w.BOOL
+    if request['action'] in {'click','right_click','double_click','scroll','drag'}:
+        point=w.POINT(round(request['x']),round(request['y']))
+        if user.GetAncestor(user.WindowFromPoint(point),2)!=hwnd:raise BokkioActionRefused('Input target is covered by another window')
+        if not windows_move(user,point.x,point.y,dispatched=True):raise BokkioActionRefused('Pointer positioning failed')
+    if request['action'] in {'key','type','replace_text'} and request['target']['role'] not in {'window','application'}:
+        from .windows_uia import WindowsUIA
+        uia=WindowsUIA();focused=uia.automation.GetFocusedElement();wanted=request['target']
+        if focused.CurrentProcessId!=request['pid'] or wanted['identifier'] and focused.CurrentAutomationId!=wanted['identifier']:raise BokkioActionRefused('Keyboard focus differs from the input target')
+        rect=focused.GetCurrentPropertyValue(uia.types.UIA_BoundingRectanglePropertyId)
+        b=wanted['bounds']
+        if tuple(rect)!=tuple(b[k] for k in ('x','y','width','height')):raise BokkioActionRefused('Keyboard focus geometry differs from the input target')
+    class Mouse(c.Structure):_fields_=[('dx',w.LONG),('dy',w.LONG),('data',w.DWORD),('flags',w.DWORD),('time',w.DWORD),('extra',c.c_size_t)]
+    class Keyboard(c.Structure):_fields_=[('vk',w.WORD),('scan',w.WORD),('flags',w.DWORD),('time',w.DWORD),('extra',c.c_size_t)]
+    class Union(c.Union):_fields_=[('mouse',Mouse),('keyboard',Keyboard)]
+    class Input(c.Structure):_fields_=[('type',w.DWORD),('data',Union)]
+    user.SendInput.argtypes=[w.UINT,c.POINTER(Input),c.c_int];user.SendInput.restype=w.UINT
+    dispatched=True  # Foreground activation has already been attempted.
+    posted_keys,posted_buttons=set(),set()
+    def send(events,release=False):
+        nonlocal dispatched
+        if not release:checkpoint(dispatched)
+        if release:
+            events=[event for event in events if (event.type==1 and event.data.keyboard.vk in posted_keys and not physically_held('key:'+str(event.data.keyboard.vk))) or (event.type==0 and 1 in posted_buttons and not physically_held('mouse:1'))]
+            if not events:return
+        for event in events:
+            if event.type==1:event.data.keyboard.extra=EVENT_TAG
+            else:event.data.mouse.extra=EVENT_TAG
+        if not release and request.get('cancel_file') and Path(request['cancel_file']).exists():
+            if dispatched:raise BokkioCompletionUnknown('Input was stopped after partial dispatch')
+            raise BokkioActionRefused('Input cancelled before dispatch')
+        data=(Input*len(events))(*events)
+        dispatched=True
+        sent=user.SendInput(len(events),data,c.sizeof(Input))
+        for event in events[:sent]:
+            if event.type==1:
+                (posted_keys.discard if event.data.keyboard.flags&2 else posted_keys.add)(event.data.keyboard.vk)
+            elif event.data.mouse.flags&2:posted_buttons.add(1)
+            elif event.data.mouse.flags&4:posted_buttons.discard(1)
+        if sent!=len(events):raise BokkioCompletionUnknown('Partial input; inspect result before retry')
+    def mouse(flag,data=0):return Input(0,Union(mouse=Mouse(0,0,data&0xffffffff,flag,0,0)))
+    def key(vk,up=False):return Input(1,Union(keyboard=Keyboard(vk,0,2 if up else 0,0,0)))
+    action=request['action']
+    if action in {'click','double_click','right_click'}:
+        down,up=(8,16) if action=='right_click' else (2,4)
+        send([mouse(down),mouse(up)])
+        if action=='double_click':time.sleep(.07);send([mouse(down),mouse(up)])
+    elif action=='key':
+        tokens=request['key'].replace('Command','Ctrl').replace('Meta','Ctrl').split('+')
+        named={'ctrl':17,'control':17,'shift':16,'alt':18,'option':18,'win':91,'enter':13,'return':13,'tab':9,'escape':27,'esc':27,'backspace':8,'delete':46,'space':32,'left':37,'up':38,'right':39,'down':40,'home':36,'end':35,'pageup':33,'pagedown':34}
+        keys=[]
+        for t in tokens:
+            t=t.strip();v=named.get(t.lower())
+            if v is None and len(t)==1:v=ord(t.upper())
+            if v is None and t.upper().startswith('F') and t[1:].isdigit() and 1<=int(t[1:])<=24:v=111+int(t[1:])
+            if v is None:raise BokkioActionRefused('Unknown key '+t)
+            keys.append(v)
+        try:send([key(k) for k in keys])
+        finally:send([key(k,True) for k in reversed(keys)],release=True)
+    elif action in {'type','replace_text'}:
+        if action=='replace_text':
+            try:send([key(17),key(65)])
+            finally:send([key(65,True),key(17,True)],release=True)
+            time.sleep(.05)
+        text=request['text'].encode('utf-16-le');events=[]
+        for i in range(0,len(text),2):
+            unit=int.from_bytes(text[i:i+2],'little');events.extend([Input(1,Union(keyboard=Keyboard(0,unit,4,0,0))),Input(1,Union(keyboard=Keyboard(0,unit,6,0,0)))])
+        for i in range(0,len(events),128):send(events[i:i+128])
+    elif action=='scroll':
+        horizontal=request['direction'] in {'left','right'};sign=-1 if request['direction'] in {'down','left'} else 1
+        send([mouse(0x1000 if horizontal else 0x800,round(120*request['amount']*sign))])
+    elif action=='drag':
+        try:
+            send([mouse(2)])
+            for i in range(1,21):
+                if user.GetForegroundWindow()!=hwnd:raise BokkioCompletionUnknown('Foreground changed during drag')
+                windows_move(user,round(request['x']+(request['end_x']-request['x'])*i/20),round(request['y']+(request['end_y']-request['y'])*i/20),dispatched=dispatched);time.sleep(request['duration']/20)
+        finally:send([mouse(4)],release=True)
+    return {'status':'posted_unverified','dispatched':True,'pid':request['pid'],'transport':'Windows.SendInput'}

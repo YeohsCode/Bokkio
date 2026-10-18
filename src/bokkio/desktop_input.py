@@ -112,6 +112,8 @@ def activate(pid, title, window_id=None):
     user = c.WinDLL("user32", use_last_error=True)
     user.SetForegroundWindow.argtypes, user.SetForegroundWindow.restype = [w.HWND], w.BOOL
     user.GetForegroundWindow.restype = w.HWND
+    from .desktop_control import checkpoint
+    checkpoint()
     if not user.SetForegroundWindow(metadata["hwnd"]) or user.GetForegroundWindow() != metadata["hwnd"]:
         raise CaptureError("activation_unconfirmed", "Windows foreground activation refused", dispatched="unknown")
     return {"status": "activated", "pid": pid, "hwnd": metadata["hwnd"], "foreground_confirmed": True}
@@ -135,6 +137,8 @@ def perform(metadata, png, action, x, y, value=None):
         raise CaptureError("invalid_coordinates", "Point outside observation pixels", dispatched=0)
     if action == "type" and (not isinstance(value, str) or not value or len(value.encode("utf-16-le")) > 2000 or any(ord(ch) < 32 for ch in value)):
         raise CaptureError("invalid_input", "Type needs bounded literal text", dispatched=0)
+    from .desktop_control import checkpoint, native_guard
+    checkpoint()
     if sys.platform == "darwin":
         from .macos_capture import _helper
         rect = metadata["content_rect"]
@@ -145,6 +149,8 @@ def perform(metadata, png, action, x, y, value=None):
                    "point": {"x": rect["x"] + x * rect["width"] / metadata["width"],
                              "y": rect["y"] + y * rect["height"] / metadata["height"]},
                    "action": action, "text": value or ""}
+        request.update(native_guard())
+        checkpoint()
         try:
             output = subprocess.run([str(_helper())], input=json.dumps(request).encode(), capture_output=True, timeout=15)
             result = json.loads(output.stdout)
@@ -199,7 +205,8 @@ def _windows_native(metadata, action, x, y, value):
         _fields_ = [("type", w.DWORD), ("data", Union)]
     user.SendInput.argtypes, user.SendInput.restype = [w.UINT, c.POINTER(Input), c.c_int], w.UINT
     user.SetCursorPos.argtypes, user.SetCursorPos.restype = [c.c_int, c.c_int], w.BOOL
-    if not user.SetCursorPos(point.x, point.y):
+    from .desktop_control import checkpoint, EVENT_TAG, windows_move
+    if not windows_move(user, point.x, point.y):
         raise CaptureError("input_failed", "Could not position pointer", dispatched=0)
     if user.GetForegroundWindow() != metadata["hwnd"] or user.GetAncestor(user.WindowFromPoint(point), 2) != metadata["hwnd"]:
         raise CaptureError("foreground_changed", "Window changed before dispatch", dispatched=0)
@@ -209,8 +216,16 @@ def _windows_native(metadata, action, x, y, value):
         for offset in range(0, len(encoded), 2):
             unit = int.from_bytes(encoded[offset:offset+2], "little")
             events.extend(Input(1, Union(keyboard=Keyboard(0, unit, flag, 0, 0))) for flag in (4, 6))
-    array = (Input * len(events))(*events)
-    count = user.SendInput(len(events), array, c.sizeof(Input))
-    if count != len(events):
-        raise CaptureError("completion_unknown", "Partial Windows input; inspect before retry", dispatched=count)
+    count = 0
+    for event in events:
+        if event.type == 1:event.data.keyboard.extra = EVENT_TAG
+        else:event.data.mouse.extra = EVENT_TAG
+    for offset in range(0, len(events), 128):
+        checkpoint(dispatched=count > 0)
+        batch = events[offset:offset+128]
+        array = (Input * len(batch))(*batch)
+        sent = user.SendInput(len(batch), array, c.sizeof(Input))
+        count += sent
+        if sent != len(batch):
+            raise CaptureError("completion_unknown", "Partial Windows input; inspect before retry", dispatched=count)
     return {"status": "posted_unverified", "dispatched": True, "input_events": count, "pid": metadata["pid"], "hwnd": metadata["hwnd"]}

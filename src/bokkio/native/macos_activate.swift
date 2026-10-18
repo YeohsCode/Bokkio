@@ -11,6 +11,15 @@ let input=FileHandle.standardInput.readDataToEndOfFile()
 guard input.count<=16384, let args=try? JSONSerialization.jsonObject(with:input) as? [String:Any],
       let number=args["pid"] as? Int, number>0, number<=Int(Int32.max),
       let title=args["title"] as? String, !title.isEmpty, title.count<=1024 else {emit(["error":"invalid_scope"],1)}
+var dispatchStarted=false
+func checkControl() {
+    guard let path=args["control_file"] as? String else{return}
+    guard let data=FileManager.default.contents(atPath:path),let state=(try? JSONSerialization.jsonObject(with:data)) as? [String:Any],
+          state["allowed"] as? Bool == true,state["generation"] as? Int == args["control_generation"] as? Int,
+          (state["expires"] as? Double ?? 0)>Date().timeIntervalSince1970 else {
+        emit(["error":"user_control_paused","dispatched":dispatchStarted],1)
+    }
+}
 let pid=pid_t(number)
 let document=args["document"] as? String
 let session=CGSessionCopyCurrentDictionary() as? [String:Any]
@@ -36,6 +45,7 @@ let matching=windows.filter { window in
 guard matching.count==1,let app=NSRunningApplication(processIdentifier:pid),!app.isTerminated else {
     emit(["error":"window_ambiguous_or_missing"],1)
 }
+checkControl();dispatchStarted=true
 guard app.activate(options:[]) else {emit(["error":"activation_refused"],1)}
 let end=Date().addingTimeInterval(2)
 while Date()<end && NSWorkspace.shared.frontmostApplication?.processIdentifier != pid {
@@ -44,6 +54,7 @@ while Date()<end && NSWorkspace.shared.frontmostApplication?.processIdentifier !
 guard NSWorkspace.shared.frontmostApplication?.processIdentifier==pid else {
     emit(["error":"foreground_unconfirmed"],1)
 }
+checkControl()
 let raised=AXUIElementPerformAction(matching[0],kAXRaiseAction as CFString)
 guard raised == .success else {emit(["error":"window_raise_unconfirmed","ax_error":raised.rawValue],1)}
 if args["clear_hover"] as? Bool == true {
@@ -59,6 +70,8 @@ if args["clear_hover"] as? Bool == true {
                            mouseCursorPosition:CGPoint(x:origin.x+size.width/2,y:origin.y+12),mouseButton:.left) else {
         emit(["error":"hover_preparation_unavailable"],1)
     }
+    checkControl()
+    move.setIntegerValueField(.eventSourceUserData,value:0x424B494F)
     move.flags=[];move.post(tap:.cghidEventTap)
 }
 func windowIsFrontmost() -> Bool {

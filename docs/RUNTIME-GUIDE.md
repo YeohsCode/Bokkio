@@ -33,7 +33,7 @@ Windows 路径用 JSON 转义，例如 `C:\\BokkioScratch`。`apps` 是当前应
 
 ## CLI 与 SDK
 
-可选模块先通过 `module.list`／`capability.list` 读取摘要，再用 `capability.get` 获取版本与合同，`capability.invoke` 返回现有作业。首个 `office.xlsx` 默认关闭，需 office extra 和管理员模块允许列表；完整用法、读写权限与文件范围见 [能力模块指南](CAPABILITY-MODULES.md)。
+可选模块先通过 `module.list`／`capability.list` 读取摘要，再用 `capability.get` 获取版本与接口定义，`capability.invoke` 返回现有作业。首个 `office.xlsx` 默认关闭，需 office extra 和管理员模块允许列表；完整用法、读写权限与文件范围见 [能力模块指南](CAPABILITY-MODULES.md)。
 
 ```sh
 uv run bokkio-runtime --state /absolute/path/to/private-state --policy /absolute/path/to/policy.json call session.open
@@ -129,8 +129,21 @@ MCP 工具使用统一 envelope：`{"arguments": {"业务字段": "值"}, "sessi
 
 重复请求会记录 request.cached，不再次派发；缓存内容仍需要有效且同 OS 用户的 session。会话关闭或过期后，原 operation_id 不能绕过读取边界。metrics 的 attempts 统计所有接收/缓存/拒绝调用，execution_attempts 为进入处理的 request.received；cached_responses、rejected_requests 分别计数，logical_operations 与 known_dispatched 不因缓存命中增加。
 
-scripts/verify_runtime_audit.py 在自有原生 fixture 和真实 SQLite 上验证审计合同，明确区分 SQL/过期注入与未运行的物理锁屏。native verified 通常确认当前控件属性；编辑器可能还要求结束编辑后才更新业务模型，应独立检查业务标签、保存并重开。应用自己的默认保存位置和云同步不受 Core 文件工具路径检查拦截，测试初始化时核对位置；本轮只使用自有合成数据。
+scripts/verify_runtime_audit.py 在自有原生 fixture 和真实 SQLite 上验证审计检查，明确区分 SQL/过期注入与未运行的物理锁屏。native verified 通常确认当前控件属性；编辑器可能还要求结束编辑后才更新业务模型，应独立检查业务标签、保存并重开。应用自己的默认保存位置和云同步不受 Core 文件工具路径检查拦截，测试初始化时核对位置；本轮只使用自有合成数据。
 
 ## Workflow Studio 与受控启动
 
 新 `bokkio-runtime studio` 是本机录制／版本管理／回放 UX；`bokkio-runtime workflow` 和 MCP `workflow.*` 使用当前企业 Core。安装身份由 `launch_apps` 配置，MCP 工作流 ID 由 `workflows` 配置；所有实际子动作各自核验原有授权与审批。见 [完整指南](WORKFLOW-STUDIO.md) 和 [实测报告](evidence/2026-10-13-workflow-studio/README.md)。这与旧 `bokkio workflow` 是两个入口，不能混淆其执行边界。
+
+
+## 可选原生读取和用户接管（2026-10-18）
+
+`desktop.observe` 可显式设置 `read_nodes`（1–100000）、`read_timeout`（大于0且不超过30秒）、`read_depth`（1–64）。这些值限制协作遍历，`max_nodes` / `max_bytes` 仍只限制返回内容。检查 `read.complete` 和 `truncated`；部分树不能批准写入，总节点数返回 `null`。provider 的直接子节点整批读取及阻塞调用无法被这些值硬中断。
+
+`view="web"` 在已授权 Chrome / Edge 精确窗口中整理原生网页区域，保留 ref、表格层次与可见弹窗。没有网页区域或无法确定当前区域时返回错误，不自动截图。它不注入 DOM；不会获得浏览器没有暴露的信息。
+
+本机配置页可开启用户接管；命令行等价入口为 `bokkio control enable`、`bokkio control status`、`bokkio control resume`、`bokkio control disable`。默认关闭，启用后先暂停，用户松开按键后手动继续。MCP / SDK 的 `desktop.control` 只读状态，无启用或恢复参数。macOS 需要当前辅助进程的输入监控权限。
+
+接管后需重新观察；旧观察、旧排队动作和旧 Jev 决策不能直接继续。Workflow 从原运行记录继续，保留已完成步骤。结果未知时先检查原操作回执和目标状态，不重发。宿主代码能绕过 Core；此功能协调 Core 桌面输入，不拦截任意本机脚本。
+
+开发结果与尚未完成的两端实机验收见[实施报告](WINDOWS-MACOS-INTEGRATION-RESULTS.md)。

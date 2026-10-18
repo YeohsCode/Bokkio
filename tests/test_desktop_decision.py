@@ -207,3 +207,17 @@ def test_stopped_jev_call_does_not_stay_running_in_ui(setup):
         db.execute("UPDATE operations SET status='running',result=NULL WHERE id='pending'")
     tree=chat_trace({'id':'task','prompt':'cancelled','status':'cancelled','choices':{}},client.runtime.store.root)
     assert next(n for n in tree['children'] if n['engine']=='Jev')['status']=='cancelled'
+
+
+def test_user_takeover_during_jev_then_resume_invalidates_old_decision(setup,monkeypatch,tmp_path):
+    from bokkio.desktop_control import ControlState
+    monkeypatch.setenv('BOKKIO_CONTROL_DIR',str(tmp_path/'control'))
+    state=ControlState();state.configure(True);state.heartbeat();state.resume()
+    bridge,client,desktop,provider,args=setup
+    ask=provider.ask
+    def takeover(*a):
+        result=ask(*a);state.event('mouse');state.resume();return result
+    provider.ask=takeover
+    r=bridge.call('desktop.step',args,session_id=client.session_id)
+    assert r['dispatched'] is False and desktop.clicks==0,r
+    assert r['error_code']=='user_control_paused'

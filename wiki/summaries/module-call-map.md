@@ -1,10 +1,10 @@
 ---
 title: "模块调用关系与完整代码地图"
 created: "2026-10-13"
-updated: "2026-10-16"
+updated: "2026-10-18"
 type: "summary"
 tags: ["architecture", "runtime", "maintenance"]
-sources: ["pyproject.toml", "src/bokkio/xa11y_backend.py", "src/bokkio/runtime.py", "src/bokkio/mcp_server.py", "src/bokkio/executor.py", "src/bokkio/capability_registry.py", "src/bokkio/runtime_workflow.py", "src/bokkio/model.py", "src/bokkio/cli.py", "src/bokkio/agent.py", "src/bokkio/decision.py", "src/bokkio/workflow.py", "src/bokkio/office_runner.py", "docs/RUNTIME-GUIDE.md", "src/bokkio/outlook_graph.py", "src/bokkio/desktop_service.py", "src/bokkio/local_runtime.py", "src/bokkio/desktop_chat.py", "docs/OUTLOOK-GRAPH.md"]
+sources: ["pyproject.toml", "src/bokkio/xa11y_backend.py", "src/bokkio/runtime.py", "src/bokkio/mcp_server.py", "src/bokkio/executor.py", "src/bokkio/capability_registry.py", "src/bokkio/runtime_workflow.py", "src/bokkio/model.py", "src/bokkio/cli.py", "src/bokkio/agent.py", "src/bokkio/decision.py", "src/bokkio/workflow.py", "src/bokkio/office_runner.py", "docs/RUNTIME-GUIDE.md", "src/bokkio/outlook_graph.py", "src/bokkio/desktop_service.py", "src/bokkio/local_runtime.py", "src/bokkio/desktop_chat.py", "docs/OUTLOOK-GRAPH.md", "src/bokkio/observation.py", "src/bokkio/web_view.py", "src/bokkio/desktop_control.py", "src/bokkio/input_monitor.py"]
 confidence: "high"
 ---
 
@@ -47,7 +47,7 @@ flowchart TB
 | 工具 | 实际调用链 | 结果与证据 |
 |---|---|---|
 | capabilities / session.open / session.close | Runtime → 能力描述／AuditStore；应用绑定使用backend.apps与process_birth | 能力入口、授权Session |
-| module.list / capability.list / capability.get | Runtime → capability_registry → office_xlsx_contract | 摘要、健康、完整合同与SHA256；无实现导入 |
+| module.list / capability.list / capability.get | Runtime → capability_registry → office_xlsx_contract | 摘要、健康、完整接口定义与SHA256；无实现导入 |
 | capability.invoke | Runtime校验／审批 → registry.prepare → executor.launch → worker → office_xlsx.main | queued；job.get.result.output含模块核验与文件证据 |
 | workflow.list / workflow.get | Runtime → WorkflowLibrary | 获准版本库 |
 | workflow.run / workflow.resume / workflow.status / workflow.cancel | Runtime → RuntimeWorkflowRunner → sdk.Client.call → Core子操作 | run_id、检查点、审批、步骤回执 |
@@ -83,9 +83,9 @@ flowchart TB
 
 | 文件（相对src/bokkio） | 协作／职责 |
 |---|---|
-| mcp_server.py / runtime_cli.py / sdk.py / tool_schema.py | 三入口和公共参数合同 |
+| mcp_server.py / runtime_cli.py / sdk.py / tool_schema.py | 三入口和公共参数定义 |
 | runtime.py / audit.py | 会话、授权、精确审批、幂等、分派、SQLite与证据 |
-| capability_registry.py | 静态注册、渐进发现、健康、合同绑定和作业准备 |
+| capability_registry.py | 静态注册、渐进发现、健康、接口与实现绑定和作业准备 |
 | modules/__init__.py / modules/office_xlsx_contract.py / modules/office_xlsx.py | 可选模块包、只读元数据、openpyxl文件实现与独立核验 |
 | workflow_studio.py / studio/app.js / studio/index.html / studio/studio.css | 本机管理UX／版本／运行记录 |
 | manual_recording.py / native/macos_record.swift | 被动录制与文本读回，未识别手势待审阅 |
@@ -111,7 +111,7 @@ flowchart TB
 | jev.py | JevClient 调用提供方 Decisions API；由 decision.decide 使用 |
 | decision.py | model/selector + DecisionProvider；闭集动作/目标、置信度检查；execute_decision → backend.perform |
 | workflow.py | backend + agent/planner 条件 + workflow_inputs；Recorder、trace 编译、确定性重放、版本和恢复 |
-| workflow_inputs.py | 参数/输入与交付文件版本、路径/哈希合同；被 Workflow 使用 |
+| workflow_inputs.py | 参数/输入与交付文件版本、路径/哈希检查；被 Workflow 使用 |
 | workflow_repair.py | Planner/provider 配置与候选选择；修复失败 selector 生成新版本，正常 replay 不调用模型 |
 | visual.py | capture 元数据验证、OCR 文本候选与图像/屏幕坐标换算 |
 | visual_input.py | 限定 Mac OCR 目标输入 API，capture/native helper 与验证；旧文字视觉路径 |
@@ -123,10 +123,19 @@ flowchart TB
 | office_judge.py | office_benchmark + 可选外部 VLM；保留 judge 入口，是否实测以报告为准 |
 | scripts/verify_runtime*.py、verify_harness_clients.py | 新 Runtime 开发验证；业务样本使用独立产物/日志检查 |
 | scripts/evaluate_runtime_business.py、evaluate_approval_wait.py | 调用方自主业务与等待恢复评测；评分不是 Core 内置规划 |
-| tests/、fixtures/、examples/ | 隔离合同测试、可丢弃原生/视觉/Browser fixture、MCP/SDK/策略示例 |
+| tests/、fixtures/、examples/ | 隔离接口与执行行为测试、可丢弃原生/视觉/Browser fixture、MCP/SDK/策略示例 |
 
 旧链路依据：^[src/bokkio/cli.py#L160] ^[src/bokkio/agent.py#L361] ^[src/bokkio/decision.py#L562] ^[src/bokkio/workflow.py#L334] ^[src/bokkio/office_runner.py#L233]
 
 可选模块仍有各自 trace/控制规则；它们直接调用 backend 的事实不等于自动具备新 Core 会话/审批保护。新增客户端应选择 MCP/SDK/CLI 契约，独立验收结果，避免把业务规则加入 Core。^[docs/RUNTIME-GUIDE.md#L3]
 
 关联：[[summaries/architecture-map]]、[[entities/runtime-core]]、[[concepts/runtime-contracts]]、[[entities/native-runtime]]、[[entities/workflow-engine]]、[[entities/desktop-agent]]。
+
+
+## 2026-10-18 原生读取与用户接管
+
+- `desktop.observe` 的读取预算由 `observation.py` 共享给 `xa11y_backend.py` / `macos_ax.py`；`web_view.py` 整理 Chrome / Edge 原生网页区域。部分树不可用于动作。
+- `desktop.control` 只读状态；`desktop_control.py` 与 `input_monitor.py` 共用本机暂停状态，Core、Workflow、Jev 及原生辅助进程在派发点检查。开关和继续由本机 UI / CLI 操作。
+- 实测范围、失败记录与未完成的两端安装包验收见 [实施报告](../../docs/WINDOWS-MACOS-INTEGRATION-RESULTS.md)。
+
+依据：^[src/bokkio/observation.py#L13] ^[src/bokkio/web_view.py#L6] ^[src/bokkio/desktop_control.py#L29] ^[src/bokkio/input_monitor.py#L1]

@@ -1,0 +1,87 @@
+{
+  "kind": "macos_chrome_owned_local_page",
+  "forced_accessibility": true,
+  "required": [
+    "BK-2718",
+    "Blue pen",
+    "37",
+    "Red pen",
+    "19",
+    "REF-2026",
+    "Send order",
+    "Tuesday at 10:30.",
+    "aisle 4"
+  ],
+  "screenshots": false,
+  "dom_injection": false,
+  "node_roles": [
+    "button",
+    "check_box",
+    "group",
+    "heading",
+    "menu",
+    "menu_bar",
+    "menu_item",
+    "static_text",
+    "table",
+    "table_cell",
+    "table_row",
+    "text_field",
+    "web_area",
+    "window"
+  ],
+  "view": {
+    "kind": "web",
+    "source": "native_accessibility",
+    "page_roots": [
+      "bf786416ab4e4cbdddf8"
+    ],
+    "scope": "authorized_snapshot_only",
+    "omitted_nodes": 25,
+    "complete": true
+  },
+  "read": {
+    "complete": true,
+    "reason": null,
+    "visited_nodes": 819,
+    "tree": 91,
+    "annotation": 728,
+    "child_batches": 91,
+    "child_candidates": 90,
+    "elapsed_ms": 492.15,
+    "node_limit": null,
+    "depth_limit": null,
+    "native_calls_interruptible": false,
+    "child_enumeration": "provider_batch_not_paged"
+  },
+  "native_nodes": 410,
+  "web_nodes": 385,
+  "checks": {
+    "BK-2718": true,
+    "Blue pen": true,
+    "37": true,
+    "Red pen": true,
+    "19": true,
+    "REF-2026": true,
+    "Send order": true,
+    "Tuesday at 10:30.": true,
+    "aisle 4": true
+  },
+  "native_bytes": 312289,
+  "web_bytes": 285947,
+  "core_window_title": "Bokkio Native Web Fixture - Google Chrome",
+  "core_status": "completed",
+  "core_checks": {
+    "BK-2718": true,
+    "Blue pen": true,
+    "37": true,
+    "Red pen": true,
+    "19": true,
+    "REF-2026": true,
+    "Send order": true,
+    "Tuesday at 10:30.": true,
+    "aisle 4": true
+  },
+  "core_truncated": false,
+  "core_returned_bytes": 260119
+}

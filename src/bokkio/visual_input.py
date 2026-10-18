@@ -107,7 +107,10 @@ def perform(metadata,png,text,action,*,value=None,region=None,expect_text=None,v
             request['native_field']={'role':'AXTextField' if _native_target['role']=='text_field' else 'AXComboBox','name':_native_target['name'],
                                      'identity':data['ax_native_identity'],'bounds':_native_target['bounds'],
                                      'value':_native_target.get('value'),'expand':_expand}
+    from .desktop_control import checkpoint, native_guard
+    request.update(native_guard())
     helper=_helper()
+    checkpoint()
     if control is not None and control() not in {'continue',None}:
         raise CaptureError('input_cancelled','Input was cancelled before native dispatch',dispatched=0)
     try:

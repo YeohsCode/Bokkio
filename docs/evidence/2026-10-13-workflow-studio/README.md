@@ -1,6 +1,6 @@
 # Workflow Studio 与后台桌面回放执行报告
 
-日期：2026-10-13；开发基线 f6e2c6c，当前源码 SHA 见 [source-files.json](source-files.json)。这些是功能合同／自有应用测试，不能代替三调用方自主业务成功率或客户验收。原完整业务复测仍按用户要求暂停。
+日期：2026-10-13；开发基线 f6e2c6c，当前源码 SHA 见 [source-files.json](source-files.json)。这些是功能接口与执行行为的自有应用测试，不能代替三调用方自主业务成功率或客户验收。原完整业务复测仍按用户要求暂停。
 
 ## 已交付
 
@@ -14,7 +14,7 @@
 
 | 验证 | 结果 | 范围 |
 |---|---:|---|
-| [全回归](regression.json) | **613/613** | 包含 26 项 Workflow 合同；不是业务任务数量 |
+| [全回归](regression.json) | **613/613** | 包含 26 项 Workflow 接口与执行检查；不是业务任务数量 |
 | [Runtime 实机矩阵](integration-latest.json) | **9/9** | 三种窗口位置、关闭后自动启动、新 PID、歧义、后台原生、审计关联、网页／代码两种模式 |
 | [被动文字读回](readback-latest.json) | **4/4** | 独立 Runtime 产生测试输入；暂停排除、恢复边界、录制器零写派发 |
 | [真实 OS 生成事件录制／回放](physical-latest.json) | **5/5** | 鼠标按钮与文字、无录制问题、零重复派发、同一 JSON 重放后独立字段／点击次数 |
@@ -39,4 +39,4 @@ Windows 人工监听与对应 UIA／后台启动实机验收、用户本人完�
 
 后台原生与服务器无 GUI 是不同执行条件。没有交互桌面的机器需网页／脚本／应用 API 通道；普通 macOS GUI 应用不能自动变成无显示服务。代码仍沿用 trusted-host 边界，没有新增 OS 文件沙箱、云 SSO 或签名发行。
 
-指南：[WORKFLOW-STUDIO.md](../../WORKFLOW-STUDIO.md)。测试目录：fixtures/workflow-recording；合同 tests/test_runtime_workflow.py；实机脚本 verify_workflow_recording、verify_manual_recording、verify_physical_recording、verify_background_workflow、verify_workflow_mcp。
+指南：[WORKFLOW-STUDIO.md](../../WORKFLOW-STUDIO.md)。测试目录：fixtures/workflow-recording；接口与执行行为测试 tests/test_runtime_workflow.py；实机脚本 verify_workflow_recording、verify_manual_recording、verify_physical_recording、verify_background_workflow、verify_workflow_mcp。

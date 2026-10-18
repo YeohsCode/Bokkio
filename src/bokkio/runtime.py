@@ -16,10 +16,10 @@ import sys
 import time
 
 from .audit import AuditStore, canonical, digest, identifier, summarize, identity
-from .model import BokkioCompletionUnknown, BokkioStaleSnapshot, tree_digest
+from .model import BokkioCompletionUnknown, BokkioStaleSnapshot, tree_digest, BokkioActionRefused
 
 
-READ_TOOLS = {"capabilities", "desktop.list", "desktop.windows", "desktop.observe", "desktop.capture", "job.get", "artifact.read",
+READ_TOOLS = {"desktop.control", "capabilities", "desktop.list", "desktop.windows", "desktop.observe", "desktop.capture", "job.get", "artifact.read",
               "evidence.check", "audit.query", "audit.export", "events.follow", "metrics.summary", "approval.status", "browser.observe"}
 WRITE_TOOLS = {"desktop.act", "desktop.input", "desktop.activate", "desktop.launch", "desktop.pixel", "code.run", "process.run", "browser.open", "browser.act"}
 READ_TOOLS |= {"workflow.list", "workflow.get", "workflow.status"}
@@ -110,12 +110,16 @@ class Runtime:
                 else:
                     self._session(_session_guard)
             if method == "perform":
+                from .desktop_control import checkpoint
+                checkpoint()
                 from .xa11y_backend import Xa11yBackend
                 if isinstance(self.backend, Xa11yBackend):
                     from .desktop_input import require_input_session
                     require_input_session()
             return getattr(self.backend, method)(*args, **kwargs)
-        return self._native_executor.submit(invoke).result()
+        from contextvars import copy_context
+        context = copy_context()
+        return self._native_executor.submit(lambda: context.run(invoke)).result()
 
     def _session(self, session_id):
         with self.store.connect() as db:
@@ -280,7 +284,11 @@ class Runtime:
                             data={"tool": tool, "request_sha256": request_hash, "policy_sha256": digest(self.policy), "write": write})
             claimed = True
             parent_token = parent_operation.set(operation_id)
-            try:payload = self._execute(tool, arguments, scope, session_id, operation_id)
+            try:
+                from contextlib import nullcontext
+                from .desktop_control import guarded_operation
+                with guarded_operation() if tool in WRITE_TOOLS and tool.startswith('desktop.') else nullcontext():
+                    payload = self._execute(tool, arguments, scope, session_id, operation_id)
             finally:parent_operation.reset(parent_token)
             if tool == "session.open":
                 session_id = payload["session_id"]
@@ -320,6 +328,13 @@ class Runtime:
         return result
 
     def _validate(self, tool, args, scope, session_id=None):
+        if (tool in WRITE_TOOLS and tool.startswith('desktop.')) or tool in {'workflow.run', 'workflow.resume'}:
+            from .desktop_control import ControlState
+            ControlState().check()
+        if tool == 'desktop.observe':
+            from .observation import ReadBudget
+            ReadBudget(**{k.removeprefix('read_') if k != 'read_nodes' else 'nodes': v
+                          for k, v in args.items() if k in {'read_nodes', 'read_timeout', 'read_depth'}})
         if tool.startswith('outlook.') and not (self.policy.get('outlook') and scope.get('outlook')):
             raise ValueError('Outlook is not enabled by this host')
         if tool=='outlook.request':
@@ -358,7 +373,7 @@ class Runtime:
         if tool == "desktop.launch":
             from .app_launch import launch_grant
             launch_grant(self.policy, args["app"], scope)
-        if tool.startswith("desktop.") and tool not in {"desktop.list", "desktop.launch"}:
+        if tool.startswith("desktop.") and tool not in {"desktop.list", "desktop.launch", "desktop.control"}:
             app = self._app(scope, args.get("app"), args.get("window"))
             if tool in {"desktop.act", "desktop.input", "desktop.pixel"}:
                 observation = self._get_observation(session_id, args["observation_id"])
@@ -367,6 +382,14 @@ class Runtime:
                 required = "snapshot" if tool in {"desktop.act","desktop.input"} else "metadata"
                 if required not in observation:
                     raise ValueError("Action requires the matching native/pixel observation type")
+                if required == 'snapshot':
+                    from .observation import require_complete
+                    require_complete(observation['snapshot'])
+                from .desktop_control import ControlState
+                control = ControlState().status()
+                if control['enabled'] and observation.get('control_generation') != control['generation']:
+                    from .model import BokkioActionRefused
+                    raise BokkioActionRefused('Desktop control changed since observation; reobserve', 'user_control_changed')
         if tool in {"code.run", "process.run"}:
             if not scope["trusted_host"] or not self.policy["trusted_host"]:
                 raise ValueError("trusted-host execution is not granted")
@@ -409,6 +432,10 @@ class Runtime:
             raise ValueError("Audit queries cannot choose another session")
 
     def _execute(self, tool, args, scope, session_id, operation_id):
+        if tool == "desktop.control":
+            from .desktop_control import ControlState
+            value = ControlState().status()
+            return {k: value[k] for k in ("enabled", "state", "generation", "healthy", "error") if k in value}
         if tool.startswith('outlook.'):
             from .outlook_graph import GraphPowerShell
             graph=GraphPowerShell(self.store.root)
@@ -511,18 +538,27 @@ class Runtime:
             return receipt
         if tool == "desktop.observe":
             app = self._app(scope, args["app"], args.get("window"))
-            snapshot = self._native_call("snapshot", app, args.get("window"))
-            if args.get("window") is not None and not any(
+            from .desktop_control import ControlState
+            control_generation = ControlState().status().get('generation')
+            options = {k: args[k] for k in ('read_nodes', 'read_timeout', 'read_depth') if k in args}
+            snapshot = self._native_call("snapshot", app, args.get("window"), **options)
+            read = snapshot.get('read', {'complete': True, 'accounting_available': False})
+            if read['complete'] and args.get("window") is not None and not any(
                     args["window"] in {n.get("name"), n.get("ref"), n.get("platform_data", {}).get("native_stable_id")}
                     for n in snapshot["windows"]):
                 raise ValueError("Observation requires an exact window title/ref, not a substring")
-            payload = {"time": time.time(), "app": app, "window": args.get("window"), "snapshot": snapshot}
+            payload = {"time": time.time(), "app": app, "window": args.get("window"), "snapshot": snapshot,
+                       "control_generation": control_generation}
             observation_id = self._observation(session_id, payload)
             limit = args.get("max_nodes", 240)
             if type(limit) is not int or not 1 <= limit <= 2000:
                 raise ValueError("max_nodes must be 1..2000")
             from .selector import flatten
             nodes = list(flatten(snapshot["windows"]))
+            view = {'kind': 'native', 'complete': read['complete']}
+            if args.get('view') == 'web':
+                from .web_view import select_web
+                nodes, view = select_web(snapshot)
             full = self.store.root / (identifier() + ".json")
             full.write_text(canonical(snapshot), encoding="utf-8")
             artifact = self._artifact(session_id, operation_id, full, "application/json")
@@ -549,7 +585,9 @@ class Runtime:
                 text_truncated = text_truncated or entry != shallow
             return {"observation_id": observation_id, "snapshot_sha256": tree_digest(snapshot["windows"]),
                     "app": snapshot["app"], "nodes": public, "source": "native_accessibility", "content_trust": "untrusted_app_data",
-                    "total_nodes": len(nodes), "truncated": len(public) < len(nodes) or text_truncated,
+                    "total_nodes": len(nodes) if read['complete'] else None,
+                    "read": read, "view": view, "observed_nodes": len(nodes),
+                    "truncated": not read['complete'] or len(public) < len(nodes) or text_truncated,
                     "snapshot_artifact": artifact, "returned_bytes": used}
         if tool == "desktop.act":
             observation = self._get_observation(session_id, args["observation_id"])
@@ -572,14 +610,23 @@ class Runtime:
             with desktop_lock():
                 self._dispatch_scope(tool,args,session_id)
                 fresh=self._native_call('snapshot',app,args.get('window'))
+                focus_dispatched=False
                 if args['action'] in {'key','type','replace_text'}:
                     from .anchored_input import prepare_target
                     target,_=prepare_target(observation['snapshot'],fresh,{**args,'app':str(app)})
                     if target.get('role') not in {'window','application'} and target.get('state',{}).get('focused') is not True:
                         if 'focus' not in target.get('actions',[]):raise ValueError('Keyboard target cannot receive focus')
                         self._native_call('perform',app,'focus',ref=target['ref'],window=args.get('window'),expected_snapshot=tree_digest(fresh['windows']))
+                        focus_dispatched=True
                         fresh=self._native_call('snapshot',app,args.get('window'))
-                return self._native_executor.submit(lambda:perform_anchored(int(app),args.get('window'),observation['snapshot'],fresh,{**args,'app':str(app)},cancel_path=self.store.root/'session-cancellations'/session_id)).result()
+                from contextvars import copy_context
+                context = copy_context()
+                try:
+                    return self._native_executor.submit(lambda:context.run(perform_anchored,int(app),args.get('window'),observation['snapshot'],fresh,{**args,'app':str(app)},cancel_path=self.store.root/'session-cancellations'/session_id)).result()
+                except BokkioActionRefused as error:
+                    if focus_dispatched:
+                        raise BokkioCompletionUnknown('Target focus was already changed; inspect before retry') from error
+                    raise
         if tool == "desktop.activate":
             from .desktop_input import desktop_lock, activate
             app = self._app(scope, args["app"], args["window"])
@@ -588,6 +635,8 @@ class Runtime:
                 return activate(int(app), args["window"], args.get("window_id"))
         if tool == "desktop.capture":
             from .desktop_input import capture
+            from .desktop_control import ControlState
+            control_generation = ControlState().status().get('generation')
             app = self._app(scope, args["app"], args.get("window"))
             metadata, png = capture(int(app), args.get("window_id"), args.get("window"))
             if args.get("window") is not None and metadata.get("window_title") != args["window"]:
@@ -596,7 +645,8 @@ class Runtime:
             image.write_bytes(png)
             artifact = self._artifact(session_id, operation_id, image, "image/png")
             observation_id = self._observation(session_id, {"time": time.time(), "app": app, "window": args.get("window"),
-                                                           "metadata": metadata, "artifact_id": artifact["artifact_id"]})
+                                                           "metadata": metadata, "artifact_id": artifact["artifact_id"],
+                                                           "control_generation": control_generation})
             return {"observation_id": observation_id, "metadata": metadata, "artifact": artifact}
         if tool == "desktop.pixel":
             from .desktop_input import desktop_lock, perform

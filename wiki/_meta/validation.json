@@ -1,116 +1,18 @@
 {
-  "refresh": "2026-10-16-graph-generic",
-  "compiled_pages": 28,
-  "markdown_pages": 31,
-  "resolved_wikilinks": 184,
-  "source_line_citations": 240,
-  "referenced_source_files": 76,
-  "source_snapshots_verified": 240,
-  "current_source_modules_mapped": 55,
-  "public_tools_mapped": 38,
+  "refresh": "2026-10-18-native-integration",
+  "compiled_pages": 29,
+  "markdown_pages": 32,
+  "resolved_wikilinks": 198,
+  "source_line_citations": 268,
+  "referenced_source_files": 82,
+  "source_snapshots_verified": 283,
+  "current_source_modules_mapped": 59,
+  "public_tools_mapped": 39,
   "orphan_pages": [],
   "errors": [],
   "privacy_scan": {
     "scope": "versioned repository source snapshots",
     "credential_pattern_findings": []
   },
-  "mermaid_blocks": 8,
-  "mermaid_validation": {
-    "mermaid_version": "11.12.0",
-    "results": [
-      {
-        "file": "README.md",
-        "index": 1,
-        "valid": true
-      },
-      {
-        "file": "README.md",
-        "index": 2,
-        "valid": true
-      },
-      {
-        "file": "README.md",
-        "index": 3,
-        "valid": true
-      },
-      {
-        "file": "README.md",
-        "index": 4,
-        "valid": true
-      },
-      {
-        "file": "wiki/concepts/runtime-contracts.md",
-        "index": 1,
-        "valid": true
-      },
-      {
-        "file": "wiki/summaries/architecture-map.md",
-        "index": 1,
-        "valid": true
-      },
-      {
-        "file": "wiki/summaries/architecture-map.md",
-        "index": 2,
-        "valid": true
-      },
-      {
-        "file": "wiki/summaries/module-call-map.md",
-        "index": 1,
-        "valid": true
-      }
-    ]
-  },
-  "mermaid_rendering": [
-    {
-      "diagram": 1,
-      "viewBox": "0 0 2186.1796875 934",
-      "width": 1752,
-      "height": 748.5,
-      "rendered": true
-    },
-    {
-      "diagram": 2,
-      "viewBox": "0 0 802.140625 1006",
-      "width": 1752,
-      "height": 2197.25,
-      "rendered": true
-    },
-    {
-      "diagram": 3,
-      "viewBox": "0 0 1957.20703125 1094",
-      "width": 1752,
-      "height": 979.296875,
-      "rendered": true
-    },
-    {
-      "diagram": 4,
-      "viewBox": "-50 -10 1554.5 1347",
-      "width": 1752,
-      "height": 1518.125,
-      "rendered": true
-    },
-    {
-      "diagram": 5,
-      "viewBox": "0 0 2104.203125 934",
-      "width": 1752,
-      "height": 777.65625,
-      "rendered": true
-    },
-    {
-      "diagram": 6,
-      "viewBox": "0 0 1886.551025390625 1118",
-      "width": 1752,
-      "height": 1038.25,
-      "rendered": true
-    }
-  ],
-  "mermaid_visual_review": {
-    "diagrams": [
-      1,
-      3,
-      5,
-      6
-    ],
-    "scope": "updated system and module-call diagrams"
-  }
+  "mermaid_blocks": 8
 }

@@ -66,7 +66,7 @@ MCP / `Client.call()` 新增 `workflow.list/get/run/status/resume/cancel`。管�
 
 ## 测试与当前限制
 
-专用测试目录为 `fixtures/workflow-recording`，合同测试为 `tests/test_runtime_workflow.py`；实机脚本是 `scripts/verify_workflow_recording.py`、`scripts/verify_manual_recording.py` 和 `scripts/verify_workflow_mcp.py`、`scripts/verify_physical_recording.py`、`scripts/verify_background_workflow.py`。覆盖窗口移动、进程重绑、启动延迟、歧义、版本冲突、暂停、取消、审批到期、未知完成不重发、代码作业和两个浏览器模式。
+专用测试目录为 `fixtures/workflow-recording`，接口与执行行为测试为 `tests/test_runtime_workflow.py`；实机脚本是 `scripts/verify_workflow_recording.py`、`scripts/verify_manual_recording.py` 和 `scripts/verify_workflow_mcp.py`、`scripts/verify_physical_recording.py`、`scripts/verify_background_workflow.py`。覆盖窗口移动、进程重绑、启动延迟、歧义、版本冲突、暂停、取消、审批到期、未知完成不重发、代码作业和两个浏览器模式。
 
 本机最终分数及源码哈希见 [Workflow 报告](evidence/2026-10-13-workflow-studio/README.md)。真实 OS 事件录制／回放已通过；初次前台预检失败的具体阻挡原因未确认，原始结果保留。生成的输入／AX 读回不冒充真实人工验收，前台与图像守卫保持不变。当前三调用方完整业务矩阵仍按用户要求暂停，历史成绩不能填入这次新增源码的验收表。
 

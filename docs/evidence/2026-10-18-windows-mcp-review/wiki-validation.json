@@ -1,0 +1,18 @@
+{
+  "refresh": "2026-10-16-graph-generic",
+  "compiled_pages": 28,
+  "markdown_pages": 31,
+  "resolved_wikilinks": 185,
+  "source_line_citations": 240,
+  "referenced_source_files": 76,
+  "source_snapshots_verified": 240,
+  "current_source_modules_mapped": 55,
+  "public_tools_mapped": 38,
+  "orphan_pages": [],
+  "errors": [],
+  "privacy_scan": {
+    "scope": "versioned repository source snapshots",
+    "credential_pattern_findings": []
+  },
+  "mermaid_blocks": 8
+}

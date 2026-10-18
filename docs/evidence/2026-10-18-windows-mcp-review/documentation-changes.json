@@ -1,0 +1,318 @@
+{
+  "date": "2026-10-18",
+  "edited_existing_documents": 51,
+  "removed_occurrences": 164,
+  "revised_historical_text_snapshots": 20,
+  "original_snapshot_hashes_preserved": true,
+  "old_chinese_term_matches": [],
+  "report_broken_local_links": [],
+  "runtime_and_existing_tests_unchanged": true,
+  "files": [
+    {
+      "path": "README.md",
+      "before_sha256": "f33e9ad45d8598df03a6277e2dc356449c5339ba028a6d5f5e37834a0e4f22be",
+      "after_sha256": "adcb9022c7f0b3125b952b6e731d4d4e6ea73dba1b530ffbad2c9da165f96a20",
+      "occurrences_removed": 5
+    },
+    {
+      "path": "docs/CAPABILITY-MODULE-PLAN.md",
+      "before_sha256": "440e500df8a1188f0e08b60b0fe5cd0b38ed416935f35cad1a5ada3f41681ccc",
+      "after_sha256": "da0748a02df3f234ac07840f4f9d56cf605056cc8e2a8c383fc3704cb663257e",
+      "occurrences_removed": 3
+    },
+    {
+      "path": "docs/CAPABILITY-MODULES.md",
+      "before_sha256": "d59f4f255c00fbc5106ce3ce4ac3ba94593fa59f333f2709a3391a1a254d576c",
+      "after_sha256": "6382c96e1410d5ce73f88ee827715da02c799fc2f3cc7a7bf3761b903404f3eb",
+      "occurrences_removed": 9
+    },
+    {
+      "path": "docs/OUTLOOK-GRAPH.md",
+      "before_sha256": "cee03f78fbfd8c076e69f09e8fa736231f581587aca6aaa5314912b55d9b84cb",
+      "after_sha256": "0071fb1fa2911eafad37de445679c502b61004f1ed99daa2709fede1cdc738c3",
+      "occurrences_removed": 1
+    },
+    {
+      "path": "docs/P5-WAA-PILOT.md",
+      "before_sha256": "9661a6da6280bf0e4157b0097d0f47e5b8ed534dfcc100080151032be7751e8b",
+      "after_sha256": "daae45e2063e4f8c764396a8ac364710824d508f91a634cfccc1cc325af4e799",
+      "occurrences_removed": 2
+    },
+    {
+      "path": "docs/PLAN-REPOSITIONING.md",
+      "before_sha256": "8504fe8cd41195553321705f3272f4199d4bc32bbb173aa79d635e65dfde2031",
+      "after_sha256": "d75d06886045a2ad39ad9a5d99069fc36d97d3a02b4a03f24a2ce7631be3043c",
+      "occurrences_removed": 1
+    },
+    {
+      "path": "docs/RUNTIME-DELIVERY.md",
+      "before_sha256": "7f259da2854bc923c3b42687ed37ea3f7671130f33d1078f3bba40818fc3104e",
+      "after_sha256": "3d6fc763e653553c97083d530f7a7fee88dfbb76ea9ff1782b98ab05a9cdae7e",
+      "occurrences_removed": 1
+    },
+    {
+      "path": "docs/RUNTIME-GUIDE.md",
+      "before_sha256": "64a4e54af64884a3ff1535e32e79012d3f918e36f6788e93a495a1ec7d7d72d6",
+      "after_sha256": "7ae9f21e6141c6cde73d3efc8e8265278dba847794b96317826524ec1b16457c",
+      "occurrences_removed": 2
+    },
+    {
+      "path": "docs/SHORTCUTS-WORKFLOW-PLAN.md",
+      "before_sha256": "c44832a3881632ea53fa94ff1484d44db5a62420ccd7e9d0277ef9066f1d7c33",
+      "after_sha256": "560568cbfbffea22f3348991768fb98de05ed05e6127d92987a13b5da01e7343",
+      "occurrences_removed": 8
+    },
+    {
+      "path": "docs/TEST-STRENGTHENING-PLAN.md",
+      "before_sha256": "92b91552efc5750392e514990b3ae665d9eba22d806e1bfa7fdb0f9b66834d1e",
+      "after_sha256": "3c285260aaf99f91ebae6d5a74310470f4c2f8ca36e22f18e9a60894e499de90",
+      "occurrences_removed": 9
+    },
+    {
+      "path": "docs/WORKFLOW-STUDIO.md",
+      "before_sha256": "9c73b9cad0987120b00389582f7b55b3f4df73ea18d760e1af00074b791b9234",
+      "after_sha256": "ea585f3a458f3a0e69ea035dfc69de3b523343f6049f49be1bf69ec57306c083",
+      "occurrences_removed": 1
+    },
+    {
+      "path": "docs/evidence/2026-10-12-business-eval/README.md",
+      "before_sha256": "9f6ef80cbffe0dd65790c4827d61a25b13a3e06915be09296d6f8ef4f9bb849d",
+      "after_sha256": "d7dd9eabbd37edbc8de5eb9debd73a61052c7f540c50d361e0668906bc355a25",
+      "occurrences_removed": 2
+    },
+    {
+      "path": "docs/evidence/2026-10-12-macos-completion/README.md",
+      "before_sha256": "d8df521b6a9a560e0ccd08f853c43afad9d2b2d950a50e2a9f50641b721cbac8",
+      "after_sha256": "bf62f33280460b688d72d8a9d4035f16849f24fb8d85124b2c1573fcdfcaa8a9",
+      "occurrences_removed": 3
+    },
+    {
+      "path": "docs/evidence/2026-10-13-capability-modules/README.md",
+      "before_sha256": "a6472603af6171657b4eeff072d86813b22d77a7c3cedfdb4d9576cef1236733",
+      "after_sha256": "38fcb54f8b78560494363afae13cbf95d603a0d025373b63e60b050d84265731",
+      "occurrences_removed": 4
+    },
+    {
+      "path": "docs/evidence/2026-10-13-workflow-studio/README.md",
+      "before_sha256": "8d19ce51d33acb5e29981f7137e15da15002b17b31d2141bafaa76553237ef86",
+      "after_sha256": "ec632a670d7613880f5cffc5405796ca02f33d2cdd466bb5fbc13e0365390fcc",
+      "occurrences_removed": 3
+    },
+    {
+      "path": "docs/evidence/2026-10-15-desktop-jev/README.md",
+      "before_sha256": "7268686b29bbd64c7ada59cc66a32bfb465efedea95db5f822ed80a99cfa933c",
+      "after_sha256": "ebf7eec006909a2dfb21590dba95e223f85e8a003f81f4520e265c384309b0cf",
+      "occurrences_removed": 3
+    },
+    {
+      "path": "docs/evidence/2026-10-15-desktop-studio/README.md",
+      "before_sha256": "59b9954d46b99f56fb971d797956eb27d1c645d40b32ee51668352d867284985",
+      "after_sha256": "ac7101797046191ac22160a6bf0f87fcc7bb9158bcf6120c55eedf89b29cd48f",
+      "occurrences_removed": 1
+    },
+    {
+      "path": "docs/evidence/2026-10-16-graph-generic/README.md",
+      "before_sha256": "76b22ff4dc098df37620417743a5a290f30f12491ecd650d690cddb31e8560be",
+      "after_sha256": "44288c18bac92bc0be409397ace6d36b9d63f7a27cee070d8fb028352493dfc7",
+      "occurrences_removed": 1
+    },
+    {
+      "path": "docs/progress/HANDOFF.md",
+      "before_sha256": "432e9e1b7e6b44bd0f05cb3e621c638bf79adc907f79762d1362a0c6310f2b0c",
+      "after_sha256": "ac427e37f71b2b8c8b6828ca8a94e55be2c1f046b8b595ef427e8d24c0febede",
+      "occurrences_removed": 4
+    },
+    {
+      "path": "docs/progress/STATUS.md",
+      "before_sha256": "e47d6256fbd7472faaf925c0fec686aa426c0c3649dab91be8022e7209c55211",
+      "after_sha256": "3cff8ca5f4547b16319ee78f7c5ca3905186a6941aad083da4bfc4ebef34c3d3",
+      "occurrences_removed": 6
+    },
+    {
+      "path": "docs/progress/test-strengthening.json",
+      "before_sha256": "a185c23dcaf1276d30a3d1d3417370c4c1129ebf9c133b5ba059c8ce1404d5f9",
+      "after_sha256": "4f77099e9a199aca81357592de958c30c3ff12eda00ea36518b14448b5b4819f",
+      "occurrences_removed": 1
+    },
+    {
+      "path": "wiki/concepts/runtime-contracts.md",
+      "before_sha256": "bc2d4772347aff5bf924cccaf67c362c1069fd4d1f068a12eb030f878d180d00",
+      "after_sha256": "750860fedec9996a7040468080883e1a7e9d4a6cdf32ac84a507b00eb97e45d1",
+      "occurrences_removed": 3
+    },
+    {
+      "path": "wiki/entities/bokkio.md",
+      "before_sha256": "081db96617aadc8ccf7a247471de6c6fbacedcd4e43e1b298290e1a737e5ce31",
+      "after_sha256": "887062b0809eb47e4349d31a89fe6a64dce8828da68512d8fbbc8e4f9f02773e",
+      "occurrences_removed": 2
+    },
+    {
+      "path": "wiki/entities/capability-modules.md",
+      "before_sha256": "4b9620335d06fd3f56061ea747e25933fe283db3276376138d5952fc272f79b7",
+      "after_sha256": "72614c4b9c82b2b172ed129503355109ad951fba697bad42e5108436a06886d1",
+      "occurrences_removed": 8
+    },
+    {
+      "path": "wiki/entities/runtime-core.md",
+      "before_sha256": "520e58c4074451e4782737d2fe702cf323f64857f8fd200e5e28cd53e528c6dd",
+      "after_sha256": "56606c689a1d9a4e205c49b365e475c0de8a0dad39d19cbe84f19e969cda9e4f",
+      "occurrences_removed": 3
+    },
+    {
+      "path": "wiki/index.md",
+      "before_sha256": "42caa668e126fbb86b03d166d5cd15c1ab3f4509702dc920f1a9bcf29cc16ff3",
+      "after_sha256": "e7ccb6e50ad84521228b68568051f3f282598943af89cca1c1df325fc5720832",
+      "occurrences_removed": 3
+    },
+    {
+      "path": "wiki/log.md",
+      "before_sha256": "462828f27afbdf6d88af68642f9f3a84e534fa64dd85c76ebf768f657dafddde",
+      "after_sha256": "81611c15381973f8b3850e48daf3cf99a70968a6f724944fcb45c1b4835a51d9",
+      "occurrences_removed": 1
+    },
+    {
+      "path": "wiki/raw/source-snapshots/capability-workflow/README.md.txt",
+      "before_sha256": "171504700bbdc70147eedb1197b627e07537924e5ee8b6c7842376f2e5e2c23b",
+      "after_sha256": "11dea35782fcb42a21da0d88b0cae5988cc772ca813c5fc69289f459d862dba3",
+      "occurrences_removed": 5
+    },
+    {
+      "path": "wiki/raw/source-snapshots/capability-workflow/docs/CAPABILITY-MODULE-PLAN.md.txt",
+      "before_sha256": "ecee24ed2ef0f86411fe555e9a3eef3eedc43c7d7bc6f7f0a0173d14301d0164",
+      "after_sha256": "cb2fc1ef33cbc95aab6a8872a924f59daa57ad15d7f77bbf7570c627f3e8f41b",
+      "occurrences_removed": 3
+    },
+    {
+      "path": "wiki/raw/source-snapshots/capability-workflow/docs/CAPABILITY-MODULES.md.txt",
+      "before_sha256": "98cc180375848599a1b19847272a8dc9817d82a9f49994b44ca313201bcd04c3",
+      "after_sha256": "b07f5efe917a90058152e22fa869fa3081466142f3aeba26305139d448e262dd",
+      "occurrences_removed": 9
+    },
+    {
+      "path": "wiki/raw/source-snapshots/capability-workflow/docs/RUNTIME-GUIDE.md.txt",
+      "before_sha256": "35d21a97f0eb4d52bb7bf83260da3c70e2722b97dd4013bb56681f42e70edc7a",
+      "after_sha256": "d41a74f740adc554ac7ae3bc78cf8df879191c55c34078832d8a0305e3dace36",
+      "occurrences_removed": 2
+    },
+    {
+      "path": "wiki/raw/source-snapshots/capability-workflow/docs/WORKFLOW-STUDIO.md.txt",
+      "before_sha256": "b345863ec8383c2cc66cd08f0cc00fb496b3308a7152d5a4e56936d8d3f68dec",
+      "after_sha256": "af90c341a69933d18ac23f5d0c2a9ac796357e2d1f69f60412e7d8d183724877",
+      "occurrences_removed": 1
+    },
+    {
+      "path": "wiki/raw/source-snapshots/capability-workflow/docs/evidence/2026-10-13-capability-modules/README.md.txt",
+      "before_sha256": "01ce39883923ec2778f5851cc2059c61f00e5d050ac0182227b6156dcfbc620a",
+      "after_sha256": "01a7360e00a72a79e5c70cd56394e6b6d66dc55ab3a581a0cec141904ca0ea0c",
+      "occurrences_removed": 4
+    },
+    {
+      "path": "wiki/raw/source-snapshots/capability-workflow/docs/progress/STATUS.md.txt",
+      "before_sha256": "eb5b091a19d2e7c7d0ced869a952caf7693073fe52899d64daf0d03c4a90117b",
+      "after_sha256": "3e6f09a8de221ae4e1caf6fe2c606946ee54bbbd66048a16dc883ac2a2c1f556",
+      "occurrences_removed": 6
+    },
+    {
+      "path": "wiki/raw/source-snapshots/current-runtime/README.final.md.txt",
+      "before_sha256": "3463f51dc7814f0c4194fdd154412e8bd76d8da26a29df3aa2bc877107c5b910",
+      "after_sha256": "fbc389d4510be2c3ec9ba017823354980b2485b6ddfab00ac0cea2ece3b6595f",
+      "occurrences_removed": 3
+    },
+    {
+      "path": "wiki/raw/source-snapshots/current-runtime/README.md.txt",
+      "before_sha256": "9abc443a18b010ad9e94e8f772052e0326d38a855dd8588fe9315e24af6d2c1c",
+      "after_sha256": "4855cd3f88322bdc5735a51d3669b87ac6bf5c80ac173be1cce0d7ecd8bac375",
+      "occurrences_removed": 3
+    },
+    {
+      "path": "wiki/raw/source-snapshots/current-runtime/docs/PLAN-REPOSITIONING.md.txt",
+      "before_sha256": "7b3192c016ff2f6005ce5eb11ac0efbcefb280610119b36fa9ca644bd52580df",
+      "after_sha256": "5329895015b3bab92b0c72eb71c2f5acefb9843a19b9823cdd2b8bdb54a85a9d",
+      "occurrences_removed": 1
+    },
+    {
+      "path": "wiki/raw/source-snapshots/current-runtime/docs/RUNTIME-DELIVERY.md.txt",
+      "before_sha256": "9b76cc9e6d85a6784abdabaf079b330564125ecd21b0192783f99a6710956905",
+      "after_sha256": "d1405d714a559fd82b94ba8bf1e267e3ac80f724629c35bb998a547b345d4f31",
+      "occurrences_removed": 1
+    },
+    {
+      "path": "wiki/raw/source-snapshots/current-runtime/docs/RUNTIME-GUIDE.md.txt",
+      "before_sha256": "18cbe5ced980b5f6a6d6088973b92208355649d01d45b942df75912a3d86c0de",
+      "after_sha256": "c782c120da42a2b18a8445e006181fb07c1bffa276fcdd61b13b42e92e3b31ad",
+      "occurrences_removed": 1
+    },
+    {
+      "path": "wiki/raw/source-snapshots/current-runtime/docs/evidence/2026-10-12-macos-completion/README.md.txt",
+      "before_sha256": "30b6ecd52ff42c4638edebf599bdd88c94ef5538a1989a1af26376e5c0831344",
+      "after_sha256": "90bc86ad69919cadcf4ae17a7f269ed239315367085e67f5643496c00b385141",
+      "occurrences_removed": 3
+    },
+    {
+      "path": "wiki/raw/source-snapshots/current-runtime/docs/progress/HANDOFF.md.txt",
+      "before_sha256": "c7e133ebee0d72650ef2074247f840be1cedf5ad3929244077f88540acc92197",
+      "after_sha256": "d448114f97954a71a49475fa190fe65f6dcf3deeaec217f7303ca7269c83b2a3",
+      "occurrences_removed": 4
+    },
+    {
+      "path": "wiki/raw/source-snapshots/current-runtime/docs/progress/STATUS.md.txt",
+      "before_sha256": "59d8e1f418eeccdb7c0c7db7afc244aa8ac29c7f7c4edee8c469719d115730c0",
+      "after_sha256": "d97e0d16d9fa9db9218793948e8b2f5ce6eda6d6aa763fbe3e508d15c6994ad9",
+      "occurrences_removed": 2
+    },
+    {
+      "path": "wiki/raw/source-snapshots/current-runtime/docs/progress/test-strengthening.json.txt",
+      "before_sha256": "29e0d46f4c847eff5dc1b19ce0d24465655fc8985420f50794b89d4e08cb82ae",
+      "after_sha256": "164e488fa7844bb437d47153a38b719bdd8a4e404a9f6b762d26e1ddc99b1aa4",
+      "occurrences_removed": 1
+    },
+    {
+      "path": "wiki/raw/source-snapshots/graph-generic/README.md.txt",
+      "before_sha256": "a0745611858e3e788e520f6d9e2c28f3ad366628547b6375bf272da812e45cc2",
+      "after_sha256": "69625f2ea31c7db6473f677491175b1dd96f6cbb163761a902e3a00fb1bffc23",
+      "occurrences_removed": 5
+    },
+    {
+      "path": "wiki/raw/source-snapshots/graph-generic/docs/OUTLOOK-GRAPH.md.txt",
+      "before_sha256": "67c93b7f3dcf23daa45b1c917dfb1766e965efa6ba4d3f3bf949d16a45afb90a",
+      "after_sha256": "1d4eabfdc455822a8c8f841612804b8e091d9074e2e050edb93c7912d8e22689",
+      "occurrences_removed": 1
+    },
+    {
+      "path": "wiki/raw/source-snapshots/graph-generic/docs/evidence/2026-10-16-graph-generic/README.md.txt",
+      "before_sha256": "db7fd72fcf4d784d40789a8d0096e9a3e06bfc351db78b98191b8e9febb5838c",
+      "after_sha256": "ce49a6ee5df02b845f46d623bc931ff39e33e685d9030b2c5eecde0cd0d02e7c",
+      "occurrences_removed": 1
+    },
+    {
+      "path": "wiki/raw/source-snapshots/outlook-graph/README.md.txt",
+      "before_sha256": "298cf3cc057e0c56b8c2de99b3508352ff72a29ead4b672a88e805a99572f6a1",
+      "after_sha256": "0c576d03dd10bfc759cf8037d8ffc7cec3392dcda9f3a72316dab0633189b7b2",
+      "occurrences_removed": 5
+    },
+    {
+      "path": "wiki/summaries/architecture-map.md",
+      "before_sha256": "00adcc52eee744206e6771c93112566afaa643bf7e556e96bc7489471edaeed6",
+      "after_sha256": "60216c4ccebfd5ed39ad8b61e9af0dbd6267b06af466762adda38d47e4ef89bb",
+      "occurrences_removed": 5
+    },
+    {
+      "path": "wiki/summaries/current-status.md",
+      "before_sha256": "5be6c5f7f0a9d336de1ab6ca561ad0c9e6f09ca81e1a219c91f58c3e03d24ef4",
+      "after_sha256": "5c1d0f765065f3c08e92d93216f119d5774cbad8dad10f05e0b13acd999d9c1f",
+      "occurrences_removed": 1
+    },
+    {
+      "path": "wiki/summaries/module-call-map.md",
+      "before_sha256": "a6f85c8ec15a84e0e0f39f8a5e25a48b558462336461bdb41a10ae5e85dec251",
+      "after_sha256": "9ecb9170f8ff4d1d2072cfa4ffccd9a5dbd8c0912381d2f6aa223579c566a209",
+      "occurrences_removed": 5
+    },
+    {
+      "path": "wiki/summaries/pending-and-known-gaps.md",
+      "before_sha256": "b05fd6ee5d593b61106580d9a675237641d6ae6be1fd68599b79389fad114f12",
+      "after_sha256": "caed4e40a2b8db8ae4b77c772e0153009507ca90e4538d475eb7361ea40c6316",
+      "occurrences_removed": 2
+    }
+  ]
+}

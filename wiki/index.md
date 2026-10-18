@@ -1,7 +1,7 @@
 ---
 title: Bokkio LLM Wiki Index
 created: 2026-10-08
-updated: 2026-10-16
+updated: 2026-10-18
 type: meta
 tags: [meta, project]
 sources: [docs/progress/STATUS.md, src/bokkio/runtime.py, pyproject.toml]
@@ -10,13 +10,17 @@ confidence: high
 
 # Bokkio LLM Wiki
 
-项目代码与证据的可维护知识库。Last updated: 2026-10-16 | Total compiled pages: 28
+项目代码与证据的可维护知识库。Last updated: 2026-10-18 | Total compiled pages: 29
 
 先读 [[SCHEMA]]；维护记录见 [[log]]。
 
 快速入口：[[summaries/architecture-map]]、[[summaries/module-call-map]]、[[entities/runtime-core]]、[[concepts/runtime-contracts]]、[[summaries/current-status]]、[[summaries/pending-and-known-gaps]]。
 
-当前主线为 **0.2.0 通用 Runtime**。当前架构／功能布局／调用关系／Core／Workflow／能力模块／状态页已刷新；旧 Planner/Jev/Workflow/Office/视觉专题保留各页 updated 日期的历史范围，最新验收及待办以当前状态和共享 progress 为准。
+当前工作候选版为 **0.3.0 通用 Runtime / Desktop**。当前架构／功能布局／调用关系／Core／Workflow／能力模块／状态页已刷新；旧 Planner/Jev/Workflow/Office/视觉专题保留各页 updated 日期的历史范围，最新验收及待办以当前状态和共享 progress 为准。
+
+## 2026-10-18 三项整合
+
+[[entities/native-observation-and-control]]记录精确窗口读取与预算、Chrome/Edge原生网页整理和用户接管。代码已实现；Python771通过、6跳过，Mac开发环境已有现场记录，Windows/物理输入/安装包验收未完成。下一步是补齐验收与修复，不是另一批未公布的新功能；合成遍历数据不代表业务提速。
 
 ## 2026-10-16 增量
 
@@ -24,9 +28,11 @@ Desktop 0.3.0 新增 [[entities/outlook-graph]]，使用官方 Graph PowerShell 
 
 ## Entities
 
+- [[entities/native-observation-and-control|原生读取、网页整理与用户接管]] — 已实现接口、默认选项、暂停恢复、现场证据与接续顺序。
+
 - [[entities/outlook-graph|Outlook Graph：连接与通用读取]] — SDK 登录缓存、统一账户入口与通用 Graph GET；真实账户验证待接续。
 
-- [[entities/capability-modules|能力模块：发现、合同与Office文件实现]] — 默认关闭的模块目录、精确合同与文件证据，复用既有worker。
+- [[entities/capability-modules|能力模块：发现、接口定义与Office文件实现]] — 默认关闭的模块目录、完整接口定义与文件证据，复用既有worker。
 - [[entities/runtime-workflow|Runtime Workflow：Studio、录制与回放]] — 新版本库、精确启动身份、Core子动作与检查点；区别于历史直接backend引擎。
 
 - [[entities/benchmark-adapters|外部 Benchmark 适配入口]] — WAA 逐步适配与 WindowsWorld Office pilot 是不同入口，历史适配专题，成绩不可换算为当前 Runtime 业务验收。
@@ -42,7 +48,7 @@ Desktop 0.3.0 新增 [[entities/outlook-graph]]，使用官方 Graph PowerShell 
 
 ## Concepts
 
-- [[concepts/runtime-contracts|Runtime 操作生命周期与证据合同]] — 观察、审批、幂等、派发、作业终态和独立验收的时序及身份/时效约束。
+- [[concepts/runtime-contracts|Runtime 操作生命周期与执行结果]] — 观察、审批、幂等、派发、作业终态和独立验收的时序及身份/时效约束。
 
 - [[concepts/action-verification|派发、确认与未知完成]] — 必须分别判断“尚未派发”“已调用但结果未知”“新观察确认完成”；异常不能自动当作零派发。
 - [[concepts/configuration-and-privacy|配置、数据范围与隐私]] — Wiki 只记录配置接口和变量名称，凭据与 VM 认证文件不进入 Wiki 或 Git。
@@ -65,9 +71,11 @@ Desktop 0.3.0 新增 [[entities/outlook-graph]]，使用官方 Graph PowerShell 
 
 - [[summaries/architecture-map|架构与代码导航]] — 当前系统设计、部署/线程/进程边界与旧扩展的位置。
 - [[summaries/module-call-map|模块调用关系与完整代码地图]] — Core 模块图、全部工具路由、原生支持和旧扩展/评测文件地图。
-- [[summaries/current-status|当前阶段与证据快照]] — 2026-10-13：647隔离回归／受控文件6/6；旧冻结业务主批 26/36、稳定性 17/27、GUI 0/18；客户及 Windows 当前 Runtime 待验收。
+- [[summaries/current-status|当前阶段与证据快照]] — 2026-10-18：771回归通过、6跳过；Mac开发环境与未完成的双平台验收分开，旧业务成绩保留原日期。
 - [[summaries/pending-and-known-gaps|Pending 与已知集成缺口]] — 当前 MAC/EVAL/CLIENT/HARNESS/WIN/RELEASE 工作包及真实环境/客户验收缺口。
 
 ## Raw sources
 
-初始42份来源及历次追加版本保留为不可变文本快照。本次追加 outlook-graph 版本，记录逐文件 commit/working-tree、正文 SHA-256；基线及记录见 raw/manifest.json。页面溯源指向仓库代码/文档，旧来源快照不覆盖。
+初始42份来源及历次追加版本保留在 raw/manifest.json；本轮追加43份原生整合来源（共283份），基线262cad6加采集时工作树；来源标明 commit/working-tree、正文 SHA-256。2026-10-18 按用户要求修订20份历史快照的文档用语，原始正文哈希另行保留，当前哈希校验修订后的文字，规则见 [[SCHEMA]]。页面溯源指向仓库代码/文档。
+
+2026-10-18：[Windows-MCP 与 Bokkio 源码复核报告](../docs/WINDOWS-MCP-COMPARISON.md)；[文档用语](../docs/DOCUMENTATION-STYLE.md)。报告区分不截图读取、动作派发、实际入口和证据范围，没有输出未经同机实测的总体排名。

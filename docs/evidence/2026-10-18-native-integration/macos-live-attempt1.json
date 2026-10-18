@@ -1,0 +1,11 @@
+{
+  "kind": "macos_owned_fixture_development_build",
+  "attempt": 1,
+  "checks": [
+    {"name": "complete_native_read", "passed": true, "node_count": 80, "visited_nodes": 166, "elapsed_ms": 173.234},
+    {"name": "bounded_native_read", "passed": true, "visited_nodes": 3, "complete": false, "reason": "node_limit", "elapsed_ms": 3.139}
+  ],
+  "error": "BokkioCompletionUnknown: Mac AXUIElementSetAttributeValue.AXValue returned -25204; completion requires fresh observation",
+  "effect_confirmed": false,
+  "note": "The first fixture run stopped here. macos-live.json is a separately started fixture run, not an automatic retry of an unknown operation. The first failure's cause was not established."
+}

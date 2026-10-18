@@ -1,0 +1,21 @@
+
+> bokkio-desktop@0.3.0 test
+> node --test electron/*.test.cjs
+
+✔ pending OS Keychain confirmation leaves settings and permission IPC responsive (3.048334ms)
+✔ saving a replacement key cannot be overwritten by a slower startup decryption (1.126792ms)
+✔ reuses Bokkio planner credentials only for OpenRouter, preserving the desktop model (2.476542ms)
+✔ finds the Bokkio configuration in both desktop platform locations (1.201083ms)
+✔ segment replacement preserves workflow, breakpoint, app identities and surrounding timing (1.663875ms)
+✔ empty recording and non-contiguous selection cannot remove unrelated steps (0.231375ms)
+✔ re-recording a legacy v1 document explicitly upgrades its schema (0.084375ms)
+✔ editing captured text updates its linked completion check without changing independent assertions (0.1085ms)
+✔ manual target and window edits do not retain a conflicting captured locator or old window binding (0.107042ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 176.786791

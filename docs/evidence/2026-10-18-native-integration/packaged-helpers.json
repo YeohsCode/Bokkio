@@ -1,0 +1,11 @@
+{
+  "kind": "staged_macos_runtime_not_installed_app",
+  "native_binaries": {
+    "macos_record": "41a80e13cc441cf673df6a1ecc2e3b7e79f1d9adb1037509442710da36c4d985",
+    "macos_control": "b262ab26890723a5b4c34a6cfe5fa035b1b04b27e5157497d34e29cde9aca754",
+    "macos_input": "483e1966b43e994503c186012c703b95c4b843c79a3d0166a6f034e542835b4b",
+    "macos_activate": "329cbf739eff4dba52917b017a7466203ce31869a1fb293ead6715f5264d8307",
+    "macos_capture": "0b1d53fd9bea6566eef947ef79cd2bee599396212a543ef82a4a8299e5d38db4"
+  },
+  "python_source_matches": true
+}

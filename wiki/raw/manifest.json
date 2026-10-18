@@ -2,7 +2,7 @@
   "schema": "bokkio.wiki.sources.v1",
   "created": "2026-10-08",
   "basis_commit": "abe38acdfd308379bcdf4dbb597e96f672926b0d",
-  "source_count": 240,
+  "source_count": 283,
   "records": [
     {
       "path": "README.md",
@@ -1141,50 +1141,86 @@
     {
       "path": "README.md",
       "snapshot": "raw/source-snapshots/current-runtime/README.md.txt",
-      "sha256": "5398432bba2467e922f41a4b1d74b4732f06c27a99fc6ce4e354d036d275e6ea",
-      "bytes": 57874,
+      "sha256": "1c1f6feb79317320a49cce0ead83039184896d3b21d9c020c56842467ca3ba88",
+      "bytes": 57886,
       "commit": null,
-      "version": "current-runtime"
+      "version": "current-runtime",
+      "original_source_sha256": "5398432bba2467e922f41a4b1d74b4732f06c27a99fc6ce4e354d036d275e6ea",
+      "original_source_bytes": 57874,
+      "text_revision": {
+        "date": "2026-10-18",
+        "reason": "User-requested plain-language terminology; historical results and code identifiers preserved."
+      }
     },
     {
       "path": "docs/RUNTIME-GUIDE.md",
       "snapshot": "raw/source-snapshots/current-runtime/docs/RUNTIME-GUIDE.md.txt",
-      "sha256": "25d4b3c449a0f064af8e821fc8407ec6973a2cf38a78d427ee3a8d3735baee83",
+      "sha256": "f0d4252a217fe05796cb687b9a27dbc5d5a2979e93c3d464c0ec44a592935ace",
       "bytes": 12486,
       "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
-      "version": "current-runtime"
+      "version": "current-runtime",
+      "original_source_sha256": "25d4b3c449a0f064af8e821fc8407ec6973a2cf38a78d427ee3a8d3735baee83",
+      "original_source_bytes": 12486,
+      "text_revision": {
+        "date": "2026-10-18",
+        "reason": "User-requested plain-language terminology; historical results and code identifiers preserved."
+      }
     },
     {
       "path": "docs/RUNTIME-DELIVERY.md",
       "snapshot": "raw/source-snapshots/current-runtime/docs/RUNTIME-DELIVERY.md.txt",
-      "sha256": "7f259da2854bc923c3b42687ed37ea3f7671130f33d1078f3bba40818fc3104e",
+      "sha256": "3d6fc763e653553c97083d530f7a7fee88dfbb76ea9ff1782b98ab05a9cdae7e",
       "bytes": 7397,
       "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
-      "version": "current-runtime"
+      "version": "current-runtime",
+      "original_source_sha256": "7f259da2854bc923c3b42687ed37ea3f7671130f33d1078f3bba40818fc3104e",
+      "original_source_bytes": 7397,
+      "text_revision": {
+        "date": "2026-10-18",
+        "reason": "User-requested plain-language terminology; historical results and code identifiers preserved."
+      }
     },
     {
       "path": "docs/PLAN-REPOSITIONING.md",
       "snapshot": "raw/source-snapshots/current-runtime/docs/PLAN-REPOSITIONING.md.txt",
-      "sha256": "e04b303e7dafb1b0c41a54855d8583f263fce7887daf48762736f34f3aef50e6",
-      "bytes": 45766,
+      "sha256": "7f479c288cfdda9dbd3e6a3808d71ee2881282ab20dd3fce36cc97a1ad94be01",
+      "bytes": 45772,
       "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
-      "version": "current-runtime"
+      "version": "current-runtime",
+      "original_source_sha256": "e04b303e7dafb1b0c41a54855d8583f263fce7887daf48762736f34f3aef50e6",
+      "original_source_bytes": 45766,
+      "text_revision": {
+        "date": "2026-10-18",
+        "reason": "User-requested plain-language terminology; historical results and code identifiers preserved."
+      }
     },
     {
       "path": "docs/progress/STATUS.md",
       "snapshot": "raw/source-snapshots/current-runtime/docs/progress/STATUS.md.txt",
-      "sha256": "84e2edd1cf5f5f012846e2e4c9ef53716258073c0c38171f50541bcbfcedcf8f",
-      "bytes": 4640,
+      "sha256": "326ed1f632c9200fb80dcff9103be36ac64e26caf8115466f095b09744556232",
+      "bytes": 4643,
       "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
-      "version": "current-runtime"
+      "version": "current-runtime",
+      "original_source_sha256": "84e2edd1cf5f5f012846e2e4c9ef53716258073c0c38171f50541bcbfcedcf8f",
+      "original_source_bytes": 4640,
+      "text_revision": {
+        "date": "2026-10-18",
+        "reason": "User-requested plain-language terminology; historical results and code identifiers preserved."
+      }
     },
     {
       "path": "docs/progress/HANDOFF.md",
       "snapshot": "raw/source-snapshots/current-runtime/docs/progress/HANDOFF.md.txt",
-      "sha256": "f10e809372ae4084a75a756fd9ad88eb8e21660b1f0e4fa8939bf3b77c4536f1",
-      "bytes": 9212,
+      "sha256": "73b7911037336609432c4f3578cb1dc3afe8d232b804a3bdb7a147e34146fd35",
+      "bytes": 9239,
       "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
-      "version": "current-runtime"
+      "version": "current-runtime",
+      "original_source_sha256": "f10e809372ae4084a75a756fd9ad88eb8e21660b1f0e4fa8939bf3b77c4536f1",
+      "original_source_bytes": 9212,
+      "text_revision": {
+        "date": "2026-10-18",
+        "reason": "User-requested plain-language terminology; historical results and code identifiers preserved."
+      }
     },
     {
       "path": "docs/progress/state.json",
@@ -1197,74 +1233,128 @@
     {
       "path": "docs/progress/test-strengthening.json",
       "snapshot": "raw/source-snapshots/current-runtime/docs/progress/test-strengthening.json.txt",
-      "sha256": "a185c23dcaf1276d30a3d1d3417370c4c1129ebf9c133b5ba059c8ce1404d5f9",
-      "bytes": 11554,
+      "sha256": "4f77099e9a199aca81357592de958c30c3ff12eda00ea36518b14448b5b4819f",
+      "bytes": 11563,
       "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
-      "version": "current-runtime"
+      "version": "current-runtime",
+      "original_source_sha256": "a185c23dcaf1276d30a3d1d3417370c4c1129ebf9c133b5ba059c8ce1404d5f9",
+      "original_source_bytes": 11554,
+      "text_revision": {
+        "date": "2026-10-18",
+        "reason": "User-requested plain-language terminology; historical results and code identifiers preserved."
+      }
     },
     {
       "path": "docs/evidence/2026-10-12-macos-completion/README.md",
       "snapshot": "raw/source-snapshots/current-runtime/docs/evidence/2026-10-12-macos-completion/README.md.txt",
-      "sha256": "d8df521b6a9a560e0ccd08f853c43afad9d2b2d950a50e2a9f50641b721cbac8",
-      "bytes": 9345,
+      "sha256": "bf62f33280460b688d72d8a9d4035f16849f24fb8d85124b2c1573fcdfcaa8a9",
+      "bytes": 9360,
       "commit": "0feda6de6e3d3b117a516ed48a5352574b438a29",
-      "version": "current-runtime"
+      "version": "current-runtime",
+      "original_source_sha256": "d8df521b6a9a560e0ccd08f853c43afad9d2b2d950a50e2a9f50641b721cbac8",
+      "original_source_bytes": 9345,
+      "text_revision": {
+        "date": "2026-10-18",
+        "reason": "User-requested plain-language terminology; historical results and code identifiers preserved."
+      }
     },
     {
       "path": "README.md",
       "snapshot": "raw/source-snapshots/current-runtime/README.final.md.txt",
-      "sha256": "45ef1f12adc5709df42c70f6dcd1c9e62d73bd8a5e4f8239f682360f9c3ed6e1",
-      "bytes": 57782,
+      "sha256": "c49e4e1c873cc3238c1ed93210671640b56f2e9258d1732709333da9964f61cc",
+      "bytes": 57794,
       "commit": null,
-      "version": "working-tree-current-runtime-final"
+      "version": "working-tree-current-runtime-final",
+      "original_source_sha256": "45ef1f12adc5709df42c70f6dcd1c9e62d73bd8a5e4f8239f682360f9c3ed6e1",
+      "original_source_bytes": 57782,
+      "text_revision": {
+        "date": "2026-10-18",
+        "reason": "User-requested plain-language terminology; historical results and code identifiers preserved."
+      }
     },
     {
       "path": "README.md",
       "snapshot": "raw/source-snapshots/capability-workflow/README.md.txt",
-      "sha256": "8c629108f9e7292eba252ef88bf8bda20e7707c589964e06b9e763c725b06828",
-      "bytes": 63008,
+      "sha256": "0020fc1570a7a846e57432fb59729cc50bde3a6d94850c19528f1e56b6716742",
+      "bytes": 63044,
       "commit": null,
-      "version": "working-tree-capability-workflow"
+      "version": "working-tree-capability-workflow",
+      "original_source_sha256": "8c629108f9e7292eba252ef88bf8bda20e7707c589964e06b9e763c725b06828",
+      "original_source_bytes": 63008,
+      "text_revision": {
+        "date": "2026-10-18",
+        "reason": "User-requested plain-language terminology; historical results and code identifiers preserved."
+      }
     },
     {
       "path": "docs/CAPABILITY-MODULE-PLAN.md",
       "snapshot": "raw/source-snapshots/capability-workflow/docs/CAPABILITY-MODULE-PLAN.md.txt",
-      "sha256": "440e500df8a1188f0e08b60b0fe5cd0b38ed416935f35cad1a5ada3f41681ccc",
-      "bytes": 3718,
+      "sha256": "da0748a02df3f234ac07840f4f9d56cf605056cc8e2a8c383fc3704cb663257e",
+      "bytes": 3751,
       "commit": null,
-      "version": "working-tree-capability-workflow"
+      "version": "working-tree-capability-workflow",
+      "original_source_sha256": "440e500df8a1188f0e08b60b0fe5cd0b38ed416935f35cad1a5ada3f41681ccc",
+      "original_source_bytes": 3718,
+      "text_revision": {
+        "date": "2026-10-18",
+        "reason": "User-requested plain-language terminology; historical results and code identifiers preserved."
+      }
     },
     {
       "path": "docs/CAPABILITY-MODULES.md",
       "snapshot": "raw/source-snapshots/capability-workflow/docs/CAPABILITY-MODULES.md.txt",
-      "sha256": "d59f4f255c00fbc5106ce3ce4ac3ba94593fa59f333f2709a3391a1a254d576c",
-      "bytes": 7544,
+      "sha256": "6382c96e1410d5ce73f88ee827715da02c799fc2f3cc7a7bf3761b903404f3eb",
+      "bytes": 7634,
       "commit": null,
-      "version": "working-tree-capability-workflow"
+      "version": "working-tree-capability-workflow",
+      "original_source_sha256": "d59f4f255c00fbc5106ce3ce4ac3ba94593fa59f333f2709a3391a1a254d576c",
+      "original_source_bytes": 7544,
+      "text_revision": {
+        "date": "2026-10-18",
+        "reason": "User-requested plain-language terminology; historical results and code identifiers preserved."
+      }
     },
     {
       "path": "docs/RUNTIME-GUIDE.md",
       "snapshot": "raw/source-snapshots/capability-workflow/docs/RUNTIME-GUIDE.md.txt",
-      "sha256": "64a4e54af64884a3ff1535e32e79012d3f918e36f6788e93a495a1ec7d7d72d6",
-      "bytes": 13331,
+      "sha256": "7ae9f21e6141c6cde73d3efc8e8265278dba847794b96317826524ec1b16457c",
+      "bytes": 13337,
       "commit": null,
-      "version": "working-tree-capability-workflow"
+      "version": "working-tree-capability-workflow",
+      "original_source_sha256": "64a4e54af64884a3ff1535e32e79012d3f918e36f6788e93a495a1ec7d7d72d6",
+      "original_source_bytes": 13331,
+      "text_revision": {
+        "date": "2026-10-18",
+        "reason": "User-requested plain-language terminology; historical results and code identifiers preserved."
+      }
     },
     {
       "path": "docs/WORKFLOW-STUDIO.md",
       "snapshot": "raw/source-snapshots/capability-workflow/docs/WORKFLOW-STUDIO.md.txt",
-      "sha256": "9c73b9cad0987120b00389582f7b55b3f4df73ea18d760e1af00074b791b9234",
-      "bytes": 8378,
+      "sha256": "ea585f3a458f3a0e69ea035dfc69de3b523343f6049f49be1bf69ec57306c083",
+      "bytes": 8393,
       "commit": "78c3289a42369aa5c0eb276e2092dece83b6b7e6",
-      "version": "capability-workflow"
+      "version": "capability-workflow",
+      "original_source_sha256": "9c73b9cad0987120b00389582f7b55b3f4df73ea18d760e1af00074b791b9234",
+      "original_source_bytes": 8378,
+      "text_revision": {
+        "date": "2026-10-18",
+        "reason": "User-requested plain-language terminology; historical results and code identifiers preserved."
+      }
     },
     {
       "path": "docs/evidence/2026-10-13-capability-modules/README.md",
       "snapshot": "raw/source-snapshots/capability-workflow/docs/evidence/2026-10-13-capability-modules/README.md.txt",
-      "sha256": "a6472603af6171657b4eeff072d86813b22d77a7c3cedfdb4d9576cef1236733",
-      "bytes": 3950,
+      "sha256": "38fcb54f8b78560494363afae13cbf95d603a0d025373b63e60b050d84265731",
+      "bytes": 4001,
       "commit": null,
-      "version": "working-tree-capability-workflow"
+      "version": "working-tree-capability-workflow",
+      "original_source_sha256": "a6472603af6171657b4eeff072d86813b22d77a7c3cedfdb4d9576cef1236733",
+      "original_source_bytes": 3950,
+      "text_revision": {
+        "date": "2026-10-18",
+        "reason": "User-requested plain-language terminology; historical results and code identifiers preserved."
+      }
     },
     {
       "path": "docs/evidence/2026-10-13-capability-modules/SHA256SUMS",
@@ -1309,10 +1399,16 @@
     {
       "path": "docs/progress/STATUS.md",
       "snapshot": "raw/source-snapshots/capability-workflow/docs/progress/STATUS.md.txt",
-      "sha256": "f4b879c2eb782d95662fede7f33c09b999035efeb9d3d1753881bc1b68fb9d25",
-      "bytes": 6787,
+      "sha256": "322e78fda5c33f4e2e9e865c675d02c88602328b090e9eb114394ce317d9fa2a",
+      "bytes": 6817,
       "commit": null,
-      "version": "working-tree-capability-workflow"
+      "version": "working-tree-capability-workflow",
+      "original_source_sha256": "f4b879c2eb782d95662fede7f33c09b999035efeb9d3d1753881bc1b68fb9d25",
+      "original_source_bytes": 6787,
+      "text_revision": {
+        "date": "2026-10-18",
+        "reason": "User-requested plain-language terminology; historical results and code identifiers preserved."
+      }
     },
     {
       "path": "docs/progress/state.json",
@@ -1549,10 +1645,16 @@
     {
       "path": "README.md",
       "snapshot": "raw/source-snapshots/outlook-graph/README.md.txt",
-      "sha256": "8ad84da23411c615fe718ef5d862aae8104a1556b10f650741b0a17c5986688e",
-      "bytes": 66341,
+      "sha256": "6b39066dfab6e8d909f742073389d839ea215ce4a8981d8def7329dbb75b54fe",
+      "bytes": 66377,
       "commit": null,
-      "version": "working-tree-outlook-graph"
+      "version": "working-tree-outlook-graph",
+      "original_source_sha256": "8ad84da23411c615fe718ef5d862aae8104a1556b10f650741b0a17c5986688e",
+      "original_source_bytes": 66341,
+      "text_revision": {
+        "date": "2026-10-18",
+        "reason": "User-requested plain-language terminology; historical results and code identifiers preserved."
+      }
     },
     {
       "path": "desktop/README.md",
@@ -1733,10 +1835,16 @@
     {
       "path": "README.md",
       "snapshot": "raw/source-snapshots/graph-generic/README.md.txt",
-      "sha256": "f33e9ad45d8598df03a6277e2dc356449c5339ba028a6d5f5e37834a0e4f22be",
-      "bytes": 66274,
+      "sha256": "e58ebe860af8f265add3c470b5a8c6e7e360b992c8c5eeba083ee84853374bf0",
+      "bytes": 66310,
       "commit": null,
-      "version": "working-tree-graph-generic"
+      "version": "working-tree-graph-generic",
+      "original_source_sha256": "f33e9ad45d8598df03a6277e2dc356449c5339ba028a6d5f5e37834a0e4f22be",
+      "original_source_bytes": 66274,
+      "text_revision": {
+        "date": "2026-10-18",
+        "reason": "User-requested plain-language terminology; historical results and code identifiers preserved."
+      }
     },
     {
       "path": "desktop/README.md",
@@ -1749,18 +1857,30 @@
     {
       "path": "docs/OUTLOOK-GRAPH.md",
       "snapshot": "raw/source-snapshots/graph-generic/docs/OUTLOOK-GRAPH.md.txt",
-      "sha256": "cee03f78fbfd8c076e69f09e8fa736231f581587aca6aaa5314912b55d9b84cb",
-      "bytes": 5382,
+      "sha256": "0071fb1fa2911eafad37de445679c502b61004f1ed99daa2709fede1cdc738c3",
+      "bytes": 5412,
       "commit": null,
-      "version": "working-tree-graph-generic"
+      "version": "working-tree-graph-generic",
+      "original_source_sha256": "cee03f78fbfd8c076e69f09e8fa736231f581587aca6aaa5314912b55d9b84cb",
+      "original_source_bytes": 5382,
+      "text_revision": {
+        "date": "2026-10-18",
+        "reason": "User-requested plain-language terminology; historical results and code identifiers preserved."
+      }
     },
     {
       "path": "docs/evidence/2026-10-16-graph-generic/README.md",
       "snapshot": "raw/source-snapshots/graph-generic/docs/evidence/2026-10-16-graph-generic/README.md.txt",
-      "sha256": "76b22ff4dc098df37620417743a5a290f30f12491ecd650d690cddb31e8560be",
-      "bytes": 4096,
+      "sha256": "44288c18bac92bc0be409397ace6d36b9d63f7a27cee070d8fb028352493dfc7",
+      "bytes": 4111,
       "commit": null,
-      "version": "working-tree-graph-generic"
+      "version": "working-tree-graph-generic",
+      "original_source_sha256": "76b22ff4dc098df37620417743a5a290f30f12491ecd650d690cddb31e8560be",
+      "original_source_bytes": 4096,
+      "text_revision": {
+        "date": "2026-10-18",
+        "reason": "User-requested plain-language terminology; historical results and code identifiers preserved."
+      }
     },
     {
       "path": "docs/evidence/2026-10-16-graph-generic/report.json",
@@ -1881,8 +2001,356 @@
       "bytes": 8763,
       "commit": null,
       "version": "working-tree-graph-generic"
+    },
+    {
+      "path": "src/bokkio/anchored_input.py",
+      "snapshot": "raw/source-snapshots/native-integration/src/bokkio/anchored_input.py.txt",
+      "sha256": "42e74188088f77e7f261786cb94f8717adb14563eaac8f87074b78da55f286e7",
+      "bytes": 12447,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "src/bokkio/app_launch.py",
+      "snapshot": "raw/source-snapshots/native-integration/src/bokkio/app_launch.py.txt",
+      "sha256": "b11dbc6b22d9ace25530e48f8472f849c6f5ac3e7417b2899ee86cfc5bdbdc92",
+      "bytes": 6270,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "src/bokkio/cli.py",
+      "snapshot": "raw/source-snapshots/native-integration/src/bokkio/cli.py.txt",
+      "sha256": "7d3ebb8ecb3c135af77bab0fd1ae723afa60773a1555c3682e249985e750b163",
+      "bytes": 20195,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "src/bokkio/desktop_decision.py",
+      "snapshot": "raw/source-snapshots/native-integration/src/bokkio/desktop_decision.py.txt",
+      "sha256": "6021dfb14e1e9e67b73ffd84a4aeb6a8d417d0735299272282bc9c2ab64fdb04",
+      "bytes": 12946,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "src/bokkio/desktop_input.py",
+      "snapshot": "raw/source-snapshots/native-integration/src/bokkio/desktop_input.py.txt",
+      "sha256": "d7f1a414c8cd9fb3bb0f21836f5436450eb7cc728eeb70e911ef2e0236721131",
+      "bytes": 12896,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "src/bokkio/desktop_service.py",
+      "snapshot": "raw/source-snapshots/native-integration/src/bokkio/desktop_service.py.txt",
+      "sha256": "69bae698dc91c94cb6a27b5e2d98d37cd27eee3eb7e343d367d434bede9042cf",
+      "bytes": 20050,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "src/bokkio/local_runtime.py",
+      "snapshot": "raw/source-snapshots/native-integration/src/bokkio/local_runtime.py.txt",
+      "sha256": "10d62bac20a3aa8be02259ccebf551fd8641d049245fb581960d8d890395b04a",
+      "bytes": 3713,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "src/bokkio/macos_activation.py",
+      "snapshot": "raw/source-snapshots/native-integration/src/bokkio/macos_activation.py.txt",
+      "sha256": "a22e6e7568ecb1710f671bdd80759ea14fc495fc8fbc4ec3a15a2f6bf72de40e",
+      "bytes": 3210,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "src/bokkio/macos_ax.py",
+      "snapshot": "raw/source-snapshots/native-integration/src/bokkio/macos_ax.py.txt",
+      "sha256": "aa1cb9475c9decfcd2477595d5c6907af5afc7583d12e16314cd483bf9105ae0",
+      "bytes": 24032,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "src/bokkio/native/macos_activate.swift",
+      "snapshot": "raw/source-snapshots/native-integration/src/bokkio/native/macos_activate.swift.txt",
+      "sha256": "b8e3d62573b0a0d7a84307b7cf7f66dab295cc91dd42cecb64f089bf76808543",
+      "bytes": 6383,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "src/bokkio/native/macos_capture.swift",
+      "snapshot": "raw/source-snapshots/native-integration/src/bokkio/native/macos_capture.swift.txt",
+      "sha256": "7a458252f4827f1c294b70b9b14617e074a00db8b4bf940b9fd37e774c607958",
+      "bytes": 36285,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "src/bokkio/native/macos_input.swift",
+      "snapshot": "raw/source-snapshots/native-integration/src/bokkio/native/macos_input.swift.txt",
+      "sha256": "279d10a112327d169d6a9f6303471d2cb491c002f280e08db76cd79424cf5a96",
+      "bytes": 10742,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "src/bokkio/runtime.py",
+      "snapshot": "raw/source-snapshots/native-integration/src/bokkio/runtime.py.txt",
+      "sha256": "1b08b5e101f3a180475aa46af7f58768581f9dad3b37407dfe81fd4eb44bf38d",
+      "bytes": 50024,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "src/bokkio/runtime_workflow.py",
+      "snapshot": "raw/source-snapshots/native-integration/src/bokkio/runtime_workflow.py.txt",
+      "sha256": "e122df87ea70122abd3d8599798c8f329a6cb8812c24818f2a71902708741169",
+      "bytes": 35811,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "src/bokkio/tool_schema.py",
+      "snapshot": "raw/source-snapshots/native-integration/src/bokkio/tool_schema.py.txt",
+      "sha256": "4c782c7caf1a97cac985cca60e80dc874705304b083f1220086169596e41b14b",
+      "bytes": 11317,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "src/bokkio/visual_input.py",
+      "snapshot": "raw/source-snapshots/native-integration/src/bokkio/visual_input.py.txt",
+      "sha256": "c4a2e0ecb2d960831fe0a16f7171096c71b902d4103f2dee987ba4d6f9280c24",
+      "bytes": 12123,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "src/bokkio/windows_uia.py",
+      "snapshot": "raw/source-snapshots/native-integration/src/bokkio/windows_uia.py.txt",
+      "sha256": "3418cb7a83bdb271840153d2898406fe1b0d1e33709ab49f14985d806486261e",
+      "bytes": 17373,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "src/bokkio/xa11y_backend.py",
+      "snapshot": "raw/source-snapshots/native-integration/src/bokkio/xa11y_backend.py.txt",
+      "sha256": "cdab9b81bb0a9dd152f3eccc9461be9137aacfc234042ff923c36b3abd1dc7bf",
+      "bytes": 45808,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "src/bokkio/desktop_control.py",
+      "snapshot": "raw/source-snapshots/native-integration/src/bokkio/desktop_control.py.txt",
+      "sha256": "c6b86d8889c225b70d6f110e5fca1609f22ecfe2fc45064b6442480a6744042e",
+      "bytes": 9607,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "src/bokkio/input_monitor.py",
+      "snapshot": "raw/source-snapshots/native-integration/src/bokkio/input_monitor.py.txt",
+      "sha256": "664cecfeb73959ce5a8a1f7f3b4b9f89dbdb92210bb5b953ada6cfd31d9f0c54",
+      "bytes": 7845,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "src/bokkio/observation.py",
+      "snapshot": "raw/source-snapshots/native-integration/src/bokkio/observation.py.txt",
+      "sha256": "3cf0120cb3deb5a7402da3c434f6e730f2dd575a9a3cd6b5c3f2ce4adb74ceb3",
+      "bytes": 2671,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "src/bokkio/web_view.py",
+      "snapshot": "raw/source-snapshots/native-integration/src/bokkio/web_view.py.txt",
+      "sha256": "035d07f415b8c0d6f47e3617d8b7eb380ef38a41c1f304cca7a022b382d0154f",
+      "bytes": 2018,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "src/bokkio/native/macos_control.swift",
+      "snapshot": "raw/source-snapshots/native-integration/src/bokkio/native/macos_control.swift.txt",
+      "sha256": "3d1708bbe033cb07588cb3b23be3fa135bf76fa9b0643854386d1f63895413d9",
+      "bytes": 3300,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "src/bokkio/model.py",
+      "snapshot": "raw/source-snapshots/native-integration/src/bokkio/model.py.txt",
+      "sha256": "ed2a71ce16ef50a9c3342e948da8fe755f92017df30adbfe4732581da5283e35",
+      "bytes": 4812,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "scripts/build_desktop_runtime.py",
+      "snapshot": "raw/source-snapshots/native-integration/scripts/build_desktop_runtime.py.txt",
+      "sha256": "4c145ad2d70d68c7321bfe38ec3d16b84d569c7522a9797b5f7bd5678b03aadc",
+      "bytes": 2816,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "tests/test_native_integration.py",
+      "snapshot": "raw/source-snapshots/native-integration/tests/test_native_integration.py.txt",
+      "sha256": "7f4e74afb8def51420c64fc7571846ff7ebcea99deed5b1603a91551bf11492f",
+      "bytes": 10852,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "tests/test_desktop_decision.py",
+      "snapshot": "raw/source-snapshots/native-integration/tests/test_desktop_decision.py.txt",
+      "sha256": "d04c5975cab3b8d1694212772f34240fb8aa14a7dc8370bb80aa116aa49ae5ba",
+      "bytes": 11919,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "tests/test_runtime_workflow.py",
+      "snapshot": "raw/source-snapshots/native-integration/tests/test_runtime_workflow.py.txt",
+      "sha256": "06712e8636c38a39dc111c3ed963902f46355421d0ff7be5991a7426dc2d48bc",
+      "bytes": 17051,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "fixtures/native-web/index.html",
+      "snapshot": "raw/source-snapshots/native-integration/fixtures/native-web/index.html.txt",
+      "sha256": "6b622b1994bba1b314af8493c2dbebe0fa57c6047d4a97d71165546671370726",
+      "bytes": 702,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "desktop/src/DesktopControl.tsx",
+      "snapshot": "raw/source-snapshots/native-integration/desktop/src/DesktopControl.tsx.txt",
+      "sha256": "31c7651a4370e00194ef36345d22a5766d7fb3ab1471cc9f10a446e1f1b942bf",
+      "bytes": 2359,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "desktop/src/main.tsx",
+      "snapshot": "raw/source-snapshots/native-integration/desktop/src/main.tsx.txt",
+      "sha256": "00b932bf9445c53d99ada8cb29f18cc115b4b1b06c9ad27d8c823d32e46eb990",
+      "bytes": 49714,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "README.md",
+      "snapshot": "raw/source-snapshots/native-integration/README.md.txt",
+      "sha256": "101c324e476bc116f791d205e67ccae8bc5976a149f66fc41438772705d50b76",
+      "bytes": 68314,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "docs/RUNTIME-GUIDE.md",
+      "snapshot": "raw/source-snapshots/native-integration/docs/RUNTIME-GUIDE.md.txt",
+      "sha256": "d1d95349f8b7955774cfe8c958dbb5c56db9fa67c2daa3980130a73fcd279202",
+      "bytes": 14868,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "docs/DOCUMENTATION-STYLE.md",
+      "snapshot": "raw/source-snapshots/native-integration/docs/DOCUMENTATION-STYLE.md.txt",
+      "sha256": "09a7caedce79148675a0fba0dcb83573c170766859d65057b9a7b8ffd7bef820",
+      "bytes": 1187,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "docs/WINDOWS-MCP-COMPARISON.md",
+      "snapshot": "raw/source-snapshots/native-integration/docs/WINDOWS-MCP-COMPARISON.md.txt",
+      "sha256": "a453775398ea440ba5f976b1690dd37506edc1e04618960d8fc58cdd16258b55",
+      "bytes": 23945,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "docs/WINDOWS-MACOS-INTEGRATION-PLAN.md",
+      "snapshot": "raw/source-snapshots/native-integration/docs/WINDOWS-MACOS-INTEGRATION-PLAN.md.txt",
+      "sha256": "64b3937629467106a05e63f27f8460719b9008f991acd1d9b8247f7d826f10aa",
+      "bytes": 21505,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "docs/WINDOWS-MACOS-INTEGRATION-RESULTS.md",
+      "snapshot": "raw/source-snapshots/native-integration/docs/WINDOWS-MACOS-INTEGRATION-RESULTS.md.txt",
+      "sha256": "a7d759367a5725c43c80c4943f1c18dc7b2156c66f1cfa34497c9b11b86f2fbf",
+      "bytes": 13526,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "docs/progress/STATUS.md",
+      "snapshot": "raw/source-snapshots/native-integration/docs/progress/STATUS.md.txt",
+      "sha256": "9f455ba9044323bac5e5d50fff872809af95ee220d8fa952b7eae5e92059496a",
+      "bytes": 11202,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "docs/progress/HANDOFF.md",
+      "snapshot": "raw/source-snapshots/native-integration/docs/progress/HANDOFF.md.txt",
+      "sha256": "faea5c53ddda76c23c9cca2878efaa5973c8f9e086fbf8551ea9f7858cd4de47",
+      "bytes": 10907,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "docs/evidence/2026-10-18-native-integration/README.md",
+      "snapshot": "raw/source-snapshots/native-integration/docs/evidence/2026-10-18-native-integration/README.md.txt",
+      "sha256": "e7e9c4110bf87b11c7359bde4e929807b15f025f40c68a52dab371a0dbf7a077",
+      "bytes": 3189,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "docs/evidence/2026-10-18-native-integration/sources.json",
+      "snapshot": "raw/source-snapshots/native-integration/docs/evidence/2026-10-18-native-integration/sources.json.txt",
+      "sha256": "f512c005709c5a44a54ebf700498573d8a18e64501287aac9e2a4b177211bc4c",
+      "bytes": 7419,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "docs/evidence/2026-10-18-native-integration/macos-live.json",
+      "snapshot": "raw/source-snapshots/native-integration/docs/evidence/2026-10-18-native-integration/macos-live.json.txt",
+      "sha256": "57a7dd6cb1aa9ef47d6fc8b063c0169226fd7c45ce56a5b7b2d00a080a99424a",
+      "bytes": 1751,
+      "commit": null,
+      "version": "working-tree-native-integration"
+    },
+    {
+      "path": "docs/evidence/2026-10-18-native-integration/chrome-macos-live.json",
+      "snapshot": "raw/source-snapshots/native-integration/docs/evidence/2026-10-18-native-integration/chrome-macos-live.json.txt",
+      "sha256": "c544ab24af74d10f12a7c447bb117bc8abf910cec296635b5caf921e59a964bd",
+      "bytes": 1770,
+      "commit": null,
+      "version": "working-tree-native-integration"
     }
   ],
-  "latest_refresh": "2026-10-16-graph-generic",
-  "latest_basis_commit": "90caa22fa8283ed60401fd0a059821424a113bbc"
+  "latest_refresh": "2026-10-18-native-integration",
+  "latest_basis_commit": "262cad6085e8ec1754671f627f048181b1616e5c",
+  "editorial_revision": {
+    "date": "2026-10-18",
+    "scope": "Plain-language documentation at the user request; revised snapshots retain original source hashes."
+  }
 }

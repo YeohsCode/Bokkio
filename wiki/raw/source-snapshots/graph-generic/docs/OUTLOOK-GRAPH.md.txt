@@ -2,7 +2,10 @@
 source_path: docs/OUTLOOK-GRAPH.md
 source_version: working-tree-based-on-90caa22fa8283ed60401fd0a059821424a113bbc
 ingested: 2026-10-16
-sha256: cee03f78fbfd8c076e69f09e8fa736231f581587aca6aaa5314912b55d9b84cb
+sha256: 0071fb1fa2911eafad37de445679c502b61004f1ed99daa2709fede1cdc738c3
+text_revised: 2026-10-18
+revision_reason: user-requested plain-language terminology
+original_body_sha256: cee03f78fbfd8c076e69f09e8fa736231f581587aca6aaa5314912b55d9b84cb
 ---
 
 # Outlook：连接账户，通过对话查询邮件
@@ -23,7 +26,7 @@ Bokkio 使用微软官方 Graph PowerShell 默认应用身份，无需自行注�
 
 Bokkio 仅保存账户、租户、范围等非密钥连接元数据，请求时核对账户，不复制令牌或保存微软密码。模型 Provider/Jev Key 继续由已有系统加密存储负责。**退出 Graph 登录**会清除该系统用户的 SDK 登录缓存，影响同缓存的其他脚本，不退出 Outlook 应用。企业租户可能要求管理员同意；默认身份用于微软全球云，独立云不能沿用。
 
-## 执行合同
+## 接口定义、权限检查和执行结果
 
 - outlook.status：读取配置账户，configured 不代表当前访问已验证。
 - outlook.request：通用 Microsoft Graph v1.0 GET。参数为 path、可选字符串字典 query、max_pages（默认1，1–20）；无业务时间范围、文件夹或未读条件默认值。可以读取邮件、文件夹、单封正文及 Mail.Read 允许的数据。

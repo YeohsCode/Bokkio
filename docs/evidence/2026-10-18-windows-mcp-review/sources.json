@@ -1,0 +1,217 @@
+{
+  "date": "2026-10-18",
+  "scope": "Source inspection and isolated Python behavior checks; no comparative Windows GUI run",
+  "bokkio_commit": "262cad6085e8ec1754671f627f048181b1616e5c",
+  "windows_mcp_commit": "a3d8e0160fd61d8f1002988333fd11c5ad71a639",
+  "windows_mcp_pypi_version": "0.8.8",
+  "xa11y_locked_version": "0.15.0",
+  "windows_mcp_files": [
+    {
+      "path": "pyproject.toml",
+      "main_sha256": "458ec69ef4c00a21e636bc8fdbd8c440218acaca5840fe55df2af0af0512f8ca",
+      "pypi_088_sha256": "458ec69ef4c00a21e636bc8fdbd8c440218acaca5840fe55df2af0af0512f8ca",
+      "main_matches_pypi_088": true
+    },
+    {
+      "path": ".github/workflows/test.yml",
+      "main_sha256": "f3c7cf7ca43746744dc618ed05cbe16a9225f9b158ff051e5413c91fbb98891e"
+    },
+    {
+      "path": "src/windows_mcp/tools/snapshot.py",
+      "main_sha256": "73e11967c646a5e9d6c8d6155b985b3b3e914000b544979b059f66b2da4dc58c",
+      "pypi_088_sha256": "73e11967c646a5e9d6c8d6155b985b3b3e914000b544979b059f66b2da4dc58c",
+      "main_matches_pypi_088": true
+    },
+    {
+      "path": "src/windows_mcp/tools/_snapshot_helpers.py",
+      "main_sha256": "0b21a2e12489fad5aec8e7743f5f495eb71b3bca6cf30a3243712539cd6820ef",
+      "pypi_088_sha256": "0b21a2e12489fad5aec8e7743f5f495eb71b3bca6cf30a3243712539cd6820ef",
+      "main_matches_pypi_088": true
+    },
+    {
+      "path": "src/windows_mcp/tools/input.py",
+      "main_sha256": "eb3bd88f950fcc76e8e9a11032363781c9c898eeb87aa9e8b74dd970361a2943",
+      "pypi_088_sha256": "eb3bd88f950fcc76e8e9a11032363781c9c898eeb87aa9e8b74dd970361a2943",
+      "main_matches_pypi_088": true
+    },
+    {
+      "path": "src/windows_mcp/tools/app.py",
+      "main_sha256": "cd9703ad8cfead026418e61185a8763ee8830544107f9cc4ec760f70f574540b",
+      "pypi_088_sha256": "92707067638d86fe259d41c7a017c35ceba696811a53ce14e3101f8d933395e0",
+      "main_matches_pypi_088": false
+    },
+    {
+      "path": "src/windows_mcp/tools/control_policy.py",
+      "main_sha256": "68c057ee46c640998beb822b35b804ce597fe610ae58fea46647094a86c96f97"
+    },
+    {
+      "path": "src/windows_mcp/tools/shell.py",
+      "main_sha256": "8e1bbad14b9bbf2184423cd4a74a6578a19a8e682d080c75d584f95666ac5945",
+      "pypi_088_sha256": "8820d6c38d9a97dcfa689bd63b1d82efc920154416bcf010c4d944998d83b079",
+      "main_matches_pypi_088": false
+    },
+    {
+      "path": "src/windows_mcp/tree/service.py",
+      "main_sha256": "e769246b80c86930c550754054ba69f260f4805e681c55e7f7f9676ecc86c5c1",
+      "pypi_088_sha256": "e769246b80c86930c550754054ba69f260f4805e681c55e7f7f9676ecc86c5c1",
+      "main_matches_pypi_088": true
+    },
+    {
+      "path": "src/windows_mcp/tree/views.py",
+      "main_sha256": "293f313816b944091af3a2311b8788ebd32a4f09cfca72e542cc413197c76249",
+      "pypi_088_sha256": "293f313816b944091af3a2311b8788ebd32a4f09cfca72e542cc413197c76249",
+      "main_matches_pypi_088": true
+    },
+    {
+      "path": "src/windows_mcp/tree/budget.py",
+      "main_sha256": "c07c8823e55de60e2c27f17df9aed82b466cd5e1463eac32619dd51040b88eff",
+      "pypi_088_sha256": "c07c8823e55de60e2c27f17df9aed82b466cd5e1463eac32619dd51040b88eff",
+      "main_matches_pypi_088": true
+    },
+    {
+      "path": "src/windows_mcp/tree/cache_utils.py",
+      "main_sha256": "0afc43f64df1816cd6dfd51170ed85540fbe71966ee4702bef47d453a434c7e4",
+      "pypi_088_sha256": "0afc43f64df1816cd6dfd51170ed85540fbe71966ee4702bef47d453a434c7e4",
+      "main_matches_pypi_088": true
+    },
+    {
+      "path": "src/windows_mcp/desktop/service.py",
+      "main_sha256": "c116adc0d221c993a89596a14f0ac66bf924e250672cb2691a8914b0e788231e",
+      "pypi_088_sha256": "c116adc0d221c993a89596a14f0ac66bf924e250672cb2691a8914b0e788231e",
+      "main_matches_pypi_088": true
+    },
+    {
+      "path": "src/windows_mcp/desktop/control.py",
+      "main_sha256": "8fbe7963bfc541ea437d8a074b02f65edf210a03b0cb8b2c03f1b5d6add6897c",
+      "pypi_088_sha256": "01171c341049da6c4cc793b23760628e7e059791bea6e22ae79822d7f6767a10",
+      "main_matches_pypi_088": false
+    },
+    {
+      "path": "src/windows_mcp/desktop/control_ledger.py",
+      "main_sha256": "4d322ed49edb75b80496dad3f98064fd2a4c7889c501ab653adbd7f2b5243905",
+      "pypi_088_sha256": "4d322ed49edb75b80496dad3f98064fd2a4c7889c501ab653adbd7f2b5243905",
+      "main_matches_pypi_088": true
+    },
+    {
+      "path": "src/windows_mcp/desktop/screenshot.py",
+      "main_sha256": "80e6b0c7513d4f2f0712a7277a2000c4f1b9426113d446a8248666ed8a14b76b",
+      "pypi_088_sha256": "80e6b0c7513d4f2f0712a7277a2000c4f1b9426113d446a8248666ed8a14b76b",
+      "main_matches_pypi_088": true
+    },
+    {
+      "path": "src/windows_mcp/uia/controls.py",
+      "main_sha256": "a028bf2bec8b24e3dbda7fb1d70e7ec0d41597fff3c8fe87d1573daa01a626cd",
+      "pypi_088_sha256": "a028bf2bec8b24e3dbda7fb1d70e7ec0d41597fff3c8fe87d1573daa01a626cd",
+      "main_matches_pypi_088": true
+    },
+    {
+      "path": "src/windows_mcp/uia/core.py",
+      "main_sha256": "3638d7ba96d7b918783e6e95b95af9978ae7a0df5b200e0966e47e56921f170e",
+      "pypi_088_sha256": "3638d7ba96d7b918783e6e95b95af9978ae7a0df5b200e0966e47e56921f170e",
+      "main_matches_pypi_088": true
+    },
+    {
+      "path": "src/windows_mcp/infrastructure/thread_affinity.py",
+      "main_sha256": "4144b91a61d34b937c4a6a39c1fe13a24b8eb17a05bc1c96a750fe0a3f4a3692",
+      "pypi_088_sha256": "53ea60265cdb17c6d13208a782d4edf40ec791baae0467730643479a9af90b50",
+      "main_matches_pypi_088": false
+    },
+    {
+      "path": "src/windows_mcp/__main__.py",
+      "main_sha256": "3c5ba4bf586081013f2455a3fe1bd5b06b08d2fb55f7e740372916bfaf0b86bb",
+      "pypi_088_sha256": "772e8051805a4b7b60afebe728d40cef682440ebfba0451c1439814f3fef16c6",
+      "main_matches_pypi_088": false
+    }
+  ],
+  "bokkio_files": [
+    {
+      "path": "pyproject.toml",
+      "sha256": "4404ebb2c4f1ba3bf649d0313f30f820fe56cd937bd81324dafe30a749925707"
+    },
+    {
+      "path": "uv.lock",
+      "sha256": "1c2ca4e46448d9533ad9638cddcb8a7c3cd035efe7bad80d68d30bbef714c573"
+    },
+    {
+      "path": "src/bokkio/mcp_server.py",
+      "sha256": "657af46bcde153bcbf1c3a862c3896853fbfc82886b43f435bb188a7c4b38525"
+    },
+    {
+      "path": "src/bokkio/tool_schema.py",
+      "sha256": "5fa6e3e3fa1015231ea1dc73a232e834a5423d3b79e924cb982ae1d9e8c161e9"
+    },
+    {
+      "path": "src/bokkio/runtime.py",
+      "sha256": "a0fb1d1c59df3c6eeffc2de1b343fc5d8ada44d6cc1da1a6f106c0f4c23e68bd"
+    },
+    {
+      "path": "src/bokkio/local_runtime.py",
+      "sha256": "b52e9e56bcbb7a33257b3b21f46790c5998db332baaeed954e6d35850c5bc3d7"
+    },
+    {
+      "path": "src/bokkio/xa11y_backend.py",
+      "sha256": "e8fc0fd2d57e5918f81bb2ab9edcd8855c8bc9c0008d58ffb47a29fa52f010b3"
+    },
+    {
+      "path": "src/bokkio/windows_uia.py",
+      "sha256": "0f3eaf5140133c3b550de44665c10f8389003bfb21cf957b6048e889fe273468"
+    },
+    {
+      "path": "src/bokkio/anchored_input.py",
+      "sha256": "7a08fc25cb33914f4f5e821f49cc828863368c0d1f4bcf0b56a4c96881a22355"
+    },
+    {
+      "path": "src/bokkio/desktop_input.py",
+      "sha256": "0f94fbafb87f54ba1373f3f0fea00ae8dde9421a8a7b2bd9f9f161348f8e308a"
+    },
+    {
+      "path": "src/bokkio/windows_capture.py",
+      "sha256": "f3a7e0da70d00c284c41e7655f2c884be972c980dc69d77870199a4d419b0f4b"
+    },
+    {
+      "path": "src/bokkio/desktop_decision.py",
+      "sha256": "6c245d5f82e364730bfe78a538e0da9bd8bc2631c83a3851f11b9a8c8129a1b9"
+    },
+    {
+      "path": "src/bokkio/desktop_chat.py",
+      "sha256": "98100f8600760b00191ef231e427b998596ca52563e5528c2df4db57cd574f3a"
+    },
+    {
+      "path": "src/bokkio/browser_driver.py",
+      "sha256": "c76283641a191976dd82c4a5dd324e2fe71a07245c11badf6ddbe8299357fb1c"
+    },
+    {
+      "path": "src/bokkio/windows_record.py",
+      "sha256": "b9a450f87d9ec321c21e556879938814d33515d4e121e1213f450d6cfc1f75aa"
+    },
+    {
+      "path": "desktop/electron/main.cjs",
+      "sha256": "98539d8f7033251c5f00b37134df034368a9a55fac6f2b820250eeeb39dd2797"
+    },
+    {
+      "path": "scripts/install_runtime.ps1",
+      "sha256": "97bc16886d91603e26ec1ee4b8663c3afa1225c63b0ecdd89230c3fd0a8cee3b"
+    }
+  ],
+  "archives": [
+    {
+      "package": "windows-mcp",
+      "version": "0.8.8",
+      "url": "https://files.pythonhosted.org/packages/ec/96/c384d08b026b236851823fd5888641124277bf0e7588db7f9acad2b430d3/windows_mcp-0.8.8.tar.gz",
+      "sha256": "f7aa1a020876aa3fe6a8b8d3c316002e28f4951e1d26a42099987a9ab7ba68a7",
+      "matches_pypi_digest": true
+    },
+    {
+      "package": "xa11y",
+      "version": "0.15.0",
+      "url": "https://files.pythonhosted.org/packages/f9/1c/d3b36d26b6c3e50dffd77bf2c769957729512afa2f0fc3ccff552b59aa95/xa11y-0.15.0.tar.gz",
+      "sha256": "d53e25c4df8f91ac5c3df7e3337d6dd7cad751c498d432f8afac02bfd648ff2b",
+      "matches_pypi_digest": true
+    }
+  ],
+  "xa11y_release_uia": {
+    "path": "xa11y-windows/src/uia.rs",
+    "sha256": "9ad03df0b55fc8fe2194b4be89858336b40ee510169335bb7c8585ade67e40bb",
+    "has_FindAllBuildCache": true
+  }
+}

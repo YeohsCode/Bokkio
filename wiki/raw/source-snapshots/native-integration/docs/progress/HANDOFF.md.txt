@@ -1,0 +1,105 @@
+---
+source_path: docs/progress/HANDOFF.md
+source_version: working-tree-based-on-262cad6085e8ec1754671f627f048181b1616e5c
+ingested: 2026-10-18
+sha256: faea5c53ddda76c23c9cca2878efaa5973c8f9e086fbf8551ea9f7858cd4de47
+---
+
+# 跨环境接续说明
+
+## 开始工作
+
+1. git pull，阅读 [共享状态](STATUS.md)、[结构化待办](state.json) 和 [计划](../PLAN-REPOSITIONING.md)。确认当前分支及本地变更，避免覆盖另一端工作。
+2. 使用项目 uv.lock 安装，Runtime 主线不需要模型 API Key。策略模板 examples/runtime-policy.json 默认为拒绝，按本机实际测试资源配置。
+3. 选取一个待办 ID，在状态中注明平台和进行中；完成后补充结果、失败、修订和证据路径。避免两端同时修改相同代码文件；推送前拉取并处理冲突。
+
+新业务评测按 [测试加强计划](../TEST-STRENGTHENING-PLAN.md) 和 test-strengthening.json 的 EVAL-01～08 接续。先冻结题目/输入/评分/预算，再准备薄 runner；不要沿用 verify_harness_clients.py 的精确代码提示作为自主任务。GUI/any-tool、首次/修复后、macOS/Windows 分轨计数；自动主批、GUI 与稳定性已执行，详见[结算报告](../evidence/2026-10-12-macos-completion/README.md)。不要将旧轮补分或重评分计成新调用方尝试。
+
+## macOS
+
+```sh
+sh scripts/install_runtime.sh
+uv sync --frozen --extra mcp --extra browser --group test
+uv run pytest -q
+uv run python scripts/verify_runtime.py --output /tmp/bokkio-runtime-acceptance-NEW
+```
+
+最后一条只验证代码/Browser/MCP/CLI/审批/审计。原生验证可先编译 fixtures/cocoa-runtime/main.swift（无需 vendor），启动生成的 App，再增加 --native-app BokkioRuntimeContract --field Search；不能将省略原生项的结果称为桌面验收。辅助功能、屏幕录制和真实交互桌面按指南确认。
+
+原生 fixture 编译命令：
+
+```sh
+uv run python scripts/build_native_fixture.py --source fixtures/cocoa-runtime/main.swift --output /tmp/BokkioRuntimeContract.app --name BokkioRuntimeContract
+```
+
+自绘视觉 fixture 源码位于 fixtures/cocoa-visual/main.swift，编译并包装成 App 后运行：
+
+```sh
+uv run python scripts/verify_runtime_visual.py --fixture /ABS/PATH/Test.app/Contents/MacOS/Test --output /tmp/bokkio-runtime-visual-NEW
+```
+
+原生/代码/Browser 验收使用 scripts/verify_runtime.py。审计检查使用 scripts/verify_runtime_audit.py --fixture NATIVE_EXECUTABLE --output NEWDIR。窗口/作业故障使用 scripts/verify_runtime_faults.py --fixture VISUAL_EXECUTABLE --output NEWDIR，显式记录屏幕锁、显示器及前台阻塞。MCP 字段闭环使用 scripts/verify_runtime_mcp_native.py；examples/mcp-native-task.json 提供自有原生 fixture 模板，先配置本机 policy。自动管理员审批只有显式 --approve-owned-fixture 才启用，不能代替客户人工审批。
+
+用户已指定当前 Codex、系统 Hermes、DeepSeek Harness 三种开发调用方，见 [Harness 证据](../evidence/2026-10-12-harness/README.md)。scripts/verify_harness_clients.py 只做自有 fixture 验收；原生逐回合路径与 sdk-code 组合路径分别记录。DeepSeek 测试环境使用官方 SDK 0.1.5rc1，自带 native runtime，不新增 Core 模型依赖。本 Mac 的 Hermes 配置 key 仅在内存中读取并注入进程；其他环境使用自己的私有配置，不复制 key 到公共文件。Codex CLI 当前模型兼容性失败，与当前会话 MCP bridge 通过单列。
+
+## Windows
+
+在已登录的交互桌面上，从 Git checkout 启动 PowerShell：
+
+```powershell
+powershell -File scripts/install_runtime.ps1
+uv sync --frozen --extra mcp --extra browser --group test --python cpython-3.12.13-windows-x86_64-none
+uv run pytest -q
+uv run python scripts/verify_runtime.py --output "$env:TEMP\bokkio-runtime-acceptance-NEW"
+dotnet build fixtures/windows-visual/windows-visual.csproj -c Release
+uv run python scripts/verify_runtime_visual.py --fixture fixtures/windows-visual/bin/Release/net8.0-windows/bokkio-visual-fixture.exe --output "$env:TEMP\bokkio-runtime-visual-NEW"
+```
+
+.NET 8 SDK 用于测试 fixture；如实际输出名不同，以 csproj 的构建结果为准。另选自有 WinForms/UIA 字段应用执行原生三轮，增加 verify_runtime.py 的 --native-app/--field；仓库历史 vendor fixture 不随 Git 分发，不能假设新电脑上已存在。
+
+特别验证 PowerShell UTF8 中文、Windows OS 身份、单线程 COM、物理像素/DPI、输入前窗口/前台/hash、取消进程树；记录 Windows 版本、CPU/解释器架构和缩放。ARM guest 的 x64 Python 仿真成绩不代表实体 x64 设备。
+
+## 证据和完成条件
+
+每个验收使用新的输出目录；保留失败与零派发重观察尝试，未知完成不得自动重发。将不含凭据、账号、客户数据及绝对主机路径的摘要放到 docs/evidence/DATE-runtime-PLATFORM/，写明源修订、命令、环境、独立检查和分母，添加 SHA256SUMS。原始 SQLite、截图与私有请求不提交。
+
+更新 docs/progress/STATUS.md 与 state.json；涉及产品范围同时更新 README 和 RUNTIME-DELIVERY。提交中文说明并推送，另一端通过 Git 接续。最终支持范围以两端实机、客户任务和故障矩阵为准。
+
+## 本机凭据记录
+
+此前 Windows VM 登录凭据已在 Mac 私有目录保存，2026-10-11 已验证可登录。凭据不进入公共进度文件或 Git，其他 Windows 设备使用各自账户。无需在其他环境复制旧 VM 的密码或自动登录设置。
+
+## 自主业务评测接续
+
+本机 runner 为 macOS：`scripts/evaluate_runtime_business.py`；12 题输入和只读业务判定在 `evals/runtime_business.py`，catalog 为 `fixtures/runtime-business-eval/suite.json`。每轮使用新的私有输出目录；命令示例：
+
+```sh
+uv run python scripts/evaluate_runtime_business.py --output /tmp/bokkio-business-NEW --tasks T03 T05 T09 T11 --variant 3 --pregranted-disposable-only
+```
+
+配置本机 Hermes、DeepSeek Python 路径；`--hermes-runtime` 可指定已经准备好的私有 Hermes 数据根。直接复制 Hermes 环境会保留绝对路径记录，不能假定复制后可启动。启动/安装时间计入用例墙钟；不要在统计时悄悄扣除。该 runner 不改用户原配置，key 仅从私有 Hermes 读取并传入子进程环境。
+
+当前 Codex bridge：runner 发出 ready 后，阅读目标 prompt，以 official MCP client 调用 Core 完成目标，随后写 ready 所属目录的 complete.json，仅作调用方完成信号。其他调用方由 runner 自主运行；不要给它们提供业务解法代码。Codex 保留上下文且编写评分器，报告须继续披露。
+
+历史证据可用 `scripts/regrade_runtime_business.py` 重评分；必须验证原产物哈希未改，只使用评分开始之前的作业完成事件。原始分数和更正分数并列；重评分不是新尝试。macOS 原生表格 judge 处理表名空单元格，文档 judge 校验章节内事实、逐发票金额、任一章节的总额与原样 appendix，不能要求未在目标中规定的标签格式。Windows 需换成对应应用并增加实机评分，不直接运行本 Mac 的应用绑定。
+
+最新完整主批为 Codex 12/12、Hermes 8/12、DeepSeek 6/12；关键家族同一冻结源码三份样本合计 17/27，产品目标未达标。见[接续报告](../evidence/2026-10-12-macos-completion/README.md)。旧选取四题矩阵因 SDK 终态核验从 9/12 更正为 7/12，旧原始报告保留。不得提高预算、换题或选择最佳轮次补分。
+
+GUI 用 `--track gui`，专属新 PID 等待系统注册；只授权该进程的菜单/对话框，原有 Finder 仍按精确窗口限制，code/process/DOM 禁用。T01 的 Finder-only 与 SHA256 清单要求存在范围可行性限制，不能将该分数用于通用 GUI 排名。当前 Codex 的 `complete.json` 必须明确 `status=completed`；failed/waiting 不计协议完成。
+
+延迟审批用 `scripts/evaluate_approval_wait.py --fixture NATIVE_EXECUTABLE --output NEWDIR`（此脚本仅适用于可丢弃 fixture 自动管理员审批检查），结果 9/9 为自动独立管理员审批检查，不是人工。Hermes 用原 CLI session resume，DeepSeek 必须保持相同 SDK/native runtime 进程；创建新实例复用旧 session ID 不能当作恢复。观察 15 秒和批准 300 秒 TTL 保持原值，过时请求拒绝后新观察、新申请，代码与原生子动作分别审阅。
+
+物理输入继续按实际守卫结果记录；不得绕过系统前台/权限窗口或把模拟锁屏作为真实验收。人工审批与锁屏解锁需要实际用户参与，第二显示器/不同缩放和 Windows 需对应设备。Windows Agent 先跑当前 Core 接口与执行检查，再实现本平台业务绑定，不复制 macOS 成绩。首次与复测、范围与失败层次、输入/源码哈希、提供方 token/费用、原始日志关联单列；API key、截图、模型 trace 和 SQLite 不进入 Git。
+
+2026-10-13 最终本机复核：587 回归、审计 9/9、窗口／作业 18/18，独立 wheel 原生／代码／Browser 各3/3。旧两项正向输入阻塞本次已解除。Numbers 最新两份未保存：编辑字段与工作表提交不同，Save 目标为 disabled，backend 先拒绝而 Core 记录 unknown；保留诊断，不盲重发。人工与物理测试仍等待实际参与。
+
+## Workflow 新入口接续
+
+能力模块接续：先阅读 [保存计划](../CAPABILITY-MODULE-PLAN.md)、[用法](../CAPABILITY-MODULES.md) 和 [报告](../evidence/2026-10-13-capability-modules/README.md)。默认 modules=[]，office.xlsx 要显式安装 office extra／授予模块与原有代码权限；同 operation ID 查回既有作业，不自动切换实现。最新完整隔离回归647/647和文件对照6/6不替代自主业务／GUI／Windows验收。继续真实Numbers任务时仍需核验提交与保存；本轮仅修复了backend拒绝分类。
+
+读取 docs/WORKFLOW-STUDIO.md 和 fixtures/workflow-recording/suite.json。新模块为 runtime_workflow、manual_recording、workflow_studio、app_launch；录制器源为 native/macos_record.swift。运行 `uv run bokkio-runtime studio` 进入本机 UX；保存 Workflow 与运行数据默认同 Runtime state。实机脚本为 verify_workflow_recording、verify_manual_recording、verify_physical_recording、verify_workflow_mcp，均仅使用自有 Lab 数据；不要拿保存的 PID 或屏幕坐标当作跨进程身份。Windows 尚需监听器和本平台实测，不能用 macOS 生成事件分数填 Windows 验收。
+
+
+## 2026-10-18 整合接续
+
+本轮首版开发、自动检查及 macOS 开发环境探测见[实施报告](../WINDOWS-MACOS-INTEGRATION-RESULTS.md)。优先恢复 Windows 测试虚拟机，再跑同一固定页面 / 读取 / 输入接管矩阵；另测物理设备、IME、睡眠唤醒及安装包权限。新代码默认不启用接管，不能将合成 provider 数据当作业务提速。不要自动重发 `completion_unknown`。原完整业务评测维持暂停。

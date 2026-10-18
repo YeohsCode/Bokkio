@@ -1,0 +1,61 @@
+import Cocoa
+import ApplicationServices
+
+let tag:Int64 = 0x424B494F
+let writer=DispatchQueue(label:"bokkio.input.metadata")
+let pendingLock=NSLock()
+var pending=0
+func emit(_ input:[String:Any]) {
+    pendingLock.lock()
+    if pending>=2048 {pendingLock.unlock();CFRunLoopStop(CFRunLoopGetMain());return}
+    pending+=1;pendingLock.unlock()
+    var data=input;data["stamp"]=ProcessInfo.processInfo.systemUptime
+    writer.async {
+        if let bytes=try? JSONSerialization.data(withJSONObject:data) {
+            FileHandle.standardOutput.write(bytes);FileHandle.standardOutput.write(Data([10]))
+        }
+        pendingLock.lock();pending-=1;pendingLock.unlock()
+    }
+}
+guard CGPreflightListenEventAccess() else {
+    emit(["kind":"error","error":"Input Monitoring permission is required"]);writer.sync{};exit(1)
+}
+var tap:CFMachPort?
+let callback:CGEventTapCallBack = { _,type,event,_ in
+    if type == .tapDisabledByTimeout || type == .tapDisabledByUserInput {
+        emit(["kind":"error","error":"Input event tap was disabled"])
+        CFRunLoopStop(CFRunLoopGetMain());return Unmanaged.passUnretained(event)
+    }
+    if event.getIntegerValueField(.eventSourceUserData) == tag {return Unmanaged.passUnretained(event)}
+    var result:[String:Any] = ["kind":"mouse"]
+    switch type {
+    case .mouseMoved:result=["kind":"move","point":[event.location.x,event.location.y]]
+    case .keyDown,.keyUp:
+        result=["kind":"key","held":["key:"+String(event.getIntegerValueField(.keyboardEventKeycode)),type == .keyDown]]
+    case .flagsChanged:
+        let key=CGKeyCode(event.getIntegerValueField(.keyboardEventKeycode))
+        result=["kind":"key","held":["key:"+String(key),CGEventSource.keyState(.combinedSessionState,key:key)]]
+    case .leftMouseDown,.leftMouseUp,.rightMouseDown,.rightMouseUp:
+        result=["kind":"mouse","held":[type == .leftMouseDown || type == .leftMouseUp ? "mouse:1":"mouse:2",type == .leftMouseDown || type == .rightMouseDown]]
+    default:break
+    }
+    emit(result);return Unmanaged.passUnretained(event)
+}
+let types:[CGEventType] = [.mouseMoved,.keyDown,.keyUp,.flagsChanged,.leftMouseDown,.leftMouseUp,.rightMouseDown,.rightMouseUp,.scrollWheel,.leftMouseDragged,.rightMouseDragged]
+let mask=types.reduce(CGEventMask(0)){$0 | (CGEventMask(1)<<$1.rawValue)}
+tap=CGEvent.tapCreate(tap:.cgSessionEventTap,place:.headInsertEventTap,options:.listenOnly,eventsOfInterest:mask,callback:callback,userInfo:nil)
+guard let tap=tap,let source=CFMachPortCreateRunLoopSource(kCFAllocatorDefault,tap,0) else {
+    emit(["kind":"error","error":"Input listener could not start"]);writer.sync{};exit(1)
+}
+CFRunLoopAddSource(CFRunLoopGetMain(),source,.commonModes)
+CGEvent.tapEnable(tap:tap,enable:true)
+let initiallyHeld=(0..<128).filter{$0 != 57 && CGEventSource.keyState(.combinedSessionState,key:CGKeyCode($0))}.map{"key:"+String($0)}
+let initialPoint=CGEvent(source:nil)?.location ?? .zero
+emit(["kind":"ready","physical_held":initiallyHeld,"point":[initialPoint.x,initialPoint.y]])
+let timer=Timer.scheduledTimer(withTimeInterval:0.25,repeats:true){_ in
+    if !CGEvent.tapIsEnabled(tap:tap) {emit(["kind":"error","error":"Input listener is no longer enabled"]);CFRunLoopStop(CFRunLoopGetMain())}
+    else {emit(["kind":"heartbeat"])}
+}
+CFRunLoopRun()
+
+writer.sync{}

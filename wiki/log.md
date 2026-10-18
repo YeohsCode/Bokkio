@@ -1,7 +1,7 @@
 ---
 title: Bokkio Wiki Log
 created: 2026-10-08
-updated: 2026-10-16
+updated: 2026-10-18
 type: meta
 tags: [meta, maintenance]
 sources: [docs/STATUS.md, docs/progress/STATUS.md]
@@ -169,7 +169,7 @@ confidence: high
 - 更新6个当前架构／调用／Core／项目边界／状态／待办页；新建capability-modules、runtime-workflow两实体，索引27个编译页。历史直接backend Workflow专题保留其日期与范围。
 - README更新系统架构、功能布局、模块调用图和中英文职责表；按当前代码描述模块通过已有worker运行、新Workflow子动作回到同一Core。功能布局采用窄幅树形排列，回调以同名Core子动作节点说明。
 - 新增41份capability-workflow不可变来源，之前157份快照逐字保留；当前未提交来源明确标working-tree、已提交来源记录78c3289基线与SHA256。
-- 647隔离回归／6份受控文件核验引用上一实施轮证据，保留34项新合同、初轮失败、模块额外校验成本和客户／Windows待验收。业务26/36、稳定性17/27、GUI0/18保持原冻结版本；完整业务复测继续暂停。
+- 647隔离回归／6份受控文件核验引用上一实施轮证据，保留34项新检查、初轮失败、模块额外校验成本和客户／Windows待验收。业务26/36、稳定性17/27、GUI0/18保持原冻结版本；完整业务复测继续暂停。
 
 ## [2026-10-13] lint | Capability/Workflow architecture validated
 
@@ -205,3 +205,36 @@ confidence: high
 - 28个编译页／31个Markdown、184条wikilinks、240处来源行号、76个来源文件，零断链／孤立页／元数据错误。55个Python模块与38个工具映射完整。
 - 240份来源正文SHA256/字节数通过；新增19份来源及证据文本的凭据／主机私有目录扫描零命中，既有221份raw逐字保持。
 - 8处Mermaid语法通过，6种独立图在Chromium实际渲染，更新的系统图和调用关系经视觉检查。产品分母、模型输出缺口和未完成的真实账户验证独立记录。
+
+## [2026-10-18] update | Plain-language documentation and Windows source review
+
+- 按用户明确要求清理51份现有文档的164处旧用词，分别写为接口定义、参数/权限检查、执行结果、重复请求处理，以及具体测试行为；另增文档写法说明。
+- 此要求明确覆盖历史文本：20份raw快照保留原始正文哈希与字节数，当前正文哈希已重算，修订原因和日期写入frontmatter及manifest；历史成绩、代码字段和运行时代码保留。
+- 完成Windows-MCP固定提交与PyPI 0.8.8、xa11y锁定0.15.0的源码核对，保存文件/发布包哈希、六项Python行为核对与144项既有回归结果；未运行Windows GUI同机对照，不给总体排名。
+- 新报告见 docs/WINDOWS-MCP-COMPARISON.md；更正截图、UIA缓存、浏览器范围、Desktop审批默认值和主分支/发布包混用问题。
+
+## [2026-10-18] plan | Windows and macOS integration feasibility
+
+- 新增 docs/WINDOWS-MACOS-INTEGRATION-PLAN.md，评估提前限定窗口、遍历预算、Chrome/Edge网页输出整理和用户接管；分开说明Windows/macOS既有实现及风险。
+- 包含P0基线至P5安装包验收、部分树只读限制、原生调用阻塞边界、所有Core派发路径与多进程暂停恢复；比例示例和200毫秒目标均明确为待验证条件，不是实测成绩。
+- 本轮仅编写计划、核对源码与官方API；运行时代码未变，旧业务完整复测保持暂停，没有新增实机接管或收益数据。
+
+
+## [2026-10-18] implementation | Native reads, web views and user takeover
+
+- 执行此前P0–P5计划，已实现提前窗口选择、共享读取预算、原生网页整理、可选的跨进程输入接管与Workflow/Jev恢复检查；部分树只读，未知结果不自动重发。
+- 本轮完整回归771通过、6跳过，Node9通过；Mac自有窗口、Chrome固定页与模拟接管已有现场记录，独立Runtime暂存通过。首次AX写入及Chrome窗口标题失败保留原记录。
+- Windows VM启动失败，物理输入/IME和双端安装包验收仍未完成；“已实现”与“已验收”分开，原完整业务评测维持暂停。
+
+## [2026-10-18] refresh | README and LLM Wiki reflect implementation and next checks
+
+- README与Wiki入口统一为0.3.0，将本轮结果放在历史成绩前；新增原生读取/接管实体，刷新Core、原生适配、架构、状态与待办。
+- 明确下一步是补Windows/浏览器现场、物理输入恢复、两端安装包验收及缺陷修复；没有另行安排下一批功能。分页/阻塞隔离/多会话仅作条件性评估。
+- 追加native-integration来源版本，基线262cad6加当前工作树；此前快照保持原样，本轮先前按用户要求的用语修订保留原始哈希。
+
+
+## [2026-10-18] lint | Integration documentation ready for commit
+
+- 29个编译页／32个Markdown，198条wikilinks、268处来源行号；零断链／孤立页／元数据错误；59个Python模块与39个公开工具映射完整。
+- 新增43份native-integration来源，283份快照正文SHA256全部通过；此前已按用户要求修订的历史文字保留原始哈希，未追加改写。
+- 提交前复验Python771通过、6跳过，Node9通过，TypeScript/Vite构建通过；没有运行已暂停的完整业务评测，也没有新增Windows/物理输入验收成绩。

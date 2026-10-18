@@ -4,7 +4,7 @@
 
 | 检查 | 结果 | 实际操作 |
 |---|---:|---|
-| Python 完整回归 | 697/697 | 原有合同与新增 Jev 接线、幂等、并发、界面变化、观察过期、取消、未知派发、MCP、凭证和日志合同 |
+| Python 完整回归 | 697/697 | 原有接口检查与新增 Jev 接线、幂等、并发、界面变化、观察过期、取消、未知派发、MCP、凭证和日志记录检查 |
 | 补录合并 Node 测试 | 3/3 | 保留既有 Workflow 编辑行为 |
 | macOS 开发版 | 14/14 | Harness 实际任务 → 两次真实 Jev 决策 → TextEdit 全文替换、Right 键 → 独立原生读回 |
 | macOS 安装版 | 14/14 | 同样链路，自带 Python/SDK/MCP 执行 |
@@ -33,6 +33,6 @@ macOS 安装版 Harness 默认 Python 已确认位于 `Bokkio.app/Contents/Resou
 - [Mac 固定回放/纯读取兼容复测](macos-compatibility.json)、[Windows 兼容复测](windows-compatibility.json)。
 - [完整回归](regression.txt)、[Node 回归](recording-tests.txt)、两端 package-audit JSON、[源码摘要](source-files.json)。
 
-真实测试入口为 `desktop/tests/bokkio-desktop-jev.cjs`，使用既有可丢弃唯一编辑器文档；测试凭证由外部环境显式注入，未写入仓库或正式应用凭证库。测试数据与正式应用历史分开。首次开发测试曾把合法 foreground replace_text 排除在断言外，断言已按实际执行器合同修正；最终表格对应重跑后的成功结果，安装版首步实际为原生 set_value。
+真实测试入口为 `desktop/tests/bokkio-desktop-jev.cjs`，使用既有可丢弃唯一编辑器文档；测试凭证由外部环境显式注入，未写入仓库或正式应用凭证库。测试数据与正式应用历史分开。首次开发测试曾把合法 foreground replace_text 排除在断言外，断言已按实际执行器实际行为修正；最终表格对应重跑后的成功结果，安装版首步实际为原生 set_value。
 
 原完整业务矩阵继续保持用户要求的暂停。本报告的真实应用范围为上述 TextEdit/Notepad 流程。

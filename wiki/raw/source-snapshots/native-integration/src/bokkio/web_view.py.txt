@@ -1,0 +1,44 @@
+---
+source_path: src/bokkio/web_view.py
+source_version: working-tree-based-on-262cad6085e8ec1754671f627f048181b1616e5c
+ingested: 2026-10-18
+sha256: 035d07f415b8c0d6f47e3617d8b7eb380ef38a41c1f304cca7a022b382d0154f
+---
+
+"""Select exposed Chrome/Edge web content without rewriting native identities."""
+from .model import BokkioError
+from .selector import flatten
+
+
+def select_web(snapshot):
+    name = snapshot.get('app', {}).get('name', '').casefold()
+    if name not in {'google chrome', 'chrome', 'chrome.exe', 'microsoft edge', 'msedge', 'msedge.exe'}:
+        raise BokkioError('web_view_unsupported: select an authorized Chrome or Edge window')
+    nodes = flatten(snapshot['windows'])
+    by_ref = {n['ref']: n for n in nodes}
+    def ancestors(node):
+        seen = set()
+        while node.get('parent') in by_ref and node['parent'] not in seen:
+            seen.add(node['parent'])
+            node = by_ref[node['parent']]
+            yield node
+    roots = [n for n in nodes if n['role'] == 'web_area'
+             and not any(p['role'] == 'web_area' for p in ancestors(n))]
+    if len(roots) > 1:
+        focused = [r for r in roots if any(n.get('state', {}).get('focused') for n in flatten([r]))]
+        roots = focused if len(focused) == 1 else []
+    if not roots:
+        raise BokkioError('web_content_unavailable: web region is absent, incomplete or ambiguous; use native view')
+    retained = {n['ref'] for r in roots for n in flatten([r])}
+    # Keep exposed dialogs/popups and ancestor paths, including table/iframe structure.
+    for n in nodes:
+        if n['role'] in {'dialog', 'menu', 'menu_item', 'alert', 'file_chooser'} or n.get('state', {}).get('modal'):
+            retained.update(x['ref'] for x in flatten([n]))
+    for n in nodes:
+        if n['ref'] in retained:
+            retained.update(p['ref'] for p in ancestors(n))
+    selected = [n for n in nodes if n['ref'] in retained]
+    return selected, {'kind': 'web', 'source': 'native_accessibility',
+                      'page_roots': [r['ref'] for r in roots],
+                      'scope': 'authorized_snapshot_only', 'omitted_nodes': len(nodes) - len(selected),
+                      'complete': snapshot.get('read', {}).get('complete', True)}

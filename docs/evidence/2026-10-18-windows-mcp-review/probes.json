@@ -1,0 +1,59 @@
+{
+  "scope": "Six Python behavior probes, no Windows GUI integration",
+  "passed": 6,
+  "results": [
+    {
+      "id": "P1",
+      "fact": "Snapshot defaults to UI tree without screenshot",
+      "defaults": {
+        "use_vision": false,
+        "use_dom": false,
+        "use_annotation": true,
+        "use_ui_tree": true,
+        "width_reference_line": null,
+        "height_reference_line": null,
+        "display": null,
+        "region": null,
+        "ctx": null
+      }
+    },
+    {
+      "id": "P2",
+      "fact": "Desktop.get_state default did not call either capture function",
+      "scope": "Original Python method; OS/window/tree dependencies stubbed"
+    },
+    {
+      "id": "P3",
+      "fact": "Click(label=0) used stored coordinates without refreshing state",
+      "coordinates": [
+        100,
+        200
+      ],
+      "receipt": "Single left clicked at (100,200).",
+      "scope": "Original Python label resolver and tool body; mouse dispatch stubbed"
+    },
+    {
+      "id": "P4",
+      "fact": "Bokkio Windows exact-window snapshot still traversed another window",
+      "unrelated_subtree_reads": 1,
+      "returned_windows": [
+        "Owned"
+      ],
+      "scope": "Real Xa11yBackend with repository fake element provider"
+    },
+    {
+      "id": "P5",
+      "fact": "max_nodes limits returned nodes after backend snapshot",
+      "backend_nodes": 31,
+      "returned_nodes": 1,
+      "scope": "Real Runtime and SQLite with explicit fake snapshot provider"
+    },
+    {
+      "id": "P6",
+      "fact": "Restricted Runtime and LocalRuntime have different defaults",
+      "Runtime_require_approval": true,
+      "LocalRuntime_require_approval": false,
+      "LocalRuntime_trusted_host": true
+    }
+  ]
+}

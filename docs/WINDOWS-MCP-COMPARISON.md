@@ -1,0 +1,186 @@
+# Windows-MCP 与 Bokkio：Windows 源码复核报告
+
+日期：2026-10-18。比较目标是 Windows 应用的读取、操作及执行可靠性。浏览器只讨论现有 Chrome / Edge 窗口；其他浏览器不进入需求、评分或改进建议。
+
+**结论：目前不能证明 Windows-MCP 的 Windows 任务完成率、速度或总体可靠性高于 Bokkio。可以确认的差别是具体实现：它在读取过程中限制输出元素数量、针对浏览器可访问性树整理内容、提供人机接管功能和多种 MCP 传输；Bokkio 有原生 Pattern 动作、重新定位与结果检查、持久操作记录和录制回放。功能存在不直接构成任务表现的胜负。**
+
+**不截图是双方都支持的路径。没有证据支持把“增加截图”列为当前的优先改进。**
+
+## 1. 版本、方法和证据边界
+
+| 对象 | 本次固定依据 |
+|---|---|
+| Bokkio | 提交 `262cad6085e8ec1754671f627f048181b1616e5c`，包版本 `0.3.0`；本轮仅修改文档、文档来源记录及复核脚本，未修改运行时代码 |
+| Windows-MCP 主分支 | 提交 [`a3d8e0160fd61d8f1002988333fd11c5ad71a639`](https://github.com/CursorTouch/Windows-MCP/tree/a3d8e0160fd61d8f1002988333fd11c5ad71a639)，包中版本字符串仍为 `0.8.8` |
+| Windows-MCP 发布包 | [PyPI 0.8.8](https://pypi.org/project/windows-mcp/0.8.8/)，下载源码包并与 PyPI 提供的 SHA256 核对 |
+| Bokkio 的 UIA 依赖 | `uv.lock` 锁定的 [xa11y 0.15.0](https://pypi.org/project/xa11y/0.15.0/) 源码包；下载并核对 SHA256，避免用 vendor 中的其他修订推断实际依赖 |
+
+本次逐项跟踪工具入口、读取、目标定位、动作派发和返回结果；运行六项可重复的 Python 行为核对，以及 Bokkio 的 144 项相关既有测试。外部项目采用 agent-reach 指定的 GitHub 读取路径；`gh` 未登录，公开源码通过 GitHub API 和 PyPI 下载，不涉及账户写操作。
+
+**本次未做 Windows 同机对照、真实 GUI 输入、模型调用或对方完整测试集运行。** 六项行为核对替换了 OS / provider 依赖；144 项测试在当前主机执行。它们能检查所述 Python 行为，不能证明真实 Windows 应用成功率。旧业务复测保持暂停。
+
+主分支和发布包必须分开：`tools/snapshot.py`、`tools/input.py`、`tools/_snapshot_helpers.py`、`tree/service.py`、`tree/cache_utils.py`、`tree/budget.py`、`desktop/service.py`、`desktop/screenshot.py` 在两份来源中逐字一致；`desktop/control.py`、`__main__.py` 不一致。主分支新增的 `--control-policy` 等配置不能默认认为 `uvx windows-mcp serve` 安装的 0.8.8 已包含。逐文件哈希和差异见 [sources.json](evidence/2026-10-18-windows-mcp-review/sources.json)。
+
+## 2. 对上一轮分析的更正
+
+| 上一轮说法 | 本次处理 |
+|---|---|
+| 截图覆盖更广，因此应优先增强截图 | 撤回优先级判断。多种截图方式是功能覆盖，尚未证明能解决我们当前任务的问题；双方正常读取均可不截图 |
+| UIA 批量读取是对方值得追赶的领先项 | 撤回领先判断。xa11y 0.15.0 本身已有 `IUIAutomationCacheRequest` 和 `FindAllBuildCache` |
+| 对方浏览器适配更广，所以我们应扩展浏览器 | 改为核查现有 Chrome / Edge 的内容整理。我们自己的通用 UIA 入口也能尝试读取现有浏览器，不能说只能使用 Playwright；尚未做同页对照 |
+| 我们有审批，所以整体默认更严格 | 更正。受限策略 `Runtime` 默认要求审批；Desktop 的 `LocalRuntime` 默认 `require_approval=False`、`trusted_host=True`，应用和路径范围也更宽 |
+| 我们的原生动作是“明确优势” | 收窄为具体动作实现的差别。Pattern 和身份检查可减少某些坐标操作风险，也可能因页面变化而拒绝执行；实际完成率尚未比较 |
+| 根据 Star、Issue 或功能数量判断成熟度和可靠性 | 不作为排名依据。第三方 Issue 未在本次复现，不把旧版本问题直接当作当前版本缺陷 |
+
+上一轮确实读取了双方部分核心代码，但未完整区分默认入口、发布包与主分支，也未对推荐优先级给出任务证据，因而不足以支持当时的概括。
+
+## 3. 不截图到底有什么意义
+
+### 3.1 Windows-MCP 的默认路径
+
+`Snapshot()` 的默认值是 `use_vision=False`、`use_ui_tree=True`。`Desktop.get_state()` 只有在 `use_vision` 为真时才进入截图分支；否则 `screenshot=None`。探针 P1 / P2 核对了默认参数，并执行原方法，确认默认调用未触发两个截图函数。[工具定义](https://github.com/CursorTouch/Windows-MCP/blob/a3d8e0160fd61d8f1002988333fd11c5ad71a639/src/windows_mcp/tools/snapshot.py#L37)、[读取实现](https://github.com/CursorTouch/Windows-MCP/blob/a3d8e0160fd61d8f1002988333fd11c5ad71a639/src/windows_mcp/desktop/service.py#L87)
+
+默认步骤是：读取 UIA 属性和控件树 → 整理控件文字、状态、编号与坐标 → 模型选择工具及目标 → 执行输入。文字及位置可来自 UIA；`GetAllWordBoundingBoxes()` 使用 `TextPattern` 获取文字及边界，并非截图后 OCR。[文字读取实现](https://github.com/CursorTouch/Windows-MCP/blob/a3d8e0160fd61d8f1002988333fd11c5ad71a639/src/windows_mcp/uia/controls.py#L1267)
+
+### 3.2 Bokkio 的正常原生路径
+
+`desktop.observe` → `Xa11yBackend.snapshot` → xa11y Windows UIA，加 `WindowsUIA` 的值与滚动补充。`desktop.act` 和 `desktop.input` 不要求先调用 `desktop.capture`。Desktop 开启 Jev 时，`desktop.step` 先观察、交给 Jev 选择，再重新观察、执行和读回；普通原生步骤也不要求截图。[Runtime](../src/bokkio/runtime.py#L512)、[Jev 调用](../src/bokkio/desktop_decision.py#L118)、[输入实现](../src/bokkio/anchored_input.py#L39)
+
+Bokkio 的 `desktop.capture` / `desktop.pixel` 是另外的可选入口。录制流程中也有按需图像锚点，不能把这些入口等同于每一步都读图。
+
+### 3.3 能成立的好处，以及不能成立的推断
+
+不截图时，读取路径省去图像采集、图像编码和图像传输，不要求模型理解图片；程序直接提供控件文字、状态和位置。这些是调用路径上可确定的差别。**具体节省多少时间、token 和费用，本次没有测量。**
+
+UIA 也可能很慢、暴露不完整信息，或者没有提供某些自绘内容。大量文本同样会消耗上下文。因此，不能推导“不截图在所有软件上都更快更准”，也不能反过来推导“截图是更好的方式”。
+
+还要区分两个问题：**有没有截图，和动作是否依赖坐标，不是一回事。** Windows-MCP 可以完全不截图，却仍用 UIA 得到的坐标执行鼠标点击；Bokkio 的 `desktop.input` 同样可不截图而发送坐标输入。
+
+当前决定：保持原生读取路径，撤回“先增强截图”的建议。只有在具体任务的必需信息无法从 UIA 或适用的应用接口取得时，才评估图像是否解决该问题。
+
+## 4. 原生读取：真正有依据的差别
+
+### 4.1 双方都有批量读取，也都处理 COM 线程
+
+Windows-MCP 使用 `CacheRequest` / `BuildUpdatedCache` / `GetCachedChildren`；xa11y 0.15.0 的 Windows provider 使用批量属性请求和 `FindAllBuildCache`。Bokkio 在其上逐节点生成自己的树，还对部分控件补查值、滚动和身份。这些额外读取是否造成瓶颈，尚无同机调用次数或耗时数据。[对方缓存](https://github.com/CursorTouch/Windows-MCP/blob/a3d8e0160fd61d8f1002988333fd11c5ad71a639/src/windows_mcp/tree/cache_utils.py#L34)、[依赖源码来源](https://pypi.org/project/xa11y/0.15.0/)、[本地适配](../src/bokkio/xa11y_backend.py#L615)
+
+Windows-MCP 的 `run_uia_affine` 和 Bokkio 的 `_native_executor` 都使用单一专用线程处理 UIA 相关工作；不能把“有 UIA 专用线程”列成某一方独有的能力。[对方线程实现](https://github.com/CursorTouch/Windows-MCP/blob/a3d8e0160fd61d8f1002988333fd11c5ad71a639/src/windows_mcp/infrastructure/thread_affinity.py#L28)、[Bokkio 线程入口](../src/bokkio/runtime.py#L105)
+
+### 4.2 我们确实有“先读完整棵树，再截断返回内容”的问题
+
+Bokkio 的 `desktop.observe(max_nodes=..., max_bytes=...)` 先取得 `backend.snapshot()`，之后才限制返回节点与字节。探针 P5 中，backend 构造 31 个节点，`max_nodes=1` 只返回一个节点，完整快照仍含 31 个节点。因此，这两个参数不能限制底层 UIA 读取工作量。[实现](../src/bokkio/runtime.py#L512)
+
+Windows-MCP 的 `TreeElementBudget` 默认是 500 个输出元素；遍历会检查剩余额度并停止继续处理分支。**这项差别成立，值得针对我们的实际大树任务评估。** 但其计数主要针对收集的输出元素，某些子节点的批量读取发生在预算检查之前；它也不能保证一次阻塞的 COM 调用按时结束。[预算](https://github.com/CursorTouch/Windows-MCP/blob/a3d8e0160fd61d8f1002988333fd11c5ad71a639/src/windows_mcp/tree/budget.py#L19)、[遍历检查](https://github.com/CursorTouch/Windows-MCP/blob/a3d8e0160fd61d8f1002988333fd11c5ad71a639/src/windows_mcp/tree/service.py#L840)
+
+### 4.3 我们的 Windows 精确窗口过滤发生得太晚
+
+`Xa11yBackend._app_tree()` 目前只有 macOS 会把 `window_selector` 传给遍历，并设置观察截止时间。Windows 会先遍历应用树，再由 `snapshot()` 挑出指定窗口。探针 P4 指定 `Owned`，返回结果只有 `Owned`，但 `Unrelated` 的子树仍被访问一次。[应用树](../src/bokkio/xa11y_backend.py#L405)、[窗口筛选](../src/bokkio/xa11y_backend.py#L114)
+
+这是 Bokkio 的具体问题；可能增加读取工作并接触无关窗口的 provider。**本次没有测出真实延迟或故障频率。** 对方默认也不是严格的“只读指定窗口”：它会枚举桌面窗口，并读取活动窗口及其他符合条件的句柄，不能据此宣称对方没有无关窗口问题。[对方窗口选择](https://github.com/CursorTouch/Windows-MCP/blob/a3d8e0160fd61d8f1002988333fd11c5ad71a639/src/windows_mcp/desktop/service.py#L87)
+
+## 5. 操作控件：读到控件与怎么点击要分开
+
+| 项目 | Windows-MCP 的公开输入工具 | Bokkio 当前路径 |
+|---|---|---|
+| 目标表示 | `loc` 坐标，或最近一次状态中的数字 label | `observation_id`、ref、应用和窗口；图像路径另有图片像素坐标 |
+| label / ref 使用 | label 在已存树中解析为坐标；本次探针确认 Click 不在该工具内部刷新 | `desktop.act` 重新读取并比较快照；`desktop.input` 重新匹配目标与上下文 |
+| 执行动作 | Click / Type / Scroll 等公开工具主要发送鼠标、键盘、剪贴板粘贴等输入 | 支持的目标走 UIA Pattern；也有绑定原生目标的前台鼠标、键盘、拖动等输入 |
+| 返回结果 | Click / Type 返回输入描述；另有 Snapshot / WaitFor 可供调用方继续验证 | `desktop.act` 包含 before / after，部分动作检查值或状态；前台输入仍返回未证明业务完成的结果 |
+
+依据：[对方工具](https://github.com/CursorTouch/Windows-MCP/blob/a3d8e0160fd61d8f1002988333fd11c5ad71a639/src/windows_mcp/tools/input.py#L221)、[label 与输入派发](https://github.com/CursorTouch/Windows-MCP/blob/a3d8e0160fd61d8f1002988333fd11c5ad71a639/src/windows_mcp/desktop/service.py#L663)、[Bokkio 动作](../src/bokkio/xa11y_backend.py#L132)、[Bokkio 前台输入](../src/bokkio/anchored_input.py#L12)。
+
+探针 P3 执行原始 label 解析函数和 Click 工具主体，替换鼠标派发：`label=0` 直接使用存储的 `(100,200)`，没有重新读取桌面。这证明该工具的行为，**没有证明真实界面会发生误点**。如果界面变化，调用方应先重新观察；不能将数字 label 当作长期有效的控件身份。
+
+Bokkio 对支持的目标使用 `ValuePattern`、`InvokePattern`、`TogglePattern`、`SelectionItemPattern`、`ExpandCollapsePattern`、`ScrollPattern`，补充路径会检查 RuntimeId、启用状态或值。[Windows 补充实现](../src/bokkio/windows_uia.py#L116)
+
+这里也有代价：我们在动作前后读取更多状态；`desktop.act` 的完整快照比较以及 Jev 决策前后的树比较，可能因与目标无关的界面更新而拒绝执行。这是由检查范围推得的风险，尚未测量发生率。严格检查与任务完成率必须分别评价。
+
+不能扩大为“对方只有坐标、我们全部是原生动作”：对方底层 UIA 库包含 Pattern，而本节比较的是公开输入工具的调用路径；我们也有鼠标键盘路径。普通 click 的结果也不一定是 Bokkio `verified`，只有特定后置检查确认时才返回该状态。
+
+## 6. Chrome / Edge：有什么、缺什么、尚不知道什么
+
+Windows-MCP 的 `use_dom=True` 使用浏览器的可访问性树，识别 `RootWebArea` 并整理网页控件和文字；它不是通过 CDP 或 JavaScript 取得网页的真正 DOM 对象。网页文字仍主要来自浏览器提供的信息。[网页范围识别](https://github.com/CursorTouch/Windows-MCP/blob/a3d8e0160fd61d8f1002988333fd11c5ad71a639/src/windows_mcp/tree/service.py#L851)
+
+Bokkio 的 `browser.*` worker 确实启动独立 Playwright Chromium / context / page；但现有 Chrome / Edge 也属于普通 Windows 应用，可以通过通用 `desktop.observe` / UIA 路径尝试读取和操作。上一轮只比较专用 Browser worker，忽略通用原生路径，造成能力缺失的错觉。[独立 Browser worker](../src/bokkio/browser_driver.py#L57)、[通用应用读取](../src/bokkio/xa11y_backend.py#L114)
+
+目前可以确认：对方有专门的网页内容筛选与整理；我们未在这条通用原生路径中提供同样的浏览器专用输出。**尚不能确认：同一个 Chrome / Edge 页面上，谁取得更多必需内容、谁用更少 token、谁更准确地完成任务。** 特别是登录页面、弹出菜单、表格和自绘内容，必须用相同页面核对，不能根据存在一个 `use_dom` 参数就认定领先。
+
+因此，撤回“新增浏览器支持”的笼统建议。可评估的是现有 Chrome / Edge 的实际信息缺失，以及是否需要整理已有 UIA 数据。
+
+## 7. 人机接管、执行记录和录制回放
+
+### 7.1 接管是实有功能，可靠性尚未对照
+
+Windows-MCP 有控制权状态、输入监听、可见指示、用户接管、空闲后恢复和 AI 按键释放。Bokkio 的 Desktop 已有暂停、停止及全局停止热键，但本次未找到同等的自动物理输入接管协调。[对方控制器](https://github.com/CursorTouch/Windows-MCP/blob/a3d8e0160fd61d8f1002988333fd11c5ad71a639/src/windows_mcp/desktop/control.py#L33)、[按键释放记录](https://github.com/CursorTouch/Windows-MCP/blob/a3d8e0160fd61d8f1002988333fd11c5ad71a639/src/windows_mcp/desktop/control_ledger.py#L14)、[Bokkio 热键与停止](../desktop/electron/main.cjs#L44)
+
+这说明对方多了一项相关功能。它是否值得优先加入，取决于我们是否有与用户同时使用电脑的任务，以及是否实际发生输入冲突。自动接管不等同于回滚、进程取消或权限限制。主分支的 relaxed / balanced / strict 策略用于决定哪些工具等待桌面控制权，也不等同于逐操作人工审批；这些可配置策略与发布包还有差异。[策略分类](https://github.com/CursorTouch/Windows-MCP/blob/a3d8e0160fd61d8f1002988333fd11c5ad71a639/src/windows_mcp/tools/control_policy.py#L1)
+
+### 7.2 必须区分 Bokkio 的两个入口
+
+| 入口 | 实际默认行为 |
+|---|---|
+| 受限策略 `Runtime` | 默认没有获准应用/路径，不能写，要求审批；管理员策略可调整 |
+| Desktop `LocalRuntime` | `write=True`、`trusted_host=True`、`require_approval=False`；按本机使用场景扩充应用绑定，磁盘路径默认覆盖存在的盘符 |
+
+探针 P6 核对了两个类的实际默认值。Desktop 会话仍使用相同的操作记录及重复请求处理，但“支持审批”不能表述为“桌面产品默认每步都审批”。[受限入口](../src/bokkio/runtime.py#L73)、[本机入口](../src/bokkio/local_runtime.py#L7)
+
+Bokkio 的持久 `operation_id` 会绑定工具、参数和会话；完成后的相同请求返回既有结果，缺少持久结果时返回 `completion_unknown`，不直接再次派发。这是代码和本次测试支持的差别，不是 GUI exactly-once 或业务正确性的保证。Windows-MCP 公开输入接口没有对应的持久操作 ID 参数。[重复请求处理](../src/bokkio/runtime.py#L194)、[对方输入参数](https://github.com/CursorTouch/Windows-MCP/blob/a3d8e0160fd61d8f1002988333fd11c5ad71a639/src/windows_mcp/tools/input.py#L238)
+
+### 7.3 录制回放是我们的不同能力，不直接证明桌面控制更强
+
+Bokkio 已有操作录制、编辑、版本库、固定步骤回放、暂停和停止。仓库保存 Windows ARM64 VM 上 Notepad + Character Map 的 20/20 UX 检查，以及另一轮 Notepad 对话配置的 19/19 检查；这是各自当时版本和有限场景的结果，不是当前提交在任意 Windows 软件上的成功率，也没有与 Windows-MCP 对照。[UX 原始范围](evidence/2026-10-15-workflow-ux/README.md)、[对话检查范围](evidence/2026-10-15-jev-options/README.md)
+
+对方当前公开工具中未发现同等的录制、编辑和版本化回放链路。对于只需要给外部 Agent 一组 Windows 操作工具的任务，这项产品差异未必影响结果。
+
+## 8. 安装、截图与测试覆盖：保留事实，取消过度推论
+
+| 事实 | 可以得出的判断 | 不能得出的判断 |
+|---|---|---|
+| Windows-MCP 有 PyPI 启动命令、多种 MCP 传输、登录自启 | MCP 工具分发和连接选项更完整 | 普通用户安装体验或运行稳定性已优于 Bokkio Desktop |
+| Bokkio 有包含托管 Python 的 Electron 安装包；源码安装有固定依赖脚本 | 用户不一定需要手工安装 Python；源码和安装包是不同路径 | 一定比 `uvx` 更简单，或者一定更复杂 |
+| 对方有显示器/区域选择及截图后端回退；MSS 是可选导入，未列入该包直接依赖 | 可选截图方式更多 | 更快、更准或能解决我们当前应用的问题 |
+| Bokkio 有窗口身份、DPI、坐标、PNG、超时与截图新鲜度检查 | 图像路径有相应检查 | 图像路径比 UIA 更适合作为默认方式 |
+| 对方 CI 在 `windows-latest` 运行 pytest | 有 Windows 自动测试配置 | 真实应用矩阵或 Windows 10/11 全部环境均已验证 |
+| 本次 Bokkio 144 项测试通过 | 所选既有检查在当前主机通过 | 本次运行过真实 Windows UIA，或优于对方 |
+
+依据：[发布配置](https://github.com/CursorTouch/Windows-MCP/blob/a3d8e0160fd61d8f1002988333fd11c5ad71a639/pyproject.toml)、[启动与传输](https://github.com/CursorTouch/Windows-MCP/blob/a3d8e0160fd61d8f1002988333fd11c5ad71a639/src/windows_mcp/__main__.py)、[截图后端](https://github.com/CursorTouch/Windows-MCP/blob/a3d8e0160fd61d8f1002988333fd11c5ad71a639/src/windows_mcp/desktop/screenshot.py)、[CI](https://github.com/CursorTouch/Windows-MCP/blob/a3d8e0160fd61d8f1002988333fd11c5ad71a639/.github/workflows/test.yml)、[Bokkio Desktop](../desktop/README.md)、[Windows 安装脚本](../scripts/install_runtime.ps1)、[截图检查](../src/bokkio/windows_capture.py)、[本次测试](evidence/2026-10-18-windows-mcp-review/checks.json)。
+
+当前包要求 Python 3.14+，README 和包分类标明 Windows 10/11。视频中的 Windows 7 / Python 3.13+ 不能代表当前支持范围；本次没有对操作系统支持范围做实机验收。
+
+## 9. 重新排列建议：先处理已确认的问题
+
+| 顺序 | 具体工作 | 依据和预期变化 | 应如何验证 |
+|---|---|---|---|
+| 1 | Windows 在读取子树前限定精确窗口 | P4 已证明会读无关窗口；目标是减少无关 provider 读取，保留相同目标的 ref 和信息 | 同一应用两窗口，证明未读另一窗口正文；返回内容、ref 与动作正确性不退化 |
+| 2 | 把实际读取预算放进 Windows 遍历，不只裁剪返回值 | P5 已证明 `max_nodes` 不能限制读取；目标是控制大树工作量，并明确报告未读取完整 | 记录实际访问数、截断位置、耗时分布和任务必需控件是否保留；单次阻塞 COM 仍需单独处理 |
+| 3 | 对现有 Chrome / Edge 页面做同页读取比较 | 对方有内容整理，我们的差距尚未知 | 固定目标信息清单，检查完整性、目标歧义和输出大小；证明缺失后再决定实现 |
+| 条件项 | MCP 分发简化、用户接管 | 功能差别真实存在；当前没有上手耗时或输入冲突数据 | 分别记录新环境安装过程或实际接管行为；不提前承诺效果 |
+| 暂不优先 | 新增截图后端、默认转视觉、扩展其他浏览器 | 缺少本项目任务证据 | 先提交可复现失败场景及必需信息缺失，再判断是否需要 |
+
+以上是建议，**本轮没有实施这些运行时修改**。实现遍历预算时也必须保留原有身份与歧义处理，不能截断后把缺失节点误认成“控件不存在”或“任务完成”。
+
+## 10. 要回答“到底谁更好”，还缺什么
+
+需要冻结双方实际安装的版本，在同一 Windows 环境中使用同一个外部 Agent、模型、输入文件和任务要求。Bokkio Core 直接调用与 Desktop 默认 Jev 模式应分别报告；不能把多一层模型决策的用时算成 UIA 后端性能差异。[入口切换依据](../src/bokkio/desktop_chat.py#L10)
+
+先比较不截图路径：应用列表、目标窗口读取、输入文字、菜单/对话框、保存并重开、列表滚动，以及确有需求的 Chrome / Edge 页面。开发测试可用 Notepad、Explorer 等，但结果只覆盖这些应用。对方有用而我们没有的功能另列，不用不相关功能数量加分。
+
+每题预先固定独立成功条件，保留失败、重复派发、恢复、读取不完整和等待；记录完整任务成功率、耗时分布、工具调用数、模型费用及实际副作用。多次重复并交替运行次序，环境与状态重置一致；图像只用于另行固定的图像任务。当前没有这些数据，所以本报告不输出总体排名。
+
+## 11. 复核产物和重现方式
+
+- [sources.json](evidence/2026-10-18-windows-mcp-review/sources.json)：双方版本、审阅文件哈希、主分支与发布包的差异、发布包 SHA256 核验。
+- [probes.py](evidence/2026-10-18-windows-mcp-review/probes.py) / [probes.json](evidence/2026-10-18-windows-mcp-review/probes.json)：六项行为核对。外部函数由原始 AST 编译，省略导入和装饰器，OS 依赖使用明确替身；不运行对方服务器或注入鼠标键盘。
+- [checks.json](evidence/2026-10-18-windows-mcp-review/checks.json)：144 项测试的准确命令、结果与范围。
+- [文档用语](DOCUMENTATION-STYLE.md)：接口定义、参数和权限检查、执行结果、重复请求处理的具体写法。
+
+将固定提交的 Windows-MCP 源码放到 `WINDOWS_MCP_SOURCE` 所指目录后，在仓库根目录执行：
+
+```sh
+.venv/bin/python docs/evidence/2026-10-18-windows-mcp-review/probes.py \
+  --windows-source "$WINDOWS_MCP_SOURCE" --output /tmp/windows-mcp-probes.json
+```
+
+本轮文档修订覆盖 README、现行文档、Wiki、索引和20份历史文本快照。快照保留原始正文哈希及修订说明，当前哈希对应修订后的文字；历史成绩、版本、接口字段和运行时代码未因这次用语清理而改动。
+
+后续可行性、两端差异、开发步骤与测试见 [Windows / macOS 三项功能整合计划](WINDOWS-MACOS-INTEGRATION-PLAN.md)。该计划尚未开发，不计入本次复核的已有能力或成绩。

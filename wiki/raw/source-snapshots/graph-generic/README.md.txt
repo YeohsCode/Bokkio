@@ -2,7 +2,10 @@
 source_path: README.md
 source_version: working-tree-based-on-90caa22fa8283ed60401fd0a059821424a113bbc
 ingested: 2026-10-16
-sha256: f33e9ad45d8598df03a6277e2dc356449c5339ba028a6d5f5e37834a0e4f22be
+sha256: e58ebe860af8f265add3c470b5a8c6e7e360b992c8c5eeba083ee84853374bf0
+text_revised: 2026-10-18
+revision_reason: user-requested plain-language terminology
+original_body_sha256: f33e9ad45d8598df03a6277e2dc356449c5339ba028a6d5f5e37834a0e4f22be
 ---
 
 # Bokkio
@@ -21,7 +24,7 @@ A model-independent computer use runtime for Windows and macOS: native/pixel act
 
 **Workflow 新增（2026-10-13）：** 本机 Studio、macOS 录制、JSON 版本库和通过当前 Runtime 的有头／后台无头回放已实现。最新回归 **613/613**，后台启动和完整录制流程的独立前台／鼠标见证 **5/5**；结果与限制见 [Workflow 报告](docs/evidence/2026-10-13-workflow-studio/README.md)。旧业务完整复测已由用户暂停，旧分数不填入这次源码。
 
-**能力模块新增（2026-10-13）：** 默认关闭的本地模块摘要／能力合同／精确调用，首个可选 `office.xlsx` 提供磁盘文件读取、另存更新和独立读回核验，复用当前 Runtime 的审批、作业与审计。最新隔离回归 **647/647**，文件对照 **6/6**；不含客户／Windows／完整自主业务验收，也未证明速度或模型成本提升。[保存的计划](docs/CAPABILITY-MODULE-PLAN.md) · [用法与边界](docs/CAPABILITY-MODULES.md) · [执行报告](docs/evidence/2026-10-13-capability-modules/README.md)。Optional capability contracts and XLSX file operations keep planning in the external Harness.
+**能力模块新增（2026-10-13）：** 默认关闭的本地模块摘要／能力接口定义／精确调用，首个可选 `office.xlsx` 提供磁盘文件读取、另存更新和独立读回核验，复用当前 Runtime 的审批、作业与审计。最新隔离回归 **647/647**，文件对照 **6/6**；不含客户／Windows／完整自主业务验收，也未证明速度或模型成本提升。[保存的计划](docs/CAPABILITY-MODULE-PLAN.md) · [用法与边界](docs/CAPABILITY-MODULES.md) · [执行报告](docs/evidence/2026-10-13-capability-modules/README.md)。Optional capability interface definitions and XLSX file operations keep planning in the external Harness.
 
 **跨环境 Agent 共享入口 / Shared handoff:** [计划、进度、完成度与待办](docs/progress/README.md) · [结构化状态](docs/progress/state.json) · [接续步骤](docs/progress/HANDOFF.md)。这些文档和脱敏验收报告由 Git 跟踪；每端完成工作后更新并推送。
 
@@ -77,7 +80,7 @@ flowchart TB
     Core --> Graph["Outlook API<br/>官方 Graph PowerShell / 通用 GET"]
     Graph --> Mail["Microsoft Graph"]
     Core --> Jobs["Code / Process worker<br/>作业 / 取消 / 结构化结果"]
-    Core --> Registry["可选能力目录<br/>摘要 / 合同 / 精确解析"]
+    Core --> Registry["可选能力目录<br/>摘要 / 接口定义 / 精确解析"]
     Registry --> Meta["模块元数据<br/>版本 / 源码与依赖绑定"]
     Registry --> Jobs
     Jobs --> XLSX["office.xlsx · 可选<br/>文件读写与独立核验"]
@@ -89,7 +92,7 @@ flowchart TB
 
 | 层 / 模块 | 责任与调用关系 |
 |---|---|
-| 接入层 | `mcp_server.serve`、`runtime_cli.main`、`sdk.Client.call` → `Runtime.call`；`tool_schema` 提供统一工具合同 |
+| 接入层 | `mcp_server.serve`、`runtime_cli.main`、`sdk.Client.call` → `Runtime.call`；`tool_schema` 提供统一工具接口定义 |
 | Core | `Runtime.call` → 参数/Session/授权/审批检查 → `_execute` → `_finish`；默认拒绝资源访问 |
 | Outlook Graph | `outlook.status / outlook.request` → `GraphPowerShell` → 固定 .ps1 → Microsoft Graph；本机 API/code 会话不先枚举桌面应用 |
 | 原生 | `_native_call` → `Xa11yBackend` → xa11y 与 `MacAX` / `WindowsUIA`；`model`、`selector`、`scroll` 支撑身份、查询和验证 |
@@ -97,9 +100,9 @@ flowchart TB
 | 代码与进程 | `executor.launch` → 独立 worker → Python/Shell/PowerShell/argv；生成 Python 可通过 `Client.from_environment()` 继承会话并回调 Core |
 | Browser | `browser_driver.call` → 每会话持久 worker → Playwright Chromium；精确 origin 和 `expected_url` 约束操作 |
 | 审批与证据 | `AuditStore` 保存 SQLite 会话、操作、审批、事件及 artifact 元数据；管理员 CLI 决定审批；Agent 查询状态、日志、统计与产物 |
-| 能力目录与 Office 文件模块 | `capability_registry` → 元数据合同／精确解析 → `executor` → `modules.office_xlsx`；默认关闭、版本／源码／依赖绑定，读写磁盘 XLSX并核验新产物 |
+| 能力目录与 Office 文件模块 | `capability_registry` → 接口元数据／精确解析 → `executor` → `modules.office_xlsx`；默认关闭、版本／源码／依赖绑定，读写磁盘 XLSX并核验新产物 |
 | Workflow Studio | `workflow_studio` / `manual_recording` / `runtime_workflow` → `Client.call` → Core；版本库、精确启动身份、检查点、MCP workflow 工具 |
-| 可选旧扩展 | `cli` → `DesktopAgent` → Planner/Jev，或 Recorder/WorkflowReplay → backend；仍直接使用 backend，不自动获得新 Core 的授权与审计合同 |
+| 可选旧扩展 | `cli` → `DesktopAgent` → Planner/Jev，或 Recorder/WorkflowReplay → backend；仍直接使用 backend，不自动获得新 Core 的授权检查与审计记录 |
 
 原生调用在单一专用线程执行；原生动作、激活、像素和 Browser 派发共用跨进程桌面锁，锁等待后再次核验范围。代码/进程与能力模块在既有独立 worker 运行，以 `job.get`/`job.cancel` 管理。模块发现只读元数据；精确调用需模块／路径／write／trusted-host 授权和原有审批，返回结构化核验与证据。SQLite 和私有文件保存跨进程状态；当前是单机架构，trusted-host 代码与 GUI 不提供逐文件 OS 沙箱。
 

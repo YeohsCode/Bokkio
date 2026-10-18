@@ -16,7 +16,7 @@ Bokkio 使用微软官方 Graph PowerShell 默认应用身份，无需自行注�
 
 Bokkio 仅保存账户、租户、范围等非密钥连接元数据，请求时核对账户，不复制令牌或保存微软密码。模型 Provider/Jev Key 继续由已有系统加密存储负责。**退出 Graph 登录**会清除该系统用户的 SDK 登录缓存，影响同缓存的其他脚本，不退出 Outlook 应用。企业租户可能要求管理员同意；默认身份用于微软全球云，独立云不能沿用。
 
-## 执行合同
+## 接口定义、权限检查和执行结果
 
 - outlook.status：读取配置账户，configured 不代表当前访问已验证。
 - outlook.request：通用 Microsoft Graph v1.0 GET。参数为 path、可选字符串字典 query、max_pages（默认1，1–20）；无业务时间范围、文件夹或未读条件默认值。可以读取邮件、文件夹、单封正文及 Mail.Read 允许的数据。

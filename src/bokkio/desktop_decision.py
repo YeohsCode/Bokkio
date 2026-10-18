@@ -113,12 +113,16 @@ class DesktopDecisionRuntime:
                                          'parent_operation': parent_operation.get()}, db=db)
             claimed = True
             token = parent_operation.set(oid)
+            from .desktop_control import ControlState
+            control_generation = ControlState().check()
             provider = self.provider_factory()
             target = {k: args[k] for k in ('app', 'window')}
             def observe():
                 response = runtime.call('desktop.observe', {**target, 'max_nodes': 120, 'max_bytes': 100000}, session_id=sid)
                 if response['status'] != 'completed': raise BokkioError(response.get('error', 'Observation failed'))
                 observation = runtime._get_observation(sid, response['result']['observation_id'])
+                from .observation import require_complete
+                require_complete(observation['snapshot'])
                 return response, observation['snapshot']
             before, snapshot = observe()
             snapshot = {**snapshot, 'window_filter': args['window']}
@@ -142,6 +146,10 @@ class DesktopDecisionRuntime:
             fresh, fresh_snapshot = observe()
             if tree_digest(fresh_snapshot['windows']) != decision.snapshot_id:
                 raise BokkioStaleSnapshot('UI changed while Jev was deciding; observe and decide again')
+            ControlState().check(control_generation)
+            if control_generation is None and ControlState().status()["enabled"]:
+                from .model import BokkioActionRefused
+                raise BokkioActionRefused("User takeover configuration changed during decision", "user_control_changed")
             action_args = {**target, 'observation_id': fresh['result']['observation_id'], 'ref': decision.ref}
             if decision.input:
                 action_tool = 'desktop.input'
@@ -165,7 +173,7 @@ class DesktopDecisionRuntime:
         except Exception as error:
             result = {'status': 'completion_unknown' if execution_started and action_result is None else 'failed' if claimed else 'denied', 'operation_id': oid, 'session_id': sid,
                       'dispatched': action_result.get('dispatched') if action_result else 'unknown' if execution_started else False,
-                      'error': str(error), 'error_type': type(error).__name__}
+                      'error': str(error), 'error_type': type(error).__name__, 'error_code': getattr(error, 'code', None)}
             if action_result: result['result'] = {'execution': action_result}
             if claimed:
                 runtime.store.emit('decision.failed', session_id=sid, operation_id=oid,

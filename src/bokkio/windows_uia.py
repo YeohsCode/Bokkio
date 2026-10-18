@@ -150,6 +150,8 @@ class WindowsUIA:
             raise BokkioError('Verified UIA action pattern is no longer available')
         if list(native.GetRuntimeId()) != expected_runtime_id:
             raise BokkioError('UIA action target identity changed before dispatch')
+        from .desktop_control import checkpoint
+        checkpoint()
         getattr(pattern, method)()
         return {'action_source':'UIA.' + kind + 'Pattern'}
 
@@ -190,7 +192,10 @@ class WindowsUIA:
                     or native.CurrentProcessId!=element.pid or pattern.CurrentValue!=expected_value):
                 raise BokkioError('Enter target identity/value changed before submission')
         identity()
+        from .desktop_control import checkpoint
+        checkpoint()
         user.SetForegroundWindow(top)
+        checkpoint(dispatched=True)
         native.SetFocus()
         identity()
         focused=self.automation.GetFocusedElement()
@@ -207,14 +212,16 @@ class WindowsUIA:
             _fields_=[('keyboard',Keyboard),('mouse',Mouse)]
         class Input(ctypes.Structure):
             _fields_=[('kind',wintypes.DWORD),('payload',Payload)]
+        from .desktop_control import checkpoint, EVENT_TAG
         events=(Input*2)()
         for i,flags in enumerate([0,2]):
-            events[i].kind=1;events[i].payload.keyboard=Keyboard(13,0,flags,0,0)
+            events[i].kind=1;events[i].payload.keyboard=Keyboard(13,0,flags,0,EVENT_TAG)
         user.SendInput.argtypes=[wintypes.UINT,ctypes.POINTER(Input),ctypes.c_int]
         user.SendInput.restype=wintypes.UINT
         identity()
         if user.GetForegroundWindow()!=top or list(self.automation.GetFocusedElement().GetRuntimeId())!=expected_runtime_id:
             raise BokkioError('Foreground focus changed before Enter dispatch')
+        checkpoint()
         sent=user.SendInput(2,events,ctypes.sizeof(Input))
         if sent!=2:
             if sent==1:user.SendInput(1,ctypes.byref(events[1]),ctypes.sizeof(Input))
@@ -238,6 +245,8 @@ class WindowsUIA:
                     raise BokkioError("Native dialog edit identity changed before replacement")
             self._replace_dialog_edit(native.CurrentNativeWindowHandle, scope_hwnd, value, check_identity)
             return {"write_source":"Win32.EM_REPLACESEL"}
+        from .desktop_control import checkpoint
+        checkpoint()
         pattern.SetValue(value)
         return {"write_source":"UIA.ValuePattern"}
 
@@ -256,10 +265,13 @@ class WindowsUIA:
                          wintypes.UINT, wintypes.UINT, ctypes.POINTER(ctypes.c_size_t)]
         send.restype = wintypes.LPARAM
         result = ctypes.c_size_t()
+        from .desktop_control import checkpoint
         check_identity()
+        checkpoint()
         if not send(hwnd, 0xB1, 0, -1, 2, 5000, ctypes.byref(result)):
             raise BokkioError("Native edit selection timed out; observe before retrying")
         check_identity()
+        checkpoint(dispatched=True)
         text = ctypes.create_unicode_buffer(value)
         if not send(hwnd, 0xC2, 1, ctypes.cast(text, ctypes.c_void_p).value, 2, 5000, ctypes.byref(result)):
             raise BokkioError("Native edit replacement timed out; completion is unknown")
@@ -286,5 +298,7 @@ class WindowsUIA:
         pattern = self._pattern(native, "Scroll")
         if pattern is None:
             raise BokkioError("ScrollPattern is no longer available")
+        from .desktop_control import checkpoint
+        checkpoint()
         pattern.SetScrollPercent(position * 100 if axis == "x" else -1,
                                  position * 100 if axis == "y" else -1)

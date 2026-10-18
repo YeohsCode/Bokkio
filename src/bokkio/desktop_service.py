@@ -70,6 +70,13 @@ class DesktopStudio(Studio):
             return self.record.preview()
     def route(self,method,path,data):
         def arg(key,default=None):return data.get(key,[default])[0] if method=='GET' else data.get(key,default)
+        if path=='/api/control':
+            from .desktop_control import InputMonitor
+            monitor=InputMonitor()
+            if method=='GET':return {**monitor.state.status(),'platform':sys.platform}
+            actions={'enable':monitor.start,'disable':monitor.disable,'resume':monitor.resume}
+            if method!='POST' or arg('action') not in actions:raise ValueError('Unknown user takeover action')
+            return {**actions[arg('action')](),'platform':sys.platform}
         if path.startswith('/api/outlook/'):
             from .outlook_graph import OutlookConnection
             if self.outlook is None:self.outlook=OutlookConnection(self.state)

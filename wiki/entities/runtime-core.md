@@ -1,7 +1,7 @@
 ---
 title: "Computer Use Core：会话、执行与审计"
 created: "2026-10-13"
-updated: "2026-10-13"
+updated: "2026-10-18"
 type: "entity"
 tags: ["architecture", "runtime", "safety", "evidence"]
 sources: ["src/bokkio/runtime.py", "src/bokkio/mcp_server.py", "src/bokkio/tool_schema.py", "src/bokkio/runtime_cli.py", "src/bokkio/audit.py", "docs/CAPABILITY-MODULES.md", "src/bokkio/capability_registry.py", "src/bokkio/executor.py", "src/bokkio/runtime_workflow.py", "src/bokkio/model.py", "docs/progress/STATUS.md", "docs/RUNTIME-GUIDE.md"]
@@ -10,11 +10,11 @@ confidence: "high"
 
 # Computer Use Core：会话、执行与审计
 
-Runtime是0.2.0的统一执行边界。MCP、CLI、SDK均调用Runtime.call；底层Xa11yBackend只负责原生树与动作。Core不调用模型，业务规划仍由外部Harness承担。^[src/bokkio/runtime.py#L61] ^[src/bokkio/mcp_server.py#L31]
+Runtime是当前0.3.0的统一执行边界。MCP、CLI、SDK均调用Runtime.call；底层Xa11yBackend只负责原生树与动作。Core不调用模型，业务规划仍由外部Harness承担。^[src/bokkio/runtime.py#L61] ^[src/bokkio/mcp_server.py#L31]
 
 ## 公共接口与路由
 
-工具集合和输入合同在runtime.TOOLS／tool_schema.SCHEMAS中定义；审批批准不作为Agent MCP工具公开，由本地管理员CLI／AuditStore.decide处理。^[src/bokkio/runtime.py#L21] ^[src/bokkio/tool_schema.py#L14] ^[src/bokkio/runtime_cli.py#L41]
+工具集合和输入参数定义在runtime.TOOLS／tool_schema.SCHEMAS中定义；审批批准不作为Agent MCP工具公开，由本地管理员CLI／AuditStore.decide处理。^[src/bokkio/runtime.py#L21] ^[src/bokkio/tool_schema.py#L14] ^[src/bokkio/runtime_cli.py#L41]
 
 | 方法／模块 | 职责 |
 |---|---|
@@ -35,7 +35,7 @@ sessions、operations、approvals、events、artifacts等保存在私有SQLite�
 
 ## 可选模块与新版Workflow
 
-模块摘要／合同发现只读元数据；capability.invoke检查模块／路径／write／trusted_host、版本／源码／依赖与合同SHA，进入原有精确审批和executor作业。output结构化证据缺失或绑定不符保持unknown。^[src/bokkio/capability_registry.py#L55] ^[src/bokkio/executor.py#L238]
+模块摘要／接口定义查询只读元数据；capability.invoke检查模块／路径／write／trusted_host、版本／源码／依赖与接口与实现 SHA，进入原有精确审批和executor作业。output结构化证据缺失或绑定不符保持unknown。^[src/bokkio/capability_registry.py#L55] ^[src/bokkio/executor.py#L238]
 
 新RuntimeWorkflow保存版本与精确子操作检查点；workflow.*在Core启动Runner，后续每个子动作仍经SDK回到Core。旧workflow.py直接backend回放保留历史入口。^[src/bokkio/runtime.py#L405] ^[src/bokkio/runtime_workflow.py#L161]
 
@@ -48,3 +48,7 @@ backend明确未派发的禁用目标等拒绝通过BokkioActionRefused携带dis
 trusted-host不是OS沙箱；同用户任意宿主代码可影响本地资源，取消不可撤销副作用，幂等记录不保证GUI exactly-once。客户／双平台支持范围以独立验收为准。^[docs/RUNTIME-GUIDE.md#L30]
 
 关联：[[summaries/architecture-map]]、[[summaries/module-call-map]]、[[concepts/runtime-contracts]]、[[entities/native-runtime]]、[[entities/capability-modules]]、[[entities/runtime-workflow]]、[[summaries/current-status]]。
+
+## 读取完整性与接管状态
+
+Core在审批/派发前拒绝部分树；接管状态在桌面派发点检查，继续后旧观察版本和旧Jev决策不能沿用。desktop.control只读，本机UI/CLI管理启用和继续；Workflow保留原回执和检查点。范围与限制见[[entities/native-observation-and-control]]。^[src/bokkio/runtime.py#L330] ^[src/bokkio/runtime.py#L435]

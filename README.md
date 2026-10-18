@@ -4,17 +4,29 @@
 
 A model-independent computer use runtime for Windows and macOS: native/pixel actions, generated code, human approvals and operation audit through MCP, CLI and Python SDK.
 
-**工作候选版本 / Working candidate:** `0.2.0` — 通用执行 Core，MCP、CLI、Python SDK、生成代码、Browser、审批、可查询统计的操作日志。
+**工作候选版本 / Working candidate:** `0.3.0` — 通用执行 Core，MCP、CLI、Python SDK、生成代码、Browser、审批、可查询统计的操作日志。
 
-**上一冻结版本成绩：** 回归 **587/587**，macOS 审计 **9/9**、窗口/作业矩阵 **18/18**；完整自主业务主批 **26/36**（当前 Codex 12/12、Hermes 8/12、DeepSeek 6/12），关键家族三份样本 **17/27**，GUI **0/18**，三调用方延迟自动管理员审批恢复 **9/9**。本轮自动测试已执行，产品成功率目标、客户人工审批、物理环境与 Windows 当前 Runtime 验收尚未完成。当前 Codex 保留会话且编写评测器，其 bridge 成绩不称盲测或公平排名。
+**本轮三项整合（2026-10-18）：已实现，双平台验收未完成。**
+
+| 功能 | 已实现 | 验证范围与默认行为 |
+|---|---|---|
+| 精确窗口读取与读取预算 | Windows提前选择窗口；两端共享节点/深度/时间预算，部分树禁止写入 | 合成检查和Mac自有窗口验证；预算显式设置，不能硬中断阻塞调用或整批子节点枚举 |
+| Chrome / Edge网页整理 | `desktop.observe(view="web")`保留原生ref、网页结构及弹窗上下文 | Mac Chrome固定页经Core保留9/9必需信息；Windows和Edge现场待验收；默认仍为原生视图 |
+| 用户接管 | 用户操作后暂停后续桌面写入，跨进程共享状态，手动继续；旧观察/旧Jev决策失效 | Mac模拟事件与恢复已验证，物理输入/IME/安装包待验收；默认关闭 |
+
+本轮Python回归 **771通过、6跳过**，Node检查 **9通过**，前端构建及Mac独立Runtime暂存通过。上述检查不等于真实业务成功率；Windows测试VM未能启动，本轮没有Windows现场验收。[实施结果与失败记录](docs/WINDOWS-MACOS-INTEGRATION-RESULTS.md) · [接口用法](docs/RUNTIME-GUIDE.md#可选原生读取和用户接管2026-10-18) · [LLM Wiki专题](wiki/entities/native-observation-and-control.md)。
+
+**后续安排：** 先完成Windows和两端Chrome/Edge现场、物理键鼠/IME/锁屏唤醒、两端安装包验收，并修复发现的问题；再依据完整任务的数据决定默认配置。本轮没有另行安排下一批新功能。底层分页、阻塞调用隔离和多RDP会话隔离仅在明确瓶颈或实际需求出现后另行评估，不是已承诺交付。[具体顺序与通过条件](docs/WINDOWS-MACOS-INTEGRATION-RESULTS.md#后续安排与通过条件)。
+
+**2026-10-12冻结版本历史成绩：** 回归 **587/587**，macOS 审计 **9/9**、窗口/作业矩阵 **18/18**；完整自主业务主批 **26/36**（当前 Codex 12/12、Hermes 8/12、DeepSeek 6/12），关键家族三份样本 **17/27**，GUI **0/18**，三调用方延迟自动管理员审批恢复 **9/9**。本轮自动测试已执行，产品成功率目标、客户人工审批、物理环境与 Windows 当前 Runtime 验收尚未完成。当前 Codex 保留会话且编写评测器，其 bridge 成绩不称盲测或公平排名。
 
 **Outlook Graph / PowerShell（2026-10-16）：** 配置页管理微软账户连接，通用 outlook.request 按调用方的资源路径、OData 参数和字段读取数据及正文，返回完整性与续页地址。Harness 解释需求、组合查询和汇总；已移除“本周未读”专用按钮、工具和后端分支。使用官方默认应用身份与 Mail.Read，无需自行注册 Entra 应用。[连接与调用指南](docs/OUTLOOK-GRAPH.md) · [本轮UX与验证](docs/evidence/2026-10-16-graph-generic/README.md)。真实账户授权、邮箱和 SDK 重启复用待用户登录。
 
 **Desktop UX 修正（2026-10-15）：** 新建 Workflow 不再预选应用；跨应用录制、编辑保存、真实回放与三个停止入口，macOS / Windows 安装包均通过 **20/20** 项 UX 基准。见 [本轮实测与截图](docs/evidence/2026-10-15-workflow-ux/README.md)。
 
-**Workflow 新增（2026-10-13）：** 本机 Studio、macOS 录制、JSON 版本库和通过当前 Runtime 的有头／后台无头回放已实现。最新回归 **613/613**，后台启动和完整录制流程的独立前台／鼠标见证 **5/5**；结果与限制见 [Workflow 报告](docs/evidence/2026-10-13-workflow-studio/README.md)。旧业务完整复测已由用户暂停，旧分数不填入这次源码。
+**Workflow 新增（2026-10-13，历史检查）：** 本机 Studio、macOS 录制、JSON 版本库和通过当前 Runtime 的有头／后台无头回放已实现。该轮回归 **613/613**，后台启动和完整录制流程的独立前台／鼠标见证 **5/5**；结果与限制见 [Workflow 报告](docs/evidence/2026-10-13-workflow-studio/README.md)。旧业务完整复测已由用户暂停，旧分数不填入这次源码。
 
-**能力模块新增（2026-10-13）：** 默认关闭的本地模块摘要／能力合同／精确调用，首个可选 `office.xlsx` 提供磁盘文件读取、另存更新和独立读回核验，复用当前 Runtime 的审批、作业与审计。最新隔离回归 **647/647**，文件对照 **6/6**；不含客户／Windows／完整自主业务验收，也未证明速度或模型成本提升。[保存的计划](docs/CAPABILITY-MODULE-PLAN.md) · [用法与边界](docs/CAPABILITY-MODULES.md) · [执行报告](docs/evidence/2026-10-13-capability-modules/README.md)。Optional capability contracts and XLSX file operations keep planning in the external Harness.
+**能力模块新增（2026-10-13）：** 默认关闭的本地模块摘要／能力接口定义／精确调用，首个可选 `office.xlsx` 提供磁盘文件读取、另存更新和独立读回核验，复用当前 Runtime 的审批、作业与审计。该轮隔离回归 **647/647**，文件对照 **6/6**；不含客户／Windows／完整自主业务验收，也未证明速度或模型成本提升。[保存的计划](docs/CAPABILITY-MODULE-PLAN.md) · [用法与边界](docs/CAPABILITY-MODULES.md) · [执行报告](docs/evidence/2026-10-13-capability-modules/README.md)。Optional capability interface definitions and XLSX file operations keep planning in the external Harness.
 
 **跨环境 Agent 共享入口 / Shared handoff:** [计划、进度、完成度与待办](docs/progress/README.md) · [结构化状态](docs/progress/state.json) · [接续步骤](docs/progress/HANDOFF.md)。这些文档和脱敏验收报告由 Git 跟踪；每端完成工作后更新并推送。
 
@@ -70,7 +82,7 @@ flowchart TB
     Core --> Graph["Outlook API<br/>官方 Graph PowerShell / 通用 GET"]
     Graph --> Mail["Microsoft Graph"]
     Core --> Jobs["Code / Process worker<br/>作业 / 取消 / 结构化结果"]
-    Core --> Registry["可选能力目录<br/>摘要 / 合同 / 精确解析"]
+    Core --> Registry["可选能力目录<br/>摘要 / 接口定义 / 精确解析"]
     Registry --> Meta["模块元数据<br/>版本 / 源码与依赖绑定"]
     Registry --> Jobs
     Jobs --> XLSX["office.xlsx · 可选<br/>文件读写与独立核验"]
@@ -82,7 +94,7 @@ flowchart TB
 
 | 层 / 模块 | 责任与调用关系 |
 |---|---|
-| 接入层 | `mcp_server.serve`、`runtime_cli.main`、`sdk.Client.call` → `Runtime.call`；`tool_schema` 提供统一工具合同 |
+| 接入层 | `mcp_server.serve`、`runtime_cli.main`、`sdk.Client.call` → `Runtime.call`；`tool_schema` 提供统一工具接口定义 |
 | Core | `Runtime.call` → 参数/Session/授权/审批检查 → `_execute` → `_finish`；默认拒绝资源访问 |
 | Outlook Graph | `outlook.status / outlook.request` → `GraphPowerShell` → 固定 .ps1 → Microsoft Graph；本机 API/code 会话不先枚举桌面应用 |
 | 原生 | `_native_call` → `Xa11yBackend` → xa11y 与 `MacAX` / `WindowsUIA`；`model`、`selector`、`scroll` 支撑身份、查询和验证 |
@@ -90,9 +102,9 @@ flowchart TB
 | 代码与进程 | `executor.launch` → 独立 worker → Python/Shell/PowerShell/argv；生成 Python 可通过 `Client.from_environment()` 继承会话并回调 Core |
 | Browser | `browser_driver.call` → 每会话持久 worker → Playwright Chromium；精确 origin 和 `expected_url` 约束操作 |
 | 审批与证据 | `AuditStore` 保存 SQLite 会话、操作、审批、事件及 artifact 元数据；管理员 CLI 决定审批；Agent 查询状态、日志、统计与产物 |
-| 能力目录与 Office 文件模块 | `capability_registry` → 元数据合同／精确解析 → `executor` → `modules.office_xlsx`；默认关闭、版本／源码／依赖绑定，读写磁盘 XLSX并核验新产物 |
+| 能力目录与 Office 文件模块 | `capability_registry` → 接口元数据／精确解析 → `executor` → `modules.office_xlsx`；默认关闭、版本／源码／依赖绑定，读写磁盘 XLSX并核验新产物 |
 | Workflow Studio | `workflow_studio` / `manual_recording` / `runtime_workflow` → `Client.call` → Core；版本库、精确启动身份、检查点、MCP workflow 工具 |
-| 可选旧扩展 | `cli` → `DesktopAgent` → Planner/Jev，或 Recorder/WorkflowReplay → backend；仍直接使用 backend，不自动获得新 Core 的授权与审计合同 |
+| 可选旧扩展 | `cli` → `DesktopAgent` → Planner/Jev，或 Recorder/WorkflowReplay → backend；仍直接使用 backend，不自动获得新 Core 的授权检查与审计记录 |
 
 原生调用在单一专用线程执行；原生动作、激活、像素和 Browser 派发共用跨进程桌面锁，锁等待后再次核验范围。代码/进程与能力模块在既有独立 worker 运行，以 `job.get`/`job.cancel` 管理。模块发现只读元数据；精确调用需模块／路径／write／trusted-host 授权和原有审批，返回结构化核验与证据。SQLite 和私有文件保存跨进程状态；当前是单机架构，trusted-host 代码与 GUI 不提供逐文件 OS 沙箱。
 
@@ -102,7 +114,7 @@ flowchart TB
 
 ```mermaid
 flowchart LR
-    Package["Bokkio 0.2.0 功能布局"]
+    Package["Bokkio 0.3.0 功能布局"]
     Package --> Entry["接入与公共协议"]
     Entry --> Transports["mcp_server / runtime_cli / sdk<br/>tool_schema"]
     Package --> Governance["执行与治理底座"]
@@ -624,3 +636,5 @@ The script operates on the fixed test app and saves read summaries and action re
 - [P0 verification](docs/P0-VERIFICATION.md), [design notes](docs/NOTES.md), [P1 report](docs/P1-REPORT.md), and [P2 report](docs/P2-REPORT.md): evidence, implementation details, and unmet criteria (English).
 
 Publication files and decompressed evidence were checked for credentials and personal data; see the [privacy review](docs/SECURITY-REVIEW.md).
+
+[Windows-MCP 对照复核（2026-10-18）](docs/WINDOWS-MCP-COMPARISON.md) · [Windows/macOS 三项功能整合计划](docs/WINDOWS-MACOS-INTEGRATION-PLAN.md) · [文档用语](docs/DOCUMENTATION-STYLE.md)

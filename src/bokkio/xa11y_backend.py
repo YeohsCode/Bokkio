@@ -111,14 +111,35 @@ class Xa11yBackend:
             )
         return result
 
-    def snapshot(self, app: str, window: str | None = None) -> dict[str, Any]:
+    def snapshot(self, app: str, window: str | None = None, *, read_nodes=None, read_timeout=None, read_depth=None) -> dict[str, Any]:
+        from .observation import ReadBudget, active_read
+        budget = ReadBudget(read_nodes, read_timeout, read_depth)
+        token = active_read.set(budget)
+        try:
+            result = self._snapshot(app, window)
+            result['read'] = budget.result()
+            if not result['read']['complete']:
+                for node in flatten(result['windows']):
+                    node['actions'] = []
+            return result
+        finally:
+            active_read.reset(token)
+
+    def _snapshot(self, app, window):
         native_app = self._resolve_app(app)
         app_tree = self._app_tree(native_app, window_selector=window)
         if window is None:
             trees = [app_tree]
         else:
-            selected = self._select_windows(self._window_nodes(app_tree), window)
-            trees = [{**node, "parent": None} for node in selected]
+            from .observation import active_read
+            budget = active_read.get()
+            try:
+                selected = self._select_windows(self._window_nodes(app_tree), window)
+            except BokkioError:
+                if budget is None or budget.reason is None:
+                    raise
+                selected = []
+            trees = self._scoped_trees(app_tree, selected)
         app_info=self._app_info(native_app)
         if type(app_tree['platform_data'].get('ax_frontmost')) is bool:
             app_info['is_foreground']=app_tree['platform_data']['ax_frontmost']
@@ -168,7 +189,7 @@ class Xa11yBackend:
         live: dict[str, Any] = {}
         before_tree = self._app_tree(native_app, live, window_selector=window)
         before_scope = ([before_tree] if window is None else
-                        [{**n, "parent": None} for n in self._select_windows(self._window_nodes(before_tree), window)])
+                        self._scoped_trees(before_tree, self._select_windows(self._window_nodes(before_tree), window)))
         if expected_snapshot is not None and tree_digest(before_scope) != expected_snapshot:
             raise BokkioStaleSnapshot("Snapshot changed since decision; observe and decide again")
         before = choose(before_scope, ref=ref, role=role, name=name, parent=parent)
@@ -214,6 +235,10 @@ class Xa11yBackend:
         write_source = None
         action_source = None
         try:
+            from .desktop_control import checkpoint, ControlState
+            checkpoint()
+            if ControlState().status()['enabled'] and not (native_action or native_value_write or mac_action or scroll_plan is not None):
+                raise BokkioActionRefused('This provider action lacks input attribution; use desktop.input with user takeover enabled', 'input_source_unavailable')
             if scroll_plan is not None:
                 if scroll_plan["requested_position"] != scroll_plan["before_position"]:
                     if scroll_plan.get("source") == "UIA.ScrollPattern":
@@ -230,6 +255,7 @@ class Xa11yBackend:
                     end=start+len(value.encode('utf-16-le'))//2
                     if before['platform_data'].get('ax_selection_focus_settable'):
                         _call(element.focus)
+                    checkpoint(dispatched=bool(before['platform_data'].get('ax_selection_focus_settable')))
                     _call(element.select_text,start,end)
                     action_source='AXFocused_then_AXSelectedTextRange' if before['platform_data'].get('ax_selection_focus_settable') else 'AXSelectedTextRange'
                 elif (mac_action and action=='set_value' and hasattr(self,'visual_value_replace')
@@ -410,10 +436,15 @@ class Xa11yBackend:
         self._observation_deadline=time.monotonic()+15 if self._platform=='macos' else None
         try:
             tree = self._walk(element, identity, [], parent_ref=None, occurrence=0, live=live,
-                              window_selector=window_selector if self._platform=='macos' else None)
+                              window_selector=window_selector)
         finally:self._observation_deadline=previous_deadline
-        if self._platform=='macos' and self._native is not None and hasattr(self._native,'annotate'):
-            tree=_call(self._native.annotate,tree,app.pid)
+        from .observation import active_read, ReadStopped
+        budget = active_read.get()
+        if self._platform=='macos' and self._native is not None and hasattr(self._native,'annotate') and (budget is None or budget.check()):
+            try:
+                tree=_call(self._native.annotate,tree,app.pid)
+            except ReadStopped:
+                pass
         if self._platform == "windows":
             nodes = {n["ref"]: n for n in flatten([tree])}
             aliases = {}
@@ -426,7 +457,7 @@ class Xa11yBackend:
                     aliases.setdefault(key,[]).append(node)
             # WinUI can expose one physical control through two HWND islands.
             # Obtain identity for both aliases; never infer it from bounds alone.
-            for group in aliases.values():
+            for group in aliases.values() if budget is None or budget.check() else []:
                 if len(group)>1:
                     for node in group:
                         node['platform_data']['ambiguous_ref_identity']=True
@@ -475,6 +506,22 @@ class Xa11yBackend:
         visit(app_tree)
         return result
 
+    def _scoped_trees(self, tree, selected):
+        # Native owner links are not universally exposed. Keep same-app dialogs
+        # conservatively, plus application menus; do not infer dialog ownership.
+        def context_only(node):
+            return {**node, 'actions': [], 'platform_data': {**node['platform_data'], 'window_scope_context_only': True},
+                    'children': [context_only(child) for child in node['children']]}
+        kept = list(selected)
+        nested = {n['ref'] for root in selected for n in flatten([root])}
+        for node in self._window_nodes(tree):
+            if node['role'] == 'dialog' and node['ref'] not in nested:
+                kept.append(context_only(node));nested.update(n['ref'] for n in flatten([node]))
+        for node in tree.get('children', []):
+            if node['role'] in {'menu_bar','menu'} and node['ref'] not in nested:
+                kept.append(context_only(node))
+        return [{**node, 'parent': None} for node in kept]
+
     def _select_windows(
         self, windows: list[dict[str, Any]], selector: str | None
     ) -> list[dict[str, Any]]:
@@ -519,6 +566,14 @@ class Xa11yBackend:
         native_action_scope: int | None = None,
         window_selector: str | None = None,
     ) -> dict[str, Any]:
+        from .observation import active_read
+        budget = active_read.get()
+        if budget is not None and not budget.enter('tree', len(signature_path)):
+            if parent_ref is None:
+                return {'ref': stable_hash(identity), 'role': 'application', 'name': _call(lambda: element.name),
+                        'value': None, 'bounds': None, 'parent': None, 'children': [], 'state': {},
+                        'actions': [], 'platform': self._platform, 'platform_data': {}}
+            return None
         deadline=getattr(self,'_observation_deadline',None)
         if deadline is not None and time.monotonic()>deadline:
             raise BokkioError('Mac AX provider observation exceeds time budget')
@@ -548,20 +603,47 @@ class Xa11yBackend:
             (child, self._role(child), _call(lambda: child.name))
             for child in _call(element.children)
         ]
+        if budget is not None:
+            budget.child_batches += 1
+            budget.child_candidates += len(child_elements)
         role_counts = Counter(role for _, role, _ in child_elements)
         native_ids = [_call(lambda: child.stable_id) for child, _, _ in child_elements]
         native_counts = Counter(native_ids)
         signature_counts = Counter((child_role, child_name) for _, child_role, child_name in child_elements)
         # Exact title requests do not need to read every unrelated document.
         # Count all sibling identities first so scoped and full refs agree.
-        scoped_titles={child_name for _,child_role,child_name in child_elements
-                       if child_role in {'window','dialog'} and child_name and window_selector
-                       and child_name.casefold()==window_selector.casefold()}
+        # Enumerate sibling identities before pruning so full and scoped refs agree.
+        # Resolve titles, HWNDs, refs and legacy indices without reading window bodies.
+        scoped_titles = set()
+        selected_ids = None
+        if window_selector and role == 'application':
+            candidates, occurrences = [], {}
+            for (child, child_role, child_name), native_id in zip(child_elements, native_ids):
+                signature = (child_role, child_name)
+                occurrence_value = occurrences.get(signature, 0)
+                occurrences[signature] = occurrence_value + 1
+                if child_role not in {'window', 'dialog'}:
+                    continue
+                unique_hwnd = (native_id if self._platform == 'windows' and native_id
+                               and native_id.startswith('hwnd:') and native_counts[native_id] == 1 else None)
+                part = path_signature(child_role, child_name, 0 if unique_hwnd else occurrence_value)
+                if unique_hwnd:
+                    part.append(unique_hwnd)
+                candidates.append({'name': child_name, 'ref': stable_hash(identity + next_path + [part]),
+                                   'platform_data': {'native_stable_id': native_id}, '_child': id(child)})
+            if candidates:
+                try:
+                    selected = self._select_windows(candidates, window_selector)
+                except BokkioError:
+                    selected = []  # A macOS sheet may be nested inside a top-level window.
+                if selected:
+                    selected_ids = {n['_child'] for n in selected} | {id(c) for c, r, _ in child_elements if r == 'dialog'}
+                    scoped_titles = {n['name'] for n in selected if n['name']} | {name for _, r, name in child_elements if r == 'dialog' and name}
         for (child, child_role, child_name), native_id in zip(child_elements, native_ids):
             signature = (child_role, child_name)
             child_occurrence = counts.get(signature, 0)
             counts[signature] = child_occurrence + 1
-            if scoped_titles and child_name not in scoped_titles:
+            if selected_ids is not None and child_role in {'window','dialog'} and id(child) not in selected_ids:
                 continue
             # A single passive label is a value of its parent, not an action identity.
             # Keep names in interactive identities so changed controls invalidate refs.
@@ -579,8 +661,14 @@ class Xa11yBackend:
                               native_action_scope=native_action_scope,
                               ambiguous_identity=ambiguous_identity or (
                                   signature_counts[signature] > 1 and hwnd_identity is None))
+            if node is None:
+                break
             children.append(node)
             child_refs.append(node["ref"])
+        if budget is not None and not budget.check():
+            return {'ref': ref, 'role': role, 'name': name, 'value': None, 'bounds': None,
+                    'parent': parent_ref, 'children': children, 'state': {}, 'actions': [],
+                    'platform': self._platform, 'platform_data': {'native_stable_id': stable}}
         bounds, invalid_bounds = self._element_bounds(element)
         node = self._node(
             role=role,
@@ -607,7 +695,7 @@ class Xa11yBackend:
         if self._platform=='windows' and native_action_scope is not None:
             node['platform_data']['native_action_scope_hwnd']=native_action_scope
         needs_toggle_state = 'toggle' in [a.casefold() for a in node['platform_data'].get('actions', [])]
-        if ambiguous_identity or needs_toggle_state:
+        if (budget is None or budget.check()) and (ambiguous_identity or needs_toggle_state):
             if set(node['actions']) & {'click','expand','collapse','select'}:
                 self._capture_action(node,element,native_action_scope or native_window)
         return node
@@ -628,6 +716,9 @@ class Xa11yBackend:
         native_window: int | None = None,
     ) -> dict[str, Any]:
         state = self._state(element) if element is not None else {}
+        from .observation import active_read
+        budget = active_read.get()
+        def can_read():return budget is None or budget.check()
         ref = stable_hash(identity + signature_path)
         platform_data = dict(raw)
         platform_data["description"] = (
@@ -645,7 +736,7 @@ class Xa11yBackend:
         platform_data["native_stable_id"] = (
             _call(lambda: element.stable_id) if element is not None else None
         )
-        if self._native is not None and hasattr(self._native,'value') and (role in {"text_field", "text_area"} or "set_value" in actions) and role != "scroll_bar":
+        if can_read() and self._native is not None and hasattr(self._native,'value') and (role in {"text_field", "text_area"} or "set_value" in actions) and role != "scroll_bar":
             try:
                 pattern = (self._native.scoped_value(element, native_window) if hasattr(self._native, "scoped_value") else self._native.value(element))
                 if pattern and pattern.get("available"):
@@ -683,7 +774,7 @@ class Xa11yBackend:
         # xa11y's macOS select() writes AXSelected for these native roles.
         if self._platform == "macos" and role in {"row", "table_row", "list_item", "tree_item"} and state.get("selected") is not None:
             actions = sorted(set(actions) | {"select"})
-        if self._native is not None and hasattr(self._native,'scroll_state') and role in {"group", "list", "table", "tree", "text_area", "scroll_area", "pane"}:
+        if can_read() and self._native is not None and hasattr(self._native,'scroll_state') and role in {"group", "list", "table", "tree", "text_area", "scroll_area", "pane"}:
             try:
                 scroll = self._native.scroll_state(element)
                 if scroll is not None:

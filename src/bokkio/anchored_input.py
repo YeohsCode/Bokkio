@@ -10,6 +10,8 @@ from .workflow import selector_for
 ACTIONS={'click','double_click','right_click','key','type','replace_text','scroll','drag'}
 
 def prepare_target(before,fresh,args):
+    from .observation import require_complete
+    require_complete(before);require_complete(fresh)
     old=[n for n in flatten(before['windows']) if n['ref']==args['ref']]
     if len(old)!=1:raise BokkioActionRefused('Input target is absent','element_not_found')
     old=old[0];selector=selector_for(before,old);identity=old.get('platform_data',{}).get('ax_identifier') or old.get('platform_data',{}).get('automation_id')
@@ -38,7 +40,9 @@ def prepare_target(before,fresh,args):
 
 def perform_anchored(pid,window,before,fresh,args,cancel_path=None):
     from .desktop_input import require_input_session
-    require_input_session();target,request=prepare_target(before,fresh,args)
+    from .desktop_control import checkpoint, native_guard
+    checkpoint();require_input_session();target,request=prepare_target(before,fresh,args)
+    request.update(native_guard())
     if cancel_path:request['cancel_file']=str(cancel_path)
     if sys.platform=='darwin':
         from .app_launch import native_helper
@@ -48,7 +52,7 @@ def perform_anchored(pid,window,before,fresh,args,cancel_path=None):
         except (OSError,ValueError,subprocess.TimeoutExpired) as e:raise BokkioCompletionUnknown('Native input receipt unavailable') from e
         if 'error' in result:
             if result.get('dispatched'):raise BokkioCompletionUnknown(result['error'])
-            raise BokkioActionRefused(result['error'])
+            raise BokkioActionRefused(result['error'], 'user_control_paused' if result['error'].startswith('User takeover:') else 'action_unavailable')
     elif sys.platform=='win32':result=windows_input(request)
     else:raise BokkioActionRefused('Desktop input requires macOS or Windows')
     return {**result,'target':{k:target.get(k) for k in ['ref','role','name']},'verification':{'status':'executed_not_business_verified'}}
@@ -74,6 +78,8 @@ def windows_input(request):
     kernel=c.WinDLL('kernel32');kernel.GetCurrentThreadId.restype=w.DWORD
     user.AttachThreadInput.argtypes=[w.DWORD,w.DWORD,w.BOOL];user.AttachThreadInput.restype=w.BOOL
     current=kernel.GetCurrentThreadId();front=user.GetForegroundWindow();thread=user.GetWindowThreadProcessId(front,None)
+    from .desktop_control import checkpoint, windows_move, EVENT_TAG, physically_held
+    checkpoint()
     attached=current!=thread and bool(user.AttachThreadInput(current,thread,True))
     try:
         user.ShowWindow(hwnd,9);user.SetForegroundWindow(hwnd);user.BringWindowToTop(hwnd)
@@ -85,7 +91,7 @@ def windows_input(request):
     if request['action'] in {'click','right_click','double_click','scroll','drag'}:
         point=w.POINT(round(request['x']),round(request['y']))
         if user.GetAncestor(user.WindowFromPoint(point),2)!=hwnd:raise BokkioActionRefused('Input target is covered by another window')
-        if not user.SetCursorPos(point.x,point.y):raise BokkioActionRefused('Pointer positioning failed')
+        if not windows_move(user,point.x,point.y,dispatched=True):raise BokkioActionRefused('Pointer positioning failed')
     if request['action'] in {'key','type','replace_text'} and request['target']['role'] not in {'window','application'}:
         from .windows_uia import WindowsUIA
         uia=WindowsUIA();focused=uia.automation.GetFocusedElement();wanted=request['target']
@@ -98,15 +104,29 @@ def windows_input(request):
     class Union(c.Union):_fields_=[('mouse',Mouse),('keyboard',Keyboard)]
     class Input(c.Structure):_fields_=[('type',w.DWORD),('data',Union)]
     user.SendInput.argtypes=[w.UINT,c.POINTER(Input),c.c_int];user.SendInput.restype=w.UINT
-    dispatched=False
+    dispatched=True  # Foreground activation has already been attempted.
+    posted_keys,posted_buttons=set(),set()
     def send(events,release=False):
         nonlocal dispatched
+        if not release:checkpoint(dispatched)
+        if release:
+            events=[event for event in events if (event.type==1 and event.data.keyboard.vk in posted_keys and not physically_held('key:'+str(event.data.keyboard.vk))) or (event.type==0 and 1 in posted_buttons and not physically_held('mouse:1'))]
+            if not events:return
+        for event in events:
+            if event.type==1:event.data.keyboard.extra=EVENT_TAG
+            else:event.data.mouse.extra=EVENT_TAG
         if not release and request.get('cancel_file') and Path(request['cancel_file']).exists():
             if dispatched:raise BokkioCompletionUnknown('Input was stopped after partial dispatch')
             raise BokkioActionRefused('Input cancelled before dispatch')
         data=(Input*len(events))(*events)
         dispatched=True
-        if user.SendInput(len(events),data,c.sizeof(Input))!=len(events):raise BokkioCompletionUnknown('Partial input; inspect result before retry')
+        sent=user.SendInput(len(events),data,c.sizeof(Input))
+        for event in events[:sent]:
+            if event.type==1:
+                (posted_keys.discard if event.data.keyboard.flags&2 else posted_keys.add)(event.data.keyboard.vk)
+            elif event.data.mouse.flags&2:posted_buttons.add(1)
+            elif event.data.mouse.flags&4:posted_buttons.discard(1)
+        if sent!=len(events):raise BokkioCompletionUnknown('Partial input; inspect result before retry')
     def mouse(flag,data=0):return Input(0,Union(mouse=Mouse(0,0,data&0xffffffff,flag,0,0)))
     def key(vk,up=False):return Input(1,Union(keyboard=Keyboard(vk,0,2 if up else 0,0,0)))
     action=request['action']
@@ -143,6 +163,6 @@ def windows_input(request):
             send([mouse(2)])
             for i in range(1,21):
                 if user.GetForegroundWindow()!=hwnd:raise BokkioCompletionUnknown('Foreground changed during drag')
-                user.SetCursorPos(round(request['x']+(request['end_x']-request['x'])*i/20),round(request['y']+(request['end_y']-request['y'])*i/20));time.sleep(request['duration']/20)
+                windows_move(user,round(request['x']+(request['end_x']-request['x'])*i/20),round(request['y']+(request['end_y']-request['y'])*i/20),dispatched=dispatched);time.sleep(request['duration']/20)
         finally:send([mouse(4)],release=True)
     return {'status':'posted_unverified','dispatched':True,'pid':request['pid'],'transport':'Windows.SendInput'}

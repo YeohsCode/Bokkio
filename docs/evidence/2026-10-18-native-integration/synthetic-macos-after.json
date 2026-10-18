@@ -1,0 +1,59 @@
+{
+  "kind": "synthetic_provider",
+  "platform_adapter": "macos",
+  "windows": 10,
+  "nodes_per_window": 301,
+  "iterations": 9,
+  "children_calls": 302,
+  "elapsed_ms_median": 3.144333022646606,
+  "target_ref": "789c1713a21159e2a14a",
+  "samples": [
+    {
+      "children_calls": 302,
+      "elapsed_ms": 3.4616669872775674,
+      "target_ref": "789c1713a21159e2a14a"
+    },
+    {
+      "children_calls": 302,
+      "elapsed_ms": 3.111042082309723,
+      "target_ref": "789c1713a21159e2a14a"
+    },
+    {
+      "children_calls": 302,
+      "elapsed_ms": 3.110708901658654,
+      "target_ref": "789c1713a21159e2a14a"
+    },
+    {
+      "children_calls": 302,
+      "elapsed_ms": 3.137208055704832,
+      "target_ref": "789c1713a21159e2a14a"
+    },
+    {
+      "children_calls": 302,
+      "elapsed_ms": 3.100167028605938,
+      "target_ref": "789c1713a21159e2a14a"
+    },
+    {
+      "children_calls": 302,
+      "elapsed_ms": 3.144333022646606,
+      "target_ref": "789c1713a21159e2a14a"
+    },
+    {
+      "children_calls": 302,
+      "elapsed_ms": 3.2048330176621675,
+      "target_ref": "789c1713a21159e2a14a"
+    },
+    {
+      "children_calls": 302,
+      "elapsed_ms": 3.1643749680370092,
+      "target_ref": "789c1713a21159e2a14a"
+    },
+    {
+      "children_calls": 302,
+      "elapsed_ms": 3.300167038105428,
+      "target_ref": "789c1713a21159e2a14a"
+    }
+  ],
+  "business_success_rate": null,
+  "native_provider_calls_measured": false
+}

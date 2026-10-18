@@ -16,6 +16,9 @@ def build_parser() -> argparse.ArgumentParser:
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
+    control = subparsers.add_parser("control", help="Local user takeover controls")
+    control.add_argument("action", choices=["status", "enable", "disable", "resume"])
+
     capture = subparsers.add_parser("capture", help="Capture one authorized native window")
     capture.add_argument("--pid", type=int, required=True)
     capture.add_argument("--hwnd", type=lambda value: int(value, 0))
@@ -134,6 +137,10 @@ def render_tree(node: dict[str, Any], indent: int = 0) -> str:
 
 
 def execute(args: argparse.Namespace, backend: Xa11yBackend) -> Any:
+    if args.command == "control":
+        from .desktop_control import InputMonitor
+        monitor = InputMonitor()
+        return {"status": monitor.state.status, "enable": monitor.start, "disable": monitor.disable, "resume": monitor.resume}[args.action]()
     if args.command == "capture":
         from .windows_capture import CaptureError, save_capture
         if sys.platform == 'darwin':
@@ -281,7 +288,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     try:
-        offline = args.command in {"capture","visual-find"} or (args.command == "workflow" and args.workflow_command in {"compile", "parameterize", "repair"})
+        offline = args.command in {"capture","visual-find","control"} or (args.command == "workflow" and args.workflow_command in {"compile", "parameterize", "repair"})
         result = execute(args, None if offline else Xa11yBackend())
         if args.command == "run":
             from pathlib import Path
@@ -294,7 +301,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         elif args.command == "workflow":
             print(json.dumps({k:v for k,v in result.items() if k!='steps'} if args.workflow_command=='replay' else result,
                              ensure_ascii=False, indent=2))
-        elif getattr(args, "json", False) or args.command in {"snapshot", "find", "get", "act", "decide", "run", "capture", "visual-find"}:
+        elif getattr(args, "json", False) or args.command in {"snapshot", "find", "get", "act", "decide", "run", "capture", "visual-find", "control"}:
             print(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True))
         else:
             for item in result:
@@ -314,8 +321,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     except BokkioLookupError as error:
         print(json.dumps(error.as_dict(), ensure_ascii=False, indent=2), file=sys.stderr)
         return 1
-    except BokkioError as error:
-        if args.command in {"capture","visual-find"} and hasattr(error, "as_dict"):
+    except (BokkioError, ValueError) as error:
+        if args.command in {"capture","visual-find","control"} and hasattr(error, "as_dict"):
             print(json.dumps(error.as_dict()), file=sys.stderr)
             return 1
         print(f"bokkio: {error}", file=sys.stderr)

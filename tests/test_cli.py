@@ -127,6 +127,8 @@ def test_refs_are_stable_for_identical_snapshot():
     backend, _, _ = backend_with_button()
     first = backend.snapshot("TextEdit")
     second = backend.snapshot("TextEdit")
+    # Read timing is per observation; semantic identity must remain stable.
+    first["read"].pop("elapsed_ms");second["read"].pop("elapsed_ms")
     assert first == second
 
 

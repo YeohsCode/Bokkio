@@ -41,9 +41,9 @@
 ## 最终 Core 复核
 
 - 主机回归 **571/571**。
-- 原生、代码、真实 SQLite 注入与审计合同 **9/9**，见 [final-audit.json](final-audit.json)。
+- 原生、代码、真实 SQLite 注入与审计检查 **9/9**，见 [final-audit.json](final-audit.json)。
 - 当前窗口／作业故障矩阵 **16/18**，见 [final-faults.json](final-faults.json)。重建后正向点击、当前显示器坐标正向点击均被 UserNotificationCenter 顶层窗口挡住；事件权限为 true，顶层目标不匹配，零派发。旧版本 18/18 保留为历史，不能替代本轮。
-- 八类 Core 安全合同各至少一项真实本机检查 **8/8**，见 [类别映射](core-contract.json)。此分母不等于整个窗口矩阵通过，也不包含真实锁屏或客户人工审批。
+- 八类 Core 安全检查各至少一项真实本机检查 **8/8**，见 [类别映射](core-contract.json)。此分母不等于整个窗口矩阵通过，也不包含真实锁屏或客户人工审批。
 
 第一次故障矩阵误用了旧 fixture 二进制，在任何故障用例执行前因缺少 displays 字段中止；[准备失败](fault-setup-diagnostics.json)保留。重新编译当前 Cocoa visual fixture后在新目录运行，得到上述 16/18。
 

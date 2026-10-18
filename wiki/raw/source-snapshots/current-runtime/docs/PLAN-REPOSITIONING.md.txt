@@ -2,7 +2,10 @@
 source_path: docs/PLAN-REPOSITIONING.md
 source_version: 0feda6de6e3d3b117a516ed48a5352574b438a29
 ingested: 2026-10-13
-sha256: e04b303e7dafb1b0c41a54855d8583f263fce7887daf48762736f34f3aef50e6
+sha256: 7f479c288cfdda9dbd3e6a3808d71ee2881282ab20dd3fce36cc97a1ad94be01
+text_revised: 2026-10-18
+revision_reason: user-requested plain-language terminology
+original_body_sha256: e04b303e7dafb1b0c41a54855d8583f263fce7887daf48762736f34f3aef50e6
 ---
 
 # Bokkio 新定位与改进计划
@@ -360,7 +363,7 @@ evals/           # fixtures、未知应用、独立 judge、调用方矩阵
 
 ## 9. 评测：证明通用能力，而不是继续扩大应用补丁
 
-2026-10-12 补充：[测试加强计划](TEST-STRENGTHENING-PLAN.md) 将自主业务评测拆为 12 个冻结任务、三种指定调用方、any-tool/GUI 分轨、稳定性、审批等待与故障合同。工作包见 [结构化清单](progress/test-strengthening.json)。首批已执行，修复复测与评分器更正单列于[业务报告](evidence/2026-10-12-business-eval/README.md)；完整加强矩阵仍待完成，不取消本节双平台验收门槛。
+2026-10-12 补充：[测试加强计划](TEST-STRENGTHENING-PLAN.md) 将自主业务评测拆为 12 个冻结任务、三种指定调用方、any-tool/GUI 分轨、稳定性、审批等待与故障处理检查。工作包见 [结构化清单](progress/test-strengthening.json)。首批已执行，修复复测与评分器更正单列于[业务报告](evidence/2026-10-12-business-eval/README.md)；完整加强矩阵仍待完成，不取消本节双平台验收门槛。
 
 ### 9.1 三天客户验收矩阵
 

@@ -1,0 +1,11 @@
+{
+  "kind": "environment_check_not_Windows_product_test",
+  "vm_name": "Bokkio Windows Unattended",
+  "vmrun_start_report": [
+    "LocationGetRoot: Unable to determine the product location. It is likely that the product has never been run on this machine.",
+    "Cannot determine message file path for locale en."
+  ],
+  "running_vm_count_after_attempt": 0,
+  "Windows_acceptance_executed": false,
+  "explicit_fusion_type_retry": "same product location error"
+}

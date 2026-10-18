@@ -290,6 +290,9 @@ class RuntimeWorkflowRunner:
         if result['status']=='approval_required':
             r.update(status='waiting_approval',approval_id=result['approval_id']);self._save(r);return None
         if result['status'] not in {'completed','executed','verified','queued'}:
+            if result.get('error_code') in {'user_control_paused','user_control_changed'} and result.get('dispatched') is False:
+                r.update(status='paused',pause_reason='user_control',pending=None)
+                self._save(r);return None
             # Fresh observations after approved-but-expired native requests require a NEW approval.
             if result.get('error_code')=='stale_snapshot' or result.get('error_type')=='BokkioStaleSnapshot':
                 if result.get('dispatched') is False and r.get('stale_refreshes',0)<2:

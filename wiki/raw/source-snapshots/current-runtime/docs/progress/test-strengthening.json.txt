@@ -2,7 +2,10 @@
 source_path: docs/progress/test-strengthening.json
 source_version: 0feda6de6e3d3b117a516ed48a5352574b438a29
 ingested: 2026-10-13
-sha256: a185c23dcaf1276d30a3d1d3417370c4c1129ebf9c133b5ba059c8ce1404d5f9
+sha256: 4f77099e9a199aca81357592de958c30c3ff12eda00ea36518b14448b5b4819f
+text_revised: 2026-10-18
+revision_reason: user-requested plain-language terminology
+original_body_sha256: a185c23dcaf1276d30a3d1d3417370c4c1129ebf9c133b5ba059c8ce1404d5f9
 ---
 
 {
@@ -164,7 +167,7 @@ sha256: a185c23dcaf1276d30a3d1d3417370c4c1129ebf9c133b5ba059c8ce1404d5f9
       "depends_on": [
         "EVAL-02"
       ],
-      "completion_condition": "最终代码八类Core治理合同8/8；真实锁屏/显示器缺口单列，未知完成无盲目重发",
+      "completion_condition": "最终代码八类Core权限与执行检查8/8；真实锁屏/显示器缺口单列，未知完成无盲目重发",
       "evidence": "docs/evidence/2026-10-12-macos-completion/README.md",
       "remaining": [
         "physical_lock_unlock",

@@ -1,0 +1,74 @@
+{
+  "kind": "macos_owned_fixture_development_build",
+  "checks": [
+    {
+      "name": "complete_native_read",
+      "passed": true,
+      "node_count": 80,
+      "read": {
+        "complete": true,
+        "reason": null,
+        "visited_nodes": 166,
+        "tree": 5,
+        "annotation": 161,
+        "child_batches": 5,
+        "child_candidates": 4,
+        "elapsed_ms": 264.792,
+        "node_limit": null,
+        "depth_limit": null,
+        "native_calls_interruptible": false,
+        "child_enumeration": "provider_batch_not_paged"
+      }
+    },
+    {
+      "name": "bounded_native_read",
+      "passed": true,
+      "read": {
+        "complete": false,
+        "reason": "node_limit",
+        "visited_nodes": 3,
+        "tree": 3,
+        "annotation": 0,
+        "child_batches": 3,
+        "child_candidates": 4,
+        "elapsed_ms": 3.537,
+        "node_limit": 3,
+        "depth_limit": null,
+        "native_calls_interruptible": false,
+        "child_enumeration": "provider_batch_not_paged"
+      }
+    },
+    {
+      "name": "native_value_independent_fixture_readback",
+      "passed": true,
+      "receipt": "confirmed"
+    },
+    {
+      "name": "tagged_own_event_not_paused",
+      "passed": true
+    },
+    {
+      "name": "foreign_injected_event_pauses",
+      "passed": true,
+      "post_to_state_ms": 13.442834024317563,
+      "source": "CGEvent synthetic untagged; not physical input"
+    },
+    {
+      "name": "explicit_resume",
+      "passed": true
+    }
+  ],
+  "not_tested": [
+    "physical_hardware_input",
+    "IME",
+    "sleep_wake",
+    "installed_bundle_permissions",
+    "Windows",
+    "Microsoft Edge"
+  ],
+  "monitor_status": {
+    "state": "paused_by_user",
+    "healthy": true,
+    "error": null
+  }
+}

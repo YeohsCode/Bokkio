@@ -1,16 +1,22 @@
 ---
 title: "当前阶段与证据快照"
 created: "2026-10-08"
-updated: "2026-10-16"
+updated: "2026-10-18"
 type: "summary"
 tags: ["project", "evidence", "runtime", "meta"]
-sources: ["docs/progress/STATUS.md", "docs/evidence/2026-10-13-capability-modules/README.md", "docs/evidence/2026-10-16-outlook-powershell/README.md", "docs/OUTLOOK-GRAPH.md", "docs/evidence/2026-10-16-graph-generic/README.md"]
+sources: ["docs/progress/STATUS.md", "docs/evidence/2026-10-13-capability-modules/README.md", "docs/evidence/2026-10-16-outlook-powershell/README.md", "docs/OUTLOOK-GRAPH.md", "docs/evidence/2026-10-16-graph-generic/README.md", "docs/WINDOWS-MACOS-INTEGRATION-RESULTS.md"]
 confidence: "high"
 ---
 
 # 当前阶段与证据快照
 
-截至2026-10-13，工作候选版0.2.0。实现8/8是交付物分母，产品成功率目标与客户／双平台验收未完成；当前事实以共享progress为准。^[docs/progress/STATUS.md#L3]
+截至2026-10-18，工作候选版0.3.0。实现8/8是交付物分母，产品成功率目标与客户／双平台验收未完成；当前事实以共享progress为准。^[docs/progress/STATUS.md#L3]
+
+## 2026-10-18：三项整合已实现，双平台验收待完成
+
+读取预算、Chrome/Edge原生网页视图和用户接管已接入当前Core/Desktop。完整Python回归771通过、6跳过；Node9通过；前端构建和Mac独立Runtime暂存通过。Mac自有窗口及Chrome固定页有现场结果，Windows现场、物理输入/IME和两端安装包权限尚未完成。接管默认关闭。^[docs/WINDOWS-MACOS-INTEGRATION-RESULTS.md#L5]
+
+下一步先恢复Windows测试环境，完成浏览器/输入恢复/安装包矩阵并修复问题。没有另行安排下一批新功能；分页、阻塞调用隔离和多会话只作条件性评估。原完整业务评测继续暂停。细节见[[entities/native-observation-and-control]]。^[docs/WINDOWS-MACOS-INTEGRATION-RESULTS.md#L118]
 
 ## 2026-10-16：Desktop Outlook 增量
 
@@ -23,7 +29,7 @@ confidence: "high"
 
 | 项目 | 结果 | 范围 |
 |---|---:|---|
-| 最新完整隔离回归 | 647/647 | 包含新增模块30项和backend合成provider4项 |
+| 该轮完整隔离回归 | 647/647 | 包含新增模块30项和backend合成provider4项 |
 | 受控文件对照 | 6/6 | 三份样本code/module两路；独立打开文件核验 |
 | 临时wheel检查 | 通过 | 新模块包含、可选依赖声明、解包导入；不是独立完整安装或发行 |
 | Workflow初轮回归 | 613/613 | 能力模块之前的版本与独立报告 |
@@ -49,7 +55,7 @@ confidence: "high"
 
 ## 最新实现与剩余缺口
 
-新版Runtime Workflow与能力模块已交付。backend已确认未派发的禁用目标分类有合同验证；真实Numbers编辑提交／保存尚未续测，原生.numbers历史1/3保留。字段写值与业务模型提交不是同一事实。^[docs/progress/STATUS.md#L15] ^[docs/progress/STATUS.md#L40]
+新版Runtime Workflow与能力模块已交付。backend已确认未派发的禁用目标分类有接口与执行行为验证；真实Numbers编辑提交／保存尚未续测，原生.numbers历史1/3保留。字段写值与业务模型提交不是同一事实。^[docs/progress/STATUS.md#L15] ^[docs/progress/STATUS.md#L40]
 
 客户应用／部署、真实人工审批、物理锁屏／多显示器与Windows当前Runtime仍待验收。旧SDK终态矩阵9/12更正为7/12；历史Office分轮成绩不作为当前Core或官方benchmark分数。^[docs/progress/STATUS.md#L48] ^[docs/progress/STATUS.md#L38]
 

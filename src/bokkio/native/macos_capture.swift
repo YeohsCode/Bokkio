@@ -28,6 +28,14 @@ guard input.count <= 16384,
       let args = try? JSONSerialization.jsonObject(with: input) as? [String: Any],
       let number = args["pid"] as? Int, number > 0, number <= Int(Int32.max),
       let output = args["output"] as? String else { fail("invalid_scope", "Invalid capture request") }
+func controlAllowed()->Bool {
+    guard let path=args["control_file"] as? String else{return true}
+    guard let data=FileManager.default.contents(atPath:path),
+          let state=(try? JSONSerialization.jsonObject(with:data)) as? [String:Any],
+          state["allowed"] as? Bool == true,state["generation"] as? Int == args["control_generation"] as? Int,
+          (state["expires"] as? Double ?? 0)>Date().timeIntervalSince1970 else{return false}
+    return true
+}
 let pid = pid_t(number)
 if !CGPreflightScreenCaptureAccess() { fail("permission_denied", "Screen recording permission is required") }
 Task { @MainActor in
@@ -398,7 +406,20 @@ Task { @MainActor in
             }
             // CGEventPost has no delivery acknowledgement. Once posting starts,
             // a lost scope is unknown completion and must never trigger retry.
+            for event in events {event.setIntegerValueField(.eventSourceUserData,value:0x424B494F)}
             for (index,event) in events.enumerated() {
+                if let path=args["control_file"] as? String {
+                    let data=FileManager.default.contents(atPath:path)
+                    let state=data.flatMap{try? JSONSerialization.jsonObject(with:$0) as? [String:Any]}
+                    let allowed=state?["allowed"] as? Bool == true && state?["generation"] as? Int == args["control_generation"] as? Int && (state?["expires"] as? Double ?? 0)>Date().timeIntervalSince1970
+                    if !allowed {
+                        if index % 2 == 1,let physical=state?["physical_held"] as? [String] {
+                            let name=event.type == .keyUp ? "key:"+String(event.getIntegerValueField(.keyboardEventKeycode)):"mouse:1"
+                            if !physical.contains(name) {event.post(tap:.cghidEventTap)}
+                        }
+                        fail("user_control_paused","User takeover paused pixel input",["dispatched":postingStarted,"events_posted":index])
+                    }
+                }
                 if index==4 && action=="type" && args["finish_typing"] as? Bool == true {
                     RunLoop.current.run(until:Date().addingTimeInterval(0.1))
                 }
@@ -432,6 +453,9 @@ Task { @MainActor in
                     let release = index % 2 == 1
                     if release { events[index].post(tap:.cghidEventTap) }
                     fail("input_completion_unknown", "Foreground changed after dispatch began", ["events_posted":index+(release ? 1 : 0),"release_posted":release,"dispatched":true,"input_scope":foregroundScope()])
+                }
+                if !controlAllowed() {
+                    fail("user_control_paused","User takeover paused pixel input",["dispatched":postingStarted,"events_posted":index])
                 }
                 postingStarted = true
                 event.post(tap:.cghidEventTap)

@@ -2,7 +2,10 @@
 source_path: docs/CAPABILITY-MODULES.md
 source_version: working-tree-based-on-78c3289a42369aa5c0eb276e2092dece83b6b7e6
 ingested: 2026-10-13
-sha256: d59f4f255c00fbc5106ce3ce4ac3ba94593fa59f333f2709a3391a1a254d576c
+sha256: 6382c96e1410d5ce73f88ee827715da02c799fc2f3cc7a7bf3761b903404f3eb
+text_revised: 2026-10-18
+revision_reason: user-requested plain-language terminology
+original_body_sha256: d59f4f255c00fbc5106ce3ce4ac3ba94593fa59f333f2709a3391a1a254d576c
 ---
 
 # 轻量能力模块
@@ -44,15 +47,15 @@ wheel 安装使用 `bokkio[office,mcp]`。不要用默认 `uv sync` 删除 extra
 
 | 工具 | 用途 |
 |---|---|
-| `module.list` | 模块摘要、分类标签、是否启用、依赖健康，不加载全部输入合同 |
+| `module.list` | 模块摘要、分类标签、是否启用、依赖健康，不加载全部输入参数定义 |
 | `capability.list` | 能力摘要；可传 `module_id` 筛选 |
-| `capability.get` | 精确 ID 的完整输入／输出、前置条件、预期效果、实现范围、恢复规则和合同 SHA256 |
-| `capability.invoke` | 指定能力 ID、版本、合同 SHA256、inputs；可指定精确 implementation；返回 job_id |
+| `capability.get` | 精确 ID 的完整输入／输出、前置条件、预期效果、实现范围、恢复规则和接口与实现的 SHA256 |
+| `capability.invoke` | 指定能力 ID、版本、接口与实现的 SHA256、inputs；可指定精确 implementation；返回 job_id |
 | `job.get/cancel` | 沿用现有作业查询、取消和 worker 丢失处理 |
 
-`capabilities` 会提示模块发现入口。MCP 仍只公开少量通用发现／调用工具，不把每个模块动作加入全局工具列表。当前使用本地静态注册，只有 `office.xlsx` 一个模块；元数据在 `modules/office_xlsx_contract.py`，实现位于 `modules/office_xlsx.py`。新增模块按相同合同显式注册；不接受来自调用方的 import 路径、安装命令或任意执行器。独立 wheel 插件加载、在线搜索与热升级留待有真实需求时增加。
+`capabilities` 会提示模块发现入口。MCP 仍只公开少量通用发现／调用工具，不把每个模块动作加入全局工具列表。当前使用本地静态注册，只有 `office.xlsx` 一个模块；元数据在 `modules/office_xlsx_contract.py`，实现位于 `modules/office_xlsx.py`。新增模块按相同接口定义显式注册；不接受来自调用方的 import 路径、安装命令或任意执行器。独立 wheel 插件加载、在线搜索与热升级留待有真实需求时增加。
 
-合同 SHA256 绑定元数据、实现源码 SHA256 和实际依赖版本。升级改变合同后，旧请求零派发拒绝；需要重新发现并创建新的精确审批请求。worker 开始时再次检查合同，运行不自动换实现。
+接口与实现的 SHA256 绑定元数据、实现源码 SHA256 和实际依赖版本。升级改变接口定义后，旧请求零派发拒绝；需要重新发现并创建新的精确审批请求。worker 开始时再次检查接口与实现的一致性，运行不自动换实现。
 
 SDK 样例：
 
@@ -98,7 +101,7 @@ CLI 沿用 `call TOOL --session ID --args-file request.json`，MCP 参数仍包�
 | `xlsx.update_cells` | path、sheet、expected_sha256、output_path、cells | 新文件、单元格读回、源／产物哈希；status=verified |
 | `xlsx.verify_cells` | path、sheet、expected_sha256、cells | 独立打开文件并比较实际字面值；匹配时 status=verified |
 
-路径必须为获准范围内的绝对 `.xlsx`；一次最多1000个单元格、源10 MiB、ZIP展开50 MiB。输入为字符串、有限数字、布尔或 null；日期／公式／错误值不是首版字面值合同。清空单元格使用 null；空字符串可能无法按原样持久化，读回不符时拒绝发布。
+路径必须为获准范围内的绝对 `.xlsx`；一次最多1000个单元格、源10 MiB、ZIP展开50 MiB。输入为字符串、有限数字、布尔或 null；日期／公式／错误值不在首版字面值输入范围内。清空单元格使用 null；空字符串可能无法按原样持久化，读回不符时拒绝发布。
 
 更新仅支持普通静态值工作簿，拒绝公式工作簿、受保护工作表、合并目标以及已识别的宏、绘图、图表、透视、表格和外部链接等特征。不承诺复杂格式无损、公式缓存或重算。该实现读写磁盘文件，与当前打开的 Excel／Numbers 文档不是等价通道。
 
@@ -108,7 +111,7 @@ CLI 沿用 `call TOOL --session ID --args-file request.json`，MCP 参数仍包�
 
 ## 验证
 
-`tests/test_capability_modules.py` 覆盖发现、权限、模块禁用、依赖缺失、版本／合同变化、审批、越界、篡改、独立文件读回、并发输出创建、发布后未知完成和 MCP／CLI／SDK 接入。`tests/test_action_dispatch_facts.py` 使用实际 Xa11yBackend 的合成 provider 验证禁用目标零派发和派发后未知完成；不冒充实机 Numbers 提交／保存。
+`tests/test_capability_modules.py` 覆盖发现、权限、模块禁用、依赖缺失、版本／接口定义变化、审批、越界、篡改、独立文件读回、并发输出创建、发布后未知完成和 MCP／CLI／SDK 接入。`tests/test_action_dispatch_facts.py` 使用实际 Xa11yBackend 的合成 provider 验证禁用目标零派发和派发后未知完成；不冒充实机 Numbers 提交／保存。
 
 ```sh
 uv run --extra office --extra mcp --extra browser --group test pytest -q

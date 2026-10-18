@@ -2,7 +2,10 @@
 source_path: docs/progress/STATUS.md
 source_version: working-tree-based-on-78c3289a42369aa5c0eb276e2092dece83b6b7e6
 ingested: 2026-10-13
-sha256: f4b879c2eb782d95662fede7f33c09b999035efeb9d3d1753881bc1b68fb9d25
+sha256: 322e78fda5c33f4e2e9e865c675d02c88602328b090e9eb114394ce317d9fa2a
+text_revised: 2026-10-18
+revision_reason: user-requested plain-language terminology
+original_body_sha256: f4b879c2eb782d95662fede7f33c09b999035efeb9d3d1753881bc1b68fb9d25
 ---
 
 # 当前状态与完成度
@@ -17,16 +20,16 @@ sha256: f4b879c2eb782d95662fede7f33c09b999035efeb9d3d1753881bc1b68fb9d25
 
 ## 能力模块新增（2026-10-13）
 
-轻量 module.list／capability.list/get/invoke 和可选 office.xlsx 文件模块已实现；默认关闭，模块／路径／write／trusted-host授权、精确合同与审批、既有作业及审计共用。完整隔离回归647/647（新增34项合同），三份样本的通用代码／模块两路独立文件核验6/6；wheel包含／导入检查通过。模块路径有额外校验成本，尚未证明自主成功率、速度或token收益。
+轻量 module.list／capability.list/get/invoke 和可选 office.xlsx 文件模块已实现；默认关闭，模块／路径／write／trusted-host授权、完整接口定义与审批、既有作业及审计共用。完整隔离回归647/647（新增34项检查），三份样本的通用代码／模块两路独立文件核验6/6；wheel包含／导入检查通过。模块路径有额外校验成本，尚未证明自主成功率、速度或token收益。
 
-通用 backend 禁用目标等零派发分类已修复并经过合成 provider 的 Runtime 合同验证，真实 Numbers 提交／保存尚未续测。完整业务矩阵仍暂停。见 [保存计划](../CAPABILITY-MODULE-PLAN.md)、[用法](../CAPABILITY-MODULES.md) 和 [报告](../evidence/2026-10-13-capability-modules/README.md)。
+通用 backend 禁用目标等零派发分类已修复并经过合成 provider 的 Runtime 接口与执行测试，真实 Numbers 提交／保存尚未续测。完整业务矩阵仍暂停。见 [保存计划](../CAPABILITY-MODULE-PLAN.md)、[用法](../CAPABILITY-MODULES.md) 和 [报告](../evidence/2026-10-13-capability-modules/README.md)。
 
 ## 上一冻结版本测试结果（保留原分母）
 
 | 项目 | 结果 | 含义 |
 |---|---:|---|
 | 主机回归 | 587/587 | GUI 结束后串行验证 |
-| 原生／SQLite／审计合同 | 9/9 | 授权、审批、意图拒写、缓存与导出统计对账 |
+| 原生／SQLite／审计检查 | 9/9 | 授权、审批、意图拒写、缓存与导出统计对账 |
 | 本机窗口／作业矩阵 | 18/18 | 本次两项正向输入实际成功；不含真实锁屏／额外显示器 |
 | Core 安全类别 | 8/8 | 每类至少一项实测，不是全异常覆盖率 |
 | 独立安装包 | 原生、代码、Browser 各 3/3 | 新 venv、锁定依赖、MCP/CLI、自动批准与审计通过 |
@@ -53,13 +56,13 @@ Workflow：用户本人端到端演示与客户软件任务；Windows 输入监�
 
 
 1. MAC-01：真实锁屏／解锁、第二物理显示器或不同缩放；本轮两项正向输入已完成。
-2. MAC-NATIVE-02：禁用目标零派发分类已修复并通过backend合同，真实Numbers现场分类仍需复核；编辑提交／菜单路径与两份 .numbers 持久化仍待完成，保守 unknown 不能升级通过或盲重发。
+2. MAC-NATIVE-02：禁用目标零派发分类已修复并通过backend派发行为检查，真实Numbers现场分类仍需复核；编辑提交／菜单路径与两份 .numbers 持久化仍待完成，保守 unknown 不能升级通过或盲重发。
 3. EVAL-QUALITY：Hermes/DeepSeek 完整终态、事实读取、GUI 保存／编辑、Harness 图片消费；GUI T01 的范围可行性需新 suite revision，不能覆盖 v1 失败。新 Core／适配修订后冻结并重跑受影响主批和三份稳定性。
 4. CLIENT-01：客户指定未参与调优应用、可丢弃数据及独立评分条件；当前开发样本不等于客户验收。
 5. HARNESS-01：三种开发接入路径历史各一份完整样本通过；真实人工批准、客户部署和实际等待成本未验收。延迟自动批准不替代人工。
 6. WIN-01：在另一台 Windows 电脑验证当前 Runtime；此前 VM 登录已恢复，历史 UIA/Planner 成绩不能替代新版本。
 7. RELEASE-01：客户环境、双平台最终固定矩阵和支持范围；原计划每端 14/15 与安全门槛仍保留。
 
-实现 8/8、macOS 开发能力类别 4/5、Windows 新 Runtime 类别 0/5 是不同分母，不能换算为通用软件成功率。操作日志、审批、作业和产物已有可追溯／可统计合同；当前 trusted-host 代码和原生应用 GUI 不提供逐文件 OS 沙箱。远程 fleet、多租户 SSO、集中防篡改日志、签名安装器及离线依赖镜像未交付。
+实现 8/8、macOS 开发能力类别 4/5、Windows 新 Runtime 类别 0/5 是不同分母，不能换算为通用软件成功率。操作日志、审批、作业和产物已有可追溯记录与统计接口；当前 trusted-host 代码和原生应用 GUI 不提供逐文件 OS 沙箱。远程 fleet、多租户 SSO、集中防篡改日志、签名安装器及离线依赖镜像未交付。
 
 共享任务与下一端接续见 [state.json](state.json)、[EVAL 工作包](test-strengthening.json) 和 [HANDOFF.md](HANDOFF.md)。计划、进度和脱敏报告必须继续由 Git 跟踪；凭据、截图、原始 SQLite 与模型 trace 留在私有目录。
